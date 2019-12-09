@@ -1,0 +1,19 @@
+version: v1.0
+
+name: Rubygems deployment
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+
+blocks:
+  - name: Build & Publish 🛠 💎
+    task:
+      secrets:
+        - name: workos-rubygems
+      jobs:
+        - name: Publish to Rubygems
+          commands:
+            - checkout --use-cache
+            - bundle exec gem build workos-rb
+            - gem push workos-rb-NEED-TO-GET-VERSION --key $RUBYGEMS_API_KEY
