@@ -1,0 +1,72 @@
+PATH
+  remote: .
+  specs:
+    workos (0.0.0.pre)
+      rack (~> 1.6.4)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    ast (2.4.0)
+    codecov (0.1.16)
+      json
+      simplecov
+      url
+    diff-lcs (1.3)
+    docile (1.3.2)
+    jaro_winkler (1.5.4)
+    json (2.2.0)
+    parallel (1.19.1)
+    parser (2.6.5.0)
+      ast (~> 2.4.0)
+    rack (1.6.11)
+    rainbow (3.0.0)
+    rake (13.0.1)
+    rspec (3.9.0)
+      rspec-core (~> 3.9.0)
+      rspec-expectations (~> 3.9.0)
+      rspec-mocks (~> 3.9.0)
+    rspec-core (3.9.0)
+      rspec-support (~> 3.9.0)
+    rspec-expectations (3.9.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.9.0)
+    rspec-mocks (3.9.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.9.0)
+    rspec-support (3.9.0)
+    rubocop (0.77.0)
+      jaro_winkler (~> 1.5.1)
+      parallel (~> 1.10)
+      parser (>= 2.6)
+      rainbow (>= 2.2.2, < 4.0)
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (>= 1.4.0, < 1.7)
+    ruby-progressbar (1.10.1)
+    simplecov (0.17.1)
+      docile (~> 1.1)
+      json (>= 1.8, < 3)
+      simplecov-html (~> 0.10.0)
+    simplecov-html (0.10.2)
+    sorbet (0.4.5135)
+      sorbet-static (= 0.4.5135)
+    sorbet-runtime (0.4.5135)
+    sorbet-static (0.4.5135-universal-darwin-14)
+    unicode-display_width (1.6.0)
+    url (0.3.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bundler (~> 1.17.3)
+  codecov (~> 0.1.16)
+  rake
+  rspec (~> 3.9.0)
+  rubocop (~> 0.77)
+  sorbet
+  sorbet-runtime
+  workos!
+
+BUNDLED WITH
+   1.17.3
