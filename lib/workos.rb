@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'workos/version'
-
+# :nodoc:
 module WorkOS
   def self.key=(value)
     Base.key = value

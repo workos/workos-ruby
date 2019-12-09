@@ -4,6 +4,7 @@ require 'rack/utils'
 require 'workos/constants'
 
 module WorkOS
+  # :nodoc:
   class SSO
     def self.get_authorization_url(domain:, project_id:, redirect_uri:, state:)
       query = Rack::Utils.build_query(
