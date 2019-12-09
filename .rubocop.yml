@@ -1,0 +1,4 @@
+Metrics/BlockLength:
+  ExcludedMethods: ['describe', 'context']
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: 'consistent_comma'
