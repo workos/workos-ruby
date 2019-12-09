@@ -5,10 +5,19 @@ agent:
     type: e1-standard-2
     os_image: ubuntu1804
 blocks:
-  - name: bundle exec rspec
+  - name: Run Rubocop 🚔
     task:
       jobs:
-        - name: bundle install
+        - name: rubocop
+          commands:
+            - checkout
+            - sem-version ruby 2.3.4
+            - bundle install
+            - bundle exec rubocop
+  - name: Run Tests 👩🏽‍🔬
+    task:
+      jobs:
+        - name: rspec
           commands:
             - checkout
             - sem-version ruby 2.3.4
