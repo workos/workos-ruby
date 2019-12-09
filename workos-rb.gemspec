@@ -7,8 +7,8 @@ require 'workos/version'
 Gem::Specification.new do |spec|
   spec.name          = 'workos-rb'
   spec.version       = WorkOS::VERSION
-  spec.authors       = ['Sam Bauch', 'Mark Tran']
-  spec.email         = ['sam@workos.com', 'mark@workos.com']
+  spec.authors       = ['WorkOS', 'Sam Bauch', 'Mark Tran']
+  spec.email         = ['team@workos.com','sam@workos.com', 'mark@workos.com']
   spec.description   = 'API client for WorkOS'
   spec.summary       = 'API client for WorkOS'
   spec.homepage      = 'https://github.com/workos/workos-rb'

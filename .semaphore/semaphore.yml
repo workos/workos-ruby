@@ -23,3 +23,6 @@ blocks:
             - sem-version ruby 2.3.4
             - bundle install
             - bundle exec rspec
+promotions:
+  - name: Deploy workos-rb to rubygems
+    pipeline_file: rubygems.yml            
