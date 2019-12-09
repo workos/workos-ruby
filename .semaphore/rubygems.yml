@@ -16,4 +16,4 @@ blocks:
           commands:
             - checkout --use-cache
             - bundle exec gem build workos-rb
-            - gem push workos-rb-0.0.0.pre.gem
+            - gem push workos-rb-0.0.0.pre.gem --key $RUBYGEMS_API_KEY
