@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/rspec-expectations/all/rspec-expectations.rbi
 #
-# rspec-expectations-3.0.4
+# rspec-expectations-3.9.0
 module RSpec
 end
 module RSpec::Matchers
@@ -37,12 +37,14 @@ module RSpec::Matchers
   def a_value(*args, &block); end
   def a_value_between(*args, &block); end
   def a_value_within(*args, &block); end
+  def aggregate_failures(label = nil, metadata = nil, &block); end
   def all(expected); end
   def an_instance_of(*args, &block); end
   def an_object_eq_to(*args, &block); end
   def an_object_eql_to(*args, &block); end
   def an_object_equal_to(*args, &block); end
   def an_object_existing(*args, &block); end
+  def an_object_having_attributes(*args, &block); end
   def an_object_matching(*args, &block); end
   def an_object_responding_to(*args, &block); end
   def an_object_satisfying(*args, &block); end
@@ -76,6 +78,8 @@ module RSpec::Matchers
   def exist(*args); end
   def existing(*args, &block); end
   def expect(value = nil, &block); end
+  def have_attributes(expected); end
+  def having_attributes(*args, &block); end
   def include(*expected); end
   def including(*args, &block); end
   def match(expected); end
@@ -88,10 +92,11 @@ module RSpec::Matchers
   def raise_exception(error = nil, message = nil, &block); end
   def raising(*args, &block); end
   def respond_to(*names); end
+  def respond_to_missing?(method, *arg1); end
   def responding_to(*args, &block); end
-  def satisfy(&block); end
+  def satisfy(description = nil, &block); end
   def satisfying(*args, &block); end
-  def self.alias_matcher(new_name, old_name, &description_override); end
+  def self.alias_matcher(*args, &block); end
   def self.clear_generated_description; end
   def self.configuration; end
   def self.generated_description; end
@@ -117,27 +122,22 @@ module RSpec::Matchers
   def yielding_with_no_args(*args, &block); end
   extend RSpec::Matchers::DSL
 end
-module RSpec::Matchers::Pretty
-  def improve_hash_formatting(inspect_string); end
-  def is_matcher_with_description?(object); end
-  def name; end
-  def name_to_sentence; end
+module RSpec::Matchers::EnglishPhrasing
+  def self.list(obj); end
   def self.split_words(sym); end
-  def split_words(sym); end
-  def to_sentence(words); end
-  def to_word(item); end
-  def underscore(camel_cased_word); end
 end
 module RSpec::Matchers::Composable
   def &(matcher); end
   def ===(value); end
   def and(matcher); end
   def description_of(object); end
-  def enumerable?(item); end
   def or(matcher); end
-  def self.enumerable?(item); end
+  def self.should_enumerate?(item); end
   def self.surface_descriptions_in(item); end
+  def self.unreadable_io?(object); end
+  def should_enumerate?(item); end
   def surface_descriptions_in(item); end
+  def unreadable_io?(object); end
   def values_match?(expected, actual); end
   def with_matchers_cloned(object); end
   def |(matcher); end
@@ -155,35 +155,54 @@ module RSpec::Matchers::BuiltIn
 end
 class RSpec::Matchers::BuiltIn::BaseMatcher
   def actual; end
+  def actual_formatted; end
   def assert_ivars(*expected_ivars); end
   def description; end
   def diffable?; end
   def expected; end
-  def failure_message; end
-  def failure_message_when_negated; end
+  def expected_formatted; end
+  def expects_call_stack_jump?; end
   def initialize(expected = nil); end
   def match_unless_raises(*exceptions); end
+  def matcher_name; end
+  def matcher_name=(arg0); end
   def matches?(actual); end
   def present_ivars; end
   def rescued_exception; end
+  def self.matcher_name; end
+  def self.underscore(camel_cased_word); end
   def supports_block_expectations?; end
+  include RSpec::Matchers::BuiltIn::BaseMatcher::DefaultFailureMessages
+  include RSpec::Matchers::BuiltIn::BaseMatcher::HashFormatting
   include RSpec::Matchers::Composable
-  include RSpec::Matchers::Pretty
+end
+module RSpec::Matchers::BuiltIn::BaseMatcher::HashFormatting
+  def improve_hash_formatting(inspect_string); end
+  def self.improve_hash_formatting(inspect_string); end
+end
+module RSpec::Matchers::BuiltIn::BaseMatcher::DefaultFailureMessages
+  def failure_message; end
+  def failure_message_when_negated; end
+  def self.has_default_failure_messages?(matcher); end
 end
 module RSpec::Matchers::DSL
+  def alias_matcher(new_name, old_name, options = nil, &description_override); end
   def define(name, &declarations); end
+  def define_negated_matcher(negated_name, base_name, &description_override); end
   def matcher(name, &declarations); end
+  def warn_about_block_args(name, declarations); end
 end
 module RSpec::Matchers::DSL::Macros
-  def chain(name, &definition); end
+  def assign_attributes(attr_names); end
+  def chain(method_name, *attr_names, &definition); end
   def define_user_override(method_name, user_def, &our_def); end
   def description(&definition); end
   def diffable; end
   def failure_message(&definition); end
   def failure_message_when_negated(&definition); end
-  def match(&match_block); end
+  def match(options = nil, &match_block); end
   def match_unless_raises(expected_exception = nil, &match_block); end
-  def match_when_negated(&match_block); end
+  def match_when_negated(options = nil, &match_block); end
   def supports_block_expectations; end
 end
 module RSpec::Matchers::DSL::Macros::Deprecated
@@ -193,20 +212,23 @@ module RSpec::Matchers::DSL::Macros::Deprecated
   def match_for_should_not(&definition); end
 end
 module RSpec::Matchers::DSL::DefaultImplementations
+  def chained_method_clause_sentences; end
   def description; end
   def diffable?; end
-  def failure_message; end
-  def failure_message_when_negated; end
+  def expects_call_stack_jump?; end
   def supports_block_expectations?; end
+  include RSpec::Matchers::BuiltIn::BaseMatcher::DefaultFailureMessages
 end
 class RSpec::Matchers::DSL::Matcher
   def actual; end
   def actual_arg_for(block); end
+  def block_arg; end
   def expected; end
   def expected_as_array; end
-  def initialize(name, declarations, matcher_execution_context, *expected); end
+  def initialize(name, declarations, matcher_execution_context, *expected, &block_arg); end
   def inspect; end
   def method_missing(method, *args, &block); end
+  def name; end
   def rescued_exception; end
   def respond_to_missing?(method, include_private = nil); end
   extend RSpec::Matchers::DSL::Macros
@@ -214,7 +236,6 @@ class RSpec::Matchers::DSL::Matcher
   include RSpec::Matchers
   include RSpec::Matchers::Composable
   include RSpec::Matchers::DSL::DefaultImplementations
-  include RSpec::Matchers::Pretty
 end
 class RSpec::Matchers::MatcherDelegator
   def base_matcher; end
@@ -222,11 +243,32 @@ class RSpec::Matchers::MatcherDelegator
   def initialize_copy(other); end
   def method_missing(*args, &block); end
   def respond_to_missing?(name, include_all = nil); end
+  include RSpec::Matchers::Composable
 end
 class RSpec::Matchers::AliasedMatcher < RSpec::Matchers::MatcherDelegator
   def description; end
+  def failure_message; end
+  def failure_message_when_negated; end
   def initialize(base_matcher, description_block); end
   def method_missing(*arg0); end
+end
+class RSpec::Matchers::AliasedMatcherWithOperatorSupport < RSpec::Matchers::AliasedMatcher
+end
+class RSpec::Matchers::AliasedNegatedMatcher < RSpec::Matchers::AliasedMatcher
+  def does_not_match?(*args, &block); end
+  def failure_message; end
+  def failure_message_when_negated; end
+  def matches?(*args, &block); end
+  def optimal_failure_message(same, inverted); end
+end
+class RSpec::Matchers::ExpectedsForMultipleDiffs
+  def diffs(differ, actual); end
+  def initialize(expected_list); end
+  def message_with_diff(message, differ, actual); end
+  def self.diff_label_for(matcher); end
+  def self.for_many_matchers(matchers); end
+  def self.from(expected); end
+  def self.truncated(description); end
 end
 module RSpec::Support
   def self.require_rspec_expectations(f); end
@@ -239,16 +281,19 @@ module RSpec::Expectations
 end
 class RSpec::Expectations::ExpectationTarget
   def initialize(value); end
-  def not_to(matcher = nil, message = nil, &block); end
-  def prevent_operator_matchers(verb); end
   def self.for(value, block); end
-  def to(matcher = nil, message = nil, &block); end
-  def to_not(matcher = nil, message = nil, &block); end
+  def target; end
+  include RSpec::Expectations::ExpectationTarget::InstanceMethods
 end
 module RSpec::Expectations::ExpectationTarget::UndefinedValue
 end
+module RSpec::Expectations::ExpectationTarget::InstanceMethods
+  def not_to(matcher = nil, message = nil, &block); end
+  def prevent_operator_matchers(verb); end
+  def to(matcher = nil, message = nil, &block); end
+  def to_not(matcher = nil, message = nil, &block); end
+end
 class RSpec::Expectations::BlockExpectationTarget < RSpec::Expectations::ExpectationTarget
-  def description_of(matcher); end
   def enforce_block_expectation(matcher); end
   def not_to(matcher, message = nil, &block); end
   def supports_block_expectations?(matcher); end
@@ -284,18 +329,29 @@ class RSpec::Expectations::Configuration
   def backtrace_formatter; end
   def backtrace_formatter=(arg0); end
   def color?; end
+  def false_positives_handler; end
+  def include_chain_clauses_in_custom_matcher_descriptions=(arg0); end
+  def include_chain_clauses_in_custom_matcher_descriptions?; end
+  def initialize; end
+  def max_formatted_output_length=(length); end
+  def on_potential_false_positives; end
+  def on_potential_false_positives=(behavior); end
   def reset_syntaxes_to_default; end
   def syntax; end
   def syntax=(values); end
+  def warn_about_potential_false_positives=(boolean); end
+  def warn_about_potential_false_positives?; end
 end
 module RSpec::Expectations::Configuration::NullBacktraceFormatter
   def self.format_backtrace(backtrace); end
+end
+class InvalidName___Class_0x00___Differ_1
 end
 module RSpec::Expectations::ExpectationHelper
   def self.check_message(msg); end
   def self.handle_failure(matcher, message, failure_message_method); end
   def self.modern_matcher_from(matcher); end
-  def self.setup(handler, matcher, message); end
+  def self.with_matcher(handler, matcher, message); end
 end
 class RSpec::Expectations::PositiveExpectationHandler
   def self.handle_matcher(actual, initial_matcher, message = nil, &block); end
@@ -310,16 +366,16 @@ class RSpec::Expectations::NegativeExpectationHandler
   def self.should_method; end
   def self.verb; end
 end
-class RSpec::Expectations::LegacyMacherAdapter < RSpec::Matchers::MatcherDelegator
+class RSpec::Expectations::LegacyMatcherAdapter < RSpec::Matchers::MatcherDelegator
   def initialize(matcher); end
   def self.wrap(matcher); end
 end
-class RSpec::Expectations::LegacyMacherAdapter::RSpec2 < RSpec::Expectations::LegacyMacherAdapter
+class RSpec::Expectations::LegacyMatcherAdapter::RSpec2 < RSpec::Expectations::LegacyMatcherAdapter
   def failure_message; end
   def failure_message_when_negated; end
   def self.interface_matches?(matcher); end
 end
-class RSpec::Expectations::LegacyMacherAdapter::RSpec1 < RSpec::Expectations::LegacyMacherAdapter
+class RSpec::Expectations::LegacyMatcherAdapter::RSpec1 < RSpec::Expectations::LegacyMatcherAdapter
   def failure_message; end
   def failure_message_when_negated; end
   def self.interface_matches?(matcher); end
@@ -328,15 +384,5 @@ module RSpec::Expectations::Version
 end
 class RSpec::Expectations::ExpectationNotMetError < Exception
 end
-class Module
-  def context(*a, &b); end
-  def describe(*a, &b); end
-  def example_group(*a, &b); end
-  def fcontext(*a, &b); end
-  def fdescribe(*a, &b); end
-  def shared_context(name, *args, &block); end
-  def shared_examples(name, *args, &block); end
-  def shared_examples_for(name, *args, &block); end
-  def xcontext(*a, &b); end
-  def xdescribe(*a, &b); end
+class RSpec::Expectations::MultipleExpectationsNotMetError < RSpec::Expectations::ExpectationNotMetError
 end
