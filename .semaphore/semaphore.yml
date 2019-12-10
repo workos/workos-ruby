@@ -5,6 +5,15 @@ agent:
     type: e1-standard-2
     os_image: ubuntu1804
 blocks:
+  - name: Run Sorbet 🍦
+    task:
+      jobs:
+        - name: srb tc
+          commands:
+            - checkout
+            - sem-version ruby 2.3.4
+            - bundle install
+            - bundle exec srb tc
   - name: Run Rubocop 🚔
     task:
       jobs:
