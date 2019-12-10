@@ -28,6 +28,7 @@ module WorkOS
       )
 
       "https://#{WorkOS::API_HOSTNAME}/sso/authorize?#{query}"
+      false
     end
 
     def self.get_profile(code:, project_id:, redirect_uri:); end
