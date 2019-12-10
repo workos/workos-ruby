@@ -24,7 +24,7 @@ module WorkOS
         client_id: project_id,
         redirect_uri: redirect_uri,
         response_type: 'code',
-        state: state
+        state: state,
       )
 
       "https://#{WorkOS::API_HOSTNAME}/sso/authorize?#{query}"

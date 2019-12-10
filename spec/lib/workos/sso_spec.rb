@@ -36,7 +36,7 @@ describe WorkOS::SSO do
       expect(URI.parse(authorization_url).query).to eq(
         'domain=foo.com&client_id=workos-proj-123&redirect_uri=' \
         'foo.com%2Fauth%2Fcallback&response_type=code&' \
-        'state=%7B%3Acode%3D%3E%22sso-callback-auth-code%22%7D'
+        'state=%7B%3Acode%3D%3E%22sso-callback-auth-code%22%7D',
       )
     end
   end
