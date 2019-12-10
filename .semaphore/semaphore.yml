@@ -16,6 +16,8 @@ blocks:
             - bundle exec rubocop
   - name: Run Tests 👩🏽‍🔬
     task:
+      secrets:
+        - name: codecov-workos-ruby
       jobs:
         - name: Ruby 1.9.3
           commands:
