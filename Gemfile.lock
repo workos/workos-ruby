@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    workos-rb (0.0.0.pre)
+    workos (0.0.0.pre)
       rack (~> 1.6.4)
 
 GEM
@@ -47,7 +47,7 @@ DEPENDENCIES
   rake
   rspec
   rubocop (~> 0.77)
-  workos-rb!
+  workos!
 
 BUNDLED WITH
    1.17.3
