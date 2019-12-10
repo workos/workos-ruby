@@ -2,7 +2,7 @@ coverage:
   status:
     project:
       default:
-        target: 95%
+        target: 90%
 parsers:
   v1:
     include_full_missed_files: true
