@@ -7,13 +7,13 @@ You don't need this source code unless you want to modify the gem. If you just
 want to use the package, just run:
 
 ```sh
-gem install workos-rb
+gem install workos
 ```
 
 If you want to build the gem from source:
 
 ```sh
-gem build workos-rb.gemspec
+gem build workos.gemspec
 ```
 
 ### Requirements
