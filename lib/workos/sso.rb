@@ -90,18 +90,20 @@ module WorkOS
     #      "response_type=code&state=%7B%3Anext_page%3D%3E%22%2Fdocs%22%7D"
     # @return [String]
     def self.profile(code:, project_id:, redirect_uri:)
-      res = Net::HTTP.post_form(
-        URI("https://#{WorkOS::API_HOSTNAME}/sso/token"),
-        client_id: project_id,
+      query = Rack::Utils.build_query(
+        client_id: PROJECT_ID,
         client_secret: WorkOS.key!,
-        redirect_uri: redirect_uri,
+        redirect_uri: REDIRECT_URI,
         grant_type: 'authorization_code',
         code: code,
       )
+      http = Net::HTTP.new(WorkOS::API_HOSTNAME, 443)
+      http.use_ssl = true
 
-      puts res
+      request = Net::HTTP::Post.new("/sso/token?#{query}")
+      response = http.request(request)
 
-      true
+      response.body
     end
   end
 end
