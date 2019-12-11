@@ -1,8 +1,9 @@
 # typed: true
 # frozen_string_literal: true
 
-require 'rack/utils'
+require 'json'
 require 'net/http'
+require 'rack/utils'
 require 'uri'
 
 module WorkOS
@@ -66,7 +67,7 @@ module WorkOS
         code: String,
         project_id: String,
         redirect_uri: String,
-      ).returns(TrueClass)
+      ).returns(Hash)
     end
     # WorkOS::SSO.profile(code: 'foo', project_id: 'project_01DG5TGK363GRVXP3ZS40WNGEZ', redirect_uri: 'https://zach.workos.dev/callback')
     # Fetch the profile details for the authenticated SSO user.
@@ -102,7 +103,7 @@ module WorkOS
       request = Net::HTTP::Post.new("/sso/token?#{query}")
       response = http.request(request)
 
-      response.body
+      JSON.parse(response.body)
     end
   end
 end
