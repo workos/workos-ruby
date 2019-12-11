@@ -49,6 +49,7 @@ module WorkOS
     #      "&client_id=project_01DG5TGK363GRVXP3ZS40WNGEZ" \
     #      "&redirect_uri=https%3A%2F%2Fworkos.com%2Fcallback&" \
     #      "response_type=code&state=%7B%3Anext_page%3D%3E%22%2Fdocs%22%7D"
+    #
     # @return [String]
     def self.authorization_url(domain:, project_id:, redirect_uri:, state: {})
       query = Rack::Utils.build_query(
