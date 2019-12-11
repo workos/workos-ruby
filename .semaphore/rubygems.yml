@@ -15,5 +15,6 @@ blocks:
         - name: Publish to Rubygems
           commands:
             - checkout --use-cache
-            - bundle exec gem build workos-rb
-            - gem push workos-rb-NEED-TO-GET-VERSION --key $RUBYGEMS_API_KEY
+            - gem install rake
+            - bundle exec gem build workos --output=release.gem
+            - bundle exec gem push release.gem

@@ -1,8 +1,9 @@
-# typed: true
 # frozen_string_literal: true
+# typed: true
+# rubocop:disable Style/Documentation
+
 
 module WorkOS
-  # :nodoc:
   class Base
     attr_accessor :key
     class << self
@@ -14,3 +15,4 @@ module WorkOS
     end
   end
 end
+# rubocop:enable Style/Documentation

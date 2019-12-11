@@ -1,9 +1,19 @@
-# typed: true
 # frozen_string_literal: true
+# typed: true
+
 
 require 'workos/version'
-# :nodoc:
+require 'sorbet-runtime'
+
+# Use the WorkOS module to authenticate your
+# requests to the WorkOS API. The gem will read
+# your API key automatically from the ENV var `WORKOS_KEY`.
+# Alternatively, you can set the key yourself with
+# `WorkOS.key = [your api key]` somewhere in the load path of
+# your application, such as an initializer.
 module WorkOS
+  API_HOSTNAME = 'api.workos.com'
+
   def self.key=(value)
     Base.key = value
   end
@@ -16,8 +26,10 @@ module WorkOS
     key || raise('WorkOS.key not set')
   end
 
+  autoload :Types, 'workos/types'
   autoload :Base, 'workos/base'
-  autoload :Constants, 'workos/constants'
+  autoload :Profile, 'workos/profile'
+  autoload :RequestError, 'workos/request_error'
   autoload :SSO, 'workos/sso'
 
   WorkOS.key = ENV['WORKOS_KEY'] unless ENV['WORKOS_KEY'].nil?
