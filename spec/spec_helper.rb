@@ -1,5 +1,5 @@
-# typed: strict
 # frozen_string_literal: true
+# typed: false
 
 require 'simplecov'
 SimpleCov.start
@@ -14,8 +14,10 @@ $LOAD_PATH << File.join(File.dirname(__FILE__))
 
 require 'rubygems'
 require 'rspec'
-require 'sorbet-runtime'
+require 'webmock/rspec'
 require 'workos'
+
+SPEC_ROOT = File.dirname __FILE__
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
