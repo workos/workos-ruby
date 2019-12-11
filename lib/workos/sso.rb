@@ -86,19 +86,19 @@ module WorkOS
     #     project_id: 'project_01DG5TGK363GRVXP3ZS40WNGEZ',
     #     redirect_uri: 'https://workos.com/callback',
     #   )
-    # => 
-    # {
-    #   "profile": {
-    #     "object"=>"profile",
-    #     "id"=>"prof_01DRA1XNSJDZ19A31F183ECQW5",
-    #     "email"=>"demo@workos-okta.com",
-    #     "first_name"=>"WorkOS",
-    #     "connection_type"=>"OktaSAML",
-    #     "last_name"=>"Demo",
-    #     "idp_id"=>"00u1klkowm8EGah2H357"
-    #   },
-    #   "access_token"=>"01D..."
-    # }
+    #   => 
+    #   {
+    #     "profile": {
+    #       "object"=>"profile",
+    #       "id"=>"prof_01DRA1XNSJDZ19A31F183ECQW5",
+    #       "email"=>"demo@workos-okta.com",
+    #       "first_name"=>"WorkOS",
+    #       "connection_type"=>"OktaSAML",
+    #       "last_name"=>"Demo",
+    #       "idp_id"=>"00u1klkowm8EGah2H357"
+    #     },
+    #     "access_token"=>"01D..."
+    #   }
     # @return [Hash]
     def self.profile(code:, project_id:, redirect_uri:)
       query = Rack::Utils.build_query(

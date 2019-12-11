@@ -359,23 +359,6 @@ the response.</p>
     
 <p>Fetch the profile details for the authenticated SSO user.</p>
 
-<h1 id="label-3E+">&gt; </h1>
-
-<p>{</p>
-
-<pre class="code ruby"><code class="ruby">&quot;profile&quot;: {
-  &quot;object&quot;=&gt;&quot;profile&quot;,
-  &quot;id&quot;=&gt;&quot;prof_01DRA1XNSJDZ19A31F183ECQW5&quot;,
-  &quot;email&quot;=&gt;&quot;demo@workos-okta.com&quot;,
-  &quot;first_name&quot;=&gt;&quot;WorkOS&quot;,
-  &quot;connection_type&quot;=&gt;&quot;OktaSAML&quot;,
-  &quot;last_name&quot;=&gt;&quot;Demo&quot;,
-  &quot;idp_id&quot;=&gt;&quot;00u1klkowm8EGah2H357&quot;
-},
-&quot;access_token&quot;=&gt;&quot;01D...&quot;</code></pre>
-
-<p>}</p>
-
 
   </div>
 </div>
@@ -385,11 +368,24 @@ the response.</p>
     <p class="tag_title">Examples:</p>
     
       
-      <pre class="example code"><code><span class='const'><span class='object_link'><a href="../WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="WorkOS::SSO (module)">SSO</a></span></span><span class='period'>.</span><span class='id identifier rubyid_profile'>profile</span><span class='lparen'>(</span>
-  <span class='label'>code:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>acme.com</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
-  <span class='label'>project_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>project_01DG5TGK363GRVXP3ZS40WNGEZ</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
-  <span class='label'>redirect_uri:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://workos.com/callback</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
-<span class='rparen'>)</span></code></pre>
+      <pre class="example code"><code>WorkOS::SSO.profile(
+  code: &#39;acme.com&#39;,
+  project_id: &#39;project_01DG5TGK363GRVXP3ZS40WNGEZ&#39;,
+  redirect_uri: &#39;https://workos.com/callback&#39;,
+)
+=&gt; 
+{
+  &quot;profile&quot;: {
+    &quot;object&quot;=&gt;&quot;profile&quot;,
+    &quot;id&quot;=&gt;&quot;prof_01DRA1XNSJDZ19A31F183ECQW5&quot;,
+    &quot;email&quot;=&gt;&quot;demo@workos-okta.com&quot;,
+    &quot;first_name&quot;=&gt;&quot;WorkOS&quot;,
+    &quot;connection_type&quot;=&gt;&quot;OktaSAML&quot;,
+    &quot;last_name&quot;=&gt;&quot;Demo&quot;,
+    &quot;idp_id&quot;=&gt;&quot;00u1klkowm8EGah2H357&quot;
+  },
+  &quot;access_token&quot;=&gt;&quot;01D...&quot;
+}</code></pre>
     
   </div>
 <p class="tag_title">Parameters:</p>
@@ -513,7 +509,7 @@ step.</p>
 </div>
 
       <div id="footer">
-  Generated on Wed Dec 11 15:31:53 2019 by
+  Generated on Wed Dec 11 15:34:39 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.4.9).
 </div>
