@@ -1,8 +1,9 @@
 PATH
   remote: .
   specs:
-    workos (0.0.0.pre)
+    workos (0.0.4.pre)
       rack (~> 1.6.4)
+      sorbet-runtime
 
 GEM
   remote: https://rubygems.org/
@@ -50,7 +51,7 @@ GEM
     simplecov-html (0.10.2)
     sorbet (0.4.5135)
       sorbet-static (= 0.4.5135)
-    sorbet-runtime (0.4.5135)
+    sorbet-runtime (0.4.5136)
     sorbet-static (0.4.5135-universal-darwin-14)
     unicode-display_width (1.6.0)
     url (0.3.2)
@@ -65,7 +66,6 @@ DEPENDENCIES
   rspec (~> 3.9.0)
   rubocop (~> 0.77)
   sorbet
-  sorbet-runtime
   workos!
 
 BUNDLED WITH
