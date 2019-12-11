@@ -316,7 +316,6 @@ the response.</p>
       <pre class="lines">
 
 
-52
 53
 54
 55
@@ -326,10 +325,11 @@ the response.</p>
 59
 60
 61
-62</pre>
+62
+63</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/workos/sso.rb', line 52</span>
+      <pre class="code"><span class="info file"># File 'lib/workos/sso.rb', line 53</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_authorization_url'>authorization_url</span><span class='lparen'>(</span><span class='label'>domain:</span><span class='comma'>,</span> <span class='label'>project_id:</span><span class='comma'>,</span> <span class='label'>redirect_uri:</span><span class='comma'>,</span> <span class='label'>state:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='const'>Rack</span><span class='op'>::</span><span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_build_query'>build_query</span><span class='lparen'>(</span>
@@ -459,7 +459,6 @@ step.</p>
       <pre class="lines">
 
 
-91
 92
 93
 94
@@ -474,10 +473,11 @@ step.</p>
 103
 104
 105
-106</pre>
+106
+107</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/workos/sso.rb', line 91</span>
+      <pre class="code"><span class="info file"># File 'lib/workos/sso.rb', line 92</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_profile'>profile</span><span class='lparen'>(</span><span class='label'>code:</span><span class='comma'>,</span> <span class='label'>project_id:</span><span class='comma'>,</span> <span class='label'>redirect_uri:</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='const'>Rack</span><span class='op'>::</span><span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_build_query'>build_query</span><span class='lparen'>(</span>
@@ -493,7 +493,7 @@ step.</p>
   <span class='id identifier rubyid_request'>request</span> <span class='op'>=</span> <span class='const'>Net</span><span class='op'>::</span><span class='const'>HTTP</span><span class='op'>::</span><span class='const'>Post</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/sso/token?</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_query'>query</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_response'>response</span> <span class='op'>=</span> <span class='id identifier rubyid_http'>http</span><span class='period'>.</span><span class='id identifier rubyid_request'>request</span><span class='lparen'>(</span><span class='id identifier rubyid_request'>request</span><span class='rparen'>)</span>
 
-  <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span>
+  <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -505,7 +505,7 @@ step.</p>
 </div>
 
       <div id="footer">
-  Generated on Wed Dec 11 11:42:05 2019 by
+  Generated on Wed Dec 11 15:17:24 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.4.9).
 </div>
