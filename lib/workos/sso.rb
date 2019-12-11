@@ -4,7 +4,6 @@
 require 'rack/utils'
 require 'net/http'
 require 'uri'
-require 'json'
 
 module WorkOS
   # The SSO module provides convenience methods for working with the WorkOS
