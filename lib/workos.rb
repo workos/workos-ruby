@@ -2,8 +2,11 @@
 # frozen_string_literal: true
 
 require 'workos/version'
+require 'sorbet-runtime'
 # :nodoc:
 module WorkOS
+  API_HOSTNAME = 'api.workos.com'
+
   def self.key=(value)
     Base.key = value
   end
@@ -17,7 +20,6 @@ module WorkOS
   end
 
   autoload :Base, 'workos/base'
-  autoload :Constants, 'workos/constants'
   autoload :SSO, 'workos/sso'
 
   WorkOS.key = ENV['WORKOS_KEY'] unless ENV['WORKOS_KEY'].nil?

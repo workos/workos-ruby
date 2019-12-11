@@ -1,4 +1,4 @@
-# typed: strict
+# typed: false
 # frozen_string_literal: true
 
 require 'simplecov'
@@ -14,7 +14,6 @@ $LOAD_PATH << File.join(File.dirname(__FILE__))
 
 require 'rubygems'
 require 'rspec'
-require 'sorbet-runtime'
 require 'workos'
 
 RSpec.configure do |config|
