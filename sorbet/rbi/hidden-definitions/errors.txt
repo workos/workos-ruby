@@ -1110,6 +1110,7 @@
 # undefined method `to_yaml<defaultArg>1' for class `Object'
 # uninitialized constant RUBYGEMS_ACTIVATION_MONITOR
 # Did you mean?  RUBYGEMS_ACTIVATION_MONITOR
+# wrong constant name dclone
 # wrong constant name psych_to_yaml<defaultArg>1
 # wrong constant name psych_to_yaml
 # wrong constant name to_yaml<defaultArg>1
@@ -1816,6 +1817,1089 @@
 # wrong constant name safe_load
 # wrong constant name tagurize
 # wrong constant name to_json
+# wrong constant name <Class:AttlistDecl>
+# wrong constant name <Class:Attribute>
+# wrong constant name <Class:Attributes>
+# wrong constant name <Class:CData>
+# wrong constant name <Class:Child>
+# wrong constant name <Class:Comment>
+# wrong constant name <Class:Declaration>
+# wrong constant name <Class:DocType>
+# wrong constant name <Class:Document>
+# wrong constant name <Class:Element>
+# wrong constant name <Class:ElementDecl>
+# wrong constant name <Class:Elements>
+# wrong constant name <Class:Encoding>
+# wrong constant name <Class:Entity>
+# wrong constant name <Class:EntityConst>
+# wrong constant name <Class:ExternalEntity>
+# wrong constant name <Class:Formatters>
+# wrong constant name <Class:Functions>
+# wrong constant name <Class:IOSource>
+# wrong constant name <Class:Instruction>
+# wrong constant name <Class:Light>
+# wrong constant name <Class:Namespace>
+# wrong constant name <Class:Node>
+# wrong constant name <Class:NotationDecl>
+# wrong constant name <Class:Output>
+# wrong constant name <Class:Parent>
+# wrong constant name <Class:ParseException>
+# wrong constant name <Class:Parsers>
+# wrong constant name <Class:Security>
+# wrong constant name <Class:Source>
+# wrong constant name <Class:SourceFactory>
+# wrong constant name <Class:SyncEnumerator>
+# wrong constant name <Class:Text>
+# wrong constant name <Class:UndefinedNamespaceException>
+# wrong constant name <Class:Validation>
+# wrong constant name <Class:XMLDecl>
+# wrong constant name <Class:XMLTokens>
+# wrong constant name <Class:XPath>
+# wrong constant name <Class:XPathParser>
+# undefined method `write<defaultArg>1' for class `REXML::AttlistDecl'
+# uninitialized constant REXML::AttlistDecl::Elem
+# Did you mean?  REXML::Element
+# wrong constant name []
+# wrong constant name each
+# wrong constant name element_name
+# wrong constant name include?
+# wrong constant name initialize
+# wrong constant name node_type
+# wrong constant name write<defaultArg>1
+# wrong constant name write
+# wrong constant name <static-init>
+# undefined method `initialize<defaultArg>1' for class `REXML::Attribute'
+# Did you mean?  initialize_dup
+# undefined method `initialize<defaultArg>2' for class `REXML::Attribute'
+# Did you mean?  initialize_dup
+# undefined method `namespace<defaultArg>1' for class `REXML::Attribute'
+# undefined method `write<defaultArg>1' for class `REXML::Attribute'
+# wrong constant name ==
+# uninitialized constant REXML::Attribute::NAME
+# Did you mean?  REXML::Attribute::NAME
+# uninitialized constant REXML::Attribute::NAMECHAR
+# Did you mean?  REXML::Attribute::NAME_CHAR
+#                REXML::Attribute::NAMECHAR
+# uninitialized constant REXML::Attribute::NAMESPLIT
+# Did you mean?  REXML::Namespace
+#                REXML::Attribute::NAMESPLIT
+# uninitialized constant REXML::Attribute::NAME_CHAR
+# Did you mean?  REXML::Attribute::NAME_STR
+#                REXML::Attribute::NAME_CHAR
+#                REXML::Attribute::NAMECHAR
+# uninitialized constant REXML::Attribute::NAME_START_CHAR
+# Did you mean?  REXML::Attribute::NAME_START_CHAR
+# uninitialized constant REXML::Attribute::NAME_STR
+# Did you mean?  REXML::Attribute::NAME_STR
+#                REXML::Attribute::NCNAME_STR
+# uninitialized constant REXML::Attribute::NCNAME_STR
+# Did you mean?  REXML::Attribute::NAME_STR
+#                REXML::Attribute::NCNAME_STR
+# uninitialized constant REXML::Attribute::NMTOKEN
+# Did you mean?  REXML::Attribute::NMTOKENS
+#                REXML::Attribute::NMTOKEN
+# uninitialized constant REXML::Attribute::NMTOKENS
+# Did you mean?  REXML::XMLTokens
+#                REXML::Attribute::NMTOKENS
+#                REXML::Attribute::NMTOKEN
+# uninitialized constant REXML::Attribute::REFERENCE
+# Did you mean?  REXML::Attribute::REFERENCE
+# wrong constant name clone
+# wrong constant name doctype
+# wrong constant name element
+# wrong constant name element=
+# wrong constant name initialize<defaultArg>1
+# wrong constant name initialize<defaultArg>2
+# wrong constant name initialize
+# wrong constant name namespace<defaultArg>1
+# wrong constant name namespace
+# wrong constant name node_type
+# wrong constant name normalized=
+# wrong constant name remove
+# wrong constant name to_s
+# wrong constant name to_string
+# wrong constant name value
+# wrong constant name write<defaultArg>1
+# wrong constant name write
+# wrong constant name xpath
+# wrong constant name <static-init>
+# wrong constant name <<
+# uninitialized constant REXML::Attributes::Elem
+# Did you mean?  REXML::Element
+# uninitialized constant REXML::Attributes::K
+# uninitialized constant REXML::Attributes::V
+# wrong constant name []
+# wrong constant name []=
+# wrong constant name add
+# wrong constant name delete
+# wrong constant name delete_all
+# wrong constant name each_attribute
+# wrong constant name get_attribute
+# wrong constant name get_attribute_ns
+# wrong constant name initialize
+# wrong constant name namespaces
+# wrong constant name prefixes
+# wrong constant name <static-init>
+# undefined method `initialize<defaultArg>1' for class `REXML::CData'
+# Did you mean?  initialize_dup
+# undefined method `initialize<defaultArg>2' for class `REXML::CData'
+# Did you mean?  initialize_dup
+# undefined method `write<defaultArg>1' for class `REXML::CData'
+# undefined method `write<defaultArg>2' for class `REXML::CData'
+# undefined method `write<defaultArg>3' for class `REXML::CData'
+# undefined method `write<defaultArg>4' for class `REXML::CData'
+# uninitialized constant REXML::CData::EREFERENCE
+# Did you mean?  REXML::CData::EREFERENCE
+# uninitialized constant REXML::CData::NEEDS_A_SECOND_CHECK
+# Did you mean?  REXML::CData::NEEDS_A_SECOND_CHECK
+# uninitialized constant REXML::CData::NUMERICENTITY
+# Did you mean?  REXML::CData::NUMERICENTITY
+# uninitialized constant REXML::CData::REFERENCE
+# Did you mean?  REXML::CData::REFERENCE
+# uninitialized constant REXML::CData::SETUTITSBUS
+# Did you mean?  REXML::CData::SETUTITSBUS
+# uninitialized constant REXML::CData::SLAICEPS
+# Did you mean?  REXML::CData::SLAICEPS
+# uninitialized constant REXML::CData::SPECIALS
+# Did you mean?  REXML::CData::SPECIALS
+# uninitialized constant REXML::CData::SUBSTITUTES
+# Did you mean?  REXML::CData::SUBSTITUTES
+# uninitialized constant REXML::CData::VALID_CHAR
+# Did you mean?  REXML::CData::VALID_CHAR
+# uninitialized constant REXML::CData::VALID_XML_CHARS
+# Did you mean?  REXML::CData::VALID_XML_CHARS
+# wrong constant name initialize<defaultArg>1
+# wrong constant name initialize<defaultArg>2
+# wrong constant name initialize
+# wrong constant name write<defaultArg>1
+# wrong constant name write<defaultArg>2
+# wrong constant name write<defaultArg>3
+# wrong constant name write<defaultArg>4
+# wrong constant name write
+# wrong constant name <static-init>
+# undefined method `initialize<defaultArg>1' for class `REXML::Child'
+# Did you mean?  initialize_dup
+# wrong constant name bytes
+# wrong constant name document
+# wrong constant name initialize<defaultArg>1
+# wrong constant name initialize
+# wrong constant name next_sibling
+# wrong constant name next_sibling=
+# wrong constant name parent
+# wrong constant name parent=
+# wrong constant name previous_sibling
+# wrong constant name previous_sibling=
+# wrong constant name remove
+# wrong constant name replace_with
+# wrong constant name <static-init>
+# undefined method `initialize<defaultArg>1' for class `REXML::Comment'
+# Did you mean?  initialize_dup
+# undefined method `write<defaultArg>1' for class `REXML::Comment'
+# undefined method `write<defaultArg>2' for class `REXML::Comment'
+# undefined method `write<defaultArg>3' for class `REXML::Comment'
+# wrong constant name <=>
+# wrong constant name ==
+# wrong constant name clone
+# wrong constant name initialize<defaultArg>1
+# wrong constant name initialize
+# wrong constant name node_type
+# wrong constant name string
+# wrong constant name string=
+# wrong constant name to_s
+# wrong constant name write<defaultArg>1
+# wrong constant name write<defaultArg>2
+# wrong constant name write<defaultArg>3
+# wrong constant name write
+# wrong constant name <static-init>
+# wrong constant name initialize
+# wrong constant name to_s
+# wrong constant name write
+# wrong constant name <static-init>
+# undefined method `initialize<defaultArg>1' for class `REXML::DocType'
+# Did you mean?  initialize_dup
+# undefined method `write<defaultArg>1' for class `REXML::DocType'
+# undefined method `write<defaultArg>2' for class `REXML::DocType'
+# undefined method `write<defaultArg>3' for class `REXML::DocType'
+# uninitialized constant REXML::DocType::Elem
+# Did you mean?  REXML::Element
+# uninitialized constant REXML::DocType::NAME
+# Did you mean?  REXML::DocType::NAME
+# uninitialized constant REXML::DocType::NAMECHAR
+# Did you mean?  REXML::DocType::NAME_CHAR
+#                REXML::DocType::NAMECHAR
+# uninitialized constant REXML::DocType::NAME_CHAR
+# Did you mean?  REXML::DocType::NAME_STR
+#                REXML::DocType::NAME_CHAR
+#                REXML::DocType::NAMECHAR
+# uninitialized constant REXML::DocType::NAME_START_CHAR
+# Did you mean?  REXML::DocType::NAME_START_CHAR
+# uninitialized constant REXML::DocType::NAME_STR
+# Did you mean?  REXML::DocType::NAME_STR
+#                REXML::DocType::NCNAME_STR
+# uninitialized constant REXML::DocType::NCNAME_STR
+# Did you mean?  REXML::DocType::NAME_STR
+#                REXML::DocType::NCNAME_STR
+# uninitialized constant REXML::DocType::NMTOKEN
+# Did you mean?  REXML::DocType::NMTOKENS
+#                REXML::DocType::NMTOKEN
+# uninitialized constant REXML::DocType::NMTOKENS
+# Did you mean?  REXML::XMLTokens
+#                REXML::DocType::NMTOKENS
+#                REXML::DocType::NMTOKEN
+# uninitialized constant REXML::DocType::REFERENCE
+# Did you mean?  REXML::DocType::REFERENCE
+# wrong constant name add
+# wrong constant name attribute_of
+# wrong constant name attributes_of
+# wrong constant name clone
+# wrong constant name context
+# wrong constant name entities
+# wrong constant name entity
+# wrong constant name external_id
+# wrong constant name initialize<defaultArg>1
+# wrong constant name initialize
+# wrong constant name name
+# wrong constant name namespaces
+# wrong constant name node_type
+# wrong constant name notation
+# wrong constant name notations
+# wrong constant name public
+# wrong constant name system
+# wrong constant name write<defaultArg>1
+# wrong constant name write<defaultArg>2
+# wrong constant name write<defaultArg>3
+# wrong constant name write
+# wrong constant name <static-init>
+# undefined method `add_element<defaultArg>1' for class `REXML::Document'
+# undefined method `add_element<defaultArg>2' for class `REXML::Document'
+# undefined method `initialize<defaultArg>1' for class `REXML::Document'
+# Did you mean?  initialize_dup
+# undefined method `initialize<defaultArg>2' for class `REXML::Document'
+# Did you mean?  initialize_dup
+# wrong constant name <<
+# uninitialized constant REXML::Document::Elem
+# Did you mean?  REXML::Element
+# uninitialized constant REXML::Document::NAME
+# Did you mean?  REXML::Document::NAME
+# uninitialized constant REXML::Document::NAMECHAR
+# Did you mean?  REXML::Document::NAME_CHAR
+#                REXML::Document::NAMECHAR
+# uninitialized constant REXML::Document::NAMESPLIT
+# Did you mean?  REXML::Namespace
+#                REXML::Document::NAMESPLIT
+# uninitialized constant REXML::Document::NAME_CHAR
+# Did you mean?  REXML::Document::NAME_STR
+#                REXML::Document::NAME_CHAR
+#                REXML::Document::NAMECHAR
+# uninitialized constant REXML::Document::NAME_START_CHAR
+# Did you mean?  REXML::Document::NAME_START_CHAR
+# uninitialized constant REXML::Document::NAME_STR
+# Did you mean?  REXML::Document::NAME_STR
+#                REXML::Document::NCNAME_STR
+# uninitialized constant REXML::Document::NCNAME_STR
+# Did you mean?  REXML::Document::NAME_STR
+#                REXML::Document::NCNAME_STR
+# uninitialized constant REXML::Document::NMTOKEN
+# Did you mean?  REXML::Document::NMTOKENS
+#                REXML::Document::NMTOKEN
+# uninitialized constant REXML::Document::NMTOKENS
+# Did you mean?  REXML::XMLTokens
+#                REXML::Document::NMTOKENS
+#                REXML::Document::NMTOKEN
+# uninitialized constant REXML::Document::REFERENCE
+# Did you mean?  REXML::Document::REFERENCE
+# uninitialized constant REXML::Document::UNDEFINED
+# Did you mean?  REXML::Document::UNDEFINED
+# wrong constant name add
+# wrong constant name add_element<defaultArg>1
+# wrong constant name add_element<defaultArg>2
+# wrong constant name add_element
+# wrong constant name doctype
+# wrong constant name encoding
+# wrong constant name entity_expansion_count
+# wrong constant name initialize<defaultArg>1
+# wrong constant name initialize<defaultArg>2
+# wrong constant name initialize
+# wrong constant name record_entity_expansion
+# wrong constant name stand_alone?
+# wrong constant name version
+# wrong constant name write
+# wrong constant name xml_decl
+# wrong constant name <static-init>
+# wrong constant name entity_expansion_limit
+# wrong constant name entity_expansion_limit=
+# wrong constant name entity_expansion_text_limit
+# wrong constant name entity_expansion_text_limit=
+# wrong constant name parse_stream
+# undefined method `add_attribute<defaultArg>1' for class `REXML::Element'
+# undefined method `add_element<defaultArg>1' for class `REXML::Element'
+# undefined method `add_namespace<defaultArg>1' for class `REXML::Element'
+# undefined method `attribute<defaultArg>1' for class `REXML::Element'
+# undefined method `delete_namespace<defaultArg>1' for class `REXML::Element'
+# undefined method `each_element<defaultArg>1' for class `REXML::Element'
+# undefined method `each_element_with_attribute<defaultArg>1' for class `REXML::Element'
+# undefined method `each_element_with_attribute<defaultArg>2' for class `REXML::Element'
+# undefined method `each_element_with_attribute<defaultArg>3' for class `REXML::Element'
+# undefined method `each_element_with_text<defaultArg>1' for class `REXML::Element'
+# undefined method `each_element_with_text<defaultArg>2' for class `REXML::Element'
+# undefined method `each_element_with_text<defaultArg>3' for class `REXML::Element'
+# undefined method `get_text<defaultArg>1' for class `REXML::Element'
+# undefined method `initialize<defaultArg>1' for class `REXML::Element'
+# Did you mean?  initialize_dup
+# undefined method `initialize<defaultArg>2' for class `REXML::Element'
+# Did you mean?  initialize_dup
+# undefined method `initialize<defaultArg>3' for class `REXML::Element'
+# Did you mean?  initialize_dup
+# undefined method `namespace<defaultArg>1' for class `REXML::Element'
+# undefined method `text<defaultArg>1' for class `REXML::Element'
+# undefined method `write<defaultArg>1' for class `REXML::Element'
+# undefined method `write<defaultArg>2' for class `REXML::Element'
+# undefined method `write<defaultArg>3' for class `REXML::Element'
+# undefined method `write<defaultArg>4' for class `REXML::Element'
+# uninitialized constant REXML::Element::Elem
+# Did you mean?  REXML::Element
+# uninitialized constant REXML::Element::NAME
+# Did you mean?  REXML::Element::NAME
+# uninitialized constant REXML::Element::NAMECHAR
+# Did you mean?  REXML::Element::NAME_CHAR
+#                REXML::Element::NAMECHAR
+# uninitialized constant REXML::Element::NAMESPLIT
+# Did you mean?  REXML::Namespace
+#                REXML::Element::NAMESPLIT
+# uninitialized constant REXML::Element::NAME_CHAR
+# Did you mean?  REXML::Element::NAME_STR
+#                REXML::Element::NAME_CHAR
+#                REXML::Element::NAMECHAR
+# uninitialized constant REXML::Element::NAME_START_CHAR
+# Did you mean?  REXML::Element::NAME_START_CHAR
+# uninitialized constant REXML::Element::NAME_STR
+# Did you mean?  REXML::Element::NAME_STR
+#                REXML::Element::NCNAME_STR
+# uninitialized constant REXML::Element::NCNAME_STR
+# Did you mean?  REXML::Element::NAME_STR
+#                REXML::Element::NCNAME_STR
+# uninitialized constant REXML::Element::NMTOKEN
+# Did you mean?  REXML::Element::NMTOKENS
+#                REXML::Element::NMTOKEN
+# uninitialized constant REXML::Element::NMTOKENS
+# Did you mean?  REXML::XMLTokens
+#                REXML::Element::NMTOKENS
+#                REXML::Element::NMTOKEN
+# uninitialized constant REXML::Element::REFERENCE
+# Did you mean?  REXML::Element::REFERENCE
+# wrong constant name []
+# wrong constant name add_attribute<defaultArg>1
+# wrong constant name add_attribute
+# wrong constant name add_attributes
+# wrong constant name add_element<defaultArg>1
+# wrong constant name add_element
+# wrong constant name add_namespace<defaultArg>1
+# wrong constant name add_namespace
+# wrong constant name add_text
+# wrong constant name attribute<defaultArg>1
+# wrong constant name attribute
+# wrong constant name attributes
+# wrong constant name cdatas
+# wrong constant name clone
+# wrong constant name comments
+# wrong constant name context
+# wrong constant name context=
+# wrong constant name delete_attribute
+# wrong constant name delete_element
+# wrong constant name delete_namespace<defaultArg>1
+# wrong constant name delete_namespace
+# wrong constant name each_element<defaultArg>1
+# wrong constant name each_element
+# wrong constant name each_element_with_attribute<defaultArg>1
+# wrong constant name each_element_with_attribute<defaultArg>2
+# wrong constant name each_element_with_attribute<defaultArg>3
+# wrong constant name each_element_with_attribute
+# wrong constant name each_element_with_text<defaultArg>1
+# wrong constant name each_element_with_text<defaultArg>2
+# wrong constant name each_element_with_text<defaultArg>3
+# wrong constant name each_element_with_text
+# wrong constant name elements
+# wrong constant name get_elements
+# wrong constant name get_text<defaultArg>1
+# wrong constant name get_text
+# wrong constant name has_attributes?
+# wrong constant name has_elements?
+# wrong constant name has_text?
+# wrong constant name ignore_whitespace_nodes
+# wrong constant name initialize<defaultArg>1
+# wrong constant name initialize<defaultArg>2
+# wrong constant name initialize<defaultArg>3
+# wrong constant name initialize
+# wrong constant name instructions
+# wrong constant name namespace<defaultArg>1
+# wrong constant name namespace
+# wrong constant name namespaces
+# wrong constant name next_element
+# wrong constant name node_type
+# wrong constant name prefixes
+# wrong constant name previous_element
+# wrong constant name raw
+# wrong constant name root
+# wrong constant name root_node
+# wrong constant name text<defaultArg>1
+# wrong constant name text
+# wrong constant name text=
+# wrong constant name texts
+# wrong constant name whitespace
+# wrong constant name write<defaultArg>1
+# wrong constant name write<defaultArg>2
+# wrong constant name write<defaultArg>3
+# wrong constant name write<defaultArg>4
+# wrong constant name write
+# wrong constant name xpath
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# undefined method `<<<defaultArg>1' for class `REXML::Elements'
+# undefined method `[]<defaultArg>1' for class `REXML::Elements'
+# undefined method `add<defaultArg>1' for class `REXML::Elements'
+# undefined method `collect<defaultArg>1' for class `REXML::Elements'
+# undefined method `each<defaultArg>1' for class `REXML::Elements'
+# undefined method `inject<defaultArg>1' for class `REXML::Elements'
+# undefined method `inject<defaultArg>2' for class `REXML::Elements'
+# undefined method `to_a<defaultArg>1' for class `REXML::Elements'
+# wrong constant name <<<defaultArg>1
+# wrong constant name <<
+# uninitialized constant REXML::Elements::Elem
+# Did you mean?  REXML::Element
+# wrong constant name []<defaultArg>1
+# wrong constant name []
+# wrong constant name []=
+# wrong constant name add<defaultArg>1
+# wrong constant name add
+# wrong constant name collect<defaultArg>1
+# wrong constant name collect
+# wrong constant name delete
+# wrong constant name delete_all
+# wrong constant name each<defaultArg>1
+# wrong constant name each
+# wrong constant name empty?
+# wrong constant name index
+# wrong constant name initialize
+# wrong constant name inject<defaultArg>1
+# wrong constant name inject<defaultArg>2
+# wrong constant name inject
+# wrong constant name size
+# wrong constant name to_a<defaultArg>1
+# wrong constant name to_a
+# wrong constant name <static-init>
+# wrong constant name decode
+# wrong constant name encode
+# wrong constant name encoding
+# wrong constant name encoding=
+# wrong constant name <static-init>
+# undefined method `initialize<defaultArg>1' for class `REXML::Entity'
+# Did you mean?  initialize_dup
+# undefined method `initialize<defaultArg>2' for class `REXML::Entity'
+# Did you mean?  initialize_dup
+# undefined method `initialize<defaultArg>3' for class `REXML::Entity'
+# Did you mean?  initialize_dup
+# undefined method `write<defaultArg>1' for class `REXML::Entity'
+# uninitialized constant REXML::Entity::NAME
+# Did you mean?  REXML::Entity::NAME
+# uninitialized constant REXML::Entity::NAMECHAR
+# Did you mean?  REXML::Entity::NAME_CHAR
+#                REXML::Entity::NAMECHAR
+# uninitialized constant REXML::Entity::NAME_CHAR
+# Did you mean?  REXML::Entity::NAME_STR
+#                REXML::Entity::NAME_CHAR
+#                REXML::Entity::NAMECHAR
+# uninitialized constant REXML::Entity::NAME_START_CHAR
+# Did you mean?  REXML::Entity::NAME_START_CHAR
+# uninitialized constant REXML::Entity::NAME_STR
+# Did you mean?  REXML::Entity::NAME_STR
+#                REXML::Entity::NCNAME_STR
+# uninitialized constant REXML::Entity::NCNAME_STR
+# Did you mean?  REXML::Entity::NAME_STR
+#                REXML::Entity::NCNAME_STR
+# uninitialized constant REXML::Entity::NMTOKEN
+# Did you mean?  REXML::Entity::NMTOKENS
+#                REXML::Entity::NMTOKEN
+# uninitialized constant REXML::Entity::NMTOKENS
+# Did you mean?  REXML::XMLTokens
+#                REXML::Entity::NMTOKENS
+#                REXML::Entity::NMTOKEN
+# uninitialized constant REXML::Entity::REFERENCE
+# Did you mean?  REXML::Entity::REFERENCE
+# wrong constant name external
+# wrong constant name initialize<defaultArg>1
+# wrong constant name initialize<defaultArg>2
+# wrong constant name initialize<defaultArg>3
+# wrong constant name initialize
+# wrong constant name name
+# wrong constant name ndata
+# wrong constant name normalized
+# wrong constant name pubid
+# wrong constant name ref
+# wrong constant name to_s
+# wrong constant name unnormalized
+# wrong constant name value
+# wrong constant name write<defaultArg>1
+# wrong constant name write
+# wrong constant name <static-init>
+# wrong constant name matches?
+# wrong constant name <static-init>
+# wrong constant name initialize
+# wrong constant name to_s
+# wrong constant name write
+# wrong constant name <static-init>
+# wrong constant name <Class:Default>
+# wrong constant name <Class:Pretty>
+# undefined method `initialize<defaultArg>1' for class `REXML::Formatters::Default'
+# Did you mean?  initialize_dup
+# wrong constant name initialize<defaultArg>1
+# wrong constant name initialize
+# wrong constant name write
+# wrong constant name write_cdata
+# wrong constant name write_comment
+# wrong constant name write_document
+# wrong constant name write_element
+# wrong constant name write_instruction
+# wrong constant name write_text
+# wrong constant name <static-init>
+# undefined method `initialize<defaultArg>1' for class `REXML::Formatters::Pretty'
+# Did you mean?  initialize_dup
+# undefined method `initialize<defaultArg>2' for class `REXML::Formatters::Pretty'
+# Did you mean?  initialize_dup
+# wrong constant name compact
+# wrong constant name compact=
+# wrong constant name initialize<defaultArg>1
+# wrong constant name initialize<defaultArg>2
+# wrong constant name initialize
+# wrong constant name width
+# wrong constant name width=
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# undefined singleton method `boolean<defaultArg>1' for `REXML::Functions'
+# undefined singleton method `get_namespace<defaultArg>1' for `REXML::Functions'
+# undefined singleton method `local_name<defaultArg>1' for `REXML::Functions'
+# undefined singleton method `name<defaultArg>1' for `REXML::Functions'
+# undefined singleton method `namespace_uri<defaultArg>1' for `REXML::Functions'
+# undefined singleton method `normalize_space<defaultArg>1' for `REXML::Functions'
+# undefined singleton method `number<defaultArg>1' for `REXML::Functions'
+# undefined singleton method `string<defaultArg>1' for `REXML::Functions'
+# undefined singleton method `substring<defaultArg>1' for `REXML::Functions'
+# wrong constant name <static-init>
+# wrong constant name boolean<defaultArg>1
+# wrong constant name boolean
+# wrong constant name ceiling
+# wrong constant name compare_language
+# wrong constant name concat
+# wrong constant name contains
+# wrong constant name context=
+# wrong constant name count
+# wrong constant name false
+# wrong constant name floor
+# wrong constant name get_namespace<defaultArg>1
+# wrong constant name get_namespace
+# wrong constant name id
+# wrong constant name lang
+# wrong constant name last
+# wrong constant name local_name<defaultArg>1
+# wrong constant name local_name
+# wrong constant name name<defaultArg>1
+# wrong constant name name
+# wrong constant name namespace_context
+# wrong constant name namespace_context=
+# wrong constant name namespace_uri<defaultArg>1
+# wrong constant name namespace_uri
+# wrong constant name normalize_space<defaultArg>1
+# wrong constant name normalize_space
+# wrong constant name not
+# wrong constant name number<defaultArg>1
+# wrong constant name number
+# wrong constant name position
+# wrong constant name processing_instruction
+# wrong constant name round
+# wrong constant name send
+# wrong constant name singleton_method_added
+# wrong constant name starts_with
+# wrong constant name string<defaultArg>1
+# wrong constant name string
+# wrong constant name string_length
+# wrong constant name string_value
+# wrong constant name substring<defaultArg>1
+# wrong constant name substring
+# wrong constant name substring_after
+# wrong constant name substring_before
+# wrong constant name sum
+# wrong constant name text
+# wrong constant name translate
+# wrong constant name true
+# wrong constant name variables
+# wrong constant name variables=
+# undefined method `initialize<defaultArg>1' for class `REXML::IOSource'
+# Did you mean?  initialize_dup
+# undefined method `initialize<defaultArg>2' for class `REXML::IOSource'
+# Did you mean?  initialize_dup
+# wrong constant name initialize<defaultArg>1
+# wrong constant name initialize<defaultArg>2
+# wrong constant name initialize
+# wrong constant name <static-init>
+# undefined method `initialize<defaultArg>1' for class `REXML::Instruction'
+# Did you mean?  initialize_dup
+# undefined method `write<defaultArg>1' for class `REXML::Instruction'
+# undefined method `write<defaultArg>2' for class `REXML::Instruction'
+# undefined method `write<defaultArg>3' for class `REXML::Instruction'
+# wrong constant name ==
+# wrong constant name clone
+# wrong constant name content
+# wrong constant name content=
+# wrong constant name initialize<defaultArg>1
+# wrong constant name initialize
+# wrong constant name node_type
+# wrong constant name target
+# wrong constant name target=
+# wrong constant name write<defaultArg>1
+# wrong constant name write<defaultArg>2
+# wrong constant name write<defaultArg>3
+# wrong constant name write
+# wrong constant name <static-init>
+# wrong constant name <Class:Node>
+# undefined method `[]<defaultArg>1' for class `REXML::Light::Node'
+# undefined method `[]=<defaultArg>1' for class `REXML::Light::Node'
+# undefined method `has_name?<defaultArg>1' for class `REXML::Light::Node'
+# undefined method `initialize<defaultArg>1' for class `REXML::Light::Node'
+# Did you mean?  initialize_dup
+# undefined method `name=<defaultArg>1' for class `REXML::Light::Node'
+# undefined method `namespace<defaultArg>1' for class `REXML::Light::Node'
+# undefined method `prefix<defaultArg>1' for class `REXML::Light::Node'
+# wrong constant name <<
+# wrong constant name =~
+# wrong constant name []<defaultArg>1
+# wrong constant name []
+# wrong constant name []=<defaultArg>1
+# wrong constant name []=
+# wrong constant name children
+# wrong constant name each
+# wrong constant name has_name?<defaultArg>1
+# wrong constant name has_name?
+# wrong constant name initialize<defaultArg>1
+# wrong constant name initialize
+# wrong constant name local_name
+# wrong constant name local_name=
+# wrong constant name name
+# wrong constant name name=<defaultArg>1
+# wrong constant name name=
+# wrong constant name namespace<defaultArg>1
+# wrong constant name namespace
+# wrong constant name namespace=
+# wrong constant name node_type
+# wrong constant name parent
+# wrong constant name parent=
+# wrong constant name prefix<defaultArg>1
+# wrong constant name prefix
+# wrong constant name root
+# wrong constant name size
+# wrong constant name text=
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# undefined method `has_name?<defaultArg>1' for module `REXML::Namespace'
+# uninitialized constant REXML::Namespace::NAME
+# Did you mean?  REXML::Namespace::NAME
+# uninitialized constant REXML::Namespace::NAMECHAR
+# Did you mean?  REXML::Namespace::NAME_CHAR
+#                REXML::Namespace::NAMECHAR
+# uninitialized constant REXML::Namespace::NAME_CHAR
+# Did you mean?  REXML::Namespace::NAME_STR
+#                REXML::Namespace::NAME_CHAR
+#                REXML::Namespace::NAMECHAR
+# uninitialized constant REXML::Namespace::NAME_START_CHAR
+# Did you mean?  REXML::Namespace::NAME_START_CHAR
+# uninitialized constant REXML::Namespace::NAME_STR
+# Did you mean?  REXML::Namespace::NAME_STR
+#                REXML::Namespace::NCNAME_STR
+# uninitialized constant REXML::Namespace::NCNAME_STR
+# Did you mean?  REXML::Namespace::NAME_STR
+#                REXML::Namespace::NCNAME_STR
+# uninitialized constant REXML::Namespace::NMTOKEN
+# Did you mean?  REXML::Namespace::NMTOKENS
+#                REXML::Namespace::NMTOKEN
+# uninitialized constant REXML::Namespace::NMTOKENS
+# Did you mean?  REXML::XMLTokens
+#                REXML::Namespace::NMTOKENS
+#                REXML::Namespace::NMTOKEN
+# uninitialized constant REXML::Namespace::REFERENCE
+# Did you mean?  REXML::Namespace::REFERENCE
+# wrong constant name expanded_name
+# wrong constant name fully_expanded_name
+# wrong constant name has_name?<defaultArg>1
+# wrong constant name has_name?
+# wrong constant name local_name
+# wrong constant name name
+# wrong constant name name=
+# wrong constant name prefix
+# wrong constant name prefix=
+# wrong constant name <static-init>
+# undefined method `to_s<defaultArg>1' for module `REXML::Node'
+# wrong constant name each_recursive
+# wrong constant name find_first_recursive
+# wrong constant name indent
+# wrong constant name index_in_parent
+# wrong constant name next_sibling_node
+# wrong constant name parent?
+# wrong constant name previous_sibling_node
+# wrong constant name to_s<defaultArg>1
+# wrong constant name to_s
+# wrong constant name <static-init>
+# undefined method `write<defaultArg>1' for class `REXML::NotationDecl'
+# wrong constant name initialize
+# wrong constant name name
+# wrong constant name public
+# wrong constant name public=
+# wrong constant name system
+# wrong constant name system=
+# wrong constant name to_s
+# wrong constant name write<defaultArg>1
+# wrong constant name write
+# wrong constant name <static-init>
+# undefined method `initialize<defaultArg>1' for class `REXML::Output'
+# Did you mean?  initialize_dup
+# wrong constant name <<
+# wrong constant name initialize<defaultArg>1
+# wrong constant name initialize
+# wrong constant name <static-init>
+# wrong constant name <<
+# uninitialized constant REXML::Parent::Elem
+# Did you mean?  REXML::Element
+# wrong constant name []
+# wrong constant name []=
+# wrong constant name add
+# wrong constant name children
+# wrong constant name deep_clone
+# wrong constant name delete
+# wrong constant name delete_at
+# wrong constant name delete_if
+# wrong constant name each
+# wrong constant name each_child
+# wrong constant name each_index
+# wrong constant name index
+# wrong constant name insert_after
+# wrong constant name insert_before
+# wrong constant name length
+# wrong constant name push
+# wrong constant name replace_child
+# wrong constant name size
+# wrong constant name to_a
+# wrong constant name unshift
+# wrong constant name <static-init>
+# undefined method `initialize<defaultArg>1' for class `REXML::ParseException'
+# Did you mean?  initialize_dup
+# undefined method `initialize<defaultArg>2' for class `REXML::ParseException'
+# Did you mean?  initialize_dup
+# undefined method `initialize<defaultArg>3' for class `REXML::ParseException'
+# Did you mean?  initialize_dup
+# wrong constant name context
+# wrong constant name continued_exception
+# wrong constant name continued_exception=
+# wrong constant name initialize<defaultArg>1
+# wrong constant name initialize<defaultArg>2
+# wrong constant name initialize<defaultArg>3
+# wrong constant name initialize
+# wrong constant name line
+# wrong constant name parser
+# wrong constant name parser=
+# wrong constant name position
+# wrong constant name source
+# wrong constant name source=
+# wrong constant name <static-init>
+# wrong constant name <Class:BaseParser>
+# wrong constant name <Class:StreamParser>
+# wrong constant name <Class:TreeParser>
+# wrong constant name <Class:XPathParser>
+# undefined method `normalize<defaultArg>1' for class `REXML::Parsers::BaseParser'
+# undefined method `normalize<defaultArg>2' for class `REXML::Parsers::BaseParser'
+# undefined method `peek<defaultArg>1' for class `REXML::Parsers::BaseParser'
+# undefined method `unnormalize<defaultArg>1' for class `REXML::Parsers::BaseParser'
+# undefined method `unnormalize<defaultArg>2' for class `REXML::Parsers::BaseParser'
+# wrong constant name add_listener
+# wrong constant name empty?
+# wrong constant name entity
+# wrong constant name has_next?
+# wrong constant name initialize
+# wrong constant name normalize<defaultArg>1
+# wrong constant name normalize<defaultArg>2
+# wrong constant name normalize
+# wrong constant name peek<defaultArg>1
+# wrong constant name peek
+# wrong constant name position
+# wrong constant name pull
+# wrong constant name source
+# wrong constant name stream=
+# wrong constant name unnormalize<defaultArg>1
+# wrong constant name unnormalize<defaultArg>2
+# wrong constant name unnormalize
+# wrong constant name unshift
+# wrong constant name <static-init>
+# wrong constant name add_listener
+# wrong constant name initialize
+# wrong constant name parse
+# wrong constant name <static-init>
+# undefined method `initialize<defaultArg>1' for class `REXML::Parsers::TreeParser'
+# Did you mean?  initialize_dup
+# wrong constant name add_listener
+# wrong constant name initialize<defaultArg>1
+# wrong constant name initialize
+# wrong constant name parse
+# wrong constant name <static-init>
+# uninitialized constant REXML::Parsers::XPathParser::NAME
+# Did you mean?  REXML::Parsers::XPathParser::NAME
+#                REXML::Parsers::XPathParser::QNAME
+# uninitialized constant REXML::Parsers::XPathParser::NAMECHAR
+# Did you mean?  REXML::Parsers::XPathParser::NAME_CHAR
+#                REXML::Parsers::XPathParser::NAMECHAR
+# uninitialized constant REXML::Parsers::XPathParser::NAME_CHAR
+# Did you mean?  REXML::Parsers::XPathParser::NAME_STR
+#                REXML::Parsers::XPathParser::NAME_CHAR
+#                REXML::Parsers::XPathParser::NAMECHAR
+# uninitialized constant REXML::Parsers::XPathParser::NAME_START_CHAR
+# Did you mean?  REXML::Parsers::XPathParser::NAME_START_CHAR
+# uninitialized constant REXML::Parsers::XPathParser::NAME_STR
+# Did you mean?  REXML::Parsers::XPathParser::NAME_STR
+#                REXML::Parsers::XPathParser::NCNAME_STR
+# uninitialized constant REXML::Parsers::XPathParser::NCNAME_STR
+# Did you mean?  REXML::Parsers::XPathParser::NAME_STR
+#                REXML::Parsers::XPathParser::NCNAME_STR
+#                REXML::Parsers::XPathParser::NCNAMETEST
+# uninitialized constant REXML::Parsers::XPathParser::NMTOKEN
+# Did you mean?  REXML::Parsers::XPathParser::NMTOKENS
+#                REXML::Parsers::XPathParser::NMTOKEN
+# uninitialized constant REXML::Parsers::XPathParser::NMTOKENS
+# Did you mean?  REXML::XMLTokens
+#                REXML::Parsers::XPathParser::NMTOKENS
+#                REXML::Parsers::XPathParser::NMTOKEN
+# uninitialized constant REXML::Parsers::XPathParser::REFERENCE
+# Did you mean?  REXML::Parsers::XPathParser::REFERENCE
+# wrong constant name abbreviate
+# wrong constant name expand
+# wrong constant name namespaces=
+# wrong constant name parse
+# wrong constant name predicate
+# wrong constant name predicate_to_string
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# wrong constant name entity_expansion_limit
+# wrong constant name entity_expansion_limit=
+# wrong constant name entity_expansion_text_limit
+# wrong constant name entity_expansion_text_limit=
+# undefined method `initialize<defaultArg>1' for class `REXML::Source'
+# Did you mean?  initialize_dup
+# undefined method `match<defaultArg>1' for class `REXML::Source'
+# undefined method `scan<defaultArg>1' for class `REXML::Source'
+# wrong constant name buffer
+# wrong constant name consume
+# wrong constant name current_line
+# wrong constant name empty?
+# wrong constant name encoding=
+# wrong constant name initialize<defaultArg>1
+# wrong constant name initialize
+# wrong constant name line
+# wrong constant name match<defaultArg>1
+# wrong constant name match
+# wrong constant name match_to
+# wrong constant name match_to_consume
+# wrong constant name position
+# wrong constant name read
+# wrong constant name scan<defaultArg>1
+# wrong constant name scan
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# wrong constant name create_from
+# uninitialized constant REXML::SyncEnumerator::Elem
+# Did you mean?  REXML::Element
+# wrong constant name each
+# wrong constant name initialize
+# wrong constant name length
+# wrong constant name size
+# wrong constant name <static-init>
+# undefined method `indent_text<defaultArg>1' for class `REXML::Text'
+# undefined method `indent_text<defaultArg>2' for class `REXML::Text'
+# undefined method `indent_text<defaultArg>3' for class `REXML::Text'
+# undefined method `initialize<defaultArg>1' for class `REXML::Text'
+# Did you mean?  initialize_dup
+# undefined method `initialize<defaultArg>2' for class `REXML::Text'
+# Did you mean?  initialize_dup
+# undefined method `initialize<defaultArg>3' for class `REXML::Text'
+# Did you mean?  initialize_dup
+# undefined method `initialize<defaultArg>4' for class `REXML::Text'
+# Did you mean?  initialize_dup
+# undefined method `initialize<defaultArg>5' for class `REXML::Text'
+# Did you mean?  initialize_dup
+# undefined method `wrap<defaultArg>1' for class `REXML::Text'
+# undefined method `write<defaultArg>1' for class `REXML::Text'
+# undefined method `write<defaultArg>2' for class `REXML::Text'
+# undefined method `write<defaultArg>3' for class `REXML::Text'
+# wrong constant name <<
+# wrong constant name <=>
+# wrong constant name clone
+# wrong constant name doctype
+# wrong constant name empty?
+# wrong constant name indent_text<defaultArg>1
+# wrong constant name indent_text<defaultArg>2
+# wrong constant name indent_text<defaultArg>3
+# wrong constant name indent_text
+# wrong constant name initialize<defaultArg>1
+# wrong constant name initialize<defaultArg>2
+# wrong constant name initialize<defaultArg>3
+# wrong constant name initialize<defaultArg>4
+# wrong constant name initialize<defaultArg>5
+# wrong constant name initialize
+# wrong constant name node_type
+# wrong constant name parent=
+# wrong constant name raw
+# wrong constant name raw=
+# wrong constant name to_s
+# wrong constant name value
+# wrong constant name value=
+# wrong constant name wrap<defaultArg>1
+# wrong constant name wrap
+# wrong constant name write<defaultArg>1
+# wrong constant name write<defaultArg>2
+# wrong constant name write<defaultArg>3
+# wrong constant name write
+# wrong constant name write_with_substitution
+# wrong constant name xpath
+# undefined singleton method `normalize<defaultArg>1' for `REXML::Text'
+# undefined singleton method `normalize<defaultArg>2' for `REXML::Text'
+# undefined singleton method `read_with_substitution<defaultArg>1' for `REXML::Text'
+# undefined singleton method `unnormalize<defaultArg>1' for `REXML::Text'
+# undefined singleton method `unnormalize<defaultArg>2' for `REXML::Text'
+# undefined singleton method `unnormalize<defaultArg>3' for `REXML::Text'
+# wrong constant name <static-init>
+# wrong constant name check
+# wrong constant name expand
+# wrong constant name normalize<defaultArg>1
+# wrong constant name normalize<defaultArg>2
+# wrong constant name normalize
+# wrong constant name read_with_substitution<defaultArg>1
+# wrong constant name read_with_substitution
+# wrong constant name unnormalize<defaultArg>1
+# wrong constant name unnormalize<defaultArg>2
+# wrong constant name unnormalize<defaultArg>3
+# wrong constant name unnormalize
+# wrong constant name initialize
+# wrong constant name <static-init>
+# wrong constant name <Class:ValidationException>
+# wrong constant name initialize
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# undefined method `initialize<defaultArg>1' for class `REXML::XMLDecl'
+# Did you mean?  initialize_dup
+# undefined method `initialize<defaultArg>2' for class `REXML::XMLDecl'
+# Did you mean?  initialize_dup
+# undefined method `initialize<defaultArg>3' for class `REXML::XMLDecl'
+# Did you mean?  initialize_dup
+# undefined method `write<defaultArg>1' for class `REXML::XMLDecl'
+# undefined method `write<defaultArg>2' for class `REXML::XMLDecl'
+# undefined method `write<defaultArg>3' for class `REXML::XMLDecl'
+# wrong constant name ==
+# wrong constant name clone
+# wrong constant name dowrite
+# wrong constant name encoding=
+# wrong constant name initialize<defaultArg>1
+# wrong constant name initialize<defaultArg>2
+# wrong constant name initialize<defaultArg>3
+# wrong constant name initialize
+# wrong constant name node_type
+# wrong constant name nowrite
+# wrong constant name old_enc=
+# wrong constant name stand_alone?
+# wrong constant name standalone
+# wrong constant name standalone=
+# wrong constant name version
+# wrong constant name version=
+# wrong constant name write<defaultArg>1
+# wrong constant name write<defaultArg>2
+# wrong constant name write<defaultArg>3
+# wrong constant name write
+# wrong constant name writeencoding
+# wrong constant name writethis
+# wrong constant name xmldecl
+# wrong constant name <static-init>
+# wrong constant name default
+# wrong constant name <static-init>
+# uninitialized constant REXML::XPath::INTERNAL_METHODS
+# Did you mean?  REXML::XPath::INTERNAL_METHODS
+# undefined singleton method `each<defaultArg>1' for `REXML::XPath'
+# undefined singleton method `each<defaultArg>2' for `REXML::XPath'
+# undefined singleton method `each<defaultArg>3' for `REXML::XPath'
+# undefined singleton method `first<defaultArg>1' for `REXML::XPath'
+# undefined singleton method `first<defaultArg>2' for `REXML::XPath'
+# undefined singleton method `first<defaultArg>3' for `REXML::XPath'
+# undefined singleton method `match<defaultArg>1' for `REXML::XPath'
+# undefined singleton method `match<defaultArg>2' for `REXML::XPath'
+# undefined singleton method `match<defaultArg>3' for `REXML::XPath'
+# wrong constant name <static-init>
+# wrong constant name each<defaultArg>1
+# wrong constant name each<defaultArg>2
+# wrong constant name each<defaultArg>3
+# wrong constant name each
+# wrong constant name first<defaultArg>1
+# wrong constant name first<defaultArg>2
+# wrong constant name first<defaultArg>3
+# wrong constant name first
+# wrong constant name match<defaultArg>1
+# wrong constant name match<defaultArg>2
+# wrong constant name match<defaultArg>3
+# wrong constant name match
+# undefined method `namespaces=<defaultArg>1' for class `REXML::XPathParser'
+# undefined method `variables=<defaultArg>1' for class `REXML::XPathParser'
+# uninitialized constant REXML::XPathParser::NAME
+# Did you mean?  REXML::XPathParser::NAME
+# uninitialized constant REXML::XPathParser::NAMECHAR
+# Did you mean?  REXML::XPathParser::NAME_CHAR
+#                REXML::XPathParser::NAMECHAR
+# uninitialized constant REXML::XPathParser::NAME_CHAR
+# Did you mean?  REXML::XPathParser::NAME_STR
+#                REXML::XPathParser::NAME_CHAR
+#                REXML::XPathParser::NAMECHAR
+# uninitialized constant REXML::XPathParser::NAME_START_CHAR
+# Did you mean?  REXML::XPathParser::NAME_START_CHAR
+# uninitialized constant REXML::XPathParser::NAME_STR
+# Did you mean?  REXML::XPathParser::NAME_STR
+#                REXML::XPathParser::NCNAME_STR
+# uninitialized constant REXML::XPathParser::NCNAME_STR
+# Did you mean?  REXML::XPathParser::NAME_STR
+#                REXML::XPathParser::NCNAME_STR
+# uninitialized constant REXML::XPathParser::NMTOKEN
+# Did you mean?  REXML::XPathParser::NMTOKENS
+#                REXML::XPathParser::NMTOKEN
+# uninitialized constant REXML::XPathParser::NMTOKENS
+# Did you mean?  REXML::XMLTokens
+#                REXML::XPathParser::NMTOKENS
+#                REXML::XPathParser::NMTOKEN
+# uninitialized constant REXML::XPathParser::REFERENCE
+# Did you mean?  REXML::XPathParser::REFERENCE
+# wrong constant name []=
+# wrong constant name first
+# wrong constant name get_first
+# wrong constant name match
+# wrong constant name namespaces=<defaultArg>1
+# wrong constant name namespaces=
+# wrong constant name parse
+# wrong constant name predicate
+# wrong constant name variables=<defaultArg>1
+# wrong constant name variables=
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# wrong constant name <Class:Core>
+# wrong constant name <Class:Expectations>
+# wrong constant name <Class:Matchers>
+# wrong constant name <Class:Mocks>
+# wrong constant name <Class:Support>
+# wrong constant name <Class:Example>
+# wrong constant name <Class:Formatters>
+# wrong constant name <Class:MockingAdapters>
+# wrong constant name <Class:SyntaxHighlighter>
+# wrong constant name <Class:ExpectationTarget>
+# wrong constant name <Class:AliasedNegatedMatcher>
+# wrong constant name <Class:BuiltIn>
+# wrong constant name <Class:BaseMatcher>
 # wrong constant name call
 # wrong constant name initialize
 # wrong constant name relative_file_name
@@ -2099,7 +3183,7 @@
 # wrong constant name <static-init>
 # wrong constant name worse_than?
 # wrong constant name +
-# uninitialized constant #<Class:0x00007f8ed89e87c0>::Elem
+# uninitialized constant #<Class:0x00007fe53d492a08>::Elem
 # wrong constant name candidate?
 # wrong constant name ideal?
 # wrong constant name indeterminate_actual_indexes
@@ -4843,8 +5927,11 @@
 # wrong constant name tag
 # wrong constant name value
 # uninitialized constant WEBrick
+# Did you mean?  WebMock
 # uninitialized constant WEBrick
+# Did you mean?  WebMock
 # wrong constant name warn
+# wrong constant name inherited
 # wrong constant name <Class:BufError>
 # wrong constant name <Class:DataError>
 # wrong constant name <Class:Deflate>
