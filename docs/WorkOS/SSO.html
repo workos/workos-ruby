@@ -214,6 +214,7 @@ using the configured SSO Identity Provider.</p>
     next_page: &#39;/docs&#39;
   }
 )
+
 =&gt; &quot;https://api.workos.com/sso/authorize?domain=acme.com&quot; \
    &quot;&amp;client_id=project_01DG5TGK363GRVXP3ZS40WNGEZ&quot; \
    &quot;&amp;redirect_uri=https%3A%2F%2Fworkos.com%2Fcallback&amp;&quot; \
@@ -313,7 +314,6 @@ the response.</p>
       <pre class="lines">
 
 
-54
 55
 56
 57
@@ -323,10 +323,11 @@ the response.</p>
 61
 62
 63
-64</pre>
+64
+65</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/workos/sso.rb', line 54</span>
+      <pre class="code"><span class="info file"># File 'lib/workos/sso.rb', line 55</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_authorization_url'>authorization_url</span><span class='lparen'>(</span><span class='label'>domain:</span><span class='comma'>,</span> <span class='label'>project_id:</span><span class='comma'>,</span> <span class='label'>redirect_uri:</span><span class='comma'>,</span> <span class='label'>state:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='const'>Rack</span><span class='op'>::</span><span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_build_query'>build_query</span><span class='lparen'>(</span>
@@ -466,7 +467,6 @@ step.</p>
       <pre class="lines">
 
 
-102
 103
 104
 105
@@ -481,10 +481,11 @@ step.</p>
 114
 115
 116
-117</pre>
+117
+118</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/workos/sso.rb', line 102</span>
+      <pre class="code"><span class="info file"># File 'lib/workos/sso.rb', line 103</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_profile'>profile</span><span class='lparen'>(</span><span class='label'>code:</span><span class='comma'>,</span> <span class='label'>project_id:</span><span class='comma'>,</span> <span class='label'>redirect_uri:</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='const'>Rack</span><span class='op'>::</span><span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_build_query'>build_query</span><span class='lparen'>(</span>
@@ -512,7 +513,7 @@ step.</p>
 </div>
 
       <div id="footer">
-  Generated on Wed Dec 11 15:31:19 2019 by
+  Generated on Wed Dec 11 15:31:53 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.4.9).
 </div>

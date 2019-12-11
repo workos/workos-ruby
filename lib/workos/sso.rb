@@ -45,6 +45,7 @@ module WorkOS
     #       next_page: '/docs'
     #     }
     #   )
+    #
     #   => "https://api.workos.com/sso/authorize?domain=acme.com" \
     #      "&client_id=project_01DG5TGK363GRVXP3ZS40WNGEZ" \
     #      "&redirect_uri=https%3A%2F%2Fworkos.com%2Fcallback&" \
