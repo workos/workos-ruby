@@ -151,7 +151,7 @@ using the configured SSO Identity Provider.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#profile-class_method" title="profile (class method)">.<strong>profile</strong>(code:, project_id:, redirect_uri:)  &#x21d2; String </a>
+      <a href="#profile-class_method" title="profile (class method)">.<strong>profile</strong>(code:, project_id:, redirect_uri:)  &#x21d2; Hash </a>
     
 
     
@@ -166,10 +166,7 @@ using the configured SSO Identity Provider.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>WorkOS::SSO.profile(code: &#39;foo&#39;, project_id:
-&#39;project_01DG5TGK363GRVXP3ZS40WNGEZ&#39;, redirect_uri: &#39;<a
-href="https://zach.workos.dev/callback">zach.workos.dev/callback</a>&#39;)
-Fetch the profile details for the authenticated SSO user.</p>
+<p>Fetch the profile details for the authenticated SSO user.</p>
 </div></span>
   
 </li>
@@ -350,7 +347,7 @@ the response.</p>
       <div class="method_details ">
   <h3 class="signature " id="profile-class_method">
   
-    .<strong>profile</strong>(code:, project_id:, redirect_uri:)  &#x21d2; <tt>String</tt> 
+    .<strong>profile</strong>(code:, project_id:, redirect_uri:)  &#x21d2; <tt>Hash</tt> 
   
 
   
@@ -359,10 +356,24 @@ the response.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>WorkOS::SSO.profile(code: &#39;foo&#39;, project_id:
-&#39;project_01DG5TGK363GRVXP3ZS40WNGEZ&#39;, redirect_uri: &#39;<a
-href="https://zach.workos.dev/callback">zach.workos.dev/callback</a>&#39;)
-Fetch the profile details for the authenticated SSO user.</p>
+<p>Fetch the profile details for the authenticated SSO user.</p>
+
+<h1 id="label-3E+">&gt; </h1>
+
+<p>{</p>
+
+<pre class="code ruby"><code class="ruby">&quot;profile&quot;: {
+  &quot;object&quot;=&gt;&quot;profile&quot;,
+  &quot;id&quot;=&gt;&quot;prof_01DRA1XNSJDZ19A31F183ECQW5&quot;,
+  &quot;email&quot;=&gt;&quot;demo@workos-okta.com&quot;,
+  &quot;first_name&quot;=&gt;&quot;WorkOS&quot;,
+  &quot;connection_type&quot;=&gt;&quot;OktaSAML&quot;,
+  &quot;last_name&quot;=&gt;&quot;Demo&quot;,
+  &quot;idp_id&quot;=&gt;&quot;00u1klkowm8EGah2H357&quot;
+},
+&quot;access_token&quot;=&gt;&quot;01D...&quot;</code></pre>
+
+<p>}</p>
 
 
   </div>
@@ -373,15 +384,11 @@ Fetch the profile details for the authenticated SSO user.</p>
     <p class="tag_title">Examples:</p>
     
       
-      <pre class="example code"><code>WorkOS::SSO.profile(
-  code: &#39;acme.com&#39;,
-  project_id: &#39;project_01DG5TGK363GRVXP3ZS40WNGEZ&#39;,
-  redirect_uri: &#39;https://workos.com/callback&#39;,
-)
-=&gt; &quot;https://api.workos.com/sso/authorize?domain=acme.com&quot; \
-   &quot;&amp;client_id=project_01DG5TGK363GRVXP3ZS40WNGEZ&quot; \
-   &quot;&amp;redirect_uri=https%3A%2F%2Fworkos.com%2Fcallback&amp;&quot; \
-   &quot;response_type=code&amp;state=%7B%3Anext_page%3D%3E%22%2Fdocs%22%7D&quot;</code></pre>
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="../WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="WorkOS::SSO (module)">SSO</a></span></span><span class='period'>.</span><span class='id identifier rubyid_profile'>profile</span><span class='lparen'>(</span>
+  <span class='label'>code:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>acme.com</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>project_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>project_01DG5TGK363GRVXP3ZS40WNGEZ</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>redirect_uri:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://workos.com/callback</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+<span class='rparen'>)</span></code></pre>
     
   </div>
 <p class="tag_title">Parameters:</p>
@@ -445,7 +452,7 @@ step.</p>
     <li>
       
       
-        <span class='type'>(<tt>String</tt>)</span>
+        <span class='type'>(<tt>Hash</tt>)</span>
       
       
       
@@ -459,25 +466,25 @@ step.</p>
       <pre class="lines">
 
 
-92
-93
-94
-95
-96
-97
-98
-99
-100
 101
 102
 103
 104
 105
 106
-107</pre>
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/workos/sso.rb', line 92</span>
+      <pre class="code"><span class="info file"># File 'lib/workos/sso.rb', line 101</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_profile'>profile</span><span class='lparen'>(</span><span class='label'>code:</span><span class='comma'>,</span> <span class='label'>project_id:</span><span class='comma'>,</span> <span class='label'>redirect_uri:</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='const'>Rack</span><span class='op'>::</span><span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_build_query'>build_query</span><span class='lparen'>(</span>
@@ -505,7 +512,7 @@ step.</p>
 </div>
 
       <div id="footer">
-  Generated on Wed Dec 11 15:17:24 2019 by
+  Generated on Wed Dec 11 15:27:34 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.4.9).
 </div>
