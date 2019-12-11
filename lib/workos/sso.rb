@@ -69,7 +69,7 @@ module WorkOS
         redirect_uri: String,
       ).returns(Hash)
     end
-    # WorkOS::SSO.profile(code: 'foo', project_id: 'project_01DG5TGK363GRVXP3ZS40WNGEZ', redirect_uri: 'https://zach.workos.dev/callback')
+
     # Fetch the profile details for the authenticated SSO user.
     #
     # @param [String] code The authorization code provided in the callback URL
@@ -84,11 +84,20 @@ module WorkOS
     #     project_id: 'project_01DG5TGK363GRVXP3ZS40WNGEZ',
     #     redirect_uri: 'https://workos.com/callback',
     #   )
-    #   => "https://api.workos.com/sso/authorize?domain=acme.com" \
-    #      "&client_id=project_01DG5TGK363GRVXP3ZS40WNGEZ" \
-    #      "&redirect_uri=https%3A%2F%2Fworkos.com%2Fcallback&" \
-    #      "response_type=code&state=%7B%3Anext_page%3D%3E%22%2Fdocs%22%7D"
-    # @return [String]
+    # => 
+    # {
+    #   "profile": {
+    #     "object"=>"profile",
+    #     "id"=>"prof_01DRA1XNSJDZ19A31F183ECQW5",
+    #     "email"=>"demo@workos-okta.com",
+    #     "first_name"=>"WorkOS",
+    #     "connection_type"=>"OktaSAML",
+    #     "last_name"=>"Demo",
+    #     "idp_id"=>"00u1klkowm8EGah2H357"
+    #   },
+    #   "access_token"=>"01D..."
+    # }
+    # @return [Hash]
     def self.profile(code:, project_id:, redirect_uri:)
       query = Rack::Utils.build_query(
         client_id: PROJECT_ID,
