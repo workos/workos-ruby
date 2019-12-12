@@ -8,7 +8,9 @@ require 'json'
 module WorkOS
   # The Profile class provides a lighweight wrapper around
   # a normalized response from the various IDPs WorkOS
-  # supports as part of the SSO integration
+  # supports as part of the SSO integration. This class
+  # is not meant ot be instantiated in user space, and
+  # is instantiated internally but exposed.
   class Profile
     extend T::Sig
 
