@@ -8282,11 +8282,6 @@ module Warning
   extend ::Warning
 end
 
-class WorkOS::SSO
-  extend ::T::Private::Methods::MethodHooks
-  extend ::T::Private::Methods::SingletonMethodHooks
-end
-
 YAML = Psych
 
 YAMLTree = Psych::Visitors::YAMLTree

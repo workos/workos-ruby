@@ -2099,7 +2099,7 @@
 # wrong constant name <static-init>
 # wrong constant name worse_than?
 # wrong constant name +
-# uninitialized constant #<Class:0x00007f8ed89e87c0>::Elem
+# uninitialized constant #<Class:0x00007ffd608e99b8>::Elem
 # wrong constant name candidate?
 # wrong constant name ideal?
 # wrong constant name indeterminate_actual_indexes

@@ -14,7 +14,10 @@ $LOAD_PATH << File.join(File.dirname(__FILE__))
 
 require 'rubygems'
 require 'rspec'
+require 'webmock/rspec'
 require 'workos'
+
+SPEC_ROOT = File.dirname __FILE__
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|

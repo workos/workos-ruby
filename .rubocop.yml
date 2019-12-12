@@ -1,3 +1,5 @@
+Layout/DotPosition:
+  EnforcedStyle: trailing
 Metrics/BlockLength:
   ExcludedMethods: ['describe', 'context']
 Style/TrailingCommaInArguments:

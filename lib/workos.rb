@@ -19,7 +19,9 @@ module WorkOS
     key || raise('WorkOS.key not set')
   end
 
+  autoload :Types, 'workos/types'
   autoload :Base, 'workos/base'
+  autoload :Profile, 'workos/profile'
   autoload :SSO, 'workos/sso'
 
   WorkOS.key = ENV['WORKOS_KEY'] unless ENV['WORKOS_KEY'].nil?

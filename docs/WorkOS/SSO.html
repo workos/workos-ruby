@@ -151,7 +151,7 @@ using the configured SSO Identity Provider.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#profile-class_method" title="profile (class method)">.<strong>profile</strong>(code:, project_id:, redirect_uri:)  &#x21d2; Hash </a>
+      <a href="#profile-class_method" title="profile (class method)">.<strong>profile</strong>(code:, project_id:, redirect_uri:)  &#x21d2; WorkOS::Profile </a>
     
 
     
@@ -210,7 +210,7 @@ using the configured SSO Identity Provider.</p>
   domain: &#39;acme.com&#39;,
   project_id: &#39;project_01DG5TGK363GRVXP3ZS40WNGEZ&#39;,
   redirect_uri: &#39;https://workos.com/callback&#39;,
-  state: { 
+  state: {
     next_page: &#39;/docs&#39;
   }
 )
@@ -269,7 +269,7 @@ connection</p>
       
         &mdash;
         <div class='inline'>
-<p>The URI where users are directed  after completing the authentication step.
+<p>The URI where users are directed after completing the authentication step.
 Must match a configured redirect URI on your WorkOS dashboard</p>
 </div>
       
@@ -286,7 +286,7 @@ Must match a configured redirect URI on your WorkOS dashboard</p>
       
         &mdash;
         <div class='inline'>
-<p>An aribtrary state object  that is preserved and available to the client in
+<p>An aribtrary state object that is preserved and available to the client in
 the response.</p>
 </div>
       
@@ -314,7 +314,6 @@ the response.</p>
       <pre class="lines">
 
 
-55
 56
 57
 58
@@ -324,12 +323,13 @@ the response.</p>
 62
 63
 64
-65</pre>
+65
+66</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/workos/sso.rb', line 55</span>
+      <pre class="code"><span class="info file"># File 'lib/workos/sso.rb', line 56</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_authorization_url'>authorization_url</span><span class='lparen'>(</span><span class='label'>domain:</span><span class='comma'>,</span> <span class='label'>project_id:</span><span class='comma'>,</span> <span class='label'>redirect_uri:</span><span class='comma'>,</span> <span class='label'>state:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_authorization_url'>authorization_url</span><span class='lparen'>(</span><span class='label'>domain:</span><span class='comma'>,</span> <span class='label'>project_id:</span><span class='comma'>,</span> <span class='label'>redirect_uri:</span><span class='comma'>,</span> <span class='label'>state:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='const'>Rack</span><span class='op'>::</span><span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_build_query'>build_query</span><span class='lparen'>(</span>
     <span class='label'>domain:</span> <span class='id identifier rubyid_domain'>domain</span><span class='comma'>,</span>
     <span class='label'>client_id:</span> <span class='id identifier rubyid_project_id'>project_id</span><span class='comma'>,</span>
@@ -348,7 +348,7 @@ the response.</p>
       <div class="method_details ">
   <h3 class="signature " id="profile-class_method">
   
-    .<strong>profile</strong>(code:, project_id:, redirect_uri:)  &#x21d2; <tt>Hash</tt> 
+    .<strong>profile</strong>(code:, project_id:, redirect_uri:)  &#x21d2; <tt><span class='object_link'><a href="Profile.html" title="WorkOS::Profile (class)">WorkOS::Profile</a></span></tt> 
   
 
   
@@ -373,19 +373,15 @@ the response.</p>
   project_id: &#39;project_01DG5TGK363GRVXP3ZS40WNGEZ&#39;,
   redirect_uri: &#39;https://workos.com/callback&#39;,
 )
-=&gt; 
-{
-  &quot;profile&quot;: {
-    &quot;object&quot;=&gt;&quot;profile&quot;,
-    &quot;id&quot;=&gt;&quot;prof_01DRA1XNSJDZ19A31F183ECQW5&quot;,
-    &quot;email&quot;=&gt;&quot;demo@workos-okta.com&quot;,
-    &quot;first_name&quot;=&gt;&quot;WorkOS&quot;,
-    &quot;connection_type&quot;=&gt;&quot;OktaSAML&quot;,
-    &quot;last_name&quot;=&gt;&quot;Demo&quot;,
-    &quot;idp_id&quot;=&gt;&quot;00u1klkowm8EGah2H357&quot;
-  },
-  &quot;access_token&quot;=&gt;&quot;01D...&quot;
-}</code></pre>
+=&gt; #&lt;WorkOS::Profile:0x00007fb6e4193d20
+      @id=&quot;prof_01DRA1XNSJDZ19A31F183ECQW5&quot;,
+      @email=&quot;demo@workos-okta.com&quot;,
+      @first_name=&quot;WorkOS&quot;,
+      @connection_type=&quot;OktaSAML&quot;,
+      @last_name=&quot;Demo&quot;,
+      @idp_id=&quot;00u1klkowm8EGah2H357&quot;,
+      @access_token=&quot;01DVX6QBS3EG6FHY2ESAA5Q65X&quot;
+     &gt;</code></pre>
     
   </div>
 <p class="tag_title">Parameters:</p>
@@ -435,7 +431,7 @@ connection</p>
       
         &mdash;
         <div class='inline'>
-<p>The URI where the user was directed  after completing the authentication
+<p>The URI where the user was directed after completing the authentication
 step.</p>
 </div>
       
@@ -449,7 +445,7 @@ step.</p>
     <li>
       
       
-        <span class='type'>(<tt>Hash</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="Profile.html" title="WorkOS::Profile (class)">WorkOS::Profile</a></span></tt>)</span>
       
       
       
@@ -463,6 +459,8 @@ step.</p>
       <pre class="lines">
 
 
+101
+102
 103
 104
 105
@@ -474,30 +472,24 @@ step.</p>
 111
 112
 113
-114
-115
-116
-117
-118</pre>
+114</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/workos/sso.rb', line 103</span>
+      <pre class="code"><span class="info file"># File 'lib/workos/sso.rb', line 101</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_profile'>profile</span><span class='lparen'>(</span><span class='label'>code:</span><span class='comma'>,</span> <span class='label'>project_id:</span><span class='comma'>,</span> <span class='label'>redirect_uri:</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_profile'>profile</span><span class='lparen'>(</span><span class='label'>code:</span><span class='comma'>,</span> <span class='label'>project_id:</span><span class='comma'>,</span> <span class='label'>redirect_uri:</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='const'>Rack</span><span class='op'>::</span><span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_build_query'>build_query</span><span class='lparen'>(</span>
-    <span class='label'>client_id:</span> <span class='const'>PROJECT_ID</span><span class='comma'>,</span>
+    <span class='label'>client_id:</span> <span class='id identifier rubyid_project_id'>project_id</span><span class='comma'>,</span>
     <span class='label'>client_secret:</span> <span class='const'><span class='object_link'><a href="../WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_key!'><span class='object_link'><a href="../WorkOS.html#key!-class_method" title="WorkOS.key! (method)">key!</a></span></span><span class='comma'>,</span>
-    <span class='label'>redirect_uri:</span> <span class='const'>REDIRECT_URI</span><span class='comma'>,</span>
+    <span class='label'>redirect_uri:</span> <span class='id identifier rubyid_redirect_uri'>redirect_uri</span><span class='comma'>,</span>
     <span class='label'>grant_type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>authorization_code</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
     <span class='label'>code:</span> <span class='id identifier rubyid_code'>code</span><span class='comma'>,</span>
   <span class='rparen'>)</span>
-  <span class='id identifier rubyid_http'>http</span> <span class='op'>=</span> <span class='const'>Net</span><span class='op'>::</span><span class='const'>HTTP</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../WorkOS.html#API_HOSTNAME-constant" title="WorkOS::API_HOSTNAME (constant)">API_HOSTNAME</a></span></span><span class='comma'>,</span> <span class='int'>443</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_http'>http</span><span class='period'>.</span><span class='id identifier rubyid_use_ssl'>use_ssl</span> <span class='op'>=</span> <span class='kw'>true</span>
 
   <span class='id identifier rubyid_request'>request</span> <span class='op'>=</span> <span class='const'>Net</span><span class='op'>::</span><span class='const'>HTTP</span><span class='op'>::</span><span class='const'>Post</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/sso/token?</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_query'>query</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_response'>response</span> <span class='op'>=</span> <span class='id identifier rubyid_http'>http</span><span class='period'>.</span><span class='id identifier rubyid_request'>request</span><span class='lparen'>(</span><span class='id identifier rubyid_request'>request</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_response'>response</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_request'>request</span><span class='lparen'>(</span><span class='id identifier rubyid_request'>request</span><span class='rparen'>)</span>
 
-  <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="../WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Profile.html" title="WorkOS::Profile (class)">Profile</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Profile.html#initialize-instance_method" title="WorkOS::Profile#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -509,7 +501,7 @@ step.</p>
 </div>
 
       <div id="footer">
-  Generated on Wed Dec 11 15:34:39 2019 by
+  Generated on Thu Dec 12 12:07:22 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.4.9).
 </div>
