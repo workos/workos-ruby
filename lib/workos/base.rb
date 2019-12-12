@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 # typed: true
+# rubocop:disable Style/Documentation
 
 
 module WorkOS
@@ -14,3 +15,4 @@ module WorkOS
     end
   end
 end
+# rubocop:enable Style/Documentation

@@ -37,6 +37,8 @@ module WorkOS
     class << self
       extend T::Sig
 
+      private
+
       sig { params(json_string: String).returns(WorkOS::Types::ProfileStruct) }
 
       def parse_json(json_string)

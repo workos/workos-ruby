@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 # typed: false
 
-
 require 'simplecov'
 SimpleCov.start
 

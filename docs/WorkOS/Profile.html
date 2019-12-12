@@ -294,37 +294,6 @@ is instantiated internally but exposed.</p>
 
   
     <h2>
-      Class Method Summary
-      <small><a href="#" class="summary_toggle">collapse</a></small>
-    </h2>
-
-    <ul class="summary">
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#parse_json-class_method" title="parse_json (class method)">.<strong>parse_json</strong>(json_string)  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-      
-    </ul>
-  
-    <h2>
       Instance Method Summary
       <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
@@ -427,7 +396,7 @@ is instantiated internally but exposed.</p>
       <pre class="code"><span class="info file"># File 'lib/workos/profile.rb', line 21</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_profile_json'>profile_json</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_raw'>raw</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="WorkOS::Profile (class)">Profile</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse_json'><span class='object_link'><a href="#parse_json-class_method" title="WorkOS::Profile.parse_json (method)">parse_json</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_profile_json'>profile_json</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raw'>raw</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="WorkOS::Profile (class)">Profile</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse_json'>parse_json</span><span class='lparen'>(</span><span class='id identifier rubyid_profile_json'>profile_json</span><span class='rparen'>)</span>
 
   <span class='ivar'>@id</span>              <span class='op'>=</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_let'>let</span><span class='lparen'>(</span><span class='id identifier rubyid_raw'>raw</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='const'>String</span><span class='rparen'>)</span>
   <span class='ivar'>@email</span>           <span class='op'>=</span> <span class='const'>T</span><span class='period'>.</span><span class='id identifier rubyid_let'>let</span><span class='lparen'>(</span><span class='id identifier rubyid_raw'>raw</span><span class='period'>.</span><span class='id identifier rubyid_email'>email</span><span class='comma'>,</span> <span class='const'>String</span><span class='rparen'>)</span>
@@ -707,60 +676,6 @@ is instantiated internally but exposed.</p>
   </div>
 
 
-  <div id="class_method_details" class="method_details_list">
-    <h2>Class Method Details</h2>
-
-    
-      <div class="method_details first">
-  <h3 class="signature first" id="parse_json-class_method">
-  
-    .<strong>parse_json</strong>(json_string)  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/workos/profile.rb', line 42</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_parse_json'>parse_json</span><span class='lparen'>(</span><span class='id identifier rubyid_json_string'>json_string</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_hash'>hash</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_json_string'>json_string</span><span class='comma'>,</span> <span class='label'>symbolize_names:</span> <span class='kw'>true</span><span class='rparen'>)</span>
-
-  <span class='const'><span class='object_link'><a href="../WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Types.html" title="WorkOS::Types (module)">Types</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Types/ProfileStruct.html" title="WorkOS::Types::ProfileStruct (class)">ProfileStruct</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span>
-    <span class='label'>id:</span> <span class='id identifier rubyid_hash'>hash</span><span class='lbracket'>[</span><span class='symbol'>:profile</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='comma'>,</span>
-    <span class='label'>email:</span> <span class='id identifier rubyid_hash'>hash</span><span class='lbracket'>[</span><span class='symbol'>:profile</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:email</span><span class='rbracket'>]</span><span class='comma'>,</span>
-    <span class='label'>first_name:</span> <span class='id identifier rubyid_hash'>hash</span><span class='lbracket'>[</span><span class='symbol'>:profile</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:first_name</span><span class='rbracket'>]</span><span class='comma'>,</span>
-    <span class='label'>last_name:</span> <span class='id identifier rubyid_hash'>hash</span><span class='lbracket'>[</span><span class='symbol'>:profile</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:last_name</span><span class='rbracket'>]</span><span class='comma'>,</span>
-    <span class='label'>connection_type:</span> <span class='id identifier rubyid_hash'>hash</span><span class='lbracket'>[</span><span class='symbol'>:profile</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:connection_type</span><span class='rbracket'>]</span><span class='comma'>,</span>
-    <span class='label'>idp_id:</span> <span class='id identifier rubyid_hash'>hash</span><span class='lbracket'>[</span><span class='symbol'>:profile</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:idp_id</span><span class='rbracket'>]</span><span class='comma'>,</span>
-  <span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-  </div>
-
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
 
@@ -800,7 +715,7 @@ is instantiated internally but exposed.</p>
 </div>
 
       <div id="footer">
-  Generated on Thu Dec 12 14:17:41 2019 by
+  Generated on Thu Dec 12 14:31:04 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.4.9).
 </div>
