@@ -101,12 +101,3 @@ class Rack::Utils::KeySpaceConstrainedParams
   def key?(key); end
   def to_params_hash; end
 end
-module WorkOS
-end
-module WorkOS::SSO
-  def self.authorization_url(*args, &blk); end
-  def self.profile(*args, &blk); end
-  extend T::Private::Methods::MethodHooks
-  extend T::Private::Methods::SingletonMethodHooks
-  extend T::Sig
-end

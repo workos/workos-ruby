@@ -28,6 +28,7 @@ module WorkOS
       @idp_id          = T.let(raw.idp_id, String)
       @access_token    = T.let(raw.access_token, String)
     end
+
     sig { returns(String) }
     def full_name
       [first_name, last_name].compact.join(' ')
