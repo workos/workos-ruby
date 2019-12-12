@@ -12,7 +12,6 @@ module WorkOS
       const :last_name, String
       const :connection_type, String
       const :idp_id, String
-      const :access_token, String
     end
   end
 end

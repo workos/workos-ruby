@@ -14,7 +14,7 @@ module WorkOS
 
     sig { returns(String) }
     attr_accessor :id, :email, :first_name, :last_name,
-                  :connection_type, :idp_id, :access_token
+                  :connection_type, :idp_id
 
     sig { params(profile_json: String).void }
     def initialize(profile_json)
@@ -26,7 +26,6 @@ module WorkOS
       @last_name       = T.let(raw.last_name, String)
       @connection_type = T.let(raw.connection_type, String)
       @idp_id          = T.let(raw.idp_id, String)
-      @access_token    = T.let(raw.access_token, String)
     end
 
     sig { returns(String) }
@@ -49,7 +48,6 @@ module WorkOS
           last_name: hash[:profile][:last_name],
           connection_type: hash[:profile][:connection_type],
           idp_id: hash[:profile][:idp_id],
-          access_token: hash[:access_token],
         )
       end
     end
