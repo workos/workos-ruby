@@ -1,11 +1,11 @@
-# typed: true
 # frozen_string_literal: true
+# typed: true
+
 
 require 'net/http'
 require 'rack/utils'
 require 'uri'
 
-# :nodoc:
 module WorkOS
   # The SSO module provides convenience methods for working with the WorkOS
   # SSO service. You'll need a valid API key, a project ID, and to have

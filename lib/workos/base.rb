@@ -1,8 +1,8 @@
-# typed: true
 # frozen_string_literal: true
+# typed: true
+
 
 module WorkOS
-  # :nodoc:
   class Base
     attr_accessor :key
     class << self

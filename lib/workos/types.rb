@@ -1,5 +1,6 @@
-# typed: strong
 # frozen_string_literal: true
+# typed: true
+
 
 module WorkOS
   # WorkOS believes strongly in typed languages,
