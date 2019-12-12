@@ -1,8 +1,6 @@
 # typed: true
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/AbcSize
-
 require 'json'
 
 module WorkOS
@@ -55,4 +53,3 @@ module WorkOS
     end
   end
 end
-# rubocop:enable Metrics/AbcSize
