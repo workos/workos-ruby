@@ -40,6 +40,10 @@ describe WorkOS::SSO do
   end
 
   describe '.profile' do
+    before do
+      WorkOS.key = 'api-key'
+    end
+    
     let(:args) do
       {
         code: SecureRandom.hex(10),
