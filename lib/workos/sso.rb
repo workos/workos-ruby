@@ -129,7 +129,13 @@ module WorkOS
       def check_and_raise_error(response:)
         return if response.is_a? Net::HTTPOK
 
-        raise WorkOS::RequestError, JSON.parse(response.body)['message']
+        begin
+          message = JSON.parse(response.body)['message']
+        rescue StandardError
+          message = 'Something went wrong'
+        end
+
+        raise WorkOS::RequestError, message
       end
     end
   end
