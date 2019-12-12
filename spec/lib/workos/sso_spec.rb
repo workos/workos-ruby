@@ -43,7 +43,7 @@ describe WorkOS::SSO do
     before do
       WorkOS.key = 'api-key'
     end
-    
+
     let(:args) do
       {
         code: SecureRandom.hex(10),
