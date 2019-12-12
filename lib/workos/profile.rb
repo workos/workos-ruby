@@ -19,7 +19,7 @@ module WorkOS
 
     sig { params(profile_json: String).void }
     def initialize(profile_json)
-      raw = WorkOS::Profile.parse_json(profile_json)
+      raw = parse_json(profile_json)
 
       @id              = T.let(raw.id, String)
       @email           = T.let(raw.email, String)
@@ -34,25 +34,20 @@ module WorkOS
       [first_name, last_name].compact.join(' ')
     end
 
-    class << self
-      extend T::Sig
+    private
 
-      private
+    sig { params(json_string: String).returns(WorkOS::Types::ProfileStruct) }
+    def parse_json(json_string)
+      hash = JSON.parse(json_string, symbolize_names: true)
 
-      sig { params(json_string: String).returns(WorkOS::Types::ProfileStruct) }
-
-      def parse_json(json_string)
-        hash = JSON.parse(json_string, symbolize_names: true)
-
-        WorkOS::Types::ProfileStruct.new(
-          id: hash[:profile][:id],
-          email: hash[:profile][:email],
-          first_name: hash[:profile][:first_name],
-          last_name: hash[:profile][:last_name],
-          connection_type: hash[:profile][:connection_type],
-          idp_id: hash[:profile][:idp_id],
-        )
-      end
+      WorkOS::Types::ProfileStruct.new(
+        id: hash[:profile][:id],
+        email: hash[:profile][:email],
+        first_name: hash[:profile][:first_name],
+        last_name: hash[:profile][:last_name],
+        connection_type: hash[:profile][:connection_type],
+        idp_id: hash[:profile][:idp_id],
+      )
     end
   end
 end
