@@ -29,6 +29,7 @@ module WorkOS
   autoload :Types, 'workos/types'
   autoload :Base, 'workos/base'
   autoload :Profile, 'workos/profile'
+  autoload :RequestError, 'workos/request_error'
   autoload :SSO, 'workos/sso'
 
   WorkOS.key = ENV['WORKOS_KEY'] unless ENV['WORKOS_KEY'].nil?

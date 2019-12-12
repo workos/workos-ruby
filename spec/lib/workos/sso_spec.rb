@@ -78,31 +78,17 @@ describe WorkOS::SSO do
       end
     end
 
-    context 'with an expired code' do
-      before do
-        stub_request(:post, 'https://api.workos.com/sso/token').
-          with(query: query).
-          to_return(status: 200, body: '{ "message": "Code is expired"}')
-      end
-
-      xit 'raises an exception?' do
-        profile = described_class.profile(**args)
-
-        expect(profile).to be_a(WorkOS::Profile)
-      end
-    end
-
     context 'with an unprocessable request' do
       before do
         stub_request(:post, 'https://api.workos.com/sso/token').
           with(query: query).
-          to_return(status: 422)
+          to_return(status: 422, body: '{"message": "some error message"}')
       end
 
-      xit 'rasies an exception?' do
-        profile = described_class.profile(**args)
-
-        expect(profile).to be_a(WorkOS::Profile)
+      it 'rasies an exception?' do
+        expect do
+          described_class.profile(**args)
+        end.to raise_error(WorkOS::RequestError, 'some error message')
       end
     end
   end

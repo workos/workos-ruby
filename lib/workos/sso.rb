@@ -107,8 +107,8 @@ module WorkOS
           code: code,
         )
 
-        request = Net::HTTP::Post.new("/sso/token?#{query}")
-        response = client.request(request)
+        response = client.request(Net::HTTP::Post.new("/sso/token?#{query}"))
+        check_and_raise_error(response: response)
 
         WorkOS::Profile.new(response.body)
       end
@@ -123,6 +123,13 @@ module WorkOS
         @client.use_ssl = true
 
         @client
+      end
+
+      sig { params(response: Net::HTTPResponse).void }
+      def check_and_raise_error(response:)
+        return if response.is_a? Net::HTTPOK
+
+        raise WorkOS::RequestError, JSON.parse(response.body)['message']
       end
     end
   end
