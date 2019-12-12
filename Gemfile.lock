@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    workos (0.0.4.pre)
+    workos (0.0.1)
       rack (~> 1.6.4)
       sorbet-runtime
 
@@ -71,7 +71,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bundler (~> 1.17.3)
+  bundler (~> 2.0.1)
   codecov (~> 0.1.16)
   rake
   rspec (~> 3.9.0)
@@ -81,4 +81,4 @@ DEPENDENCIES
   workos!
 
 BUNDLED WITH
-   1.17.3
+   2.0.2
