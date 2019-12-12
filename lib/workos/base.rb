@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 module WorkOS
-  # nodoc
+  # :nodoc:
   class Base
     attr_accessor :key
     class << self
