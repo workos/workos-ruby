@@ -1,5 +1,5 @@
-# typed: true
 # frozen_string_literal: true
+# typed: true
 
 require 'workos/version'
 require 'sorbet-runtime'
