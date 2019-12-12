@@ -2,7 +2,6 @@
 # typed: strict
 
 
-# :nodoc:
 module WorkOS
   module Types
     # The ProfileStruct acts as a typed interface
