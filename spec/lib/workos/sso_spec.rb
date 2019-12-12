@@ -1,6 +1,8 @@
 # typed: false
 # frozen_string_literal: true
 
+require 'securerandom'
+
 describe WorkOS::SSO do
   describe '.authorization_url' do
     let(:args) do
@@ -34,6 +36,60 @@ describe WorkOS::SSO do
         'foo.com%2Fauth%2Fcallback&response_type=code&' \
         'state=%7B%3Anext_page%3D%3E%22%2Fdashboard%2Fedit%22%7D',
       )
+    end
+  end
+
+  describe '.profile' do
+    before do
+      WorkOS.key = 'api-key'
+    end
+
+    let(:args) do
+      {
+        code: SecureRandom.hex(10),
+        project_id: 'workos-proj-123',
+        redirect_uri: 'foo.com/auth/callback'
+      }
+    end
+
+    let(:query) do
+      {
+        client_id: args[:project_id],
+        client_secret: WorkOS.key,
+        code: args[:code],
+        grant_type: 'authorization_code',
+        redirect_uri: args[:redirect_uri]
+      }
+    end
+
+    context 'with a successful response' do
+      let(:body) { File.read("#{SPEC_ROOT}/support/profile.txt") }
+
+      before do
+        stub_request(:post, 'https://api.workos.com/sso/token').
+          with(query: query).
+          to_return(status: 200, body: body)
+      end
+
+      it 'returns a WorkOS::Profile' do
+        profile = described_class.profile(**args)
+
+        expect(profile).to be_a(WorkOS::Profile)
+      end
+    end
+
+    context 'with an unprocessable request' do
+      before do
+        stub_request(:post, 'https://api.workos.com/sso/token').
+          with(query: query).
+          to_return(status: 422, body: '{"message": "some error message"}')
+      end
+
+      it 'rasies an exception?' do
+        expect do
+          described_class.profile(**args)
+        end.to raise_error(WorkOS::RequestError, 'some error message')
+      end
     end
   end
 end
