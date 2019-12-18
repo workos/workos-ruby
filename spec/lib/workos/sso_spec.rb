@@ -85,7 +85,7 @@ describe WorkOS::SSO do
           to_return(status: 422, body: {"message": "some error message"}.to_json)
       end
 
-      it 'rasies an exception' do
+      it 'raises an exception' do
         expect do
           described_class.profile(**args)
         end.to raise_error(WorkOS::RequestError, 'some error message')
@@ -101,7 +101,7 @@ describe WorkOS::SSO do
       }.to_json)
       end
 
-      it 'rasies an exception' do
+      it 'raises an exception' do
         expect do
           described_class.profile(**args)
         end.to raise_error(

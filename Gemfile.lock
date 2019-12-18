@@ -1,11 +1,7 @@
 PATH
   remote: .
   specs:
-    workos (0.0.1)
-<<<<<<< HEAD
-=======
-      rack (~> 1.6.4)
->>>>>>> master
+    workos (0.0.2)
       sorbet-runtime
 
 GEM
@@ -24,15 +20,11 @@ GEM
     docile (1.3.2)
     hashdiff (1.0.0)
     jaro_winkler (1.5.4)
-    json (2.2.0)
+    json (2.3.0)
     parallel (1.19.1)
     parser (2.6.5.0)
       ast (~> 2.4.0)
     public_suffix (4.0.1)
-<<<<<<< HEAD
-=======
-    rack (1.6.11)
->>>>>>> master
     rainbow (3.0.0)
     rake (13.0.1)
     rspec (3.9.0)
@@ -62,10 +54,10 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
-    sorbet (0.4.5135)
-      sorbet-static (= 0.4.5135)
+    sorbet (0.4.5158)
+      sorbet-static (= 0.4.5158)
     sorbet-runtime (0.4.5158)
-    sorbet-static (0.4.5135-universal-darwin-14)
+    sorbet-static (0.4.5158-universal-darwin-14)
     unicode-display_width (1.6.0)
     url (0.3.2)
     webmock (3.7.6)
