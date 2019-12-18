@@ -15,6 +15,6 @@ blocks:
         - name: Publish to Rubygems
           commands:
             - checkout --use-cache
-            - gem install rake
+            - gem install bundler
             - bundle exec gem build workos --output=release.gem
             - bundle exec gem push release.gem
