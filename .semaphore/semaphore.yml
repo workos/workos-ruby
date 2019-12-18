@@ -12,6 +12,7 @@ blocks:
           commands:
             - checkout
             - sem-version ruby 2.3.4
+            - gem install bundler
             - bundle install
             - bundle exec srb tc
   - name: Run Rubocop 🚔

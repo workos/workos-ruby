@@ -82,13 +82,36 @@ describe WorkOS::SSO do
       before do
         stub_request(:post, 'https://api.workos.com/sso/token').
           with(query: query).
-          to_return(status: 422, body: '{"message": "some error message"}')
+          to_return(
+            status: 422,
+            body: { "message": 'some error message' }.to_json,
+          )
       end
 
-      it 'rasies an exception?' do
+      it 'raises an exception' do
         expect do
           described_class.profile(**args)
         end.to raise_error(WorkOS::RequestError, 'some error message')
+      end
+    end
+
+    context 'with an expired code' do
+      before do
+        stub_request(:post, 'https://api.workos.com/sso/token').
+          with(query: query).
+          to_return(status: 201, body: {
+            message: "The code '01DVX3C5Z367SFHR8QNDMK7V24'" \
+              ' has expired or is invalid.'
+          }.to_json,)
+      end
+
+      it 'raises an exception' do
+        expect do
+          described_class.profile(**args)
+        end.to raise_error(
+          WorkOS::RequestError,
+          "The code '01DVX3C5Z367SFHR8QNDMK7V24' has expired or is invalid.",
+        )
       end
     end
   end

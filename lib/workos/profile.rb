@@ -34,6 +34,17 @@ module WorkOS
       [first_name, last_name].compact.join(' ')
     end
 
+    def to_json
+      {
+        id: id,
+        email: email,
+        first_name: first_name,
+        last_name: last_name,
+        connection_type: connection_type,
+        idp_id: idp_id,
+      }
+    end
+
     private
 
     sig { params(json_string: String).returns(WorkOS::Types::ProfileStruct) }
