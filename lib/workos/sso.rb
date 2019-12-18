@@ -3,7 +3,6 @@
 
 
 require 'net/http'
-require 'rack/utils'
 require 'uri'
 
 module WorkOS
@@ -54,7 +53,7 @@ module WorkOS
       #
       # @return [String]
       def authorization_url(domain:, project_id:, redirect_uri:, state: {})
-        query = Rack::Utils.build_query(
+        query = URI.encode_www_form(
           domain: domain,
           client_id: project_id,
           redirect_uri: redirect_uri,
@@ -99,7 +98,7 @@ module WorkOS
       #
       # @return [WorkOS::Profile]
       def profile(code:, project_id:, redirect_uri:)
-        query = Rack::Utils.build_query(
+        query = URI.encode_www_form(
           client_id: project_id,
           client_secret: WorkOS.key!,
           redirect_uri: redirect_uri,
@@ -127,14 +126,14 @@ module WorkOS
 
       sig { params(response: Net::HTTPResponse).void }
       def check_and_raise_error(response:)
-        return if response.is_a? Net::HTTPOK
-
         begin
-          message = JSON.parse(response.body)['message']
+          body = JSON.parse(response.body)
+          return if body['profile']
+
+          message = body['message']
         rescue StandardError
           message = 'Something went wrong'
         end
-
         raise WorkOS::RequestError, message
       end
     end
