@@ -134,7 +134,6 @@ module WorkOS
         rescue StandardError
           message = 'Something went wrong'
         end
-
         raise WorkOS::RequestError, message
       end
     end
