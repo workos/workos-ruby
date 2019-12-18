@@ -314,6 +314,7 @@ the response.</p>
       <pre class="lines">
 
 
+55
 56
 57
 58
@@ -323,14 +324,13 @@ the response.</p>
 62
 63
 64
-65
-66</pre>
+65</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/workos/sso.rb', line 56</span>
+      <pre class="code"><span class="info file"># File 'lib/workos/sso.rb', line 55</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_authorization_url'>authorization_url</span><span class='lparen'>(</span><span class='label'>domain:</span><span class='comma'>,</span> <span class='label'>project_id:</span><span class='comma'>,</span> <span class='label'>redirect_uri:</span><span class='comma'>,</span> <span class='label'>state:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='const'>Rack</span><span class='op'>::</span><span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_build_query'>build_query</span><span class='lparen'>(</span>
+  <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='const'>URI</span><span class='period'>.</span><span class='id identifier rubyid_encode_www_form'>encode_www_form</span><span class='lparen'>(</span>
     <span class='label'>domain:</span> <span class='id identifier rubyid_domain'>domain</span><span class='comma'>,</span>
     <span class='label'>client_id:</span> <span class='id identifier rubyid_project_id'>project_id</span><span class='comma'>,</span>
     <span class='label'>redirect_uri:</span> <span class='id identifier rubyid_redirect_uri'>redirect_uri</span><span class='comma'>,</span>
@@ -459,6 +459,7 @@ step.</p>
       <pre class="lines">
 
 
+100
 101
 102
 103
@@ -471,14 +472,13 @@ step.</p>
 110
 111
 112
-113
-114</pre>
+113</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/workos/sso.rb', line 101</span>
+      <pre class="code"><span class="info file"># File 'lib/workos/sso.rb', line 100</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_profile'>profile</span><span class='lparen'>(</span><span class='label'>code:</span><span class='comma'>,</span> <span class='label'>project_id:</span><span class='comma'>,</span> <span class='label'>redirect_uri:</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='const'>Rack</span><span class='op'>::</span><span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_build_query'>build_query</span><span class='lparen'>(</span>
+  <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='const'>URI</span><span class='period'>.</span><span class='id identifier rubyid_encode_www_form'>encode_www_form</span><span class='lparen'>(</span>
     <span class='label'>client_id:</span> <span class='id identifier rubyid_project_id'>project_id</span><span class='comma'>,</span>
     <span class='label'>client_secret:</span> <span class='const'><span class='object_link'><a href="../WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_key!'><span class='object_link'><a href="../WorkOS.html#key!-class_method" title="WorkOS.key! (method)">key!</a></span></span><span class='comma'>,</span>
     <span class='label'>redirect_uri:</span> <span class='id identifier rubyid_redirect_uri'>redirect_uri</span><span class='comma'>,</span>
@@ -501,7 +501,7 @@ step.</p>
 </div>
 
       <div id="footer">
-  Generated on Thu Dec 12 17:15:23 2019 by
+  Generated on Wed Dec 18 08:25:19 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.4.9).
 </div>
