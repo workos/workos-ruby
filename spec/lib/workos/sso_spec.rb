@@ -11,8 +11,8 @@ describe WorkOS::SSO do
         project_id: 'workos-proj-123',
         redirect_uri: 'foo.com/auth/callback',
         state: {
-          next_page: '/dashboard/edit'
-        }
+          next_page: '/dashboard/edit',
+        },
       }
     end
 
@@ -99,7 +99,7 @@ describe WorkOS::SSO do
           with(query: query).
           to_return(status: 201, body: {
             message: "The code '01DVX3C5Z367SFHR8QNDMK7V24'" \
-              ' has expired or is invalid.'
+              ' has expired or is invalid.',
           }.to_json,)
       end
 
