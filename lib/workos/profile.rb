@@ -34,7 +34,7 @@ module WorkOS
       [first_name, last_name].compact.join(' ')
     end
 
-    def to_json
+    def to_json(*)
       {
         id: id,
         email: email,
