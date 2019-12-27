@@ -19,5 +19,6 @@ blocks:
             - gem update --system
             - gem install bundler
             - bundle install
+            - chmod 0600 /home/semaphore/.gem/credentials
             - bundle exec gem build workos --output=release.gem
             - bundle exec gem push release.gem
