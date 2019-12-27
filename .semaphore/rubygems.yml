@@ -15,6 +15,7 @@ blocks:
         - name: Publish to Rubygems
           commands:
             - checkout
+            - sem-version ruby 2.6.5
             - gem install bundler
             - bundle install
             - bundle exec gem build workos --output=release.gem
