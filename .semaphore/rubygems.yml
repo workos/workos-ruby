@@ -14,7 +14,7 @@ blocks:
       jobs:
         - name: Publish to Rubygems
           commands:
-            - checkout --use-cache
+            - checkout
             - gem install bundler
             - bundle install
             - bundle exec gem build workos --output=release.gem
