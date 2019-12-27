@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     workos (0.0.2)
-      sorbet-runtime (= 0.4.5144)
+      sorbet-runtime (~> 0.5)
 
 GEM
   remote: https://rubygems.org/
@@ -22,9 +22,9 @@ GEM
     jaro_winkler (1.5.4)
     json (2.3.0)
     parallel (1.19.1)
-    parser (2.6.5.0)
+    parser (2.7.0.0)
       ast (~> 2.4.0)
-    public_suffix (4.0.1)
+    public_suffix (4.0.2)
     rainbow (3.0.0)
     rake (13.0.1)
     rspec (3.9.0)
@@ -40,7 +40,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.9.0)
     rspec-support (3.9.0)
-    rubocop (0.77.0)
+    rubocop (0.78.0)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
       parser (>= 2.6)
@@ -54,10 +54,10 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
-    sorbet (0.4.5144)
-      sorbet-static (= 0.4.5144)
-    sorbet-runtime (0.4.5144)
-    sorbet-static (0.4.5144-universal-darwin-14)
+    sorbet (0.5.5181)
+      sorbet-static (= 0.5.5181)
+    sorbet-runtime (0.5.5181)
+    sorbet-static (0.5.5181-universal-darwin-14)
     unicode-display_width (1.6.0)
     url (0.3.2)
     webmock (3.7.6)
@@ -69,14 +69,14 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bundler (~> 2.0.1)
+  bundler (>= 2.0.1)
   codecov (~> 0.1.16)
   rake
   rspec (~> 3.9.0)
   rubocop (~> 0.77)
-  sorbet (= 0.4.5144)
+  sorbet (~> 0.5)
   webmock
   workos!
 
 BUNDLED WITH
-   2.0.2
+   2.1.2
