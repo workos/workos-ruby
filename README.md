@@ -33,7 +33,7 @@ gem build workos.gemspec
   WorkOS::SSO.profile(
       code: 'acme.com',
       project_id: 'project_01DG5TGK363GRVXP3ZS40WNGEZ',
-      redirect_uri: 'https://workos.com/callbaack'
+      redirect_uri: 'https://workos.com/callback'
   )
   ```
 
