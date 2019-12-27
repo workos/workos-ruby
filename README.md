@@ -23,7 +23,7 @@ gem build workos.gemspec
 
 # Release Notes
 
-### December 27, 2019
+### v0.1.0, December 27, 2019
 
 - Removed the `redirect_uri` parameter from the `WorkOS::SSO.profile` function. Migrating existing code just requires removing the existing parameter:
 
