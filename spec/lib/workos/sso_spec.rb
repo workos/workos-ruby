@@ -47,8 +47,7 @@ describe WorkOS::SSO do
     let(:args) do
       {
         code: SecureRandom.hex(10),
-        project_id: 'workos-proj-123',
-        redirect_uri: 'foo.com/auth/callback'
+        project_id: 'workos-proj-123'
       }
     end
 
@@ -57,8 +56,7 @@ describe WorkOS::SSO do
         client_id: args[:project_id],
         client_secret: WorkOS.key,
         code: args[:code],
-        grant_type: 'authorization_code',
-        redirect_uri: args[:redirect_uri]
+        grant_type: 'authorization_code'
       }
     end
 
