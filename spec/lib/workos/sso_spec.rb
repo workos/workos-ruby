@@ -11,8 +11,8 @@ describe WorkOS::SSO do
         project_id: 'workos-proj-123',
         redirect_uri: 'foo.com/auth/callback',
         state: {
-          next_page: '/dashboard/edit'
-        }
+          next_page: '/dashboard/edit',
+        },
       }
     end
 
@@ -48,7 +48,7 @@ describe WorkOS::SSO do
       {
         code: SecureRandom.hex(10),
         project_id: 'workos-proj-123',
-        redirect_uri: 'foo.com/auth/callback'
+        redirect_uri: 'foo.com/auth/callback',
       }
     end
 
@@ -58,7 +58,7 @@ describe WorkOS::SSO do
         client_secret: WorkOS.key,
         code: args[:code],
         grant_type: 'authorization_code',
-        redirect_uri: args[:redirect_uri]
+        redirect_uri: args[:redirect_uri],
       }
     end
 
@@ -101,7 +101,7 @@ describe WorkOS::SSO do
           with(query: query).
           to_return(status: 201, body: {
             message: "The code '01DVX3C5Z367SFHR8QNDMK7V24'" \
-              ' has expired or is invalid.'
+              ' has expired or is invalid.',
           }.to_json,)
       end
 

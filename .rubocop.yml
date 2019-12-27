@@ -8,3 +8,6 @@ Metrics/BlockLength:
   ExcludedMethods: ['describe', 'context']
 Style/TrailingCommaInArguments:
   EnforcedStyleForMultiline: 'consistent_comma'
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: 'consistent_comma'
+ 
