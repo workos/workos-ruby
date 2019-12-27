@@ -16,6 +16,7 @@ blocks:
           commands:
             - checkout
             - sem-version ruby 2.6.5
+            - gem update --system
             - gem install bundler
             - bundle install
             - bundle exec gem build workos --output=release.gem
