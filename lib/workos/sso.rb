@@ -131,10 +131,11 @@ module WorkOS
           return if body['profile']
 
           message = body['message']
+          request_id = response['x-request-id']
         rescue StandardError
           message = 'Something went wrong'
         end
-        raise WorkOS::RequestError, message
+        raise WorkOS::RequestError, "#{message} - request ID: #{request_id}"
       end
     end
   end
