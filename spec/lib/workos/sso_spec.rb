@@ -83,7 +83,7 @@ describe WorkOS::SSO do
         stub_request(:post, 'https://api.workos.com/sso/token').
           with(query: query).
           to_return(
-            headers: { 'X-Request-ID' => 'heroku-request-id' },
+            headers: { 'X-Request-ID' => 'request-id' },
             status: 422,
             body: { "message": 'some error message' }.to_json,
           )
