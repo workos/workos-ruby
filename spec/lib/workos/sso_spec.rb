@@ -118,7 +118,8 @@ describe WorkOS::SSO do
           described_class.profile(**args)
         end.to raise_error(
           WorkOS::RequestError,
-          "The code '01DVX3C5Z367SFHR8QNDMK7V24' has expired or is invalid. - request ID: request-id",
+          "The code '01DVX3C5Z367SFHR8QNDMK7V24'" \
+          ' has expired or is invalid. - request ID: request-id',
         )
       end
     end
