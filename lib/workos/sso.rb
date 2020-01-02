@@ -68,7 +68,6 @@ module WorkOS
         params(
           code: String,
           project_id: String,
-          redirect_uri: String,
         ).returns(WorkOS::Profile)
       end
 
@@ -77,14 +76,11 @@ module WorkOS
       # @param [String] code The authorization code provided in the callback URL
       # @param [String] project_id The WorkOS project ID for the project
       #  where you've  configured your SSO connection
-      # @param [String] redirect_uri The URI where the user was directed
-      #  after completing the authentication step.
       #
       # @example
       #   WorkOS::SSO.profile(
       #     code: 'acme.com',
-      #     project_id: 'project_01DG5TGK363GRVXP3ZS40WNGEZ',
-      #     redirect_uri: 'https://workos.com/callback',
+      #     project_id: 'project_01DG5TGK363GRVXP3ZS40WNGEZ'
       #   )
       #   => #<WorkOS::Profile:0x00007fb6e4193d20
       #         @id="prof_01DRA1XNSJDZ19A31F183ECQW5",
@@ -97,11 +93,10 @@ module WorkOS
       #        >
       #
       # @return [WorkOS::Profile]
-      def profile(code:, project_id:, redirect_uri:)
+      def profile(code:, project_id:)
         query = URI.encode_www_form(
           client_id: project_id,
           client_secret: WorkOS.key!,
-          redirect_uri: redirect_uri,
           grant_type: 'authorization_code',
           code: code,
         )
