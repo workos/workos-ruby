@@ -94,7 +94,7 @@ describe WorkOS::SSO do
           described_class.profile(**args)
         end.to raise_error(
           WorkOS::RequestError,
-          'some error message - request ID: heroku-request-id',
+          'some error message - request ID: request-id',
         )
       end
     end
@@ -104,12 +104,13 @@ describe WorkOS::SSO do
         stub_request(:post, 'https://api.workos.com/sso/token').
           with(query: query).
           to_return(
-            status: 201, 
-            headers: { 'X-Request-ID' => 'heroku-request-id' },
+            status: 201,
+            headers: { 'X-Request-ID' => 'request-id' },
             body: {
-            message: "The code '01DVX3C5Z367SFHR8QNDMK7V24'" \
-              ' has expired or is invalid.',
-          }.to_json,)
+              message: "The code '01DVX3C5Z367SFHR8QNDMK7V24'" \
+                ' has expired or is invalid.',
+            }.to_json,
+          )
       end
 
       it 'raises an exception' do
@@ -117,7 +118,7 @@ describe WorkOS::SSO do
           described_class.profile(**args)
         end.to raise_error(
           WorkOS::RequestError,
-          "The code '01DVX3C5Z367SFHR8QNDMK7V24' has expired or is invalid. - request ID: heroku-request-id",
+          "The code '01DVX3C5Z367SFHR8QNDMK7V24' has expired or is invalid. - request ID: request-id",
         )
       end
     end
