@@ -59,16 +59,25 @@ describe WorkOS::SSO do
         code: args[:code],
         grant_type: 'authorization_code',
         redirect_uri: args[:redirect_uri],
-      }
+    }
     end
+
+    let(:headers) { { 'X-SDK-VERSION' => WorkOS::VERSION }}
 
     context 'with a successful response' do
       let(:body) { File.read("#{SPEC_ROOT}/support/profile.txt") }
 
       before do
         stub_request(:post, 'https://api.workos.com/sso/token').
-          with(query: query).
+          with(query: query, headers: headers).
           to_return(status: 200, body: body)
+      end
+
+      it 'includes the SDK Version header' do
+        profile = described_class.profile(**args)
+
+        expect(a_request(:post, 'https://api.workos.com/sso/token').
+          with(query: query, headers: headers)).to have_been_made
       end
 
       it 'returns a WorkOS::Profile' do
@@ -81,7 +90,7 @@ describe WorkOS::SSO do
     context 'with an unprocessable request' do
       before do
         stub_request(:post, 'https://api.workos.com/sso/token').
-          with(query: query).
+          with(query: query, headers: headers).
           to_return(
             status: 422,
             body: { "message": 'some error message' }.to_json,
