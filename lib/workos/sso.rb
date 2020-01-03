@@ -127,8 +127,20 @@ module WorkOS
       sig { params(path: String).returns(Net::HTTP::Post) }
       def post_request(path:)
         request = Net::HTTP::Post.new(path)
-        request['X-SDK-VERSION'] = WorkOS::VERSION
+        request['User-Agent'] = user_agent
         request
+      end
+
+      sig { returns(String) }
+      def user_agent
+        engine = defined?(::RUBY_ENGINE) ? ::RUBY_ENGINE : 'Ruby'
+
+        [
+          'WorkOS',
+          "#{engine}/#{RUBY_VERSION}",
+          RUBY_PLATFORM,
+          "v#{WorkOS::VERSION}"
+        ].join('; ')
       end
 
       sig { params(response: Net::HTTPResponse).void }

@@ -61,8 +61,11 @@ describe WorkOS::SSO do
         redirect_uri: args[:redirect_uri],
       }
     end
-
-    let(:headers) { { 'X-SDK-VERSION' => WorkOS::VERSION } }
+    let(:user_agent) { 'user-agent-string' }
+    let(:headers) { { 'User-Agent' => user_agent } }
+    before do
+      allow(described_class).to receive(:user_agent).and_return(user_agent)
+    end
 
     context 'with a successful response' do
       let(:body) { File.read("#{SPEC_ROOT}/support/profile.txt") }
