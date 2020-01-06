@@ -59,14 +59,26 @@ describe WorkOS::SSO do
         grant_type: 'authorization_code'
       }
     end
+    let(:user_agent) { 'user-agent-string' }
+    let(:headers) { { 'User-Agent' => user_agent } }
+    before do
+      allow(described_class).to receive(:user_agent).and_return(user_agent)
+    end
 
     context 'with a successful response' do
       let(:body) { File.read("#{SPEC_ROOT}/support/profile.txt") }
 
       before do
         stub_request(:post, 'https://api.workos.com/sso/token').
-          with(query: query).
+          with(query: query, headers: headers).
           to_return(status: 200, body: body)
+      end
+
+      it 'includes the SDK Version header' do
+        described_class.profile(**args)
+
+        expect(a_request(:post, 'https://api.workos.com/sso/token').
+          with(query: query, headers: headers)).to have_been_made
       end
 
       it 'returns a WorkOS::Profile' do
@@ -79,7 +91,7 @@ describe WorkOS::SSO do
     context 'with an unprocessable request' do
       before do
         stub_request(:post, 'https://api.workos.com/sso/token').
-          with(query: query).
+          with(query: query, headers: headers).
           to_return(
             headers: { 'X-Request-ID' => 'request-id' },
             status: 422,
