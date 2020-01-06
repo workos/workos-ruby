@@ -101,7 +101,7 @@ module WorkOS
           code: code,
         )
 
-        response = client.request(Net::HTTP::Post.new("/sso/token?#{query}"))
+        response = client.request(post_request(path: "/sso/token?#{query}"))
         check_and_raise_error(response: response)
 
         WorkOS::Profile.new(response.body)
@@ -117,6 +117,25 @@ module WorkOS
         @client.use_ssl = true
 
         @client
+      end
+
+      sig { params(path: String).returns(Net::HTTP::Post) }
+      def post_request(path:)
+        request = Net::HTTP::Post.new(path)
+        request['User-Agent'] = user_agent
+        request
+      end
+
+      sig { returns(String) }
+      def user_agent
+        engine = defined?(::RUBY_ENGINE) ? ::RUBY_ENGINE : 'Ruby'
+
+        [
+          'WorkOS',
+          "#{engine}/#{RUBY_VERSION}",
+          RUBY_PLATFORM,
+          "v#{WorkOS::VERSION}"
+        ].join('; ')
       end
 
       sig { params(response: Net::HTTPResponse).void }
