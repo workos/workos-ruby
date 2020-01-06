@@ -47,8 +47,7 @@ describe WorkOS::SSO do
     let(:args) do
       {
         code: SecureRandom.hex(10),
-        project_id: 'workos-proj-123',
-        redirect_uri: 'foo.com/auth/callback',
+        project_id: 'workos-proj-123'
       }
     end
 
@@ -57,8 +56,7 @@ describe WorkOS::SSO do
         client_id: args[:project_id],
         client_secret: WorkOS.key,
         code: args[:code],
-        grant_type: 'authorization_code',
-        redirect_uri: args[:redirect_uri],
+        grant_type: 'authorization_code'
       }
     end
     let(:user_agent) { 'user-agent-string' }
@@ -95,15 +93,19 @@ describe WorkOS::SSO do
         stub_request(:post, 'https://api.workos.com/sso/token').
           with(query: query, headers: headers).
           to_return(
+            headers: { 'X-Request-ID' => 'request-id' },
             status: 422,
             body: { "message": 'some error message' }.to_json,
           )
       end
 
-      it 'raises an exception' do
+      it 'raises an exception with request ID' do
         expect do
           described_class.profile(**args)
-        end.to raise_error(WorkOS::RequestError, 'some error message')
+        end.to raise_error(
+          WorkOS::RequestError,
+          'some error message - request ID: request-id',
+        )
       end
     end
 
@@ -111,10 +113,14 @@ describe WorkOS::SSO do
       before do
         stub_request(:post, 'https://api.workos.com/sso/token').
           with(query: query).
-          to_return(status: 201, body: {
-            message: "The code '01DVX3C5Z367SFHR8QNDMK7V24'" \
-              ' has expired or is invalid.',
-          }.to_json,)
+          to_return(
+            status: 201,
+            headers: { 'X-Request-ID' => 'request-id' },
+            body: {
+              message: "The code '01DVX3C5Z367SFHR8QNDMK7V24'" \
+                ' has expired or is invalid.',
+            }.to_json,
+          )
       end
 
       it 'raises an exception' do
@@ -122,7 +128,8 @@ describe WorkOS::SSO do
           described_class.profile(**args)
         end.to raise_error(
           WorkOS::RequestError,
-          "The code '01DVX3C5Z367SFHR8QNDMK7V24' has expired or is invalid.",
+          "The code '01DVX3C5Z367SFHR8QNDMK7V24'" \
+          ' has expired or is invalid. - request ID: request-id',
         )
       end
     end

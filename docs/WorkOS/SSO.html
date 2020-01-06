@@ -6,15 +6,15 @@
 <title>
   Module: WorkOS::SSO
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.22
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "WorkOS::SSO";
   relpath = '../';
 </script>
@@ -151,7 +151,7 @@ using the configured SSO Identity Provider.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#profile-class_method" title="profile (class method)">.<strong>profile</strong>(code:, project_id:, redirect_uri:)  &#x21d2; WorkOS::Profile </a>
+      <a href="#profile-class_method" title="profile (class method)">.<strong>profile</strong>(code:, project_id:)  &#x21d2; WorkOS::Profile </a>
     
 
     
@@ -283,6 +283,8 @@ Must match a configured redirect URI on your WorkOS dashboard</p>
         <span class='type'>(<tt>Hash</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -348,7 +350,7 @@ the response.</p>
       <div class="method_details ">
   <h3 class="signature " id="profile-class_method">
   
-    .<strong>profile</strong>(code:, project_id:, redirect_uri:)  &#x21d2; <tt><span class='object_link'><a href="Profile.html" title="WorkOS::Profile (class)">WorkOS::Profile</a></span></tt> 
+    .<strong>profile</strong>(code:, project_id:)  &#x21d2; <tt><span class='object_link'><a href="Profile.html" title="WorkOS::Profile (class)">WorkOS::Profile</a></span></tt> 
   
 
   
@@ -370,8 +372,7 @@ the response.</p>
       
       <pre class="example code"><code>WorkOS::SSO.profile(
   code: &#39;acme.com&#39;,
-  project_id: &#39;project_01DG5TGK363GRVXP3ZS40WNGEZ&#39;,
-  redirect_uri: &#39;https://workos.com/callback&#39;,
+  project_id: &#39;project_01DG5TGK363GRVXP3ZS40WNGEZ&#39;
 )
 =&gt; #&lt;WorkOS::Profile:0x00007fb6e4193d20
       @id=&quot;prof_01DRA1XNSJDZ19A31F183ECQW5&quot;,
@@ -420,23 +421,6 @@ connection</p>
       
     </li>
   
-    <li>
-      
-        <span class='name'>redirect_uri</span>
-      
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>The URI where the user was directed after completing the authentication
-step.</p>
-</div>
-      
-    </li>
-  
 </ul>
 
 <p class="tag_title">Returns:</p>
@@ -459,6 +443,10 @@ step.</p>
       <pre class="lines">
 
 
+96
+97
+98
+99
 100
 101
 102
@@ -467,21 +455,15 @@ step.</p>
 105
 106
 107
-108
-109
-110
-111
-112
-113</pre>
+108</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/workos/sso.rb', line 100</span>
+      <pre class="code"><span class="info file"># File 'lib/workos/sso.rb', line 96</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_profile'>profile</span><span class='lparen'>(</span><span class='label'>code:</span><span class='comma'>,</span> <span class='label'>project_id:</span><span class='comma'>,</span> <span class='label'>redirect_uri:</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_profile'>profile</span><span class='lparen'>(</span><span class='label'>code:</span><span class='comma'>,</span> <span class='label'>project_id:</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='const'>URI</span><span class='period'>.</span><span class='id identifier rubyid_encode_www_form'>encode_www_form</span><span class='lparen'>(</span>
     <span class='label'>client_id:</span> <span class='id identifier rubyid_project_id'>project_id</span><span class='comma'>,</span>
     <span class='label'>client_secret:</span> <span class='const'><span class='object_link'><a href="../WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_key!'><span class='object_link'><a href="../WorkOS.html#key!-class_method" title="WorkOS.key! (method)">key!</a></span></span><span class='comma'>,</span>
-    <span class='label'>redirect_uri:</span> <span class='id identifier rubyid_redirect_uri'>redirect_uri</span><span class='comma'>,</span>
     <span class='label'>grant_type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>authorization_code</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
     <span class='label'>code:</span> <span class='id identifier rubyid_code'>code</span><span class='comma'>,</span>
   <span class='rparen'>)</span>
@@ -501,9 +483,9 @@ step.</p>
 </div>
 
       <div id="footer">
-  Generated on Wed Dec 18 08:33:35 2019 by
+  Generated on Thu Jan  2 17:24:40 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.4.9).
+  0.9.22 (ruby-2.3.7).
 </div>
 
     </div>
