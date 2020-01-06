@@ -1,4 +1,5 @@
-# workos-rb
+# workos-ruby [![codecov](https://codecov.io/gh/workos-inc/workos-ruby/branch/master/graph/badge.svg)](https://codecov.io/gh/workos-inc/workos-ruby)
+
 WorkOS official Ruby gem for interacting with WorkOS APIs
 
 ## Documentation
