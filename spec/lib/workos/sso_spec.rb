@@ -1,5 +1,5 @@
-# typed: false
 # frozen_string_literal: true
+# typed: false
 
 require 'securerandom'
 
@@ -103,7 +103,7 @@ describe WorkOS::SSO do
         expect do
           described_class.profile(**args)
         end.to raise_error(
-          WorkOS::RequestError,
+          WorkOS::APIError,
           'some error message - request ID: request-id',
         )
       end
@@ -127,7 +127,7 @@ describe WorkOS::SSO do
         expect do
           described_class.profile(**args)
         end.to raise_error(
-          WorkOS::RequestError,
+          WorkOS::APIError,
           "The code '01DVX3C5Z367SFHR8QNDMK7V24'" \
           ' has expired or is invalid. - request ID: request-id',
         )

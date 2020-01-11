@@ -1,17 +1,16 @@
 # frozen_string_literal: true
 # typed: true
 
-
 require 'net/http'
 require 'uri'
 
 module WorkOS
   # The SSO module provides convenience methods for working with the WorkOS
-  # SSO service. You'll need a valid API key, a project ID, and to have
+  # SSO platform. You'll need a valid API key, a project ID, and to have
   # created an SSO connection on your WorkOS dashboard.
   #
   # @see https://dashboard.workos.com/docs/sso/what-is-sso
-  module SSO
+  class SSO < Base
     class << self
       extend T::Sig
 
@@ -28,12 +27,12 @@ module WorkOS
       # authenticate using the configured SSO Identity Provider.
       #
       # @param [String] domain The domain for the relevant SSO Connection
-      #  configured on your WorkOS dashboard
+      #  configured on your WorkOS dashboard.
       # @param [String] project_id The WorkOS project ID for the project
-      #  where you've  configured your SSO connection
+      #  where you've configured your SSO connection.
       # @param [String] redirect_uri The URI where users are directed
       #  after completing the authentication step. Must match a
-      #  configured redirect URI on your WorkOS dashboard
+      #  configured redirect URI on your WorkOS dashboard.
       # @param [Hash] state An aribtrary state object
       #  that is preserved and available to the client in the response.
       # @example
@@ -109,35 +108,6 @@ module WorkOS
 
       private
 
-      sig { returns(Net::HTTP) }
-      def client
-        return @client if defined?(@client)
-
-        @client = Net::HTTP.new(WorkOS::API_HOSTNAME, 443)
-        @client.use_ssl = true
-
-        @client
-      end
-
-      sig { params(path: String).returns(Net::HTTP::Post) }
-      def post_request(path:)
-        request = Net::HTTP::Post.new(path)
-        request['User-Agent'] = user_agent
-        request
-      end
-
-      sig { returns(String) }
-      def user_agent
-        engine = defined?(::RUBY_ENGINE) ? ::RUBY_ENGINE : 'Ruby'
-
-        [
-          'WorkOS',
-          "#{engine}/#{RUBY_VERSION}",
-          RUBY_PLATFORM,
-          "v#{WorkOS::VERSION}"
-        ].join('; ')
-      end
-
       sig { params(response: Net::HTTPResponse).void }
       def check_and_raise_error(response:)
         begin
@@ -149,7 +119,9 @@ module WorkOS
         rescue StandardError
           message = 'Something went wrong'
         end
-        raise WorkOS::RequestError, "#{message} - request ID: #{request_id}"
+
+
+        raise APIError.new(message, http_status: nil, request_id: request_id)
       end
     end
   end
