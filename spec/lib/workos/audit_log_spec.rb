@@ -30,7 +30,7 @@ describe WorkOS::AuditLog do
       end
 
       context 'with idempotency key' do
-        context 'when idempotency keyis used once' do
+        context 'when idempotency key is used once' do
           it 'creates an event' do
             VCR.use_cassette('audit_log/create_event_custom_idempotency_key') do
               response = described_class.create_event(event: valid_event, idempotency_key: 'key')
@@ -81,8 +81,8 @@ describe WorkOS::AuditLog do
       end
 
       context 'with no idempotency key' do
-        it 'generates an idempotency key and creates an event' do
-          VCR.use_cassette('audit_log/create_event_auto_generated_idempotency_key') do
+        it 'creates an event' do
+          VCR.use_cassette('audit_log/create_event') do
             response = described_class.create_event(event: valid_event)
 
             expect(response.code).to eq '201'

@@ -18,8 +18,6 @@ http_interactions:
       - WorkOS; ruby/2.6.5; x86_64-darwin19; v0.1.0
       Authorization:
       - Bearer <API_KEY>
-      Idempotency-Key:
-      - 6ea02011-83fb-4723-8b46-89799c4a0bc3
   response:
     status:
       code: 201

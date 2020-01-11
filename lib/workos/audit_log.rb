@@ -2,7 +2,6 @@
 # typed: true
 
 require 'net/http'
-require 'securerandom'
 require 'uri'
 
 module WorkOS
@@ -59,7 +58,7 @@ module WorkOS
       def post_request(path:, idempotency_key: nil, body: nil)
         request = super(path: path, body: body)
         request['Authorization'] = "Bearer #{WorkOS.key}"
-        request['Idempotency-Key'] = idempotency_key || SecureRandom.uuid
+        request['Idempotency-Key'] = idempotency_key if idempotency_key
         request
       end
     end

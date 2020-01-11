@@ -5,7 +5,7 @@ module WorkOS
     attr_reader :http_status
     attr_reader :request_id
 
-    # Initializes a StripeError.
+    # Initializes a WorkOSError.
     def initialize(message = nil, http_status: nil, request_id: nil)
       @message = message
       @http_status = http_status
