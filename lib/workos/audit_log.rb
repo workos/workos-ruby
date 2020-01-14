@@ -9,9 +9,11 @@ module WorkOS
   # WorkOS Audit Log platform. You'll need a valid API key.
   #
   # @see https://dashboard.workos.com/docs/audit-log/quickstart
-  class AuditLog < Base
+  module AuditLog
     class << self
       extend T::Sig
+      include Base
+      include Client
 
       sig do
         params(event: Hash, idempotency_key: T.nilable(String)).returns(::T.untyped)

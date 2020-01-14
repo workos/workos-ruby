@@ -10,9 +10,11 @@ module WorkOS
   # created an SSO connection on your WorkOS dashboard.
   #
   # @see https://dashboard.workos.com/docs/sso/what-is-sso
-  class SSO < Base
+  module SSO
     class << self
       extend T::Sig
+      include Base
+      include Client
 
       sig do
         params(

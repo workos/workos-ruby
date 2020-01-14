@@ -2,8 +2,11 @@
 # typed: false
 
 module WorkOS
-  class Test < Base
+  module Test
     class << self
+      include Base
+      include Client
+
       def request
         execute_request(request: post_request(path: '/events', body: {}))
       end
