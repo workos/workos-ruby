@@ -54,14 +54,14 @@ module WorkOS
 
       options = {
         http_status: http_status,
-        request_id: response['x-request-id']
+        request_id: response['x-request-id'],
       }
 
       case http_status
       when 400
         raise InvalidRequestError.new(json['message'], **options)
       when 401
-        message = "Unauthorized (check your API key)"
+        message = 'Unauthorized (check your API key)'
         raise AuthenticationError.new(json['message'], **options)
       when 422
         errors = json['errors'].map { |error| "#{error['field']}: #{error['code']}" }.join('; ')

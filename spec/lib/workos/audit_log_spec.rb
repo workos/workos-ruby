@@ -25,7 +25,7 @@ describe WorkOS::AuditLog do
           occurred_at: '2020-01-10T15:30:00-05:00',
           metadata: {
             a: 'b',
-          }
+          },
         }
       end
 
@@ -68,11 +68,11 @@ describe WorkOS::AuditLog do
                 payload = valid_event.clone
                 payload[:actor_name] = 'Tetsuya Sugaya'
 
-                expect {
+                expect do
                   described_class.create_event(event: payload, idempotency_key: 'bar')
-                }.to raise_error(
+                end.to raise_error(
                   WorkOS::InvalidRequestError,
-                  /Status 400, Another idempotency key \(bar\) with different request parameters was found. Please use a different idempotency key./
+                  /Status 400, Another idempotency key \(bar\) with different request parameters was found. Please use a different idempotency key./,
                 )
               end
             end
@@ -106,7 +106,7 @@ describe WorkOS::AuditLog do
           occurred_at: '2020-01-10T15:30:00-05:00',
           metadata: {
             a: 'b',
-          }
+          },
         }
       end
 
@@ -114,7 +114,7 @@ describe WorkOS::AuditLog do
         VCR.use_cassette('audit_log/create_event_invalid') do
           expect { described_class.create_event(event: invalid_event) }.to raise_error(
             WorkOS::InvalidRequestError,
-            /Status 422, Validation failed \(action_type: action_type must be a string\)/
+            /Status 422, Validation failed \(action_type: action_type must be a string\)/,
           )
         end
       end

@@ -48,7 +48,7 @@ module WorkOS
         request = post_request(
           path: '/events',
           idempotency_key: idempotency_key,
-          body: event
+          body: event,
         )
 
         execute_request(request: request)

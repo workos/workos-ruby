@@ -21,7 +21,7 @@ describe WorkOS::Base do
         VCR.use_cassette('base/execute_request_unauthenticated') do
           expect { WorkOS::Test.request }.to raise_error(
             WorkOS::AuthenticationError,
-            /Status 401, Unauthorized/
+            /Status 401, Unauthorized/,
           )
         end
       end
