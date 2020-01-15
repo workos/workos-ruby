@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-# typed: false
+# typed: true
 
 require 'simplecov'
 SimpleCov.start
@@ -16,8 +16,15 @@ require 'rubygems'
 require 'rspec'
 require 'webmock/rspec'
 require 'workos'
+require 'vcr'
 
 SPEC_ROOT = File.dirname __FILE__
+
+VCR.configure do |config|
+  config.cassette_library_dir = 'spec/support/fixtures/vcr_cassettes'
+  config.filter_sensitive_data('<API_KEY>') { WorkOS.key }
+  config.hook_into :webmock
+end
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
@@ -29,4 +36,17 @@ RSpec.configure do |config|
   end
 
   config.shared_context_metadata_behavior = :apply_to_host_groups
+
+  WebMock::API.prepend(Module.new do
+    extend self
+
+    # Disable VCR when a WebMock stub is created
+    # for clearer spec failure messaging
+    def stub_request(*args)
+      VCR.turn_off!
+      super
+    end
+  end)
+
+  config.before(:each) { VCR.turn_on! }
 end

@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-# typed: true
+# typed: strong
 
 
 module WorkOS

@@ -1,0 +1,66 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.workos.com/events
+    body:
+      encoding: UTF-8
+      string: "{}"
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/2.6.5; x86_64-darwin19; v0.1.0
+      Authorization:
+      - 'Bearer '
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Server:
+      - Cowboy
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - https://dashboard.workos-test.com
+      Vary:
+      - Origin, Accept-Encoding
+      Access-Control-Allow-Credentials:
+      - 'true'
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Download-Options:
+      - noopen
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Request-Id:
+      - 32a67a24-bfaf-4463-bf47-c407d54955d3
+      Request-Id:
+      - 32a67a24-bfaf-4463-bf47-c407d54955d3
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '26'
+      Etag:
+      - W/"1a-pljHtlo127JYJR4E/RYOPb6ucbw"
+      Date:
+      - Sat, 11 Jan 2020 03:50:27 GMT
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"message":"Unauthorized"}'
+    http_version: 
+  recorded_at: Sat, 11 Jan 2020 03:50:27 GMT
+recorded_with: VCR 5.0.0

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Module: WorkOS::SSO
+  Class: WorkOS::SSO
   
     &mdash; Documentation by YARD 0.9.22
   
@@ -59,12 +59,30 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><h1>Module: WorkOS::SSO
+      <div id="content"><h1>Class: WorkOS::SSO
   
   
   
 </h1>
 <div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="Base.html" title="WorkOS::Base (class)">Base</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next"><span class='object_link'><a href="Base.html" title="WorkOS::Base (class)">Base</a></span></li>
+          
+            <li class="next">WorkOS::SSO</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
   
 
   
@@ -91,9 +109,7 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>The SSO module provides convenience methods for working with the WorkOS SSO
-service. You&#39;ll need a valid API key, a project ID, and to have created
-an SSO connection on your WorkOS dashboard.</p>
+<p>The SSO module provides convenience methods for working with the WorkOS SSO platform. You&#39;ll need a valid API key, a project ID, and to have created an SSO connection on your WorkOS dashboard.</p>
 
 
   </div>
@@ -113,6 +129,11 @@ an SSO connection on your WorkOS dashboard.</p>
 
 
 
+
+  <h2>Instance Attribute Summary</h2>
+  
+  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="Base.html" title="WorkOS::Base (class)">Base</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Base.html#key-instance_method" title="WorkOS::Base#key (method)">#key</a></span></p>
 
 
   
@@ -141,8 +162,7 @@ an SSO connection on your WorkOS dashboard.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Generate an Oauth2 authorization URL where your users will authenticate
-using the configured SSO Identity Provider.</p>
+<p>Generate an Oauth2 authorization URL where your users will authenticate using the configured SSO Identity Provider.</p>
 </div></span>
   
 </li>
@@ -177,6 +197,13 @@ using the configured SSO Identity Provider.</p>
 
 
   
+  
+  
+  
+  
+  
+  
+  
 
   <div id="class_method_details" class="method_details_list">
     <h2>Class Method Details</h2>
@@ -194,8 +221,7 @@ using the configured SSO Identity Provider.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Generate an Oauth2 authorization URL where your users will authenticate
-using the configured SSO Identity Provider.</p>
+<p>Generate an Oauth2 authorization URL where your users will authenticate using the configured SSO Identity Provider.</p>
 
 
   </div>
@@ -235,8 +261,7 @@ using the configured SSO Identity Provider.</p>
       
         &mdash;
         <div class='inline'>
-<p>The domain for the relevant SSO Connection configured on your WorkOS
-dashboard</p>
+<p>The domain for the relevant SSO Connection configured on your WorkOS dashboard.</p>
 </div>
       
     </li>
@@ -252,8 +277,7 @@ dashboard</p>
       
         &mdash;
         <div class='inline'>
-<p>The WorkOS project ID for the project where you&#39;ve  configured your SSO
-connection</p>
+<p>The WorkOS project ID for the project where you&#39;ve configured your SSO connection.</p>
 </div>
       
     </li>
@@ -269,8 +293,7 @@ connection</p>
       
         &mdash;
         <div class='inline'>
-<p>The URI where users are directed after completing the authentication step.
-Must match a configured redirect URI on your WorkOS dashboard</p>
+<p>The URI where users are directed after completing the authentication step. Must match a configured redirect URI on your WorkOS dashboard.</p>
 </div>
       
     </li>
@@ -288,8 +311,7 @@ Must match a configured redirect URI on your WorkOS dashboard</p>
       
         &mdash;
         <div class='inline'>
-<p>An aribtrary state object that is preserved and available to the client in
-the response.</p>
+<p>An aribtrary state object that is preserved and available to the client in the response.</p>
 </div>
       
     </li>
@@ -316,6 +338,7 @@ the response.</p>
       <pre class="lines">
 
 
+54
 55
 56
 57
@@ -325,11 +348,10 @@ the response.</p>
 61
 62
 63
-64
-65</pre>
+64</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/workos/sso.rb', line 55</span>
+      <pre class="code"><span class="info file"># File 'lib/workos/sso.rb', line 54</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_authorization_url'>authorization_url</span><span class='lparen'>(</span><span class='label'>domain:</span><span class='comma'>,</span> <span class='label'>project_id:</span><span class='comma'>,</span> <span class='label'>redirect_uri:</span><span class='comma'>,</span> <span class='label'>state:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='const'>URI</span><span class='period'>.</span><span class='id identifier rubyid_encode_www_form'>encode_www_form</span><span class='lparen'>(</span>
@@ -415,8 +437,7 @@ the response.</p>
       
         &mdash;
         <div class='inline'>
-<p>The WorkOS project ID for the project where you&#39;ve  configured your SSO
-connection</p>
+<p>The WorkOS project ID for the project where you&#39;ve  configured your SSO connection</p>
 </div>
       
     </li>
@@ -443,6 +464,7 @@ connection</p>
       <pre class="lines">
 
 
+95
 96
 97
 98
@@ -454,11 +476,10 @@ connection</p>
 104
 105
 106
-107
-108</pre>
+107</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/workos/sso.rb', line 96</span>
+      <pre class="code"><span class="info file"># File 'lib/workos/sso.rb', line 95</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_profile'>profile</span><span class='lparen'>(</span><span class='label'>code:</span><span class='comma'>,</span> <span class='label'>project_id:</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='const'>URI</span><span class='period'>.</span><span class='id identifier rubyid_encode_www_form'>encode_www_form</span><span class='lparen'>(</span>
@@ -468,7 +489,7 @@ connection</p>
     <span class='label'>code:</span> <span class='id identifier rubyid_code'>code</span><span class='comma'>,</span>
   <span class='rparen'>)</span>
 
-  <span class='id identifier rubyid_response'>response</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_request'>request</span><span class='lparen'>(</span><span class='const'>Net</span><span class='op'>::</span><span class='const'>HTTP</span><span class='op'>::</span><span class='const'>Post</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/sso/token?</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_query'>query</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_response'>response</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_request'>request</span><span class='lparen'>(</span><span class='id identifier rubyid_post_request'>post_request</span><span class='lparen'>(</span><span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/sso/token?</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_query'>query</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_check_and_raise_error'>check_and_raise_error</span><span class='lparen'>(</span><span class='label'>response:</span> <span class='id identifier rubyid_response'>response</span><span class='rparen'>)</span>
 
   <span class='const'><span class='object_link'><a href="../WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Profile.html" title="WorkOS::Profile (class)">Profile</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Profile.html#initialize-instance_method" title="WorkOS::Profile#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span><span class='rparen'>)</span>
@@ -483,9 +504,9 @@ connection</p>
 </div>
 
       <div id="footer">
-  Generated on Thu Jan  2 17:24:40 2020 by
+  Generated on Sat Jan 11 00:11:46 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.22 (ruby-2.3.7).
+  0.9.22 (ruby-2.6.5).
 </div>
 
     </div>

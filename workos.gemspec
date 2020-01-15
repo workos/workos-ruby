@@ -27,6 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec', '~> 3.9.0'
   spec.add_development_dependency 'rubocop', '~> 0.77'
   spec.add_development_dependency 'sorbet', '~> 0.5'
+  spec.add_development_dependency 'vcr', '~> 5.0.0'
   spec.add_development_dependency 'webmock'
   spec.add_development_dependency 'yard'
 end
