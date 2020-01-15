@@ -2,20 +2,21 @@
 # typed: true
 
 module WorkOS
+  # rubocop:disable Style/Documentation
   class WorkOSError < StandardError
     extend T::Sig
 
     attr_reader :http_status
     attr_reader :request_id
 
-    sig {
+    sig do
       params(
         message: T.nilable(String),
         http_status: T.nilable(Integer),
-        request_id: T.nilable(String)
+        request_id: T.nilable(String),
       ).void
-    }
-    def initialize(message: message = nil, http_status: nil, request_id: nil)
+    end
+    def initialize(message: nil, http_status: nil, request_id: nil)
       @message = message
       @http_status = http_status
       @request_id = request_id
@@ -42,4 +43,6 @@ module WorkOS
   # InvalidRequestError is raised when a request is initiated with invalid
   # parameters.
   class InvalidRequestError < WorkOSError; end
+
+  # rubocop:enable Style/Documentation
 end

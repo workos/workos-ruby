@@ -33,7 +33,10 @@ describe WorkOS::AuditLog do
         context 'when idempotency key is used once' do
           it 'creates an event' do
             VCR.use_cassette('audit_log/create_event_custom_idempotency_key') do
-              response = described_class.create_event(event: valid_event, idempotency_key: 'key')
+              response = described_class.create_event(
+                event: valid_event,
+                idempotency_key: 'key',
+              )
 
               expect(response.code).to eq '201'
               json = JSON.parse(response.body)
@@ -46,8 +49,14 @@ describe WorkOS::AuditLog do
           context 'with duplicate event payloads' do
             it 'creates an event' do
               VCR.use_cassette('audit_log/create_events_duplicate_idempotency_key_and_payload') do
-                response1 = described_class.create_event(event: valid_event, idempotency_key: 'foo')
-                response2 = described_class.create_event(event: valid_event, idempotency_key: 'foo')
+                response1 = described_class.create_event(
+                  event: valid_event,
+                  idempotency_key: 'foo',
+                )
+                response2 = described_class.create_event(
+                  event: valid_event,
+                  idempotency_key: 'foo',
+                )
 
                 expect(response1.code).to eq '201'
                 json1 = JSON.parse(response1.body)
@@ -63,13 +72,19 @@ describe WorkOS::AuditLog do
           context 'with different event payloads' do
             it 'raises an error' do
               VCR.use_cassette('audit_log/create_events_duplicate_idempotency_key_different_payload') do
-                described_class.create_event(event: valid_event, idempotency_key: 'bar')
+                described_class.create_event(
+                  event: valid_event,
+                  idempotency_key: 'bar',
+                )
 
                 payload = valid_event.clone
                 payload[:actor_name] = 'Tetsuya Sugaya'
 
                 expect do
-                  described_class.create_event(event: payload, idempotency_key: 'bar')
+                  described_class.create_event(
+                    event: payload,
+                    idempotency_key: 'bar',
+                  )
                 end.to raise_error(
                   WorkOS::InvalidRequestError,
                   /Status 400, Another idempotency key \(bar\) with different request parameters was found. Please use a different idempotency key./,
@@ -112,7 +127,9 @@ describe WorkOS::AuditLog do
 
       it 'raises an error' do
         VCR.use_cassette('audit_log/create_event_invalid') do
-          expect { described_class.create_event(event: invalid_event) }.to raise_error(
+          expect do
+            described_class.create_event(event: invalid_event)
+          end.to raise_error(
             WorkOS::InvalidRequestError,
             /Status 422, Validation failed \(action_type: action_type must be a string\)/,
           )

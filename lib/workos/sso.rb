@@ -110,6 +110,7 @@ module WorkOS
 
       private
 
+      # rubocop:disable Metrics/MethodLength
       sig { params(response: Net::HTTPResponse).void }
       def check_and_raise_error(response:)
         begin
@@ -126,9 +127,10 @@ module WorkOS
         raise APIError.new(
           message: message,
           http_status: nil,
-          request_id: request_id
+          request_id: request_id,
         )
       end
+      # rubocop:enable Metrics/MethodLength
     end
   end
 end

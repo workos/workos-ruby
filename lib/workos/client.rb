@@ -68,7 +68,10 @@ module WorkOS
           request_id: response['x-request-id'],
         )
       when 422
-        errors = json['errors'].map { |error| "#{error['field']}: #{error['code']}" }.join('; ')
+        errors = json['errors'].map do |error|
+          "#{error['field']}: #{error['code']}"
+        end.join('; ')
+
         message = "#{json['message']} (#{errors})"
         raise InvalidRequestError.new(
           message: message,
@@ -80,3 +83,4 @@ module WorkOS
     # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
   end
 end
+# rubocop:enable Style/Documentation
