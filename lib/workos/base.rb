@@ -1,16 +1,15 @@
 # frozen_string_literal: true
 # typed: true
+
 # rubocop:disable Style/Documentation
-
-
 module WorkOS
-  class Base
+  module Base
     attr_accessor :key
-    class << self
-      attr_writer :key
-    end
 
     class << self
+      extend T::Sig
+
+      attr_writer :key
       attr_reader :key
     end
   end

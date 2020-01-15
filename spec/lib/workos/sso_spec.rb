@@ -1,5 +1,5 @@
-# typed: false
 # frozen_string_literal: true
+# typed: false
 
 require 'securerandom'
 
@@ -47,7 +47,7 @@ describe WorkOS::SSO do
     let(:args) do
       {
         code: SecureRandom.hex(10),
-        project_id: 'workos-proj-123'
+        project_id: 'workos-proj-123',
       }
     end
 
@@ -56,7 +56,7 @@ describe WorkOS::SSO do
         client_id: args[:project_id],
         client_secret: WorkOS.key,
         code: args[:code],
-        grant_type: 'authorization_code'
+        grant_type: 'authorization_code',
       }
     end
     let(:user_agent) { 'user-agent-string' }
@@ -103,7 +103,7 @@ describe WorkOS::SSO do
         expect do
           described_class.profile(**args)
         end.to raise_error(
-          WorkOS::RequestError,
+          WorkOS::APIError,
           'some error message - request ID: request-id',
         )
       end
@@ -127,7 +127,7 @@ describe WorkOS::SSO do
         expect do
           described_class.profile(**args)
         end.to raise_error(
-          WorkOS::RequestError,
+          WorkOS::APIError,
           "The code '01DVX3C5Z367SFHR8QNDMK7V24'" \
           ' has expired or is invalid. - request ID: request-id',
         )
