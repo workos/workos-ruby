@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: WorkOS::AuditLog
+  
+    &mdash; Documentation by YARD 0.9.22
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "WorkOS::AuditLog";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (A)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span>
+     &raquo; 
+    <span class="title">AuditLog</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: WorkOS::AuditLog
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="Base.html" title="WorkOS::Base (class)">Base</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next"><span class='object_link'><a href="Base.html" title="WorkOS::Base (class)">Base</a></span></li>
+          
+            <li class="next">WorkOS::AuditLog</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  <dl>
+      <dt>Extended by:</dt>
+      <dd>T::Sig</dd>
+  </dl>
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/workos/audit_log.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>The Audit Log module provides convenience methods for working with the WorkOS Audit Log platform. You&#39;ll need a valid API key.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://dashboard.workos.com/docs/audit-log/quickstart" target="_parent" title="https://dashboard.workos.com/docs/audit-log/quickstart">https://dashboard.workos.com/docs/audit-log/quickstart</a></li>
+    
+  </ul>
+
+</div>
+
+
+
+
+
+  <h2>Instance Attribute Summary</h2>
+  
+  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="Base.html" title="WorkOS::Base (class)">Base</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Base.html#key-instance_method" title="WorkOS::Base#key (method)">#key</a></span></p>
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_event-class_method" title="create_event (class method)">.<strong>create_event</strong>(event:, idempotency_key: nil)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Create an Audit Log event.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="create_event-class_method">
+  
+    .<strong>create_event</strong>(event:, idempotency_key: nil)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Create an Audit Log event.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>event</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An event hash</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>idempotency_key</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An idempotency key</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    <p class="tag_title">Options Hash (<tt>event:</tt>):</p>
+    <ul class="option">
+      
+        <li>
+          <span class="name">group</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>A single organization containing related members. This will normally be the customer of a vendor&#39;s application.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">location</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Identifier for where the event originated. This will be an IP address (IPv4 or IPv6), hostname, or device ID.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">action</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Specific activity performed by the actor.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">action_type</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Corresponding CRUD category of the event. Can be one of C, R, U, or D.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">actor_name</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Display name of the entity performing the action.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">actor_id</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Unique identifier of the entity performing the action.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">target_name</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Display name of the object or resource that is being acted upon.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">target_id</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Unique identifier of the object or resource being acted upon.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">occurred_at</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>ISO-8601 datetime at which the event happened, with millisecond precision.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">metadata</span>
+          <span class="type">(<tt>Hash</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Arbitrary key-value data containing information associated with the event. Note: There is a limit of 50 keys. Key names can be up to 40 characters long, and values can be up to 500 characters long.</p>
+</div>
+          
+        </li>
+      
+    </ul>
+  
+    
+    
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+46
+47
+48
+49
+50
+51
+52
+53
+54</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/workos/audit_log.rb', line 46</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_create_event'>create_event</span><span class='lparen'>(</span><span class='label'>event:</span><span class='comma'>,</span> <span class='label'>idempotency_key:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_request'>request</span> <span class='op'>=</span> <span class='id identifier rubyid_post_request'>post_request</span><span class='lparen'>(</span>
+    <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/events</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>idempotency_key:</span> <span class='id identifier rubyid_idempotency_key'>idempotency_key</span><span class='comma'>,</span>
+    <span class='label'>body:</span> <span class='id identifier rubyid_event'>event</span>
+  <span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_execute_request'>execute_request</span><span class='lparen'>(</span><span class='label'>request:</span> <span class='id identifier rubyid_request'>request</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Sat Jan 11 00:11:46 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.22 (ruby-2.6.5).
+</div>
+
+    </div>
+  </body>
+</html>

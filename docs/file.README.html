@@ -58,33 +58,157 @@
       </div>
 
       <div id="content"><div id='filecontents'>
-<h1 id="label-workos-rb">workos-rb</h1>
+<h1 id="label-workos-ruby+rdoc-image-3Ahttps-3A-2F-2Fcodecov.io-2Fgh-2Fworkos-inc-2Fworkos-ruby-2Fbranch-2Fmaster-2Fgraph-2Fbadge.svg">workos-ruby <a href="https://codecov.io/gh/workos-inc/workos-ruby"><img src="https://codecov.io/gh/workos-inc/workos-ruby/branch/master/graph/badge.svg"></a></h1>
 
 <p>WorkOS official Ruby gem for interacting with WorkOS APIs</p>
 
+<h2 id="label-Documentation">Documentation</h2>
+
+<p>Complete documentation for the latest version of WorkOS Ruby Gem can be found <a href="https://workos-inc.github.io/workos-ruby/">here</a>.</p>
+
 <h2 id="label-Installation">Installation</h2>
 
-<p>You don&#39;t need this source code unless you want to modify the gem. If
-you just want to use the package, just run:</p>
+<p>To get started, you can install the WorkOS gem via RubyGems with: <code>ruby gem install workos </code></p>
 
-<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_gem'>gem</span> <span class='id identifier rubyid_install'>install</span> <span class='id identifier rubyid_workos'>workos</span>
+<p>If you&#39;re using Bundler to manage your application&#39;s gems, add the WorkOS gem to your Gemfile:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_source'>source</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://rubygems.org</span><span class='tstring_end'>&#39;</span></span>
+
+<span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>workos</span><span class='tstring_end'>&#39;</span></span>
 </code></pre>
 
-<p>If you want to build the gem from source:</p>
+<h2 id="label-Configuration">Configuration</h2>
 
-<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_gem'>gem</span> <span class='id identifier rubyid_build'>build</span> <span class='id identifier rubyid_workos'>workos</span><span class='period'>.</span><span class='id identifier rubyid_gemspec'>gemspec</span>
+<p>To use the SDK you must first provide your API key from the <a href="https://dashboard.workos.com/api-keys">WorkOS Developer Dashboard</a>.</p>
+
+<p>You can do this through the <code>WORKOS_KEY</code> environment variable or by calling <code>WorkOS.key = [your API key]</code>.</p>
+
+<p>The WorkOS Gem will read the environment variable <code>WORKOS_KEY</code>:</p>
+
+<pre class="code ruby"><code class="ruby">$ WORKOS_KEY=[your api key] ruby app.rb
 </code></pre>
 
-<h3 id="label-Requirements">Requirements</h3>
+<p>Alternatively, you may set the key yourself, such as in an initializer in your application load path:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># /config/initializers/workos.rb
+</span>
+<span class='const'><span class='object_link'><a href="WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_key'><span class='object_link'><a href="WorkOS.html#key-class_method" title="WorkOS.key (method)">key</a></span></span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>[your api key]</span><span class='tstring_end'>&#39;</span></span>
+</code></pre>
+
+<h2 id="label-The+SSO+Module">The SSO Module</h2>
+
+<p>The SSO Module provides convenience methods for authenticating a Single Sign On (SSO) user via WorkOS. WorkOS SSO follows the Oauth 2.0 specification.</p>
+
+<p>First, you&#39;ll direct your SSO users to an <code>authorization_url</code>. They will sign in to their SSO account with their Identity Provider, and be redirected to a callback URL that you set in your WorkOS Dashboard. The user will be redirected with a <code>code</code> URL parameter, which you can then exchange for a WorkOS::Profile using the <code>WorkOS::SSO.get_profile</code> method.</p>
+
+<p>See our Ruby SSO example app for a <a href="https://github.com/workos-inc/ruby-sso-example">complete example</a>.</p>
+
+<pre class="code ruby"><code class="ruby">WorkOS::SSO.authorization_url(domain:, project_id:, redirect_uri:, state: {})
+</code></pre>
+
+<blockquote>
+<p>Generate an authorization URL to intitiate the WorkOS OAuth2 workflow.</p>
+</blockquote>
+
+<p><code>WorkOS::SSO.authorization_url</code> accepts four arguments:</p>
 <ul><li>
-<p>Ruby 2.3+.</p>
+<p><code>domain</code> (string) — the authenticating user&#39;s company domain, without protocol (ex. <code>example.com</code>)</p>
+</li><li>
+<p><code>project_id</code> (string) — your application&#39;s WorkOS <a href="https://dashboard.workos.com/sso/configuration">Project ID</a> (ex. <code>project_01JG3BCPTRTSTTWQR4VSHXGWCQ</code>)</p>
+</li><li>
+<p><code>state</code> (optional, hash) — an optional hash used to manage state across authorization transactions (ex. <code>{ next_page: &#39;/docs&#39;}</code>)</p>
+</li><li>
+<p><code>redirect_uri</code> (string) — a callback URL where your application redirects the user-agent after an authorization code is granted (ex. <code>workos.dev/callback</code>). This must match one of your configured callback URLs for the associated project on your WorkOS dashboard.</p>
 </li></ul>
+
+<p>This method will return an OAuth2 query string of the form:</p>
+
+<p><code>https://${domain}/sso/authorize?response_type=code&client_id=${projectID}&redirect_uri=${redirectURI}&state=${state}</code></p>
+
+<p>For example, when used in a <a href="http://sinatrarb.com/">Sinatra app</a>:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='const'>DOMAIN</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>example.com</span><span class='tstring_end'>&#39;</span></span>
+<span class='const'>PROJECT_ID</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>{projectId}</span><span class='tstring_end'>&#39;</span></span>
+<span class='const'>REDIRECT_URI</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>http://localhost:4567/callback</span><span class='tstring_end'>&#39;</span></span>
+
+<span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/auth</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_authorization_url'>authorization_url</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="WorkOS/SSO.html" title="WorkOS::SSO (class)">SSO</a></span></span><span class='period'>.</span><span class='id identifier rubyid_authorization_url'><span class='object_link'><a href="WorkOS/SSO.html#authorization_url-class_method" title="WorkOS::SSO.authorization_url (method)">authorization_url</a></span></span><span class='lparen'>(</span>
+    <span class='label'>domain:</span> <span class='const'>DOMAIN</span><span class='comma'>,</span>
+    <span class='label'>project_id:</span> <span class='const'>PROJECT_ID</span><span class='comma'>,</span>
+    <span class='label'>redirect_uri:</span> <span class='const'>REDIRECT_URI</span><span class='comma'>,</span>
+  <span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_redirect'>redirect</span> <span class='id identifier rubyid_authorization_url'>authorization_url</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>The user would be redirected to:</p>
+
+<p><code>https://api.workos.com/sso/authorize?response_type=code&client_id={projectID}&redirect_uri=http://localhost:4567/callback</code></p>
+
+<p>WorkOS takes over from here, sending the user to authenticate with their IDP, and on successful login, returns the user to your callback URL with a <code>code</code> parameter. You&#39;ll use <code>WorkOS::SSO.profile</code> to exchange the code for a <code>WorkOS::Profile</code>.</p>
+
+<pre class="code ruby"><code class="ruby">WorkOS::SSO.profile(code:, project_id:)&lt;/h4&gt;
+</code></pre>
+
+<blockquote>
+<p>Fetch a WorkOS::Profile for an authorized user.</p>
+</blockquote>
+
+<p><code>WorkOS::SSO.profile</code> accepts two arguments:</p>
+<ul><li>
+<p><code>code</code> (string) — an opaque string provided by the authorization server; will be exchanged for an Access Token when the user&#39;s profile is sent</p>
+</li><li>
+<p><code>project_id</code> (string) — your application&#39;s WorkOS <a href="https://dashboard.workos.com/sso/configuration">Project ID</a> (ex. <code>project_01JG3BCPTRTSTTWQR4VSHXGWCQ</code>)</p>
+</li></ul>
+
+<p>This method will return an instance of a <code>WorkOS::Profile</code> with the following attributes:</p>
+
+<pre class="code ruby"><code class="ruby">&lt;WorkOS::Profile:0x00007fb6e4193d20
+  @id=&quot;prof_01DRA1XNSJDZ19A31F183ECQW5&quot;,
+  @email=&quot;demo@workos-okta.com&quot;,
+  @first_name=&quot;WorkOS&quot;,
+  @connection_type=&quot;OktaSAML&quot;,
+  @last_name=&quot;Demo&quot;,
+  @idp_id=&quot;00u1klkowm8EGah2H357&quot;,
+&gt;
+</code></pre>
+
+<p>Our Sintatra app can be extended to use this method:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='const'>DOMAIN</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>example.com</span><span class='tstring_end'>&#39;</span></span>
+<span class='const'>PROJECT_ID</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>{projectId}</span><span class='tstring_end'>&#39;</span></span>
+<span class='const'>REDIRECT_URI</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>http://localhost:4567/callback</span><span class='tstring_end'>&#39;</span></span>
+
+<span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/auth</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_authorization_url'>authorization_url</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="WorkOS/SSO.html" title="WorkOS::SSO (class)">SSO</a></span></span><span class='period'>.</span><span class='id identifier rubyid_authorization_url'><span class='object_link'><a href="WorkOS/SSO.html#authorization_url-class_method" title="WorkOS::SSO.authorization_url (method)">authorization_url</a></span></span><span class='lparen'>(</span>
+    <span class='label'>domain:</span> <span class='const'>DOMAIN</span><span class='comma'>,</span>
+    <span class='label'>project_id:</span> <span class='const'>PROJECT_ID</span><span class='comma'>,</span>
+    <span class='label'>redirect_uri:</span> <span class='const'>REDIRECT_URI</span><span class='comma'>,</span>
+  <span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_redirect'>redirect</span> <span class='id identifier rubyid_authorization_url'>authorization_url</span>
+<span class='kw'>end</span>
+
+<span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/callback</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_profile'>profile</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="WorkOS/SSO.html" title="WorkOS::SSO (class)">SSO</a></span></span><span class='period'>.</span><span class='id identifier rubyid_profile'><span class='object_link'><a href="WorkOS/SSO.html#profile-class_method" title="WorkOS::SSO.profile (method)">profile</a></span></span><span class='lparen'>(</span>
+    <span class='label'>code:</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>code</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>project_id:</span> <span class='const'>PROJECT_ID</span><span class='comma'>,</span>
+  <span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:user</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_profile'>profile</span><span class='period'>.</span><span class='id identifier rubyid_to_json'>to_json</span>
+
+  <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/</span><span class='tstring_end'>&#39;</span></span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>Given the <code>WorkOS::Profile</code>, you can now sign the user in according to your own authentication setup.</p>
 </div></div>
 
       <div id="footer">
-  Generated on Thu Jan  2 17:24:40 2020 by
+  Generated on Sat Jan 11 00:11:46 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.22 (ruby-2.3.7).
+  0.9.22 (ruby-2.6.5).
 </div>
 
     </div>

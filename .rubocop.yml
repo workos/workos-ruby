@@ -3,11 +3,14 @@ Layout/DotPosition:
 Layout/EmptyLineAfterMagicComment:
   Enabled: false
 Layout/EmptyLines:
-  Enabled: false  
+  Enabled: false
+Layout/LineLength:
+  IgnoredPatterns:
+    - 'VCR\.use_cassette'
+    - '(\A|\s)/.*?/'
 Metrics/BlockLength:
   ExcludedMethods: ['describe', 'context']
 Style/TrailingCommaInArguments:
   EnforcedStyleForMultiline: 'consistent_comma'
 Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: 'consistent_comma'
- 
