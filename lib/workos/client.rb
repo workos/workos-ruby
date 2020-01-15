@@ -5,6 +5,7 @@
 module WorkOS
   module Client
     extend T::Sig
+    include Kernel
 
     sig { returns(Net::HTTP) }
     def client
@@ -26,7 +27,7 @@ module WorkOS
       response
     end
 
-    sig { params(path: String, body: Hash).returns(Net::HTTP::Post) }
+    sig { params(path: String, body: T.nilable(Hash)).returns(Net::HTTP::Post) }
     def post_request(path:, body: nil)
       request = Net::HTTP::Post.new(path, 'Content-Type' => 'application/json')
       request.body = body.to_json if body
@@ -47,27 +48,35 @@ module WorkOS
     end
 
 
+    # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
     sig { params(response: ::T.untyped).void }
     def handle_error_response(response:)
       http_status = response.code.to_i
       json = JSON.parse(response.body)
 
-      options = {
-        http_status: http_status,
-        request_id: response['x-request-id'],
-      }
-
       case http_status
       when 400
-        raise InvalidRequestError.new(json['message'], **options)
+        raise InvalidRequestError.new(
+          message: json['message'],
+          http_status: http_status,
+          request_id: response['x-request-id'],
+        )
       when 401
-        message = 'Unauthorized (check your API key)'
-        raise AuthenticationError.new(json['message'], **options)
+        raise AuthenticationError.new(
+          message: json['message'],
+          http_status: http_status,
+          request_id: response['x-request-id'],
+        )
       when 422
         errors = json['errors'].map { |error| "#{error['field']}: #{error['code']}" }.join('; ')
         message = "#{json['message']} (#{errors})"
-        raise InvalidRequestError.new(message, **options)
+        raise InvalidRequestError.new(
+          message: message,
+          http_status: http_status,
+          request_id: response['x-request-id'],
+        )
       end
     end
+    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
   end
 end

@@ -56,7 +56,13 @@ module WorkOS
 
       private
 
-      sig { params(path: String, idempotency_key: T.nilable(String), body: Hash).returns(Net::HTTP::Post) }
+      sig {
+        params(
+          path: String,
+          idempotency_key: T.nilable(String),
+          body: T.nilable(Hash)
+        ).returns(Net::HTTP::Post)
+      }
       def post_request(path:, idempotency_key: nil, body: nil)
         request = super(path: path, body: body)
         request['Authorization'] = "Bearer #{WorkOS.key}"

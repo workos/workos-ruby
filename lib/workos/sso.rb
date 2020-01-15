@@ -123,7 +123,11 @@ module WorkOS
         end
 
 
-        raise APIError.new(message, http_status: nil, request_id: request_id)
+        raise APIError.new(
+          message: message,
+          http_status: nil,
+          request_id: request_id
+        )
       end
     end
   end

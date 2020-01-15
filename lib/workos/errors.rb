@@ -1,17 +1,27 @@
 # frozen_string_literal: true
+# typed: true
 
 module WorkOS
   class WorkOSError < StandardError
+    extend T::Sig
+
     attr_reader :http_status
     attr_reader :request_id
 
-    # Initializes a WorkOSError.
-    def initialize(message = nil, http_status: nil, request_id: nil)
+    sig {
+      params(
+        message: T.nilable(String),
+        http_status: T.nilable(Integer),
+        request_id: T.nilable(String)
+      ).void
+    }
+    def initialize(message: message = nil, http_status: nil, request_id: nil)
       @message = message
       @http_status = http_status
       @request_id = request_id
     end
 
+    sig { returns(String) }
     def to_s
       status_string = @http_status.nil? ? '' : "Status #{@http_status}, "
       id_string = @request_id.nil? ? '' : " - request ID: #{@request_id}"
