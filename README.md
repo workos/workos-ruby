@@ -9,6 +9,7 @@ Complete documentation for the latest version of WorkOS Ruby Gem can be found [h
 ## Installation
 
 To get started, you can install the WorkOS gem via RubyGems with:
+
 ```ruby
 gem install workos
 ```
@@ -20,6 +21,7 @@ source 'https://rubygems.org'
 
 gem 'workos'
 ```
+
 ## Configuration
 
 To use the SDK you must first provide your API key from the [WorkOS Developer Dashboard](https://dashboard.workos.com/api-keys).
@@ -51,14 +53,14 @@ more information.
 
 ```ruby
 payload = {
-  group: 'Foo Corp,
+  group: 'Foo Corp',
   location: '127.0.0.1',
   action: 'user.created',
   action_type: 'C',
-  actor_name: Foo,
+  actor_name: 'Foo',
   actor_id: 'user_12345',
   target_name: 'Bar,
-  target_id: 'user_67890',
+  target_id: 'user_67890'',
   occurred_at: '2020-01-10T15:30:00-05:00',
   metadata: {
     source: 'Email',
@@ -94,6 +96,7 @@ See our Ruby SSO example app for a [complete example](https://github.com/workos-
 ```ruby
 WorkOS::SSO.authorization_url(domain:, project_id:, redirect_uri:, state: {})
 ```
+
 > Generate an authorization URL to intitiate the WorkOS OAuth2 workflow.
 
 `WorkOS::SSO.authorization_url` accepts four arguments:
