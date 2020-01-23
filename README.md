@@ -59,8 +59,8 @@ payload = {
   action_type: 'C',
   actor_name: 'Foo',
   actor_id: 'user_12345',
-  target_name: 'Bar,
-  target_id: 'user_67890'',
+  target_name: 'Bar',
+  target_id: 'user_67890',
   occurred_at: '2020-01-10T15:30:00-05:00',
   metadata: {
     source: 'Email',
