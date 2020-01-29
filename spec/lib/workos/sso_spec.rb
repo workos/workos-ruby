@@ -5,37 +5,113 @@ require 'securerandom'
 
 describe WorkOS::SSO do
   describe '.authorization_url' do
-    let(:args) do
-      {
-        domain: 'foo.com',
-        project_id: 'workos-proj-123',
-        redirect_uri: 'foo.com/auth/callback',
-        state: {
-          next_page: '/dashboard/edit',
-        },
-      }
+    context 'with a domain' do
+      let(:args) do
+        {
+          domain: 'foo.com',
+          project_id: 'workos-proj-123',
+          redirect_uri: 'foo.com/auth/callback',
+          state: {
+            next_page: '/dashboard/edit',
+          },
+        }
+      end
+      it 'returns a valid URL' do
+        authorization_url = described_class.authorization_url(**args)
+
+        expect(URI.parse(authorization_url)).to be_a URI
+      end
+
+      it 'returns the expected hostname' do
+        authorization_url = described_class.authorization_url(**args)
+
+        expect(URI.parse(authorization_url).host).to eq(WorkOS::API_HOSTNAME)
+      end
+
+      it 'returns the expected query string' do
+        authorization_url = described_class.authorization_url(**args)
+
+        expect(URI.parse(authorization_url).query).to eq(
+          'client_id=workos-proj-123&redirect_uri=foo.com%2Fauth%2Fcallback' \
+          '&response_type=code&state=%7B%3Anext_page%3D%3E%22%2Fdashboard%2F' \
+          'edit%22%7D&domain=foo.com',
+        )
+      end
     end
 
-    it 'returns a valid URL' do
-      authorization_url = described_class.authorization_url(**args)
+    context 'with a provider' do
+      let(:args) do
+        {
+          provider: 'Google',
+          project_id: 'workos-proj-123',
+          redirect_uri: 'foo.com/auth/callback',
+          state: {
+            next_page: '/dashboard/edit',
+          },
+        }
+      end
+      it 'returns a valid URL' do
+        authorization_url = described_class.authorization_url(**args)
 
-      expect(URI.parse(authorization_url)).to be_a URI
+        expect(URI.parse(authorization_url)).to be_a URI
+      end
+
+      it 'returns the expected hostname' do
+        authorization_url = described_class.authorization_url(**args)
+
+        expect(URI.parse(authorization_url).host).to eq(WorkOS::API_HOSTNAME)
+      end
+
+      it 'returns the expected query string' do
+        authorization_url = described_class.authorization_url(**args)
+
+        expect(URI.parse(authorization_url).query).to eq(
+          'client_id=workos-proj-123&redirect_uri=foo.com%2Fauth%2Fcallback' \
+          '&response_type=code&state=%7B%3Anext_page%3D%3E%22%2Fdashboard%2F' \
+          'edit%22%7D&provider=Google',
+        )
+      end
     end
 
-    it 'returns the expected hostname' do
-      authorization_url = described_class.authorization_url(**args)
-
-      expect(URI.parse(authorization_url).host).to eq(WorkOS::API_HOSTNAME)
+    context 'with neither domain or provider' do
+      let(:args) do
+        {
+          project_id: 'workos-proj-123',
+          redirect_uri: 'foo.com/auth/callback',
+          state: {
+            next_page: '/dashboard/edit',
+          },
+        }
+      end
+      it 'raises an error' do
+        expect do
+          described_class.authorization_url(**args)
+        end.to raise_error(
+          ArgumentError,
+          'Either domain or provider is required.',
+        )
+      end
     end
 
-    it 'returns the expected query string' do
-      authorization_url = described_class.authorization_url(**args)
-
-      expect(URI.parse(authorization_url).query).to eq(
-        'domain=foo.com&client_id=workos-proj-123&redirect_uri=' \
-        'foo.com%2Fauth%2Fcallback&response_type=code&' \
-        'state=%7B%3Anext_page%3D%3E%22%2Fdashboard%2Fedit%22%7D',
-      )
+    context 'with an invalid provider' do
+      let(:args) do
+        {
+          provider: 'Okta',
+          project_id: 'workos-proj-123',
+          redirect_uri: 'foo.com/auth/callback',
+          state: {
+            next_page: '/dashboard/edit',
+          },
+        }
+      end
+      it 'raises an error' do
+        expect do
+          described_class.authorization_url(**args)
+        end.to raise_error(
+          ArgumentError,
+          'Okta is not a valid value. `provider` must be in ["Google"]',
+        )
+      end
     end
   end
 
