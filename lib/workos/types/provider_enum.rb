@@ -7,7 +7,7 @@ module WorkOS
     # fixed set of values for SSO Providers.
     class Provider < T::Enum
       enums do
-        Google = new('Google')
+        Google = new('GoogleOAuth')
       end
     end
   end
