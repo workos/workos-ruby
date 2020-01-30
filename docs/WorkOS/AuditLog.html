@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Class: WorkOS::AuditLog
+  Module: WorkOS::AuditLog
   
     &mdash; Documentation by YARD 0.9.22
   
@@ -59,37 +59,19 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><h1>Class: WorkOS::AuditLog
+      <div id="content"><h1>Module: WorkOS::AuditLog
   
   
   
 </h1>
 <div class="box_info">
   
-  <dl>
-    <dt>Inherits:</dt>
-    <dd>
-      <span class="inheritName"><span class='object_link'><a href="Base.html" title="WorkOS::Base (class)">Base</a></span></span>
-      
-        <ul class="fullTree">
-          <li>Object</li>
-          
-            <li class="next"><span class='object_link'><a href="Base.html" title="WorkOS::Base (class)">Base</a></span></li>
-          
-            <li class="next">WorkOS::AuditLog</li>
-          
-        </ul>
-        <a href="#" class="inheritanceTree">show all</a>
-      
-    </dd>
-  </dl>
-  
 
   
   
   <dl>
       <dt>Extended by:</dt>
-      <dd>T::Sig</dd>
+      <dd>T::Sig, <span class='object_link'><a href="Base.html" title="WorkOS::Base (module)">Base</a></span>, <span class='object_link'><a href="Client.html" title="WorkOS::Client (module)">Client</a></span></dd>
   </dl>
   
   
@@ -132,7 +114,7 @@
 
   <h2>Instance Attribute Summary</h2>
   
-  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="Base.html" title="WorkOS::Base (class)">Base</a></span></h3>
+  <h3 class="inherited">Attributes included from <span class='object_link'><a href="Base.html" title="WorkOS::Base (module)">Base</a></span></h3>
   <p class="inherited"><span class='object_link'><a href="Base.html#key-instance_method" title="WorkOS::Base#key (method)">#key</a></span></p>
 
 
@@ -161,9 +143,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Create an Audit Log event.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -172,6 +152,19 @@
   
 
 
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Client.html" title="WorkOS::Client (module)">Client</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Client.html#client-instance_method" title="WorkOS::Client#client (method)">client</a></span>, <span class='object_link'><a href="Client.html#execute_request-instance_method" title="WorkOS::Client#execute_request (method)">execute_request</a></span>, <span class='object_link'><a href="Client.html#handle_error_response-instance_method" title="WorkOS::Client#handle_error_response (method)">handle_error_response</a></span>, <span class='object_link'><a href="Client.html#post_request-instance_method" title="WorkOS::Client#post_request (method)">post_request</a></span>, <span class='object_link'><a href="Client.html#user_agent-instance_method" title="WorkOS::Client#user_agent (method)">user_agent</a></span></p>
+
+  
+  
   
   
   
@@ -194,220 +187,30 @@
   
 
   
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Create an Audit Log event.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  <p class="tag_title">Parameters:</p>
-<ul class="param">
-  
-    <li>
-      
-        <span class='name'>event</span>
-      
-      
-        <span class='type'>(<tt>Hash</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>An event hash</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>idempotency_key</span>
-      
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>An idempotency key</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-  
-    
-    
-    <p class="tag_title">Options Hash (<tt>event:</tt>):</p>
-    <ul class="option">
-      
-        <li>
-          <span class="name">group</span>
-          <span class="type">(<tt>String</tt>)</span>
-          <span class="default">
-            
-          </span>
-          
-            &mdash; <div class='inline'>
-<p>A single organization containing related members. This will normally be the customer of a vendor&#39;s application.</p>
-</div>
-          
-        </li>
-      
-        <li>
-          <span class="name">location</span>
-          <span class="type">(<tt>String</tt>)</span>
-          <span class="default">
-            
-          </span>
-          
-            &mdash; <div class='inline'>
-<p>Identifier for where the event originated. This will be an IP address (IPv4 or IPv6), hostname, or device ID.</p>
-</div>
-          
-        </li>
-      
-        <li>
-          <span class="name">action</span>
-          <span class="type">(<tt>String</tt>)</span>
-          <span class="default">
-            
-          </span>
-          
-            &mdash; <div class='inline'>
-<p>Specific activity performed by the actor.</p>
-</div>
-          
-        </li>
-      
-        <li>
-          <span class="name">action_type</span>
-          <span class="type">(<tt>String</tt>)</span>
-          <span class="default">
-            
-          </span>
-          
-            &mdash; <div class='inline'>
-<p>Corresponding CRUD category of the event. Can be one of C, R, U, or D.</p>
-</div>
-          
-        </li>
-      
-        <li>
-          <span class="name">actor_name</span>
-          <span class="type">(<tt>String</tt>)</span>
-          <span class="default">
-            
-          </span>
-          
-            &mdash; <div class='inline'>
-<p>Display name of the entity performing the action.</p>
-</div>
-          
-        </li>
-      
-        <li>
-          <span class="name">actor_id</span>
-          <span class="type">(<tt>String</tt>)</span>
-          <span class="default">
-            
-          </span>
-          
-            &mdash; <div class='inline'>
-<p>Unique identifier of the entity performing the action.</p>
-</div>
-          
-        </li>
-      
-        <li>
-          <span class="name">target_name</span>
-          <span class="type">(<tt>String</tt>)</span>
-          <span class="default">
-            
-          </span>
-          
-            &mdash; <div class='inline'>
-<p>Display name of the object or resource that is being acted upon.</p>
-</div>
-          
-        </li>
-      
-        <li>
-          <span class="name">target_id</span>
-          <span class="type">(<tt>String</tt>)</span>
-          <span class="default">
-            
-          </span>
-          
-            &mdash; <div class='inline'>
-<p>Unique identifier of the object or resource being acted upon.</p>
-</div>
-          
-        </li>
-      
-        <li>
-          <span class="name">occurred_at</span>
-          <span class="type">(<tt>String</tt>)</span>
-          <span class="default">
-            
-          </span>
-          
-            &mdash; <div class='inline'>
-<p>ISO-8601 datetime at which the event happened, with millisecond precision.</p>
-</div>
-          
-        </li>
-      
-        <li>
-          <span class="name">metadata</span>
-          <span class="type">(<tt>Hash</tt>)</span>
-          <span class="default">
-            
-          </span>
-          
-            &mdash; <div class='inline'>
-<p>Arbitrary key-value data containing information associated with the event. Note: There is a limit of 50 keys. Key names can be up to 40 characters long, and values can be up to 500 characters long.</p>
-</div>
-          
-        </li>
-      
-    </ul>
-  
-    
-    
-
-
-</div><table class="source_code">
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-46
-47
-48
-49
-50
 51
 52
 53
-54</pre>
+54
+55
+56
+57
+58
+59</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/workos/audit_log.rb', line 46</span>
+      <pre class="code"><span class="info file"># File 'lib/workos/audit_log.rb', line 51</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_create_event'>create_event</span><span class='lparen'>(</span><span class='label'>event:</span><span class='comma'>,</span> <span class='label'>idempotency_key:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_request'>request</span> <span class='op'>=</span> <span class='id identifier rubyid_post_request'>post_request</span><span class='lparen'>(</span>
     <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/events</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
     <span class='label'>idempotency_key:</span> <span class='id identifier rubyid_idempotency_key'>idempotency_key</span><span class='comma'>,</span>
-    <span class='label'>body:</span> <span class='id identifier rubyid_event'>event</span>
+    <span class='label'>body:</span> <span class='id identifier rubyid_event'>event</span><span class='comma'>,</span>
   <span class='rparen'>)</span>
 
   <span class='id identifier rubyid_execute_request'>execute_request</span><span class='lparen'>(</span><span class='label'>request:</span> <span class='id identifier rubyid_request'>request</span><span class='rparen'>)</span>
@@ -422,7 +225,7 @@
 </div>
 
       <div id="footer">
-  Generated on Sat Jan 11 00:11:46 2020 by
+  Generated on Thu Jan 30 09:12:47 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.22 (ruby-2.6.5).
 </div>
