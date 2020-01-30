@@ -79,7 +79,7 @@
   <dl>
     <dt>Defined in:</dt>
     <dd>lib/workos.rb<span class="defines">,<br />
-  lib/workos/sso.rb,<br /> lib/workos/base.rb,<br /> lib/workos/types.rb,<br /> lib/workos/errors.rb,<br /> lib/workos/profile.rb,<br /> lib/workos/version.rb,<br /> lib/workos/audit_log.rb,<br /> lib/workos/types/profile_struct.rb</span>
+  lib/workos/sso.rb,<br /> lib/workos/base.rb,<br /> lib/workos/types.rb,<br /> lib/workos/client.rb,<br /> lib/workos/errors.rb,<br /> lib/workos/profile.rb,<br /> lib/workos/version.rb,<br /> lib/workos/audit_log.rb,<br /> lib/workos/types/provider_enum.rb,<br /> lib/workos/types/profile_struct.rb</span>
 </dd>
   </dl>
   
@@ -88,7 +88,7 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>rubocop:disable Style/Documentation</p>
+<p>typed: strict</p>
 
 
   </div>
@@ -100,11 +100,11 @@
 <p class="children">
   
     
-      <strong class="modules">Modules:</strong> <span class='object_link'><a href="WorkOS/Types.html" title="WorkOS::Types (module)">Types</a></span>
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="WorkOS/AuditLog.html" title="WorkOS::AuditLog (module)">AuditLog</a></span>, <span class='object_link'><a href="WorkOS/Base.html" title="WorkOS::Base (module)">Base</a></span>, <span class='object_link'><a href="WorkOS/Client.html" title="WorkOS::Client (module)">Client</a></span>, <span class='object_link'><a href="WorkOS/SSO.html" title="WorkOS::SSO (module)">SSO</a></span>, <span class='object_link'><a href="WorkOS/Types.html" title="WorkOS::Types (module)">Types</a></span>
     
   
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="WorkOS/APIError.html" title="WorkOS::APIError (class)">APIError</a></span>, <span class='object_link'><a href="WorkOS/AuditLog.html" title="WorkOS::AuditLog (class)">AuditLog</a></span>, <span class='object_link'><a href="WorkOS/AuthenticationError.html" title="WorkOS::AuthenticationError (class)">AuthenticationError</a></span>, <span class='object_link'><a href="WorkOS/Base.html" title="WorkOS::Base (class)">Base</a></span>, <span class='object_link'><a href="WorkOS/InvalidRequestError.html" title="WorkOS::InvalidRequestError (class)">InvalidRequestError</a></span>, <span class='object_link'><a href="WorkOS/Profile.html" title="WorkOS::Profile (class)">Profile</a></span>, <span class='object_link'><a href="WorkOS/SSO.html" title="WorkOS::SSO (class)">SSO</a></span>, <span class='object_link'><a href="WorkOS/WorkOSError.html" title="WorkOS::WorkOSError (class)">WorkOSError</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="WorkOS/APIError.html" title="WorkOS::APIError (class)">APIError</a></span>, <span class='object_link'><a href="WorkOS/AuthenticationError.html" title="WorkOS::AuthenticationError (class)">AuthenticationError</a></span>, <span class='object_link'><a href="WorkOS/InvalidRequestError.html" title="WorkOS::InvalidRequestError (class)">InvalidRequestError</a></span>, <span class='object_link'><a href="WorkOS/Profile.html" title="WorkOS::Profile (class)">Profile</a></span>, <span class='object_link'><a href="WorkOS/WorkOSError.html" title="WorkOS::WorkOSError (class)">WorkOSError</a></span>
     
   
 </p>
@@ -242,7 +242,7 @@
       <pre class="code"><span class="info file"># File 'lib/workos.rb', line 20</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_key'>key</span>
-  <span class='const'><span class='object_link'><a href="WorkOS/Base.html" title="WorkOS::Base (class)">Base</a></span></span><span class='period'>.</span><span class='id identifier rubyid_key'><span class='object_link'><a href="WorkOS/Base.html#key-class_method" title="WorkOS::Base.key (method)">key</a></span></span>
+  <span class='const'><span class='object_link'><a href="WorkOS/Base.html" title="WorkOS::Base (module)">Base</a></span></span><span class='period'>.</span><span class='id identifier rubyid_key'><span class='object_link'><a href="WorkOS/Base.html#key-class_method" title="WorkOS::Base.key (method)">key</a></span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -302,7 +302,7 @@
       <pre class="code"><span class="info file"># File 'lib/workos.rb', line 16</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_key='>key=</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
-  <span class='const'><span class='object_link'><a href="WorkOS/Base.html" title="WorkOS::Base (class)">Base</a></span></span><span class='period'>.</span><span class='id identifier rubyid_key'><span class='object_link'><a href="WorkOS/Base.html#key-class_method" title="WorkOS::Base.key (method)">key</a></span></span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
+  <span class='const'><span class='object_link'><a href="WorkOS/Base.html" title="WorkOS::Base (module)">Base</a></span></span><span class='period'>.</span><span class='id identifier rubyid_key'><span class='object_link'><a href="WorkOS/Base.html#key-class_method" title="WorkOS::Base.key (method)">key</a></span></span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -314,7 +314,7 @@
 </div>
 
       <div id="footer">
-  Generated on Sat Jan 11 00:11:46 2020 by
+  Generated on Wed Jan 29 21:00:31 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.22 (ruby-2.6.5).
 </div>
