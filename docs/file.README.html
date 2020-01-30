@@ -68,7 +68,10 @@
 
 <h2 id="label-Installation">Installation</h2>
 
-<p>To get started, you can install the WorkOS gem via RubyGems with: <code>ruby gem install workos </code></p>
+<p>To get started, you can install the WorkOS gem via RubyGems with:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_gem'>gem</span> <span class='id identifier rubyid_install'>install</span> <span class='id identifier rubyid_workos'>workos</span>
+</code></pre>
 
 <p>If you&#39;re using Bundler to manage your application&#39;s gems, add the WorkOS gem to your Gemfile:</p>
 
@@ -94,6 +97,39 @@
 </span>
 <span class='const'><span class='object_link'><a href="WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_key'><span class='object_link'><a href="WorkOS.html#key-class_method" title="WorkOS.key (method)">key</a></span></span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>[your api key]</span><span class='tstring_end'>&#39;</span></span>
 </code></pre>
+
+<h2 id="label-The+Audit+Log+Module">The Audit Log Module</h2>
+
+<p>The Audit Log Module provides methods for creating Audit Log events on WorkOS.</p>
+
+<p>See our <a href="https://dashboard.workos.com/docs/audit-log/quickstart">Audit Log Quickstart</a> for more information.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_payload'>payload</span> <span class='op'>=</span> <span class='lbrace'>{</span>
+  <span class='label'>group:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Foo Corp</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>location:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>127.0.0.1</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>action:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>user.created</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>action_type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>C</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>actor_name:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Foo</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>actor_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>user_12345</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>target_name:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Bar</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>target_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>user_67890</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>occurred_at:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>2020-01-10T15:30:00-05:00</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>metadata:</span> <span class='lbrace'>{</span>
+    <span class='label'>source:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Email</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='rbrace'>}</span>
+<span class='rbrace'>}</span>
+
+<span class='const'><span class='object_link'><a href="WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="WorkOS/AuditLog.html" title="WorkOS::AuditLog (module)">AuditLog</a></span></span><span class='period'>.</span><span class='id identifier rubyid_create_event'><span class='object_link'><a href="WorkOS/AuditLog.html#create_event-class_method" title="WorkOS::AuditLog.create_event (method)">create_event</a></span></span><span class='lparen'>(</span><span class='label'>event:</span> <span class='id identifier rubyid_payload'>payload</span><span class='rparen'>)</span>
+</code></pre>
+
+<h3 id="label-Idempotency">Idempotency</h3>
+
+<p>To perform an idempotent request, provide an additional idempotency_key parameter to the <code>create_event</code> options.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="WorkOS/AuditLog.html" title="WorkOS::AuditLog (module)">AuditLog</a></span></span><span class='period'>.</span><span class='id identifier rubyid_create_event'><span class='object_link'><a href="WorkOS/AuditLog.html#create_event-class_method" title="WorkOS::AuditLog.create_event (method)">create_event</a></span></span><span class='lparen'>(</span><span class='label'>event:</span> <span class='id identifier rubyid_payload'>payload</span><span class='comma'>,</span> <span class='label'>idempotency_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>key123456</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+</code></pre>
+
+<p>See our <a href="https://dashboard.workos.com/docs/api-reference#idempotency">API Reference</a> for more information on idempotency keys.</p>
 
 <h2 id="label-The+SSO+Module">The SSO Module</h2>
 
@@ -132,7 +168,7 @@
 <span class='const'>REDIRECT_URI</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>http://localhost:4567/callback</span><span class='tstring_end'>&#39;</span></span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/auth</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
-  <span class='id identifier rubyid_authorization_url'>authorization_url</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="WorkOS/SSO.html" title="WorkOS::SSO (class)">SSO</a></span></span><span class='period'>.</span><span class='id identifier rubyid_authorization_url'><span class='object_link'><a href="WorkOS/SSO.html#authorization_url-class_method" title="WorkOS::SSO.authorization_url (method)">authorization_url</a></span></span><span class='lparen'>(</span>
+  <span class='id identifier rubyid_authorization_url'>authorization_url</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="WorkOS/SSO.html" title="WorkOS::SSO (module)">SSO</a></span></span><span class='period'>.</span><span class='id identifier rubyid_authorization_url'><span class='object_link'><a href="WorkOS/SSO.html#authorization_url-class_method" title="WorkOS::SSO.authorization_url (method)">authorization_url</a></span></span><span class='lparen'>(</span>
     <span class='label'>domain:</span> <span class='const'>DOMAIN</span><span class='comma'>,</span>
     <span class='label'>project_id:</span> <span class='const'>PROJECT_ID</span><span class='comma'>,</span>
     <span class='label'>redirect_uri:</span> <span class='const'>REDIRECT_URI</span><span class='comma'>,</span>
@@ -181,7 +217,7 @@
 <span class='const'>REDIRECT_URI</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>http://localhost:4567/callback</span><span class='tstring_end'>&#39;</span></span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/auth</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
-  <span class='id identifier rubyid_authorization_url'>authorization_url</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="WorkOS/SSO.html" title="WorkOS::SSO (class)">SSO</a></span></span><span class='period'>.</span><span class='id identifier rubyid_authorization_url'><span class='object_link'><a href="WorkOS/SSO.html#authorization_url-class_method" title="WorkOS::SSO.authorization_url (method)">authorization_url</a></span></span><span class='lparen'>(</span>
+  <span class='id identifier rubyid_authorization_url'>authorization_url</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="WorkOS/SSO.html" title="WorkOS::SSO (module)">SSO</a></span></span><span class='period'>.</span><span class='id identifier rubyid_authorization_url'><span class='object_link'><a href="WorkOS/SSO.html#authorization_url-class_method" title="WorkOS::SSO.authorization_url (method)">authorization_url</a></span></span><span class='lparen'>(</span>
     <span class='label'>domain:</span> <span class='const'>DOMAIN</span><span class='comma'>,</span>
     <span class='label'>project_id:</span> <span class='const'>PROJECT_ID</span><span class='comma'>,</span>
     <span class='label'>redirect_uri:</span> <span class='const'>REDIRECT_URI</span><span class='comma'>,</span>
@@ -191,7 +227,7 @@
 <span class='kw'>end</span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/callback</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
-  <span class='id identifier rubyid_profile'>profile</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="WorkOS/SSO.html" title="WorkOS::SSO (class)">SSO</a></span></span><span class='period'>.</span><span class='id identifier rubyid_profile'><span class='object_link'><a href="WorkOS/SSO.html#profile-class_method" title="WorkOS::SSO.profile (method)">profile</a></span></span><span class='lparen'>(</span>
+  <span class='id identifier rubyid_profile'>profile</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="WorkOS/SSO.html" title="WorkOS::SSO (module)">SSO</a></span></span><span class='period'>.</span><span class='id identifier rubyid_profile'><span class='object_link'><a href="WorkOS/SSO.html#profile-class_method" title="WorkOS::SSO.profile (method)">profile</a></span></span><span class='lparen'>(</span>
     <span class='label'>code:</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>code</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
     <span class='label'>project_id:</span> <span class='const'>PROJECT_ID</span><span class='comma'>,</span>
   <span class='rparen'>)</span>
@@ -206,7 +242,7 @@
 </div></div>
 
       <div id="footer">
-  Generated on Sat Jan 11 00:11:46 2020 by
+  Generated on Thu Jan 30 09:12:47 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.22 (ruby-2.6.5).
 </div>
