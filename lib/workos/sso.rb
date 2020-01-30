@@ -16,11 +16,14 @@ module WorkOS
       include Base
       include Client
 
+      PROVIDERS = WorkOS::Types::Provider.values.map(&:serialize).freeze
+
       sig do
         params(
-          domain: String,
           project_id: String,
           redirect_uri: String,
+          domain: T.nilable(String),
+          provider: T.nilable(String),
           state: Hash,
         ).returns(String)
       end
@@ -29,7 +32,10 @@ module WorkOS
       # authenticate using the configured SSO Identity Provider.
       #
       # @param [String] domain The domain for the relevant SSO Connection
-      #  configured on your WorkOS dashboard.
+      #  configured on your WorkOS dashboard. One of provider or domain is
+      #  required
+      # @param [String] provider A provider name for an Identity Provider
+      #  configured on your WorkOS dashboard. Only 'Google' is supported.
       # @param [String] project_id The WorkOS project ID for the project
       #  where you've configured your SSO connection.
       # @param [String] redirect_uri The URI where users are directed
@@ -53,14 +59,19 @@ module WorkOS
       #      "response_type=code&state=%7B%3Anext_page%3D%3E%22%2Fdocs%22%7D"
       #
       # @return [String]
-      def authorization_url(domain:, project_id:, redirect_uri:, state: {})
-        query = URI.encode_www_form(
-          domain: domain,
+      def authorization_url(
+        project_id:, redirect_uri:, domain: nil, provider: nil, state: {}
+      )
+        validate_domain_and_provider(provider: provider, domain: domain)
+
+        query = URI.encode_www_form({
           client_id: project_id,
           redirect_uri: redirect_uri,
           response_type: 'code',
           state: state,
-        )
+          domain: domain,
+          provider: provider,
+        }.compact)
 
         "https://#{WorkOS::API_HOSTNAME}/sso/authorize?#{query}"
       end
@@ -103,16 +114,33 @@ module WorkOS
         )
 
         response = client.request(post_request(path: "/sso/token?#{query}"))
-        check_and_raise_error(response: response)
+        check_and_raise_profile_error(response: response)
 
         WorkOS::Profile.new(response.body)
       end
 
       private
 
+      sig do
+        params(
+          domain: T.nilable(String),
+          provider: T.nilable(String),
+        ).void
+      end
+      def validate_domain_and_provider(domain:, provider:)
+        if [domain, provider].all?(&:nil?)
+          raise ArgumentError, 'Either domain or provider is required.'
+        end
+
+        return unless provider && !PROVIDERS.include?(provider)
+
+        raise ArgumentError, "#{provider} is not a valid value." \
+          " `provider` must be in #{PROVIDERS}"
+      end
+
       # rubocop:disable Metrics/MethodLength
       sig { params(response: Net::HTTPResponse).void }
-      def check_and_raise_error(response:)
+      def check_and_raise_profile_error(response:)
         begin
           body = JSON.parse(response.body)
           return if body['profile']
@@ -122,7 +150,6 @@ module WorkOS
         rescue StandardError
           message = 'Something went wrong'
         end
-
 
         raise APIError.new(
           message: message,
