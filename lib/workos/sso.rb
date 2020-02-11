@@ -119,6 +119,39 @@ module WorkOS
         WorkOS::Profile.new(response.body)
       end
 
+      # Promote a DraftConnection created via IdP Link Embed such that the
+      # Enterprise can begin signing into your application.
+      #
+      # @param [String] project_id The WorkOS project ID for the project
+      #  where you've  allowed an Enterprise to configure an SSO draft
+      #  connection
+      # @param [String] token The draft connection token that's been provided to
+      # you by the IdP Link Embed
+      #
+      # @example
+      #   WorkOS::SSO.promote_draft_connection(
+      #     token: 'draft_conn_429u59js',
+      #     project_id: 'project_01DG5TGK363GRVXP3ZS40WNGEZ'
+      #   )
+      #   => true
+      #
+      # @return [Bool] - returns `true` if successful, `false` otherwise.
+      # @see https://github.com/workos-inc/idp-link
+      sig do
+        params(
+          project_id: String,
+          token: String,
+        ).returns(T::Boolean)
+      end
+      def promote_draft_connection(project_id:, token:)
+        response = client.request(post_request(
+                                    path: '/draft_connections/convert',
+                                    body: { project_id: project_id, id: token },
+                                  ))
+
+        response.is_a? Net::HTTPSuccess
+      end
+
       private
 
       sig do
