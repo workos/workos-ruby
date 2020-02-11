@@ -144,10 +144,12 @@ module WorkOS
         ).returns(T::Boolean)
       end
       def promote_draft_connection(project_id:, token:)
-        response = client.request(post_request(
-                                    path: '/draft_connections/convert',
-                                    body: { project_id: project_id, id: token },
-                                  ))
+        request = post_request(
+          path: '/draft_connections/convert',
+          body: { project_id: project_id, id: token },
+        )
+        
+        response = client.request(request)
 
         response.is_a? Net::HTTPSuccess
       end
