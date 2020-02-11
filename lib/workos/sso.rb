@@ -148,7 +148,7 @@ module WorkOS
           path: '/draft_connections/convert',
           body: { project_id: project_id, id: token },
         )
-        
+
         response = client.request(request)
 
         response.is_a? Net::HTTPSuccess
