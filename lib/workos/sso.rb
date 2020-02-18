@@ -194,7 +194,7 @@ module WorkOS
       end
       # rubocop:enable Metrics/MethodLength
 
-      def bearer_post_request(path:, idempotency_key: nil, body: nil)
+      def bearer_post_request(path:, body: nil)
         request = post_request(path: path, body: body)
         request['Authorization'] = "Bearer #{WorkOS.key}"
         request
