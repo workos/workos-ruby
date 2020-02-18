@@ -144,7 +144,7 @@ module WorkOS
         ).returns(T::Boolean)
       end
       def promote_draft_connection(project_id:, token:)
-        request = post_request(
+        request = bearer_post_request(
           path: '/draft_connections/convert',
           body: { project_id: project_id, id: token },
         )
@@ -193,6 +193,12 @@ module WorkOS
         )
       end
       # rubocop:enable Metrics/MethodLength
+
+      def bearer_post_request(path:, idempotency_key: nil, body: nil)
+        request = post_request(path: path, body: body)
+        request['Authorization'] = "Bearer #{WorkOS.key}"
+        request
+      end
     end
   end
 end
