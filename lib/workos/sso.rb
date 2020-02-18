@@ -196,7 +196,7 @@ module WorkOS
 
       def bearer_post_request(path:, body: nil)
         request = post_request(path: path, body: body)
-        request['Authorization'] = "Bearer #{WorkOS.key}"
+        request['Authorization'] = "Bearer #{WorkOS.key!}"
         request
       end
     end
