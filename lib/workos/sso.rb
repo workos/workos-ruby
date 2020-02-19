@@ -120,18 +120,14 @@ module WorkOS
       end
 
       # Promote a DraftConnection created via IdP Link Embed such that the
-      # Enterprise can begin signing into your application.
+      # Enterprise users can begin signing into your application.
       #
-      # @param [String] project_id The WorkOS project ID for the project
-      #  where you've  allowed an Enterprise to configure an SSO draft
-      #  connection
       # @param [String] token The draft connection token that's been provided to
       # you by the IdP Link Embed
       #
       # @example
       #   WorkOS::SSO.promote_draft_connection(
       #     token: 'draft_conn_429u59js',
-      #     project_id: 'project_01DG5TGK363GRVXP3ZS40WNGEZ'
       #   )
       #   => true
       #
@@ -139,14 +135,13 @@ module WorkOS
       # @see https://github.com/workos-inc/idp-link
       sig do
         params(
-          project_id: String,
           token: String,
         ).returns(T::Boolean)
       end
-      def promote_draft_connection(project_id:, token:)
+      def promote_draft_connection(token:)
         request = bearer_post_request(
           path: '/draft_connections/convert',
-          body: { project_id: project_id, id: token },
+          body: { id: token },
         )
 
         response = client.request(request)

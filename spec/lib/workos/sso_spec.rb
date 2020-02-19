@@ -217,7 +217,6 @@ describe WorkOS::SSO do
     let(:body) do
       {
         id: token,
-        project_id: project_id,
       }
     end
 
@@ -230,7 +229,6 @@ describe WorkOS::SSO do
       end
       it 'returns true' do
         response = described_class.promote_draft_connection(
-          project_id: project_id,
           token: token,
         )
 
@@ -246,7 +244,6 @@ describe WorkOS::SSO do
       end
       it 'returns true' do
         response = described_class.promote_draft_connection(
-          project_id: project_id,
           token: token,
         )
 
