@@ -214,17 +214,10 @@ describe WorkOS::SSO do
   describe '.promote_draft_connection' do
     let(:token) { 'draft_conn_942u509ut' }
     let(:project_id) { 'proj_0239u590h' }
-    let(:body) do
-      {
-        id: token,
-      }
-    end
-
 
     context 'with a valid request' do
       before do
-        stub_request(:post, 'https://api.workos.com/draft_connections/convert').
-          with(body: body).
+        stub_request(:post, "https://api.workos.com/draft_connections/#{token}/convert").
           to_return(status: 200)
       end
       it 'returns true' do
@@ -238,8 +231,7 @@ describe WorkOS::SSO do
 
     context 'with an invalid request' do
       before do
-        stub_request(:post, 'https://api.workos.com/draft_connections/convert').
-          with(body: body).
+        stub_request(:post, "https://api.workos.com/draft_connections/#{token}/convert").
           to_return(status: 403)
       end
       it 'returns true' do
