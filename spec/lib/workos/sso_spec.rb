@@ -212,7 +212,7 @@ describe WorkOS::SSO do
   end
 
   describe '.promote_draft_connection' do
-    let(:token) { 'draft_conn_942u509ut' }
+    let(:token) { 'draft_conn_id' }
     let(:project_id) { 'proj_0239u590h' }
 
     context 'with a valid request' do
