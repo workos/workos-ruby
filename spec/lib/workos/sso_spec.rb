@@ -217,8 +217,10 @@ describe WorkOS::SSO do
 
     context 'with a valid request' do
       before do
-        stub_request(:post, "https://api.workos.com/draft_connections/#{token}/activate").
-          to_return(status: 200)
+        stub_request(
+          :post,
+          "https://api.workos.com/draft_connections/#{token}/activate",
+        ).to_return(status: 200)
       end
       it 'returns true' do
         response = described_class.promote_draft_connection(
@@ -231,8 +233,10 @@ describe WorkOS::SSO do
 
     context 'with an invalid request' do
       before do
-        stub_request(:post, "https://api.workos.com/draft_connections/#{token}/activate").
-          to_return(status: 403)
+        stub_request(
+          :post,
+          "https://api.workos.com/draft_connections/#{token}/activate",
+        ).to_return(status: 403)
       end
       it 'returns true' do
         response = described_class.promote_draft_connection(
