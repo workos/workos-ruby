@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 # typed: true
 
+
 module WorkOS
-  # rubocop:disable Style/Documentation
+  # Parent class for WorkOS related errors
   class WorkOSError < StandardError
     extend T::Sig
 
@@ -43,6 +44,4 @@ module WorkOS
   # InvalidRequestError is raised when a request is initiated with invalid
   # parameters.
   class InvalidRequestError < WorkOSError; end
-
-  # rubocop:enable Style/Documentation
 end

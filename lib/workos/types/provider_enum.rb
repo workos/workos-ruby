@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 # typed: strict
 
+
 module WorkOS
   module Types
     # The ProviderEnum is type-safe declarations of a
