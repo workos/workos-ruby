@@ -140,7 +140,7 @@ module WorkOS
       end
       def promote_draft_connection(token:)
         request = bearer_post_request(
-          path: "/draft_connections/#{token}/convert",
+          path: "/draft_connections/#{token}/activate",
         )
 
         response = client.request(request)
