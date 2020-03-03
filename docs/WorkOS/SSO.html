@@ -190,6 +190,30 @@
 </li>
 
       
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#promote_draft_connection-class_method" title="promote_draft_connection (class method)">.<strong>promote_draft_connection</strong>(token:)  &#x21d2; Bool </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Promote a DraftConnection created via IdP Link Embed such that the Enterprise users can begin signing into your application.</p>
+</div></span>
+  
+</li>
+
+      
     </ul>
   
 
@@ -540,12 +564,124 @@
 </table>
 </div>
     
+      <div class="method_details ">
+  <h3 class="signature " id="promote_draft_connection-class_method">
+  
+    .<strong>promote_draft_connection</strong>(token:)  &#x21d2; <tt>Bool</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Promote a DraftConnection created via IdP Link Embed such that the Enterprise users can begin signing into your application.</p>
+
+<p>you by the IdP Link Embed</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code>WorkOS::SSO.promote_draft_connection(
+  token: &#39;draft_conn_429u59js&#39;,
+)
+=&gt; true</code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>token</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The draft connection token that&#39;s been provided to</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Bool</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><ul><li>
+<p>returns `true` if successful, `false` otherwise.</p>
+</li></ul>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://github.com/workos-inc/ruby-idp-link-example" target="_parent" title="https://github.com/workos-inc/ruby-idp-link-example">https://github.com/workos-inc/ruby-idp-link-example</a></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+142
+143
+144
+145
+146
+147
+148
+149
+150</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/workos/sso.rb', line 142</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_promote_draft_connection'>promote_draft_connection</span><span class='lparen'>(</span><span class='label'>token:</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_request'>request</span> <span class='op'>=</span> <span class='id identifier rubyid_bearer_post_request'>bearer_post_request</span><span class='lparen'>(</span>
+    <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/draft_connections/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_token'>token</span><span class='embexpr_end'>}</span><span class='tstring_content'>/activate</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+  <span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_response'>response</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_request'>request</span><span class='lparen'>(</span><span class='id identifier rubyid_request'>request</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Net</span><span class='op'>::</span><span class='const'>HTTPSuccess</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 30 09:12:47 2020 by
+  Generated on Mon Mar  2 13:26:48 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.22 (ruby-2.6.5).
 </div>

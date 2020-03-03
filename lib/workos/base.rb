@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 # typed: true
 
-# rubocop:disable Style/Documentation
+
 module WorkOS
+  ## The Base class handles setting and reading the WorkOS
+  ## API Key for authentication
   module Base
     attr_accessor :key
 
@@ -14,4 +16,3 @@ module WorkOS
     end
   end
 end
-# rubocop:enable Style/Documentation
