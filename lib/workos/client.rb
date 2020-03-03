@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 # typed: true
 
-# rubocop:disable Style/Documentation
+
 module WorkOS
+  # A Net::HTTP based API client for interacting with the WorkOS API
   module Client
     extend T::Sig
     include Kernel
@@ -83,4 +84,3 @@ module WorkOS
     # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
   end
 end
-# rubocop:enable Style/Documentation

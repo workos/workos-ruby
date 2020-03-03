@@ -119,6 +119,36 @@ module WorkOS
         WorkOS::Profile.new(response.body)
       end
 
+      sig do
+        params(
+          token: String,
+        ).returns(T::Boolean)
+      end
+
+      # Promote a DraftConnection created via IdP Link Embed such that the
+      # Enterprise users can begin signing into your application.
+      #
+      # @param [String] token The draft connection token that's been provided to
+      # you by the IdP Link Embed
+      #
+      # @example
+      #   WorkOS::SSO.promote_draft_connection(
+      #     token: 'draft_conn_429u59js',
+      #   )
+      #   => true
+      #
+      # @return [Bool] - returns `true` if successful, `false` otherwise.
+      # @see https://github.com/workos-inc/ruby-idp-link-example
+      def promote_draft_connection(token:)
+        request = bearer_post_request(
+          path: "/draft_connections/#{token}/activate",
+        )
+
+        response = client.request(request)
+
+        response.is_a? Net::HTTPSuccess
+      end
+
       private
 
       sig do
@@ -158,6 +188,12 @@ module WorkOS
         )
       end
       # rubocop:enable Metrics/MethodLength
+
+      def bearer_post_request(path:, body: nil)
+        request = post_request(path: path, body: body)
+        request['Authorization'] = "Bearer #{WorkOS.key!}"
+        request
+      end
     end
   end
 end

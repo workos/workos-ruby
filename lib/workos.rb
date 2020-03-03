@@ -11,7 +11,7 @@ require 'sorbet-runtime'
 # `WorkOS.key = [your api key]` somewhere in the load path of
 # your application, such as an initializer.
 module WorkOS
-  API_HOSTNAME = 'api.workos.com'
+  API_HOSTNAME = ENV['WORKOS_API_HOSTNAME'] || 'api.workos.com'
 
   def self.key=(value)
     Base.key = value
