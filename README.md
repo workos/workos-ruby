@@ -48,7 +48,7 @@ The Audit Log Module provides methods for creating Audit Log events on
 WorkOS.
 
 See our [Audit Log
-Quickstart](https://dashboard.workos.com/docs/audit-log/quickstart) for
+Quickstart](https://docs.workos.com/audit-log/quickstart) for
 more information.
 
 ```ruby
@@ -80,7 +80,7 @@ WorkOS::AuditLog.create_event(event: payload, idempotency_key: 'key123456')
 ```
 
 See our [API
-Reference](https://dashboard.workos.com/docs/api-reference#idempotency)
+Reference](https://docs.workos.com/api-reference#idempotency)
 for more information on idempotency keys.
 
 ## The SSO Module
