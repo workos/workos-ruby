@@ -125,11 +125,11 @@ module WorkOS
         ).returns(T::Boolean)
       end
 
-      # Promote a DraftConnection created via IdP Link Embed such that the
+      # Promote a DraftConnection created via the WorkOS.js embed such that the
       # Enterprise users can begin signing into your application.
       #
       # @param [String] token The draft connection token that's been provided to
-      # you by the IdP Link Embed
+      # you by the WorkOS.js embed
       #
       # @example
       #   WorkOS::SSO.promote_draft_connection(
