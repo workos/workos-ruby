@@ -28,7 +28,7 @@ module WorkOS
   autoload :Types, 'workos/types'
   autoload :Base, 'workos/base'
   autoload :Client, 'workos/client'
-  autoload :AuditLog, 'workos/audit_log'
+  autoload :AuditTrail, 'workos/audit_trail'
   autoload :Profile, 'workos/profile'
   autoload :SSO, 'workos/sso'
 
