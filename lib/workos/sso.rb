@@ -9,7 +9,7 @@ module WorkOS
   # SSO platform. You'll need a valid API key, a project ID, and to have
   # created an SSO connection on your WorkOS dashboard.
   #
-  # @see https://dashboard.workos.com/docs/sso/what-is-sso
+  # @see https://docs.workos.com/sso/overview
   module SSO
     class << self
       extend T::Sig

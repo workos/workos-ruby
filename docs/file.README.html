@@ -98,11 +98,11 @@
 <span class='const'><span class='object_link'><a href="WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_key'><span class='object_link'><a href="WorkOS.html#key-class_method" title="WorkOS.key (method)">key</a></span></span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>[your api key]</span><span class='tstring_end'>&#39;</span></span>
 </code></pre>
 
-<h2 id="label-The+Audit+Log+Module">The Audit Log Module</h2>
+<h2 id="label-The+Audit+Trail+Module">The Audit Trail Module</h2>
 
-<p>The Audit Log Module provides methods for creating Audit Log events on WorkOS.</p>
+<p>The Audit Trail Module provides methods for creating Audit Trail events on WorkOS.</p>
 
-<p>See our <a href="https://docs.workos.com/audit-log/quickstart">Audit Log Quickstart</a> for more information.</p>
+<p>See our <a href="https://docs.workos.com/audit-trail/overview">Audit Trail Overview</a> for more information.</p>
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_payload'>payload</span> <span class='op'>=</span> <span class='lbrace'>{</span>
   <span class='label'>group:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Foo Corp</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
@@ -119,14 +119,14 @@
   <span class='rbrace'>}</span>
 <span class='rbrace'>}</span>
 
-<span class='const'><span class='object_link'><a href="WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="WorkOS/AuditLog.html" title="WorkOS::AuditLog (module)">AuditLog</a></span></span><span class='period'>.</span><span class='id identifier rubyid_create_event'><span class='object_link'><a href="WorkOS/AuditLog.html#create_event-class_method" title="WorkOS::AuditLog.create_event (method)">create_event</a></span></span><span class='lparen'>(</span><span class='label'>event:</span> <span class='id identifier rubyid_payload'>payload</span><span class='rparen'>)</span>
+<span class='const'><span class='object_link'><a href="WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="WorkOS/AuditTrail.html" title="WorkOS::AuditTrail (module)">AuditTrail</a></span></span><span class='period'>.</span><span class='id identifier rubyid_create_event'><span class='object_link'><a href="WorkOS/AuditTrail.html#create_event-class_method" title="WorkOS::AuditTrail.create_event (method)">create_event</a></span></span><span class='lparen'>(</span><span class='label'>event:</span> <span class='id identifier rubyid_payload'>payload</span><span class='rparen'>)</span>
 </code></pre>
 
 <h3 id="label-Idempotency">Idempotency</h3>
 
 <p>To perform an idempotent request, provide an additional idempotency_key parameter to the <code>create_event</code> options.</p>
 
-<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="WorkOS/AuditLog.html" title="WorkOS::AuditLog (module)">AuditLog</a></span></span><span class='period'>.</span><span class='id identifier rubyid_create_event'><span class='object_link'><a href="WorkOS/AuditLog.html#create_event-class_method" title="WorkOS::AuditLog.create_event (method)">create_event</a></span></span><span class='lparen'>(</span><span class='label'>event:</span> <span class='id identifier rubyid_payload'>payload</span><span class='comma'>,</span> <span class='label'>idempotency_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>key123456</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="WorkOS/AuditTrail.html" title="WorkOS::AuditTrail (module)">AuditTrail</a></span></span><span class='period'>.</span><span class='id identifier rubyid_create_event'><span class='object_link'><a href="WorkOS/AuditTrail.html#create_event-class_method" title="WorkOS::AuditTrail.create_event (method)">create_event</a></span></span><span class='lparen'>(</span><span class='label'>event:</span> <span class='id identifier rubyid_payload'>payload</span><span class='comma'>,</span> <span class='label'>idempotency_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>key123456</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
 </code></pre>
 
 <p>See our <a href="https://docs.workos.com/api-reference#idempotency">API Reference</a> for more information on idempotency keys.</p>
@@ -242,7 +242,7 @@
 </div></div>
 
       <div id="footer">
-  Generated on Fri Mar 13 12:16:45 2020 by
+  Generated on Sun Mar 15 22:11:09 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.22 (ruby-2.6.5).
 </div>

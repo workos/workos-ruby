@@ -5,17 +5,17 @@ require 'net/http'
 require 'uri'
 
 module WorkOS
-  # The Audit Log module provides convenience methods for working with the
-  # WorkOS Audit Log platform. You'll need a valid API key.
+  # The Audit Trail module provides convenience methods for working with the
+  # WorkOS Audit Trail platform. You'll need a valid API key.
   #
-  # @see https://dashboard.workos.com/docs/audit-log/quickstart
-  module AuditLog
+  # @see https://docs.workos.com/audit-trail/overview
+  module AuditTrail
     class << self
       extend T::Sig
       include Base
       include Client
 
-      # Create an Audit Log event.
+      # Create an Audit Trail event.
       #
       # @param [Hash] event An event hash
       # @option event [String] group A single organization containing related
