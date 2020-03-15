@@ -42,13 +42,13 @@ Alternatively, you may set the key yourself, such as in an initializer in your a
 WorkOS.key = '[your api key]'
 ```
 
-## The Audit Log Module
+## The Audit Trail Module
 
-The Audit Log Module provides methods for creating Audit Log events on
+The Audit Trail Module provides methods for creating Audit Trail events on
 WorkOS.
 
-See our [Audit Log
-Quickstart](https://docs.workos.com/audit-log/quickstart) for
+See our [Audit Trail
+Overview](https://docs.workos.com/audit-trail/overview) for
 more information.
 
 ```ruby
@@ -67,7 +67,7 @@ payload = {
   }
 }
 
-WorkOS::AuditLog.create_event(event: payload)
+WorkOS::AuditTrail.create_event(event: payload)
 ```
 
 ### Idempotency
@@ -76,7 +76,7 @@ To perform an idempotent request, provide an additional idempotency_key
 parameter to the `create_event` options.
 
 ```ruby
-WorkOS::AuditLog.create_event(event: payload, idempotency_key: 'key123456')
+WorkOS::AuditTrail.create_event(event: payload, idempotency_key: 'key123456')
 ```
 
 See our [API
