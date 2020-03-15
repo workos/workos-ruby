@@ -79,7 +79,7 @@
   <dl>
     <dt>Defined in:</dt>
     <dd>lib/workos.rb<span class="defines">,<br />
-  lib/workos/sso.rb,<br /> lib/workos/base.rb,<br /> lib/workos/types.rb,<br /> lib/workos/client.rb,<br /> lib/workos/errors.rb,<br /> lib/workos/profile.rb,<br /> lib/workos/version.rb,<br /> lib/workos/audit_log.rb,<br /> lib/workos/types/provider_enum.rb,<br /> lib/workos/types/profile_struct.rb</span>
+  lib/workos/sso.rb,<br /> lib/workos/base.rb,<br /> lib/workos/types.rb,<br /> lib/workos/client.rb,<br /> lib/workos/errors.rb,<br /> lib/workos/profile.rb,<br /> lib/workos/version.rb,<br /> lib/workos/audit_trail.rb,<br /> lib/workos/types/provider_enum.rb,<br /> lib/workos/types/profile_struct.rb</span>
 </dd>
   </dl>
   
@@ -88,7 +88,11 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>Use the WorkOS module to authenticate your requests to the WorkOS API. The gem will read your API key automatically from the ENV var `WORKOS_KEY`. Alternatively, you can set the key yourself with `WorkOS.key = [your api key]` somewhere in the load path of your application, such as an initializer.</p>
+<p>Use the WorkOS module to authenticate your requests to the WorkOS API. The
+gem will read your API key automatically from the ENV var `WORKOS_KEY`.
+Alternatively, you can set the key yourself with `WorkOS.key = [your api
+key]` somewhere in the load path of your application, such as an
+initializer.</p>
 
 
   </div>
@@ -100,7 +104,7 @@
 <p class="children">
   
     
-      <strong class="modules">Modules:</strong> <span class='object_link'><a href="WorkOS/AuditLog.html" title="WorkOS::AuditLog (module)">AuditLog</a></span>, <span class='object_link'><a href="WorkOS/Base.html" title="WorkOS::Base (module)">Base</a></span>, <span class='object_link'><a href="WorkOS/Client.html" title="WorkOS::Client (module)">Client</a></span>, <span class='object_link'><a href="WorkOS/SSO.html" title="WorkOS::SSO (module)">SSO</a></span>, <span class='object_link'><a href="WorkOS/Types.html" title="WorkOS::Types (module)">Types</a></span>
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="WorkOS/AuditTrail.html" title="WorkOS::AuditTrail (module)">AuditTrail</a></span>, <span class='object_link'><a href="WorkOS/Base.html" title="WorkOS::Base (module)">Base</a></span>, <span class='object_link'><a href="WorkOS/Client.html" title="WorkOS::Client (module)">Client</a></span>, <span class='object_link'><a href="WorkOS/SSO.html" title="WorkOS::SSO (module)">SSO</a></span>, <span class='object_link'><a href="WorkOS/Types.html" title="WorkOS::Types (module)">Types</a></span>
     
   
     
@@ -314,9 +318,9 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Mar 13 12:16:45 2020 by
+  Generated on Sun Mar 15 21:27:04 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.22 (ruby-2.6.5).
+  0.9.22 (ruby-2.3.7).
 </div>
 
     </div>

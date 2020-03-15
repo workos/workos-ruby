@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 # typed: false
 
-describe WorkOS::AuditLog do
+describe WorkOS::AuditTrail do
   before(:all) do
     WorkOS.key = 'key'
   end
@@ -32,7 +32,7 @@ describe WorkOS::AuditLog do
       context 'with idempotency key' do
         context 'when idempotency key is used once' do
           it 'creates an event' do
-            VCR.use_cassette('audit_log/create_event_custom_idempotency_key') do
+            VCR.use_cassette('audit_trail/create_event_custom_idempotency_key') do
               response = described_class.create_event(
                 event: valid_event,
                 idempotency_key: 'key',
@@ -48,7 +48,7 @@ describe WorkOS::AuditLog do
         context 'when idempotency key is used more than once' do
           context 'with duplicate event payloads' do
             it 'creates an event' do
-              VCR.use_cassette('audit_log/create_events_duplicate_idempotency_key_and_payload') do
+              VCR.use_cassette('audit_trail/create_events_duplicate_idempotency_key_and_payload') do
                 response1 = described_class.create_event(
                   event: valid_event,
                   idempotency_key: 'foo',
@@ -71,7 +71,7 @@ describe WorkOS::AuditLog do
 
           context 'with different event payloads' do
             it 'raises an error' do
-              VCR.use_cassette('audit_log/create_events_duplicate_idempotency_key_different_payload') do
+              VCR.use_cassette('audit_trail/create_events_duplicate_idempotency_key_different_payload') do
                 described_class.create_event(
                   event: valid_event,
                   idempotency_key: 'bar',
@@ -97,7 +97,7 @@ describe WorkOS::AuditLog do
 
       context 'with no idempotency key' do
         it 'creates an event' do
-          VCR.use_cassette('audit_log/create_event') do
+          VCR.use_cassette('audit_trail/create_event') do
             response = described_class.create_event(event: valid_event)
 
             expect(response.code).to eq '201'
@@ -126,7 +126,7 @@ describe WorkOS::AuditLog do
       end
 
       it 'raises an error' do
-        VCR.use_cassette('audit_log/create_event_invalid') do
+        VCR.use_cassette('audit_trail/create_event_invalid') do
           expect do
             described_class.create_event(event: invalid_event)
           end.to raise_error(

@@ -64,7 +64,8 @@
 
 <h2 id="label-Documentation">Documentation</h2>
 
-<p>Complete documentation for the latest version of WorkOS Ruby Gem can be found <a href="https://workos-inc.github.io/workos-ruby/">here</a>.</p>
+<p>Complete documentation for the latest version of WorkOS Ruby Gem can be
+found <a href="https://workos-inc.github.io/workos-ruby/">here</a>.</p>
 
 <h2 id="label-Installation">Installation</h2>
 
@@ -73,7 +74,8 @@
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_gem'>gem</span> <span class='id identifier rubyid_install'>install</span> <span class='id identifier rubyid_workos'>workos</span>
 </code></pre>
 
-<p>If you&#39;re using Bundler to manage your application&#39;s gems, add the WorkOS gem to your Gemfile:</p>
+<p>If you&#39;re using Bundler to manage your application&#39;s gems, add the
+WorkOS gem to your Gemfile:</p>
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_source'>source</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://rubygems.org</span><span class='tstring_end'>&#39;</span></span>
 
@@ -82,27 +84,32 @@
 
 <h2 id="label-Configuration">Configuration</h2>
 
-<p>To use the SDK you must first provide your API key from the <a href="https://dashboard.workos.com/api-keys">WorkOS Developer Dashboard</a>.</p>
+<p>To use the SDK you must first provide your API key from the <a
+href="https://dashboard.workos.com/api-keys">WorkOS Developer
+Dashboard</a>.</p>
 
-<p>You can do this through the <code>WORKOS_KEY</code> environment variable or by calling <code>WorkOS.key = [your API key]</code>.</p>
+<p>You can do this through the <code>WORKOS_KEY</code> environment variable or
+by calling <code>WorkOS.key = [your API key]</code>.</p>
 
 <p>The WorkOS Gem will read the environment variable <code>WORKOS_KEY</code>:</p>
 
-<pre class="code ruby"><code class="ruby">$ WORKOS_KEY=[your api key] ruby app.rb
-</code></pre>
+<pre class="code ruby"><code class="ruby">$ WORKOS_KEY=[your api key] ruby app.rb</code></pre>
 
-<p>Alternatively, you may set the key yourself, such as in an initializer in your application load path:</p>
+<p>Alternatively, you may set the key yourself, such as in an initializer in
+your application load path:</p>
 
 <pre class="code ruby"><code class="ruby"><span class='comment'># /config/initializers/workos.rb
 </span>
 <span class='const'><span class='object_link'><a href="WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_key'><span class='object_link'><a href="WorkOS.html#key-class_method" title="WorkOS.key (method)">key</a></span></span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>[your api key]</span><span class='tstring_end'>&#39;</span></span>
 </code></pre>
 
-<h2 id="label-The+Audit+Log+Module">The Audit Log Module</h2>
+<h2 id="label-The+Audit+Trail+Module">The Audit Trail Module</h2>
 
-<p>The Audit Log Module provides methods for creating Audit Log events on WorkOS.</p>
+<p>The Audit Trail Module provides methods for creating Audit Trail events on
+WorkOS.</p>
 
-<p>See our <a href="https://docs.workos.com/audit-log/quickstart">Audit Log Quickstart</a> for more information.</p>
+<p>See our <a href="https://docs.workos.com/audit-trail/overview">Audit Trail
+Overview</a> for more information.</p>
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_payload'>payload</span> <span class='op'>=</span> <span class='lbrace'>{</span>
   <span class='label'>group:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Foo Corp</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
@@ -119,25 +126,35 @@
   <span class='rbrace'>}</span>
 <span class='rbrace'>}</span>
 
-<span class='const'><span class='object_link'><a href="WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="WorkOS/AuditLog.html" title="WorkOS::AuditLog (module)">AuditLog</a></span></span><span class='period'>.</span><span class='id identifier rubyid_create_event'><span class='object_link'><a href="WorkOS/AuditLog.html#create_event-class_method" title="WorkOS::AuditLog.create_event (method)">create_event</a></span></span><span class='lparen'>(</span><span class='label'>event:</span> <span class='id identifier rubyid_payload'>payload</span><span class='rparen'>)</span>
+<span class='const'><span class='object_link'><a href="WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="WorkOS/AuditTrail.html" title="WorkOS::AuditTrail (module)">AuditTrail</a></span></span><span class='period'>.</span><span class='id identifier rubyid_create_event'><span class='object_link'><a href="WorkOS/AuditTrail.html#create_event-class_method" title="WorkOS::AuditTrail.create_event (method)">create_event</a></span></span><span class='lparen'>(</span><span class='label'>event:</span> <span class='id identifier rubyid_payload'>payload</span><span class='rparen'>)</span>
 </code></pre>
 
 <h3 id="label-Idempotency">Idempotency</h3>
 
-<p>To perform an idempotent request, provide an additional idempotency_key parameter to the <code>create_event</code> options.</p>
+<p>To perform an idempotent request, provide an additional idempotency_key
+parameter to the <code>create_event</code> options.</p>
 
-<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="WorkOS/AuditLog.html" title="WorkOS::AuditLog (module)">AuditLog</a></span></span><span class='period'>.</span><span class='id identifier rubyid_create_event'><span class='object_link'><a href="WorkOS/AuditLog.html#create_event-class_method" title="WorkOS::AuditLog.create_event (method)">create_event</a></span></span><span class='lparen'>(</span><span class='label'>event:</span> <span class='id identifier rubyid_payload'>payload</span><span class='comma'>,</span> <span class='label'>idempotency_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>key123456</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="WorkOS/AuditTrail.html" title="WorkOS::AuditTrail (module)">AuditTrail</a></span></span><span class='period'>.</span><span class='id identifier rubyid_create_event'><span class='object_link'><a href="WorkOS/AuditTrail.html#create_event-class_method" title="WorkOS::AuditTrail.create_event (method)">create_event</a></span></span><span class='lparen'>(</span><span class='label'>event:</span> <span class='id identifier rubyid_payload'>payload</span><span class='comma'>,</span> <span class='label'>idempotency_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>key123456</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
 </code></pre>
 
-<p>See our <a href="https://docs.workos.com/api-reference#idempotency">API Reference</a> for more information on idempotency keys.</p>
+<p>See our <a href="https://docs.workos.com/api-reference#idempotency">API
+Reference</a> for more information on idempotency keys.</p>
 
 <h2 id="label-The+SSO+Module">The SSO Module</h2>
 
-<p>The SSO Module provides convenience methods for authenticating a Single Sign On (SSO) user via WorkOS. WorkOS SSO follows the Oauth 2.0 specification.</p>
+<p>The SSO Module provides convenience methods for authenticating a Single
+Sign On (SSO) user via WorkOS. WorkOS SSO follows the Oauth 2.0
+specification.</p>
 
-<p>First, you&#39;ll direct your SSO users to an <code>authorization_url</code>. They will sign in to their SSO account with their Identity Provider, and be redirected to a callback URL that you set in your WorkOS Dashboard. The user will be redirected with a <code>code</code> URL parameter, which you can then exchange for a WorkOS::Profile using the <code>WorkOS::SSO.get_profile</code> method.</p>
+<p>First, you&#39;ll direct your SSO users to an
+<code>authorization_url</code>. They will sign in to their SSO account with
+their Identity Provider, and be redirected to a callback URL that you set
+in your WorkOS Dashboard. The user will be redirected with a
+<code>code</code> URL parameter, which you can then exchange for a
+WorkOS::Profile using the <code>WorkOS::SSO.get_profile</code> method.</p>
 
-<p>See our Ruby SSO example app for a <a href="https://github.com/workos-inc/ruby-sso-example">complete example</a>.</p>
+<p>See our Ruby SSO example app for a <a
+href="https://github.com/workos-inc/ruby-sso-example">complete example</a>.</p>
 
 <pre class="code ruby"><code class="ruby">WorkOS::SSO.authorization_url(domain:, project_id:, redirect_uri:, state: {})
 </code></pre>
@@ -148,20 +165,29 @@
 
 <p><code>WorkOS::SSO.authorization_url</code> accepts four arguments:</p>
 <ul><li>
-<p><code>domain</code> (string) — the authenticating user&#39;s company domain, without protocol (ex. <code>example.com</code>)</p>
+<p><code>domain</code> (string) — the authenticating user&#39;s company
+domain, without protocol (ex. <code>example.com</code>)</p>
 </li><li>
-<p><code>project_id</code> (string) — your application&#39;s WorkOS <a href="https://dashboard.workos.com/sso/configuration">Project ID</a> (ex. <code>project_01JG3BCPTRTSTTWQR4VSHXGWCQ</code>)</p>
+<p><code>project_id</code> (string) — your application&#39;s WorkOS <a
+href="https://dashboard.workos.com/sso/configuration">Project ID</a> (ex.
+<code>project_01JG3BCPTRTSTTWQR4VSHXGWCQ</code>)</p>
 </li><li>
-<p><code>state</code> (optional, hash) — an optional hash used to manage state across authorization transactions (ex. <code>{ next_page: &#39;/docs&#39;}</code>)</p>
+<p><code>state</code> (optional, hash) — an optional hash used to manage state
+across authorization transactions (ex. <code>{ next_page:
+&#39;/docs&#39;}</code>)</p>
 </li><li>
-<p><code>redirect_uri</code> (string) — a callback URL where your application redirects the user-agent after an authorization code is granted (ex. <code>workos.dev/callback</code>). This must match one of your configured callback URLs for the associated project on your WorkOS dashboard.</p>
+<p><code>redirect_uri</code> (string) — a callback URL where your application
+redirects the user-agent after an authorization code is granted (ex.
+<code>workos.dev/callback</code>). This must match one of your configured
+callback URLs for the associated project on your WorkOS dashboard.</p>
 </li></ul>
 
 <p>This method will return an OAuth2 query string of the form:</p>
 
 <p><code>https://${domain}/sso/authorize?response_type=code&client_id=${projectID}&redirect_uri=${redirectURI}&state=${state}</code></p>
 
-<p>For example, when used in a <a href="http://sinatrarb.com/">Sinatra app</a>:</p>
+<p>For example, when used in a <a href="http://sinatrarb.com/">Sinatra
+app</a>:</p>
 
 <pre class="code ruby"><code class="ruby"><span class='const'>DOMAIN</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>example.com</span><span class='tstring_end'>&#39;</span></span>
 <span class='const'>PROJECT_ID</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>{projectId}</span><span class='tstring_end'>&#39;</span></span>
@@ -182,7 +208,11 @@
 
 <p><code>https://api.workos.com/sso/authorize?response_type=code&client_id={projectID}&redirect_uri=http://localhost:4567/callback</code></p>
 
-<p>WorkOS takes over from here, sending the user to authenticate with their IDP, and on successful login, returns the user to your callback URL with a <code>code</code> parameter. You&#39;ll use <code>WorkOS::SSO.profile</code> to exchange the code for a <code>WorkOS::Profile</code>.</p>
+<p>WorkOS takes over from here, sending the user to authenticate with their
+IDP, and on successful login, returns the user to your callback URL with a
+<code>code</code> parameter. You&#39;ll use
+<code>WorkOS::SSO.profile</code> to exchange the code for a
+<code>WorkOS::Profile</code>.</p>
 
 <pre class="code ruby"><code class="ruby">WorkOS::SSO.profile(code:, project_id:)&lt;/h4&gt;
 </code></pre>
@@ -193,12 +223,17 @@
 
 <p><code>WorkOS::SSO.profile</code> accepts two arguments:</p>
 <ul><li>
-<p><code>code</code> (string) — an opaque string provided by the authorization server; will be exchanged for an Access Token when the user&#39;s profile is sent</p>
+<p><code>code</code> (string) — an opaque string provided by the authorization
+server; will be exchanged for an Access Token when the user&#39;s profile
+is sent</p>
 </li><li>
-<p><code>project_id</code> (string) — your application&#39;s WorkOS <a href="https://dashboard.workos.com/sso/configuration">Project ID</a> (ex. <code>project_01JG3BCPTRTSTTWQR4VSHXGWCQ</code>)</p>
+<p><code>project_id</code> (string) — your application&#39;s WorkOS <a
+href="https://dashboard.workos.com/sso/configuration">Project ID</a> (ex.
+<code>project_01JG3BCPTRTSTTWQR4VSHXGWCQ</code>)</p>
 </li></ul>
 
-<p>This method will return an instance of a <code>WorkOS::Profile</code> with the following attributes:</p>
+<p>This method will return an instance of a <code>WorkOS::Profile</code> with
+the following attributes:</p>
 
 <pre class="code ruby"><code class="ruby">&lt;WorkOS::Profile:0x00007fb6e4193d20
   @id=&quot;prof_01DRA1XNSJDZ19A31F183ECQW5&quot;,
@@ -238,13 +273,14 @@
 <span class='kw'>end</span>
 </code></pre>
 
-<p>Given the <code>WorkOS::Profile</code>, you can now sign the user in according to your own authentication setup.</p>
+<p>Given the <code>WorkOS::Profile</code>, you can now sign the user in
+according to your own authentication setup.</p>
 </div></div>
 
       <div id="footer">
-  Generated on Fri Mar 13 12:16:45 2020 by
+  Generated on Sun Mar 15 21:27:04 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.22 (ruby-2.6.5).
+  0.9.22 (ruby-2.3.7).
 </div>
 
     </div>
