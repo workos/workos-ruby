@@ -106,14 +106,14 @@ module WorkOS
       #
       # @return [WorkOS::Profile]
       def profile(code:, project_id:)
-        query = URI.encode_www_form(
+        body = {
           client_id: project_id,
           client_secret: WorkOS.key!,
           grant_type: 'authorization_code',
           code: code,
-        )
+        }
 
-        response = client.request(post_request(path: "/sso/token?#{query}"))
+        response = client.request(post_request(path: '/sso/token', body: body))
         check_and_raise_profile_error(response: response)
 
         WorkOS::Profile.new(response.body)
