@@ -547,14 +547,14 @@
       <pre class="code"><span class="info file"># File 'lib/workos/sso.rb', line 108</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_profile'>profile</span><span class='lparen'>(</span><span class='label'>code:</span><span class='comma'>,</span> <span class='label'>project_id:</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='const'>URI</span><span class='period'>.</span><span class='id identifier rubyid_encode_www_form'>encode_www_form</span><span class='lparen'>(</span>
+  <span class='id identifier rubyid_body'>body</span> <span class='op'>=</span> <span class='lbrace'>{</span>
     <span class='label'>client_id:</span> <span class='id identifier rubyid_project_id'>project_id</span><span class='comma'>,</span>
     <span class='label'>client_secret:</span> <span class='const'><span class='object_link'><a href="../WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_key!'><span class='object_link'><a href="../WorkOS.html#key!-class_method" title="WorkOS.key! (method)">key!</a></span></span><span class='comma'>,</span>
     <span class='label'>grant_type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>authorization_code</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
     <span class='label'>code:</span> <span class='id identifier rubyid_code'>code</span><span class='comma'>,</span>
-  <span class='rparen'>)</span>
+  <span class='rbrace'>}</span>
 
-  <span class='id identifier rubyid_response'>response</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_request'>request</span><span class='lparen'>(</span><span class='id identifier rubyid_post_request'>post_request</span><span class='lparen'>(</span><span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/sso/token?</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_query'>query</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_response'>response</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_request'>request</span><span class='lparen'>(</span><span class='id identifier rubyid_post_request'>post_request</span><span class='lparen'>(</span><span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/sso/token</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>body:</span> <span class='id identifier rubyid_body'>body</span><span class='rparen'>)</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_check_and_raise_profile_error'>check_and_raise_profile_error</span><span class='lparen'>(</span><span class='label'>response:</span> <span class='id identifier rubyid_response'>response</span><span class='rparen'>)</span>
 
   <span class='const'><span class='object_link'><a href="../WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Profile.html" title="WorkOS::Profile (class)">Profile</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Profile.html#initialize-instance_method" title="WorkOS::Profile#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span><span class='rparen'>)</span>
@@ -681,7 +681,7 @@
 </div>
 
       <div id="footer">
-  Generated on Sun Mar 15 22:11:09 2020 by
+  Generated on Thu Mar 19 20:24:36 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.22 (ruby-2.6.5).
 </div>
