@@ -26,6 +26,7 @@
 # vendor/Pods/
 
 ## Documentation cache and generated files:
+/bin/.yardoc/
 /.yardoc/
 /_yardoc/
 /doc/
