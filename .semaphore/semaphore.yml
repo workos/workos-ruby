@@ -1,9 +1,11 @@
 version: v1.0
 name: Ruby
+
 agent:
   machine:
     type: e1-standard-2
     os_image: ubuntu1804
+
 blocks:
   - name: Run Sorbet 🍦
     task:
@@ -11,19 +13,18 @@ blocks:
         - name: srb tc
           commands:
             - checkout
-            - sem-version ruby 2.6.5
-            - gem install bundler
             - bundle install
             - bundle exec srb tc
+
   - name: Run Rubocop 🚔
     task:
       jobs:
         - name: rubocop
           commands:
             - checkout
-            - sem-version ruby 2.6.5
             - bundle install
             - bundle exec rubocop
+
   - name: Run Tests 👩🏽‍🔬
     task:
       secrets:
@@ -40,7 +41,7 @@ blocks:
             - checkout
             - sem-version ruby 2.0.0
             - bundle install
-            - bundle exec rspec    
+            - bundle exec rspec
         - name: Ruby 2.3.4
           commands:
             - checkout
@@ -58,7 +59,13 @@ blocks:
             - checkout
             - sem-version ruby 2.6.5
             - bundle install
-            - bundle exec rspec    
+            - bundle exec rspec
+        - name: Ruby 2.7.1
+          commands:
+            - checkout
+            - sem-version ruby 2.7.1
+            - bundle install
+            - bundle exec rspec
 promotions:
   - name: Deploy workos-rb to rubygems
-    pipeline_file: rubygems.yml            
+    pipeline_file: rubygems.yml
