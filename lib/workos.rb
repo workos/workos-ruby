@@ -6,7 +6,7 @@ require 'sorbet-runtime'
 
 # Use the WorkOS module to authenticate your
 # requests to the WorkOS API. The gem will read
-# your API key automatically from the ENV var `WORKOS_KEY`.
+# your API key automatically from the ENV var `WORKOS_API_KEY`.
 # Alternatively, you can set the key yourself with
 # `WorkOS.key = [your api key]` somewhere in the load path of
 # your application, such as an initializer.
