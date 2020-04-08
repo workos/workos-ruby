@@ -26,12 +26,12 @@ gem 'workos'
 
 To use the SDK you must first provide your API key from the [WorkOS Developer Dashboard](https://dashboard.workos.com/api-keys).
 
-You can do this through the `WORKOS_KEY` environment variable or by calling `WorkOS.key = [your API key]`.
+You can do this through the `WORKOS_API_KEY` environment variable or by calling `WorkOS.key = [your API key]`.
 
-The WorkOS Gem will read the environment variable `WORKOS_KEY`:
+The WorkOS Gem will read the environment variable `WORKOS_API_KEY`:
 
 ```sh
-$ WORKOS_KEY=[your api key] ruby app.rb
+$ WORKOS_API_KEY=[your api key] ruby app.rb
 ```
 
 Alternatively, you may set the key yourself, such as in an initializer in your application load path:
