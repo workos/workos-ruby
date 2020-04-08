@@ -37,5 +37,8 @@ module WorkOS
   autoload :AuthenticationError, 'workos/errors'
   autoload :InvalidRequestError, 'workos/errors'
 
-  WorkOS.key = ENV['WORKOS_KEY'] unless ENV['WORKOS_KEY'].nil?
+  # Remove WORKOS_KEY at some point in the future. Keeping it here now for
+  # backwards compatibility.
+  key = ENV['WORKOS_API_KEY'] || ENV['WORKOS_KEY']
+  WorkOS.key = key unless key.nil?
 end
