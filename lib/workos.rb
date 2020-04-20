@@ -30,6 +30,7 @@ module WorkOS
   autoload :Client, 'workos/client'
   autoload :AuditTrail, 'workos/audit_trail'
   autoload :Connection, 'workos/connection'
+  autoload :DirectorySync, 'workos/directory_sync'
   autoload :Profile, 'workos/profile'
   autoload :SSO, 'workos/sso'
 
