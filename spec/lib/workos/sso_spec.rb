@@ -242,7 +242,7 @@ describe WorkOS::SSO do
             WorkOS::SSO.create_connection(source: 'invalid')
           end.to raise_error(
             WorkOS::APIError,
-            'Status 404, Not Found - request ID: '
+            'Status 404, Not Found - request ID: ',
           )
         end
       end
