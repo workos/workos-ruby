@@ -240,7 +240,10 @@ describe WorkOS::SSO do
         VCR.use_cassette('sso/create_connection_with_invalid_source') do
           expect do
             WorkOS::SSO.create_connection(source: 'invalid')
-          end.to raise_error(WorkOS::APIError, 'Status 404, Not Found - request ID: ')
+          end.to raise_error(
+            WorkOS::APIError,
+            'Status 404, Not Found - request ID: '
+          )
         end
       end
     end
