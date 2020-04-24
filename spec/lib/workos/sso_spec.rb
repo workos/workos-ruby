@@ -211,7 +211,50 @@ describe WorkOS::SSO do
     end
   end
 
+  describe '.create_connection' do
+    before(:all) do
+      WorkOS.key = 'key'
+    end
+
+    after(:all) do
+      WorkOS.key = nil
+    end
+
+    context 'with a valid source' do
+      it 'creates a connection' do
+        VCR.use_cassette('sso/create_connection_with_valid_source') do
+          connection = WorkOS::SSO.create_connection(
+            source: 'draft_conn_01E6PK87QP6NQ29RRX0G100YGV',
+          )
+
+          expect(connection.id).to eq('conn_01E4F9T2YWZFD218DN04KVFDSY')
+          expect(connection.connection_type).to eq('GoogleOAuth')
+          expect(connection.name).to eq('Foo Corp')
+          expect(connection.domains.first[:domain]).to eq('example.com')
+        end
+      end
+    end
+
+    context 'with an invalid source' do
+      it 'raises an error' do
+        VCR.use_cassette('sso/create_connection_with_invalid_source') do
+          expect {
+            WorkOS::SSO.create_connection(source: 'invalid')
+          }.to raise_error(WorkOS::APIError, 'Invalid source - request ID: ')
+        end
+      end
+    end
+  end
+
   describe '.promote_draft_connection' do
+    before(:all) do
+      WorkOS.key = 'key'
+    end
+
+    after(:all) do
+      WorkOS.key = nil
+    end
+
     let(:token) { 'draft_conn_id' }
     let(:project_id) { 'proj_0239u590h' }
 
