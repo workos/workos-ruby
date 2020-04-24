@@ -1,0 +1,63 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.workos.com/connections
+    body:
+      encoding: UTF-8
+      string: '{"source":"draft_conn_01E6PK87QP6NQ29RRX0G100YGV"}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.2.2
+      Authorization:
+      - Bearer <API_KEY>
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Server:
+      - Cowboy
+      Connection:
+      - keep-alive
+      Vary:
+      - Origin, Accept-Encoding
+      Access-Control-Allow-Credentials:
+      - 'true'
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Download-Options:
+      - noopen
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Request-Id:
+      - 8cd03fab-ca1a-4c0b-9953-1f918849a9de
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"55a-z00MNCfGmS/7RWJwhsBrAXo09Ls"
+      Date:
+      - Fri, 24 Apr 2020 17:20:52 GMT
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: ASCII-8BIT
+      string: '{"object":"connection","id":"conn_01E4F9T2YWZFD218DN04KVFDSY","status":"unlinked","name":"Foo Corp","connection_type":"GoogleOAuth","oauth_uid":"demo
+        client id","oauth_secret":"demo client secret","oauth_redirect_uri":"https://auth.workos.com/sso/oauth/google/gcrSPYSytyQeZKkwKs6Ye4ogM/callback","saml_entity_id":null,"saml_idp_url":null,"saml_relying_party_trust_cert":null,"saml_x509_certs":null,"domains":[{"object":"connection_domain","id":"domain_01E6PK9N3XMD8RHWF7S66380AR","domain":"example.com"}]}'
+    http_version: 
+  recorded_at: Fri, 24 Apr 2020 17:20:52 GMT
+recorded_with: VCR 5.0.0

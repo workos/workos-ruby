@@ -18,16 +18,6 @@ module WorkOS
 
       PROVIDERS = WorkOS::Types::Provider.values.map(&:serialize).freeze
 
-      sig do
-        params(
-          project_id: String,
-          redirect_uri: String,
-          domain: T.nilable(String),
-          provider: T.nilable(String),
-          state: Hash,
-        ).returns(String)
-      end
-
       # Generate an Oauth2 authorization URL where your users will
       # authenticate using the configured SSO Identity Provider.
       #
@@ -59,6 +49,15 @@ module WorkOS
       #      "response_type=code&state=%7B%3Anext_page%3D%3E%22%2Fdocs%22%7D"
       #
       # @return [String]
+      sig do
+        params(
+          project_id: String,
+          redirect_uri: String,
+          domain: T.nilable(String),
+          provider: T.nilable(String),
+          state: Hash,
+        ).returns(String)
+      end
       def authorization_url(
         project_id:, redirect_uri:, domain: nil, provider: nil, state: {}
       )
@@ -74,13 +73,6 @@ module WorkOS
         }.compact)
 
         "https://#{WorkOS::API_HOSTNAME}/sso/authorize?#{query}"
-      end
-
-      sig do
-        params(
-          code: String,
-          project_id: String,
-        ).returns(WorkOS::Profile)
       end
 
       # Fetch the profile details for the authenticated SSO user.
@@ -105,6 +97,7 @@ module WorkOS
       #        >
       #
       # @return [WorkOS::Profile]
+      sig { params(code: String, project_id: String).returns(WorkOS::Profile) }
       def profile(code:, project_id:)
         body = {
           client_id: project_id,
@@ -119,17 +112,11 @@ module WorkOS
         WorkOS::Profile.new(response.body)
       end
 
-      sig do
-        params(
-          token: String,
-        ).returns(T::Boolean)
-      end
-
       # Promote a DraftConnection created via the WorkOS.js embed such that the
       # Enterprise users can begin signing into your application.
       #
-      # @param [String] token The draft connection token that's been provided to
-      # you by the WorkOS.js embed
+      # @param [String] token The Draft Connection token that's been provided to
+      # you by the WorkOS.js
       #
       # @example
       #   WorkOS::SSO.promote_draft_connection(
@@ -139,14 +126,46 @@ module WorkOS
       #
       # @return [Bool] - returns `true` if successful, `false` otherwise.
       # @see https://github.com/workos-inc/ruby-idp-link-example
+      sig { params(token: String).returns(T::Boolean) }
       def promote_draft_connection(token:)
-        request = bearer_post_request(
+        request = post_request(
+          auth: true,
           path: "/draft_connections/#{token}/activate",
         )
 
         response = client.request(request)
 
         response.is_a? Net::HTTPSuccess
+      end
+
+      # Create a Connection
+      #
+      # @param [String] source The Draft Connection token that's been provided
+      # to you by WorkOS.js
+      #
+      # @example
+      #   WorkOS::SSO.create_connection(source: 'draft_conn_429u59js')
+      #   => #<WorkOS::Connection:0x00007fb6e4193d20
+      #         @id="conn_02DRA1XNSJDZ19A31F183ECQW9",
+      #         @name="Foo Corp",
+      #         @connection_type="OktaSAML",
+      #         @domains=
+      #          [{:object=>"connection_domain",
+      #            :id=>"domain_01E6PK9N3XMD8RHWF7S66380AR",
+      #            :domain=>"example.com"}]>
+      #
+      # @return [WorkOS::Connection]
+      sig { params(source: String).returns(WorkOS::Connection) }
+      def create_connection(source:)
+        request = post_request(
+          auth: true,
+          path: '/connections',
+          body: { source: source },
+        )
+
+        response = execute_request(request: request)
+
+        WorkOS::Connection.new(response.body)
       end
 
       private
@@ -188,12 +207,6 @@ module WorkOS
         )
       end
       # rubocop:enable Metrics/MethodLength
-
-      def bearer_post_request(path:, body: nil)
-        request = post_request(path: path, body: body)
-        request['Authorization'] = "Bearer #{WorkOS.key!}"
-        request
-      end
     end
   end
 end
