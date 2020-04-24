@@ -57,22 +57,6 @@ module WorkOS
 
         execute_request(request: request)
       end
-
-      private
-
-      sig do
-        params(
-          path: String,
-          idempotency_key: T.nilable(String),
-          body: T.nilable(Hash),
-        ).returns(Net::HTTP::Post)
-      end
-      def post_request(path:, idempotency_key: nil, body: nil)
-        request = super(path: path, body: body)
-        request['Authorization'] = "Bearer #{WorkOS.key}"
-        request['Idempotency-Key'] = idempotency_key if idempotency_key
-        request
-      end
     end
   end
 end
