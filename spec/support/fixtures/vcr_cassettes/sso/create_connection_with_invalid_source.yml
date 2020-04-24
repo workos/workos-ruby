@@ -1,0 +1,58 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.workos.com/connections
+    body:
+      encoding: UTF-8
+      string: '{"source":"invalid"}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.2.2
+      Authorization:
+      - Bearer <API_KEY>
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Vary:
+      - Origin, Accept-Encoding
+      Access-Control-Allow-Credentials:
+      - 'true'
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Download-Options:
+      - noopen
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Request-Id:
+      - ''
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '23'
+      Etag:
+      - W/"17-SuRA/yvUWUo8rK6x7dKURLeBo+0"
+      Date:
+      - Fri, 24 Apr 2020 02:16:27 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"message":"Not Found"}'
+    http_version: 
+  recorded_at: Fri, 24 Apr 2020 02:16:27 GMT
+recorded_with: VCR 5.0.0

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 # typed: true
 
-
 module WorkOS
   # A Net::HTTP based API client for interacting with the WorkOS API
   module Client
@@ -18,7 +17,11 @@ module WorkOS
       @client
     end
 
-    sig { params(request: Net::HTTP::Post).returns(::T.untyped) }
+    sig do
+      params(
+        request: T.any(Net::HTTP::Get, Net::HTTP::Post),
+      ).returns(::T.untyped)
+    end
     def execute_request(request:)
       response = client.request(request)
 
@@ -28,10 +31,40 @@ module WorkOS
       response
     end
 
-    sig { params(path: String, body: T.nilable(Hash)).returns(Net::HTTP::Post) }
-    def post_request(path:, body: nil)
+    sig do
+      params(
+        path: String,
+        auth: T.nilable(T::Boolean),
+        params: T.nilable(Hash),
+      ).returns(Net::HTTP::Get)
+    end
+    def get_request(path:, auth: false, params: {})
+      uri = URI(path)
+      uri.query = URI.encode_www_form(params) if params
+
+      request = Net::HTTP::Get.new(
+        uri.to_s,
+        'Content-Type' => 'application/json',
+      )
+
+      request['Authorization'] = "Bearer #{WorkOS.key!}" if auth
+      request['User-Agent'] = user_agent
+      request
+    end
+
+    sig do
+      params(
+        path: String,
+        auth: T.nilable(T::Boolean),
+        idempotency_key: T.nilable(String),
+        body: T.nilable(Hash),
+      ).returns(Net::HTTP::Post)
+    end
+    def post_request(path:, auth: false, idempotency_key: nil, body: nil)
       request = Net::HTTP::Post.new(path, 'Content-Type' => 'application/json')
       request.body = body.to_json if body
+      request['Authorization'] = "Bearer #{WorkOS.key!}" if auth
+      request['Idempotency-Key'] = idempotency_key if idempotency_key
       request['User-Agent'] = user_agent
       request
     end
@@ -64,6 +97,12 @@ module WorkOS
         )
       when 401
         raise AuthenticationError.new(
+          message: json['message'],
+          http_status: http_status,
+          request_id: response['x-request-id'],
+        )
+      when 404
+        raise APIError.new(
           message: json['message'],
           http_status: http_status,
           request_id: response['x-request-id'],

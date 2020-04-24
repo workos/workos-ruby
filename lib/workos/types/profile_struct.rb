@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 # typed: strict
 
-
 module WorkOS
   module Types
     # The ProfileStruct acts as a typed interface
