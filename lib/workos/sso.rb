@@ -140,8 +140,8 @@ module WorkOS
 
       # Create a Connection
       #
-      # @param [String] source The Draft Connection token that's been provided to
-      # you by WorkOS.js
+      # @param [String] source The Draft Connection token that's been provided
+      # to you by WorkOS.js
       #
       # @example
       #   WorkOS::SSO.create_connection(source: 'draft_conn_429u59js')

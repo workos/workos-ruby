@@ -238,9 +238,9 @@ describe WorkOS::SSO do
     context 'with an invalid source' do
       it 'raises an error' do
         VCR.use_cassette('sso/create_connection_with_invalid_source') do
-          expect {
+          expect do
             WorkOS::SSO.create_connection(source: 'invalid')
-          }.to raise_error(WorkOS::APIError, 'Invalid source - request ID: ')
+          end.to raise_error(WorkOS::APIError, 'Invalid source - request ID: ')
         end
       end
     end

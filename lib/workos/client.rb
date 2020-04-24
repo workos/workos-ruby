@@ -42,7 +42,11 @@ module WorkOS
       uri = URI(path)
       uri.query = URI.encode_www_form(params) if params
 
-      request = Net::HTTP::Get.new(uri.to_s, 'Content-Type' => 'application/json')
+      request = Net::HTTP::Get.new(
+        uri.to_s,
+        'Content-Type' => 'application/json',
+      )
+
       request['Authorization'] = "Bearer #{WorkOS.key!}" if auth
       request['User-Agent'] = user_agent
       request
