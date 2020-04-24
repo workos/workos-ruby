@@ -3,7 +3,7 @@
 
 module WorkOS
   module Types
-    # This ConnectoinStruct acts as a typed interface
+    # This ConnectionStruct acts as a typed interface
     # for the Connection class
     class ConnectionStruct < T::Struct
       const :id, String
