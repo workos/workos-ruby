@@ -6,7 +6,7 @@ require 'json'
 module WorkOS
   # The Connection class provides a lightweight wrapper around
   # a WorkOS Connection resource. This class is not meant to be instantiated
-  # in user space, and is instantiated inernally but exposed.
+  # in user space, and is instantiated internally but exposed.
   class Connection
     extend T::Sig
 
