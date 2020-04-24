@@ -9,7 +9,7 @@ module WorkOS
       const :id, String
       const :name, String
       const :connection_type, String
-      const :domains, Array
+      const :domains, T::Array[T.untyped]
     end
   end
 end

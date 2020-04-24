@@ -10,7 +10,6 @@ module WorkOS
   class Connection
     extend T::Sig
 
-    sig { returns(String) }
     attr_accessor :id, :name, :connection_type, :domains
 
     sig { params(json: String).void }
