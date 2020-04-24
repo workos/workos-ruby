@@ -101,6 +101,12 @@ module WorkOS
           http_status: http_status,
           request_id: response['x-request-id'],
         )
+      when 404
+        raise APIError.new(
+          message: json['message'],
+          http_status: http_status,
+          request_id: response['x-request-id'],
+        )
       when 422
         errors = json['errors'].map do |error|
           "#{error['field']}: #{error['code']}"

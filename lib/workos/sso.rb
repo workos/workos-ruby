@@ -163,8 +163,7 @@ module WorkOS
           body: { source: source },
         )
 
-        response = client.request(request)
-        check_and_raise_error(response: response)
+        response = execute_request(request: request)
 
         WorkOS::Connection.new(response.body)
       end
@@ -186,20 +185,6 @@ module WorkOS
 
         raise ArgumentError, "#{provider} is not a valid value." \
           " `provider` must be in #{PROVIDERS}"
-      end
-
-      sig { params(response: Net::HTTPResponse).void }
-      def check_and_raise_error(response:)
-        return unless response.is_a?(Net::HTTPNotFound)
-
-        request_id = response['x-request-id']
-        message = 'Invalid source'
-
-        raise APIError.new(
-          message: message,
-          http_status: nil,
-          request_id: request_id,
-        )
       end
 
       # rubocop:disable Metrics/MethodLength
