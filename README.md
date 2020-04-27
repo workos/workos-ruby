@@ -80,7 +80,7 @@ WorkOS::AuditTrail.create_event(event: payload, idempotency_key: 'key123456')
 ```
 
 See our [API
-Reference](https://docs.workos.com/api-reference#idempotency)
+Reference](https://docs.workos.com/audit-trail/api-reference#idempotency)
 for more information on idempotency keys.
 
 ## The SSO Module
