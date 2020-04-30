@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.workos-test.com/directory_groups/directory_grp_01E64QTDNS0EGJ0FMCVY9BWGZT
+    uri: https://api.workos.com/directory_groups/directory_grp_01E64QTDNS0EGJ0FMCVY9BWGZT
     body:
       encoding: US-ASCII
       string: ''
