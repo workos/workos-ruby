@@ -1,0 +1,62 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.workos.com/directory_users/directory_usr_01E64QS50EAY48S0XJ1AA4WX4D
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.2.3
+      Authorization:
+      - Bearer <API_KEY>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Cowboy
+      Connection:
+      - keep-alive
+      Vary:
+      - Origin, Accept-Encoding
+      Access-Control-Allow-Credentials:
+      - 'true'
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Download-Options:
+      - noopen
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Request-Id:
+      - fe3f582a-b944-4f2c-a225-ae3a7f099fa0
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '368'
+      Etag:
+      - W/"170-JjGTDHa7GqXeAwXcua+s3+2z/oA"
+      Date:
+      - Thu, 30 Apr 2020 04:43:14 GMT
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"id":"directory_usr_01E64QS50EAY48S0XJ1AA4WX4D","raw_attributes":{"name":{"givenName":"Mark","familyName":"Tran"},"emails":[{"value":"mark@foo-corp.com","primary":true}],"userName":"mark@foo-corp.com","externalId":"118325297729072421906"},"first_name":"Mark","emails":[{"value":"mark@foo-corp.com","primary":true}],"username":"mark@foo-corp.com","last_name":"Tran"}'
+    http_version:
+  recorded_at: Thu, 30 Apr 2020 04:43:15 GMT
+recorded_with: VCR 5.0.0

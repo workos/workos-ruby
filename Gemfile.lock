@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    workos (0.2.2)
+    workos (0.2.3)
       sorbet-runtime (~> 0.5)
 
 GEM
@@ -56,7 +56,7 @@ GEM
     simplecov-html (0.10.2)
     sorbet (0.5.5560)
       sorbet-static (= 0.5.5560)
-    sorbet-runtime (0.5.5373)
+    sorbet-runtime (0.5.5460)
     sorbet-static (0.5.5560-universal-darwin-14)
     unicode-display_width (1.6.0)
     url (0.3.2)
