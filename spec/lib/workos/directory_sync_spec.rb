@@ -37,9 +37,9 @@ describe WorkOS::DirectorySync do
     context 'with no options' do
       it 'returns groups' do
         VCR.use_cassette('directory_sync/list_groups') do
-          expect {
+          expect do
             WorkOS::DirectorySync.list_groups
-          }.to raise_error(
+          end.to raise_error(
             WorkOS::InvalidRequestError,
             /Status 422, Validation failed/,
           )
@@ -65,9 +65,9 @@ describe WorkOS::DirectorySync do
     context 'with no options' do
       it 'returns users' do
         VCR.use_cassette('directory_sync/list_users') do
-          expect {
+          expect do
             WorkOS::DirectorySync.list_users
-          }.to raise_error(
+          end.to raise_error(
             WorkOS::InvalidRequestError,
             /Status 422, Validation failed/,
           )
@@ -105,9 +105,9 @@ describe WorkOS::DirectorySync do
     context 'with invalid id' do
       it 'raises an error' do
         VCR.use_cassette('directory_sync/get_group_with_invalid_id') do
-          expect {
+          expect do
             WorkOS::DirectorySync.get_group('invalid')
-          }.to raise_error(WorkOS::APIError)
+          end.to raise_error(WorkOS::APIError)
         end
       end
     end
@@ -129,9 +129,9 @@ describe WorkOS::DirectorySync do
     context 'with invalid id' do
       it 'raises an error' do
         VCR.use_cassette('directory_sync/get_user_with_invalid_id') do
-          expect {
+          expect do
             WorkOS::DirectorySync.get_user('invalid')
-          }.to raise_error(WorkOS::APIError)
+          end.to raise_error(WorkOS::APIError)
         end
       end
     end

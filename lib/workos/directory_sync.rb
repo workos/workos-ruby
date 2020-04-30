@@ -58,7 +58,7 @@ module WorkOS
             path: '/directory_groups',
             auth: true,
             params: options,
-          )
+          ),
         )
 
         JSON.parse(response.body)['data']
@@ -84,7 +84,7 @@ module WorkOS
             path: '/directory_users',
             auth: true,
             params: options,
-          )
+          ),
         )
 
         JSON.parse(response.body)['data']
@@ -101,7 +101,7 @@ module WorkOS
           request: get_request(
             path: "/directory_groups/#{id}",
             auth: true,
-          )
+          ),
         )
 
         JSON.parse(response.body)
@@ -118,7 +118,7 @@ module WorkOS
           request: get_request(
             path: "/directory_users/#{id}",
             auth: true,
-          )
+          ),
         )
 
         JSON.parse(response.body)
