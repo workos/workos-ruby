@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['support@workos.com']
   spec.description   = 'API client for WorkOS'
   spec.summary       = 'API client for WorkOS'
-  spec.homepage      = 'https://github.com/workos/workos-ruby'
+  spec.homepage      = 'https://github.com/workos-inc/workos-ruby'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
