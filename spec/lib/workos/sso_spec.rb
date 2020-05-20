@@ -13,7 +13,7 @@ describe WorkOS::SSO do
           redirect_uri: 'foo.com/auth/callback',
           state: {
             next_page: '/dashboard/edit',
-          },
+          }.to_s,
         }
       end
       it 'returns a valid URL' do
@@ -47,7 +47,7 @@ describe WorkOS::SSO do
           redirect_uri: 'foo.com/auth/callback',
           state: {
             next_page: '/dashboard/edit',
-          },
+          }.to_s,
         }
       end
       it 'returns a valid URL' do
@@ -80,7 +80,7 @@ describe WorkOS::SSO do
           redirect_uri: 'foo.com/auth/callback',
           state: {
             next_page: '/dashboard/edit',
-          },
+          }.to_s,
         }
       end
       it 'raises an error' do
@@ -101,7 +101,7 @@ describe WorkOS::SSO do
           redirect_uri: 'foo.com/auth/callback',
           state: {
             next_page: '/dashboard/edit',
-          },
+          }.to_s,
         }
       end
       it 'raises an error' do
