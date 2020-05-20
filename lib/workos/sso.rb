@@ -40,7 +40,7 @@ module WorkOS
       #     redirect_uri: 'https://workos.com/callback',
       #     state: {
       #       next_page: '/docs'
-      #     }
+      #     }.to_s
       #   )
       #
       #   => "https://api.workos.com/sso/authorize?domain=acme.com" \
