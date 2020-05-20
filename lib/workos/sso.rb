@@ -31,7 +31,7 @@ module WorkOS
       # @param [String] redirect_uri The URI where users are directed
       #  after completing the authentication step. Must match a
       #  configured redirect URI on your WorkOS dashboard.
-      # @param [Hash] state An aribtrary state object
+      # @param [String] state An aribtrary state object
       #  that is preserved and available to the client in the response.
       # @example
       #   WorkOS::SSO.authorization_url(
@@ -55,11 +55,11 @@ module WorkOS
           redirect_uri: String,
           domain: T.nilable(String),
           provider: T.nilable(String),
-          state: Hash,
+          state: T.nilable(String),
         ).returns(String)
       end
       def authorization_url(
-        project_id:, redirect_uri:, domain: nil, provider: nil, state: {}
+        project_id:, redirect_uri:, domain: nil, provider: nil, state: ''
       )
         validate_domain_and_provider(provider: provider, domain: domain)
 
