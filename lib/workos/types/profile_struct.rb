@@ -8,8 +8,8 @@ module WorkOS
     class ProfileStruct < T::Struct
       const :id, String
       const :email, String
-      const :first_name, String
-      const :last_name, String
+      const :first_name, T.nilable(String)
+      const :last_name, T.nilable(String)
       const :connection_type, String
       const :idp_id, String
     end
