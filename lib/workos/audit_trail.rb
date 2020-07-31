@@ -57,6 +57,54 @@ module WorkOS
 
         execute_request(request: request)
       end
+
+      # Retrieve Audit Trail events.
+      #
+      # @param [Hash] options An options hash
+      # @option options [String] before Event ID to look before
+      # @option options [String] after Event ID to look after
+      # @option options [Integer] limit Number of Events to return
+      # @option options [Array<String>] group List of Groups to filter for
+      # @option options [Array<String>] action List of Actions to filter for
+      # @option options [Array<String>] action_type List of Action Types to
+      #  filter for
+      # @option options [Array<String>] actor_name List of Actor Name to filter
+      #  for
+      # @option options [Array<String>] actor_id List of Actor IDs to filter for
+      # @option options [Array<String>] target_name List of Target Names to
+      #  filter for
+      # @option options [Array<String>] target_id List of Target IDs to filter
+      #  for
+      # @option options [String] occurred_at ISO-8601 datetime of when an event
+      #  occurred
+      # @option options [String] occurred_at_gt ISO-8601 datetime of when an
+      #  event occurred after
+      # @option options [String] occurred_at_gte ISO-8601 datetime of when an
+      #  event occurred at or after
+      # @option options [String] occurred_at_lt ISO-8601 datetime of when an
+      #  event occurred before
+      # @option options [String] ISO-8601 datetime of when an event occured at
+      #  or before
+      # @option options [String] search Keyword search
+      #
+      # @return [Array<Hash>]
+      sig do
+        params(
+          options: T::Hash[Symbol, String],
+        ).returns(T::Array[T::Hash[String, T.nilable(String)]])
+      end
+
+      def get_events(options = {})
+        response = execute_request(
+          request: get_request(
+            path: '/events',
+            auth: true,
+            params: options,
+          ),
+        )
+
+        JSON.parse(response.body)['data']
+      end
     end
   end
 end
