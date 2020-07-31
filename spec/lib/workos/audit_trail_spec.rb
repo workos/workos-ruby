@@ -137,4 +137,16 @@ describe WorkOS::AuditTrail do
       end
     end
   end
+
+  describe '.get_events' do
+    context 'with no options' do
+      it 'returns events' do
+        VCR.use_cassette('audit_trail/get_events') do
+          events = described_class.get_events
+
+          expect(events.size).to eq(2)
+        end
+      end
+    end
+  end
 end
