@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 # typed: true
 
+require 'net/http'
+
 module WorkOS
   # The Directory Sync module provides convenience methods for working with the
   # WorkOS Directory Sync platform. You'll need a valid API key and to have
