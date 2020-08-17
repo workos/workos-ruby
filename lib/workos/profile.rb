@@ -25,7 +25,7 @@ module WorkOS
       @first_name = raw.first_name
       @last_name = raw.last_name
       @connection_type = T.let(raw.connection_type, String)
-      @idp_id = T.let(raw.idp_id, String)
+      @idp_id = raw.idp_id
     end
 
     sig { returns(String) }
