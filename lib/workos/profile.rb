@@ -14,7 +14,7 @@ module WorkOS
 
     sig { returns(String) }
     attr_accessor :id, :email, :first_name, :last_name,
-                  :connection_type, :idp_id
+                  :connection_type, :idp_id, :raw_attributes
 
     sig { params(profile_json: String).void }
     def initialize(profile_json)
@@ -26,6 +26,7 @@ module WorkOS
       @last_name = raw.last_name
       @connection_type = T.let(raw.connection_type, String)
       @idp_id = raw.idp_id
+      @raw_attributes = raw.raw_attributes
     end
 
     sig { returns(String) }
@@ -41,11 +42,13 @@ module WorkOS
         last_name: last_name,
         connection_type: connection_type,
         idp_id: idp_id,
+        raw_attributes: raw_attributes,
       }
     end
 
     private
 
+    # rubocop:disable Metrics/AbcSize
     sig { params(json_string: String).returns(WorkOS::Types::ProfileStruct) }
     def parse_json(json_string)
       hash = JSON.parse(json_string, symbolize_names: true)
@@ -57,7 +60,9 @@ module WorkOS
         last_name: hash[:profile][:last_name],
         connection_type: hash[:profile][:connection_type],
         idp_id: hash[:profile][:idp_id],
+        raw_attributes: hash[:profile][:raw_attributes],
       )
     end
+    # rubocop:enable Metrics/AbcSize
   end
 end
