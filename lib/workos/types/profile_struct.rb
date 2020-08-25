@@ -12,6 +12,7 @@ module WorkOS
       const :last_name, T.nilable(String)
       const :connection_type, String
       const :idp_id, T.nilable(String)
+      const :raw_attributes, T::Hash[Symbol, Object]
     end
   end
 end
