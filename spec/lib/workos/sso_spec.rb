@@ -161,6 +161,24 @@ describe WorkOS::SSO do
       it 'returns a WorkOS::Profile' do
         profile = described_class.profile(**args)
         expect(profile).to be_a(WorkOS::Profile)
+
+        expectation = {
+          connection_type: 'OktaSAML',
+          email: 'demo@workos-okta.com',
+          first_name: 'WorkOS',
+          id: 'prof_01DRA1XNSJDZ19A31F183ECQW5',
+          idp_id: '00u1klkowm8EGah2H357',
+          last_name: 'Demo',
+          raw_attributes: {
+            email: 'demo@workos-okta.com',
+            first_name: 'WorkOS',
+            id: 'prof_01DRA1XNSJDZ19A31F183ECQW5',
+            idp_id: '00u1klkowm8EGah2H357',
+            last_name: 'Demo',
+          },
+        }
+
+        expect(profile.to_json).to eq(expectation)
       end
     end
 
