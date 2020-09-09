@@ -12,6 +12,30 @@ module WorkOS
       include Base
       include Client
 
+      # Create an organization
+      #
+      # @param [Array<String>] domains List of domains that belong to the
+      #  organization
+      # @param [String] name A unique, descriptive name for the organization
+      sig do
+        params(
+          domains: T::Array[String],
+          name: String,
+        ).returns(WorkOS::Organization)
+      end
+      def create_organization(domains:, name:)
+        request = post_request(
+          auth: true,
+          body: { domains: domains, name: name },
+          path: '/organizations',
+        )
+
+        response = execute_request(request: request)
+        check_and_raise_organization_error(response: response)
+
+        WorkOS::Organization.new(response.body)
+      end
+
       # Retrieve a list of organizations that have connections configured
       # within your WorkOS dashboard.
       #
@@ -43,6 +67,29 @@ module WorkOS
         WorkOS::Types::ListStruct.new(
           data: parsed_response['data'],
           list_metadata: parsed_response['listMetadata'],
+        )
+      end
+      # rubocop:enable Metrics/MethodLength
+
+      private
+
+      sig { params(response: Net::HTTPResponse).void }
+      # rubocop:disable Metrics/MethodLength
+      def check_and_raise_organization_error(response:)
+        begin
+          body = JSON.parse(response.body)
+          return unless body['message']
+
+          message = body['message']
+          request_id = response['x-request-id']
+        rescue StandardError
+          message = 'Something went wrong'
+        end
+
+        raise APIError.new(
+          message: message,
+          http_status: nil,
+          request_id: request_id,
         )
       end
       # rubocop:enable Metrics/MethodLength
