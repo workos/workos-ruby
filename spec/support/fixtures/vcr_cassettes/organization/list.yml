@@ -1,0 +1,72 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.workos.com/organizations
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.5.0
+      Authorization:
+      - Bearer <API_KEY>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Cowboy
+      Connection:
+      - keep-alive
+      Vary:
+      - Origin, Accept-Encoding
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      X-Dns-Prefetch-Control:
+      - 'off'
+      Expect-Ct:
+      - max-age=0
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Download-Options:
+      - noopen
+      X-Content-Type-Options:
+      - nosniff
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - no-referrer
+      X-Xss-Protection:
+      - '0'
+      X-Request-Id:
+      - bac447a8-ba37-40d0-bd2e-c6b0d9e55cb4
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"5e0-jXwzOfsEklDxV9I2vJyDWqYBnmU"
+      Date:
+      - Tue, 08 Sep 2020 23:05:22 GMT
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: ASCII-8BIT
+      string: '{"object":"list","data":[{"object":"organization","id":"org_01EHQMYV6MBK39QC5PZXHY59C3","name":"example.com","domains":[{"object":"organization_domain","id":"org_domain_01EHQMYV71XT8H31WE5HF8YK4A","domain":"example.com"}]},{"object":"organization","id":"org_01EHQMVDTC2GRAHFCCRNTSKH46","name":"example2.com","domains":[{"object":"organization_domain","id":"org_domain_01EHQMVDTZVA27PK614ME4YK7V","domain":"example2.com"}]},{"object":"organization","id":"org_01EGS4P7QR31EZ4YWD1Z1XA176","name":"foo-corp.com","domains":[{"object":"organization_domain","id":"org_domain_01EGS4P7RNQPFQAQ7SKCC40KNE","domain":"foo-corp.com"}]},{"object":"organization","id":"org_01EGPYFYM0Y66AHNYQG9Z63DTN","name":"example3.com","domains":[{"object":"organization_domain","id":"org_domain_01EGPYFYMGTRR38Z109MCJ3HHA","domain":"example3.com"}]},{"object":"organization","id":"org_01EGPJWMT2EQMK7FMPR3TBC861","name":"workos.com","domains":[{"object":"organization_domain","id":"org_domain_01EGPJWMTHRB5FP6MKE14RZ9BQ","domain":"workos.com"}]},{"object":"organization","id":"org_01EGPJ5YY5P897573GJFGGY7ZF","name":"example4.com","domains":[{"object":"organization_domain","id":"org_domain_01EGPJ5YYE7V931BWYS1AJHHHC","domain":"example4.com"}]},{"object":"organization","id":"org_01EGP9Z6RY2J6YE0ZV57CGEXV2","name":"example5.com","domains":[{"object":"organization_domain","id":"org_domain_01EGP9Z6S6HVQ5CPD152GJBEA5","domain":"example5.com"}]}],"listMetadata":{"before":"before-id","after":null}}'
+    http_version: 
+  recorded_at: Tue, 08 Sep 2020 23:05:22 GMT
+recorded_with: VCR 5.0.0
