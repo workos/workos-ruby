@@ -6,6 +6,7 @@ module WorkOS
   # so we're using Sorbet throughout this Ruby gem.
   module Types
     require_relative 'types/connection_struct'
+    require_relative 'types/intent_enum'
     require_relative 'types/list_struct'
     require_relative 'types/organization_struct'
     require_relative 'types/profile_struct'
