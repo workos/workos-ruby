@@ -43,6 +43,57 @@ describe WorkOS::Portal do
     end
   end
 
+  describe '.generate_link' do
+    let(:organization) { 'org_01EHQMYV6MBK39QC5PZXHY59C3' }
+
+    describe 'with a valid organization' do
+      describe 'with the minimal params' do
+        it 'returns an Admin Portal link' do
+          VCR.use_cassette 'portal/generate_link' do
+            portal_link = described_class.generate_link(
+              intent: 'sso',
+              organization: organization,
+            )
+
+            expect(portal_link).to eq(
+              'https://id.workos.com/portal/launch?secret=secret',
+            )
+          end
+        end
+      end
+    end
+
+    describe 'with an invalid organization' do
+      it 'raises an error' do
+        VCR.use_cassette 'portal/generate_link_invalid' do
+          expect do
+            described_class.generate_link(
+              intent: 'sso',
+              organization: 'bogus-id',
+            )
+          end.to raise_error(
+            WorkOS::InvalidRequestError,
+            /Could not find an organization with the id, bogus-id/,
+          )
+        end
+      end
+    end
+
+    describe 'with an invalid intent' do
+      it 'raises an error' do
+        expect do
+          described_class.generate_link(
+            intent: 'bogus-intent',
+            organization: organization,
+          )
+        end.to raise_error(
+          ArgumentError,
+          'bogus-intent is not a valid value. `intent` must be in ["sso"]',
+        )
+      end
+    end
+  end
+
   describe '.list_organizations' do
     context 'with no options' do
       it 'returns organizations and metadata' do
