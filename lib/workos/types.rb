@@ -7,6 +7,7 @@ module WorkOS
   module Types
     require_relative 'types/connection_struct'
     require_relative 'types/list_struct'
+    require_relative 'types/organization_struct'
     require_relative 'types/profile_struct'
     require_relative 'types/provider_enum'
   end

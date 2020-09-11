@@ -10,6 +10,39 @@ describe WorkOS::Portal do
     WorkOS.key = nil
   end
 
+  describe '.create_organization' do
+    context 'with valid payload' do
+      it 'creates an organization' do
+        VCR.use_cassette 'organization/create' do
+          organization = described_class.create_organization(
+            domains: ['example.com'],
+            name: 'Test Organization',
+          )
+
+          expect(organization.id).to eq('org_01EHT88Z8J8795GZNQ4ZP1J81T')
+          expect(organization.name).to eq('Test Organization')
+          expect(organization.domains.first[:domain]).to eq('example.com')
+        end
+      end
+    end
+
+    context 'with an invalid payload' do
+      it 'returns an error' do
+        VCR.use_cassette 'organization/create_invalid' do
+          expect do
+            described_class.create_organization(
+              domains: ['example.com'],
+              name: 'Test Organization 2',
+            )
+          end.to raise_error(
+            WorkOS::APIError,
+            /An Organization with the domain example.com already exists/,
+          )
+        end
+      end
+    end
+  end
+
   describe '.list_organizations' do
     context 'with no options' do
       it 'returns organizations and metadata' do
