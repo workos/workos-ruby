@@ -31,6 +31,7 @@ module WorkOS
   autoload :AuditTrail, 'workos/audit_trail'
   autoload :Connection, 'workos/connection'
   autoload :DirectorySync, 'workos/directory_sync'
+  autoload :Portal, 'workos/portal'
   autoload :Profile, 'workos/profile'
   autoload :SSO, 'workos/sso'
 
