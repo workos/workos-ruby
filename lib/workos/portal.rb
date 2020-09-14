@@ -78,8 +78,8 @@ module WorkOS
       # Retrieve a list of organizations that have connections configured
       # within your WorkOS dashboard.
       #
-      # @param [String] domain Filter organizations to only return those that
-      #  are associated with the provided domain.
+      # @param [Array<String>] domains Filter organizations to only return those
+      #  that are associated with the provided domains.
       # @param [String] before A pagination argument used to request
       #  organizations before the provided Organization ID.
       # @param [String] after A pagination argument used to request
