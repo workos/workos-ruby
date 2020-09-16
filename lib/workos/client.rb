@@ -108,11 +108,15 @@ module WorkOS
           request_id: response['x-request-id'],
         )
       when 422
-        errors = json['errors'].map do |error|
-          "#{error['field']}: #{error['code']}"
-        end.join('; ')
+        errors = nil
+        if json['errors']
+          errors = json['errors'].map do |error|
+            "#{error['field']}: #{error['code']}"
+          end.join('; ')
+        end
 
-        message = "#{json['message']} (#{errors})"
+        message = "#{json['message']}"
+        message += " (#{errors})" if errors
         raise InvalidRequestError.new(
           message: message,
           http_status: http_status,
