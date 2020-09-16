@@ -6,7 +6,8 @@ require 'uri'
 
 module WorkOS
   # The Passwordless module provides convenience methods for working with
-  # passwordless sessions including the WorkOS Magic Link. You'll need a valid API key.
+  # passwordless sessions including the WorkOS Magic Link. You'll need a valid
+  # API key.
   #
   # @see https://workos.com/docs/sso/configuring-magic-link
   module Passwordless
@@ -23,8 +24,8 @@ module WorkOS
       #  received from WorkOS will contain. The state parameter can be used to
       #  encode arbitrary information to help restore application state between
       #  redirects.
-      # @option options [String] type The type of Passwordless Session to create.
-      #  Currently, the only supported value is 'MagicLink'.
+      # @option options [String] type The type of Passwordless Session to
+      #  create. Currently, the only supported value is 'MagicLink'.
       #
       # @return Hash
       sig do
@@ -51,7 +52,7 @@ module WorkOS
       # @return Hash
       sig do
         params(
-          session_id: String
+          session_id: String,
         ).returns(T::Hash[String, T::Boolean])
       end
 

@@ -58,9 +58,10 @@ describe WorkOS::Passwordless do
       end
 
       it 'send a session' do
-
         VCR.use_cassette('passwordless/send_session') do
-          response = described_class.send_session('passwordless_session_01EJC0F4KH42T11Y2DHPEB09BM')
+          response = described_class.send_session(
+            'passwordless_session_01EJC0F4KH42T11Y2DHPEB09BM',
+          )
 
           expect(response['success']).to eq true
         end

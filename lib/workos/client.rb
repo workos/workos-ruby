@@ -115,7 +115,7 @@ module WorkOS
           end.join('; ')
         end
 
-        message = "#{json['message']}"
+        message = json['message']
         message += " (#{errors})" if errors
         raise InvalidRequestError.new(
           message: message,
