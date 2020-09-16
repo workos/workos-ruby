@@ -16,7 +16,7 @@ module WorkOS
       include Base
       include Client
 
-      # Create an Passwordless Session.
+      # Create a Passwordless Session.
       #
       # @param [Hash] options A hash with options for the session
       # @option options [String] email The email of the user to authenticate.
