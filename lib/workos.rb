@@ -32,6 +32,7 @@ module WorkOS
   autoload :Connection, 'workos/connection'
   autoload :DirectorySync, 'workos/directory_sync'
   autoload :Organization, 'workos/organization'
+  autoload :Passwordless, 'workos/passwordless'
   autoload :Portal, 'workos/portal'
   autoload :Profile, 'workos/profile'
   autoload :SSO, 'workos/sso'
