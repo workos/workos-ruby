@@ -31,17 +31,27 @@ module WorkOS
       sig do
         params(
           options: Hash,
-        ).returns(::T.untyped)
+        ).returns(WorkOS::Types::PasswordlessSessionStruct)
       end
 
       def create_session(options)
-        request = post_request(
-          path: '/passwordless/sessions',
-          auth: true,
-          body: options,
+        response = execute_request(
+          request: post_request(
+            path: '/passwordless/sessions',
+            auth: true,
+            body: options,
+          )
         )
 
-        execute_request(request: request)
+        hash = JSON.parse(response.body)
+
+        WorkOS::Types::PasswordlessSessionStruct.new(
+          id: hash["id"],
+          email: hash["email"],
+          expires_at: Date.parse(hash["expires_at"]),
+          link: hash["link"],
+          object: hash["object"],
+        )
       end
 
       # Send a Passwordless Session via email.

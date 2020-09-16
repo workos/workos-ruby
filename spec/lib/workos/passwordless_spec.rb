@@ -23,9 +23,7 @@ describe WorkOS::Passwordless do
         VCR.use_cassette('passwordless/create_session') do
           response = described_class.create_session(valid_options)
 
-          expect(response.code).to eq '201'
-          json = JSON.parse(response.body)
-          expect(json['email']).to eq 'demo@workos-okta.com'
+          expect(response.email).to eq 'demo@workos-okta.com'
         end
       end
     end

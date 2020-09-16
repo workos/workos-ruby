@@ -109,8 +109,8 @@ module WorkOS
         )
       when 422
         errors = nil
-        if json['errors']
-          errors = json['errors'].map do |error|
+        errors = if json['errors']
+          json['errors'].map do |error|
             "#{error['field']}: #{error['code']}"
           end.join('; ')
         end
