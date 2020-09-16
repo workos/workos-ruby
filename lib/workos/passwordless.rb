@@ -50,7 +50,6 @@ module WorkOS
           email: hash['email'],
           expires_at: Date.parse(hash['expires_at']),
           link: hash['link'],
-          object: hash['object'],
         )
       end
       # rubocop:enable Metrics/MethodLength

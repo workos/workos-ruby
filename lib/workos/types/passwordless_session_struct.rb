@@ -10,7 +10,6 @@ module WorkOS
       const :email, String
       const :expires_at, Date
       const :link, String
-      const :object, String
     end
   end
 end
