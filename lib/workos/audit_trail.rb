@@ -83,7 +83,7 @@ module WorkOS
       #  event occurred at or after
       # @option options [String] occurred_at_lt ISO-8601 datetime of when an
       #  event occurred before
-      # @option options [String] ISO-8601 datetime of when an event occured at
+      # @option options [String] occurred_at_lte ISO-8601 datetime of when an event occured at
       #  or before
       # @option options [String] search Keyword search
       #
