@@ -81,12 +81,6 @@ module WorkOS
       ].join('; ')
     end
 
-    def extract_error(errors)
-      errors.map do |error|
-        "#{error['field']}: #{error['code']}"
-      end.join('; ')
-    end
-
     # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Metrics/CyclomaticComplexity
     sig { params(response: ::T.untyped).void }
     def handle_error_response(response:)
@@ -125,5 +119,13 @@ module WorkOS
       end
     end
     # rubocop:enable Metrics/MethodLength, Metrics/AbcSize, Metrics/CyclomaticComplexity
+
+    private
+
+    def extract_error(errors)
+      errors.map do |error|
+        "#{error['field']}: #{error['code']}"
+      end.join('; ')
+    end
   end
 end
