@@ -2,7 +2,6 @@
 # typed: true
 
 require 'net/http'
-require 'uri'
 
 module WorkOS
   # The Passwordless module provides convenience methods for working with
