@@ -81,8 +81,7 @@ module WorkOS
       ].join('; ')
     end
 
-
-    # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+    # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Metrics/CyclomaticComplexity
     sig { params(response: ::T.untyped).void }
     def handle_error_response(response:)
       http_status = response.code.to_i
@@ -108,11 +107,10 @@ module WorkOS
           request_id: response['x-request-id'],
         )
       when 422
-        errors = json['errors'].map do |error|
-          "#{error['field']}: #{error['code']}"
-        end.join('; ')
+        message = json['message']
+        errors = extract_error(json['errors']) if json['errors']
+        message += " (#{errors})" if errors
 
-        message = "#{json['message']} (#{errors})"
         raise InvalidRequestError.new(
           message: message,
           http_status: http_status,
@@ -120,6 +118,14 @@ module WorkOS
         )
       end
     end
-    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
+    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize, Metrics/CyclomaticComplexity
+
+    private
+
+    def extract_error(errors)
+      errors.map do |error|
+        "#{error['field']}: #{error['code']}"
+      end.join('; ')
+    end
   end
 end
