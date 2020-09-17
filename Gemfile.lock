@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    workos (0.6.0)
+    workos (0.7.0)
       sorbet-runtime (~> 0.5)
 
 GEM
