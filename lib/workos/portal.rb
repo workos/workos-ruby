@@ -103,8 +103,12 @@ module WorkOS
 
         parsed_response = JSON.parse(response.body)
 
+        organizations = parsed_response['data'].map do |organization|
+          ::WorkOS::Organization.new(organization.to_json)
+        end
+
         WorkOS::Types::ListStruct.new(
-          data: parsed_response['data'],
+          data: organizations,
           list_metadata: parsed_response['listMetadata'],
         )
       end
