@@ -22,6 +22,7 @@ Gem::Specification.new do |spec|
   spec.test_files = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
+  spec.add_dependency 'require_all', '~> 3.0.0'
   spec.add_dependency 'sorbet-runtime', '~> 0.5'
 
   spec.add_development_dependency 'bundler', '>= 2.0.1'
