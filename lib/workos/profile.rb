@@ -13,7 +13,7 @@ module WorkOS
     extend T::Sig
 
     sig { returns(String) }
-    attr_accessor :id, :email, :first_name, :last_name,
+    attr_accessor :id, :email, :first_name, :last_name, :connection_id,
                   :connection_type, :idp_id, :raw_attributes
 
     sig { params(profile_json: String).void }
@@ -24,6 +24,7 @@ module WorkOS
       @email = T.let(raw.email, String)
       @first_name = raw.first_name
       @last_name = raw.last_name
+      @connection_id = T.let(raw.connection_id, String)
       @connection_type = T.let(raw.connection_type, String)
       @idp_id = raw.idp_id
       @raw_attributes = raw.raw_attributes
@@ -40,6 +41,7 @@ module WorkOS
         email: email,
         first_name: first_name,
         last_name: last_name,
+        connection_id: connection_id,
         connection_type: connection_type,
         idp_id: idp_id,
         raw_attributes: raw_attributes,
@@ -58,6 +60,7 @@ module WorkOS
         email: hash[:profile][:email],
         first_name: hash[:profile][:first_name],
         last_name: hash[:profile][:last_name],
+        connection_id: hash[:profile][:connection_id],
         connection_type: hash[:profile][:connection_type],
         idp_id: hash[:profile][:idp_id],
         raw_attributes: hash[:profile][:raw_attributes],
