@@ -163,6 +163,7 @@ describe WorkOS::SSO do
         expect(profile).to be_a(WorkOS::Profile)
 
         expectation = {
+          connection_id: 'conn_01EMH8WAK20T42N2NBMNBCYHAG',
           connection_type: 'OktaSAML',
           email: 'demo@workos-okta.com',
           first_name: 'WorkOS',
