@@ -16,7 +16,7 @@ describe WorkOS::Passwordless do
         {
           email: 'demo@workos-okta.com',
           type: 'MagicLink',
-          redirect_uri: 'foo.com/auth/callback'
+          redirect_uri: 'foo.com/auth/callback',
         }
       end
 
