@@ -25,6 +25,9 @@ module WorkOS
       #  redirects.
       # @option options [String] type The type of Passwordless Session to
       #  create. Currently, the only supported value is 'MagicLink'.
+      # @option options [String] redirect_uri The URI where users are directed
+      #  after completing the authentication step. Must match a
+      #  configured redirect URI on your WorkOS dashboard.
       #
       # @return Hash
       sig do
