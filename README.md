@@ -42,50 +42,9 @@ Alternatively, you may set the key yourself, such as in an initializer in your a
 WorkOS.key = '[your api key]'
 ```
 
-## The Audit Trail Module
-
-The Audit Trail Module provides methods for creating Audit Trail events on
-WorkOS.
-
-See our [Audit Trail
-Overview](https://docs.workos.com/audit-trail/overview) for
-more information.
-
-```ruby
-payload = {
-  group: 'Foo Corp',
-  location: '127.0.0.1',
-  action: 'user.created',
-  action_type: 'C',
-  actor_name: 'Foo',
-  actor_id: 'user_12345',
-  target_name: 'Bar',
-  target_id: 'user_67890',
-  occurred_at: '2020-01-10T15:30:00-05:00',
-  metadata: {
-    source: 'Email',
-  }
-}
-
-WorkOS::AuditTrail.create_event(event: payload)
-```
-
-### Idempotency
-
-To perform an idempotent request, provide an additional idempotency_key
-parameter to the `create_event` options.
-
-```ruby
-WorkOS::AuditTrail.create_event(event: payload, idempotency_key: 'key123456')
-```
-
-See our [API
-Reference](https://docs.workos.com/audit-trail/api-reference#idempotency)
-for more information on idempotency keys.
-
 ## The SSO Module
 
-The SSO Module provides convenience methods for authenticating a Single Sign On (SSO) user via WorkOS. WorkOS SSO follows the Oauth 2.0 specification.
+The SSO Module provides convenient methods for authenticating a Single Sign On (SSO) user via WorkOS. WorkOS SSO follows the OAuth 2.0 specification.
 
 First, you'll direct your SSO users to an `authorization_url`. They will sign in to their SSO account with their Identity Provider, and be redirected to a
 callback URL that you set in your WorkOS Dashboard. The user will be redirected with a `code` URL parameter, which you can then exchange for a WorkOS::Profile
@@ -137,7 +96,7 @@ the user to your callback URL with a `code` parameter. You'll use `WorkOS::SSO.p
 code for a `WorkOS::Profile`.
 
 ```ruby
-WorkOS::SSO.profile(code:, project_id:)</h4>
+WorkOS::SSO.profile(code:, project_id:)
 ```
 
 > Fetch a WorkOS::Profile for an authorized user.
@@ -168,7 +127,7 @@ This method will return an instance of a `WorkOS::Profile` with the following at
 >
 ```
 
-Our Sintatra app can be extended to use this method:
+Our Sinatra app can be extended to use this method:
 
 ```ruby
 DOMAIN = 'example.com'
@@ -198,3 +157,107 @@ end
 ```
 
 Given the `WorkOS::Profile`, you can now sign the user in according to your own authentication setup.
+
+## The Magic Link Module
+
+The Magic Link Module provides methods for authenticating a Passwordless user via WorkOS.
+
+First, you'll create a Passwordless Session for a Magic Link connection.
+Then, using the session ID, you'll email a user the Magic Link confirmation URL.
+The user can then click on that link to be authenticated to your application.
+
+> Create a Passwordless Session for a Magic Link Connection.
+
+`WorkOS::Passwordless.create_session` accepts four arguments:
+
+- `email` (string) - the email of the user to authenticate.
+- `type` (string) - The type of Passwordless Session to create. Currently, the only supported value is `MagicLink`.
+- `state` (optional, string) - Optional parameter that a Developer can choose to include in their authorization URL. If included, then the redirect URI received from WorkOS will contain the exact `state` that was passed in the authorization URL.
+- `redirect_uri` (string) - a callback URL where your application redirects the user-agent after an authorization code is granted (ex. `workos.dev/callback`). This must match one of your configured callback URLs for the associated project on your WorkOS dashboard.
+
+This method will return a Passwordless Session object, containing the following attributes:
+
+- `id` (string) - the unique ID of the session.
+- `email` (string) - the email address of the user for the session.
+- `expires_at` (date) - the ISO-8601 datetime at which the session expires.
+- `link` (string) - the link for the user to authenticate with. You can use this link to send a custom email to the user, or send an email using the `WorkOS::Passwordless.send_session` method, described below.
+
+> Email a user the Magic Link confirmation URL.
+
+`WorkOS::Passwordless.send_session` accepts one argument:
+
+- `id` (string) - the unique identifier of the Passwordless Session to send an email for.
+
+This method will return a boolean confirming the Magic Link was sent.
+
+> Example with Sinatra application
+
+Our Sinatra app can be altered to use Magic Link:
+
+```ruby
+PROJECT_ID = '{projectId}'
+REDIRECT_URI = 'http://localhost:4567/callback'
+
+post '/passwordless-auth' do
+  session = WorkOS::Passwordless.create_session(
+    email: params[:email],
+    type: 'MagicLink',
+    redirect_uri: REDIRECT_URI
+  )
+  WorkOS::Passwordless.send_session(session.id)
+
+  redirect '/check-email'
+end
+
+get '/callback' do
+  profile = WorkOS::SSO.profile(
+    code: params['code'],
+    project_id: PROJECT_ID,
+  )
+
+  session[:user] = profile.to_json
+
+  redirect '/'
+end
+```
+
+## The Audit Trail Module
+
+The Audit Trail Module provides methods for creating Audit Trail events on
+WorkOS.
+
+See our [Audit Trail
+Overview](https://docs.workos.com/audit-trail/overview) for
+more information.
+
+```ruby
+payload = {
+  group: 'Foo Corp',
+  location: '127.0.0.1',
+  action: 'user.created',
+  action_type: 'C',
+  actor_name: 'Foo',
+  actor_id: 'user_12345',
+  target_name: 'Bar',
+  target_id: 'user_67890',
+  occurred_at: '2020-01-10T15:30:00-05:00',
+  metadata: {
+    source: 'Email',
+  }
+}
+
+WorkOS::AuditTrail.create_event(event: payload)
+```
+
+### Idempotency
+
+To perform an idempotent request, provide an additional idempotency_key
+parameter to the `create_event` options.
+
+```ruby
+WorkOS::AuditTrail.create_event(event: payload, idempotency_key: 'key123456')
+```
+
+See our [API
+Reference](https://docs.workos.com/audit-trail/api-reference#idempotency)
+for more information on idempotency keys.
