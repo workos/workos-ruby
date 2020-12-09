@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 # typed: true
 
-require 'json'
-
 module WorkOS
   # The Connection class provides a lightweight wrapper around
   # a WorkOS Connection resource. This class is not meant to be instantiated
