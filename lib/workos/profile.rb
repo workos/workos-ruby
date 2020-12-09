@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 # typed: true
 
-require 'json'
-
 module WorkOS
   # The Profile class provides a lighweight wrapper around
   # a normalized response from the various IDPs WorkOS

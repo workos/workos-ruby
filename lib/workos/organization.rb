@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 # typed: true
 
-require 'json'
-
 module WorkOS
   # The Organization class provides a lightweight wrapper around
   # a WorkOS Organization resource. This class is not meant to be instantiated

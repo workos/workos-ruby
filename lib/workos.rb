@@ -3,6 +3,7 @@
 
 require 'workos/version'
 require 'sorbet-runtime'
+require 'json'
 
 # Use the WorkOS module to authenticate your
 # requests to the WorkOS API. The gem will read
