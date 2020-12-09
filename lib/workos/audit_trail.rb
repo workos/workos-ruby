@@ -51,6 +51,7 @@ module WorkOS
       def create_event(event:, idempotency_key: nil)
         request = post_request(
           path: '/events',
+          auth: true,
           idempotency_key: idempotency_key,
           body: event,
         )
