@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 # typed: true
 
+require 'json'
+
 module WorkOS
   # A Net::HTTP based API client for interacting with the WorkOS API
   module Client

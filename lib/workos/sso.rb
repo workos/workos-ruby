@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 # typed: true
 
+require 'json'
 require 'net/http'
 require 'uri'
 
