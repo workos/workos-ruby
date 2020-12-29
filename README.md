@@ -53,7 +53,7 @@ using the `WorkOS::SSO.get_profile` method.
 See our Ruby SSO example app for a [complete example](https://github.com/workos-inc/ruby-sso-example).
 
 ```ruby
-WorkOS::SSO.authorization_url(domain:, project_id:, redirect_uri:, state: {})
+WorkOS::SSO.authorization_url(domain:, client_id:, redirect_uri:, state: {})
 ```
 
 > Generate an authorization URL to intitiate the WorkOS OAuth2 workflow.
@@ -61,25 +61,25 @@ WorkOS::SSO.authorization_url(domain:, project_id:, redirect_uri:, state: {})
 `WorkOS::SSO.authorization_url` accepts four arguments:
 
 - `domain` (string) — the authenticating user's company domain, without protocol (ex. `example.com`)
-- `project_id` (string) — your application's WorkOS [Project ID](https://dashboard.workos.com/sso/configuration) (ex. `project_01JG3BCPTRTSTTWQR4VSHXGWCQ`)
+- `client_id` (string) — your application's WorkOS [Client ID](https://dashboard.workos.com/sso/configuration) (ex. `project_01JG3BCPTRTSTTWQR4VSHXGWCQ`)
 - `state` (optional, hash) — an optional hash used to manage state across authorization transactions (ex. `{ next_page: '/docs'}`)
-- `redirect_uri` (string) — a callback URL where your application redirects the user-agent after an authorization code is granted (ex. `workos.dev/callback`). This must match one of your configured callback URLs for the associated project on your WorkOS dashboard.
+- `redirect_uri` (string) — a callback URL where your application redirects the user-agent after an authorization code is granted (ex. `workos.dev/callback`). This must match one of your configured callback URLs for the associated environment on your WorkOS dashboard.
 
 This method will return an OAuth2 query string of the form:
 
-`https://${domain}/sso/authorize?response_type=code&client_id=${projectID}&redirect_uri=${redirectURI}&state=${state}`
+`https://${domain}/sso/authorize?response_type=code&client_id=${clientID}&redirect_uri=${redirectURI}&state=${state}`
 
 For example, when used in a [Sinatra app](http://sinatrarb.com/):
 
 ```ruby
 DOMAIN = 'example.com'
-PROJECT_ID = '{projectId}'
+CLIENT_ID = '{clientId}'
 REDIRECT_URI = 'http://localhost:4567/callback'
 
 get '/auth' do
   authorization_url = WorkOS::SSO.authorization_url(
     domain: DOMAIN,
-    project_id: PROJECT_ID,
+    client_id: CLIENT_ID,
     redirect_uri: REDIRECT_URI,
   )
 
@@ -89,14 +89,14 @@ end
 
 The user would be redirected to:
 
-`https://api.workos.com/sso/authorize?response_type=code&client_id={projectID}&redirect_uri=http://localhost:4567/callback`
+`https://api.workos.com/sso/authorize?response_type=code&client_id={clientID}&redirect_uri=http://localhost:4567/callback`
 
 WorkOS takes over from here, sending the user to authenticate with their IDP, and on successful login, returns
 the user to your callback URL with a `code` parameter. You'll use `WorkOS::SSO.profile` to exchange the
 code for a `WorkOS::Profile`.
 
 ```ruby
-WorkOS::SSO.profile(code:, project_id:)
+WorkOS::SSO.profile(code:, client_id:)
 ```
 
 > Fetch a WorkOS::Profile for an authorized user.
@@ -104,7 +104,7 @@ WorkOS::SSO.profile(code:, project_id:)
 `WorkOS::SSO.profile` accepts two arguments:
 
 - `code` (string) — an opaque string provided by the authorization server; will be exchanged for an Access Token when the user's profile is sent
-- `project_id` (string) — your application's WorkOS [Project ID](https://dashboard.workos.com/sso/configuration) (ex. `project_01JG3BCPTRTSTTWQR4VSHXGWCQ`)
+- `client_id` (string) — your application's WorkOS [Client ID](https://dashboard.workos.com/sso/configuration) (ex. `project_01JG3BCPTRTSTTWQR4VSHXGWCQ`)
 
 This method will return an instance of a `WorkOS::Profile` with the following attributes:
 
@@ -131,13 +131,13 @@ Our Sinatra app can be extended to use this method:
 
 ```ruby
 DOMAIN = 'example.com'
-PROJECT_ID = '{projectId}'
+CLIENT_ID = '{clientId}'
 REDIRECT_URI = 'http://localhost:4567/callback'
 
 get '/auth' do
   authorization_url = WorkOS::SSO.authorization_url(
     domain: DOMAIN,
-    project_id: PROJECT_ID,
+    client_id: CLIENT_ID,
     redirect_uri: REDIRECT_URI,
   )
 
@@ -147,7 +147,7 @@ end
 get '/callback' do
   profile = WorkOS::SSO.profile(
     code: params['code'],
-    project_id: PROJECT_ID,
+    client_id: CLIENT_ID,
   )
 
   session[:user] = profile.to_json
@@ -173,7 +173,7 @@ The user can then click on that link to be authenticated to your application.
 - `email` (string) - the email of the user to authenticate.
 - `type` (string) - The type of Passwordless Session to create. Currently, the only supported value is `MagicLink`.
 - `state` (optional, string) - Optional parameter that a Developer can choose to include in their authorization URL. If included, then the redirect URI received from WorkOS will contain the exact `state` that was passed in the authorization URL.
-- `redirect_uri` (string) - a callback URL where your application redirects the user-agent after an authorization code is granted (ex. `workos.dev/callback`). This must match one of your configured callback URLs for the associated project on your WorkOS dashboard.
+- `redirect_uri` (string) - a callback URL where your application redirects the user-agent after an authorization code is granted (ex. `workos.dev/callback`). This must match one of your configured callback URLs for the associated environment on your WorkOS dashboard.
 
 This method will return a Passwordless Session object, containing the following attributes:
 
@@ -195,7 +195,7 @@ This method will return a boolean confirming the Magic Link was sent.
 Our Sinatra app can be altered to use Magic Link:
 
 ```ruby
-PROJECT_ID = '{projectId}'
+CLIENT_ID = '{clientId}'
 REDIRECT_URI = 'http://localhost:4567/callback'
 
 post '/passwordless-auth' do
@@ -212,7 +212,7 @@ end
 get '/callback' do
   profile = WorkOS::SSO.profile(
     code: params['code'],
-    project_id: PROJECT_ID,
+    client_id: CLIENT_ID,
   )
 
   session[:user] = profile.to_json

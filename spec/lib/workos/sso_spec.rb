@@ -9,7 +9,7 @@ describe WorkOS::SSO do
       let(:args) do
         {
           domain: 'foo.com',
-          project_id: 'workos-proj-123',
+          client_id: 'workos-proj-123',
           redirect_uri: 'foo.com/auth/callback',
           state: {
             next_page: '/dashboard/edit',
@@ -43,7 +43,7 @@ describe WorkOS::SSO do
       let(:args) do
         {
           provider: 'GoogleOAuth',
-          project_id: 'workos-proj-123',
+          client_id: 'workos-proj-123',
           redirect_uri: 'foo.com/auth/callback',
           state: {
             next_page: '/dashboard/edit',
@@ -76,7 +76,7 @@ describe WorkOS::SSO do
     context 'with neither domain or provider' do
       let(:args) do
         {
-          project_id: 'workos-proj-123',
+          client_id: 'workos-proj-123',
           redirect_uri: 'foo.com/auth/callback',
           state: {
             next_page: '/dashboard/edit',
@@ -97,7 +97,7 @@ describe WorkOS::SSO do
       let(:args) do
         {
           provider: 'Okta',
-          project_id: 'workos-proj-123',
+          client_id: 'workos-proj-123',
           redirect_uri: 'foo.com/auth/callback',
           state: {
             next_page: '/dashboard/edit',
@@ -123,13 +123,13 @@ describe WorkOS::SSO do
     let(:args) do
       {
         code: SecureRandom.hex(10),
-        project_id: 'workos-proj-123',
+        client_id: 'workos-proj-123',
       }
     end
 
     let(:request_body) do
       {
-        client_id: args[:project_id],
+        client_id: args[:client_id],
         client_secret: WorkOS.key,
         code: args[:code],
         grant_type: 'authorization_code',
@@ -278,7 +278,7 @@ describe WorkOS::SSO do
     end
 
     let(:token) { 'draft_conn_id' }
-    let(:project_id) { 'proj_0239u590h' }
+    let(:client_id) { 'proj_0239u590h' }
 
     context 'with a valid request' do
       before do

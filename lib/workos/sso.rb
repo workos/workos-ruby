@@ -6,7 +6,7 @@ require 'uri'
 
 module WorkOS
   # The SSO module provides convenience methods for working with the WorkOS
-  # SSO platform. You'll need a valid API key, a project ID, and to have
+  # SSO platform. You'll need a valid API key, a client ID, and to have
   # created an SSO connection on your WorkOS dashboard.
   #
   # @see https://docs.workos.com/sso/overview
@@ -26,7 +26,7 @@ module WorkOS
       #  required
       # @param [String] provider A provider name for an Identity Provider
       #  configured on your WorkOS dashboard. Only 'Google' is supported.
-      # @param [String] project_id The WorkOS project ID for the project
+      # @param [String] client_id The WorkOS client ID for the environment
       #  where you've configured your SSO connection.
       # @param [String] redirect_uri The URI where users are directed
       #  after completing the authentication step. Must match a
@@ -36,7 +36,7 @@ module WorkOS
       # @example
       #   WorkOS::SSO.authorization_url(
       #     domain: 'acme.com',
-      #     project_id: 'project_01DG5TGK363GRVXP3ZS40WNGEZ',
+      #     client_id: 'project_01DG5TGK363GRVXP3ZS40WNGEZ',
       #     redirect_uri: 'https://workos.com/callback',
       #     state: {
       #       next_page: '/docs'
@@ -51,7 +51,7 @@ module WorkOS
       # @return [String]
       sig do
         params(
-          project_id: String,
+          client_id: String,
           redirect_uri: String,
           domain: T.nilable(String),
           provider: T.nilable(String),
@@ -59,12 +59,12 @@ module WorkOS
         ).returns(String)
       end
       def authorization_url(
-        project_id:, redirect_uri:, domain: nil, provider: nil, state: ''
+        client_id:, redirect_uri:, domain: nil, provider: nil, state: ''
       )
         validate_domain_and_provider(provider: provider, domain: domain)
 
         query = URI.encode_www_form({
-          client_id: project_id,
+          client_id: client_id,
           redirect_uri: redirect_uri,
           response_type: 'code',
           state: state,
@@ -78,13 +78,13 @@ module WorkOS
       # Fetch the profile details for the authenticated SSO user.
       #
       # @param [String] code The authorization code provided in the callback URL
-      # @param [String] project_id The WorkOS project ID for the project
+      # @param [String] client_id The WorkOS client ID for the environment
       #  where you've  configured your SSO connection
       #
       # @example
       #   WorkOS::SSO.profile(
       #     code: 'acme.com',
-      #     project_id: 'project_01DG5TGK363GRVXP3ZS40WNGEZ'
+      #     client_id: 'project_01DG5TGK363GRVXP3ZS40WNGEZ'
       #   )
       #   => #<WorkOS::Profile:0x00007fb6e4193d20
       #         @id="prof_01DRA1XNSJDZ19A31F183ECQW5",
@@ -97,10 +97,10 @@ module WorkOS
       #        >
       #
       # @return [WorkOS::Profile]
-      sig { params(code: String, project_id: String).returns(WorkOS::Profile) }
-      def profile(code:, project_id:)
+      sig { params(code: String, client_id: String).returns(WorkOS::Profile) }
+      def profile(code:, client_id:)
         body = {
-          client_id: project_id,
+          client_id: client_id,
           client_secret: WorkOS.key!,
           grant_type: 'authorization_code',
           code: code,

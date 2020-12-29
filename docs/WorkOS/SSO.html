@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
   Module: WorkOS::SSO
-  
+
     &mdash; Documentation by YARD 0.9.22
-  
+
 </title>
 
   <link rel="stylesheet" href="../css/style.css" type="text/css" />
@@ -35,16 +35,16 @@
     <div id="main" tabindex="-1">
       <div id="header">
         <div id="menu">
-  
+
     <a href="../_index.html">Index (S)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span>
-     &raquo; 
+     &raquo;
     <span class="title">SSO</span>
-  
+
 </div>
 
         <div id="search">
-  
+
     <a class="full_list_link" id="class_list_link"
         href="../class_list.html">
 
@@ -54,74 +54,74 @@
           <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
         </svg>
     </a>
-  
+
 </div>
         <div class="clear"></div>
       </div>
 
       <div id="content"><h1>Module: WorkOS::SSO
-  
-  
-  
+
+
+
 </h1>
 <div class="box_info">
-  
 
-  
-  
+
+
+
   <dl>
       <dt>Extended by:</dt>
       <dd>T::Sig, <span class='object_link'><a href="Base.html" title="WorkOS::Base (module)">Base</a></span>, <span class='object_link'><a href="Client.html" title="WorkOS::Client (module)">Client</a></span></dd>
   </dl>
-  
-  
-  
-  
 
-  
 
-  
+
+
+
+
+
+
   <dl>
     <dt>Defined in:</dt>
     <dd>lib/workos/sso.rb</dd>
   </dl>
-  
+
 </div>
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    
-<p>The SSO module provides convenience methods for working with the WorkOS SSO platform. You&#39;ll need a valid API key, a project ID, and to have created an SSO connection on your WorkOS dashboard.</p>
+
+<p>The SSO module provides convenience methods for working with the WorkOS SSO platform. You&#39;ll need a valid API key, a client ID, and to have created an SSO connection on your WorkOS dashboard.</p>
 
 
   </div>
 </div>
 <div class="tags">
-  
+
 
   <p class="tag_title">See Also:</p>
   <ul class="see">
-    
+
       <li><a href="https://docs.workos.com/sso/overview" target="_parent" title="https://docs.workos.com/sso/overview">https://docs.workos.com/sso/overview</a></li>
-    
+
   </ul>
 
 </div>
-  
+
     <h2>
       Constant Summary
       <small><a href="#" class="constants_summary_toggle">collapse</a></small>
     </h2>
 
     <dl class="constants">
-      
+
         <dt id="PROVIDERS-constant" class="">PROVIDERS =
-          
+
         </dt>
         <dd><pre class="code"><span class='const'><span class='object_link'><a href="../WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Types.html" title="WorkOS::Types (module)">Types</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Types/Provider.html" title="WorkOS::Types::Provider (class)">Provider</a></span></span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:serialize</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
-      
+
     </dl>
-  
+
 
 
 
@@ -129,147 +129,147 @@
 
 
   <h2>Instance Attribute Summary</h2>
-  
+
   <h3 class="inherited">Attributes included from <span class='object_link'><a href="Base.html" title="WorkOS::Base (module)">Base</a></span></h3>
   <p class="inherited"><span class='object_link'><a href="Base.html#key-instance_method" title="WorkOS::Base#key (method)">#key</a></span></p>
 
 
-  
+
     <h2>
       Class Method Summary
       <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
 
     <ul class="summary">
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
-      <a href="#authorization_url-class_method" title="authorization_url (class method)">.<strong>authorization_url</strong>(project_id:, redirect_uri:, domain: nil, provider: nil, state: {})  &#x21d2; String </a>
-    
 
-    
+      <a href="#authorization_url-class_method" title="authorization_url (class method)">.<strong>authorization_url</strong>(client_id:, redirect_uri:, domain: nil, provider: nil, state: {})  &#x21d2; String </a>
+
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Generate an Oauth2 authorization URL where your users will authenticate using the configured SSO Identity Provider.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
-      <a href="#profile-class_method" title="profile (class method)">.<strong>profile</strong>(code:, project_id:)  &#x21d2; WorkOS::Profile </a>
-    
 
-    
+      <a href="#profile-class_method" title="profile (class method)">.<strong>profile</strong>(code:, client_id:)  &#x21d2; WorkOS::Profile </a>
+
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Fetch the profile details for the authenticated SSO user.</p>
 </div></span>
-  
+
 </li>
 
-      
+
         <li class="public ">
   <span class="summary_signature">
-    
+
       <a href="#promote_draft_connection-class_method" title="promote_draft_connection (class method)">.<strong>promote_draft_connection</strong>(token:)  &#x21d2; Bool </a>
-    
 
-    
+
+
   </span>
-  
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
     <span class="summary_desc"><div class='inline'>
 <p>Promote a DraftConnection created via the WorkOS.js embed such that the Enterprise users can begin signing into your application.</p>
 </div></span>
-  
+
 </li>
 
-      
+
     </ul>
-  
 
 
-  
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
+
+
   <h3 class="inherited">Methods included from <span class='object_link'><a href="Client.html" title="WorkOS::Client (module)">Client</a></span></h3>
   <p class="inherited"><span class='object_link'><a href="Client.html#client-instance_method" title="WorkOS::Client#client (method)">client</a></span>, <span class='object_link'><a href="Client.html#execute_request-instance_method" title="WorkOS::Client#execute_request (method)">execute_request</a></span>, <span class='object_link'><a href="Client.html#handle_error_response-instance_method" title="WorkOS::Client#handle_error_response (method)">handle_error_response</a></span>, <span class='object_link'><a href="Client.html#post_request-instance_method" title="WorkOS::Client#post_request (method)">post_request</a></span>, <span class='object_link'><a href="Client.html#user_agent-instance_method" title="WorkOS::Client#user_agent (method)">user_agent</a></span></p>
 
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
+
+
+
 
   <div id="class_method_details" class="method_details_list">
     <h2>Class Method Details</h2>
 
-    
+
       <div class="method_details first">
   <h3 class="signature first" id="authorization_url-class_method">
-  
-    .<strong>authorization_url</strong>(project_id:, redirect_uri:, domain: nil, provider: nil, state: {})  &#x21d2; <tt>String</tt> 
-  
 
-  
+    .<strong>authorization_url</strong>(client_id:, redirect_uri:, domain: nil, provider: nil, state: {})  &#x21d2; <tt>String</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Generate an Oauth2 authorization URL where your users will authenticate using the configured SSO Identity Provider.</p>
 
 
   </div>
 </div>
 <div class="tags">
-  
+
   <div class="examples">
     <p class="tag_title">Examples:</p>
-    
-      
+
+
       <pre class="example code"><code>WorkOS::SSO.authorization_url(
   domain: &#39;acme.com&#39;,
-  project_id: &#39;project_01DG5TGK363GRVXP3ZS40WNGEZ&#39;,
+  client_id: &#39;project_01DG5TGK363GRVXP3ZS40WNGEZ&#39;,
   redirect_uri: &#39;https://workos.com/callback&#39;,
   state: {
     next_page: &#39;/docs&#39;
@@ -280,111 +280,111 @@
    &quot;&amp;client_id=project_01DG5TGK363GRVXP3ZS40WNGEZ&quot; \
    &quot;&amp;redirect_uri=https%3A%2F%2Fworkos.com%2Fcallback&amp;&quot; \
    &quot;response_type=code&amp;state=%7B%3Anext_page%3D%3E%22%2Fdocs%22%7D&quot;</code></pre>
-    
+
   </div>
 <p class="tag_title">Parameters:</p>
 <ul class="param">
-  
+
     <li>
-      
+
         <span class='name'>domain</span>
-      
-      
+
+
         <span class='type'>(<tt>String</tt>)</span>
-      
-      
+
+
         <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
-      
+
+
         &mdash;
         <div class='inline'>
 <p>The domain for the relevant SSO Connection configured on your WorkOS dashboard. One of provider or domain is required</p>
 </div>
-      
+
     </li>
-  
+
     <li>
-      
+
         <span class='name'>provider</span>
-      
-      
+
+
         <span class='type'>(<tt>String</tt>)</span>
-      
-      
+
+
         <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
-      
+
+
         &mdash;
         <div class='inline'>
 <p>A provider name for an Identity Provider configured on your WorkOS dashboard. Only &#39;Google&#39; is supported.</p>
 </div>
-      
+
     </li>
-  
+
     <li>
-      
-        <span class='name'>project_id</span>
-      
-      
+
+        <span class='name'>client_id</span>
+
+
         <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
-<p>The WorkOS project ID for the project where you&#39;ve configured your SSO connection.</p>
+<p>The WorkOS client ID for the environment where you&#39;ve configured your SSO connection.</p>
 </div>
-      
+
     </li>
-  
+
     <li>
-      
+
         <span class='name'>redirect_uri</span>
-      
-      
+
+
         <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>The URI where users are directed after completing the authentication step. Must match a configured redirect URI on your WorkOS dashboard.</p>
 </div>
-      
+
     </li>
-  
+
     <li>
-      
+
         <span class='name'>state</span>
-      
-      
+
+
         <span class='type'>(<tt>Hash</tt>)</span>
-      
-      
+
+
         <em class="default">(defaults to: <tt>{}</tt>)</em>
-      
-      
+
+
         &mdash;
         <div class='inline'>
 <p>An aribtrary state object that is preserved and available to the client in the response.</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -414,12 +414,12 @@
       <pre class="code"><span class="info file"># File 'lib/workos/sso.rb', line 62</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_authorization_url'>authorization_url</span><span class='lparen'>(</span>
-  <span class='label'>project_id:</span><span class='comma'>,</span> <span class='label'>redirect_uri:</span><span class='comma'>,</span> <span class='label'>domain:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>provider:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>state:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='label'>client_id:</span><span class='comma'>,</span> <span class='label'>redirect_uri:</span><span class='comma'>,</span> <span class='label'>domain:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>provider:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>state:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
 <span class='rparen'>)</span>
   <span class='id identifier rubyid_validate_domain_and_provider'>validate_domain_and_provider</span><span class='lparen'>(</span><span class='label'>provider:</span> <span class='id identifier rubyid_provider'>provider</span><span class='comma'>,</span> <span class='label'>domain:</span> <span class='id identifier rubyid_domain'>domain</span><span class='rparen'>)</span>
 
   <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='const'>URI</span><span class='period'>.</span><span class='id identifier rubyid_encode_www_form'>encode_www_form</span><span class='lparen'>(</span><span class='lbrace'>{</span>
-    <span class='label'>client_id:</span> <span class='id identifier rubyid_project_id'>project_id</span><span class='comma'>,</span>
+    <span class='label'>client_id:</span> <span class='id identifier rubyid_project_id'>client_id</span><span class='comma'>,</span>
     <span class='label'>redirect_uri:</span> <span class='id identifier rubyid_redirect_uri'>redirect_uri</span><span class='comma'>,</span>
     <span class='label'>response_type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>code</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
     <span class='label'>state:</span> <span class='id identifier rubyid_state'>state</span><span class='comma'>,</span>
@@ -433,33 +433,33 @@
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="profile-class_method">
-  
-    .<strong>profile</strong>(code:, project_id:)  &#x21d2; <tt><span class='object_link'><a href="Profile.html" title="WorkOS::Profile (class)">WorkOS::Profile</a></span></tt> 
-  
 
-  
+    .<strong>profile</strong>(code:, client_id:)  &#x21d2; <tt><span class='object_link'><a href="Profile.html" title="WorkOS::Profile (class)">WorkOS::Profile</a></span></tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Fetch the profile details for the authenticated SSO user.</p>
 
 
   </div>
 </div>
 <div class="tags">
-  
+
   <div class="examples">
     <p class="tag_title">Examples:</p>
-    
-      
+
+
       <pre class="example code"><code>WorkOS::SSO.profile(
   code: &#39;acme.com&#39;,
-  project_id: &#39;project_01DG5TGK363GRVXP3ZS40WNGEZ&#39;
+  client_id: &#39;project_01DG5TGK363GRVXP3ZS40WNGEZ&#39;
 )
 =&gt; #&lt;WorkOS::Profile:0x00007fb6e4193d20
       @id=&quot;prof_01DRA1XNSJDZ19A31F183ECQW5&quot;,
@@ -470,57 +470,57 @@
       @idp_id=&quot;00u1klkowm8EGah2H357&quot;,
       @access_token=&quot;01DVX6QBS3EG6FHY2ESAA5Q65X&quot;
      &gt;</code></pre>
-    
+
   </div>
 <p class="tag_title">Parameters:</p>
 <ul class="param">
-  
+
     <li>
-      
+
         <span class='name'>code</span>
-      
-      
+
+
         <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>The authorization code provided in the callback URL</p>
 </div>
-      
+
     </li>
-  
+
     <li>
-      
-        <span class='name'>project_id</span>
-      
-      
+
+        <span class='name'>client_id</span>
+
+
         <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
-<p>The WorkOS project ID for the project where you&#39;ve  configured your SSO connection</p>
+<p>The WorkOS client ID for the environment where you&#39;ve  configured your SSO connection</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt><span class='object_link'><a href="Profile.html" title="WorkOS::Profile (class)">WorkOS::Profile</a></span></tt>)</span>
-      
-      
-      
+
+
+
     </li>
-  
+
 </ul>
 
 </div><table class="source_code">
@@ -546,9 +546,9 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/workos/sso.rb', line 108</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_profile'>profile</span><span class='lparen'>(</span><span class='label'>code:</span><span class='comma'>,</span> <span class='label'>project_id:</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_profile'>profile</span><span class='lparen'>(</span><span class='label'>code:</span><span class='comma'>,</span> <span class='label'>client_id:</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_body'>body</span> <span class='op'>=</span> <span class='lbrace'>{</span>
-    <span class='label'>client_id:</span> <span class='id identifier rubyid_project_id'>project_id</span><span class='comma'>,</span>
+    <span class='label'>client_id:</span> <span class='id identifier rubyid_project_id'>client_id</span><span class='comma'>,</span>
     <span class='label'>client_secret:</span> <span class='const'><span class='object_link'><a href="../WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_key!'><span class='object_link'><a href="../WorkOS.html#key!-class_method" title="WorkOS.key! (method)">key!</a></span></span><span class='comma'>,</span>
     <span class='label'>grant_type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>authorization_code</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
     <span class='label'>code:</span> <span class='id identifier rubyid_code'>code</span><span class='comma'>,</span>
@@ -563,19 +563,19 @@
   </tr>
 </table>
 </div>
-    
+
       <div class="method_details ">
   <h3 class="signature " id="promote_draft_connection-class_method">
-  
-    .<strong>promote_draft_connection</strong>(token:)  &#x21d2; <tt>Bool</tt> 
-  
 
-  
+    .<strong>promote_draft_connection</strong>(token:)  &#x21d2; <tt>Bool</tt>
 
-  
+
+
+
+
 </h3><div class="docstring">
   <div class="discussion">
-    
+
 <p>Promote a DraftConnection created via the WorkOS.js embed such that the Enterprise users can begin signing into your application.</p>
 
 <p>you by the WorkOS.js embed</p>
@@ -584,63 +584,63 @@
   </div>
 </div>
 <div class="tags">
-  
+
   <div class="examples">
     <p class="tag_title">Examples:</p>
-    
-      
+
+
       <pre class="example code"><code>WorkOS::SSO.promote_draft_connection(
   token: &#39;draft_conn_429u59js&#39;,
 )
 =&gt; true</code></pre>
-    
+
   </div>
 <p class="tag_title">Parameters:</p>
 <ul class="param">
-  
+
     <li>
-      
+
         <span class='name'>token</span>
-      
-      
+
+
         <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'>
 <p>The draft connection token that&#39;s been provided to</p>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
 <p class="tag_title">Returns:</p>
 <ul class="return">
-  
+
     <li>
-      
-      
+
+
         <span class='type'>(<tt>Bool</tt>)</span>
-      
-      
-      
+
+
+
         &mdash;
         <div class='inline'><ul><li>
 <p>returns `true` if successful, `false` otherwise.</p>
 </li></ul>
 </div>
-      
+
     </li>
-  
+
 </ul>
 
   <p class="tag_title">See Also:</p>
   <ul class="see">
-    
+
       <li><a href="https://github.com/workos-inc/ruby-idp-link-example" target="_parent" title="https://github.com/workos-inc/ruby-idp-link-example">https://github.com/workos-inc/ruby-idp-link-example</a></li>
-    
+
   </ul>
 
 </div><table class="source_code">
@@ -675,7 +675,7 @@
   </tr>
 </table>
 </div>
-    
+
   </div>
 
 </div>
