@@ -129,7 +129,7 @@ describe WorkOS::SSO do
         expect do
           described_class.authorization_url(**args)
         end.to output(
-          "[DEPRECATION] `project_id` is deprecated.  Please use `client_id` instead.\n"
+          "[DEPRECATION] `project_id` is deprecated. Please use `client_id` instead.\n"
         ).to_stderr
       end
 

@@ -62,10 +62,15 @@ module WorkOS
         ).returns(String)
       end
       def authorization_url(
-        redirect_uri:, project_id: nil, client_id: nil, domain: nil, provider: nil, state: ''
+        redirect_uri:,
+        project_id: nil,
+        client_id: nil,
+        domain: nil,
+        provider: nil,
+        state: ''
       )
-        if project_id != nil
-          warn "[DEPRECATION] `project_id` is deprecated.  Please use `client_id` instead."
+        if !project_id.nil?
+          warn '[DEPRECATION] `project_id` is deprecated. Please use `client_id` instead.'
           client_id = project_id
         end
 
@@ -107,10 +112,16 @@ module WorkOS
       #        >
       #
       # @return [WorkOS::Profile]
-      sig { params(code: String, project_id: T.nilable(String), client_id: T.nilable(String)).returns(WorkOS::Profile) }
+      sig do
+        params(
+          code: String,
+          project_id: T.nilable(String),
+          client_id: T.nilable(String)
+        ).returns(WorkOS::Profile)
+      end
       def profile(code:, project_id: nil, client_id: nil)
-        if project_id != nil
-          warn "[DEPRECATION] `project_id` is deprecated.  Please use `client_id` instead."
+        if !project_id.nil?
+          warn '[DEPRECATION] `project_id` is deprecated. Please use `client_id` instead.'
           client_id = project_id
         end
 
