@@ -69,8 +69,9 @@ module WorkOS
         provider: nil,
         state: ''
       )
-        if !project_id.nil?
-          warn '[DEPRECATION] `project_id` is deprecated. Please use `client_id` instead.'
+        unless project_id.nil?
+          warn '[DEPRECATION] `project_id` is deprecated.
+          Please use `client_id` instead.'
           client_id = project_id
         end
 
@@ -116,12 +117,13 @@ module WorkOS
         params(
           code: String,
           project_id: T.nilable(String),
-          client_id: T.nilable(String)
+          client_id: T.nilable(String),
         ).returns(WorkOS::Profile)
       end
       def profile(code:, project_id: nil, client_id: nil)
-        if !project_id.nil?
-          warn '[DEPRECATION] `project_id` is deprecated. Please use `client_id` instead.'
+        unless project_id.nil?
+          warn '[DEPRECATION] `project_id` is deprecated.
+          Please use `client_id` instead.'
           client_id = project_id
         end
 
