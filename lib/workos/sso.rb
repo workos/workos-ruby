@@ -69,7 +69,7 @@ module WorkOS
         provider: nil,
         state: ''
       )
-        unless project_id.nil?
+        if project_id
           warn '[DEPRECATION] `project_id` is deprecated.
           Please use `client_id` instead.'
           client_id = project_id
@@ -121,7 +121,7 @@ module WorkOS
         ).returns(WorkOS::Profile)
       end
       def profile(code:, project_id: nil, client_id: nil)
-        unless project_id.nil?
+        if project_id
           warn '[DEPRECATION] `project_id` is deprecated.
           Please use `client_id` instead.'
           client_id = project_id
