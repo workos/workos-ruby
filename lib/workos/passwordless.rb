@@ -36,7 +36,6 @@ module WorkOS
         ).returns(WorkOS::Types::PasswordlessSessionStruct)
       end
 
-      # rubocop:disable Metrics/MethodLength
       def create_session(options)
         response = execute_request(
           request: post_request(
@@ -55,7 +54,6 @@ module WorkOS
           link: hash['link'],
         )
       end
-      # rubocop:enable Metrics/MethodLength
 
       # Send a Passwordless Session via email.
       #

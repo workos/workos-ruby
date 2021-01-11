@@ -215,7 +215,6 @@ module WorkOS
           " `provider` must be in #{PROVIDERS}"
       end
 
-      # rubocop:disable Metrics/MethodLength
       sig { params(response: Net::HTTPResponse).void }
       def check_and_raise_profile_error(response:)
         begin
@@ -234,7 +233,6 @@ module WorkOS
           request_id: request_id,
         )
       end
-      # rubocop:enable Metrics/MethodLength
     end
   end
 end
