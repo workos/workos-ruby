@@ -55,7 +55,6 @@ module WorkOS
           return_url: T.nilable(String),
         ).returns(String)
       end
-      # rubocop:disable Metrics/MethodLength
       def generate_link(intent:, organization:, return_url: nil)
         validate_intent(intent)
 
@@ -73,7 +72,6 @@ module WorkOS
 
         JSON.parse(response.body)['link']
       end
-      # rubocop:enable Metrics/MethodLength
 
       # Retrieve a list of organizations that have connections configured
       # within your WorkOS dashboard.
@@ -91,7 +89,6 @@ module WorkOS
           options: T::Hash[Symbol, String],
         ).returns(WorkOS::Types::ListStruct)
       end
-      # rubocop:disable Metrics/MethodLength
       def list_organizations(options = {})
         response = execute_request(
           request: get_request(
@@ -112,12 +109,10 @@ module WorkOS
           list_metadata: parsed_response['listMetadata'],
         )
       end
-      # rubocop:enable Metrics/MethodLength
 
       private
 
       sig { params(response: Net::HTTPResponse).void }
-      # rubocop:disable Metrics/MethodLength
       def check_and_raise_organization_error(response:)
         begin
           body = JSON.parse(response.body)
@@ -135,7 +130,6 @@ module WorkOS
           request_id: request_id,
         )
       end
-      # rubocop:enable Metrics/MethodLength
 
       sig { params(intent: String).void }
       def validate_intent(intent)
