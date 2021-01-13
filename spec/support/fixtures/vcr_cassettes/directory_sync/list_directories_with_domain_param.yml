@@ -57,7 +57,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"object":"list","listMetadata":{"before":null,"after":null},"data":[{"object":"directory","id":"directory_edp_01E64QQVQTCB0DECJ9CFNXEWDW","external_key":"lA3gS1kCZMCkk82E","state":"linked","type":"gsuite
-        directory","name":"Foo Corp","bearer_token":null,"project_id":"project_01DFYCG8RCB1DB6DKFTGXF4Q9F","domain":"foo-corp.com"}]}'
+        directory","name":"Foo Corp","bearer_token":null,"client_id":"project_01DFYCG8RCB1DB6DKFTGXF4Q9F","domain":"foo-corp.com"}]}'
     http_version:
   recorded_at: Thu, 30 Apr 2020 03:42:20 GMT
 recorded_with: VCR 5.0.0

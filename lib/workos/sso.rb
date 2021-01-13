@@ -6,7 +6,7 @@ require 'uri'
 
 module WorkOS
   # The SSO module provides convenience methods for working with the WorkOS
-  # SSO platform. You'll need a valid API key, a project ID, and to have
+  # SSO platform. You'll need a valid API key, a client ID, and to have
   # created an SSO connection on your WorkOS dashboard.
   #
   # @see https://docs.workos.com/sso/overview
@@ -26,8 +26,10 @@ module WorkOS
       #  required
       # @param [String] provider A provider name for an Identity Provider
       #  configured on your WorkOS dashboard. Only 'Google' is supported.
-      # @param [String] project_id The WorkOS project ID for the project
+      # @param [String] client_id The WorkOS client ID for the environment
       #  where you've configured your SSO connection.
+      # @param [String] project_id The WorkOS project ID for the project.
+      # The project_id is deprecated in Dashboard2.
       # @param [String] redirect_uri The URI where users are directed
       #  after completing the authentication step. Must match a
       #  configured redirect URI on your WorkOS dashboard.
@@ -36,7 +38,7 @@ module WorkOS
       # @example
       #   WorkOS::SSO.authorization_url(
       #     domain: 'acme.com',
-      #     project_id: 'project_01DG5TGK363GRVXP3ZS40WNGEZ',
+      #     client_id: 'project_01DG5TGK363GRVXP3ZS40WNGEZ',
       #     redirect_uri: 'https://workos.com/callback',
       #     state: {
       #       next_page: '/docs'
@@ -51,20 +53,32 @@ module WorkOS
       # @return [String]
       sig do
         params(
-          project_id: String,
           redirect_uri: String,
+          project_id: T.nilable(String),
+          client_id: T.nilable(String),
           domain: T.nilable(String),
           provider: T.nilable(String),
           state: T.nilable(String),
         ).returns(String)
       end
       def authorization_url(
-        project_id:, redirect_uri:, domain: nil, provider: nil, state: ''
+        redirect_uri:,
+        project_id: nil,
+        client_id: nil,
+        domain: nil,
+        provider: nil,
+        state: ''
       )
+        if project_id
+          warn '[DEPRECATION] `project_id` is deprecated.
+          Please use `client_id` instead.'
+          client_id = project_id
+        end
+
         validate_domain_and_provider(provider: provider, domain: domain)
 
         query = URI.encode_www_form({
-          client_id: project_id,
+          client_id: client_id,
           redirect_uri: redirect_uri,
           response_type: 'code',
           state: state,
@@ -78,13 +92,15 @@ module WorkOS
       # Fetch the profile details for the authenticated SSO user.
       #
       # @param [String] code The authorization code provided in the callback URL
-      # @param [String] project_id The WorkOS project ID for the project
+      # @param [String] client_id The WorkOS client ID for the environment
       #  where you've  configured your SSO connection
+      # @param [String] project_id The WorkOS project ID for the project.
+      # The project_id is deprecated in Dashboard2.
       #
       # @example
       #   WorkOS::SSO.profile(
       #     code: 'acme.com',
-      #     project_id: 'project_01DG5TGK363GRVXP3ZS40WNGEZ'
+      #     client_id: 'project_01DG5TGK363GRVXP3ZS40WNGEZ'
       #   )
       #   => #<WorkOS::Profile:0x00007fb6e4193d20
       #         @id="prof_01DRA1XNSJDZ19A31F183ECQW5",
@@ -97,10 +113,22 @@ module WorkOS
       #        >
       #
       # @return [WorkOS::Profile]
-      sig { params(code: String, project_id: String).returns(WorkOS::Profile) }
-      def profile(code:, project_id:)
+      sig do
+        params(
+          code: String,
+          project_id: T.nilable(String),
+          client_id: T.nilable(String),
+        ).returns(WorkOS::Profile)
+      end
+      def profile(code:, project_id: nil, client_id: nil)
+        if project_id
+          warn '[DEPRECATION] `project_id` is deprecated.
+          Please use `client_id` instead.'
+          client_id = project_id
+        end
+
         body = {
-          client_id: project_id,
+          client_id: client_id,
           client_secret: WorkOS.key!,
           grant_type: 'authorization_code',
           code: code,
@@ -187,7 +215,6 @@ module WorkOS
           " `provider` must be in #{PROVIDERS}"
       end
 
-      # rubocop:disable Metrics/MethodLength
       sig { params(response: Net::HTTPResponse).void }
       def check_and_raise_profile_error(response:)
         begin
@@ -206,7 +233,6 @@ module WorkOS
           request_id: request_id,
         )
       end
-      # rubocop:enable Metrics/MethodLength
     end
   end
 end

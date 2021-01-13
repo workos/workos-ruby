@@ -10,8 +10,12 @@ Layout/LineLength:
     - '(\A|\s)/.*?/'
 Metrics/BlockLength:
   ExcludedMethods: ['describe', 'context']
+Metrics/MethodLength:
+  Max: 15
 Metrics/ModuleLength:
   Max: 150
+Metrics/ParameterLists:
+  Max: 6
 Style/TrailingCommaInArguments:
   EnforcedStyleForMultiline: 'consistent_comma'
 Style/TrailingCommaInHashLiteral:

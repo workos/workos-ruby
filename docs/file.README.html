@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
   File: README
-  
+
     &mdash; Documentation by YARD 0.9.22
-  
+
 </title>
 
   <link rel="stylesheet" href="css/style.css" type="text/css" />
@@ -35,14 +35,14 @@
     <div id="main" tabindex="-1">
       <div id="header">
         <div id="menu">
-  
-    <a href="_index.html">Index</a> &raquo; 
+
+    <a href="_index.html">Index</a> &raquo;
     <span class="title">File: README</span>
-  
+
 </div>
 
         <div id="search">
-  
+
     <a class="full_list_link" id="class_list_link"
         href="class_list.html">
 
@@ -52,7 +52,7 @@
           <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
         </svg>
     </a>
-  
+
 </div>
         <div class="clear"></div>
       </div>
@@ -139,7 +139,7 @@
 
 <p>See our Ruby SSO example app for a <a href="https://github.com/workos-inc/ruby-sso-example">complete example</a>.</p>
 
-<pre class="code ruby"><code class="ruby">WorkOS::SSO.authorization_url(domain:, project_id:, redirect_uri:, state: {})
+<pre class="code ruby"><code class="ruby">WorkOS::SSO.authorization_url(domain:, client_id:, redirect_uri:, state: {})
 </code></pre>
 
 <blockquote>
@@ -150,27 +150,27 @@
 <ul><li>
 <p><code>domain</code> (string) — the authenticating user&#39;s company domain, without protocol (ex. <code>example.com</code>)</p>
 </li><li>
-<p><code>project_id</code> (string) — your application&#39;s WorkOS <a href="https://dashboard.workos.com/sso/configuration">Project ID</a> (ex. <code>project_01JG3BCPTRTSTTWQR4VSHXGWCQ</code>)</p>
+<p><code>client_id</code> (string) — your application&#39;s WorkOS <a href="https://dashboard.workos.com/sso/configuration">Client ID</a> (ex. <code>project_01JG3BCPTRTSTTWQR4VSHXGWCQ</code>)</p>
 </li><li>
 <p><code>state</code> (optional, hash) — an optional hash used to manage state across authorization transactions (ex. <code>{ next_page: &#39;/docs&#39;}</code>)</p>
 </li><li>
-<p><code>redirect_uri</code> (string) — a callback URL where your application redirects the user-agent after an authorization code is granted (ex. <code>workos.dev/callback</code>). This must match one of your configured callback URLs for the associated project on your WorkOS dashboard.</p>
+<p><code>redirect_uri</code> (string) — a callback URL where your application redirects the user-agent after an authorization code is granted (ex. <code>workos.dev/callback</code>). This must match one of your configured callback URLs for the associated environment on your WorkOS dashboard.</p>
 </li></ul>
 
 <p>This method will return an OAuth2 query string of the form:</p>
 
-<p><code>https://${domain}/sso/authorize?response_type=code&client_id=${projectID}&redirect_uri=${redirectURI}&state=${state}</code></p>
+<p><code>https://${domain}/sso/authorize?response_type=code&client_id=${clientID}&redirect_uri=${redirectURI}&state=${state}</code></p>
 
 <p>For example, when used in a <a href="http://sinatrarb.com/">Sinatra app</a>:</p>
 
 <pre class="code ruby"><code class="ruby"><span class='const'>DOMAIN</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>example.com</span><span class='tstring_end'>&#39;</span></span>
-<span class='const'>PROJECT_ID</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>{projectId}</span><span class='tstring_end'>&#39;</span></span>
+<span class='const'>CLIENT_ID</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>{clientId}</span><span class='tstring_end'>&#39;</span></span>
 <span class='const'>REDIRECT_URI</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>http://localhost:4567/callback</span><span class='tstring_end'>&#39;</span></span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/auth</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
   <span class='id identifier rubyid_authorization_url'>authorization_url</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="WorkOS/SSO.html" title="WorkOS::SSO (module)">SSO</a></span></span><span class='period'>.</span><span class='id identifier rubyid_authorization_url'><span class='object_link'><a href="WorkOS/SSO.html#authorization_url-class_method" title="WorkOS::SSO.authorization_url (method)">authorization_url</a></span></span><span class='lparen'>(</span>
     <span class='label'>domain:</span> <span class='const'>DOMAIN</span><span class='comma'>,</span>
-    <span class='label'>project_id:</span> <span class='const'>PROJECT_ID</span><span class='comma'>,</span>
+    <span class='label'>client_id:</span> <span class='const'>CLIENT_ID</span><span class='comma'>,</span>
     <span class='label'>redirect_uri:</span> <span class='const'>REDIRECT_URI</span><span class='comma'>,</span>
   <span class='rparen'>)</span>
 
@@ -180,11 +180,11 @@
 
 <p>The user would be redirected to:</p>
 
-<p><code>https://api.workos.com/sso/authorize?response_type=code&client_id={projectID}&redirect_uri=http://localhost:4567/callback</code></p>
+<p><code>https://api.workos.com/sso/authorize?response_type=code&client_id={clientID}&redirect_uri=http://localhost:4567/callback</code></p>
 
 <p>WorkOS takes over from here, sending the user to authenticate with their IDP, and on successful login, returns the user to your callback URL with a <code>code</code> parameter. You&#39;ll use <code>WorkOS::SSO.profile</code> to exchange the code for a <code>WorkOS::Profile</code>.</p>
 
-<pre class="code ruby"><code class="ruby">WorkOS::SSO.profile(code:, project_id:)&lt;/h4&gt;
+<pre class="code ruby"><code class="ruby">WorkOS::SSO.profile(code:, client_id:)&lt;/h4&gt;
 </code></pre>
 
 <blockquote>
@@ -195,7 +195,7 @@
 <ul><li>
 <p><code>code</code> (string) — an opaque string provided by the authorization server; will be exchanged for an Access Token when the user&#39;s profile is sent</p>
 </li><li>
-<p><code>project_id</code> (string) — your application&#39;s WorkOS <a href="https://dashboard.workos.com/sso/configuration">Project ID</a> (ex. <code>project_01JG3BCPTRTSTTWQR4VSHXGWCQ</code>)</p>
+<p><code>client_id</code> (string) — your application&#39;s WorkOS <a href="https://dashboard.workos.com/sso/configuration">Client ID</a> (ex. <code>project_01JG3BCPTRTSTTWQR4VSHXGWCQ</code>)</p>
 </li></ul>
 
 <p>This method will return an instance of a <code>WorkOS::Profile</code> with the following attributes:</p>
@@ -213,13 +213,13 @@
 <p>Our Sintatra app can be extended to use this method:</p>
 
 <pre class="code ruby"><code class="ruby"><span class='const'>DOMAIN</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>example.com</span><span class='tstring_end'>&#39;</span></span>
-<span class='const'>PROJECT_ID</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>{projectId}</span><span class='tstring_end'>&#39;</span></span>
+<span class='const'>CLIENT_ID</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>{clientId}</span><span class='tstring_end'>&#39;</span></span>
 <span class='const'>REDIRECT_URI</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>http://localhost:4567/callback</span><span class='tstring_end'>&#39;</span></span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/auth</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
   <span class='id identifier rubyid_authorization_url'>authorization_url</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="WorkOS/SSO.html" title="WorkOS::SSO (module)">SSO</a></span></span><span class='period'>.</span><span class='id identifier rubyid_authorization_url'><span class='object_link'><a href="WorkOS/SSO.html#authorization_url-class_method" title="WorkOS::SSO.authorization_url (method)">authorization_url</a></span></span><span class='lparen'>(</span>
     <span class='label'>domain:</span> <span class='const'>DOMAIN</span><span class='comma'>,</span>
-    <span class='label'>project_id:</span> <span class='const'>PROJECT_ID</span><span class='comma'>,</span>
+    <span class='label'>client_id:</span> <span class='const'>CLIENT_ID</span><span class='comma'>,</span>
     <span class='label'>redirect_uri:</span> <span class='const'>REDIRECT_URI</span><span class='comma'>,</span>
   <span class='rparen'>)</span>
 
@@ -229,7 +229,7 @@
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/callback</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
   <span class='id identifier rubyid_profile'>profile</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="WorkOS.html" title="WorkOS (module)">WorkOS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="WorkOS/SSO.html" title="WorkOS::SSO (module)">SSO</a></span></span><span class='period'>.</span><span class='id identifier rubyid_profile'><span class='object_link'><a href="WorkOS/SSO.html#profile-class_method" title="WorkOS::SSO.profile (method)">profile</a></span></span><span class='lparen'>(</span>
     <span class='label'>code:</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>code</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
-    <span class='label'>project_id:</span> <span class='const'>PROJECT_ID</span><span class='comma'>,</span>
+    <span class='label'>client_id:</span> <span class='const'>CLIENT_ID</span><span class='comma'>,</span>
   <span class='rparen'>)</span>
 
   <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:user</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_profile'>profile</span><span class='period'>.</span><span class='id identifier rubyid_to_json'>to_json</span>

@@ -49,7 +49,7 @@ module WorkOS
 
     private
 
-    # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+    # rubocop:disable Metrics/AbcSize
     sig { params(json_string: String).returns(WorkOS::Types::ProfileStruct) }
     def parse_json(json_string)
       hash = JSON.parse(json_string, symbolize_names: true)
@@ -65,6 +65,6 @@ module WorkOS
         raw_attributes: hash[:profile][:raw_attributes],
       )
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
+    # rubocop:enable Metrics/AbcSize
   end
 end
