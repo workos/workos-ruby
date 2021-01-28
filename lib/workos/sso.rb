@@ -196,6 +196,37 @@ module WorkOS
         WorkOS::Connection.new(response.body)
       end
 
+      # Retrieve connections.
+      #
+      # @param [Hash] options An options hash
+      # @option options [String] connection_type Authentication service
+      #  provider descriptor.
+      # @option options [String] domain The domain of the connection to be
+      #  retrieved.
+      # @option options [String] limit Maximum number of records to return.
+      # @option options [String] before Pagination cursor to receive records
+      #  before a provided Connection ID.
+      # @option options [String] after Pagination cursor to receive records
+      #  before a provided Connection ID.
+      #
+      # @return [Hash]
+      sig do
+        params(
+          options: T::Hash[Symbol, String],
+        ).returns(T::Array[T::Hash[String, T.nilable(String)]])
+      end
+      def list_connections(options = {})
+        response = execute_request(
+          request: get_request(
+            path: '/connections',
+            auth: true,
+            params: options,
+          ),
+        )
+
+        JSON.parse(response.body)['data']
+      end
+
       private
 
       sig do

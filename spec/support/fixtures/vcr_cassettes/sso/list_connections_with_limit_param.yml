@@ -1,0 +1,72 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.workos.com/connections?limit=1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.10.0
+      Authorization:
+      - Bearer <API_KEY>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Cowboy
+      Connection:
+      - keep-alive
+      Vary:
+      - Origin, Accept-Encoding
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      X-Dns-Prefetch-Control:
+      - 'off'
+      Expect-Ct:
+      - max-age=0
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Download-Options:
+      - noopen
+      X-Content-Type-Options:
+      - nosniff
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - no-referrer
+      X-Xss-Protection:
+      - '0'
+      X-Request-Id:
+      - 0faa24f3-189c-422b-a8d4-041ae25d58cf
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '775'
+      Etag:
+      - W/"307-f+XEBZyB7oLVWHDcligPou2CEgg"
+      Date:
+      - Wed, 27 Jan 2021 22:56:32 GMT
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"data":[{"object":"connection","id":"conn_01EWDSQJNXM1M33MTVSQ2ZR5M5","status":"unlinked","state":"draft","name":"IBM","connection_type":"OktaSAML","oidc_client_id":null,"oidc_client_secret":null,"oidc_discovery_endpoint":null,"oidc_redirect_uri":null,"saml_entity_id":null,"saml_idp_url":null,"saml_relying_party_private_key":null,"saml_relying_party_public_key":null,"saml_x509_certs":null,"organization_id":"org_01EWDSPEYNG87X1KMBNA7315F7","oauth_uid":null,"oauth_secret":null,"oauth_redirect_uri":null,"domains":[{"object":"connection_domain","id":"domain_01EWDSQJP5HPMD4BQQ031WG55V","domain":"ibm.jp"},{"object":"connection_domain","id":"domain_01EWDSQJP53FXQXEKRSFK1W0N9","domain":"ibm.com"}]}],"listMetadata":{"before":"conn_01EWDSQJNXM1M33MTVSQ2ZR5M5","after":null}}'
+    http_version:
+  recorded_at: Wed, 27 Jan 2021 22:56:32 GMT
+recorded_with: VCR 5.0.0
