@@ -355,4 +355,79 @@ describe WorkOS::SSO do
       end
     end
   end
+
+  describe '.list_connections' do
+    before(:all) do
+      WorkOS.key = 'key'
+    end
+
+    after(:all) do
+      WorkOS.key = nil
+    end
+
+    context 'with no options' do
+      it 'returns connections' do
+        VCR.use_cassette('sso/list_connections') do
+          connections = WorkOS::SSO.list_connections
+          expect(connections.size).to eq(1)
+        end
+      end
+    end
+
+    context 'with connection_type option' do
+      it 'returns connections' do
+        VCR.use_cassette('sso/list_connections_with_connection_type_param') do
+          connections = WorkOS::SSO.list_connections(
+            connection_type: 'OktaSAML',
+          )
+          expect(connections.first['connection_type']).to eq('OktaSAML')
+        end
+      end
+    end
+
+    context 'with domain option' do
+      it 'returns connections' do
+        VCR.use_cassette('sso/list_connections_with_domain_param') do
+          connections = WorkOS::SSO.list_connections(
+            domain: 'foo-corp.com',
+          )
+          domains = connections.first['domains']
+          expect(domains.first['domain']).to eq('foo-corp.com')
+        end
+      end
+    end
+
+    context 'with limit option' do
+      it 'returns connections' do
+        VCR.use_cassette('sso/list_connections_with_limit_param') do
+          connections = WorkOS::SSO.list_connections(
+            limit: 1,
+          )
+          expect(connections.size).to eq(1)
+        end
+      end
+    end
+
+    context 'with before option' do
+      it 'returns connections' do
+        VCR.use_cassette('sso/list_connections_with_before_param') do
+          connections = WorkOS::SSO.list_connections(
+            before: 'conn_01EQKPMQAPV02H270HKVNS4CTA',
+          )
+          expect(connections.size).to eq(1)
+        end
+      end
+    end
+
+    context 'with after option' do
+      it 'returns connections' do
+        VCR.use_cassette('sso/list_connections_with_after_param') do
+          connections = WorkOS::SSO.list_connections(
+            after: 'conn_01EQKPMQAPV02H270HKVNS4CTA',
+          )
+          expect(connections.size).to eq(1)
+        end
+      end
+    end
+  end
 end
