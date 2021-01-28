@@ -1,0 +1,73 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.workos.com/connections?before=conn_01EQKPMQAPV02H270HKVNS4CTA
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.10.0
+      Authorization:
+      - Bearer <API_KEY>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Cowboy
+      Connection:
+      - keep-alive
+      Vary:
+      - Origin, Accept-Encoding
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      X-Dns-Prefetch-Control:
+      - 'off'
+      Expect-Ct:
+      - max-age=0
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Download-Options:
+      - noopen
+      X-Content-Type-Options:
+      - nosniff
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - no-referrer
+      X-Xss-Protection:
+      - '0'
+      X-Request-Id:
+      - 7aa2bec7-9be5-43f5-b31a-b881163ec51f
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"2350-Qt4e8P5kQZw9eoJFpydBl6BKaGo"
+      Date:
+      - Wed, 27 Jan 2021 23:00:35 GMT
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: ASCII-8BIT
+      string: '{"data":[{"object":"connection","id":"conn_01EQKNFQRVY56P08881CC8MFG1","status":"linked","state":"draft","name":"Google
+        OAuth","connection_type":"GoogleOAuth","oidc_client_id":null,"oidc_client_secret":null,"oidc_discovery_endpoint":null,"oidc_redirect_uri":null,"saml_entity_id":null,"saml_idp_url":null,"saml_relying_party_private_key":null,"saml_relying_party_public_key":null,"saml_x509_certs":null,"organization_id":"org_01EQKNFQPY71VPSEM928XDXMPK","oauth_uid":"658654540757-gbfpkkdff1njvhsf3ctlovnu5gd50tu9.apps.googleusercontent.com","oauth_secret":"iABAPUK6NWRas4bnRq2_qKS3","oauth_redirect_uri":"https://auth.workos.com/sso/oauth/google/xxxxxx/callback","domains":[{"object":"connection_domain","id":"domain_01EQKNFQS6N2SZ095SSPJGFKXP","domain":"node-test.com"}]}],"listMetadata":{"before":"conn_01EM7DGSQSSSJB9SXXRY9JJJVX","after":"conn_01EQKNFQRVY56P08881CC8MFG1"}}'
+    http_version:
+  recorded_at: Wed, 27 Jan 2021 23:00:35 GMT
+recorded_with: VCR 5.0.0
