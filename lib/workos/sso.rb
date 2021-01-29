@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+## frozen_string_literal: true
 # typed: true
 
 require 'net/http'
@@ -225,6 +225,34 @@ module WorkOS
         )
 
         JSON.parse(response.body)['data']
+      end
+
+      # Get a Connection
+      #
+      # @param [String] id Connection unique identifier
+      #
+      # @example
+      #   WorkOS::SSO.get_connection(id: 'conn_02DRA1XNSJDZ19A31F183ECQW9')
+      #   => #<WorkOS::Connection:0x00007fb6e4193d20
+      #         @id="conn_02DRA1XNSJDZ19A31F183ECQW9",
+      #         @name="Foo Corp",
+      #         @connection_type="OktaSAML",
+      #         @domains=
+      #          [{:object=>"connection_domain",
+      #            :id=>"domain_01E6PK9N3XMD8RHWF7S66380AR",
+      #            :domain=>"example.com"}]>
+      #
+      # @return [WorkOS::Connection]
+      sig { params(id: String).returns(WorkOS::Connection) }
+      def get_connection(id:)
+        request = get_request(
+          auth: true,
+          path: "/connections/#{id}",
+        )
+
+        response = execute_request(request: request)
+
+        WorkOS::Connection.new(response.body)
       end
 
       private

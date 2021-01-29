@@ -430,4 +430,42 @@ describe WorkOS::SSO do
       end
     end
   end
+
+  describe '.get_connection' do
+    before(:all) do
+      WorkOS.key = 'key'
+    end
+
+    after(:all) do
+      WorkOS.key = nil
+    end
+
+    context 'with a valid id' do
+      it 'gets the connection details' do
+        VCR.use_cassette('sso/get_connection_with_valid_id') do
+          connection = WorkOS::SSO.get_connection(
+            id: 'conn_01EX00NB050H354WKGC7990AR2',
+          )
+
+          expect(connection.id).to eq('conn_01EX00NB050H354WKGC7990AR2')
+          expect(connection.connection_type).to eq('OktaSAML')
+          expect(connection.name).to eq('Foo Corp')
+          expect(connection.domains.first[:domain]).to eq('foo-corp.com')
+        end
+      end
+    end
+
+    context 'with an invalid id' do
+      it 'raises an error' do
+        VCR.use_cassette('sso/get_connection_with_invalid_id') do
+          expect do
+            WorkOS::SSO.get_connection(id: 'invalid')
+          end.to raise_error(
+            WorkOS::APIError,
+            'Status 404, Not Found - request ID: ',
+          )
+        end
+      end
+    end
+  end
 end
