@@ -255,6 +255,27 @@ module WorkOS
         WorkOS::Connection.new(response.body)
       end
 
+      # Delete a Connection
+      #
+      # @param [String] id Connection unique identifier
+      #
+      # @example
+      #   WorkOS::SSO.delete_connection(id: 'conn_02DRA1XNSJDZ19A31F183ECQW9')
+      #   => true
+      #
+      # @return [Bool] - returns `true` if successful
+      sig { params(id: String).returns(T::Boolean) }
+      def delete_connection(id:)
+        request = delete_request(
+          auth: true,
+          path: "/connections/#{id}",
+        )
+
+        response = execute_request(request: request)
+
+        response.is_a? Net::HTTPSuccess
+      end
+
       private
 
       sig do
