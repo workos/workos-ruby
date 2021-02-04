@@ -468,4 +468,39 @@ describe WorkOS::SSO do
       end
     end
   end
+
+  describe '.delete_connection' do
+    before(:all) do
+      WorkOS.key = 'key'
+    end
+
+    after(:all) do
+      WorkOS.key = nil
+    end
+
+    context 'with a valid id' do
+      it 'returns true' do
+        VCR.use_cassette('sso/delete_connection_with_valid_id') do
+          response = WorkOS::SSO.delete_connection(
+            id: 'conn_01EX55FRVN1V2PCA9YWTMZQMMQ',
+          )
+
+          expect(response).to be(true)
+        end
+      end
+    end
+
+    context 'with an invalid id' do
+      it 'returns false' do
+        VCR.use_cassette('sso/delete_connection_with_invalid_id') do
+          expect do
+            WorkOS::SSO.delete_connection(id: 'invalid')
+          end.to raise_error(
+            WorkOS::APIError,
+            'Status 404, Not Found - request ID: ',
+          )
+        end
+      end
+    end
+  end
 end
