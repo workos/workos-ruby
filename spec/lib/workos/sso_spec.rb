@@ -404,7 +404,9 @@ describe WorkOS::SSO do
             organization_id: 'org_01EGS4P7QR31EZ4YWD1Z1XA176',
           )
           expect(connections.size).to eq(1)
-          expect(connections.first['organization_id']).to eq('org_01EGS4P7QR31EZ4YWD1Z1XA176')
+          expect(connections.first['organization_id']).to eq(
+            'org_01EGS4P7QR31EZ4YWD1Z1XA176'
+          )
         end
       end
     end
