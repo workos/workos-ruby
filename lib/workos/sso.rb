@@ -203,6 +203,8 @@ module WorkOS
       #  provider descriptor.
       # @option options [String] domain The domain of the connection to be
       #  retrieved.
+      # @option options [String] organization_id The id of the organization
+      #  of the connections to be retrieved.
       # @option options [String] limit Maximum number of records to return.
       # @option options [String] before Pagination cursor to receive records
       #  before a provided Connection ID.

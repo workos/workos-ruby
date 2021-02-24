@@ -1,0 +1,72 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.workos.com/connections?organization_id=org_01EGS4P7QR31EZ4YWD1Z1XA176
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.10.0
+      Authorization:
+      - Bearer <API_KEY>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Cowboy
+      Connection:
+      - keep-alive
+      Vary:
+      - Origin, Accept-Encoding
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      X-Dns-Prefetch-Control:
+      - 'off'
+      Expect-Ct:
+      - max-age=0
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Download-Options:
+      - noopen
+      X-Content-Type-Options:
+      - nosniff
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - no-referrer
+      X-Xss-Protection:
+      - '0'
+      X-Request-Id:
+      - 1a9c4c5a-4702-4f2e-88ee-d681e13276ef
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"7f7-Srp6Nv6te4CUMvxv1RKUf5Mte/4"
+      Date:
+      - Wed, 24 Feb 2021 19:48:04 GMT
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: ASCII-8BIT
+      string: '{"data":[{"object":"connection","id":"conn_01EGS6E1K7YK1G380ADPHTDC4K","status":"linked","state":"active","name":"foochrop","connection_type":"GoogleSAML","oidc_client_id":null,"oidc_client_secret":null,"oidc_discovery_endpoint":null,"oidc_redirect_uri":null,"saml_entity_id":"https://accounts.google.com/o/saml2?idpid=4444","saml_idp_url":"https://accounts.google.com/o/saml2/idp?idpid=4444","saml_relying_party_private_key":null,"saml_relying_party_public_key":null,"saml_x509_certs":null,"organization_id":"org_01EGS4P7QR31EZ4YWD1Z1XA176","oauth_uid":null,"oauth_secret":null,"oauth_redirect_uri":null,"domains":[{"object":"connection_domain","id":"domain_01EGS6E1KPBD018BHS9Z10VHR9","domain":"foo-corp.com"}]}],"listMetadata":{"before":null,"after":null}}'
+    http_version:
+  recorded_at: Wed, 24 Feb 2021 19:48:04 GMT
+recorded_with: VCR 5.0.0
