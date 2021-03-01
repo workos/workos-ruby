@@ -397,6 +397,20 @@ describe WorkOS::SSO do
       end
     end
 
+    context 'with organization_id option' do
+      it 'returns connections' do
+        VCR.use_cassette('sso/list_connections_with_organization_id_param') do
+          connections = WorkOS::SSO.list_connections(
+            organization_id: 'org_01EGS4P7QR31EZ4YWD1Z1XA176',
+          )
+          expect(connections.size).to eq(1)
+          expect(connections.first['organization_id']).to eq(
+            'org_01EGS4P7QR31EZ4YWD1Z1XA176',
+          )
+        end
+      end
+    end
+
     context 'with limit option' do
       it 'returns connections' do
         VCR.use_cassette('sso/list_connections_with_limit_param') do
