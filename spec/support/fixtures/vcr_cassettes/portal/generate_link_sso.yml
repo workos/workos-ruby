@@ -67,6 +67,6 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"link":"https://id.workos.com/portal/launch?secret=secret"}'
-    http_version: 
+    http_version:
   recorded_at: Wed, 09 Sep 2020 23:43:07 GMT
 recorded_with: VCR 5.0.0

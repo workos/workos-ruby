@@ -47,11 +47,26 @@ describe WorkOS::Portal do
     let(:organization) { 'org_01EHQMYV6MBK39QC5PZXHY59C3' }
 
     describe 'with a valid organization' do
-      describe 'with the minimal params' do
+      context 'with the sso intent' do
         it 'returns an Admin Portal link' do
-          VCR.use_cassette 'portal/generate_link' do
+          VCR.use_cassette 'portal/generate_link_sso' do
             portal_link = described_class.generate_link(
               intent: 'sso',
+              organization: organization,
+            )
+
+            expect(portal_link).to eq(
+              'https://id.workos.com/portal/launch?secret=secret',
+            )
+          end
+        end
+      end
+
+      describe 'with the dsync intent' do
+        it 'returns an Admin Portal link' do
+          VCR.use_cassette 'portal/generate_link_dsync' do
+            portal_link = described_class.generate_link(
+              intent: 'dsync',
               organization: organization,
             )
 
@@ -88,7 +103,7 @@ describe WorkOS::Portal do
           )
         end.to raise_error(
           ArgumentError,
-          'bogus-intent is not a valid value. `intent` must be in ["sso"]',
+          /bogus-intent is not a valid value/,
         )
       end
     end
