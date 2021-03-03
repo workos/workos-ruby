@@ -8,6 +8,7 @@ module WorkOS
     class Intent < T::Enum
       enums do
         SSO = new('sso')
+        DSYNC = new('dsync')
       end
     end
   end
