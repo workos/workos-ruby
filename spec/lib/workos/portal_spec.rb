@@ -103,7 +103,7 @@ describe WorkOS::Portal do
           )
         end.to raise_error(
           ArgumentError,
-          'bogus-intent is not a valid value. `intent` must be in ["sso", "dsync"]',
+          /bogus-intent is not a valid value/,
         )
       end
     end
