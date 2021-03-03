@@ -3,7 +3,7 @@
 
 describe WorkOS::Portal do
   before :all do
-    WorkOS.key = 'sk_4q5ka3d9bx0XJiZhkKmUIOG87'
+    WorkOS.key = 'test'
   end
 
   after :all do
