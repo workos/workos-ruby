@@ -48,5 +48,6 @@ RSpec.configure do |config|
     end
   end)
 
+  config.before(:all) { WorkOS.key ||= '' }
   config.before(:each) { VCR.turn_on! }
 end

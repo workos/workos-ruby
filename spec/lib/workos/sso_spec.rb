@@ -159,10 +159,6 @@ describe WorkOS::SSO do
   end
 
   describe '.profile' do
-    before do
-      WorkOS.key = 'api-key'
-    end
-
     let(:args) do
       {
         code: SecureRandom.hex(10),
@@ -274,14 +270,6 @@ describe WorkOS::SSO do
   end
 
   describe '.create_connection' do
-    before(:all) do
-      WorkOS.key = 'key'
-    end
-
-    after(:all) do
-      WorkOS.key = nil
-    end
-
     context 'with a valid source' do
       it 'creates a connection' do
         VCR.use_cassette('sso/create_connection_with_valid_source') do
@@ -312,14 +300,6 @@ describe WorkOS::SSO do
   end
 
   describe '.promote_draft_connection' do
-    before(:all) do
-      WorkOS.key = 'key'
-    end
-
-    after(:all) do
-      WorkOS.key = nil
-    end
-
     let(:token) { 'draft_conn_id' }
     let(:client_id) { 'proj_0239u590h' }
 
@@ -357,14 +337,6 @@ describe WorkOS::SSO do
   end
 
   describe '.list_connections' do
-    before(:all) do
-      WorkOS.key = 'key'
-    end
-
-    after(:all) do
-      WorkOS.key = nil
-    end
-
     context 'with no options' do
       it 'returns connections' do
         VCR.use_cassette('sso/list_connections') do
@@ -446,14 +418,6 @@ describe WorkOS::SSO do
   end
 
   describe '.get_connection' do
-    before(:all) do
-      WorkOS.key = 'key'
-    end
-
-    after(:all) do
-      WorkOS.key = nil
-    end
-
     context 'with a valid id' do
       it 'gets the connection details' do
         VCR.use_cassette('sso/get_connection_with_valid_id') do
@@ -484,14 +448,6 @@ describe WorkOS::SSO do
   end
 
   describe '.delete_connection' do
-    before(:all) do
-      WorkOS.key = 'key'
-    end
-
-    after(:all) do
-      WorkOS.key = nil
-    end
-
     context 'with a valid id' do
       it 'returns true' do
         VCR.use_cassette('sso/delete_connection_with_valid_id') do

@@ -2,14 +2,6 @@
 # typed: false
 
 describe WorkOS::Portal do
-  before :all do
-    WorkOS.key = 'test'
-  end
-
-  after :all do
-    WorkOS.key = nil
-  end
-
   describe '.create_organization' do
     context 'with valid payload' do
       it 'creates an organization' do

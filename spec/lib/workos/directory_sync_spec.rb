@@ -2,14 +2,6 @@
 # typed: false
 
 describe WorkOS::DirectorySync do
-  before(:all) do
-    WorkOS.key = 'key'
-  end
-
-  after(:all) do
-    WorkOS.key = nil
-  end
-
   describe '.list_directories' do
     context 'with no options' do
       it 'returns directories' do
