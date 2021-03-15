@@ -2,14 +2,6 @@
 # typed: false
 
 describe WorkOS::AuditTrail do
-  before(:all) do
-    WorkOS.key = 'key'
-  end
-
-  after(:all) do
-    WorkOS.key = nil
-  end
-
   describe '.create_event' do
     context 'with valid event payload' do
       let(:valid_event) do

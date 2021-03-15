@@ -2,14 +2,6 @@
 # typed: false
 
 describe WorkOS::Passwordless do
-  before(:all) do
-    WorkOS.key = 'key'
-  end
-
-  after(:all) do
-    WorkOS.key = nil
-  end
-
   describe '.create_session' do
     context 'with valid options payload' do
       let(:valid_options) do
