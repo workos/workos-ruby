@@ -26,6 +26,8 @@ module WorkOS
       #  required
       # @param [String] provider A provider name for an Identity Provider
       #  configured on your WorkOS dashboard. Only 'Google' is supported.
+      # @param [String] connection The ID for a Connection configured on
+      #  WorkOS.
       # @param [String] client_id The WorkOS client ID for the environment
       #  where you've configured your SSO connection.
       # @param [String] project_id The WorkOS project ID for the project.
@@ -58,15 +60,18 @@ module WorkOS
           client_id: T.nilable(String),
           domain: T.nilable(String),
           provider: T.nilable(String),
+          connection: T.nilable(String),
           state: T.nilable(String),
         ).returns(String)
       end
+      # rubocop:disable Metrics/MethodLength, Metrics/ParameterLists
       def authorization_url(
         redirect_uri:,
         project_id: nil,
         client_id: nil,
         domain: nil,
         provider: nil,
+        connection: nil,
         state: ''
       )
         if project_id
@@ -75,7 +80,11 @@ module WorkOS
           client_id = project_id
         end
 
-        validate_domain_and_provider(provider: provider, domain: domain)
+        validate_authorization_url_arguments(
+          provider: provider,
+          domain: domain,
+          connection: connection,
+        )
 
         query = URI.encode_www_form({
           client_id: client_id,
@@ -84,10 +93,12 @@ module WorkOS
           state: state,
           domain: domain,
           provider: provider,
+          connection: connection,
         }.compact)
 
         "https://#{WorkOS::API_HOSTNAME}/sso/authorize?#{query}"
       end
+      # rubocop:enable Metrics/MethodLength, Metrics/ParameterLists
 
       # Fetch the profile details for the authenticated SSO user.
       #
@@ -284,11 +295,17 @@ module WorkOS
         params(
           domain: T.nilable(String),
           provider: T.nilable(String),
+          connection: T.nilable(String),
         ).void
       end
-      def validate_domain_and_provider(domain:, provider:)
-        if [domain, provider].all?(&:nil?)
-          raise ArgumentError, 'Either domain or provider is required.'
+      def validate_authorization_url_arguments(
+        domain:,
+        provider:,
+        connection:
+      )
+        if [domain, provider, connection].all?(&:nil?)
+          raise ArgumentError, 'Either connection, domain, or ' \
+            'provider is required.'
         end
 
         return unless provider && !PROVIDERS.include?(provider)
