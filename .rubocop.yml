@@ -13,7 +13,7 @@ Metrics/BlockLength:
 Metrics/MethodLength:
   Max: 15
 Metrics/ModuleLength:
-  Max: 150
+  Max: 200
 Metrics/ParameterLists:
   Max: 6
 Style/TrailingCommaInArguments:
