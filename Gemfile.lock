@@ -77,7 +77,7 @@ DEPENDENCIES
   rake
   rspec (~> 3.9.0)
   rubocop (~> 0.77)
-  sorbet
+  sorbet (~> 0.5)
   vcr (~> 5.0.0)
   webmock
   workos!
