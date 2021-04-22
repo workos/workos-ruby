@@ -125,6 +125,23 @@ module WorkOS
 
         JSON.parse(response.body)
       end
+
+      # Delete the directory with the given ID.
+      #
+      # @param [String] id The ID of the directory.
+      #
+      # @return Boolean
+      sig { params(id: String).returns(T::Boolean) }
+      def delete_directory(id)
+        request = delete_request(
+          auth: true,
+          path: "/directories/#{id}",
+        )
+
+        response = execute_request(request: request)
+
+        response.is_a? Net::HTTPSuccess
+      end
     end
   end
 end

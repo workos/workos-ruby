@@ -25,6 +25,20 @@ describe WorkOS::DirectorySync do
     end
   end
 
+  describe '.delete_directory' do
+    context 'with valid id' do
+      it 'deletes a directory' do
+        VCR.use_cassette('directory_sync/delete_directory') do
+          response = WorkOS::DirectorySync.delete_directory(
+            'directory_01F2T098SKN5PCTVSJ7CWP70N5',
+          )
+
+          expect(response).to be(true)
+        end
+      end
+    end
+  end
+
   describe '.list_groups' do
     context 'with no options' do
       it 'returns groups' do
