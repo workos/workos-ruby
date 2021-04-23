@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-# typed: true
+# typed: false
 
 module WorkOS
   # A Net::HTTP based API client for interacting with the WorkOS API
