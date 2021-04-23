@@ -8,7 +8,8 @@ module WorkOS
   class Connection
     extend T::Sig
 
-    attr_accessor :id, :name, :connection_type, :domains
+    attr_accessor :id, :name, :connection_type, :domains, :organization_id,
+                  :status
 
     sig { params(json: String).void }
     def initialize(json)
@@ -18,6 +19,8 @@ module WorkOS
       @name = T.let(raw.name, String)
       @connection_type = T.let(raw.connection_type, String)
       @domains = T.let(raw.domains, Array)
+      @organization_id = T.let(raw.organization_id, String)
+      @status = T.let(raw.status, String)
     end
 
     def to_json(*)
@@ -26,6 +29,8 @@ module WorkOS
         name: name,
         connection_type: connection_type,
         domains: domains,
+        organization_id: organization_id,
+        status: status,
       }
     end
 
@@ -40,6 +45,8 @@ module WorkOS
         name: hash[:name],
         connection_type: hash[:connection_type],
         domains: hash[:domains],
+        organization_id: hash[:organization_id],
+        status: hash[:status],
       )
     end
   end

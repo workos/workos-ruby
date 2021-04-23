@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.workos.com/directories?domain=foo-corp.com
+    uri: https://api.workos.com/directory_groups?user=directory_user_01EK2YFBC2GQGF91EHVC
     body:
       encoding: US-ASCII
       string: ''
@@ -14,13 +14,13 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.2.3
+      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.10.3
       Authorization:
       - Bearer <API_KEY>
   response:
     status:
-      code: 200
-      message: OK
+      code: 422
+      message: Unprocessable Entity
     headers:
       Server:
       - Cowboy
@@ -30,8 +30,14 @@ http_interactions:
       - Origin, Accept-Encoding
       Access-Control-Allow-Credentials:
       - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
       X-Dns-Prefetch-Control:
       - 'off'
+      Expect-Ct:
+      - max-age=0
       X-Frame-Options:
       - SAMEORIGIN
       Strict-Transport-Security:
@@ -40,24 +46,27 @@ http_interactions:
       - noopen
       X-Content-Type-Options:
       - nosniff
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - no-referrer
       X-Xss-Protection:
-      - 1; mode=block
+      - '0'
       X-Request-Id:
-      - '08feb93b-22e8-4955-b17d-0e5efa1ed6a4'
+      - 3a134bc8-0893-4fc5-a401-d4aca3941cfc
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '330'
+      - '34'
       Etag:
-      - W/"14a-Q+U+kuKWjl8FQwSosUsvUraY82A"
+      - W/"22-RazrsGsqBa2RYgrCeQIILy9oeGQ"
       Date:
-      - Thu, 30 Apr 2020 03:42:20 GMT
+      - Thu, 22 Apr 2021 22:11:08 GMT
       Via:
       - 1.1 vegur
     body:
       encoding: UTF-8
-      string: '{"object":"list","listMetadata":{"before":null,"after":null},"data":[{"object":"directory","id":"directory_edp_01E64QQVQTCB0DECJ9CFNXEWDW","external_key":"lA3gS1kCZMCkk82E","state":"linked","type":"gsuite
-        directory","name":"Foo Corp","bearer_token":null,"client_id":"project_01DFYCG8RCB1DB6DKFTGXF4Q9F","domain":"foo-corp.com"}]}'
+      string: '{"message":"Unprocessable Entity"}'
     http_version:
-  recorded_at: Thu, 30 Apr 2020 03:42:20 GMT
+  recorded_at: Thu, 22 Apr 2021 22:11:08 GMT
 recorded_with: VCR 5.0.0

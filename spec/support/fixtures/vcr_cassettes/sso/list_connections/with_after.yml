@@ -1,0 +1,73 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.workos.com/connections?after=conn_01EQKPMQAPV02H270HKVNS4CTA
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.10.3
+      Authorization:
+      - Bearer <API_KEY>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Cowboy
+      Connection:
+      - keep-alive
+      Vary:
+      - Origin, Accept-Encoding
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      X-Dns-Prefetch-Control:
+      - 'off'
+      Expect-Ct:
+      - max-age=0
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Download-Options:
+      - noopen
+      X-Content-Type-Options:
+      - nosniff
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - no-referrer
+      X-Xss-Protection:
+      - '0'
+      X-Request-Id:
+      - f7578f1e-4037-4b14-9582-2694cbdf6791
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"49cb-zc7a7LmdRFoh61JNIbfZDYPXCxo"
+      Date:
+      - Thu, 22 Apr 2021 22:27:20 GMT
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: ASCII-8BIT
+      string: '{"data":[{"object":"connection","id":"conn_01EXSJNNJYDMAPMW4RGJFPSS8S","status":"linked","state":"active","name":"Gyres","connection_type":"AzureSAML","oidc_client_id":null,"oidc_client_secret":null,"oidc_discovery_endpoint":null,"oidc_redirect_uri":null,"saml_entity_id":"https://auth.workos.com/UkfpBFm8KYo80cWmAa8GsCMSQ","saml_idp_url":"https://login.microsoftonline.com/f2416a9f-8064-45fe-99b6-d68b320c33f5/saml2","saml_relying_party_private_key":null,"saml_relying_party_public_key":null,"saml_x509_certs":null,"organization_id":"org_01EXSJN9K761YW588FHMADPPFD","oauth_uid":null,"oauth_secret":null,"oauth_redirect_uri":null,"domains":[{"object":"connection_domain","id":"org_domain_01EXSJNNJNVVHRW1HSAMJ12J31","domain":"gyres.com"}]},{"object":"connection","id":"conn_01EXJ9WRWG2526AQNQQ55J6ZFX","status":"linked","state":"active","name":"Unique
+        Domain","connection_type":"AzureSAML","oidc_client_id":null,"oidc_client_secret":null,"oidc_discovery_endpoint":null,"oidc_redirect_uri":null,"saml_entity_id":"https://auth.workos.com/AM9h0jCQPmM4iWUCMqKIuEMEI","saml_idp_url":"https://login.microsoftonline.com/f2416a9f-8064-45fe-99b6-d68b320c33f5/saml2","saml_relying_party_private_key":null,"saml_relying_party_public_key":null,"saml_x509_certs":null,"organization_id":"org_01EXJ9W92SBSMZNZE05XFVTTHK","oauth_uid":null,"oauth_secret":null,"oauth_redirect_uri":null,"domains":[{"object":"connection_domain","id":"org_domain_01EXJ9WRWANA8WV370QJGE2PTW","domain":"uniquedomain.com"},{"object":"connection_domain","id":"org_domain_01EXPTAPN9NB4V2ZHNQ0ZFBCEA","domain":"newdomainn.com"}]},{"object":"connection","id":"conn_01EWDSQJNXM1M33MTVSQ2ZR5M5","status":"unlinked","state":"draft","name":"IBM","connection_type":"OktaSAML","oidc_client_id":null,"oidc_client_secret":null,"oidc_discovery_endpoint":null,"oidc_redirect_uri":null,"saml_entity_id":null,"saml_idp_url":null,"saml_relying_party_private_key":null,"saml_relying_party_public_key":null,"saml_x509_certs":null,"organization_id":"org_01EWDSPEYNG87X1KMBNA7315F7","oauth_uid":null,"oauth_secret":null,"oauth_redirect_uri":null,"domains":[{"object":"connection_domain","id":"org_domain_01EWDSQJNPD7J8RPJ3KQ98PPTJ","domain":"ibm.com"},{"object":"connection_domain","id":"org_domain_01EWDSQJNQXAFPVH7C8E0MM2C0","domain":"ibm.jp"}]}],"listMetadata":{"before":"conn_01ERFVD49HW0H9MW6GH8XYRQRR","after":"conn_01EXSJNNJYDMAPMW4RGJFPSS8S"}}'
+    http_version:
+  recorded_at: Thu, 22 Apr 2021 22:27:20 GMT
+recorded_with: VCR 5.0.0

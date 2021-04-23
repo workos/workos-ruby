@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.workos.com/connections?before=conn_01EQKPMQAPV02H270HKVNS4CTA
+    uri: https://api.workos.com/connections?domain=foo-corp.com
     body:
       encoding: US-ASCII
       string: ''
@@ -14,7 +14,7 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.10.0
+      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.10.3
       Authorization:
       - Bearer <API_KEY>
   response:
@@ -53,21 +53,20 @@ http_interactions:
       X-Xss-Protection:
       - '0'
       X-Request-Id:
-      - 7aa2bec7-9be5-43f5-b31a-b881163ec51f
+      - c8811c1f-3e14-43fd-af3c-f34c3c121e13
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"2350-Qt4e8P5kQZw9eoJFpydBl6BKaGo"
+      - W/"858-uzKJUA8m8TqEzP1BIYcD7v5jWXc"
       Date:
-      - Wed, 27 Jan 2021 23:00:35 GMT
+      - Thu, 22 Apr 2021 22:27:17 GMT
       Transfer-Encoding:
       - chunked
       Via:
       - 1.1 vegur
     body:
       encoding: ASCII-8BIT
-      string: '{"data":[{"object":"connection","id":"conn_01EQKNFQRVY56P08881CC8MFG1","status":"linked","state":"draft","name":"Google
-        OAuth","connection_type":"GoogleOAuth","oidc_client_id":null,"oidc_client_secret":null,"oidc_discovery_endpoint":null,"oidc_redirect_uri":null,"saml_entity_id":null,"saml_idp_url":null,"saml_relying_party_private_key":null,"saml_relying_party_public_key":null,"saml_x509_certs":null,"organization_id":"org_01EQKNFQPY71VPSEM928XDXMPK","oauth_uid":"658654540757-gbfpkkdff1njvhsf3ctlovnu5gd50tu9.apps.googleusercontent.com","oauth_secret":"iABAPUK6NWRas4bnRq2_qKS3","oauth_redirect_uri":"https://auth.workos.com/sso/oauth/google/xxxxxx/callback","domains":[{"object":"connection_domain","id":"domain_01EQKNFQS6N2SZ095SSPJGFKXP","domain":"node-test.com"}]}],"listMetadata":{"before":"conn_01EM7DGSQSSSJB9SXXRY9JJJVX","after":"conn_01EQKNFQRVY56P08881CC8MFG1"}}'
+      string: '{"data":[{"object":"connection","id":"conn_01EGS6E1K7YK1G380ADPHTDC4K","status":"linked","state":"active","name":"foochrop","connection_type":"GoogleSAML","oidc_client_id":null,"oidc_client_secret":null,"oidc_discovery_endpoint":null,"oidc_redirect_uri":null,"saml_entity_id":"http://www.okta.com/exk2nna6ce7sryESs4x7","saml_idp_url":"https://foo-corp.okta.com/app/foo-corp_workossandboxworkostestapp_1/exk2nna6ce7sryESs4x7/sso/saml","saml_relying_party_private_key":null,"saml_relying_party_public_key":null,"saml_x509_certs":null,"organization_id":"org_01EGS4P7QR31EZ4YWD1Z1XA176","oauth_uid":null,"oauth_secret":null,"oauth_redirect_uri":null,"domains":[{"object":"connection_domain","id":"org_domain_01EGS4P7RNQPFQAQ7SKCC40KNE","domain":"foo-corp.com"}]}],"listMetadata":{"before":null,"after":null}}'
     http_version:
-  recorded_at: Wed, 27 Jan 2021 23:00:35 GMT
+  recorded_at: Thu, 22 Apr 2021 22:27:17 GMT
 recorded_with: VCR 5.0.0

@@ -1,0 +1,78 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.workos.com/directory_groups?directory=directory_01EK2YEMVTWGX27STRDR0N3MP9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.10.3
+      Authorization:
+      - Bearer <API_KEY>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Cowboy
+      Connection:
+      - keep-alive
+      Vary:
+      - Origin, Accept-Encoding
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      X-Dns-Prefetch-Control:
+      - 'off'
+      Expect-Ct:
+      - max-age=0
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Download-Options:
+      - noopen
+      X-Content-Type-Options:
+      - nosniff
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - no-referrer
+      X-Xss-Protection:
+      - '0'
+      X-Request-Id:
+      - 36d0697c-f267-4be3-8dd0-d74dafff485d
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"107e-oshMZJx0TjXg/Xk3hLDiEQ9eAcA"
+      Date:
+      - Thu, 22 Apr 2021 21:58:31 GMT
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: ASCII-8BIT
+      string: '{"object":"list","listMetadata":{"before":"directory_group_01EQ7V7C5NGE4MWHP3FSX3KK47","after":null},"data":[{"id":"directory_group_01EQ823D94EF0AH5QMDRB91YWR","name":"Contractors","raw_attributes":{"id":"02iq8gzs1b2i1ae","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/rF1OEdXlr3FwClDxryrS1Qi22xQ\"","kind":"admin#directory#group","name":"Contractors","email":"contractors@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["contractors@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C74DTH00CYB72T50ABG","name":"Risk
+        Management","raw_attributes":{"id":"028h4qwu0uyrb9k","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/kbW-E1aXnJl6pxP1nnwTfMnja4Q\"","kind":"admin#directory#group","name":"Risk
+        Management","email":"risk@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"1","nonEditableAliases":["risk@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C6Y4RPMCH3KNB9853FF","name":"Finance","raw_attributes":{"id":"02xcytpi45aqkmr","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/4zBJXlVVTFZ06sWa5MUTv1TykS8\"","kind":"admin#directory#group","name":"Finance","email":"finance@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["finance@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C6SVJ56RR4J9R5QX20Y","name":"Product","raw_attributes":{"id":"03hv69ve1ssgpby","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/f9gbroAH87EH3wU418b4bq6sXv8\"","kind":"admin#directory#group","name":"Product","email":"product@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["product@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C6FBGG55PKG7YB03EFB","name":"Design","raw_attributes":{"id":"03dy6vkm1y2alqi","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/FOmENMweP80vOL_QS7AgEhmMJW0\"","kind":"admin#directory#group","name":"Design","email":"design@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"3","nonEditableAliases":["design@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C6AKS8D12WX2CMC2HWR","name":"Admins","raw_attributes":{"id":"00gjdgxs2s95kg4","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/8_DFveza530aqHjNIY138qbXpkw\"","kind":"admin#directory#group","name":"Admins","email":"admins@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["admins@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C6200HRGPS7R63DMQSF","name":"Solutions
+        Engineering","raw_attributes":{"id":"02u6wntf1dyjihd","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/oLFNnHZPgXTE6zt2vA9UCBE9UOs\"","kind":"admin#directory#group","name":"Solutions
+        Engineering","email":"solutions@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["solutions@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C5Y9K2Z4MK9A7YY3QF4","name":"Security","raw_attributes":{"id":"01fob9te1lgjaw4","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/-pzmhVkdxBet5lTdVfY9yKrRslE\"","kind":"admin#directory#group","name":"Security","email":"security@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"3","nonEditableAliases":["security@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C5SQ82F5NNMKRA3B899","name":"Account
+        Management","raw_attributes":{"id":"02grqrue4294w24","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/19PzKtmXLlC1UyVC2k6NA7ye9mk\"","kind":"admin#directory#group","name":"Account
+        Management","email":"account-managers@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["account-managers@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C5NGE4MWHP3FSX3KK47","name":"Marketing","raw_attributes":{"id":"01y810tw1ti9q8c","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/8Bp1ATnSYZXUB84_9v_K0i54jgc\"","kind":"admin#directory#group","name":"Marketing","email":"marketing@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["marketing@foo-corp.com.test-google-a.com"]}}]}'
+    http_version:
+  recorded_at: Thu, 22 Apr 2021 21:58:31 GMT
+recorded_with: VCR 5.0.0

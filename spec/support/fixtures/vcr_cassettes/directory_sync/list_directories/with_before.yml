@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.workos.com/connections?domain=foo-corp.com
+    uri: https://api.workos.com/directories?before=before-id
     body:
       encoding: US-ASCII
       string: ''
@@ -14,7 +14,7 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.10.0
+      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.10.3
       Authorization:
       - Bearer <API_KEY>
   response:
@@ -53,20 +53,20 @@ http_interactions:
       X-Xss-Protection:
       - '0'
       X-Request-Id:
-      - ddf4e76f-f01c-48e7-bee9-c4237496a50c
+      - ee432766-24b5-4d6d-baa9-05b7d56ac582
       Content-Type:
       - application/json; charset=utf-8
+      Content-Length:
+      - '71'
       Etag:
-      - W/"7f7-Srp6Nv6te4CUMvxv1RKUf5Mte/4"
+      - W/"47-5KOnfOsRy36pnaPjBxvaf6LRiGc"
       Date:
-      - Wed, 27 Jan 2021 22:45:14 GMT
-      Transfer-Encoding:
-      - chunked
+      - Thu, 22 Apr 2021 21:33:48 GMT
       Via:
       - 1.1 vegur
     body:
-      encoding: ASCII-8BIT
-      string: '{"data":[{"object":"connection","id":"conn_01EGS6E1K7YK1G380ADPHTDC4K","status":"linked","state":"active","name":"foochrop","connection_type":"GoogleSAML","oidc_client_id":null,"oidc_client_secret":null,"oidc_discovery_endpoint":null,"oidc_redirect_uri":null,"saml_entity_id":"https://accounts.google.com/o/saml2?idpid=xxxx","saml_idp_url":"https://accounts.google.com/o/saml2/idp?idpid=xxxx","saml_relying_party_private_key":null,"saml_relying_party_public_key":null,"saml_x509_certs":null,"organization_id":"org_01EGS4P7QR31EZ4YWD1Z1XA176","oauth_uid":null,"oauth_secret":null,"oauth_redirect_uri":null,"domains":[{"object":"connection_domain","id":"domain_01EGS6E1KPBD018BHS9Z10VHR9","domain":"foo-corp.com"}]}],"listMetadata":{"before":null,"after":null}}'
+      encoding: UTF-8
+      string: '{"object":"list","listMetadata":{"before":"before-id","after":null},"data":[{"object":"directory","id":"directory_edp_1","external_key":"lA3gS1kCZMCkk82E","state":"linked","type":"gsuite directory","name":"Foo Corp","bearer_token":null,"client_id":"project_XXX","domain":"foo-corp.com"}, {"object":"directory","id":"directory_edp_2","external_key":"lA3g","state":"linked","type":"okta scim v2.0","name":"Example", "bearer_token":null,"client_id":"project_XXX","domain":"example.com"}, {"object":"directory","id":"directory_edp_3","external_key":"lA3gS1kC","state":"linked","type":"bamboohr","name":"Acme","bearer_token":null,"client_id":"project_XXX","domain":"acme.com"}]}'
     http_version:
-  recorded_at: Wed, 27 Jan 2021 22:45:14 GMT
+  recorded_at: Thu, 22 Apr 2021 21:33:48 GMT
 recorded_with: VCR 5.0.0

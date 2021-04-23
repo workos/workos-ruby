@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.workos.com/directory_users?directory=directory_edp_01E64QQVQTCB0DECJ9CFNXEWDW
+    uri: https://api.workos.com/directory_users?group=foo
     body:
       encoding: US-ASCII
       string: ''
@@ -14,13 +14,13 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.2.3
+      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.10.3
       Authorization:
       - Bearer <API_KEY>
   response:
     status:
-      code: 200
-      message: OK
+      code: 422
+      message: Unprocessable Entity
     headers:
       Server:
       - Cowboy
@@ -30,8 +30,14 @@ http_interactions:
       - Origin, Accept-Encoding
       Access-Control-Allow-Credentials:
       - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
       X-Dns-Prefetch-Control:
       - 'off'
+      Expect-Ct:
+      - max-age=0
       X-Frame-Options:
       - SAMEORIGIN
       Strict-Transport-Security:
@@ -40,23 +46,27 @@ http_interactions:
       - noopen
       X-Content-Type-Options:
       - nosniff
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - no-referrer
       X-Xss-Protection:
-      - 1; mode=block
+      - '0'
       X-Request-Id:
-      - 91802a43-3053-41e6-9a71-44fe88321224
+      - 63feadf7-72a8-4292-95c6-b8502757f28e
       Content-Type:
       - application/json; charset=utf-8
+      Content-Length:
+      - '34'
       Etag:
-      - W/"e55-P0NG6CugY3cr6/bL+B4xBkwDGns"
+      - W/"22-RazrsGsqBa2RYgrCeQIILy9oeGQ"
       Date:
-      - Thu, 30 Apr 2020 04:36:02 GMT
-      Transfer-Encoding:
-      - chunked
+      - Thu, 22 Apr 2021 22:11:11 GMT
       Via:
       - 1.1 vegur
     body:
-      encoding: ASCII-8BIT
-      string: '{"object":"list","listMetadata":{"before":null,"after":null},"data":[{"id":"directory_usr_01E64QS50EAY48S0XJ1AA4WX4D","raw_attributes":{"name":{"givenName":"Mark","familyName":"Tran"},"emails":[{"value":"mark@foo-corp.com","primary":true}],"userName":"mark@foo-corp.com","externalId":"118325297729072421906"},"first_name":"Mark","emails":[{"value":"mark@foo-corp.com","primary":true}],"username":"mark@foo-corp.com","last_name":"Tran"}]}'
+      encoding: UTF-8
+      string: '{"message":"Unprocessable Entity"}'
     http_version:
-  recorded_at: Thu, 30 Apr 2020 04:36:02 GMT
+  recorded_at: Thu, 22 Apr 2021 22:11:11 GMT
 recorded_with: VCR 5.0.0

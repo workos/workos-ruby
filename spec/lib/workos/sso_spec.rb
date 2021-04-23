@@ -315,6 +315,8 @@ describe WorkOS::SSO do
           expect(connection.connection_type).to eq('GoogleOAuth')
           expect(connection.name).to eq('Foo Corp')
           expect(connection.domains.first[:domain]).to eq('example.com')
+          expect(connection.organization_id).to eq('12345')
+          expect(connection.status).to eq('linked')
         end
       end
     end
@@ -372,45 +374,85 @@ describe WorkOS::SSO do
 
   describe '.list_connections' do
     context 'with no options' do
-      it 'returns connections' do
-        VCR.use_cassette('sso/list_connections') do
-          connections = WorkOS::SSO.list_connections
-          expect(connections.size).to eq(1)
+      it 'returns connections and metadata' do
+        expected_metadata = {
+          'after' => nil,
+          'before' => 'before_id',
+        }
+
+        VCR.use_cassette 'sso/list_connections/with_no_options' do
+          connections = described_class.list_connections
+
+          expect(connections.data.size).to eq(3)
+          expect(connections.list_metadata).to eq(expected_metadata)
         end
       end
     end
 
     context 'with connection_type option' do
-      it 'returns connections' do
-        VCR.use_cassette('sso/list_connections_with_connection_type_param') do
-          connections = WorkOS::SSO.list_connections(
+      it 'forms the proper request to the API' do
+        request_args = [
+          '/connections?connection_type=OktaSAML',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'sso/list_connections/with_connection_type' do
+          connections = described_class.list_connections(
             connection_type: 'OktaSAML',
           )
-          expect(connections.first['connection_type']).to eq('OktaSAML')
+
+          expect(connections.data.size).to eq(3)
+          expect(connections.data.first.connection_type).to eq('OktaSAML')
         end
       end
     end
 
     context 'with domain option' do
-      it 'returns connections' do
-        VCR.use_cassette('sso/list_connections_with_domain_param') do
-          connections = WorkOS::SSO.list_connections(
+      it 'forms the proper request to the API' do
+        request_args = [
+          '/connections?domain=foo-corp.com',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'sso/list_connections/with_domain' do
+          connections = described_class.list_connections(
             domain: 'foo-corp.com',
           )
-          domains = connections.first['domains']
-          expect(domains.first['domain']).to eq('foo-corp.com')
+
+          expect(connections.data.size).to eq(1)
         end
       end
     end
 
     context 'with organization_id option' do
-      it 'returns connections' do
-        VCR.use_cassette('sso/list_connections_with_organization_id_param') do
-          connections = WorkOS::SSO.list_connections(
+      it 'forms the proper request to the API' do
+        request_args = [
+          '/connections?organization_id=org_01EGS4P7QR31EZ4YWD1Z1XA176',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'sso/list_connections/with_organization_id' do
+          connections = described_class.list_connections(
             organization_id: 'org_01EGS4P7QR31EZ4YWD1Z1XA176',
           )
-          expect(connections.size).to eq(1)
-          expect(connections.first['organization_id']).to eq(
+
+          expect(connections.data.size).to eq(1)
+          expect(connections.data.first.organization_id).to eq(
             'org_01EGS4P7QR31EZ4YWD1Z1XA176',
           )
         end
@@ -418,34 +460,67 @@ describe WorkOS::SSO do
     end
 
     context 'with limit option' do
-      it 'returns connections' do
-        VCR.use_cassette('sso/list_connections_with_limit_param') do
-          connections = WorkOS::SSO.list_connections(
-            limit: 1,
+      it 'forms the proper request to the API' do
+        request_args = [
+          '/connections?limit=2',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'sso/list_connections/with_limit' do
+          connections = described_class.list_connections(
+            limit: 2,
           )
-          expect(connections.size).to eq(1)
+
+          expect(connections.data.size).to eq(2)
         end
       end
     end
 
     context 'with before option' do
-      it 'returns connections' do
-        VCR.use_cassette('sso/list_connections_with_before_param') do
-          connections = WorkOS::SSO.list_connections(
+      it 'forms the proper request to the API' do
+        request_args = [
+          '/connections?before=conn_01EQKPMQAPV02H270HKVNS4CTA',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'sso/list_connections/with_before' do
+          connections = described_class.list_connections(
             before: 'conn_01EQKPMQAPV02H270HKVNS4CTA',
           )
-          expect(connections.size).to eq(1)
+
+          expect(connections.data.size).to eq(3)
         end
       end
     end
 
     context 'with after option' do
-      it 'returns connections' do
-        VCR.use_cassette('sso/list_connections_with_after_param') do
-          connections = WorkOS::SSO.list_connections(
+      it 'forms the proper request to the API' do
+        request_args = [
+          '/connections?after=conn_01EQKPMQAPV02H270HKVNS4CTA',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'sso/list_connections/with_after' do
+          connections = described_class.list_connections(
             after: 'conn_01EQKPMQAPV02H270HKVNS4CTA',
           )
-          expect(connections.size).to eq(1)
+
+          expect(connections.data.size).to eq(3)
         end
       end
     end

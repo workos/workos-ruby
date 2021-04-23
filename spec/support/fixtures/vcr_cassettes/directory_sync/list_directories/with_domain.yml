@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.workos.com/directory_groups?directory=directory_edp_01E64QQVQTCB0DECJ9CFNXEWDW
+    uri: https://api.workos.com/directories?domain=foo-corp.com
     body:
       encoding: US-ASCII
       string: ''
@@ -14,7 +14,7 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.2.3
+      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.10.3
       Authorization:
       - Bearer <API_KEY>
   response:
@@ -30,8 +30,14 @@ http_interactions:
       - Origin, Accept-Encoding
       Access-Control-Allow-Credentials:
       - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
       X-Dns-Prefetch-Control:
       - 'off'
+      Expect-Ct:
+      - max-age=0
       X-Frame-Options:
       - SAMEORIGIN
       Strict-Transport-Security:
@@ -40,23 +46,28 @@ http_interactions:
       - noopen
       X-Content-Type-Options:
       - nosniff
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - no-referrer
       X-Xss-Protection:
-      - 1; mode=block
+      - '0'
       X-Request-Id:
-      - 87133408-9847-42ef-a6da-183280e6402c
+      - c2664753-7a2a-499f-a6e7-dae700ad49d7
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '813'
+      - '256'
       Etag:
-      - W/"32d-Pi2S8kCjmY/SVPoMmwh0JNvHbgY"
+      - W/"100-Vh8CFQGzG+aGyEkNXe2nXGxNFJ4"
       Date:
-      - Thu, 30 Apr 2020 04:31:47 GMT
+      - Thu, 22 Apr 2021 21:33:47 GMT
       Via:
       - 1.1 vegur
     body:
       encoding: UTF-8
-      string: '{"object":"list","listMetadata":{"before":"directory_grp_01E64QTDHHE80V9N03ZTDV5SXD","after":null},"data":[{"id":"directory_grp_01E64QTDNS0EGJ0FMCVY9BWGZT","name":"Walrus"},{"id":"directory_grp_01E64QTDJTE8P0S3JKM7KV848A","name":"Design team"}]}'
+      string: '{"object":"list","listMetadata":{"before":null,"after":null},"data":[{"object":"directory","id":"directory_01EK2YEMVTWGX27STRDR0N3MP9","name":"Foo
+        Corp","external_key":"SZ5TZMl7gcOAKS04","type":"gsuite directory","state":"linked","domain":"foo-corp.com"}]}'
     http_version:
-  recorded_at: Thu, 30 Apr 2020 04:31:47 GMT
+  recorded_at: Thu, 22 Apr 2021 21:33:47 GMT
 recorded_with: VCR 5.0.0
