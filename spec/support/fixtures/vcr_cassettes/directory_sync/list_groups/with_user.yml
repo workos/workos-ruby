@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.workos.com/directory_groups?user=directory_user_01EK2YFBC2GQGF91EHVC
+    uri: https://api.workos.com/directory_groups?user=directory_user_01EK2YFBC3R10MPB4W49G5QDXG
     body:
       encoding: US-ASCII
       string: ''
@@ -19,8 +19,8 @@ http_interactions:
       - Bearer <API_KEY>
   response:
     status:
-      code: 422
-      message: Unprocessable Entity
+      code: 200
+      message: OK
     headers:
       Server:
       - Cowboy
@@ -53,20 +53,20 @@ http_interactions:
       X-Xss-Protection:
       - '0'
       X-Request-Id:
-      - 3a134bc8-0893-4fc5-a401-d4aca3941cfc
+      - 68a80eaf-81f0-4d34-87c5-1dddf2be7502
       Content-Type:
       - application/json; charset=utf-8
-      Content-Length:
-      - '34'
       Etag:
-      - W/"22-RazrsGsqBa2RYgrCeQIILy9oeGQ"
+      - W/"505-9SezX82U+n2Zk+jTzRSyGFRrdvQ"
       Date:
-      - Thu, 22 Apr 2021 22:11:08 GMT
+      - Fri, 23 Apr 2021 14:23:36 GMT
+      Transfer-Encoding:
+      - chunked
       Via:
       - 1.1 vegur
     body:
-      encoding: UTF-8
-      string: '{"message":"Unprocessable Entity"}'
+      encoding: ASCII-8BIT
+      string: '{"object":"list","listMetadata":{"before":null,"after":null},"data":[{"id":"directory_group_01EQ823D94EF0AH5QMDRB91YWR","name":"Contractors","raw_attributes":{"id":"02iq8gzs1b2i1ae","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/rF1OEdXlr3FwClDxryrS1Qi22xQ\"","kind":"admin#directory#group","name":"Contractors","email":"contractors@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["contractors@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C6SVJ56RR4J9R5QX20Y","name":"Product","raw_attributes":{"id":"03hv69ve1ssgpby","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/f9gbroAH87EH3wU418b4bq6sXv8\"","kind":"admin#directory#group","name":"Product","email":"product@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["product@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C6FBGG55PKG7YB03EFB","name":"Design","raw_attributes":{"id":"03dy6vkm1y2alqi","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/FOmENMweP80vOL_QS7AgEhmMJW0\"","kind":"admin#directory#group","name":"Design","email":"design@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"3","nonEditableAliases":["design@foo-corp.com.test-google-a.com"]}}]}'
     http_version:
-  recorded_at: Thu, 22 Apr 2021 22:11:08 GMT
+  recorded_at: Fri, 23 Apr 2021 14:23:36 GMT
 recorded_with: VCR 5.0.0

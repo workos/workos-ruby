@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.workos.com/directory_users?group=foo
+    uri: https://api.workos.com/directory_users?group=directory_group_01EQ7V7C6Y4RPMCH3KNB9853FF
     body:
       encoding: US-ASCII
       string: ''
@@ -19,8 +19,8 @@ http_interactions:
       - Bearer <API_KEY>
   response:
     status:
-      code: 422
-      message: Unprocessable Entity
+      code: 200
+      message: OK
     headers:
       Server:
       - Cowboy
@@ -53,20 +53,24 @@ http_interactions:
       X-Xss-Protection:
       - '0'
       X-Request-Id:
-      - 63feadf7-72a8-4292-95c6-b8502757f28e
+      - 2343a349-ad8c-4527-8549-3b639ecfc7cd
       Content-Type:
       - application/json; charset=utf-8
-      Content-Length:
-      - '34'
       Etag:
-      - W/"22-RazrsGsqBa2RYgrCeQIILy9oeGQ"
+      - W/"1223-1qYCWp17+a70FhK5aC+Yn3lS78I"
       Date:
-      - Thu, 22 Apr 2021 22:11:11 GMT
+      - Fri, 23 Apr 2021 14:23:37 GMT
+      Transfer-Encoding:
+      - chunked
       Via:
       - 1.1 vegur
     body:
-      encoding: UTF-8
-      string: '{"message":"Unprocessable Entity"}'
+      encoding: ASCII-8BIT
+      string: '{"object":"list","listMetadata":{"before":null,"after":null},"data":[{"id":"directory_user_01EK2YFBC4XX11HT1AT72YR26G","raw_attributes":{"id":"113226752885572771242","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/71aE84CzZeCiyvc1C0Jzz0lSgPg\"","kind":"admin#directory#user","name":{"fullName":"Sean
+        Rabaut","givenName":"Sean","familyName":"Rabaut"},"emails":[{"address":"sean@foo-corp.com","primary":true},{"address":"sean@foo-corp.com.test-google-a.com"}],"isAdmin":false,"archived":false,"suspended":false,"customerId":"C02mw6qrc","orgUnitPath":"/","creationTime":"2020-08-16T05:28:59.000Z","primaryEmail":"sean@foo-corp.com","agreedToTerms":false,"ipWhitelisted":false,"lastLoginTime":"1970-01-01T00:00:00.000Z","isMailboxSetup":true,"isEnforcedIn2Sv":false,"isEnrolledIn2Sv":false,"isDelegatedAdmin":false,"nonEditableAliases":["sean@foo-corp.com.test-google-a.com"],"changePasswordAtNextLogin":true,"includeInGlobalAddressList":true},"idp_id":"113226752885572771242","first_name":"Sean","emails":[{"value":"sean@foo-corp.com","primary":true}],"username":"sean@foo-corp.com","last_name":"Rabaut","state":"active","groups":[{"id":"directory_group_01EK2YFBPZ8SWMQ01NWN3TNZK4","name":"Engineering","raw_attributes":{"id":"030j0zll1b5a1gf","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/eSnflkB5fzBxa6QfGsXjaftif2A\"","kind":"admin#directory#group","name":"Engineering","email":"engineering@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"8","nonEditableAliases":["engineering@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C6Y4RPMCH3KNB9853FF","name":"Finance","raw_attributes":{"id":"02xcytpi45aqkmr","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/4zBJXlVVTFZ06sWa5MUTv1TykS8\"","kind":"admin#directory#group","name":"Finance","email":"finance@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["finance@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C74DTH00CYB72T50ABG","name":"Risk
+        Management","raw_attributes":{"id":"028h4qwu0uyrb9k","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/kbW-E1aXnJl6pxP1nnwTfMnja4Q\"","kind":"admin#directory#group","name":"Risk
+        Management","email":"risk@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"1","nonEditableAliases":["risk@foo-corp.com.test-google-a.com"]}}]},{"id":"directory_user_01EK2YFBC30D6NGJ4VNJJVPB3R","raw_attributes":{"id":"108170400221930206404","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/qz-2ot8Sjn83ShjZTqUfMLFtR_I\"","kind":"admin#directory#user","name":{"fullName":"Sandy
+        Kwon","givenName":"Sandy","familyName":"Kwon"},"emails":[{"address":"sandy@foo-corp.com","primary":true},{"address":"sandy@foo-corp.com.test-google-a.com"}],"isAdmin":false,"archived":false,"suspended":false,"customerId":"C02mw6qrc","orgUnitPath":"/","creationTime":"2020-08-16T05:29:30.000Z","primaryEmail":"sandy@foo-corp.com","agreedToTerms":false,"ipWhitelisted":false,"lastLoginTime":"1970-01-01T00:00:00.000Z","isMailboxSetup":true,"isEnforcedIn2Sv":false,"isEnrolledIn2Sv":false,"isDelegatedAdmin":false,"nonEditableAliases":["sandy@foo-corp.com.test-google-a.com"],"changePasswordAtNextLogin":true,"includeInGlobalAddressList":true},"idp_id":"108170400221930206404","first_name":"Sandy","emails":[{"value":"sandy@foo-corp.com","primary":true}],"username":"sandy@foo-corp.com","last_name":"Kwon","state":"active","groups":[{"id":"directory_group_01EQ7V7C5NGE4MWHP3FSX3KK47","name":"Marketing","raw_attributes":{"id":"01y810tw1ti9q8c","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/8Bp1ATnSYZXUB84_9v_K0i54jgc\"","kind":"admin#directory#group","name":"Marketing","email":"marketing@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["marketing@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C6AKS8D12WX2CMC2HWR","name":"Admins","raw_attributes":{"id":"00gjdgxs2s95kg4","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/8_DFveza530aqHjNIY138qbXpkw\"","kind":"admin#directory#group","name":"Admins","email":"admins@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["admins@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C6Y4RPMCH3KNB9853FF","name":"Finance","raw_attributes":{"id":"02xcytpi45aqkmr","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/4zBJXlVVTFZ06sWa5MUTv1TykS8\"","kind":"admin#directory#group","name":"Finance","email":"finance@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["finance@foo-corp.com.test-google-a.com"]}}]}]}'
     http_version:
-  recorded_at: Thu, 22 Apr 2021 22:11:11 GMT
+  recorded_at: Fri, 23 Apr 2021 14:23:37 GMT
 recorded_with: VCR 5.0.0

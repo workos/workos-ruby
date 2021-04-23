@@ -176,7 +176,7 @@ describe WorkOS::DirectorySync do
     context 'with user option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/directory_groups?user=directory_user_01EK2YFBC2GQGF91EHVC',
+          '/directory_groups?user=directory_user_01EK2YFBC3R10MPB4W49G5QDXG',
           'Content-Type' => 'application/json'
         ]
 
@@ -187,10 +187,10 @@ describe WorkOS::DirectorySync do
 
         VCR.use_cassette 'directory_sync/list_groups/with_user' do
           groups = described_class.list_groups(
-            user: 'directory_user_01EK2YFBC2GQGF91EHVC',
+            user: 'directory_user_01EK2YFBC3R10MPB4W49G5QDXG',
           )
 
-          expect(groups.data.size).to eq(1)
+          expect(groups.data.size).to eq(3)
         end
       end
     end
@@ -304,7 +304,7 @@ describe WorkOS::DirectorySync do
     context 'with group option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/directory_users?group=foo',
+          '/directory_users?group=directory_group_01EQ7V7C6Y4RPMCH3KNB9853FF',
           'Content-Type' => 'application/json'
         ]
 
@@ -315,10 +315,10 @@ describe WorkOS::DirectorySync do
 
         VCR.use_cassette 'directory_sync/list_users/with_group' do
           users = described_class.list_users(
-            group: 'foo',
+            group: 'directory_group_01EQ7V7C6Y4RPMCH3KNB9853FF',
           )
 
-          expect(users.data.size).to eq(1)
+          expect(users.data.size).to eq(2)
         end
       end
     end
