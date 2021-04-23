@@ -60,10 +60,16 @@ blocks:
             - sem-version ruby 2.6.5
             - bundle install
             - bundle exec rspec
-        - name: Ruby 2.7.1
+        - name: Ruby 2.7.3
           commands:
             - checkout
-            - sem-version ruby 2.7.1
+            - sem-version ruby 2.7.3
+            - bundle install
+            - bundle exec rspec
+        - name: Ruby 3.0.1
+          commands:
+            - checkout
+            - sem-version ruby 3.0.1
             - bundle install
             - bundle exec rspec
 promotions:
