@@ -102,7 +102,7 @@ module WorkOS
       ].join('; ')
     end
 
-    # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
     sig { params(response: ::T.untyped).void }
     def handle_error_response(response:)
       http_status = response.code.to_i
@@ -139,7 +139,7 @@ module WorkOS
         )
       end
     end
-    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize, Metrics/CyclomaticComplexity
+    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
 
     private
 
