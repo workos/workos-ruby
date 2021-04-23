@@ -8,7 +8,7 @@ module WorkOS
   class Directory
     extend T::Sig
 
-    attr_accessor :id, :domains, :name, :type, :state
+    attr_accessor :id, :domain, :name, :type, :state
 
     sig { params(json: String).void }
     def initialize(json)

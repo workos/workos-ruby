@@ -8,7 +8,8 @@ module WorkOS
   class User
     extend T::Sig
 
-    attr_accessor :id, :emails, :first_name, :last_name, :state, :raw_attributes
+    attr_accessor :id, :emails, :first_name, :last_name, :username, :state,
+                  :raw_attributes
 
     sig { params(json: String).void }
     def initialize(json)
@@ -26,7 +27,7 @@ module WorkOS
     def to_json(*)
       {
         id: id,
-        emails: domains,
+        emails: emails,
         first_name: first_name,
         last_name: last_name,
         username: username,
