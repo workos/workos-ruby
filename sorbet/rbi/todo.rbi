@@ -2,6 +2,4 @@
 #   srb rbi todo
 
 # typed: strong
-module T::CompatibilityPatches::RecorderExtensions; end
-module T::Private::Methods::MethodHooks; end
-module T::Private::Methods::SingletonMethodHooks; end
+module ::VCR; end

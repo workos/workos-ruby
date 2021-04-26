@@ -13,7 +13,7 @@ module WorkOS
     sig { returns(String) }
     attr_accessor :id, :email, :first_name, :last_name, :connection_id,
                   :connection_type, :idp_id, :raw_attributes
-    # rubocop:disable Metrics/AbcSize
+
     sig { params(profile_json: String).void }
     def initialize(profile_json)
       raw = parse_json(profile_json)
@@ -27,7 +27,6 @@ module WorkOS
       @idp_id = raw.idp_id
       @raw_attributes = raw.raw_attributes
     end
-    # rubocop:enable Metrics/AbcSize
 
     sig { returns(String) }
     def full_name
