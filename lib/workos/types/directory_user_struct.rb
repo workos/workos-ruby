@@ -3,9 +3,9 @@
 
 module WorkOS
   module Types
-    # The UserStruct acts as a typed interface
-    # for the User class
-    class UserStruct < T::Struct
+    # The DirectoryUserStruct acts as a typed interface
+    # for the DirectoryUser class
+    class DirectoryUserStruct < T::Struct
       const :id, String
       const :emails, T::Array[T.untyped]
       const :first_name, T.nilable(String)

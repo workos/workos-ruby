@@ -7,13 +7,13 @@ module WorkOS
   module Types
     require_relative 'types/connection_struct'
     require_relative 'types/directory_struct'
-    require_relative 'types/group_struct'
+    require_relative 'types/directory_group_struct'
     require_relative 'types/intent_enum'
     require_relative 'types/list_struct'
     require_relative 'types/organization_struct'
     require_relative 'types/passwordless_session_struct'
     require_relative 'types/profile_struct'
     require_relative 'types/provider_enum'
-    require_relative 'types/user_struct'
+    require_relative 'types/directory_user_struct'
   end
 end

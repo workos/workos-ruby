@@ -3,9 +3,9 @@
 
 module WorkOS
   module Types
-    # This GroupStruct acts as a typed interface
-    # for the Group class
-    class GroupStruct < T::Struct
+    # This DirectoryGroupStruct acts as a typed interface
+    # for the DirectoryGroup class
+    class DirectoryGroupStruct < T::Struct
       const :id, String
       const :name, String
     end

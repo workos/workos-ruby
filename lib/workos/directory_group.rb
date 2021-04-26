@@ -2,10 +2,10 @@
 # typed: true
 
 module WorkOS
-  # The Group class provides a lightweight wrapper around
-  # a WorkOS Group resource. This class is not meant to be instantiated
+  # The DirectoryGroup class provides a lightweight wrapper around
+  # a WorkOS DirectoryGroup resource. This class is not meant to be instantiated
   # in user space, and is instantiated internally but exposed.
-  class Group
+  class DirectoryGroup
     extend T::Sig
 
     attr_accessor :id, :name
@@ -30,12 +30,12 @@ module WorkOS
     sig do
       params(
         json_string: String,
-      ).returns(WorkOS::Types::GroupStruct)
+      ).returns(WorkOS::Types::DirectoryGroupStruct)
     end
     def parse_json(json_string)
       hash = JSON.parse(json_string, symbolize_names: true)
 
-      WorkOS::Types::GroupStruct.new(
+      WorkOS::Types::DirectoryGroupStruct.new(
         id: hash[:id],
         name: hash[:name],
       )

@@ -83,7 +83,7 @@ module WorkOS
 
         parsed_response = JSON.parse(response.body)
         groups = parsed_response['data'].map do |group|
-          ::WorkOS::Group.new(group.to_json)
+          ::WorkOS::DirectoryGroup.new(group.to_json)
         end
 
         WorkOS::Types::ListStruct.new(
@@ -122,7 +122,7 @@ module WorkOS
 
         parsed_response = JSON.parse(response.body)
         users = parsed_response['data'].map do |user|
-          ::WorkOS::User.new(user.to_json)
+          ::WorkOS::DirectoryUser.new(user.to_json)
         end
 
         WorkOS::Types::ListStruct.new(

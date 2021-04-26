@@ -2,10 +2,10 @@
 # typed: true
 
 module WorkOS
-  # The User class provides a lightweight wrapper around
-  # a WorkOS User resource. This class is not meant to be instantiated
-  # in user space, and is instantiated internally but exposed.
-  class User
+  # The DirectoryUser class provides a lightweight wrapper around
+  # a WorkOS DirectoryUser resource. This class is not meant to be instantiated
+  # in DirectoryUser space, and is instantiated internally but exposed.
+  class DirectoryUser
     extend T::Sig
 
     attr_accessor :id, :emails, :first_name, :last_name, :username, :state,
@@ -41,12 +41,12 @@ module WorkOS
     sig do
       params(
         json_string: String,
-      ).returns(WorkOS::Types::UserStruct)
+      ).returns(WorkOS::Types::DirectoryUserStruct)
     end
     def parse_json(json_string)
       hash = JSON.parse(json_string, symbolize_names: true)
 
-      WorkOS::Types::UserStruct.new(
+      WorkOS::Types::DirectoryUserStruct.new(
         id: hash[:id],
         emails: hash[:emails],
         first_name: hash[:first_name],
