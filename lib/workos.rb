@@ -32,11 +32,14 @@ module WorkOS
   autoload :AuditTrail, 'workos/audit_trail'
   autoload :Connection, 'workos/connection'
   autoload :DirectorySync, 'workos/directory_sync'
+  autoload :Directory, 'workos/directory'
+  autoload :DirectoryGroup, 'workos/directory_group'
   autoload :Organization, 'workos/organization'
   autoload :Passwordless, 'workos/passwordless'
   autoload :Portal, 'workos/portal'
   autoload :Profile, 'workos/profile'
   autoload :SSO, 'workos/sso'
+  autoload :DirectoryUser, 'workos/directory_user'
 
   # Errors
   autoload :APIError, 'workos/errors'

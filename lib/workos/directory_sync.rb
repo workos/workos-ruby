@@ -21,12 +21,17 @@ module WorkOS
       # @option options [String] domain The domain of the directory to be
       #  retrieved.
       # @option options [String] search A search term for direcory names.
+      # @option options [String] limit Maximum number of records to return.
+      # @option options [String] before Pagination cursor to receive records
+      #  before a provided Directory ID.
+      # @option options [String] after Pagination cursor to receive records
+      #  before a provided Directory ID.
       #
       # @return [Hash]
       sig do
         params(
           options: T::Hash[Symbol, String],
-        ).returns(T::Array[T::Hash[String, T.nilable(String)]])
+        ).returns(WorkOS::Types::ListStruct)
       end
       def list_directories(options = {})
         response = execute_request(
@@ -37,7 +42,15 @@ module WorkOS
           ),
         )
 
-        JSON.parse(response.body)['data']
+        parsed_response = JSON.parse(response.body)
+        directories = parsed_response['data'].map do |directory|
+          ::WorkOS::Directory.new(directory.to_json)
+        end
+
+        WorkOS::Types::ListStruct.new(
+          data: directories,
+          list_metadata: parsed_response['listMetadata'],
+        )
       end
 
       # Retrieve directory groups.
@@ -47,12 +60,17 @@ module WorkOS
       #  directory groups will be retrieved.
       # @option options [String] user The ID of the directory user whose
       #  directory groups will be retrieved.
+      # @option options [String] limit Maximum number of records to return.
+      # @option options [String] before Pagination cursor to receive records
+      #  before a provided Directory Group ID.
+      # @option options [String] after Pagination cursor to receive records
+      #  before a provided Directory Group ID.
       #
       # @return [Hash]
       sig do
         params(
           options: T::Hash[Symbol, String],
-        ).returns(T::Array[T::Hash[String, T.nilable(String)]])
+        ).returns(WorkOS::Types::ListStruct)
       end
       def list_groups(options = {})
         response = execute_request(
@@ -63,7 +81,15 @@ module WorkOS
           ),
         )
 
-        JSON.parse(response.body)['data']
+        parsed_response = JSON.parse(response.body)
+        groups = parsed_response['data'].map do |group|
+          ::WorkOS::DirectoryGroup.new(group.to_json)
+        end
+
+        WorkOS::Types::ListStruct.new(
+          data: groups,
+          list_metadata: parsed_response['listMetadata'],
+        )
       end
 
       # Retrieve directory users.
@@ -73,12 +99,17 @@ module WorkOS
       #  directory users will be retrieved.
       # @option options [String] user The ID of the directory group whose
       #  directory users will be retrieved.
+      # @option options [String] limit Maximum number of records to return.
+      # @option options [String] before Pagination cursor to receive records
+      #  before a provided Directory User ID.
+      # @option options [String] after Pagination cursor to receive records
+      #  before a provided Directory User ID.
       #
       # @return [Hash]
       sig do
         params(
           options: T::Hash[Symbol, String],
-        ).returns(T::Array[T::Hash[String, T.untyped]])
+        ).returns(WorkOS::Types::ListStruct)
       end
       def list_users(options = {})
         response = execute_request(
@@ -89,7 +120,15 @@ module WorkOS
           ),
         )
 
-        JSON.parse(response.body)['data']
+        parsed_response = JSON.parse(response.body)
+        users = parsed_response['data'].map do |user|
+          ::WorkOS::DirectoryUser.new(user.to_json)
+        end
+
+        WorkOS::Types::ListStruct.new(
+          data: users,
+          list_metadata: parsed_response['listMetadata'],
+        )
       end
 
       # Retrieve the directory group with the given ID.

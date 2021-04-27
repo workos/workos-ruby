@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.workos.com/connections
+    uri: https://api.workos.com/directories?search=Foo
     body:
       encoding: US-ASCII
       string: ''
@@ -14,7 +14,7 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.10.0
+      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.10.3
       Authorization:
       - Bearer <API_KEY>
   response:
@@ -53,20 +53,21 @@ http_interactions:
       X-Xss-Protection:
       - '0'
       X-Request-Id:
-      - 2ebda5f5-2266-4453-afa4-6551d5d0203f
+      - 0c70123e-f36e-4b8f-bcaa-d5f04d65b619
       Content-Type:
       - application/json; charset=utf-8
+      Content-Length:
+      - '256'
       Etag:
-      - W/"3de5-Tcj2+hXtEQVDggy9evxEiubZtig"
+      - W/"100-Vh8CFQGzG+aGyEkNXe2nXGxNFJ4"
       Date:
-      - Wed, 27 Jan 2021 22:45:13 GMT
-      Transfer-Encoding:
-      - chunked
+      - Thu, 22 Apr 2021 21:33:48 GMT
       Via:
       - 1.1 vegur
     body:
-      encoding: ASCII-8BIT
-      string: '{"data":[{"object":"connection","id":"conn_01EWDSQJNXM1M33MTVSQ2ZR5M5","status":"unlinked","state":"draft","name":"Example","connection_type":"OktaSAML","oidc_client_id":null,"oidc_client_secret":null,"oidc_discovery_endpoint":null,"oidc_redirect_uri":null,"saml_entity_id":null,"saml_idp_url":null,"saml_relying_party_private_key":null,"saml_relying_party_public_key":null,"saml_x509_certs":null,"organization_id":"org_01EWDSPEYNG87X1KMBNA7315F7","oauth_uid":null,"oauth_secret":null,"oauth_redirect_uri":null,"domains":[{"object":"connection_domain","id":"domain_01EWDSQJP5HPMD4BQQ031WG55V","domain":"example.com"}]}],"listMetadata":{"before":"conn_01EQKNFQRVY56P08881CC8MFG1","after":null}}'
+      encoding: UTF-8
+      string: '{"object":"list","listMetadata":{"before":null,"after":null},"data":[{"object":"directory","id":"directory_01EK2YEMVTWGX27STRDR0N3MP9","name":"Foo
+        Corp","external_key":"SZ5TZMl7gcOAKS04","type":"gsuite directory","state":"linked","domain":"foo-corp.com"}]}'
     http_version:
-  recorded_at: Wed, 27 Jan 2021 22:45:13 GMT
+  recorded_at: Thu, 22 Apr 2021 21:33:48 GMT
 recorded_with: VCR 5.0.0

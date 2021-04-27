@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.workos.com/connections?connection_type=OktaSAML
+    uri: https://api.workos.com/directory_groups?directory=directory_01EK2YEMVTWGX27STRDR0N3MP9&limit=2
     body:
       encoding: US-ASCII
       string: ''
@@ -14,7 +14,7 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.10.0
+      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.10.3
       Authorization:
       - Bearer <API_KEY>
   response:
@@ -53,20 +53,22 @@ http_interactions:
       X-Xss-Protection:
       - '0'
       X-Request-Id:
-      - cd5f506d-61c0-4004-ac32-2445b36717b1
+      - 15cec028-c700-40ee-af7a-ff244f1ff217
       Content-Type:
       - application/json; charset=utf-8
+      Content-Length:
+      - '938'
       Etag:
-      - W/"37b0-pr+AD/NOUTSrEMYMRxh0gv2bl9Y"
+      - W/"3aa-b4XSi9lY9zoQsT2oNH8tM1j0h/M"
       Date:
-      - Wed, 27 Jan 2021 22:54:01 GMT
-      Transfer-Encoding:
-      - chunked
+      - Thu, 22 Apr 2021 22:11:10 GMT
       Via:
       - 1.1 vegur
     body:
-      encoding: ASCII-8BIT
-      string: '{"data":[{"object":"connection","id":"conn_01EWDSQJNXM1M33MTVSQ2ZR5M5","status":"unlinked","state":"draft","name":"Example","connection_type":"OktaSAML","oidc_client_id":null,"oidc_client_secret":null,"oidc_discovery_endpoint":null,"oidc_redirect_uri":null,"saml_entity_id":null,"saml_idp_url":null,"saml_relying_party_private_key":null,"saml_relying_party_public_key":null,"saml_x509_certs":null,"organization_id":"org_01EWDSPEYNG87X1KMBNA7315F7","oauth_uid":null,"oauth_secret":null,"oauth_redirect_uri":null,"domains":[{"object":"connection_domain","id":"domain_01EWDSQJP5HPMD4BQQ031WG55V","domain":"example.com"}]}],"listMetadata":{"before":"conn_01EQKNFQRVY56P08881CC8MFG1","after":null}}'
+      encoding: UTF-8
+      string: '{"object":"list","listMetadata":{"before":"directory_group_01EQ7V7C74DTH00CYB72T50ABG","after":null},"data":[{"id":"directory_group_01EQ823D94EF0AH5QMDRB91YWR","name":"Contractors","raw_attributes":{"id":"02iq8gzs1b2i1ae","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/rF1OEdXlr3FwClDxryrS1Qi22xQ\"","kind":"admin#directory#group","name":"Contractors","email":"contractors@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["contractors@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C74DTH00CYB72T50ABG","name":"Risk
+        Management","raw_attributes":{"id":"028h4qwu0uyrb9k","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/kbW-E1aXnJl6pxP1nnwTfMnja4Q\"","kind":"admin#directory#group","name":"Risk
+        Management","email":"risk@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"1","nonEditableAliases":["risk@foo-corp.com.test-google-a.com"]}}]}'
     http_version:
-  recorded_at: Wed, 27 Jan 2021 22:54:01 GMT
+  recorded_at: Thu, 22 Apr 2021 22:11:10 GMT
 recorded_with: VCR 5.0.0

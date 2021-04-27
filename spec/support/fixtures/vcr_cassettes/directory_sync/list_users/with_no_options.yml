@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.workos.com/directory_groups
+    uri: https://api.workos.com/directory_users
     body:
       encoding: US-ASCII
       string: ''
@@ -14,7 +14,7 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.2.3
+      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.10.3
       Authorization:
       - Bearer <API_KEY>
   response:
@@ -30,8 +30,14 @@ http_interactions:
       - Origin, Accept-Encoding
       Access-Control-Allow-Credentials:
       - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
       X-Dns-Prefetch-Control:
       - 'off'
+      Expect-Ct:
+      - max-age=0
       X-Frame-Options:
       - SAMEORIGIN
       Strict-Transport-Security:
@@ -40,25 +46,29 @@ http_interactions:
       - noopen
       X-Content-Type-Options:
       - nosniff
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - no-referrer
       X-Xss-Protection:
-      - 1; mode=block
+      - '0'
       X-Request-Id:
-      - 3ffb5dc0-7dbe-453f-9514-6e50363b413e
+      - 7ec78e21-576f-44a4-895f-bd911a3f4b04
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '219'
+      - '222'
       Etag:
-      - W/"db-gphk1TAe8P3eXtQnl1v8qxKQjZs"
+      - W/"de-33B+CY27z2HlOGKZPu4nzUVQpuI"
       Date:
-      - Thu, 30 Apr 2020 06:24:08 GMT
+      - Thu, 22 Apr 2021 21:58:34 GMT
       Via:
       - 1.1 vegur
     body:
       encoding: UTF-8
       string: '{"message":"Validation failed","errors":[{"field":"directory","code":"Please
-        provide either \"directory\" or \"user\" parameters."},{"field":"user","code":"Please
-        provide either \"directory\" or \"user\" parameters."}]}'
-    http_version: 
-  recorded_at: Thu, 30 Apr 2020 06:24:08 GMT
+        provide either \"directory\" or \"group\" parameters."},{"field":"group","code":"Please
+        provide either \"directory\" or \"group\" parameters."}]}'
+    http_version:
+  recorded_at: Thu, 22 Apr 2021 21:58:34 GMT
 recorded_with: VCR 5.0.0

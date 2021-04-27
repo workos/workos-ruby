@@ -4,22 +4,123 @@
 describe WorkOS::DirectorySync do
   describe '.list_directories' do
     context 'with no options' do
-      it 'returns directories' do
-        VCR.use_cassette('directory_sync/list_directories') do
-          directories = WorkOS::DirectorySync.list_directories
-          expect(directories.size).to eq(1)
+      it 'returns directories and metadata' do
+        expected_metadata = {
+          'after' => nil,
+          'before' => 'before-id',
+        }
+
+        VCR.use_cassette 'directory_sync/list_directories/with_no_options' do
+          directories = described_class.list_directories
+
+          expect(directories.data.size).to eq(3)
+          expect(directories.list_metadata).to eq(expected_metadata)
         end
       end
     end
 
     context 'with domain option' do
-      it 'returns directories' do
-        VCR.use_cassette('directory_sync/list_directories_with_domain_param') do
-          directories = WorkOS::DirectorySync.list_directories(
+      it 'forms the proper request to the API' do
+        request_args = [
+          '/directories?domain=foo-corp.com',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'directory_sync/list_directories/with_domain' do
+          directories = described_class.list_directories(
             domain: 'foo-corp.com',
           )
 
-          expect(directories.first['domain']).to eq('foo-corp.com')
+          expect(directories.data.size).to eq(1)
+        end
+      end
+    end
+
+    context 'with search option' do
+      it 'forms the proper request to the API' do
+        request_args = [
+          '/directories?search=Foo',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'directory_sync/list_directories/with_search' do
+          directories = described_class.list_directories(
+            search: 'Foo',
+          )
+
+          expect(directories.data.size).to eq(1)
+        end
+      end
+    end
+
+    context 'with the before option' do
+      it 'forms the proper request to the API' do
+        request_args = [
+          '/directories?before=before-id',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'directory_sync/list_directories/with_before' do
+          directories = described_class.list_directories(
+            before: 'before-id',
+          )
+
+          expect(directories.data.size).to eq(3)
+        end
+      end
+    end
+
+    context 'with the after option' do
+      it 'forms the proper request to the API' do
+        request_args = [
+          '/directories?after=after-id',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'directory_sync/list_directories/with_after' do
+          directories = described_class.list_directories(after: 'after-id')
+
+          expect(directories.data.size).to eq(3)
+        end
+      end
+    end
+
+    context 'with the limit option' do
+      it 'forms the proper request to the API' do
+        request_args = [
+          '/directories?limit=2',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'directory_sync/list_directories/with_limit' do
+          directories = described_class.list_directories(limit: 2)
+
+          expect(directories.data.size).to eq(2)
         end
       end
     end
@@ -41,27 +142,127 @@ describe WorkOS::DirectorySync do
 
   describe '.list_groups' do
     context 'with no options' do
-      it 'returns groups' do
-        VCR.use_cassette('directory_sync/list_groups') do
+      it 'raises an error' do
+        VCR.use_cassette('directory_sync/list_groups/with_no_options') do
           expect do
             WorkOS::DirectorySync.list_groups
-          end.to raise_error(
-            WorkOS::InvalidRequestError,
-            /Status 422, Validation failed/,
-          )
+          end.to raise_error(WorkOS::InvalidRequestError)
         end
       end
     end
 
     context 'with directory option' do
-      it 'returns groups' do
-        VCR.use_cassette('directory_sync/list_groups_with_directory_param') do
-          groups = WorkOS::DirectorySync.list_groups(
-            directory: 'directory_edp_01E64QQVQTCB0DECJ9CFNXEWDW',
+      it 'forms the proper request to the API' do
+        request_args = [
+          '/directory_groups?directory=directory_01EK2YEMVTWGX27STRDR0N3MP9',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'directory_sync/list_groups/with_directory' do
+          groups = described_class.list_groups(
+            directory: 'directory_01EK2YEMVTWGX27STRDR0N3MP9',
           )
 
-          expect(groups.size).to eq(2)
-          expect(groups.first['name']).to eq('Walrus')
+          expect(groups.data.size).to eq(10)
+        end
+      end
+    end
+
+    context 'with user option' do
+      it 'forms the proper request to the API' do
+        request_args = [
+          '/directory_groups?user=directory_user_01EK2YFBC3R10MPB4W49G5QDXG',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'directory_sync/list_groups/with_user' do
+          groups = described_class.list_groups(
+            user: 'directory_user_01EK2YFBC3R10MPB4W49G5QDXG',
+          )
+
+          expect(groups.data.size).to eq(3)
+        end
+      end
+    end
+
+    context 'with the before option' do
+      it 'forms the proper request to the API' do
+        request_args = [
+          '/directory_groups?before=before-id&' \
+          'directory=directory_01EK2YEMVTWGX27STRDR0N3MP9',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'directory_sync/list_groups/with_before' do
+          groups = described_class.list_groups(
+            before: 'before-id',
+            directory: 'directory_01EK2YEMVTWGX27STRDR0N3MP9',
+          )
+
+          expect(groups.data.size).to eq(2)
+        end
+      end
+    end
+
+    context 'with the after option' do
+      it 'forms the proper request to the API' do
+        request_args = [
+          '/directory_groups?after=after-id&' \
+          'directory=directory_01EK2YEMVTWGX27STRDR0N3MP9',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'directory_sync/list_groups/with_after' do
+          groups = described_class.list_groups(
+            after: 'after-id',
+            directory: 'directory_01EK2YEMVTWGX27STRDR0N3MP9',
+          )
+
+          expect(groups.data.size).to eq(10)
+        end
+      end
+    end
+
+    context 'with the limit option' do
+      it 'forms the proper request to the API' do
+        request_args = [
+          '/directory_groups?limit=2&' \
+          'directory=directory_01EK2YEMVTWGX27STRDR0N3MP9',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'directory_sync/list_groups/with_limit' do
+          groups = described_class.list_groups(
+            limit: 2,
+            directory: 'directory_01EK2YEMVTWGX27STRDR0N3MP9',
+          )
+
+          expect(groups.data.size).to eq(2)
         end
       end
     end
@@ -69,27 +270,127 @@ describe WorkOS::DirectorySync do
 
   describe '.list_users' do
     context 'with no options' do
-      it 'returns users' do
-        VCR.use_cassette('directory_sync/list_users') do
+      it 'raises an error' do
+        VCR.use_cassette('directory_sync/list_users/with_no_options') do
           expect do
             WorkOS::DirectorySync.list_users
-          end.to raise_error(
-            WorkOS::InvalidRequestError,
-            /Status 422, Validation failed/,
-          )
+          end.to raise_error(WorkOS::InvalidRequestError)
         end
       end
     end
 
     context 'with directory option' do
-      it 'returns users' do
-        VCR.use_cassette('directory_sync/list_users_with_directory_param') do
-          users = WorkOS::DirectorySync.list_users(
-            directory: 'directory_edp_01E64QQVQTCB0DECJ9CFNXEWDW',
+      it 'forms the proper request to the API' do
+        request_args = [
+          '/directory_users?directory=directory_01EK2YEMVTWGX27STRDR0N3MP9',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'directory_sync/list_users/with_directory' do
+          users = described_class.list_users(
+            directory: 'directory_01EK2YEMVTWGX27STRDR0N3MP9',
           )
 
-          expect(users.size).to eq(1)
-          expect(users.first['last_name']).to eq('Tran')
+          expect(users.data.size).to eq(10)
+        end
+      end
+    end
+
+    context 'with group option' do
+      it 'forms the proper request to the API' do
+        request_args = [
+          '/directory_users?group=directory_group_01EQ7V7C6Y4RPMCH3KNB9853FF',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'directory_sync/list_users/with_group' do
+          users = described_class.list_users(
+            group: 'directory_group_01EQ7V7C6Y4RPMCH3KNB9853FF',
+          )
+
+          expect(users.data.size).to eq(2)
+        end
+      end
+    end
+
+    context 'with the before option' do
+      it 'forms the proper request to the API' do
+        request_args = [
+          '/directory_users?before=before-id&'\
+          'directory=directory_01EK2YEMVTWGX27STRDR0N3MP9',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'directory_sync/list_users/with_before' do
+          users = described_class.list_users(
+            before: 'before-id',
+            directory: 'directory_01EK2YEMVTWGX27STRDR0N3MP9',
+          )
+
+          expect(users.data.size).to eq(2)
+        end
+      end
+    end
+
+    context 'with the after option' do
+      it 'forms the proper request to the API' do
+        request_args = [
+          '/directory_users?after=after-id&' \
+          'directory=directory_01EK2YEMVTWGX27STRDR0N3MP9',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'directory_sync/list_users/with_after' do
+          users = described_class.list_users(
+            after: 'after-id',
+            directory: 'directory_01EK2YEMVTWGX27STRDR0N3MP9',
+          )
+
+          expect(users.data.size).to eq(10)
+        end
+      end
+    end
+
+    context 'with the limit option' do
+      it 'forms the proper request to the API' do
+        request_args = [
+          '/directory_users?limit=2&' \
+          'directory=directory_01EK2YEMVTWGX27STRDR0N3MP9',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'directory_sync/list_users/with_limit' do
+          users = described_class.list_users(
+            limit: 2,
+            directory: 'directory_01EK2YEMVTWGX27STRDR0N3MP9',
+          )
+
+          expect(users.data.size).to eq(2)
         end
       end
     end

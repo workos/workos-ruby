@@ -56,8 +56,8 @@ http_interactions:
       - 1.1 vegur
     body:
       encoding: ASCII-8BIT
-      string: '{"object":"connection","id":"conn_01E4F9T2YWZFD218DN04KVFDSY","status":"unlinked","name":"Foo Corp","connection_type":"GoogleOAuth","oauth_uid":"demo
-        client id","oauth_secret":"demo client secret","oauth_redirect_uri":"https://auth.workos.com/sso/oauth/google/gcrSPYSytyQeZKkwKs6Ye4ogM/callback","saml_entity_id":null,"saml_idp_url":null,"saml_relying_party_trust_cert":null,"saml_x509_certs":null,"domains":[{"object":"connection_domain","id":"domain_01E6PK9N3XMD8RHWF7S66380AR","domain":"example.com"}]}'
-    http_version: 
+      string: '{"object":"connection","id":"conn_01E4F9T2YWZFD218DN04KVFDSY","status":"linked","name":"Foo Corp","connection_type":"GoogleOAuth","oauth_uid":"demo
+        client id","oauth_secret":"demo client secret","oauth_redirect_uri":"https://auth.workos.com/sso/oauth/google/gcrSPYSytyQeZKkwKs6Ye4ogM/callback","saml_entity_id":null,"saml_idp_url":null,"saml_relying_party_trust_cert":null,"saml_x509_certs":null,"organization_id":"12345","domains":[{"object":"connection_domain","id":"domain_01E6PK9N3XMD8RHWF7S66380AR","domain":"example.com"}]}'
+    http_version:
   recorded_at: Fri, 24 Apr 2020 17:20:52 GMT
 recorded_with: VCR 5.0.0

@@ -1,0 +1,75 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.workos.com/directory_users?directory=directory_01EK2YEMVTWGX27STRDR0N3MP9&limit=2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.10.3
+      Authorization:
+      - Bearer <API_KEY>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Cowboy
+      Connection:
+      - keep-alive
+      Vary:
+      - Origin, Accept-Encoding
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      X-Dns-Prefetch-Control:
+      - 'off'
+      Expect-Ct:
+      - max-age=0
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Download-Options:
+      - noopen
+      X-Content-Type-Options:
+      - nosniff
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - no-referrer
+      X-Xss-Protection:
+      - '0'
+      X-Request-Id:
+      - 9f92ff22-ee1b-4ec4-b730-061d2068cd1a
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"a01-LXbCW2HDqOHejZZVvetDiJDHyj4"
+      Date:
+      - Thu, 22 Apr 2021 22:11:13 GMT
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: ASCII-8BIT
+      string: '{"object":"list","listMetadata":{"before":"directory_user_01EY6MWQEGS28JZZW8F9YSPHTN","after":null},"data":[{"id":"directory_user_01EYY894KT7BFG7BGFP6311QVN","raw_attributes":{"id":"100377956302085585753","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/3uAtgLaCgHQwGYnPvAOsMmX3kuQ\"","kind":"admin#directory#user","name":{"fullName":"Marshall
+        Bowers","givenName":"Marshall","familyName":"Bowers"},"emails":[{"address":"marshall@foo-corp.com","primary":true},{"address":"marshall@foo-corp.com.test-google-a.com"}],"customerId":"C02mw6qrc","orgUnitPath":"/","creationTime":"2021-02-19T22:58:59.000Z","primaryEmail":"marshall@foo-corp.com","lastLoginTime":"1970-01-01T00:00:00.000Z","isMailboxSetup":true,"nonEditableAliases":["marshall@foo-corp.com.test-google-a.com"],"changePasswordAtNextLogin":true,"includeInGlobalAddressList":true},"idp_id":"100377956302085585753","first_name":"Marshall","emails":[{"value":"marshall@foo-corp.com","primary":true}],"username":"marshall@foo-corp.com","last_name":"Bowers","state":"active","groups":[]},{"id":"directory_user_01EY6MWQEGS28JZZW8F9YSPHTN","raw_attributes":{"id":"109773955160115643540","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/SrCThhD5mhnV6EIkf2v0x2HSBJQ\"","kind":"admin#directory#user","name":{"fullName":"Blair
+        Lunchford","givenName":"Blair","familyName":"Lunchford"},"emails":[{"address":"blair@foo-corp.com","primary":true},{"address":"blair@foo-corp.com.test-google-a.com"}],"phones":[{"type":"home","value":"777-777-7777"}],"relations":[{"type":"manager","value":"mg@foo-corp.com"}],"customerId":"C02mw6qrc","externalIds":[{"type":"organization","value":"1234"}],"orgUnitPath":"/","creationTime":"2021-02-10T18:57:37.000Z","primaryEmail":"blair@foo-corp.com","agreedToTerms":true,"lastLoginTime":"2021-03-03T21:06:43.000Z","organizations":[{"title":"Developer
+        Success Engineer","primary":true,"customType":"","department":"Customer Success"}],"isMailboxSetup":true,"thumbnailPhotoUrl":"https://www.google.com/s2/photos/private/AIbEiAIAAABECJSJqMrvjYTShwEiC3ZjYXJkX3Bob3RvKig4ZGQxM2I4YzE0NWJmYzFhZTM4ZmI4OTQ3YmVhZWVlODFlNjRkZTE0MAFxHDWu1JMrkUf8mcS2gI-VsRQz-w","nonEditableAliases":["blair@foo-corp.com.test-google-a.com"],"thumbnailPhotoEtag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/dpIRoYVHhjaCzW6FemaoQoWb5V0\"","changePasswordAtNextLogin":true,"includeInGlobalAddressList":true},"idp_id":"109773955160115643540","first_name":"Blair","emails":[{"value":"blair@foo-corp.com","primary":true}],"username":"blair@foo-corp.com","last_name":"Lunchford","state":"active","groups":[]}]}'
+    http_version:
+  recorded_at: Thu, 22 Apr 2021 22:11:13 GMT
+recorded_with: VCR 5.0.0

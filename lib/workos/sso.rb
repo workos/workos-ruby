@@ -226,7 +226,7 @@ module WorkOS
       sig do
         params(
           options: T::Hash[Symbol, String],
-        ).returns(T::Array[T::Hash[String, T.nilable(String)]])
+        ).returns(WorkOS::Types::ListStruct)
       end
       def list_connections(options = {})
         response = execute_request(
@@ -237,7 +237,15 @@ module WorkOS
           ),
         )
 
-        JSON.parse(response.body)['data']
+        parsed_response = JSON.parse(response.body)
+        connections = parsed_response['data'].map do |connection|
+          ::WorkOS::Connection.new(connection.to_json)
+        end
+
+        WorkOS::Types::ListStruct.new(
+          data: connections,
+          list_metadata: parsed_response['listMetadata'],
+        )
       end
 
       # Get a Connection
