@@ -7,6 +7,7 @@ module WorkOS
     # for the DirectoryUser class
     class DirectoryUserStruct < T::Struct
       const :id, String
+      const :idp_id, String
       const :emails, T::Array[T.untyped]
       const :first_name, T.nilable(String)
       const :last_name, T.nilable(String)
