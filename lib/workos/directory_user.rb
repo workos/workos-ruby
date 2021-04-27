@@ -16,6 +16,7 @@ module WorkOS
       raw = parse_json(json)
 
       @id = T.let(raw.id, String)
+      @idp_id = T.let(raw.idp_id, String)
       @emails = T.let(raw.emails, Array)
       @first_name = raw.first_name
       @last_name = raw.last_name
@@ -27,6 +28,7 @@ module WorkOS
     def to_json(*)
       {
         id: id,
+        idp_id: idp_id,
         emails: emails,
         first_name: first_name,
         last_name: last_name,
@@ -48,6 +50,7 @@ module WorkOS
 
       WorkOS::Types::DirectoryUserStruct.new(
         id: hash[:id],
+        idp_id: hash[:idp_id],
         emails: hash[:emails],
         first_name: hash[:first_name],
         last_name: hash[:last_name],
