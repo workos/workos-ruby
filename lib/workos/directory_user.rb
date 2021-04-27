@@ -8,7 +8,7 @@ module WorkOS
   class DirectoryUser
     extend T::Sig
 
-    attr_accessor :id, :emails, :first_name, :last_name, :username, :state,
+    attr_accessor :id, :idp_id, :emails, :first_name, :last_name, :username, :state,
                   :raw_attributes
 
     sig { params(json: String).void }
