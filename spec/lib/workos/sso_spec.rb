@@ -316,7 +316,7 @@ describe WorkOS::SSO do
           expect(connection.name).to eq('Foo Corp')
           expect(connection.domains.first[:domain]).to eq('example.com')
           expect(connection.organization_id).to eq('12345')
-          expect(connection.status).to eq('linked')
+          expect(connection.state).to eq('active')
         end
       end
     end
