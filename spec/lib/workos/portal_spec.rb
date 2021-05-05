@@ -180,4 +180,22 @@ describe WorkOS::Portal do
       end
     end
   end
+
+  describe '.update_organization' do
+    context 'with valid payload' do
+      it 'creates an organization' do
+        VCR.use_cassette 'organization/update' do
+          organization = described_class.update_organization(
+            organization: 'org_01F29YJ068E52HGEB8ZQGC9MJG',
+            domains: ['example.me'],
+            name: 'Test Organization',
+          )
+
+          expect(organization.id).to eq('org_01F29YJ068E52HGEB8ZQGC9MJG')
+          expect(organization.name).to eq('Test Organization')
+          expect(organization.domains.first[:domain]).to eq('example.me')
+        end
+      end
+    end
+  end
 end

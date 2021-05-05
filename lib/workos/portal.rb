@@ -110,6 +110,32 @@ module WorkOS
         )
       end
 
+      # Update an organization
+      #
+      # @param [String] organization Organization unique identifier
+      # @param [Array<String>] domains List of domains that belong to the
+      #  organization
+      # @param [String] name A unique, descriptive name for the organization
+      sig do
+        params(
+          organization: String,
+          domains: T::Array[String],
+          name: String,
+        ).returns(WorkOS::Organization)
+      end
+      def update_organization(organization:, domains:, name:)
+        request = put_request(
+          auth: true,
+          body: { domains: domains, name: name },
+          path: "/organizations/#{organization}",
+        )
+
+        response = execute_request(request: request)
+        check_and_raise_organization_error(response: response)
+
+        WorkOS::Organization.new(response.body)
+      end
+
       private
 
       sig { params(response: Net::HTTPResponse).void }

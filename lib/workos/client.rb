@@ -19,7 +19,7 @@ module WorkOS
 
     sig do
       params(
-        request: T.any(Net::HTTP::Get, Net::HTTP::Post, Net::HTTP::Delete),
+        request: T.any(Net::HTTP::Get, Net::HTTP::Post, Net::HTTP::Delete, Net::HTTP::Put),
       ).returns(::T.untyped)
     end
     def execute_request(request:)
@@ -86,6 +86,23 @@ module WorkOS
       )
 
       request['Authorization'] = "Bearer #{WorkOS.key!}" if auth
+      request['User-Agent'] = user_agent
+      request
+    end
+
+    sig do
+      params(
+        path: String,
+        auth: T.nilable(T::Boolean),
+        idempotency_key: T.nilable(String),
+        body: T.nilable(Hash),
+      ).returns(Net::HTTP::Put)
+    end
+    def put_request(path:, auth: false, idempotency_key: nil, body: nil)
+      request = Net::HTTP::Put.new(path, 'Content-Type' => 'application/json')
+      request.body = body.to_json if body
+      request['Authorization'] = "Bearer #{WorkOS.key!}" if auth
+      request['Idempotency-Key'] = idempotency_key if idempotency_key
       request['User-Agent'] = user_agent
       request
     end
