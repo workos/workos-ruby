@@ -9,7 +9,7 @@ module WorkOS
     extend T::Sig
 
     attr_accessor :id, :name, :connection_type, :domains, :organization_id,
-                  :state
+                  :state, :status
 
     sig { params(json: String).void }
     def initialize(json)
@@ -21,6 +21,7 @@ module WorkOS
       @domains = T.let(raw.domains, Array)
       @organization_id = T.let(raw.organization_id, String)
       @state = T.let(raw.state, String)
+      @status = T.let(raw.status, String)
     end
 
     def to_json(*)
@@ -31,6 +32,7 @@ module WorkOS
         domains: domains,
         organization_id: organization_id,
         state: state,
+        status: status,
       }
     end
 
@@ -47,6 +49,7 @@ module WorkOS
         domains: hash[:domains],
         organization_id: hash[:organization_id],
         state: hash[:state],
+        status: hash[:status],
       )
     end
   end

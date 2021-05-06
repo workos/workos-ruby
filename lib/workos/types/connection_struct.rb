@@ -12,6 +12,7 @@ module WorkOS
       const :domains, T::Array[T.untyped]
       const :organization_id, String
       const :state, String
+      const :status, String
     end
   end
 end
