@@ -23,6 +23,10 @@ module WorkOS
       #  received from WorkOS will contain. The state parameter can be used to
       #  encode arbitrary information to help restore application state between
       #  redirects.
+      # @option options [String] connection Optional parameter for the ID of a
+      #  specific connection. This can be used to create a Passwordless Session
+      #  for a specific connection rather than using the domain from the email
+      #  to determine the Organization and Connection.
       # @option options [String] type The type of Passwordless Session to
       #  create. Currently, the only supported value is 'MagicLink'.
       # @option options [String] redirect_uri The URI where users are directed
