@@ -5,6 +5,7 @@ module WorkOS
   # The Connection class provides a lightweight wrapper around
   # a WorkOS Connection resource. This class is not meant to be instantiated
   # in user space, and is instantiated internally but exposed.
+  # Note: status is deprecated - use state instead
   class Connection
     extend T::Sig
 
