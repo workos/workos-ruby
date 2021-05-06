@@ -1,0 +1,73 @@
+---
+http_interactions:
+- request:
+    method: put
+    uri: https://api.workos.com/organizations/org_01F29YJ068E52HGEB8ZQGC9MJG
+    body:
+      encoding: UTF-8
+      string: '{"domains":["example.com"],"name":"Test Organization 2"}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/3.0.1; x86_64-darwin19; v0.11.1
+      Authorization:
+      - Bearer <API_KEY>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Cowboy
+      Connection:
+      - keep-alive
+      Vary:
+      - Origin, Accept-Encoding
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      X-Dns-Prefetch-Control:
+      - 'off'
+      Expect-Ct:
+      - max-age=0
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Download-Options:
+      - noopen
+      X-Content-Type-Options:
+      - nosniff
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - no-referrer
+      X-Xss-Protection:
+      - '0'
+      X-Request-Id:
+      - 6ba2cbf9-76e3-4a6a-8ebe-d25edb366ed0
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '205'
+      Etag:
+      - W/"cd-mlRMlyyz/LtzInRhAghs1B+BT4s"
+      Date:
+      - Wed, 05 May 2021 22:14:10 GMT
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"object":"organization","id":"org_01F29YJ068E52HGEB8ZQGC9MJG","name":"Test
+        Organization 2","domains":[{"object":"organization_domain","id":"org_domain_01F4Z9GY3089GV4SENXWZ9RBX1","domain":"example.com"}]}'
+    http_version:
+  recorded_at: Wed, 05 May 2021 22:14:10 GMT
+recorded_with: VCR 5.0.0
