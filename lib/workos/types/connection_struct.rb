@@ -11,6 +11,7 @@ module WorkOS
       const :connection_type, String
       const :domains, T::Array[T.untyped]
       const :organization_id, String
+      const :state, String
       const :status, String
     end
   end

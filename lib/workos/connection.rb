@@ -5,11 +5,12 @@ module WorkOS
   # The Connection class provides a lightweight wrapper around
   # a WorkOS Connection resource. This class is not meant to be instantiated
   # in user space, and is instantiated internally but exposed.
+  # Note: status is deprecated - use state instead
   class Connection
     extend T::Sig
 
     attr_accessor :id, :name, :connection_type, :domains, :organization_id,
-                  :status
+                  :state, :status
 
     sig { params(json: String).void }
     def initialize(json)
@@ -20,6 +21,7 @@ module WorkOS
       @connection_type = T.let(raw.connection_type, String)
       @domains = T.let(raw.domains, Array)
       @organization_id = T.let(raw.organization_id, String)
+      @state = T.let(raw.state, String)
       @status = T.let(raw.status, String)
     end
 
@@ -30,6 +32,7 @@ module WorkOS
         connection_type: connection_type,
         domains: domains,
         organization_id: organization_id,
+        state: state,
         status: status,
       }
     end
@@ -46,6 +49,7 @@ module WorkOS
         connection_type: hash[:connection_type],
         domains: hash[:domains],
         organization_id: hash[:organization_id],
+        state: hash[:state],
         status: hash[:status],
       )
     end
