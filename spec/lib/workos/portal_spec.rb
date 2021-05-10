@@ -181,6 +181,35 @@ describe WorkOS::Portal do
     end
   end
 
+  describe '.get_organization' do
+    context 'with a valid id' do
+      it 'gets the organization details' do
+        VCR.use_cassette('organization/get') do
+          organization = described_class.get_organization(
+            id: 'org_01EZDF20TZEJXKPSX2BJRN6TV6',
+          )
+
+          expect(organization.id).to eq('org_01EZDF20TZEJXKPSX2BJRN6TV6')
+          expect(organization.name).to eq('Foo Corp')
+          expect(organization.domains.first[:domain]).to eq('foo-corp.com')
+        end
+      end
+    end
+
+    context 'with an invalid id' do
+      it 'raises an error' do
+        VCR.use_cassette('organization/get_invalid') do
+          expect do
+            described_class.get_organization(id: 'invalid')
+          end.to raise_error(
+            WorkOS::APIError,
+            'Status 404, Not Found - request ID: ',
+          )
+        end
+      end
+    end
+  end
+
   describe '.update_organization' do
     context 'with valid payload' do
       it 'creates an organization' do

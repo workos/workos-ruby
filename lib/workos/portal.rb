@@ -110,6 +110,33 @@ module WorkOS
         )
       end
 
+      # Get an Organization
+      #
+      # @param [String] id Organization unique identifier
+      #
+      # @example
+      #   WorkOS::Portal.get_organization(id: 'org_02DRA1XNSJDZ19A31F183ECQW9')
+      #   => #<WorkOS::Organization:0x00007fb6e4193d20
+      #         @id="org_02DRA1XNSJDZ19A31F183ECQW9",
+      #         @name="Foo Corp",
+      #         @domains=
+      #          [{:object=>"organization_domain",
+      #            :id=>"org_domain_01E6PK9N3XMD8RHWF7S66380AR",
+      #            :domain=>"foo-corp.com"}]>
+      #
+      # @return [WorkOS::Connection]
+      sig { params(id: String).returns(WorkOS::Organization) }
+      def get_organization(id:)
+        request = get_request(
+          auth: true,
+          path: "/organizations/#{id}",
+        )
+
+        response = execute_request(request: request)
+
+        WorkOS::Organization.new(response.body)
+      end
+
       # Update an organization
       #
       # @param [String] organization Organization unique identifier
