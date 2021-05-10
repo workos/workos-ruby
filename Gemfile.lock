@@ -60,15 +60,7 @@ GEM
     simplecov_json_formatter (0.1.2)
     sorbet (0.5.6388)
       sorbet-static (= 0.5.6388)
-<<<<<<< HEAD
-<<<<<<< HEAD
-    sorbet-runtime (0.5.6401)
-=======
     sorbet-runtime (0.5.6403)
->>>>>>> Bump version to 0.11.2
-=======
-    sorbet-runtime (0.5.6403)
->>>>>>> b9299f97c1172227d6f90890abab71a48899f8de
     sorbet-static (0.5.6388-universal-darwin-14)
     sorbet-static (0.5.6388-universal-darwin-15)
     sorbet-static (0.5.6388-universal-darwin-16)
