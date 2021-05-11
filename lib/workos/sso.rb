@@ -61,7 +61,6 @@ module WorkOS
           state: T.nilable(String),
         ).returns(String)
       end
-      # rubocop:disable Metrics/MethodLength, Metrics/ParameterLists
       def authorization_url(
         redirect_uri:,
         client_id: nil,
@@ -88,7 +87,6 @@ module WorkOS
 
         "https://#{WorkOS::API_HOSTNAME}/sso/authorize?#{query}"
       end
-      # rubocop:enable Metrics/MethodLength, Metrics/ParameterLists
 
       # Fetch the profile details for the authenticated SSO user.
       #
