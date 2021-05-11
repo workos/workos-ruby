@@ -30,8 +30,6 @@ module WorkOS
       #  WorkOS.
       # @param [String] client_id The WorkOS client ID for the environment
       #  where you've configured your SSO connection.
-      # @param [String] project_id The WorkOS project ID for the project.
-      # The project_id is deprecated in Dashboard2.
       # @param [String] redirect_uri The URI where users are directed
       #  after completing the authentication step. Must match a
       #  configured redirect URI on your WorkOS dashboard.
@@ -56,7 +54,6 @@ module WorkOS
       sig do
         params(
           redirect_uri: String,
-          project_id: T.nilable(String),
           client_id: T.nilable(String),
           domain: T.nilable(String),
           provider: T.nilable(String),
@@ -64,22 +61,14 @@ module WorkOS
           state: T.nilable(String),
         ).returns(String)
       end
-      # rubocop:disable Metrics/MethodLength, Metrics/ParameterLists
       def authorization_url(
         redirect_uri:,
-        project_id: nil,
         client_id: nil,
         domain: nil,
         provider: nil,
         connection: nil,
         state: ''
       )
-        if project_id
-          warn '[DEPRECATION] `project_id` is deprecated.
-          Please use `client_id` instead.'
-          client_id = project_id
-        end
-
         validate_authorization_url_arguments(
           provider: provider,
           domain: domain,
@@ -98,15 +87,12 @@ module WorkOS
 
         "https://#{WorkOS::API_HOSTNAME}/sso/authorize?#{query}"
       end
-      # rubocop:enable Metrics/MethodLength, Metrics/ParameterLists
 
       # Fetch the profile details for the authenticated SSO user.
       #
       # @param [String] code The authorization code provided in the callback URL
       # @param [String] client_id The WorkOS client ID for the environment
-      #  where you've  configured your SSO connection
-      # @param [String] project_id The WorkOS project ID for the project.
-      # The project_id is deprecated in Dashboard2.
+      #  where you've configured your SSO connection
       #
       # @example
       #   WorkOS::SSO.profile(
@@ -127,17 +113,10 @@ module WorkOS
       sig do
         params(
           code: String,
-          project_id: T.nilable(String),
           client_id: T.nilable(String),
         ).returns(WorkOS::Profile)
       end
-      def profile(code:, project_id: nil, client_id: nil)
-        if project_id
-          warn '[DEPRECATION] `project_id` is deprecated.
-          Please use `client_id` instead.'
-          client_id = project_id
-        end
-
+      def profile(code:, client_id: nil)
         body = {
           client_id: client_id,
           client_secret: WorkOS.key!,
