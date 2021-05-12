@@ -190,7 +190,6 @@ describe WorkOS::SSO do
 
       it 'returns a WorkOS::ProfileAndToken' do
         profile_and_token = described_class.profile_and_token(**args)
-        puts profile_and_token
         expect(profile_and_token).to be_a(WorkOS::ProfileAndToken)
 
         expectation = {

@@ -94,21 +94,6 @@ module WorkOS
       # @param [String] client_id The WorkOS client ID for the environment
       #  where you've configured your SSO connection
       #
-      # @example
-      #   WorkOS::SSO.profile_and_token(
-      #     code: 'acme.com',
-      #     client_id: 'project_01DG5TGK363GRVXP3ZS40WNGEZ'
-      #   )
-      #   => #<WorkOS::Profile:0x00007fb6e4193d20
-      #         @id="prof_01DRA1XNSJDZ19A31F183ECQW5",
-      #         @email="demo@workos-okta.com",
-      #         @first_name="WorkOS",
-      #         @connection_type="OktaSAML",
-      #         @last_name="Demo",
-      #         @idp_id="00u1klkowm8EGah2H357",
-      #         @access_token="01DVX6QBS3EG6FHY2ESAA5Q65X"
-      #        >
-      #
       # @return [WorkOS::ProfileAndToken]
       sig do
         params(
