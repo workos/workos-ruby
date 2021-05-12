@@ -94,29 +94,14 @@ module WorkOS
       # @param [String] client_id The WorkOS client ID for the environment
       #  where you've configured your SSO connection
       #
-      # @example
-      #   WorkOS::SSO.profile(
-      #     code: 'acme.com',
-      #     client_id: 'project_01DG5TGK363GRVXP3ZS40WNGEZ'
-      #   )
-      #   => #<WorkOS::Profile:0x00007fb6e4193d20
-      #         @id="prof_01DRA1XNSJDZ19A31F183ECQW5",
-      #         @email="demo@workos-okta.com",
-      #         @first_name="WorkOS",
-      #         @connection_type="OktaSAML",
-      #         @last_name="Demo",
-      #         @idp_id="00u1klkowm8EGah2H357",
-      #         @access_token="01DVX6QBS3EG6FHY2ESAA5Q65X"
-      #        >
-      #
-      # @return [WorkOS::Profile]
+      # @return [WorkOS::ProfileAndToken]
       sig do
         params(
           code: String,
           client_id: T.nilable(String),
-        ).returns(WorkOS::Profile)
+        ).returns(WorkOS::ProfileAndToken)
       end
-      def profile(code:, client_id: nil)
+      def profile_and_token(code:, client_id: nil)
         body = {
           client_id: client_id,
           client_secret: WorkOS.key!,
@@ -125,9 +110,9 @@ module WorkOS
         }
 
         response = client.request(post_request(path: '/sso/token', body: body))
-        check_and_raise_profile_error(response: response)
+        check_and_raise_profile_and_token_error(response: response)
 
-        WorkOS::Profile.new(response.body)
+        WorkOS::ProfileAndToken.new(response.body)
       end
 
       # Promote a DraftConnection created via the WorkOS.js embed such that the
@@ -302,10 +287,10 @@ module WorkOS
       end
 
       sig { params(response: Net::HTTPResponse).void }
-      def check_and_raise_profile_error(response:)
+      def check_and_raise_profile_and_token_error(response:)
         begin
           body = JSON.parse(response.body)
-          return if body['profile']
+          return if body['access_token'] && body['profile']
 
           message = body['message']
           request_id = response['x-request-id']
