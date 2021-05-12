@@ -149,7 +149,7 @@ describe WorkOS::SSO do
     end
   end
 
-  describe '.profile' do
+  describe '.profile_and_token' do
     let(:args) do
       {
         code: SecureRandom.hex(10),
@@ -182,15 +182,16 @@ describe WorkOS::SSO do
       end
 
       it 'includes the SDK Version header' do
-        described_class.profile(**args)
+        described_class.profile_and_token(**args)
 
         expect(a_request(:post, 'https://api.workos.com/sso/token').
           with(headers: headers, body: request_body)).to have_been_made
       end
 
-      it 'returns a WorkOS::Profile' do
-        profile = described_class.profile(**args)
-        expect(profile).to be_a(WorkOS::Profile)
+      it 'returns a WorkOS::ProfileAndToken' do
+        profile_and_token = described_class.profile_and_token(**args)
+        puts profile_and_token
+        expect(profile_and_token).to be_a(WorkOS::ProfileAndToken)
 
         expectation = {
           connection_id: 'conn_01EMH8WAK20T42N2NBMNBCYHAG',
@@ -209,7 +210,8 @@ describe WorkOS::SSO do
           },
         }
 
-        expect(profile.to_json).to eq(expectation)
+        expect(profile_and_token.access_token).to eq('01DVX6QBS3EG6FHY2ESAA5Q65X')
+        expect(profile_and_token.profile.to_json).to eq(expectation)
       end
     end
 
@@ -226,7 +228,7 @@ describe WorkOS::SSO do
 
       it 'raises an exception with request ID' do
         expect do
-          described_class.profile(**args)
+          described_class.profile_and_token(**args)
         end.to raise_error(
           WorkOS::APIError,
           'some error message - request ID: request-id',
@@ -250,7 +252,7 @@ describe WorkOS::SSO do
 
       it 'raises an exception' do
         expect do
-          described_class.profile(**args)
+          described_class.profile_and_token(**args)
         end.to raise_error(
           WorkOS::APIError,
           "The code '01DVX3C5Z367SFHR8QNDMK7V24'" \
