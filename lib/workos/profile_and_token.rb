@@ -10,12 +10,12 @@ module WorkOS
 
     attr_accessor :access_token, :profile
 
-    sig { params(profile_and_token: String).void }
-    def initialize(profile_and_token)
-      raw = parse_json(profile_and_token)
+    sig { params(profile_and_token_json: String).void }
+    def initialize(profile_and_token_json)
+      json = JSON.parse(profile_and_token_json, symbolize_names: true)
 
-      @access_token = T.let(raw.access_token, String)
-      @profile = WorkOS::Profile.new(profile_and_token)
+      @access_token = T.let(json.access_token, String)
+      @profile = WorkOS::Profile.new(profile_and_token_json)
     end
 
     def to_json(*)
@@ -23,18 +23,6 @@ module WorkOS
         access_token: access_token,
         profile: profile.to_json,
       }
-    end
-
-    private
-
-    sig { params(json_string: String).returns(WorkOS::Types::ProfileAndTokenStruct) }
-    def parse_json(json_string)
-      hash = JSON.parse(json_string, symbolize_names: true)
-
-      WorkOS::Types::ProfileAndTokenStruct.new(
-        access_token: hash[:access_token],
-        profile: hash[:profile],
-      )
     end
   end
 end
