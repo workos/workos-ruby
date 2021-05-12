@@ -115,62 +115,6 @@ module WorkOS
         WorkOS::ProfileAndToken.new(response.body)
       end
 
-      # Promote a DraftConnection created via the WorkOS.js embed such that the
-      # Enterprise users can begin signing into your application.
-      #
-      # @param [String] token The Draft Connection token that's been provided to
-      # you by the WorkOS.js
-      #
-      # @example
-      #   WorkOS::SSO.promote_draft_connection(
-      #     token: 'draft_conn_429u59js',
-      #   )
-      #   => true
-      #
-      # @return [Bool] - returns `true` if successful, `false` otherwise.
-      # @see https://github.com/workos-inc/ruby-idp-link-example
-      sig { params(token: String).returns(T::Boolean) }
-      def promote_draft_connection(token:)
-        request = post_request(
-          auth: true,
-          path: "/draft_connections/#{token}/activate",
-        )
-
-        response = client.request(request)
-
-        response.is_a? Net::HTTPSuccess
-      end
-
-      # Create a Connection
-      #
-      # @param [String] source The Draft Connection token that's been provided
-      # to you by WorkOS.js
-      #
-      # @example
-      #   WorkOS::SSO.create_connection(source: 'draft_conn_429u59js')
-      #   => #<WorkOS::Connection:0x00007fb6e4193d20
-      #         @id="conn_02DRA1XNSJDZ19A31F183ECQW9",
-      #         @name="Foo Corp",
-      #         @connection_type="OktaSAML",
-      #         @domains=
-      #          [{:object=>"connection_domain",
-      #            :id=>"domain_01E6PK9N3XMD8RHWF7S66380AR",
-      #            :domain=>"example.com"}]>
-      #
-      # @return [WorkOS::Connection]
-      sig { params(source: String).returns(WorkOS::Connection) }
-      def create_connection(source:)
-        request = post_request(
-          auth: true,
-          path: '/connections',
-          body: { source: source },
-        )
-
-        response = execute_request(request: request)
-
-        WorkOS::Connection.new(response.body)
-      end
-
       # Retrieve connections.
       #
       # @param [Hash] options An options hash
