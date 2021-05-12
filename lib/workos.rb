@@ -35,6 +35,7 @@ module WorkOS
   autoload :Directory, 'workos/directory'
   autoload :DirectoryGroup, 'workos/directory_group'
   autoload :Organization, 'workos/organization'
+  autoload :Organizations, 'workos/organizations'
   autoload :Passwordless, 'workos/passwordless'
   autoload :Portal, 'workos/portal'
   autoload :Profile, 'workos/profile'
