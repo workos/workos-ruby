@@ -13,6 +13,7 @@ module WorkOS
     require_relative 'types/organization_struct'
     require_relative 'types/passwordless_session_struct'
     require_relative 'types/profile_struct'
+    require_relative 'types/profile_and_token_struct'
     require_relative 'types/provider_enum'
     require_relative 'types/directory_user_struct'
   end
