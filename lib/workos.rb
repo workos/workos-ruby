@@ -38,6 +38,7 @@ module WorkOS
   autoload :Passwordless, 'workos/passwordless'
   autoload :Portal, 'workos/portal'
   autoload :Profile, 'workos/profile'
+  autoload :ProfileAndToken, 'workos/profile_and_token'
   autoload :SSO, 'workos/sso'
   autoload :DirectoryUser, 'workos/directory_user'
 
