@@ -10,7 +10,6 @@ module WorkOS
   class ProfileAndToken
     extend T::Sig
 
-    sig { returns(String) }
     attr_accessor :access_token, :profile
 
     sig { params(profile_and_token: String).void }
@@ -35,7 +34,7 @@ module WorkOS
     def parse_json(json_string)
       hash = JSON.parse(json_string, symbolize_names: true)
 
-      WorkOS::Types::ProfileAndStruct.new(
+      WorkOS::Types::ProfileAndTokenStruct.new(
         access_token: hash[:access_token],
         profile: hash[:profile],
       )

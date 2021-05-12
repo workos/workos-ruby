@@ -127,7 +127,7 @@ module WorkOS
         response = client.request(post_request(path: '/sso/token', body: body))
         check_and_raise_profile_and_token_error(response: response)
 
-        WorkOS::ProfileAmdTplem.new(response.body)
+        WorkOS::ProfileAndToken.new(response.body)
       end
 
       # Promote a DraftConnection created via the WorkOS.js embed such that the
