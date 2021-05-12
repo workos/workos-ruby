@@ -2,10 +2,8 @@
 # typed: true
 
 module WorkOS
-  # The Profile class provides a lighweight wrapper around
-  # a normalized response from the various IDPs WorkOS
-  # supports as part of the SSO integration. This class
-  # is not meant to be instantiated in user space, and
+  # The ProfileAndToken class represents a Profile and a corresponding
+  # Access Token. This class is not meant to be instantiated in user space, and
   # is instantiated internally but exposed.
   class ProfileAndToken
     extend T::Sig
@@ -17,7 +15,7 @@ module WorkOS
       raw = parse_json(profile_and_token)
 
       @access_token = T.let(raw.access_token, String)
-      @profile = WorkOS::Profile.new(raw.profile)
+      @profile = WorkOS::Profile.new(profile_and_token)
     end
 
     def to_json(*)
