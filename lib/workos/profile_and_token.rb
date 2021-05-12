@@ -21,13 +21,12 @@ module WorkOS
     def to_json(*)
       {
         access_token: access_token,
-        profile: profile.to_json
+        profile: profile.to_json,
       }
     end
 
     private
 
-    # rubocop:disable Metrics/AbcSize
     sig { params(json_string: String).returns(WorkOS::Types::ProfileAndTokenStruct) }
     def parse_json(json_string)
       hash = JSON.parse(json_string, symbolize_names: true)
@@ -37,6 +36,5 @@ module WorkOS
         profile: hash[:profile],
       )
     end
-    # rubocop:enable Metrics/AbcSize
   end
 end
