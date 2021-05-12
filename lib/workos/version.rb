@@ -2,5 +2,5 @@
 # typed: strong
 
 module WorkOS
-  VERSION = '0.11.2'
+  VERSION = '1.0.0'
 end
