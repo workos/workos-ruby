@@ -88,6 +88,23 @@ module WorkOS
         "https://#{WorkOS::API_HOSTNAME}/sso/authorize?#{query}"
       end
 
+      sig do
+        params(
+          access_token: String,
+        ).returns(WorkOS::Profile)
+      end
+      def get_profile(access_token:)
+        response = execute_request(
+          request: get_request(
+            path: '/sso/profile',
+            auth: true,
+            access_token: access_token,
+          ),
+        )
+
+        WorkOS::Profile.new(response.body)
+      end
+
       # Fetch the profile details for the authenticated SSO user.
       #
       # @param [String] code The authorization code provided in the callback URL

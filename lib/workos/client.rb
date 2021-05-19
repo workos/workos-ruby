@@ -36,9 +36,10 @@ module WorkOS
         path: String,
         auth: T.nilable(T::Boolean),
         params: T.nilable(Hash),
+        access_token: T.nilable(String),
       ).returns(Net::HTTP::Get)
     end
-    def get_request(path:, auth: false, params: {})
+    def get_request(path:, auth: false, params: {}, access_token: nil)
       uri = URI(path)
       uri.query = URI.encode_www_form(params) if params
 
@@ -47,7 +48,7 @@ module WorkOS
         'Content-Type' => 'application/json',
       )
 
-      request['Authorization'] = "Bearer #{WorkOS.key!}" if auth
+      request['Authorization'] = "Bearer #{access_token || WorkOS.key!}}" if auth
       request['User-Agent'] = user_agent
       request
     end

@@ -149,6 +149,37 @@ describe WorkOS::SSO do
     end
   end
 
+  describe '.get_profile' do
+    it 'returns a profile' do
+      VCR.use_cassette 'sso/profile' do
+        profile = described_class.get_profile(access_token: 'access_token')
+
+        expectation = {
+          connection_id: 'conn_01E83FVYZHY7DM4S9503JHV0R5',
+          connection_type: 'GoogleOAuth',
+          email: 'bob.loblaw@workos.com',
+          first_name: 'Bob',
+          id: 'prof_01EEJTY9SZ1R350RB7B73SNBKF',
+          idp_id: '116485463307139932699',
+          last_name: 'Loblaw',
+          raw_attributes: {
+            email: 'bob.loblaw@workos.com',
+            family_name: 'Loblaw',
+            given_name: 'Bob',
+            hd: 'workos.com',
+            id: '116485463307139932699',
+            locale: 'en',
+            name: 'Bob Loblaw',
+            picture: 'https://lh3.googleusercontent.com/a-/AOh14GyO2hLlgZvteDQ3Ldi3_-RteZLya0hWH7247Cam=s96-c',
+            verified_email: true,
+          },
+        }
+
+        expect(profile.to_json).to eq(expectation)
+      end
+    end
+  end
+
   describe '.profile_and_token' do
     let(:args) do
       {

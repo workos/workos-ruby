@@ -48,22 +48,20 @@ module WorkOS
 
     private
 
-    # rubocop:disable Metrics/AbcSize
     sig { params(json_string: String).returns(WorkOS::Types::ProfileStruct) }
     def parse_json(json_string)
       hash = JSON.parse(json_string, symbolize_names: true)
 
       WorkOS::Types::ProfileStruct.new(
-        id: hash[:profile][:id],
-        email: hash[:profile][:email],
-        first_name: hash[:profile][:first_name],
-        last_name: hash[:profile][:last_name],
-        connection_id: hash[:profile][:connection_id],
-        connection_type: hash[:profile][:connection_type],
-        idp_id: hash[:profile][:idp_id],
-        raw_attributes: hash[:profile][:raw_attributes],
+        id: hash[:id],
+        email: hash[:email],
+        first_name: hash[:first_name],
+        last_name: hash[:last_name],
+        connection_id: hash[:connection_id],
+        connection_type: hash[:connection_type],
+        idp_id: hash[:idp_id],
+        raw_attributes: hash[:raw_attributes],
       )
     end
-    # rubocop:enable Metrics/AbcSize
   end
 end
