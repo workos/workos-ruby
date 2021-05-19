@@ -15,7 +15,7 @@ module WorkOS
       json = JSON.parse(profile_and_token_json, symbolize_names: true)
 
       @access_token = T.let(json[:access_token], String)
-      @profile = WorkOS::Profile.new(profile_and_token_json)
+      @profile = WorkOS::Profile.new(json[:profile].to_json)
     end
 
     def to_json(*)
