@@ -62,7 +62,7 @@ module WorkOS
       #            :id=>"org_domain_01E6PK9N3XMD8RHWF7S66380AR",
       #            :domain=>"foo-corp.com"}]>
       #
-      # @return [WorkOS::Connection]
+      # @return [WorkOS::Organization]
       sig { params(id: String).returns(WorkOS::Organization) }
       def get_organization(id:)
         request = get_request(
@@ -123,6 +123,27 @@ module WorkOS
         check_and_raise_organization_error(response: response)
 
         WorkOS::Organization.new(response.body)
+      end
+
+      # Delete an Organization
+      #
+      # @param [String] id Organization unique identifier
+      #
+      # @example
+      #   WorkOS::SSO.delete_organization(id: 'org_01EHZNVPK3SFK441A1RGBFSHRT')
+      #   => true
+      #
+      # @return [Bool] - returns `true` if successful
+      sig { params(id: String).returns(T::Boolean) }
+      def delete_organization(id:)
+        request = delete_request(
+          auth: true,
+          path: "/organizations/#{id}",
+        )
+
+        response = execute_request(request: request)
+
+        response.is_a? Net::HTTPSuccess
       end
 
       private

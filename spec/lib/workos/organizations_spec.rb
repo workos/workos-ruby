@@ -161,4 +161,31 @@ describe WorkOS::Organizations do
       end
     end
   end
+
+  describe '.delete_organization' do
+    context 'with a valid id' do
+      it 'returns true' do
+        VCR.use_cassette('organization/delete') do
+          response = described_class.delete_organization(
+            id: 'org_01F4A8TD0B4N1Y9SJ8SH635HDB',
+          )
+
+          expect(response).to be(true)
+        end
+      end
+    end
+
+    context 'with an invalid id' do
+      it 'returns false' do
+        VCR.use_cassette('organization/delete_invalid') do
+          expect do
+            described_class.delete_organization(id: 'invalid')
+          end.to raise_error(
+            WorkOS::APIError,
+            'Status 404, Not Found - request ID: ',
+          )
+        end
+      end
+    end
+  end
 end
