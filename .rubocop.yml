@@ -20,3 +20,5 @@ Style/TrailingCommaInArguments:
   EnforcedStyleForMultiline: 'consistent_comma'
 Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: 'consistent_comma'
+AllCops:
+  TargetRubyVersion: 2.5
