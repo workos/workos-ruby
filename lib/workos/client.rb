@@ -48,7 +48,7 @@ module WorkOS
         'Content-Type' => 'application/json',
       )
 
-      request['Authorization'] = "Bearer #{access_token || WorkOS.key!}}" if auth
+      request['Authorization'] = "Bearer #{access_token || WorkOS.key!}" if auth
       request['User-Agent'] = user_agent
       request
     end
