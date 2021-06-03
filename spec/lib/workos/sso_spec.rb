@@ -252,7 +252,7 @@ describe WorkOS::SSO do
           to_return(
             headers: { 'X-Request-ID' => 'request-id' },
             status: 422,
-            body: { "message": 'some error message' }.to_json,
+            body: { "error": 'some error', "error_description": 'some error description' }.to_json,
           )
       end
 
@@ -261,7 +261,7 @@ describe WorkOS::SSO do
           described_class.profile_and_token(**args)
         end.to raise_error(
           WorkOS::APIError,
-          'some error message - request ID: request-id',
+          'error: some error, error_description: some error description - request ID: request-id',
         )
       end
     end
@@ -271,11 +271,11 @@ describe WorkOS::SSO do
         stub_request(:post, 'https://api.workos.com/sso/token').
           with(body: request_body).
           to_return(
-            status: 201,
+            status: 400,
             headers: { 'X-Request-ID' => 'request-id' },
             body: {
-              message: "The code '01DVX3C5Z367SFHR8QNDMK7V24'" \
-                ' has expired or is invalid.',
+              "error": 'invalid_grant',
+              "error_description": "The code '01DVX3C5Z367SFHR8QNDMK7V24' has expired or is invalid.",
             }.to_json,
           )
       end
@@ -285,7 +285,7 @@ describe WorkOS::SSO do
           described_class.profile_and_token(**args)
         end.to raise_error(
           WorkOS::APIError,
-          "The code '01DVX3C5Z367SFHR8QNDMK7V24'" \
+          "error: invalid_grant, error_description: The code '01DVX3C5Z367SFHR8QNDMK7V24'" \
           ' has expired or is invalid. - request ID: request-id',
         )
       end

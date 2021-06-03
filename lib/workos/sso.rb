@@ -248,12 +248,15 @@ module WorkOS
       end
 
       sig { params(response: Net::HTTPResponse).void }
+      # rubocop:disable Metrics/MethodLength
       def check_and_raise_profile_and_token_error(response:)
         begin
           body = JSON.parse(response.body)
           return if body['access_token'] && body['profile']
 
           message = body['message']
+          error = body['error']
+          error_description = body['error_description']
           request_id = response['x-request-id']
         rescue StandardError
           message = 'Something went wrong'
@@ -261,10 +264,13 @@ module WorkOS
 
         raise APIError.new(
           message: message,
+          error: error,
+          error_description: error_description,
           http_status: nil,
           request_id: request_id,
         )
       end
+      # rubocop:enable Metrics/MethodLength
     end
   end
 end

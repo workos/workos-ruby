@@ -13,12 +13,16 @@ module WorkOS
     sig do
       params(
         message: T.nilable(String),
+        error: T.nilable(String),
+        error_description: T.nilable(String),
         http_status: T.nilable(Integer),
         request_id: T.nilable(String),
       ).void
     end
-    def initialize(message: nil, http_status: nil, request_id: nil)
+    def initialize(message: nil, error: nil, error_description: nil, http_status: nil, request_id: nil)
       @message = message
+      @error = error
+      @error_description = error_description
       @http_status = http_status
       @request_id = request_id
     end
@@ -27,7 +31,12 @@ module WorkOS
     def to_s
       status_string = @http_status.nil? ? '' : "Status #{@http_status}, "
       id_string = @request_id.nil? ? '' : " - request ID: #{@request_id}"
-      "#{status_string}#{@message}#{id_string}"
+      if @error && @error_description
+        error_string = "error: #{@error}, error_description: #{@error_description}"
+        "#{status_string}#{error_string}#{id_string}"
+      else
+        "#{status_string}#{@message}#{id_string}"
+      end
     end
   end
 
