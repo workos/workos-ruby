@@ -34,6 +34,8 @@ module WorkOS
       if @error && @error_description
         error_string = "error: #{@error}, error_description: #{@error_description}"
         "#{status_string}#{error_string}#{id_string}"
+      elsif @error
+        "#{status_string}#{@error}#{id_string}"
       else
         "#{status_string}#{@message}#{id_string}"
       end
