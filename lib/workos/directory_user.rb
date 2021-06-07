@@ -9,8 +9,9 @@ module WorkOS
     extend T::Sig
 
     attr_accessor :id, :idp_id, :emails, :first_name, :last_name, :username, :state,
-                  :raw_attributes
+                  :groups, :raw_attributes
 
+    # rubocop:disable Metrics/AbcSize
     sig { params(json: String).void }
     def initialize(json)
       raw = parse_json(json)
@@ -22,8 +23,10 @@ module WorkOS
       @last_name = raw.last_name
       @username = raw.username
       @state = raw.state
+      @groups = T.let(raw.groups, Array)
       @raw_attributes = raw.raw_attributes
     end
+    # rubocop:enable Metrics/AbcSize
 
     def to_json(*)
       {
@@ -34,6 +37,7 @@ module WorkOS
         last_name: last_name,
         username: username,
         state: state,
+        groups: groups,
         raw_attributes: raw_attributes,
       }
     end
@@ -56,6 +60,7 @@ module WorkOS
         last_name: hash[:last_name],
         username: hash[:username],
         state: hash[:state],
+        groups: hash[:groups],
         raw_attributes: hash[:raw_attributes],
       )
     end
