@@ -8,7 +8,7 @@ module WorkOS
   class Directory
     extend T::Sig
 
-    attr_accessor :id, :domain, :name, :type, :state
+    attr_accessor :id, :domain, :name, :type, :state, :organization_id
 
     sig { params(json: String).void }
     def initialize(json)
@@ -19,6 +19,7 @@ module WorkOS
       @domain = T.let(raw.domain, String)
       @type = T.let(raw.type, String)
       @state = T.let(raw.state, String)
+      @organization_id = T.let(raw.organization_id, String)
     end
 
     def to_json(*)
@@ -28,6 +29,7 @@ module WorkOS
         domain: domain,
         type: type,
         state: state,
+        organization_id: organization_id,
       }
     end
 
@@ -47,6 +49,7 @@ module WorkOS
         domain: hash[:domain],
         type: hash[:type],
         state: hash[:state],
+        organization_id: hash[:organization_id],
       )
     end
   end
