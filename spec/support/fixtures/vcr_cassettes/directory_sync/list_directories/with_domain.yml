@@ -14,7 +14,7 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.10.3
+      - WorkOS; ruby/3.0.1; x86_64-darwin19; v1.2.1
       Authorization:
       - Bearer <API_KEY>
   response:
@@ -53,21 +53,21 @@ http_interactions:
       X-Xss-Protection:
       - '0'
       X-Request-Id:
-      - c2664753-7a2a-499f-a6e7-dae700ad49d7
+      - d3cd212f-5dc1-4e08-ab1f-69e33bebd9ca
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '256'
+      - '539'
       Etag:
-      - W/"100-Vh8CFQGzG+aGyEkNXe2nXGxNFJ4"
+      - W/"21b-d3KisYEu0vvI9FJFreAktGIgT+c"
       Date:
-      - Thu, 22 Apr 2021 21:33:47 GMT
+      - Mon, 07 Jun 2021 17:55:29 GMT
       Via:
       - 1.1 vegur
     body:
       encoding: UTF-8
-      string: '{"object":"list","listMetadata":{"before":null,"after":null},"data":[{"object":"directory","id":"directory_01EK2YEMVTWGX27STRDR0N3MP9","name":"Foo
-        Corp","external_key":"SZ5TZMl7gcOAKS04","type":"gsuite directory","state":"linked","domain":"foo-corp.com"}]}'
+      string: '{"object":"list","listMetadata":{"before":null,"after":null},"data":[{"object":"directory","id":"directory_01F5ZY7XVQZ3DRYEZTH1EPA8BS","organization_id":"org_01EZDF20TZEJXKPSX2BJRN6TV6","name":"Foo
+        Corp","external_key":"qV4eyK99QGUaYYa0","type":"okta scim v2.0","state":"linked","domain":"foo-corp.com"}]}'
     http_version:
-  recorded_at: Thu, 22 Apr 2021 21:33:47 GMT
+  recorded_at: Mon, 07 Jun 2021 17:55:29 GMT
 recorded_with: VCR 5.0.0

@@ -11,6 +11,7 @@ module WorkOS
       const :domain, String
       const :type, String
       const :state, String
+      const :organization_id, String
     end
   end
 end
