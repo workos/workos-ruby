@@ -9,12 +9,9 @@ module WorkOS
 
     sig { returns(Net::HTTP) }
     def client
-      return @client if defined?(@client)
-
-      @client = Net::HTTP.new(WorkOS::API_HOSTNAME, 443)
-      @client.use_ssl = true
-
-      @client
+      Net::HTTP.new(WorkOS::API_HOSTNAME, 443).tap do |http_client|
+        http_client.use_ssl = true
+      end
     end
 
     sig do
