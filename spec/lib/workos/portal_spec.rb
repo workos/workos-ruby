@@ -2,6 +2,8 @@
 # typed: false
 
 describe WorkOS::Portal do
+  it_behaves_like 'client'
+
   describe '.generate_link' do
     let(:organization) { 'org_01EHQMYV6MBK39QC5PZXHY59C3' }
 

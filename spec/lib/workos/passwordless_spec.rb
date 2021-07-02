@@ -2,6 +2,8 @@
 # typed: false
 
 describe WorkOS::Passwordless do
+  it_behaves_like 'client'
+
   describe '.create_session' do
     context 'with valid options payload' do
       let(:valid_options) do

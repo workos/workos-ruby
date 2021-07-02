@@ -2,6 +2,8 @@
 # typed: false
 
 describe WorkOS::AuditTrail do
+  it_behaves_like 'client'
+
   describe '.create_event' do
     context 'with valid event payload' do
       let(:valid_event) do

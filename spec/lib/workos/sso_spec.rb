@@ -4,6 +4,8 @@
 require 'securerandom'
 
 describe WorkOS::SSO do
+  it_behaves_like 'client'
+
   describe '.authorization_url' do
     context 'with a domain' do
       let(:args) do
