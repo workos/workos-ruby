@@ -42,6 +42,7 @@ module WorkOS
   autoload :ProfileAndToken, 'workos/profile_and_token'
   autoload :SSO, 'workos/sso'
   autoload :DirectoryUser, 'workos/directory_user'
+  autoload :Webhooks, 'workos/webhooks'
 
   # Errors
   autoload :APIError, 'workos/errors'
