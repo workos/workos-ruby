@@ -8,6 +8,7 @@ module WorkOS
     class Provider < T::Enum
       enums do
         Google = new('GoogleOAuth')
+        Microsoft = new('MicrosoftOAuth')
       end
     end
   end
