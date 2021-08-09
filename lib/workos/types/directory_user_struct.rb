@@ -14,6 +14,7 @@ module WorkOS
       const :username, T.nilable(String)
       const :state, T.nilable(String)
       const :groups, T::Array[T.untyped]
+      const :custom_attributes, T::Hash[Symbol, T.untyped]
       const :raw_attributes, T::Hash[Symbol, Object]
     end
   end

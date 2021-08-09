@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.workos.com/directory_users/directory_usr_01E64QS50EAY48S0XJ1AA4WX4D
+    uri: https://api.workos.com/directory_users/directory_user_01FAZYNPC8M0HRYTKFP2GNX852
     body:
       encoding: US-ASCII
       string: ''
@@ -14,7 +14,7 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.2.3
+      - WorkOS; ruby/3.0.1; x86_64-darwin19; v1.4.0
       Authorization:
       - Bearer <API_KEY>
   response:
@@ -22,16 +22,26 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - Cowboy
+      Date:
+      - Mon, 09 Aug 2021 17:36:13 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
       Connection:
       - keep-alive
       Vary:
       - Origin, Accept-Encoding
       Access-Control-Allow-Credentials:
       - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
       X-Dns-Prefetch-Control:
       - 'off'
+      Expect-Ct:
+      - max-age=0
       X-Frame-Options:
       - SAMEORIGIN
       Strict-Transport-Security:
@@ -40,23 +50,37 @@ http_interactions:
       - noopen
       X-Content-Type-Options:
       - nosniff
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - no-referrer
       X-Xss-Protection:
-      - 1; mode=block
+      - '0'
       X-Request-Id:
-      - fe3f582a-b944-4f2c-a225-ae3a7f099fa0
-      Content-Type:
-      - application/json; charset=utf-8
-      Content-Length:
-      - '368'
+      - 59862449-73e5-4dfd-93ab-3764b1917801
       Etag:
-      - W/"170-JjGTDHa7GqXeAwXcua+s3+2z/oA"
-      Date:
-      - Thu, 30 Apr 2020 04:43:14 GMT
+      - W/"4c3-Ikxt2N0fUuSxCjv+RdYvW8W9Xwo"
       Via:
       - 1.1 vegur
+      Cf-Cache-Status:
+      - DYNAMIC
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=m6%2FJ3BJ75VMwSOtfDQXjt%2FoL29FI%2Bv5VswhZzg6LVkOQi7nyI19Sks%2FkDGCDrSQ%2FMtyU6DI4OFWR9RB1I04IGdhehsY2oPGugIj%2BhHMiJdQEcE6vPAsuaF1HyVnXGvMgRYdurEW1Jr7rSYBWeA%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      Nel:
+      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 67c2bed0ebe6c7e6-DFW
+      Alt-Svc:
+      - h3-27=":443"; ma=86400, h3-28=":443"; ma=86400, h3-29=":443"; ma=86400, h3=":443";
+        ma=86400
     body:
-      encoding: UTF-8
-      string: '{"id":"directory_usr_01E64QS50EAY48S0XJ1AA4WX4D","raw_attributes":{"name":{"givenName":"Mark","familyName":"Tran"},"emails":[{"value":"mark@foo-corp.com","primary":true}],"userName":"mark@foo-corp.com","externalId":"118325297729072421906"},"first_name":"Mark","emails":[{"value":"mark@foo-corp.com","primary":true}],"username":"mark@foo-corp.com","last_name":"Tran"}'
+      encoding: ASCII-8BIT
+      string: '{"object":"directory_user","id":"directory_user_01FAZYNPC8M0HRYTKFP2GNX852","directory_id":"directory_01FAZYMST676QMTFN1DDJZZX87","idp_id":"6092c280a3f1e19ef6d8cef8","username":"logan@workos.com","emails":[{"primary":true,"value":"logan@workos.com"}],"first_name":"Logan","last_name":"Gingerich","state":"active","raw_attributes":{"id":"6092c280a3f1e19ef6d8cef8","name":"Logan
+        Paul Gingerich","teams":["5f696c8e9a63a60e965aaca8"],"spokeId":null,"lastName":"Gingerich","createdAt":"2021-05-05T16:06:24+0000","firstName":"Logan","updatedAt":"2021-07-19T19:17:52+0000","workEmail":"logan@workos.com","department":"Infra","departmentId":"5f27ada9a5e9bc0001a0ae4a"},"custom_attributes":{"department":"Infra"},"groups":[{"object":"directory_group","id":"directory_group_01FAZYNN1NZWMBRAXXDSTB5NFH","directory_id":"directory_01FAZYMST676QMTFN1DDJZZX87","name":"Department
+        - Infra","raw_attributes":{"id":"5f27ada9a5e9bc0001a0ae4a","name":"Infra","parent":"5f27ada9a5e9bc0001a0ae48"}},{"object":"directory_group","id":"directory_group_01FAZYNNQ4HQ6EBF29MPTH7VKB","directory_id":"directory_01FAZYMST676QMTFN1DDJZZX87","name":"Team
+        - Platform","raw_attributes":{"id":"5f696c8e9a63a60e965aaca8","name":"Platform","parent":null}}]}'
     http_version:
-  recorded_at: Thu, 30 Apr 2020 04:43:15 GMT
+  recorded_at: Mon, 09 Aug 2021 17:36:13 GMT
 recorded_with: VCR 5.0.0

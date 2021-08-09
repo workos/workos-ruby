@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.workos.com/directory_users?before=before-id&directory=directory_01EK2YEMVTWGX27STRDR0N3MP9
+    uri: https://api.workos.com/directory_users?before=directory_user_01FAZYNPC8TJBP7Y2ERT51MGDF&directory=directory_01FAZYMST676QMTFN1DDJZZX87
     body:
       encoding: US-ASCII
       string: ''
@@ -14,7 +14,7 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.10.3
+      - WorkOS; ruby/3.0.1; x86_64-darwin19; v1.4.0
       Authorization:
       - Bearer <API_KEY>
   response:
@@ -22,8 +22,12 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - Cowboy
+      Date:
+      - Mon, 09 Aug 2021 17:40:52 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
       Connection:
       - keep-alive
       Vary:
@@ -53,23 +57,32 @@ http_interactions:
       X-Xss-Protection:
       - '0'
       X-Request-Id:
-      - eb69e63a-60d5-4e0c-a471-ccd8e11b3690
-      Content-Type:
-      - application/json; charset=utf-8
-      Content-Length:
-      - '71'
+      - 429298f1-659a-45d4-be75-7fc7af8def7d
       Etag:
-      - W/"47-5KOnfOsRy36pnaPjBxvaf6LRiGc"
-      Date:
-      - Thu, 22 Apr 2021 22:11:12 GMT
+      - W/"8dc-bUq/ea3T9pcZBOpZ/yYPHrEhh3k"
       Via:
       - 1.1 vegur
+      Cf-Cache-Status:
+      - DYNAMIC
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=7NNLKAJOPN0IObmEqZaikaYDnp8fIe4SYh4GMEW1urJYFu3DIEK5L38iIDVUlcSXokBwnFOk%2BzvwByh%2BU5tmFY27BTo84CxqYVt4aYmCunLwgc4G84acdsNZwuydcDuF6pbBDuQ7gBdTuj2ehw%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      Nel:
+      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 67c2c5a4c8970b71-DFW
+      Alt-Svc:
+      - h3-27=":443"; ma=86400, h3-28=":443"; ma=86400, h3-29=":443"; ma=86400, h3=":443";
+        ma=86400
     body:
-      encoding: UTF-8
-      string: '{"object":"list","listMetadata":{"before":"directory_user_01EY6MWQEGS28JZZW8F9YSPHTN","after":null},"data":[{"id":"directory_user_01EYY894KT7BFG7BGFP6311QVN","raw_attributes":{"id":"100377956302085585753","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/3uAtgLaCgHQwGYnPvAOsMmX3kuQ\"","kind":"admin#directory#user","name":{"fullName":"Marshall
-        Bowers","givenName":"Marshall","familyName":"Bowers"},"emails":[{"address":"marshall@foo-corp.com","primary":true},{"address":"marshall@foo-corp.com.test-google-a.com"}],"customerId":"C02mw6qrc","orgUnitPath":"/","creationTime":"2021-02-19T22:58:59.000Z","primaryEmail":"marshall@foo-corp.com","lastLoginTime":"1970-01-01T00:00:00.000Z","isMailboxSetup":true,"nonEditableAliases":["marshall@foo-corp.com.test-google-a.com"],"changePasswordAtNextLogin":true,"includeInGlobalAddressList":true},"idp_id":"100377956302085585753","first_name":"Marshall","emails":[{"value":"marshall@foo-corp.com","primary":true}],"username":"marshall@foo-corp.com","last_name":"Bowers","state":"active","groups":[]},{"id":"directory_user_01EY6MWQEGS28JZZW8F9YSPHTN","raw_attributes":{"id":"109773955160115643540","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/SrCThhD5mhnV6EIkf2v0x2HSBJQ\"","kind":"admin#directory#user","name":{"fullName":"Blair
-        Lunchford","givenName":"Blair","familyName":"Lunchford"},"emails":[{"address":"blair@foo-corp.com","primary":true},{"address":"blair@foo-corp.com.test-google-a.com"}],"phones":[{"type":"home","value":"777-777-7777"}],"relations":[{"type":"manager","value":"mg@foo-corp.com"}],"customerId":"C02mw6qrc","externalIds":[{"type":"organization","value":"1234"}],"orgUnitPath":"/","creationTime":"2021-02-10T18:57:37.000Z","primaryEmail":"blair@foo-corp.com","agreedToTerms":true,"lastLoginTime":"2021-03-03T21:06:43.000Z","organizations":[{"title":"Developer
-        Success Engineer","primary":true,"customType":"","department":"Customer Success"}],"isMailboxSetup":true,"thumbnailPhotoUrl":"https://www.google.com/s2/photos/private/AIbEiAIAAABECJSJqMrvjYTShwEiC3ZjYXJkX3Bob3RvKig4ZGQxM2I4YzE0NWJmYzFhZTM4ZmI4OTQ3YmVhZWVlODFlNjRkZTE0MAFxHDWu1JMrkUf8mcS2gI-VsRQz-w","nonEditableAliases":["blair@foo-corp.com.test-google-a.com"],"thumbnailPhotoEtag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/dpIRoYVHhjaCzW6FemaoQoWb5V0\"","changePasswordAtNextLogin":true,"includeInGlobalAddressList":true},"idp_id":"109773955160115643540","first_name":"Blair","emails":[{"value":"blair@foo-corp.com","primary":true}],"username":"blair@foo-corp.com","last_name":"Lunchford","state":"active","groups":[]}]}'
+      encoding: ASCII-8BIT
+      string: '{"object":"list","listMetadata":{"before":null,"after":"directory_user_01FAZYNPC8M0HRYTKFP2GNX852"},"data":[{"object":"directory_user","id":"directory_user_01FAZYNPC8M0HRYTKFP2GNX852","directory_id":"directory_01FAZYMST676QMTFN1DDJZZX87","idp_id":"6092c280a3f1e19ef6d8cef8","username":"logan@workos.com","emails":[{"primary":true,"value":"logan@workos.com"}],"first_name":"Logan","last_name":"Gingerich","state":"active","raw_attributes":{"id":"6092c280a3f1e19ef6d8cef8","name":"Logan
+        Paul Gingerich","teams":["5f696c8e9a63a60e965aaca8"],"spokeId":null,"lastName":"Gingerich","createdAt":"2021-05-05T16:06:24+0000","firstName":"Logan","updatedAt":"2021-07-19T19:17:52+0000","workEmail":"logan@workos.com","department":"Infra","departmentId":"5f27ada9a5e9bc0001a0ae4a"},"custom_attributes":{"department":"Infra"},"groups":[{"object":"directory_group","id":"directory_group_01FAZYNN1NZWMBRAXXDSTB5NFH","directory_id":"directory_01FAZYMST676QMTFN1DDJZZX87","name":"Department
+        - Infra","raw_attributes":{"id":"5f27ada9a5e9bc0001a0ae4a","name":"Infra","parent":"5f27ada9a5e9bc0001a0ae48"}},{"object":"directory_group","id":"directory_group_01FAZYNNQ4HQ6EBF29MPTH7VKB","directory_id":"directory_01FAZYMST676QMTFN1DDJZZX87","name":"Team
+        - Platform","raw_attributes":{"id":"5f696c8e9a63a60e965aaca8","name":"Platform","parent":null}}]},{"object":"directory_user","id":"directory_user_01FAZYNPC8DYPEWZ0BSHBA21RM","directory_id":"directory_01FAZYMST676QMTFN1DDJZZX87","idp_id":"5f27ada8a5e9bc0001a0adcf","username":"workos@test.com","emails":[{"primary":true,"value":"workos@test.com"}],"first_name":"Michael","last_name":"Grinich","state":"active","raw_attributes":{"id":"5f27ada8a5e9bc0001a0adcf","name":"Michael
+        Grinich","teams":[],"spokeId":null,"lastName":"Grinich","createdAt":"2020-08-03T06:24:40+0000","firstName":"Michael","updatedAt":"2021-07-07T08:50:53+0000","workEmail":"workos@test.com","department":"Marketing","departmentId":"5f27ada9a5e9bc0001a0ae4e"},"custom_attributes":{"department":"Marketing"},"groups":[{"object":"directory_group","id":"directory_group_01FAZYNMWS67E66CD01E7A1PC4","directory_id":"directory_01FAZYMST676QMTFN1DDJZZX87","name":"Department
+        - Marketing","raw_attributes":{"id":"5f27ada9a5e9bc0001a0ae4e","name":"Marketing","parent":null}}]}]}'
     http_version:
-  recorded_at: Thu, 22 Apr 2021 22:11:12 GMT
+  recorded_at: Mon, 09 Aug 2021 17:40:52 GMT
 recorded_with: VCR 5.0.0

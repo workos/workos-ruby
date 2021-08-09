@@ -282,7 +282,7 @@ describe WorkOS::DirectorySync do
     context 'with directory option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/directory_users?directory=directory_01EK2YEMVTWGX27STRDR0N3MP9',
+          '/directory_users?directory=directory_01FAZYMST676QMTFN1DDJZZX87',
           'Content-Type' => 'application/json'
         ]
 
@@ -293,10 +293,10 @@ describe WorkOS::DirectorySync do
 
         VCR.use_cassette 'directory_sync/list_users/with_directory' do
           users = described_class.list_users(
-            directory: 'directory_01EK2YEMVTWGX27STRDR0N3MP9',
+            directory: 'directory_01FAZYMST676QMTFN1DDJZZX87',
           )
 
-          expect(users.data.size).to eq(10)
+          expect(users.data.size).to eq(4)
         end
       end
     end
@@ -304,7 +304,7 @@ describe WorkOS::DirectorySync do
     context 'with group option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/directory_users?group=directory_group_01EQ7V7C6Y4RPMCH3KNB9853FF',
+          '/directory_users?group=directory_group_01FBXGP79EJAYKW0WS9JCK1V6E',
           'Content-Type' => 'application/json'
         ]
 
@@ -315,10 +315,10 @@ describe WorkOS::DirectorySync do
 
         VCR.use_cassette 'directory_sync/list_users/with_group' do
           users = described_class.list_users(
-            group: 'directory_group_01EQ7V7C6Y4RPMCH3KNB9853FF',
+            group: 'directory_group_01FBXGP79EJAYKW0WS9JCK1V6E',
           )
 
-          expect(users.data.size).to eq(2)
+          expect(users.data.size).to eq(1)
         end
       end
     end
@@ -326,8 +326,8 @@ describe WorkOS::DirectorySync do
     context 'with the before option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/directory_users?before=before-id&'\
-          'directory=directory_01EK2YEMVTWGX27STRDR0N3MP9',
+          '/directory_users?before=directory_user_01FAZYNPC8TJBP7Y2ERT51MGDF&'\
+          'directory=directory_01FAZYMST676QMTFN1DDJZZX87',
           'Content-Type' => 'application/json'
         ]
 
@@ -338,8 +338,8 @@ describe WorkOS::DirectorySync do
 
         VCR.use_cassette 'directory_sync/list_users/with_before' do
           users = described_class.list_users(
-            before: 'before-id',
-            directory: 'directory_01EK2YEMVTWGX27STRDR0N3MP9',
+            before: 'directory_user_01FAZYNPC8TJBP7Y2ERT51MGDF',
+            directory: 'directory_01FAZYMST676QMTFN1DDJZZX87',
           )
 
           expect(users.data.size).to eq(2)
@@ -350,8 +350,8 @@ describe WorkOS::DirectorySync do
     context 'with the after option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/directory_users?after=after-id&' \
-          'directory=directory_01EK2YEMVTWGX27STRDR0N3MP9',
+          '/directory_users?after=directory_user_01FAZYNPC8TJBP7Y2ERT51MGDF&' \
+          'directory=directory_01FAZYMST676QMTFN1DDJZZX87',
           'Content-Type' => 'application/json'
         ]
 
@@ -362,11 +362,11 @@ describe WorkOS::DirectorySync do
 
         VCR.use_cassette 'directory_sync/list_users/with_after' do
           users = described_class.list_users(
-            after: 'after-id',
-            directory: 'directory_01EK2YEMVTWGX27STRDR0N3MP9',
+            after: 'directory_user_01FAZYNPC8TJBP7Y2ERT51MGDF',
+            directory: 'directory_01FAZYMST676QMTFN1DDJZZX87',
           )
 
-          expect(users.data.size).to eq(10)
+          expect(users.data.size).to eq(1)
         end
       end
     end
@@ -375,7 +375,7 @@ describe WorkOS::DirectorySync do
       it 'forms the proper request to the API' do
         request_args = [
           '/directory_users?limit=2&' \
-          'directory=directory_01EK2YEMVTWGX27STRDR0N3MP9',
+          'directory=directory_01FAZYMST676QMTFN1DDJZZX87',
           'Content-Type' => 'application/json'
         ]
 
@@ -387,7 +387,7 @@ describe WorkOS::DirectorySync do
         VCR.use_cassette 'directory_sync/list_users/with_limit' do
           users = described_class.list_users(
             limit: 2,
-            directory: 'directory_01EK2YEMVTWGX27STRDR0N3MP9',
+            directory: 'directory_01FAZYMST676QMTFN1DDJZZX87',
           )
 
           expect(users.data.size).to eq(2)
@@ -425,10 +425,10 @@ describe WorkOS::DirectorySync do
       it 'returns a user' do
         VCR.use_cassette('directory_sync/get_user') do
           user = WorkOS::DirectorySync.get_user(
-            'directory_usr_01E64QS50EAY48S0XJ1AA4WX4D',
+            'directory_user_01FAZYNPC8M0HRYTKFP2GNX852',
           )
 
-          expect(user['first_name']).to eq('Mark')
+          expect(user['first_name']).to eq('Logan')
         end
       end
     end

@@ -9,7 +9,7 @@ module WorkOS
     extend T::Sig
 
     attr_accessor :id, :idp_id, :emails, :first_name, :last_name, :username, :state,
-                  :groups, :raw_attributes
+                  :groups, :custom_attributes, :raw_attributes
 
     # rubocop:disable Metrics/AbcSize
     sig { params(json: String).void }
@@ -24,6 +24,7 @@ module WorkOS
       @username = raw.username
       @state = raw.state
       @groups = T.let(raw.groups, Array)
+      @custom_attributes = raw.custom_attributes
       @raw_attributes = raw.raw_attributes
     end
     # rubocop:enable Metrics/AbcSize
@@ -38,6 +39,7 @@ module WorkOS
         username: username,
         state: state,
         groups: groups,
+        custom_attributes: custom_attributes,
         raw_attributes: raw_attributes,
       }
     end
@@ -61,6 +63,7 @@ module WorkOS
         username: hash[:username],
         state: hash[:state],
         groups: hash[:groups],
+        custom_attributes: hash[:custom_attributes],
         raw_attributes: hash[:raw_attributes],
       )
     end
