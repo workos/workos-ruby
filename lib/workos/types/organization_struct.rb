@@ -9,6 +9,8 @@ module WorkOS
       const :id, String
       const :name, String
       const :domains, T::Array[T.untyped]
+      const :created_at, String
+      const :updated_at, String
     end
   end
 end

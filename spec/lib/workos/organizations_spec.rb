@@ -7,13 +7,13 @@ describe WorkOS::Organizations do
       it 'creates an organization' do
         VCR.use_cassette 'organization/create' do
           organization = described_class.create_organization(
-            domains: ['example.com'],
+            domains: ['example.io'],
             name: 'Test Organization',
           )
 
-          expect(organization.id).to eq('org_01EHT88Z8J8795GZNQ4ZP1J81T')
+          expect(organization.id).to eq('org_01FCPEJXEZR4DSBA625YMGQT9N')
           expect(organization.name).to eq('Test Organization')
-          expect(organization.domains.first[:domain]).to eq('example.com')
+          expect(organization.domains.first[:domain]).to eq('example.io')
         end
       end
     end
@@ -46,7 +46,7 @@ describe WorkOS::Organizations do
         VCR.use_cassette 'organization/list' do
           organizations = described_class.list_organizations
 
-          expect(organizations.data.size).to eq(7)
+          expect(organizations.data.size).to eq(6)
           expect(organizations.list_metadata).to eq(expected_metadata)
         end
       end
@@ -69,7 +69,7 @@ describe WorkOS::Organizations do
             before: 'before-id',
           )
 
-          expect(organizations.data.size).to eq(7)
+          expect(organizations.data.size).to eq(6)
         end
       end
     end
@@ -89,7 +89,7 @@ describe WorkOS::Organizations do
         VCR.use_cassette 'organization/list', match_requests_on: [:path] do
           organizations = described_class.list_organizations(after: 'after-id')
 
-          expect(organizations.data.size).to eq(7)
+          expect(organizations.data.size).to eq(6)
         end
       end
     end
@@ -109,7 +109,7 @@ describe WorkOS::Organizations do
         VCR.use_cassette 'organization/list', match_requests_on: [:path] do
           organizations = described_class.list_organizations(limit: 10)
 
-          expect(organizations.data.size).to eq(7)
+          expect(organizations.data.size).to eq(6)
         end
       end
     end
@@ -120,10 +120,10 @@ describe WorkOS::Organizations do
       it 'gets the organization details' do
         VCR.use_cassette('organization/get') do
           organization = described_class.get_organization(
-            id: 'org_01EZDF20TZEJXKPSX2BJRN6TV6',
+            id: 'org_01F9293WD2PDEEV4Y625XPZVG7',
           )
 
-          expect(organization.id).to eq('org_01EZDF20TZEJXKPSX2BJRN6TV6')
+          expect(organization.id).to eq('org_01F9293WD2PDEEV4Y625XPZVG7')
           expect(organization.name).to eq('Foo Corp')
           expect(organization.domains.first[:domain]).to eq('foo-corp.com')
         end
@@ -149,12 +149,12 @@ describe WorkOS::Organizations do
       it 'creates an organization' do
         VCR.use_cassette 'organization/update' do
           organization = described_class.update_organization(
-            organization: 'org_01F29YJ068E52HGEB8ZQGC9MJG',
+            organization: 'org_01F6Q6TFP7RD2PF6J03ANNWDKV',
             domains: ['example.me'],
             name: 'Test Organization',
           )
 
-          expect(organization.id).to eq('org_01F29YJ068E52HGEB8ZQGC9MJG')
+          expect(organization.id).to eq('org_01F6Q6TFP7RD2PF6J03ANNWDKV')
           expect(organization.name).to eq('Test Organization')
           expect(organization.domains.first[:domain]).to eq('example.me')
         end

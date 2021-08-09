@@ -10,8 +10,9 @@ module WorkOS
     extend T::Sig
 
     attr_accessor :id, :name, :connection_type, :domains, :organization_id,
-                  :state, :status
+                  :state, :status, :created_at, :updated_at
 
+    # rubocop:disable Metrics/AbcSize
     sig { params(json: String).void }
     def initialize(json)
       raw = parse_json(json)
@@ -23,7 +24,10 @@ module WorkOS
       @organization_id = T.let(raw.organization_id, String)
       @state = T.let(raw.state, String)
       @status = T.let(raw.status, String)
+      @created_at = T.let(raw.created_at, String)
+      @updated_at = T.let(raw.updated_at, String)
     end
+    # rubocop:enable Metrics/AbcSize
 
     def to_json(*)
       {
@@ -34,6 +38,8 @@ module WorkOS
         organization_id: organization_id,
         state: state,
         status: status,
+        created_at: created_at,
+        updated_at: updated_at,
       }
     end
 
@@ -51,6 +57,8 @@ module WorkOS
         organization_id: hash[:organization_id],
         state: hash[:state],
         status: hash[:status],
+        created_at: hash[:created_at],
+        updated_at: hash[:updated_at],
       )
     end
   end

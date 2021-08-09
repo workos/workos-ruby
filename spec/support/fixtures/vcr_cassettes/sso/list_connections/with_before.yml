@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.workos.com/connections?before=conn_01EQKPMQAPV02H270HKVNS4CTA
+    uri: https://api.workos.com/connections?before=conn_01FA3WGCWPCCY1V2FGES2FDNP7
     body:
       encoding: US-ASCII
       string: ''
@@ -14,7 +14,7 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.10.3
+      - WorkOS; ruby/3.0.1; x86_64-darwin19; v1.4.0
       Authorization:
       - Bearer <API_KEY>
   response:
@@ -22,8 +22,12 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - Cowboy
+      Date:
+      - Mon, 09 Aug 2021 22:01:16 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
       Connection:
       - keep-alive
       Vary:
@@ -53,21 +57,30 @@ http_interactions:
       X-Xss-Protection:
       - '0'
       X-Request-Id:
-      - 193b0d34-ace6-4518-8224-8c0102a627cb
-      Content-Type:
-      - application/json; charset=utf-8
+      - 80b9d46c-ab79-41a0-ac63-0afab5dbe8f4
       Etag:
-      - W/"2495-Z3jZ2bluiiOQyHkGHutQlKkEGmo"
-      Date:
-      - Thu, 22 Apr 2021 22:27:20 GMT
-      Transfer-Encoding:
-      - chunked
+      - W/"a75-HKo0bWjw/aMpbUHuuusiqqwVe+k"
       Via:
       - 1.1 vegur
+      Cf-Cache-Status:
+      - DYNAMIC
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=ElnTPt%2BZ5sT5Jj3gdjDAvKRuAIl%2F9MW4GqdQ8Km6HNrcSRKBuCuTDkf27hpLIdGsX5YHaZlIjfcNVU1YuhqD0TyUtOuTkwMAwU79bYb%2FRCzVbOngrvJhhtMjmvaZ9cmGjSDH02dUC9%2BzxFbjlg%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      Nel:
+      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 67c44313882128d1-DFW
+      Alt-Svc:
+      - h3-27=":443"; ma=86400, h3-28=":443"; ma=86400, h3-29=":443"; ma=86400, h3=":443";
+        ma=86400
     body:
       encoding: ASCII-8BIT
-      string: '{"data":[{"object":"connection","id":"conn_01EXSJNNJYDMAPMW4RGJFPSS8S","status":"linked","state":"active","name":"Gyres","connection_type":"AzureSAML","oidc_client_id":null,"oidc_client_secret":null,"oidc_discovery_endpoint":null,"oidc_redirect_uri":null,"saml_entity_id":"https://auth.workos.com/UkfpBFm8KYo80cWmAa8GsCMSQ","saml_idp_url":"https://login.microsoftonline.com/f2416a9f-8064-45fe-99b6-d68b320c33f5/saml2","saml_relying_party_private_key":null,"saml_relying_party_public_key":null,"saml_x509_certs":null,"organization_id":"org_01EXSJN9K761YW588FHMADPPFD","oauth_uid":null,"oauth_secret":null,"oauth_redirect_uri":null,"domains":[{"object":"connection_domain","id":"org_domain_01EXSJNNJNVVHRW1HSAMJ12J31","domain":"gyres.com"}]},{"object":"connection","id":"conn_01EXJ9WRWG2526AQNQQ55J6ZFX","status":"linked","state":"active","name":"Unique
-        Domain","connection_type":"AzureSAML","oidc_client_id":null,"oidc_client_secret":null,"oidc_discovery_endpoint":null,"oidc_redirect_uri":null,"saml_entity_id":"https://auth.workos.com/AM9h0jCQPmM4iWUCMqKIuEMEI","saml_idp_url":"https://login.microsoftonline.com/f2416a9f-8064-45fe-99b6-d68b320c33f5/saml2","saml_relying_party_private_key":null,"saml_relying_party_public_key":null,"saml_x509_certs":null,"organization_id":"org_01EXJ9W92SBSMZNZE05XFVTTHK","oauth_uid":null,"oauth_secret":null,"oauth_redirect_uri":null,"domains":[{"object":"connection_domain","id":"org_domain_01EXJ9WRWANA8WV370QJGE2PTW","domain":"uniquedomain.com"},{"object":"connection_domain","id":"org_domain_01EXPTAPN9NB4V2ZHNQ0ZFBCEA","domain":"newdomainn.com"}]},{"object":"connection","id":"conn_01EWDSQJNXM1M33MTVSQ2ZR5M5","status":"unlinked","state":"draft","name":"IBM","connection_type":"OktaSAML","oidc_client_id":null,"oidc_client_secret":null,"oidc_discovery_endpoint":null,"oidc_redirect_uri":null,"saml_entity_id":null,"saml_idp_url":null,"saml_relying_party_private_key":null,"saml_relying_party_public_key":null,"saml_x509_certs":null,"organization_id":"org_01EWDSPEYNG87X1KMBNA7315F7","oauth_uid":null,"oauth_secret":null,"oauth_redirect_uri":null,"domains":[{"object":"connection_domain","id":"org_domain_01EWDSQJNPD7J8RPJ3KQ98PPTJ","domain":"ibm.com"},{"object":"connection_domain","id":"org_domain_01EWDSQJNQXAFPVH7C8E0MM2C0","domain":"ibm.jp"}]}],"listMetadata":{"before":"conn_01ERFVD49HW0H9MW6GH8XYRQRR","after":"conn_01EXSJNNJYDMAPMW4RGJFPSS8S"}}'
+      string: '{"data":[{"object":"connection","id":"conn_01F79Z8TJP48W73H0F879S7TAP","organization_id":"org_01F79Z8TGGTA8Q67Q50FDXAYN3","connection_type":"GoogleOAuth","name":"Google
+        OAuth","state":"active","created_at":"2021-06-03T22:18:01.115Z","updated_at":"2021-06-03T22:18:01.115Z","status":"linked","domains":[{"object":"connection_domain","id":"org_domain_01F79Z8TGS4VYFX0246RAWSZMP","domain":"gmail.com"}],"oidc_client_id":null,"oidc_client_secret":null,"oidc_discovery_endpoint":null,"oidc_redirect_uri":null,"saml_entity_id":null,"saml_idp_url":null,"saml_relying_party_private_key":null,"saml_relying_party_public_key":null,"saml_x509_certs":null,"oauth_uid":"950693390536-3t7scpogivcoap4bomkshfgbajpq8ifb.apps.googleusercontent.com","oauth_secret":"1fu91TBNiOLUIVxP1_zIkw53","oauth_redirect_uri":"https://auth.workos.com/sso/oauth/google/aOrKxybKyAsKIcgwYGG0WyIaq/callback"},{"object":"connection","id":"conn_01F6Q6TKSG0YPYM41D51Z2VXKQ","organization_id":"org_01F6Q6TFP7RD2PF6J03ANNWDKV","connection_type":"GoogleOAuth","name":"Google
+        OAuth","state":"active","created_at":"2021-05-27T15:24:29.812Z","updated_at":"2021-05-27T15:24:29.812Z","status":"linked","domains":[{"object":"connection_domain","id":"org_domain_01FCPEG7BAYMQ4CHMG41Y2VNHF","domain":"example.me"}],"oidc_client_id":null,"oidc_client_secret":null,"oidc_discovery_endpoint":null,"oidc_redirect_uri":null,"saml_entity_id":null,"saml_idp_url":null,"saml_relying_party_private_key":null,"saml_relying_party_public_key":null,"saml_x509_certs":null,"oauth_uid":"950693390536-3t7scpogivcoap4bomkshfgbajpq8ifb.apps.googleusercontent.com","oauth_secret":"1fu91TBNiOLUIVxP1_zIkw53","oauth_redirect_uri":"https://auth.workos.com/sso/oauth/google/aOrKxybKyAsKIcgwYGG0WyIaq/callback"},{"object":"connection","id":"conn_01F6Q6NPK0G2198KKK4G9E03A6","organization_id":"org_01F6Q6NGZS8R5ZTH3C1XR96JK7","connection_type":"GoogleOAuth","name":"Google
+        OAuth","state":"active","created_at":"2021-05-27T15:21:48.837Z","updated_at":"2021-05-27T15:21:48.837Z","status":"linked","domains":[{"object":"connection_domain","id":"org_domain_01F6Q6NGZZ54WSX1XCMCKSC4DA","domain":"workos.com"}],"oidc_client_id":null,"oidc_client_secret":null,"oidc_discovery_endpoint":null,"oidc_redirect_uri":null,"saml_entity_id":null,"saml_idp_url":null,"saml_relying_party_private_key":null,"saml_relying_party_public_key":null,"saml_x509_certs":null,"oauth_uid":"950693390536-3t7scpogivcoap4bomkshfgbajpq8ifb.apps.googleusercontent.com","oauth_secret":"1fu91TBNiOLUIVxP1_zIkw53","oauth_redirect_uri":"https://auth.workos.com/sso/oauth/google/aOrKxybKyAsKIcgwYGG0WyIaq/callback"}],"listMetadata":{"before":null,"after":"conn_01F79Z8TJP48W73H0F879S7TAP"}}'
     http_version:
-  recorded_at: Thu, 22 Apr 2021 22:27:20 GMT
+  recorded_at: Mon, 09 Aug 2021 22:01:16 GMT
 recorded_with: VCR 5.0.0

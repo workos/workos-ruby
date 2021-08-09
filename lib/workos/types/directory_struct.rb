@@ -12,6 +12,8 @@ module WorkOS
       const :type, String
       const :state, String
       const :organization_id, String
+      const :created_at, String
+      const :updated_at, String
     end
   end
 end
