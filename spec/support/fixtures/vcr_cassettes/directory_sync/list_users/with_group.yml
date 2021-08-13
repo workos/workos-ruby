@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.workos.com/directory_users?group=directory_group_01EQ7V7C6Y4RPMCH3KNB9853FF
+    uri: https://api.workos.com/directory_users?group=directory_group_01FBXGP79EJAYKW0WS9JCK1V6E
     body:
       encoding: US-ASCII
       string: ''
@@ -14,7 +14,7 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.10.3
+      - WorkOS; ruby/3.0.1; x86_64-darwin19; v1.4.0
       Authorization:
       - Bearer <API_KEY>
   response:
@@ -22,8 +22,12 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - Cowboy
+      Date:
+      - Mon, 09 Aug 2021 17:43:06 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
       Connection:
       - keep-alive
       Vary:
@@ -53,24 +57,130 @@ http_interactions:
       X-Xss-Protection:
       - '0'
       X-Request-Id:
-      - 2343a349-ad8c-4527-8549-3b639ecfc7cd
-      Content-Type:
-      - application/json; charset=utf-8
+      - b28d9d07-dc0d-4177-90b8-1ca2e6ad16e3
       Etag:
-      - W/"1223-1qYCWp17+a70FhK5aC+Yn3lS78I"
-      Date:
-      - Fri, 23 Apr 2021 14:23:37 GMT
-      Transfer-Encoding:
-      - chunked
+      - W/"258b-TDvtW7zDvbYuZdWKeuyMG81fF4M"
       Via:
       - 1.1 vegur
+      Cf-Cache-Status:
+      - DYNAMIC
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=NyMWn6qw%2F8J517ZNHJhdMcl0UcJUbuX7WkWKCMjp6ftJ8fpIkqWSwVPWVog50K6RGzaS07i9JmdyOqlXTYgjWo%2Bix4ZS0WxYhLjMMiWPsvvcBQkaOAKpB9r0vL8pNA5F%2BH%2BeKzhdgx%2F3u47t1Q%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      Nel:
+      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 67c2c8e75b50ec7a-DFW
+      Alt-Svc:
+      - h3-27=":443"; ma=86400, h3-28=":443"; ma=86400, h3-29=":443"; ma=86400, h3=":443";
+        ma=86400
     body:
       encoding: ASCII-8BIT
-      string: '{"object":"list","listMetadata":{"before":null,"after":null},"data":[{"id":"directory_user_01EK2YFBC4XX11HT1AT72YR26G","raw_attributes":{"id":"113226752885572771242","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/71aE84CzZeCiyvc1C0Jzz0lSgPg\"","kind":"admin#directory#user","name":{"fullName":"Sean
-        Rabaut","givenName":"Sean","familyName":"Rabaut"},"emails":[{"address":"sean@foo-corp.com","primary":true},{"address":"sean@foo-corp.com.test-google-a.com"}],"isAdmin":false,"archived":false,"suspended":false,"customerId":"C02mw6qrc","orgUnitPath":"/","creationTime":"2020-08-16T05:28:59.000Z","primaryEmail":"sean@foo-corp.com","agreedToTerms":false,"ipWhitelisted":false,"lastLoginTime":"1970-01-01T00:00:00.000Z","isMailboxSetup":true,"isEnforcedIn2Sv":false,"isEnrolledIn2Sv":false,"isDelegatedAdmin":false,"nonEditableAliases":["sean@foo-corp.com.test-google-a.com"],"changePasswordAtNextLogin":true,"includeInGlobalAddressList":true},"idp_id":"113226752885572771242","first_name":"Sean","emails":[{"value":"sean@foo-corp.com","primary":true}],"username":"sean@foo-corp.com","last_name":"Rabaut","state":"active","groups":[{"id":"directory_group_01EK2YFBPZ8SWMQ01NWN3TNZK4","name":"Engineering","raw_attributes":{"id":"030j0zll1b5a1gf","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/eSnflkB5fzBxa6QfGsXjaftif2A\"","kind":"admin#directory#group","name":"Engineering","email":"engineering@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"8","nonEditableAliases":["engineering@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C6Y4RPMCH3KNB9853FF","name":"Finance","raw_attributes":{"id":"02xcytpi45aqkmr","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/4zBJXlVVTFZ06sWa5MUTv1TykS8\"","kind":"admin#directory#group","name":"Finance","email":"finance@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["finance@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C74DTH00CYB72T50ABG","name":"Risk
-        Management","raw_attributes":{"id":"028h4qwu0uyrb9k","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/kbW-E1aXnJl6pxP1nnwTfMnja4Q\"","kind":"admin#directory#group","name":"Risk
-        Management","email":"risk@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"1","nonEditableAliases":["risk@foo-corp.com.test-google-a.com"]}}]},{"id":"directory_user_01EK2YFBC30D6NGJ4VNJJVPB3R","raw_attributes":{"id":"108170400221930206404","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/qz-2ot8Sjn83ShjZTqUfMLFtR_I\"","kind":"admin#directory#user","name":{"fullName":"Sandy
-        Kwon","givenName":"Sandy","familyName":"Kwon"},"emails":[{"address":"sandy@foo-corp.com","primary":true},{"address":"sandy@foo-corp.com.test-google-a.com"}],"isAdmin":false,"archived":false,"suspended":false,"customerId":"C02mw6qrc","orgUnitPath":"/","creationTime":"2020-08-16T05:29:30.000Z","primaryEmail":"sandy@foo-corp.com","agreedToTerms":false,"ipWhitelisted":false,"lastLoginTime":"1970-01-01T00:00:00.000Z","isMailboxSetup":true,"isEnforcedIn2Sv":false,"isEnrolledIn2Sv":false,"isDelegatedAdmin":false,"nonEditableAliases":["sandy@foo-corp.com.test-google-a.com"],"changePasswordAtNextLogin":true,"includeInGlobalAddressList":true},"idp_id":"108170400221930206404","first_name":"Sandy","emails":[{"value":"sandy@foo-corp.com","primary":true}],"username":"sandy@foo-corp.com","last_name":"Kwon","state":"active","groups":[{"id":"directory_group_01EQ7V7C5NGE4MWHP3FSX3KK47","name":"Marketing","raw_attributes":{"id":"01y810tw1ti9q8c","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/8Bp1ATnSYZXUB84_9v_K0i54jgc\"","kind":"admin#directory#group","name":"Marketing","email":"marketing@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["marketing@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C6AKS8D12WX2CMC2HWR","name":"Admins","raw_attributes":{"id":"00gjdgxs2s95kg4","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/8_DFveza530aqHjNIY138qbXpkw\"","kind":"admin#directory#group","name":"Admins","email":"admins@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["admins@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C6Y4RPMCH3KNB9853FF","name":"Finance","raw_attributes":{"id":"02xcytpi45aqkmr","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/4zBJXlVVTFZ06sWa5MUTv1TykS8\"","kind":"admin#directory#group","name":"Finance","email":"finance@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["finance@foo-corp.com.test-google-a.com"]}}]}]}'
+      string: '{"object":"list","listMetadata":{"before":null,"after":null},"data":[{"object":"directory_user","id":"directory_user_01FC73296N43TB1NW9J9CQ8AHT","directory_id":"directory_01FAZYMST676QMTFN1DDJZZX87","idp_id":"6104db3b6246f63d0df47ac5","username":"dave.liu@workos.com","emails":[{"primary":true,"value":"dave.liu@workos.com"}],"first_name":"Dave","last_name":"Liu","state":"active","raw_attributes":{"id":"6104db3b6246f63d0df47ac5","name":"Dave
+        Liu","teams":["5f696c8e9a63a60e965aaca8","6101bf5fa9e1adf3c668a1ad","6104da936b1079a2e20debb5","6104daab1a8ff9a9f023a689","6104dae33d1730d92ca27c51"],"spokeId":null,"lastName":"Liu","createdAt":"2021-07-31T05:10:19+0000","firstName":"Dave","updatedAt":"2021-07-31T08:02:36+0000","workEmail":"dave.liu@workos.com","department":"Engineering","departmentId":"5f27ada9a5e9bc0001a0ae48"},"custom_attributes":{"department":"Engineering"},"groups":[{"object":"directory_group","id":"directory_group_01FBXGP7AM2ZTG9C2NT96E0T8B","directory_id":"directory_01FAZYMST676QMTFN1DDJZZX87","name":"Team
+        - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Neque viverra justo nec
+        ultrices dui sapien. Eu scelerisque felis imperdiet proin fermentum leo. Tincidunt
+        vitae semper quis lectus. Aliquet enim tortor at auctor urna nunc id cursus
+        metus. Sapien et ligula ullamcorper malesuada proin. Tellus pellentesque eu
+        tincidunt tortor aliquam nulla facilisi cras. Id aliquet risus feugiat in
+        ante. Consectetur adipiscing elit duis tristique sollicitudin nibh sit amet.
+        Eleifend mi in nulla posuere. Nec dui nunc mattis enim ut. Volutpat commodo
+        sed egestas egestas fringilla. Quis eleifend quam adipiscing vitae proin sagittis.
+        Amet facilisis magna etiam tempor orci. Quam nulla porttitor massa id neque.
+        Laoreet sit amet cursus sit amet dictum sit amet.  Scelerisque eleifend donec
+        pretium vulputate sapien. Faucibus turpis in eu mi bibendum. Magna sit amet
+        purus gravida quis. Placerat vestibulum lectus mauris ultrices eros. Volutpat
+        est velit egestas dui id ornare. Aliquet eget sit amet tellus cras adipiscing
+        enim eu. Velit scelerisque in dictum non consectetur. Egestas fringilla phasellus
+        faucibus scelerisque eleifend donec pretium vulputate sapien. Malesuada nunc
+        vel risus commodo viverra maecenas accumsan lacus vel. Senectus et netus et
+        malesuada fames ac turpis. In mollis nunc sed id semper risus in hendrerit.
+        Phasellus faucibus scelerisque eleifend donec pretium vulputate sapien nec.
+        Purus semper eget duis at tellus. Et ligula ullamcorper malesuada proin libero
+        nunc consequat interdum varius. Odio aenean sed adipiscing diam donec adipiscing.
+        Pretium quam vulputate dignissim suspendisse in est ante. Orci nulla pellentesque
+        dignissim enim sit amet venenatis urna. Viverra aliquet eget sit amet tellus
+        cras adipiscing enim. Lacus viverra vitae congue eu consequat ac felis donec.
+        Quis ipsum suspendisse ultrices gravida dictum fusce ut.  Faucibus turpis
+        in eu mi bibendum. Lorem sed risus ultricies tristique nulla. Habitant morbi
+        tristique senectus et. Vitae suscipit tellus mauris a. Id leo in vitae turpis
+        massa sed. In hac habitasse platea dictumst vestibulum rhoncus est pellentesque.
+        Ornare arcu dui vivamus arcu felis bibendum ut tristique et. Ut aliquam purus
+        sit amet luctus venenatis lectus magna. Mollis aliquam ut porttitor leo a
+        diam. Pulvinar pellentesque habitant morbi tristique senectus et netus et.
+        Eget felis eget nunc lobortis.  Viverra adipiscing at in tellus. Morbi tempus
+        iaculis urna id volutpat lacus laoreet non curabitur. Nam aliquam sem et tortor.
+        Maecenas sed enim ut sem viverra aliquet eget sit. Nec dui nunc mattis enim.
+        Donec ac odio tempor orci dapibus ultrices in iaculis. Tristique risus nec
+        feugiat in fermentum posuere urna nec. Suscipit adipiscing bibendum est ultricies.
+        Magna fringilla urna porttitor rhoncus. Cum sociis natoque penatibus et magnis
+        dis parturient montes nascetur.  Amet nulla facilisi morbi tempus iaculis.
+        Mattis vulputate enim nulla aliquet porttitor lacus. Adipiscing elit duis
+        tristique sollicitudin nibh sit. Placerat duis ultricies lacus sed turpis
+        tincidunt id aliquet. Ut sem viverra aliquet eget sit amet tellus. Sagittis
+        id consectetur purus ut faucibus pulvinar. Id faucibus nisl tincidunt eget
+        nullam. Sed augue lacus viverra vitae congue eu consequat ac felis. Interdum
+        varius sit amet mattis vulputate enim. Ut venenatis tellus in metus vulputate
+        eu scelerisque. Lacus sed viverra tellus in hac habitasse. Nulla facilisi
+        etiam dignissim diam quis. Id porta nibh venenatis cras sed felis eget velit.
+        Orci porta non pulvinar neque laoreet suspendisse interdum consectetur.","raw_attributes":{"id":"6104dae33d1730d92ca27c51","name":"Lorem
+        ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+        ut labore et dolore magna aliqua. Neque viverra justo nec ultrices dui sapien.
+        Eu scelerisque felis imperdiet proin fermentum leo. Tincidunt vitae semper
+        quis lectus. Aliquet enim tortor at auctor urna nunc id cursus metus. Sapien
+        et ligula ullamcorper malesuada proin. Tellus pellentesque eu tincidunt tortor
+        aliquam nulla facilisi cras. Id aliquet risus feugiat in ante. Consectetur
+        adipiscing elit duis tristique sollicitudin nibh sit amet. Eleifend mi in
+        nulla posuere. Nec dui nunc mattis enim ut. Volutpat commodo sed egestas egestas
+        fringilla. Quis eleifend quam adipiscing vitae proin sagittis. Amet facilisis
+        magna etiam tempor orci. Quam nulla porttitor massa id neque. Laoreet sit
+        amet cursus sit amet dictum sit amet.  Scelerisque eleifend donec pretium
+        vulputate sapien. Faucibus turpis in eu mi bibendum. Magna sit amet purus
+        gravida quis. Placerat vestibulum lectus mauris ultrices eros. Volutpat est
+        velit egestas dui id ornare. Aliquet eget sit amet tellus cras adipiscing
+        enim eu. Velit scelerisque in dictum non consectetur. Egestas fringilla phasellus
+        faucibus scelerisque eleifend donec pretium vulputate sapien. Malesuada nunc
+        vel risus commodo viverra maecenas accumsan lacus vel. Senectus et netus et
+        malesuada fames ac turpis. In mollis nunc sed id semper risus in hendrerit.
+        Phasellus faucibus scelerisque eleifend donec pretium vulputate sapien nec.
+        Purus semper eget duis at tellus. Et ligula ullamcorper malesuada proin libero
+        nunc consequat interdum varius. Odio aenean sed adipiscing diam donec adipiscing.
+        Pretium quam vulputate dignissim suspendisse in est ante. Orci nulla pellentesque
+        dignissim enim sit amet venenatis urna. Viverra aliquet eget sit amet tellus
+        cras adipiscing enim. Lacus viverra vitae congue eu consequat ac felis donec.
+        Quis ipsum suspendisse ultrices gravida dictum fusce ut.  Faucibus turpis
+        in eu mi bibendum. Lorem sed risus ultricies tristique nulla. Habitant morbi
+        tristique senectus et. Vitae suscipit tellus mauris a. Id leo in vitae turpis
+        massa sed. In hac habitasse platea dictumst vestibulum rhoncus est pellentesque.
+        Ornare arcu dui vivamus arcu felis bibendum ut tristique et. Ut aliquam purus
+        sit amet luctus venenatis lectus magna. Mollis aliquam ut porttitor leo a
+        diam. Pulvinar pellentesque habitant morbi tristique senectus et netus et.
+        Eget felis eget nunc lobortis.  Viverra adipiscing at in tellus. Morbi tempus
+        iaculis urna id volutpat lacus laoreet non curabitur. Nam aliquam sem et tortor.
+        Maecenas sed enim ut sem viverra aliquet eget sit. Nec dui nunc mattis enim.
+        Donec ac odio tempor orci dapibus ultrices in iaculis. Tristique risus nec
+        feugiat in fermentum posuere urna nec. Suscipit adipiscing bibendum est ultricies.
+        Magna fringilla urna porttitor rhoncus. Cum sociis natoque penatibus et magnis
+        dis parturient montes nascetur.  Amet nulla facilisi morbi tempus iaculis.
+        Mattis vulputate enim nulla aliquet porttitor lacus. Adipiscing elit duis
+        tristique sollicitudin nibh sit. Placerat duis ultricies lacus sed turpis
+        tincidunt id aliquet. Ut sem viverra aliquet eget sit amet tellus. Sagittis
+        id consectetur purus ut faucibus pulvinar. Id faucibus nisl tincidunt eget
+        nullam. Sed augue lacus viverra vitae congue eu consequat ac felis. Interdum
+        varius sit amet mattis vulputate enim. Ut venenatis tellus in metus vulputate
+        eu scelerisque. Lacus sed viverra tellus in hac habitasse. Nulla facilisi
+        etiam dignissim diam quis. Id porta nibh venenatis cras sed felis eget velit.
+        Orci porta non pulvinar neque laoreet suspendisse interdum consectetur.","parent":null}},{"object":"directory_group","id":"directory_group_01FBXGP79EJAYKW0WS9JCK1V6E","directory_id":"directory_01FAZYMST676QMTFN1DDJZZX87","name":"Team
+        - Fight Club","raw_attributes":{"id":"6104daab1a8ff9a9f023a689","name":"Fight
+        Club","parent":null}},{"object":"directory_group","id":"directory_group_01FBXGP743J13S0CNRM84M8RZT","directory_id":"directory_01FAZYMST676QMTFN1DDJZZX87","name":"Team
+        - Party Planners","raw_attributes":{"id":"6104da936b1079a2e20debb5","name":"Party
+        Planners","parent":null}},{"object":"directory_group","id":"directory_group_01FBQDKP34JY5AWYYMZT3ME8VX","directory_id":"directory_01FAZYMST676QMTFN1DDJZZX87","name":"Team
+        - The Best Team","raw_attributes":{"id":"6101bf5fa9e1adf3c668a1ad","name":"The
+        Best Team","parent":null}},{"object":"directory_group","id":"directory_group_01FAZYNNQ4HQ6EBF29MPTH7VKB","directory_id":"directory_01FAZYMST676QMTFN1DDJZZX87","name":"Team
+        - Platform","raw_attributes":{"id":"5f696c8e9a63a60e965aaca8","name":"Platform","parent":null}},{"object":"directory_group","id":"directory_group_01FAZYNMV2TDE78FEAH724YGMP","directory_id":"directory_01FAZYMST676QMTFN1DDJZZX87","name":"Department
+        - Engineering","raw_attributes":{"id":"5f27ada9a5e9bc0001a0ae48","name":"Engineering","parent":null}}]}]}'
     http_version:
-  recorded_at: Fri, 23 Apr 2021 14:23:37 GMT
+  recorded_at: Mon, 09 Aug 2021 17:43:06 GMT
 recorded_with: VCR 5.0.0

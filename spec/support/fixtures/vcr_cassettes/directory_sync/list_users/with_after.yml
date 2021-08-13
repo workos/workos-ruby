@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.workos.com/directory_users?after=after-id&directory=directory_01EK2YEMVTWGX27STRDR0N3MP9
+    uri: https://api.workos.com/directory_users?after=directory_user_01FAZYNPC8TJBP7Y2ERT51MGDF&directory=directory_01FAZYMST676QMTFN1DDJZZX87
     body:
       encoding: US-ASCII
       string: ''
@@ -14,7 +14,7 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.10.3
+      - WorkOS; ruby/3.0.1; x86_64-darwin19; v1.4.0
       Authorization:
       - Bearer <API_KEY>
   response:
@@ -22,8 +22,12 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - Cowboy
+      Date:
+      - Mon, 09 Aug 2021 17:40:53 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
       Connection:
       - keep-alive
       Vary:
@@ -53,34 +57,130 @@ http_interactions:
       X-Xss-Protection:
       - '0'
       X-Request-Id:
-      - 282f4915-280c-462a-9f2c-250cdef1e389
-      Content-Type:
-      - application/json; charset=utf-8
+      - 7077a5fa-612c-4e79-9c8f-f023e91c0478
       Etag:
-      - W/"5330-dfF1evXCgTOaP6HJsabQxy40K5g"
-      Date:
-      - Thu, 22 Apr 2021 22:11:12 GMT
-      Transfer-Encoding:
-      - chunked
+      - W/"25b2-5RmyJGVmMYCXhCM7c6dJtsTkYO8"
       Via:
       - 1.1 vegur
+      Cf-Cache-Status:
+      - DYNAMIC
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=VaJiLsTSS%2B6C9T8F1J5qbkIMTFIAud3HLWKwrvtGDqvy1OPthVZ4YtYNnZCaNkSA6WG4fQ0quxXg9pg5lNSR0Lhcn0jgb7AOUcVeSO%2B1Tk3Z3%2FJKq6sV8ciJXj1CTqHtNjcOuURLbOfZrqVl%2BQ%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      Nel:
+      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 67c2c5a75f520bc4-DFW
+      Alt-Svc:
+      - h3-27=":443"; ma=86400, h3-28=":443"; ma=86400, h3-29=":443"; ma=86400, h3=":443";
+        ma=86400
     body:
       encoding: ASCII-8BIT
-      string: '{"object":"list","listMetadata":{"before":null,"after":"directory_user_01EK2YFBC3XG31TG9MBP1QP3Z9"},"data":[{"id":"directory_user_01EK2YFBC3XG31TG9MBP1QP3Z9","raw_attributes":{"id":"109233415591316614930","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/RXsBa2dcsfstUDWUdwGloMHeKMI\"","kind":"admin#directory#user","name":{"fullName":"Michael
-        Grinich","givenName":"Michael","familyName":"Grinich"},"emails":[{"address":"mg@foo-corp.com","primary":true},{"address":"mg@foo-corp.com.test-google-a.com"}],"isAdmin":false,"archived":false,"suspended":false,"customerId":"C02mw6qrc","orgUnitPath":"/","creationTime":"2020-08-16T07:18:18.000Z","primaryEmail":"mg@foo-corp.com","agreedToTerms":false,"ipWhitelisted":false,"lastLoginTime":"1970-01-01T00:00:00.000Z","isMailboxSetup":true,"isEnforcedIn2Sv":false,"isEnrolledIn2Sv":false,"isDelegatedAdmin":false,"nonEditableAliases":["mg@foo-corp.com.test-google-a.com"],"changePasswordAtNextLogin":true,"includeInGlobalAddressList":true},"idp_id":"109233415591316614930","first_name":"Michael","emails":[{"value":"mg@foo-corp.com","primary":true}],"username":"mg@foo-corp.com","last_name":"Grinich","state":"active","groups":[{"id":"directory_group_01EK2YFBQ3F19AD96V9FFMDS1X","name":"Sales","raw_attributes":{"id":"01jlao4614two3d","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/q7KEwEs-K95FIjfrPVol15Ku3YU\"","kind":"admin#directory#group","name":"Sales","email":"sales@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"1","nonEditableAliases":["sales@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C6AKS8D12WX2CMC2HWR","name":"Admins","raw_attributes":{"id":"00gjdgxs2s95kg4","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/8_DFveza530aqHjNIY138qbXpkw\"","kind":"admin#directory#group","name":"Admins","email":"admins@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["admins@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C6FBGG55PKG7YB03EFB","name":"Design","raw_attributes":{"id":"03dy6vkm1y2alqi","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/FOmENMweP80vOL_QS7AgEhmMJW0\"","kind":"admin#directory#group","name":"Design","email":"design@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"3","nonEditableAliases":["design@foo-corp.com.test-google-a.com"]}}]},{"id":"directory_user_01EK2YFBC3SNPZSXPD7D9TWBH9","raw_attributes":{"id":"115669666685548603461","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/AlTGEZnqtXc3FzAOzH-uqKg2XWU\"","kind":"admin#directory#user","name":{"fullName":"Max
-        Chehab","givenName":"Max","familyName":"Chehab"},"emails":[{"type":"work","address":"max@workos.com"},{"address":"max@foo-corp.com","primary":true},{"address":"max@foo-corp.com.test-google-a.com"}],"isAdmin":false,"archived":false,"suspended":false,"customerId":"C02mw6qrc","orgUnitPath":"/","creationTime":"2019-08-09T23:07:38.000Z","primaryEmail":"max@foo-corp.com","agreedToTerms":true,"ipWhitelisted":false,"lastLoginTime":"2020-06-22T23:16:51.000Z","isMailboxSetup":true,"isEnforcedIn2Sv":false,"isEnrolledIn2Sv":false,"isDelegatedAdmin":false,"nonEditableAliases":["max@foo-corp.com.test-google-a.com"],"changePasswordAtNextLogin":false,"includeInGlobalAddressList":true},"idp_id":"115669666685548603461","first_name":"Max","emails":[{"value":"max@foo-corp.com","primary":true}],"username":"max@foo-corp.com","last_name":"Chehab","state":"active","groups":[{"id":"directory_group_01EK2YFBPZ8SWMQ01NWN3TNZK4","name":"Engineering","raw_attributes":{"id":"030j0zll1b5a1gf","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/eSnflkB5fzBxa6QfGsXjaftif2A\"","kind":"admin#directory#group","name":"Engineering","email":"engineering@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"8","nonEditableAliases":["engineering@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C5SQ82F5NNMKRA3B899","name":"Account
-        Management","raw_attributes":{"id":"02grqrue4294w24","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/19PzKtmXLlC1UyVC2k6NA7ye9mk\"","kind":"admin#directory#group","name":"Account
-        Management","email":"account-managers@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["account-managers@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C5Y9K2Z4MK9A7YY3QF4","name":"Security","raw_attributes":{"id":"01fob9te1lgjaw4","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/-pzmhVkdxBet5lTdVfY9yKrRslE\"","kind":"admin#directory#group","name":"Security","email":"security@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"3","nonEditableAliases":["security@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C6200HRGPS7R63DMQSF","name":"Solutions
-        Engineering","raw_attributes":{"id":"02u6wntf1dyjihd","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/oLFNnHZPgXTE6zt2vA9UCBE9UOs\"","kind":"admin#directory#group","name":"Solutions
-        Engineering","email":"solutions@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["solutions@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ823D94EF0AH5QMDRB91YWR","name":"Contractors","raw_attributes":{"id":"02iq8gzs1b2i1ae","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/rF1OEdXlr3FwClDxryrS1Qi22xQ\"","kind":"admin#directory#group","name":"Contractors","email":"contractors@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["contractors@foo-corp.com.test-google-a.com"]}}]},{"id":"directory_user_01EK2YFBC3R10MPB4W49G5QDXG","raw_attributes":{"id":"112134735573343800911","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/b7PQmzDW_ndQwKNA2tba8PLHJdk\"","kind":"admin#directory#user","name":{"fullName":"Paige
-        Doherty","givenName":"Paige","familyName":"Doherty"},"emails":[{"address":"paige@foo-corp.com","primary":true},{"address":"paige@foo-corp.com.test-google-a.com"}],"isAdmin":false,"archived":false,"suspended":false,"customerId":"C02mw6qrc","orgUnitPath":"/","creationTime":"2020-08-16T05:30:28.000Z","primaryEmail":"paige@foo-corp.com","agreedToTerms":false,"ipWhitelisted":false,"lastLoginTime":"1970-01-01T00:00:00.000Z","isMailboxSetup":true,"isEnforcedIn2Sv":false,"isEnrolledIn2Sv":false,"isDelegatedAdmin":false,"nonEditableAliases":["paige@foo-corp.com.test-google-a.com"],"changePasswordAtNextLogin":true,"includeInGlobalAddressList":true},"idp_id":"112134735573343800911","first_name":"Paige","emails":[{"value":"paige@foo-corp.com","primary":true}],"username":"paige@foo-corp.com","last_name":"Doherty","state":"active","groups":[{"id":"directory_group_01EQ7V7C6SVJ56RR4J9R5QX20Y","name":"Product","raw_attributes":{"id":"03hv69ve1ssgpby","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/f9gbroAH87EH3wU418b4bq6sXv8\"","kind":"admin#directory#group","name":"Product","email":"product@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["product@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ823D94EF0AH5QMDRB91YWR","name":"Contractors","raw_attributes":{"id":"02iq8gzs1b2i1ae","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/rF1OEdXlr3FwClDxryrS1Qi22xQ\"","kind":"admin#directory#group","name":"Contractors","email":"contractors@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["contractors@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C6FBGG55PKG7YB03EFB","name":"Design","raw_attributes":{"id":"03dy6vkm1y2alqi","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/FOmENMweP80vOL_QS7AgEhmMJW0\"","kind":"admin#directory#group","name":"Design","email":"design@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"3","nonEditableAliases":["design@foo-corp.com.test-google-a.com"]}}]},{"id":"directory_user_01EK2YFBC3QSGHJEPWAY3H2N1V","raw_attributes":{"id":"109453924853225370206","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/1bn5jKF28w_P-whBma7ueQyySYQ\"","kind":"admin#directory#user","name":{"fullName":"Include
-        Security","givenName":"Include","familyName":"Security"},"emails":[{"address":"include.sec@foo-corp.com","primary":true},{"address":"include.sec@foo-corp.com.test-google-a.com"}],"isAdmin":false,"archived":false,"suspended":false,"customerId":"C02mw6qrc","orgUnitPath":"/","creationTime":"2020-09-18T21:19:46.000Z","primaryEmail":"include.sec@foo-corp.com","agreedToTerms":true,"ipWhitelisted":false,"lastLoginTime":"2020-10-27T18:36:12.000Z","isMailboxSetup":true,"isEnforcedIn2Sv":false,"isEnrolledIn2Sv":false,"isDelegatedAdmin":false,"nonEditableAliases":["include.sec@foo-corp.com.test-google-a.com"],"changePasswordAtNextLogin":false,"includeInGlobalAddressList":true},"idp_id":"109453924853225370206","first_name":"Include","emails":[{"value":"include.sec@foo-corp.com","primary":true}],"username":"include.sec@foo-corp.com","last_name":"Security","state":"active","groups":[]},{"id":"directory_user_01EK2YFBC3KWC7GG6WAHRR8XW5","raw_attributes":{"id":"112869345879656456146","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/yLbuzJb4CCbZX-JyTSJyFTWmOxI\"","kind":"admin#directory#user","name":{"fullName":"Henry
-        C","givenName":"Henry","familyName":"C"},"emails":[{"address":"henry@foo-corp.com","primary":true},{"address":"henry@foo-corp.com.test-google-a.com"}],"isAdmin":false,"archived":false,"suspended":false,"customerId":"C02mw6qrc","orgUnitPath":"/","creationTime":"2020-08-16T07:18:29.000Z","primaryEmail":"henry@foo-corp.com","agreedToTerms":false,"ipWhitelisted":false,"lastLoginTime":"1970-01-01T00:00:00.000Z","isMailboxSetup":true,"isEnforcedIn2Sv":false,"isEnrolledIn2Sv":false,"isDelegatedAdmin":false,"nonEditableAliases":["henry@foo-corp.com.test-google-a.com"],"changePasswordAtNextLogin":true,"includeInGlobalAddressList":true},"idp_id":"112869345879656456146","first_name":"Henry","emails":[{"value":"henry@foo-corp.com","primary":true}],"username":"henry@foo-corp.com","last_name":"C","state":"active","groups":[{"id":"directory_group_01EK2YFBPZ8SWMQ01NWN3TNZK4","name":"Engineering","raw_attributes":{"id":"030j0zll1b5a1gf","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/eSnflkB5fzBxa6QfGsXjaftif2A\"","kind":"admin#directory#group","name":"Engineering","email":"engineering@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"8","nonEditableAliases":["engineering@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C5Y9K2Z4MK9A7YY3QF4","name":"Security","raw_attributes":{"id":"01fob9te1lgjaw4","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/-pzmhVkdxBet5lTdVfY9yKrRslE\"","kind":"admin#directory#group","name":"Security","email":"security@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"3","nonEditableAliases":["security@foo-corp.com.test-google-a.com"]}}]},{"id":"directory_user_01EK2YFBC33JA3HVMP5N5BWMB9","raw_attributes":{"id":"117143732787007486333","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/N6SWXy0IX4hpreG8bPDxxPv2f4k\"","kind":"admin#directory#user","name":{"fullName":"Rohan
-        Jadvani","givenName":"Rohan","familyName":"Jadvani"},"emails":[{"address":"rohan@foo-corp.com","primary":true},{"address":"rohan@foo-corp.com.test-google-a.com"}],"isAdmin":false,"archived":false,"suspended":false,"customerId":"C02mw6qrc","orgUnitPath":"/","creationTime":"2020-02-27T06:57:59.000Z","primaryEmail":"rohan@foo-corp.com","agreedToTerms":false,"customSchemas":{"Test_Category":{"Test_Field":[{"type":"work","value":"asdfasdf"}]}},"ipWhitelisted":false,"lastLoginTime":"1970-01-01T00:00:00.000Z","isMailboxSetup":true,"isEnforcedIn2Sv":false,"isEnrolledIn2Sv":false,"isDelegatedAdmin":false,"suspensionReason":"ADMIN","nonEditableAliases":["rohan@foo-corp.com.test-google-a.com"],"changePasswordAtNextLogin":true,"includeInGlobalAddressList":true},"idp_id":"117143732787007486333","first_name":"Rohan","emails":[{"value":"rohan@foo-corp.com","primary":true}],"username":"rohan@foo-corp.com","last_name":"Jadvani","state":"active","groups":[{"id":"directory_group_01EK2YFBPZ8SWMQ01NWN3TNZK4","name":"Engineering","raw_attributes":{"id":"030j0zll1b5a1gf","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/eSnflkB5fzBxa6QfGsXjaftif2A\"","kind":"admin#directory#group","name":"Engineering","email":"engineering@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"8","nonEditableAliases":["engineering@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C5Y9K2Z4MK9A7YY3QF4","name":"Security","raw_attributes":{"id":"01fob9te1lgjaw4","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/-pzmhVkdxBet5lTdVfY9yKrRslE\"","kind":"admin#directory#group","name":"Security","email":"security@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"3","nonEditableAliases":["security@foo-corp.com.test-google-a.com"]}}]},{"id":"directory_user_01EK2YFBC31FSSMKESQCSCN0FG","raw_attributes":{"id":"114073351508506567731","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/imHBKfsgkWCQuobx4jxRwEp7n-M\"","kind":"admin#directory#user","name":{"fullName":"Celestine
-        Kao","givenName":"Celestine","familyName":"Kao"},"emails":[{"address":"celestine@foo-corp.com","primary":true},{"address":"celestine@foo-corp.com.test-google-a.com"}],"isAdmin":false,"archived":false,"suspended":false,"customerId":"C02mw6qrc","orgUnitPath":"/","creationTime":"2020-08-16T05:30:46.000Z","primaryEmail":"celestine@foo-corp.com","agreedToTerms":false,"ipWhitelisted":false,"lastLoginTime":"1970-01-01T00:00:00.000Z","isMailboxSetup":true,"isEnforcedIn2Sv":false,"isEnrolledIn2Sv":false,"isDelegatedAdmin":false,"nonEditableAliases":["celestine@foo-corp.com.test-google-a.com"],"changePasswordAtNextLogin":true,"includeInGlobalAddressList":true},"idp_id":"114073351508506567731","first_name":"Celestine","emails":[{"value":"celestine@foo-corp.com","primary":true}],"username":"celestine@foo-corp.com","last_name":"Kao","state":"active","groups":[{"id":"directory_group_01EK2YFBPZ8SWMQ01NWN3TNZK4","name":"Engineering","raw_attributes":{"id":"030j0zll1b5a1gf","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/eSnflkB5fzBxa6QfGsXjaftif2A\"","kind":"admin#directory#group","name":"Engineering","email":"engineering@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"8","nonEditableAliases":["engineering@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C5EMBZ944Y6AJ3K266Q","name":"Documentation","raw_attributes":{"id":"03as4poj49cz6j9","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/fU4_KaNDCoJ05Uod_dINIl-Cf_s\"","kind":"admin#directory#group","name":"Documentation","email":"docs@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["docs@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C5NGE4MWHP3FSX3KK47","name":"Marketing","raw_attributes":{"id":"01y810tw1ti9q8c","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/8Bp1ATnSYZXUB84_9v_K0i54jgc\"","kind":"admin#directory#group","name":"Marketing","email":"marketing@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["marketing@foo-corp.com.test-google-a.com"]}}]},{"id":"directory_user_01EK2YFBC30D6NGJ4VNJJVPB3R","raw_attributes":{"id":"108170400221930206404","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/qz-2ot8Sjn83ShjZTqUfMLFtR_I\"","kind":"admin#directory#user","name":{"fullName":"Sandy
-        Kwon","givenName":"Sandy","familyName":"Kwon"},"emails":[{"address":"sandy@foo-corp.com","primary":true},{"address":"sandy@foo-corp.com.test-google-a.com"}],"isAdmin":false,"archived":false,"suspended":false,"customerId":"C02mw6qrc","orgUnitPath":"/","creationTime":"2020-08-16T05:29:30.000Z","primaryEmail":"sandy@foo-corp.com","agreedToTerms":false,"ipWhitelisted":false,"lastLoginTime":"1970-01-01T00:00:00.000Z","isMailboxSetup":true,"isEnforcedIn2Sv":false,"isEnrolledIn2Sv":false,"isDelegatedAdmin":false,"nonEditableAliases":["sandy@foo-corp.com.test-google-a.com"],"changePasswordAtNextLogin":true,"includeInGlobalAddressList":true},"idp_id":"108170400221930206404","first_name":"Sandy","emails":[{"value":"sandy@foo-corp.com","primary":true}],"username":"sandy@foo-corp.com","last_name":"Kwon","state":"active","groups":[{"id":"directory_group_01EQ7V7C5NGE4MWHP3FSX3KK47","name":"Marketing","raw_attributes":{"id":"01y810tw1ti9q8c","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/8Bp1ATnSYZXUB84_9v_K0i54jgc\"","kind":"admin#directory#group","name":"Marketing","email":"marketing@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["marketing@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C6AKS8D12WX2CMC2HWR","name":"Admins","raw_attributes":{"id":"00gjdgxs2s95kg4","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/8_DFveza530aqHjNIY138qbXpkw\"","kind":"admin#directory#group","name":"Admins","email":"admins@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["admins@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C6Y4RPMCH3KNB9853FF","name":"Finance","raw_attributes":{"id":"02xcytpi45aqkmr","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/4zBJXlVVTFZ06sWa5MUTv1TykS8\"","kind":"admin#directory#group","name":"Finance","email":"finance@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["finance@foo-corp.com.test-google-a.com"]}}]},{"id":"directory_user_01EK2YFBC2VCPZAJGVYCT3ZRBD","raw_attributes":{"id":"118144774089151384816","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/pqigo6reYxn9HtEtHI9beMQfX-o\"","kind":"admin#directory#user","name":{"fullName":"Avian
-        Ku","givenName":"Avian","familyName":"Ku"},"emails":[{"address":"avian@foo-corp.com","primary":true},{"address":"avian@foo-corp.com.test-google-a.com"}],"isAdmin":false,"archived":false,"suspended":false,"customerId":"C02mw6qrc","orgUnitPath":"/","creationTime":"2020-04-07T21:38:16.000Z","primaryEmail":"avian@foo-corp.com","agreedToTerms":true,"ipWhitelisted":false,"lastLoginTime":"2021-02-15T20:49:43.000Z","recoveryPhone":"+17196792730","isMailboxSetup":true,"isEnforcedIn2Sv":false,"isEnrolledIn2Sv":false,"isDelegatedAdmin":false,"nonEditableAliases":["avian@foo-corp.com.test-google-a.com"],"changePasswordAtNextLogin":false,"includeInGlobalAddressList":true},"idp_id":"118144774089151384816","first_name":"Avian","emails":[{"value":"avian@foo-corp.com","primary":true}],"username":"avian@foo-corp.com","last_name":"Ku","state":"active","groups":[]},{"id":"directory_user_01EK2YFBC2GQGF91EHVCXF38B6","raw_attributes":{"id":"110328377506796789913","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/2uYkCfey_kguxljbXQHtfjDIdoM\"","kind":"admin#directory#user","name":{"fullName":"Bu
-        Kinoshita","givenName":"Bu","familyName":"Kinoshita"},"emails":[{"address":"bu@foo-corp.com","primary":true},{"address":"bu@foo-corp.com.test-google-a.com"}],"isAdmin":false,"archived":false,"suspended":false,"customerId":"C02mw6qrc","orgUnitPath":"/","creationTime":"2020-08-16T05:28:35.000Z","primaryEmail":"bu@foo-corp.com","agreedToTerms":false,"ipWhitelisted":false,"lastLoginTime":"1970-01-01T00:00:00.000Z","isMailboxSetup":true,"isEnforcedIn2Sv":false,"isEnrolledIn2Sv":false,"isDelegatedAdmin":false,"nonEditableAliases":["bu@foo-corp.com.test-google-a.com"],"changePasswordAtNextLogin":true,"includeInGlobalAddressList":true},"idp_id":"110328377506796789913","first_name":"Bu","emails":[{"value":"bu@foo-corp.com","primary":true}],"username":"bu@foo-corp.com","last_name":"Kinoshita","state":"active","groups":[{"id":"directory_group_01EK2YFBPZ8SWMQ01NWN3TNZK4","name":"Engineering","raw_attributes":{"id":"030j0zll1b5a1gf","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/eSnflkB5fzBxa6QfGsXjaftif2A\"","kind":"admin#directory#group","name":"Engineering","email":"engineering@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"8","nonEditableAliases":["engineering@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C581FB7T0PHV6NERYC4","name":"Partnerships","raw_attributes":{"id":"045jfvxd1049v32","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/dQAxLJSL7rODUPbi9CivyyrpTVQ\"","kind":"admin#directory#group","name":"Partnerships","email":"partnerships@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"1","nonEditableAliases":["partnerships@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C6SVJ56RR4J9R5QX20Y","name":"Product","raw_attributes":{"id":"03hv69ve1ssgpby","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/f9gbroAH87EH3wU418b4bq6sXv8\"","kind":"admin#directory#group","name":"Product","email":"product@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["product@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C6FBGG55PKG7YB03EFB","name":"Design","raw_attributes":{"id":"03dy6vkm1y2alqi","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/FOmENMweP80vOL_QS7AgEhmMJW0\"","kind":"admin#directory#group","name":"Design","email":"design@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"3","nonEditableAliases":["design@foo-corp.com.test-google-a.com"]}}]}]}'
+      string: '{"object":"list","listMetadata":{"before":"directory_user_01FC73296N43TB1NW9J9CQ8AHT","after":null},"data":[{"object":"directory_user","id":"directory_user_01FC73296N43TB1NW9J9CQ8AHT","directory_id":"directory_01FAZYMST676QMTFN1DDJZZX87","idp_id":"6104db3b6246f63d0df47ac5","username":"dave.liu@workos.com","emails":[{"primary":true,"value":"dave.liu@workos.com"}],"first_name":"Dave","last_name":"Liu","state":"active","raw_attributes":{"id":"6104db3b6246f63d0df47ac5","name":"Dave
+        Liu","teams":["5f696c8e9a63a60e965aaca8","6101bf5fa9e1adf3c668a1ad","6104da936b1079a2e20debb5","6104daab1a8ff9a9f023a689","6104dae33d1730d92ca27c51"],"spokeId":null,"lastName":"Liu","createdAt":"2021-07-31T05:10:19+0000","firstName":"Dave","updatedAt":"2021-07-31T08:02:36+0000","workEmail":"dave.liu@workos.com","department":"Engineering","departmentId":"5f27ada9a5e9bc0001a0ae48"},"custom_attributes":{"department":"Engineering"},"groups":[{"object":"directory_group","id":"directory_group_01FBXGP7AM2ZTG9C2NT96E0T8B","directory_id":"directory_01FAZYMST676QMTFN1DDJZZX87","name":"Team
+        - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Neque viverra justo nec
+        ultrices dui sapien. Eu scelerisque felis imperdiet proin fermentum leo. Tincidunt
+        vitae semper quis lectus. Aliquet enim tortor at auctor urna nunc id cursus
+        metus. Sapien et ligula ullamcorper malesuada proin. Tellus pellentesque eu
+        tincidunt tortor aliquam nulla facilisi cras. Id aliquet risus feugiat in
+        ante. Consectetur adipiscing elit duis tristique sollicitudin nibh sit amet.
+        Eleifend mi in nulla posuere. Nec dui nunc mattis enim ut. Volutpat commodo
+        sed egestas egestas fringilla. Quis eleifend quam adipiscing vitae proin sagittis.
+        Amet facilisis magna etiam tempor orci. Quam nulla porttitor massa id neque.
+        Laoreet sit amet cursus sit amet dictum sit amet.  Scelerisque eleifend donec
+        pretium vulputate sapien. Faucibus turpis in eu mi bibendum. Magna sit amet
+        purus gravida quis. Placerat vestibulum lectus mauris ultrices eros. Volutpat
+        est velit egestas dui id ornare. Aliquet eget sit amet tellus cras adipiscing
+        enim eu. Velit scelerisque in dictum non consectetur. Egestas fringilla phasellus
+        faucibus scelerisque eleifend donec pretium vulputate sapien. Malesuada nunc
+        vel risus commodo viverra maecenas accumsan lacus vel. Senectus et netus et
+        malesuada fames ac turpis. In mollis nunc sed id semper risus in hendrerit.
+        Phasellus faucibus scelerisque eleifend donec pretium vulputate sapien nec.
+        Purus semper eget duis at tellus. Et ligula ullamcorper malesuada proin libero
+        nunc consequat interdum varius. Odio aenean sed adipiscing diam donec adipiscing.
+        Pretium quam vulputate dignissim suspendisse in est ante. Orci nulla pellentesque
+        dignissim enim sit amet venenatis urna. Viverra aliquet eget sit amet tellus
+        cras adipiscing enim. Lacus viverra vitae congue eu consequat ac felis donec.
+        Quis ipsum suspendisse ultrices gravida dictum fusce ut.  Faucibus turpis
+        in eu mi bibendum. Lorem sed risus ultricies tristique nulla. Habitant morbi
+        tristique senectus et. Vitae suscipit tellus mauris a. Id leo in vitae turpis
+        massa sed. In hac habitasse platea dictumst vestibulum rhoncus est pellentesque.
+        Ornare arcu dui vivamus arcu felis bibendum ut tristique et. Ut aliquam purus
+        sit amet luctus venenatis lectus magna. Mollis aliquam ut porttitor leo a
+        diam. Pulvinar pellentesque habitant morbi tristique senectus et netus et.
+        Eget felis eget nunc lobortis.  Viverra adipiscing at in tellus. Morbi tempus
+        iaculis urna id volutpat lacus laoreet non curabitur. Nam aliquam sem et tortor.
+        Maecenas sed enim ut sem viverra aliquet eget sit. Nec dui nunc mattis enim.
+        Donec ac odio tempor orci dapibus ultrices in iaculis. Tristique risus nec
+        feugiat in fermentum posuere urna nec. Suscipit adipiscing bibendum est ultricies.
+        Magna fringilla urna porttitor rhoncus. Cum sociis natoque penatibus et magnis
+        dis parturient montes nascetur.  Amet nulla facilisi morbi tempus iaculis.
+        Mattis vulputate enim nulla aliquet porttitor lacus. Adipiscing elit duis
+        tristique sollicitudin nibh sit. Placerat duis ultricies lacus sed turpis
+        tincidunt id aliquet. Ut sem viverra aliquet eget sit amet tellus. Sagittis
+        id consectetur purus ut faucibus pulvinar. Id faucibus nisl tincidunt eget
+        nullam. Sed augue lacus viverra vitae congue eu consequat ac felis. Interdum
+        varius sit amet mattis vulputate enim. Ut venenatis tellus in metus vulputate
+        eu scelerisque. Lacus sed viverra tellus in hac habitasse. Nulla facilisi
+        etiam dignissim diam quis. Id porta nibh venenatis cras sed felis eget velit.
+        Orci porta non pulvinar neque laoreet suspendisse interdum consectetur.","raw_attributes":{"id":"6104dae33d1730d92ca27c51","name":"Lorem
+        ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+        ut labore et dolore magna aliqua. Neque viverra justo nec ultrices dui sapien.
+        Eu scelerisque felis imperdiet proin fermentum leo. Tincidunt vitae semper
+        quis lectus. Aliquet enim tortor at auctor urna nunc id cursus metus. Sapien
+        et ligula ullamcorper malesuada proin. Tellus pellentesque eu tincidunt tortor
+        aliquam nulla facilisi cras. Id aliquet risus feugiat in ante. Consectetur
+        adipiscing elit duis tristique sollicitudin nibh sit amet. Eleifend mi in
+        nulla posuere. Nec dui nunc mattis enim ut. Volutpat commodo sed egestas egestas
+        fringilla. Quis eleifend quam adipiscing vitae proin sagittis. Amet facilisis
+        magna etiam tempor orci. Quam nulla porttitor massa id neque. Laoreet sit
+        amet cursus sit amet dictum sit amet.  Scelerisque eleifend donec pretium
+        vulputate sapien. Faucibus turpis in eu mi bibendum. Magna sit amet purus
+        gravida quis. Placerat vestibulum lectus mauris ultrices eros. Volutpat est
+        velit egestas dui id ornare. Aliquet eget sit amet tellus cras adipiscing
+        enim eu. Velit scelerisque in dictum non consectetur. Egestas fringilla phasellus
+        faucibus scelerisque eleifend donec pretium vulputate sapien. Malesuada nunc
+        vel risus commodo viverra maecenas accumsan lacus vel. Senectus et netus et
+        malesuada fames ac turpis. In mollis nunc sed id semper risus in hendrerit.
+        Phasellus faucibus scelerisque eleifend donec pretium vulputate sapien nec.
+        Purus semper eget duis at tellus. Et ligula ullamcorper malesuada proin libero
+        nunc consequat interdum varius. Odio aenean sed adipiscing diam donec adipiscing.
+        Pretium quam vulputate dignissim suspendisse in est ante. Orci nulla pellentesque
+        dignissim enim sit amet venenatis urna. Viverra aliquet eget sit amet tellus
+        cras adipiscing enim. Lacus viverra vitae congue eu consequat ac felis donec.
+        Quis ipsum suspendisse ultrices gravida dictum fusce ut.  Faucibus turpis
+        in eu mi bibendum. Lorem sed risus ultricies tristique nulla. Habitant morbi
+        tristique senectus et. Vitae suscipit tellus mauris a. Id leo in vitae turpis
+        massa sed. In hac habitasse platea dictumst vestibulum rhoncus est pellentesque.
+        Ornare arcu dui vivamus arcu felis bibendum ut tristique et. Ut aliquam purus
+        sit amet luctus venenatis lectus magna. Mollis aliquam ut porttitor leo a
+        diam. Pulvinar pellentesque habitant morbi tristique senectus et netus et.
+        Eget felis eget nunc lobortis.  Viverra adipiscing at in tellus. Morbi tempus
+        iaculis urna id volutpat lacus laoreet non curabitur. Nam aliquam sem et tortor.
+        Maecenas sed enim ut sem viverra aliquet eget sit. Nec dui nunc mattis enim.
+        Donec ac odio tempor orci dapibus ultrices in iaculis. Tristique risus nec
+        feugiat in fermentum posuere urna nec. Suscipit adipiscing bibendum est ultricies.
+        Magna fringilla urna porttitor rhoncus. Cum sociis natoque penatibus et magnis
+        dis parturient montes nascetur.  Amet nulla facilisi morbi tempus iaculis.
+        Mattis vulputate enim nulla aliquet porttitor lacus. Adipiscing elit duis
+        tristique sollicitudin nibh sit. Placerat duis ultricies lacus sed turpis
+        tincidunt id aliquet. Ut sem viverra aliquet eget sit amet tellus. Sagittis
+        id consectetur purus ut faucibus pulvinar. Id faucibus nisl tincidunt eget
+        nullam. Sed augue lacus viverra vitae congue eu consequat ac felis. Interdum
+        varius sit amet mattis vulputate enim. Ut venenatis tellus in metus vulputate
+        eu scelerisque. Lacus sed viverra tellus in hac habitasse. Nulla facilisi
+        etiam dignissim diam quis. Id porta nibh venenatis cras sed felis eget velit.
+        Orci porta non pulvinar neque laoreet suspendisse interdum consectetur.","parent":null}},{"object":"directory_group","id":"directory_group_01FBXGP79EJAYKW0WS9JCK1V6E","directory_id":"directory_01FAZYMST676QMTFN1DDJZZX87","name":"Team
+        - Fight Club","raw_attributes":{"id":"6104daab1a8ff9a9f023a689","name":"Fight
+        Club","parent":null}},{"object":"directory_group","id":"directory_group_01FBXGP743J13S0CNRM84M8RZT","directory_id":"directory_01FAZYMST676QMTFN1DDJZZX87","name":"Team
+        - Party Planners","raw_attributes":{"id":"6104da936b1079a2e20debb5","name":"Party
+        Planners","parent":null}},{"object":"directory_group","id":"directory_group_01FBQDKP34JY5AWYYMZT3ME8VX","directory_id":"directory_01FAZYMST676QMTFN1DDJZZX87","name":"Team
+        - The Best Team","raw_attributes":{"id":"6101bf5fa9e1adf3c668a1ad","name":"The
+        Best Team","parent":null}},{"object":"directory_group","id":"directory_group_01FAZYNNQ4HQ6EBF29MPTH7VKB","directory_id":"directory_01FAZYMST676QMTFN1DDJZZX87","name":"Team
+        - Platform","raw_attributes":{"id":"5f696c8e9a63a60e965aaca8","name":"Platform","parent":null}},{"object":"directory_group","id":"directory_group_01FAZYNMV2TDE78FEAH724YGMP","directory_id":"directory_01FAZYMST676QMTFN1DDJZZX87","name":"Department
+        - Engineering","raw_attributes":{"id":"5f27ada9a5e9bc0001a0ae48","name":"Engineering","parent":null}}]}]}'
     http_version:
-  recorded_at: Thu, 22 Apr 2021 22:11:12 GMT
+  recorded_at: Mon, 09 Aug 2021 17:40:53 GMT
 recorded_with: VCR 5.0.0
