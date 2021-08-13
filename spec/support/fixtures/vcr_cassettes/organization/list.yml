@@ -14,7 +14,7 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.5.0
+      - WorkOS; ruby/3.0.1; x86_64-darwin19; v1.4.0
       Authorization:
       - Bearer <API_KEY>
   response:
@@ -22,8 +22,12 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - Cowboy
+      Date:
+      - Mon, 09 Aug 2021 21:55:03 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
       Connection:
       - keep-alive
       Vary:
@@ -53,20 +57,31 @@ http_interactions:
       X-Xss-Protection:
       - '0'
       X-Request-Id:
-      - bac447a8-ba37-40d0-bd2e-c6b0d9e55cb4
-      Content-Type:
-      - application/json; charset=utf-8
+      - 51340d5e-8bf4-46b7-bd98-d8bd341c31fd
       Etag:
-      - W/"5e0-jXwzOfsEklDxV9I2vJyDWqYBnmU"
-      Date:
-      - Tue, 08 Sep 2020 23:05:22 GMT
-      Transfer-Encoding:
-      - chunked
+      - W/"66d-kHGfUV7VPT8Z9tinExkUpFHsUCg"
       Via:
       - 1.1 vegur
+      Cf-Cache-Status:
+      - DYNAMIC
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=8pFemWbyzUcoSyVJie5nWnOSzuP36h%2F6bRGTgFS15DxCcqa4S%2BGaKYUuU9EjHvoWAE3hHKc7ciNjiDrA3TXyazf6C5ZdTMfLIdtOB6dq1oUf4EPBq%2Bs%2B6t5nHMKqRexVozFykpBbx0rDKPBwxA%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      Nel:
+      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 67c439f788cc2832-DFW
+      Alt-Svc:
+      - h3-27=":443"; ma=86400, h3-28=":443"; ma=86400, h3-29=":443"; ma=86400, h3=":443";
+        ma=86400
     body:
       encoding: ASCII-8BIT
-      string: '{"object":"list","data":[{"object":"organization","id":"org_01EHQMYV6MBK39QC5PZXHY59C3","name":"example.com","domains":[{"object":"organization_domain","id":"org_domain_01EHQMYV71XT8H31WE5HF8YK4A","domain":"example.com"}]},{"object":"organization","id":"org_01EHQMVDTC2GRAHFCCRNTSKH46","name":"example2.com","domains":[{"object":"organization_domain","id":"org_domain_01EHQMVDTZVA27PK614ME4YK7V","domain":"example2.com"}]},{"object":"organization","id":"org_01EGS4P7QR31EZ4YWD1Z1XA176","name":"foo-corp.com","domains":[{"object":"organization_domain","id":"org_domain_01EGS4P7RNQPFQAQ7SKCC40KNE","domain":"foo-corp.com"}]},{"object":"organization","id":"org_01EGPYFYM0Y66AHNYQG9Z63DTN","name":"example3.com","domains":[{"object":"organization_domain","id":"org_domain_01EGPYFYMGTRR38Z109MCJ3HHA","domain":"example3.com"}]},{"object":"organization","id":"org_01EGPJWMT2EQMK7FMPR3TBC861","name":"workos.com","domains":[{"object":"organization_domain","id":"org_domain_01EGPJWMTHRB5FP6MKE14RZ9BQ","domain":"workos.com"}]},{"object":"organization","id":"org_01EGPJ5YY5P897573GJFGGY7ZF","name":"example4.com","domains":[{"object":"organization_domain","id":"org_domain_01EGPJ5YYE7V931BWYS1AJHHHC","domain":"example4.com"}]},{"object":"organization","id":"org_01EGP9Z6RY2J6YE0ZV57CGEXV2","name":"example5.com","domains":[{"object":"organization_domain","id":"org_domain_01EGP9Z6S6HVQ5CPD152GJBEA5","domain":"example5.com"}]}],"listMetadata":{"before":"before-id","after":null}}'
-    http_version: 
-  recorded_at: Tue, 08 Sep 2020 23:05:22 GMT
+      string: '{"object":"list","data":[{"object":"organization","id":"org_01FCPEJXEZR4DSBA625YMGQT9N","name":"Test
+        Organization","created_at":"2021-08-09T21:55:02.755Z","updated_at":"2021-08-09T21:55:02.755Z","domains":[{"object":"organization_domain","id":"org_domain_01FCPEJXF4CTFEDFEGDTRN1MZG","domain":"example.io"}]},{"object":"organization","id":"org_01F9293WD2PDEEV4Y625XPZVG7","name":"Foo
+        Corp","created_at":"2021-06-25T19:07:33.155Z","updated_at":"2021-06-25T19:07:33.155Z","domains":[{"object":"organization_domain","id":"org_domain_01F9293WD8KZAS4ESBK57SZ4D8","domain":"foo-corp.com"}]},{"object":"organization","id":"org_01F8873JSZWN1MJCDN537FEK1H","name":"Example
+        Organization","created_at":"2021-06-15T16:12:10.942Z","updated_at":"2021-06-15T16:12:10.942Z","domains":[]},{"object":"organization","id":"org_01F79Z8TGGTA8Q67Q50FDXAYN3","name":"gmail.com","created_at":"2021-06-03T22:18:01.100Z","updated_at":"2021-06-03T22:18:01.100Z","domains":[{"object":"organization_domain","id":"org_domain_01F79Z8TGS4VYFX0246RAWSZMP","domain":"gmail.com"}]},{"object":"organization","id":"org_01F6Q6TFP7RD2PF6J03ANNWDKV","name":"Test
+        Organization","created_at":"2021-05-27T15:24:25.670Z","updated_at":"2021-08-09T21:53:34.525Z","domains":[{"object":"organization_domain","id":"org_domain_01FCPEG7BAYMQ4CHMG41Y2VNHF","domain":"example.me"}]},{"object":"organization","id":"org_01F6Q6NGZS8R5ZTH3C1XR96JK7","name":"WorkOS","created_at":"2021-05-27T15:21:43.160Z","updated_at":"2021-05-27T15:21:43.160Z","domains":[{"object":"organization_domain","id":"org_domain_01F6Q6NGZZ54WSX1XCMCKSC4DA","domain":"workos.com"}]}],"listMetadata":{"before":"before-id","after":null}}'
+    http_version:
+  recorded_at: Mon, 09 Aug 2021 21:55:03 GMT
 recorded_with: VCR 5.0.0

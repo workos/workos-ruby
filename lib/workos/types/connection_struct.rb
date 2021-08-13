@@ -13,6 +13,8 @@ module WorkOS
       const :organization_id, String
       const :state, String
       const :status, String
+      const :created_at, String
+      const :updated_at, String
     end
   end
 end

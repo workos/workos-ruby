@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.workos.com/connections?after=conn_01EQKPMQAPV02H270HKVNS4CTA
+    uri: https://api.workos.com/connections?after=conn_01FA3WGCWPCCY1V2FGES2FDNP7
     body:
       encoding: US-ASCII
       string: ''
@@ -14,7 +14,7 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.10.3
+      - WorkOS; ruby/3.0.1; x86_64-darwin19; v1.4.0
       Authorization:
       - Bearer <API_KEY>
   response:
@@ -22,8 +22,12 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - Cowboy
+      Date:
+      - Mon, 09 Aug 2021 22:01:16 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
       Connection:
       - keep-alive
       Vary:
@@ -53,21 +57,27 @@ http_interactions:
       X-Xss-Protection:
       - '0'
       X-Request-Id:
-      - f7578f1e-4037-4b14-9582-2694cbdf6791
-      Content-Type:
-      - application/json; charset=utf-8
+      - f0ca1391-24f7-42ab-96e1-03708170a415
       Etag:
-      - W/"49cb-zc7a7LmdRFoh61JNIbfZDYPXCxo"
-      Date:
-      - Thu, 22 Apr 2021 22:27:20 GMT
-      Transfer-Encoding:
-      - chunked
+      - W/"59a-ZIKgWSqL79Vk1PhmBPwwz8b4bhU"
       Via:
       - 1.1 vegur
+      Cf-Cache-Status:
+      - DYNAMIC
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=zcH%2FppoPRB%2BmUlJabP9ZSUe5cPHU7%2FBBbFhBBbfnttHbFCsiSIpwTqTp4tefv%2BR6SEeQEpNhai3Ra7Zs7YmwYxdAw0ECz4bFh9D1NJeV%2BBEvWpoaIj475X5J%2FiPdUkqGAhTQ9nKkIeMW4MJIkw%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      Nel:
+      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 67c443171d2b0f22-DFW
+      Alt-Svc:
+      - h3-27=":443"; ma=86400, h3-28=":443"; ma=86400, h3-29=":443"; ma=86400, h3=":443";
+        ma=86400
     body:
       encoding: ASCII-8BIT
-      string: '{"data":[{"object":"connection","id":"conn_01EXSJNNJYDMAPMW4RGJFPSS8S","status":"linked","state":"active","name":"Gyres","connection_type":"AzureSAML","oidc_client_id":null,"oidc_client_secret":null,"oidc_discovery_endpoint":null,"oidc_redirect_uri":null,"saml_entity_id":"https://auth.workos.com/UkfpBFm8KYo80cWmAa8GsCMSQ","saml_idp_url":"https://login.microsoftonline.com/f2416a9f-8064-45fe-99b6-d68b320c33f5/saml2","saml_relying_party_private_key":null,"saml_relying_party_public_key":null,"saml_x509_certs":null,"organization_id":"org_01EXSJN9K761YW588FHMADPPFD","oauth_uid":null,"oauth_secret":null,"oauth_redirect_uri":null,"domains":[{"object":"connection_domain","id":"org_domain_01EXSJNNJNVVHRW1HSAMJ12J31","domain":"gyres.com"}]},{"object":"connection","id":"conn_01EXJ9WRWG2526AQNQQ55J6ZFX","status":"linked","state":"active","name":"Unique
-        Domain","connection_type":"AzureSAML","oidc_client_id":null,"oidc_client_secret":null,"oidc_discovery_endpoint":null,"oidc_redirect_uri":null,"saml_entity_id":"https://auth.workos.com/AM9h0jCQPmM4iWUCMqKIuEMEI","saml_idp_url":"https://login.microsoftonline.com/f2416a9f-8064-45fe-99b6-d68b320c33f5/saml2","saml_relying_party_private_key":null,"saml_relying_party_public_key":null,"saml_x509_certs":null,"organization_id":"org_01EXJ9W92SBSMZNZE05XFVTTHK","oauth_uid":null,"oauth_secret":null,"oauth_redirect_uri":null,"domains":[{"object":"connection_domain","id":"org_domain_01EXJ9WRWANA8WV370QJGE2PTW","domain":"uniquedomain.com"},{"object":"connection_domain","id":"org_domain_01EXPTAPN9NB4V2ZHNQ0ZFBCEA","domain":"newdomainn.com"}]},{"object":"connection","id":"conn_01EWDSQJNXM1M33MTVSQ2ZR5M5","status":"unlinked","state":"draft","name":"IBM","connection_type":"OktaSAML","oidc_client_id":null,"oidc_client_secret":null,"oidc_discovery_endpoint":null,"oidc_redirect_uri":null,"saml_entity_id":null,"saml_idp_url":null,"saml_relying_party_private_key":null,"saml_relying_party_public_key":null,"saml_x509_certs":null,"organization_id":"org_01EWDSPEYNG87X1KMBNA7315F7","oauth_uid":null,"oauth_secret":null,"oauth_redirect_uri":null,"domains":[{"object":"connection_domain","id":"org_domain_01EWDSQJNPD7J8RPJ3KQ98PPTJ","domain":"ibm.com"},{"object":"connection_domain","id":"org_domain_01EWDSQJNQXAFPVH7C8E0MM2C0","domain":"ibm.jp"}]}],"listMetadata":{"before":"conn_01ERFVD49HW0H9MW6GH8XYRQRR","after":"conn_01EXSJNNJYDMAPMW4RGJFPSS8S"}}'
+      string: '{"data":[{"object":"connection","id":"conn_01FBQN064TFAT9A3KYPPP85VXK","organization_id":"org_01F79Z8TGGTA8Q67Q50FDXAYN3","connection_type":"MagicLink","name":"MagicLink","state":"active","created_at":"2021-07-28T22:50:41.632Z","updated_at":"2021-07-28T22:50:41.632Z","status":"linked","domains":[{"object":"connection_domain","id":"org_domain_01F79Z8TGS4VYFX0246RAWSZMP","domain":"gmail.com"}],"oidc_client_id":null,"oidc_client_secret":null,"oidc_discovery_endpoint":null,"oidc_redirect_uri":null,"saml_entity_id":null,"saml_idp_url":null,"saml_relying_party_private_key":null,"saml_relying_party_public_key":null,"saml_x509_certs":null,"oauth_uid":null,"oauth_secret":null,"oauth_redirect_uri":null},{"object":"connection","id":"conn_01FAK8CHVMK2QVT20ZG7ZQ1JVX","organization_id":"org_01F8873JSZWN1MJCDN537FEK1H","connection_type":"ShibbolethSAML","name":"Shibboleth","state":"inactive","created_at":"2021-07-14T19:37:35.856Z","updated_at":"2021-07-14T19:37:35.856Z","status":"unlinked","domains":[],"oidc_client_id":null,"oidc_client_secret":null,"oidc_discovery_endpoint":null,"oidc_redirect_uri":null,"saml_entity_id":"https://auth.workos.email/XLvFXZ1tssoaiUkU60IcagSQQ","saml_idp_url":null,"saml_relying_party_private_key":null,"saml_relying_party_public_key":null,"saml_x509_certs":null,"oauth_uid":null,"oauth_secret":null,"oauth_redirect_uri":null}],"listMetadata":{"before":"conn_01FAK8CHVMK2QVT20ZG7ZQ1JVX","after":null}}'
     http_version:
-  recorded_at: Thu, 22 Apr 2021 22:27:20 GMT
+  recorded_at: Mon, 09 Aug 2021 22:01:16 GMT
 recorded_with: VCR 5.0.0

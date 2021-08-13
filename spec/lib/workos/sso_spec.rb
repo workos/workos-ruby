@@ -303,7 +303,7 @@ describe WorkOS::SSO do
         VCR.use_cassette 'sso/list_connections/with_no_options' do
           connections = described_class.list_connections
 
-          expect(connections.data.size).to eq(3)
+          expect(connections.data.size).to eq(6)
           expect(connections.list_metadata).to eq(expected_metadata)
         end
       end
@@ -326,7 +326,7 @@ describe WorkOS::SSO do
             connection_type: 'OktaSAML',
           )
 
-          expect(connections.data.size).to eq(3)
+          expect(connections.data.size).to eq(10)
           expect(connections.data.first.connection_type).to eq('OktaSAML')
         end
       end
@@ -357,7 +357,7 @@ describe WorkOS::SSO do
     context 'with organization_id option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/connections?organization_id=org_01EGS4P7QR31EZ4YWD1Z1XA176',
+          '/connections?organization_id=org_01F9293WD2PDEEV4Y625XPZVG7',
           'Content-Type' => 'application/json'
         ]
 
@@ -368,12 +368,12 @@ describe WorkOS::SSO do
 
         VCR.use_cassette 'sso/list_connections/with_organization_id' do
           connections = described_class.list_connections(
-            organization_id: 'org_01EGS4P7QR31EZ4YWD1Z1XA176',
+            organization_id: 'org_01F9293WD2PDEEV4Y625XPZVG7',
           )
 
           expect(connections.data.size).to eq(1)
           expect(connections.data.first.organization_id).to eq(
-            'org_01EGS4P7QR31EZ4YWD1Z1XA176',
+            'org_01F9293WD2PDEEV4Y625XPZVG7',
           )
         end
       end
@@ -404,7 +404,7 @@ describe WorkOS::SSO do
     context 'with before option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/connections?before=conn_01EQKPMQAPV02H270HKVNS4CTA',
+          '/connections?before=conn_01FA3WGCWPCCY1V2FGES2FDNP7',
           'Content-Type' => 'application/json'
         ]
 
@@ -415,7 +415,7 @@ describe WorkOS::SSO do
 
         VCR.use_cassette 'sso/list_connections/with_before' do
           connections = described_class.list_connections(
-            before: 'conn_01EQKPMQAPV02H270HKVNS4CTA',
+            before: 'conn_01FA3WGCWPCCY1V2FGES2FDNP7',
           )
 
           expect(connections.data.size).to eq(3)
@@ -426,7 +426,7 @@ describe WorkOS::SSO do
     context 'with after option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/connections?after=conn_01EQKPMQAPV02H270HKVNS4CTA',
+          '/connections?after=conn_01FA3WGCWPCCY1V2FGES2FDNP7',
           'Content-Type' => 'application/json'
         ]
 
@@ -437,10 +437,10 @@ describe WorkOS::SSO do
 
         VCR.use_cassette 'sso/list_connections/with_after' do
           connections = described_class.list_connections(
-            after: 'conn_01EQKPMQAPV02H270HKVNS4CTA',
+            after: 'conn_01FA3WGCWPCCY1V2FGES2FDNP7',
           )
 
-          expect(connections.data.size).to eq(3)
+          expect(connections.data.size).to eq(2)
         end
       end
     end
@@ -451,10 +451,10 @@ describe WorkOS::SSO do
       it 'gets the connection details' do
         VCR.use_cassette('sso/get_connection_with_valid_id') do
           connection = WorkOS::SSO.get_connection(
-            id: 'conn_01EX00NB050H354WKGC7990AR2',
+            id: 'conn_01FA3WGCWPCCY1V2FGES2FDNP7',
           )
 
-          expect(connection.id).to eq('conn_01EX00NB050H354WKGC7990AR2')
+          expect(connection.id).to eq('conn_01FA3WGCWPCCY1V2FGES2FDNP7')
           expect(connection.connection_type).to eq('OktaSAML')
           expect(connection.name).to eq('Foo Corp')
           expect(connection.domains.first[:domain]).to eq('foo-corp.com')

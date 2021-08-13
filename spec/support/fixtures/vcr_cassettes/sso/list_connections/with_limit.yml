@@ -14,7 +14,7 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.10.3
+      - WorkOS; ruby/3.0.1; x86_64-darwin19; v1.4.0
       Authorization:
       - Bearer <API_KEY>
   response:
@@ -22,8 +22,12 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - Cowboy
+      Date:
+      - Mon, 09 Aug 2021 22:01:15 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
       Connection:
       - keep-alive
       Vary:
@@ -53,22 +57,27 @@ http_interactions:
       X-Xss-Protection:
       - '0'
       X-Request-Id:
-      - 0ece856d-dc59-41c7-8fb6-5bad616a05bb
-      Content-Type:
-      - application/json; charset=utf-8
+      - d4eb0623-1466-4e99-a500-119612d6bc9b
       Etag:
-      - W/"e83-dQBd84kjpOIU5TguUlqVO16JIjA"
-      Date:
-      - Thu, 22 Apr 2021 22:27:19 GMT
-      Transfer-Encoding:
-      - chunked
+      - W/"59a-ZIKgWSqL79Vk1PhmBPwwz8b4bhU"
       Via:
       - 1.1 vegur
+      Cf-Cache-Status:
+      - DYNAMIC
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=qHLXTh7d4n3QFt805M6FLecdsq2AJM19ZHRepY4aqLg0e0zMYCudz5G%2BnGfWrzEGzYsUocUIx%2FVfp2D6Rsmy1ZR6mSeySF59z%2FGLEuruXgkqf3VOxMz1BBXe9iE%2B4kUeeFrG0Hzw9NuXkPSmhQ%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      Nel:
+      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 67c44310a9ba2f79-DFW
+      Alt-Svc:
+      - h3-27=":443"; ma=86400, h3-28=":443"; ma=86400, h3-29=":443"; ma=86400, h3=":443";
+        ma=86400
     body:
       encoding: ASCII-8BIT
-      string: '{"data":[{"object":"connection","id":"conn_01F3NBCWG7739Y578R4DCA2B6Q","status":"linked","state":"active","name":"sheldonnextauthtest,
-        inc.","connection_type":"OktaSAML","oidc_client_id":null,"oidc_client_secret":null,"oidc_discovery_endpoint":null,"oidc_redirect_uri":null,"saml_entity_id":"http://www.okta.com/exk2ya1gdoSn8dazk4x7","saml_idp_url":"https://foo-corp.okta.com/app/foo-corp_sheldonnextauthtest_1/exk2ya1gdoSn8dazk4x7/sso/saml","saml_relying_party_private_key":null,"saml_relying_party_public_key":null,"saml_x509_certs":null,"organization_id":"org_01F3NBC88WCEAZP6E3W893B93T","oauth_uid":null,"oauth_secret":null,"oauth_redirect_uri":null,"domains":[{"object":"connection_domain","id":"org_domain_01F3NBCWFZMPXKRJJFMN02VJ84","domain":"sheldonnextauthtest.com"}]},{"object":"connection","id":"conn_01F3NBB5TKYECYV5H00ANNW5AC","status":"unlinked","state":"draft","name":"sheldonadamtest,
-        inc. ","connection_type":"OktaSAML","oidc_client_id":null,"oidc_client_secret":null,"oidc_discovery_endpoint":null,"oidc_redirect_uri":null,"saml_entity_id":null,"saml_idp_url":null,"saml_relying_party_private_key":null,"saml_relying_party_public_key":null,"saml_x509_certs":null,"organization_id":"org_01EY9HHDZ1RT40CBSM7K0Q1M0V","oauth_uid":null,"oauth_secret":null,"oauth_redirect_uri":null,"domains":[{"object":"connection_domain","id":"org_domain_01F3NBB5T9JAPTJ1XGRF881XNN","domain":"newnextauthtest.com"},{"object":"connection_domain","id":"org_domain_01F3DR5P0SJN20AV40DZ3NV3WP","domain":"ExampleWorkdayCompany.com"},{"object":"connection_domain","id":"org_domain_01F2VPCGR2VZN0MXF4FXZFZMHC","domain":"ExampleOrgDomain.com"},{"object":"connection_domain","id":"org_domain_01F2S21BE6C56TFDFRT7PY38A9","domain":"ExampleGoogleSAMLOrg.com"},{"object":"connection_domain","id":"org_domain_01F2PM4M99C8GAN0GXTZ5YARG0","domain":"ExampleOrgSAML.com"},{"object":"connection_domain","id":"org_domain_01F2KZ631V96GBGZVKZMK5DWK1","domain":"ExampleOrg123.com"},{"object":"connection_domain","id":"org_domain_01F1ZDS7DCNF38XY89QZH1Y7C2","domain":"Example-company.com"},{"object":"connection_domain","id":"org_domain_01EY9HJ21Y94RVGFH11WRN1A0F","domain":"domain.example.com"},{"object":"connection_domain","id":"org_domain_01EYRS6YSBGKECQV15CA3H54HQ","domain":"azuretest.com"}]}],"listMetadata":{"before":"conn_01F3NBB5TKYECYV5H00ANNW5AC","after":null}}'
+      string: '{"data":[{"object":"connection","id":"conn_01FBQN064TFAT9A3KYPPP85VXK","organization_id":"org_01F79Z8TGGTA8Q67Q50FDXAYN3","connection_type":"MagicLink","name":"MagicLink","state":"active","created_at":"2021-07-28T22:50:41.632Z","updated_at":"2021-07-28T22:50:41.632Z","status":"linked","domains":[{"object":"connection_domain","id":"org_domain_01F79Z8TGS4VYFX0246RAWSZMP","domain":"gmail.com"}],"oidc_client_id":null,"oidc_client_secret":null,"oidc_discovery_endpoint":null,"oidc_redirect_uri":null,"saml_entity_id":null,"saml_idp_url":null,"saml_relying_party_private_key":null,"saml_relying_party_public_key":null,"saml_x509_certs":null,"oauth_uid":null,"oauth_secret":null,"oauth_redirect_uri":null},{"object":"connection","id":"conn_01FAK8CHVMK2QVT20ZG7ZQ1JVX","organization_id":"org_01F8873JSZWN1MJCDN537FEK1H","connection_type":"ShibbolethSAML","name":"Shibboleth","state":"inactive","created_at":"2021-07-14T19:37:35.856Z","updated_at":"2021-07-14T19:37:35.856Z","status":"unlinked","domains":[],"oidc_client_id":null,"oidc_client_secret":null,"oidc_discovery_endpoint":null,"oidc_redirect_uri":null,"saml_entity_id":"https://auth.workos.email/XLvFXZ1tssoaiUkU60IcagSQQ","saml_idp_url":null,"saml_relying_party_private_key":null,"saml_relying_party_public_key":null,"saml_x509_certs":null,"oauth_uid":null,"oauth_secret":null,"oauth_redirect_uri":null}],"listMetadata":{"before":"conn_01FAK8CHVMK2QVT20ZG7ZQ1JVX","after":null}}'
     http_version:
-  recorded_at: Thu, 22 Apr 2021 22:27:19 GMT
+  recorded_at: Mon, 09 Aug 2021 22:01:15 GMT
 recorded_with: VCR 5.0.0

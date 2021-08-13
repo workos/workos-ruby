@@ -8,7 +8,7 @@ module WorkOS
   class Organization
     extend T::Sig
 
-    attr_accessor :id, :domains, :name
+    attr_accessor :id, :domains, :name, :created_at, :updated_at
 
     sig { params(json: String).void }
     def initialize(json)
@@ -17,6 +17,8 @@ module WorkOS
       @id = T.let(raw.id, String)
       @name = T.let(raw.name, String)
       @domains = T.let(raw.domains, Array)
+      @created_at = T.let(raw.created_at, String)
+      @updated_at = T.let(raw.updated_at, String)
     end
 
     def to_json(*)
@@ -24,6 +26,8 @@ module WorkOS
         id: id,
         name: name,
         domains: domains,
+        created_at: created_at,
+        updated_at: updated_at,
       }
     end
 
@@ -41,6 +45,8 @@ module WorkOS
         id: hash[:id],
         name: hash[:name],
         domains: hash[:domains],
+        created_at: hash[:created_at],
+        updated_at: hash[:updated_at],
       )
     end
   end
