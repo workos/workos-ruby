@@ -18,6 +18,9 @@ require 'webmock/rspec'
 require 'workos'
 require 'vcr'
 
+# Support
+Dir['./spec/support/**/*.rb'].sort.each { |f| require f }
+
 SPEC_ROOT = File.dirname __FILE__
 
 VCR.configure do |config|

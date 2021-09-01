@@ -2,6 +2,8 @@
 # typed: false
 
 describe WorkOS::DirectorySync do
+  it_behaves_like 'client'
+
   describe '.list_directories' do
     context 'with no options' do
       it 'returns directories and metadata' do

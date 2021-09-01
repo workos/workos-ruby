@@ -2,6 +2,8 @@
 # typed: false
 
 describe WorkOS::Organizations do
+  it_behaves_like 'client'
+
   describe '.create_organization' do
     context 'with valid payload' do
       it 'creates an organization' do
