@@ -42,12 +42,14 @@ module WorkOS
   autoload :ProfileAndToken, 'workos/profile_and_token'
   autoload :SSO, 'workos/sso'
   autoload :DirectoryUser, 'workos/directory_user'
+  autoload :Webhook, 'workos/webhook'
   autoload :Webhooks, 'workos/webhooks'
 
   # Errors
   autoload :APIError, 'workos/errors'
   autoload :AuthenticationError, 'workos/errors'
   autoload :InvalidRequestError, 'workos/errors'
+  autoload :SignatureVerificationError, 'workos/errors'
 
   # Remove WORKOS_KEY at some point in the future. Keeping it here now for
   # backwards compatibility.
