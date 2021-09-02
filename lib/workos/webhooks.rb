@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 # typed: true
 
-require 'json'
 require 'openssl'
 
 module WorkOS
@@ -16,7 +15,6 @@ module WorkOS
   module Webhooks
     class << self
       extend T::Sig
-      include Base
 
       DEFAULT_TOLERANCE = 180
 
@@ -95,7 +93,7 @@ module WorkOS
         end
 
         expected_sig = compute_signature(timestamp: timestamp, payload: payload, secret: secret)
-        unless expected_sig.eql?(signature_hash)
+        unless OpenSSL.secure_compare(expected_sig, signature_hash)
           raise WorkOS::SignatureVerificationError.new(
             message: 'Signature hash does not match the expected signature hash for payload',
           )

@@ -96,16 +96,13 @@ describe WorkOS::Webhooks do
     end
 
     context 'with an empty header' do
-      let(:args) do
-        {
-          payload: @payload,
-          sig_header: '',
-          secret: @secret,
-        }
-      end
       it 'raises an error' do
         expect do
-          described_class.construct_event(**args)
+          described_class.construct_event(
+            payload: @payload,
+            sig_header: '',
+            secret: @secret,
+          )
         end.to raise_error(
           WorkOS::SignatureVerificationError,
           'Unable to extract timestamp and signature hash from header',
@@ -114,16 +111,13 @@ describe WorkOS::Webhooks do
     end
 
     context 'with an empty signature hash' do
-      let(:args) do
-        {
-          payload: @payload,
-          sig_header: "t=#{@timestamp.to_i}, v1=",
-          secret: @secret,
-        }
-      end
       it 'raises an error' do
         expect do
-          described_class.construct_event(**args)
+          described_class.construct_event(
+            payload: @payload,
+            sig_header: "t=#{@timestamp.to_i}, v1=",
+            secret: @secret,
+          )
         end.to raise_error(
           WorkOS::SignatureVerificationError,
           'No signature hash found with expected scheme v1',
@@ -132,16 +126,13 @@ describe WorkOS::Webhooks do
     end
 
     context 'with an incorrect signature hash' do
-      let(:args) do
-        {
-          payload: @payload,
-          sig_header: "t=#{@timestamp.to_i}, v1=99999",
-          secret: @secret,
-        }
-      end
       it 'raises an error' do
         expect do
-          described_class.construct_event(**args)
+          described_class.construct_event(
+            payload: @payload,
+            sig_header: "t=#{@timestamp.to_i}, v1=99999",
+            secret: @secret,
+          )
         end.to raise_error(
           WorkOS::SignatureVerificationError,
           'Signature hash does not match the expected signature hash for payload',
@@ -150,16 +141,13 @@ describe WorkOS::Webhooks do
     end
 
     context 'with an incorrect payload' do
-      let(:args) do
-        {
-          payload: 'invalid',
-          sig_header: "t=#{@timestamp.to_i}, v1=#{@signature_hash}",
-          secret: @secret,
-        }
-      end
       it 'raises an error' do
         expect do
-          described_class.construct_event(**args)
+          described_class.construct_event(
+            payload: 'invalid',
+            sig_header: "t=#{@timestamp.to_i}, v1=#{@signature_hash}",
+            secret: @secret,
+          )
         end.to raise_error(
           WorkOS::SignatureVerificationError,
           'Signature hash does not match the expected signature hash for payload',
@@ -168,16 +156,13 @@ describe WorkOS::Webhooks do
     end
 
     context 'with an incorrect webhook secret' do
-      let(:args) do
-        {
-          payload: @payload,
-          sig_header: "t=#{@timestamp.to_i}, v1=#{@signature_hash}",
-          secret: 'invalid',
-        }
-      end
       it 'raises an error' do
         expect do
-          described_class.construct_event(**args)
+          described_class.construct_event(
+            payload: @payload,
+            sig_header: "t=#{@timestamp.to_i}, v1=#{@signature_hash}",
+            secret: 'invalid',
+          )
         end.to raise_error(
           WorkOS::SignatureVerificationError,
           'Signature hash does not match the expected signature hash for payload',
@@ -186,16 +171,13 @@ describe WorkOS::Webhooks do
     end
 
     context 'with a timestamp outside tolerance' do
-      let(:args) do
-        {
-          payload: @payload,
-          sig_header: "t=9999, v1=#{@signature_hash}",
-          secret: @secret,
-        }
-      end
       it 'raises an error' do
         expect do
-          described_class.construct_event(**args)
+          described_class.construct_event(
+            payload: @payload,
+            sig_header: "t=9999, v1=#{@signature_hash}",
+            secret: @secret,
+          )
         end.to raise_error(
           WorkOS::SignatureVerificationError,
           'Timestamp outside the tolerance zone',
