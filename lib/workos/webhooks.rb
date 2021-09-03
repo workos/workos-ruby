@@ -159,13 +159,11 @@ module WorkOS
         l = str_a.unpack "C#{str_a.bytesize}"
 
         res = 0
-        i = 0
         str_b.each_byte do |byte|
-          v = l[i]
+          v = l.shift
           return false unless v.is_a? Integer
 
           res |= byte ^ v
-          i += 1
         end
 
         res.zero?
