@@ -55,4 +55,8 @@ module WorkOS
   # InvalidRequestError is raised when a request is initiated with invalid
   # parameters.
   class InvalidRequestError < WorkOSError; end
+
+  # SignatureVerificationError is raised when the signature verification for a
+  # webhook fails
+  class SignatureVerificationError < WorkOSError; end
 end

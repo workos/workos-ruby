@@ -9,7 +9,7 @@ Layout/LineLength:
     - 'VCR\.use_cassette'
     - '(\A|\s)/.*?/'
 Metrics/BlockLength:
-  ExcludedMethods: ['describe', 'context']
+  ExcludedMethods: ['describe', 'context', 'before']
 Metrics/MethodLength:
   Max: 15
 Metrics/ModuleLength:
