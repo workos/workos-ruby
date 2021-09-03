@@ -156,15 +156,10 @@ module WorkOS
       )
         return false unless str_a.bytesize == str_b.bytesize
 
-        l = str_a.unpack "C#{str_a.bytesize}"
+        l = T.unsafe(str_a.unpack("C#{str_a.bytesize}"))
 
         res = 0
-        str_b.each_byte do |byte|
-          v = l.shift
-          return false unless v.is_a? Integer
-
-          res |= byte ^ v
-        end
+        str_b.each_byte { |byte| res |= byte ^ l.shift }
 
         res.zero?
       end
