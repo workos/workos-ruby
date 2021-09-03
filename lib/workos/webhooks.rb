@@ -93,7 +93,7 @@ module WorkOS
         end
 
         expected_sig = compute_signature(timestamp: timestamp, payload: payload, secret: secret)
-        unless OpenSSL.secure_compare(expected_sig, signature_hash)
+        unless secure_compare(str_a: expected_sig, str_b: signature_hash)
           raise WorkOS::SignatureVerificationError.new(
             message: 'Signature hash does not match the expected signature hash for payload',
           )
@@ -140,6 +140,35 @@ module WorkOS
         unhashed_string = "#{timestamp.to_i}.#{payload}"
         digest = OpenSSL::Digest.new('sha256')
         OpenSSL::HMAC.hexdigest(digest, secret, unhashed_string)
+      end
+
+      # Constant time string comparison to prevent timing attacks
+      # Code borrowed from ActiveSupport
+      sig do
+        params(
+          str_a: String,
+          str_b: String,
+        ).returns(T::Boolean)
+      end
+      def secure_compare(
+        str_a:,
+        str_b:
+      )
+        return false unless str_a.bytesize == str_b.bytesize
+
+        l = str_a.unpack "C#{str_a.bytesize}"
+
+        res = 0
+        i = 0
+        str_b.each_byte do |byte|
+          v = l[i]
+          return false unless v.is_a? Integer
+
+          res |= byte ^ v
+          i += 1
+        end
+
+        res.zero?
       end
     end
   end
