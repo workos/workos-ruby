@@ -8,7 +8,7 @@ module WorkOS
   class Organization
     extend T::Sig
 
-    attr_accessor :id, :domains, :name, :created_at, :updated_at
+    attr_accessor :id, :domains, :name, :allow_profiles_outside_organization, :created_at, :updated_at
 
     sig { params(json: String).void }
     def initialize(json)
