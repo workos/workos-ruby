@@ -86,7 +86,7 @@ module WorkOS
         params(
           domains: T::Array[String],
           name: String,
-          allow_profiles_outside_organization: T.nilable(T::boolean),
+          allow_profiles_outside_organization: T.nilable(T::Boolean),
         ).returns(WorkOS::Organization)
       end
       def create_organization(domains:, name:, allow_profiles_outside_organization: nil)
@@ -115,7 +115,7 @@ module WorkOS
           organization: String,
           domains: T::Array[String],
           name: String,
-          allow_profiles_outside_organization: T.nilable(T::boolean),
+          allow_profiles_outside_organization: T.nilable(T::Boolean),
         ).returns(WorkOS::Organization)
       end
       def update_organization(organization:, domains:, name:, allow_profiles_outside_organization: nil)
