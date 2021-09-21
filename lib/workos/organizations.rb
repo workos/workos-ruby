@@ -80,16 +80,23 @@ module WorkOS
       # @param [Array<String>] domains List of domains that belong to the
       #  organization
       # @param [String] name A unique, descriptive name for the organization
+      # @param [Boolean, nil] allow_profiles_outside_organization Whether Connections
+      #  within the Organization allow profiles that are outside of the Organization's configured User Email Domains.
       sig do
         params(
           domains: T::Array[String],
           name: String,
+          allow_profiles_outside_organization: T.nilable(T::Boolean),
         ).returns(WorkOS::Organization)
       end
-      def create_organization(domains:, name:)
+      def create_organization(domains:, name:, allow_profiles_outside_organization: nil)
         request = post_request(
           auth: true,
-          body: { domains: domains, name: name },
+          body: {
+            domains: domains,
+            name: name,
+            allow_profiles_outside_organization: allow_profiles_outside_organization,
+          },
           path: '/organizations',
         )
 
@@ -105,17 +112,24 @@ module WorkOS
       # @param [Array<String>] domains List of domains that belong to the
       #  organization
       # @param [String] name A unique, descriptive name for the organization
+      # @param [Boolean, nil] allow_profiles_outside_organization Whether Connections
+      #  within the Organization allow profiles that are outside of the Organization's configured User Email Domains.
       sig do
         params(
           organization: String,
           domains: T::Array[String],
           name: String,
+          allow_profiles_outside_organization: T.nilable(T::Boolean),
         ).returns(WorkOS::Organization)
       end
-      def update_organization(organization:, domains:, name:)
+      def update_organization(organization:, domains:, name:, allow_profiles_outside_organization: nil)
         request = put_request(
           auth: true,
-          body: { domains: domains, name: name },
+          body: {
+            domains: domains,
+            name: name,
+            allow_profiles_outside_organization: allow_profiles_outside_organization,
+          },
           path: "/organizations/#{organization}",
         )
 
