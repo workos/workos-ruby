@@ -164,6 +164,7 @@ describe WorkOS::SSO do
           id: 'prof_01EEJTY9SZ1R350RB7B73SNBKF',
           idp_id: '116485463307139932699',
           last_name: 'Loblaw',
+          organization_id: 'org_01FG53X8636WSNW2WEKB2C31ZB',
           raw_attributes: {
             email: 'bob.loblaw@workos.com',
             family_name: 'Loblaw',
@@ -233,6 +234,7 @@ describe WorkOS::SSO do
           id: 'prof_01DRA1XNSJDZ19A31F183ECQW5',
           idp_id: '00u1klkowm8EGah2H357',
           last_name: 'Demo',
+          organization_id: 'org_01FG53X8636WSNW2WEKB2C31ZB',
           raw_attributes: {
             email: 'demo@workos-okta.com',
             first_name: 'WorkOS',
