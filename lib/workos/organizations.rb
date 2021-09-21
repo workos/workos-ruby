@@ -92,7 +92,11 @@ module WorkOS
       def create_organization(domains:, name:, allow_profiles_outside_organization: nil)
         request = post_request(
           auth: true,
-          body: { domains: domains, name: name, allow_profiles_outside_organization: allow_profiles_outside_organization },
+          body: {
+            domains: domains,
+            name: name,
+            allow_profiles_outside_organization: allow_profiles_outside_organization
+          },
           path: '/organizations',
         )
 
@@ -121,7 +125,11 @@ module WorkOS
       def update_organization(organization:, domains:, name:, allow_profiles_outside_organization: nil)
         request = put_request(
           auth: true,
-          body: { domains: domains, name: name, allow_profiles_outside_organization: allow_profiles_outside_organization },
+          body: {
+            domains: domains,
+            name: name,
+            allow_profiles_outside_organization: allow_profiles_outside_organization
+          },
           path: "/organizations/#{organization}",
         )
 
