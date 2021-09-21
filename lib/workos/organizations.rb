@@ -95,7 +95,7 @@ module WorkOS
           body: {
             domains: domains,
             name: name,
-            allow_profiles_outside_organization: allow_profiles_outside_organization
+            allow_profiles_outside_organization: allow_profiles_outside_organization,
           },
           path: '/organizations',
         )
@@ -128,7 +128,7 @@ module WorkOS
           body: {
             domains: domains,
             name: name,
-            allow_profiles_outside_organization: allow_profiles_outside_organization
+            allow_profiles_outside_organization: allow_profiles_outside_organization,
           },
           path: "/organizations/#{organization}",
         )
