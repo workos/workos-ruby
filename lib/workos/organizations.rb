@@ -89,7 +89,7 @@ module WorkOS
           allow_profiles_outside_organization: T.nilable(T::boolean),
         ).returns(WorkOS::Organization)
       end
-      def create_organization(domains:, name:, allow_profiles_outside_organization: = nil)
+      def create_organization(domains:, name:, allow_profiles_outside_organization: nil)
         request = post_request(
           auth: true,
           body: { domains: domains, name: name, allow_profiles_outside_organization: allow_profiles_outside_organization },
@@ -118,7 +118,7 @@ module WorkOS
           allow_profiles_outside_organization: T.nilable(T::boolean),
         ).returns(WorkOS::Organization)
       end
-      def update_organization(organization:, domains:, name:, allow_profiles_outside_organization: = nil)
+      def update_organization(organization:, domains:, name:, allow_profiles_outside_organization: nil)
         request = put_request(
           auth: true,
           body: { domains: domains, name: name, allow_profiles_outside_organization: allow_profiles_outside_organization },
