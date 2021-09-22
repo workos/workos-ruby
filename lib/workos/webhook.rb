@@ -8,18 +8,20 @@ module WorkOS
   class Webhook
     extend T::Sig
 
-    attr_accessor :event, :data
+    attr_accessor :id, :event, :data
 
     sig { params(json: String).void }
     def initialize(json)
       raw = parse_json(json)
 
+      @id = T.let(raw.id, String)
       @event = T.let(raw.event, String)
       @data = raw.data
     end
 
     def to_json(*)
       {
+        id: id,
         event: event,
         data: data,
       }
@@ -36,6 +38,7 @@ module WorkOS
       hash = JSON.parse(json_string, symbolize_names: true)
 
       WorkOS::Types::WebhookStruct.new(
+        id: hash[:id],
         event: hash[:event],
         data: hash[:data],
       )

@@ -78,6 +78,7 @@ describe WorkOS::Webhooks do
 
         expect(webhook.data).to eq(@expectation)
         expect(webhook.event).to eq('dsync.user.created')
+        expect(webhook.id).to eq('wh_123')
       end
     end
 
@@ -92,6 +93,7 @@ describe WorkOS::Webhooks do
 
         expect(webhook.data).to eq(@expectation)
         expect(webhook.event).to eq('dsync.user.created')
+        expect(webhook.id).to eq('wh_123')
       end
     end
 
