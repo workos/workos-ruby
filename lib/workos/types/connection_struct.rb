@@ -10,7 +10,7 @@ module WorkOS
       const :name, String
       const :connection_type, String
       const :domains, T::Array[T.untyped]
-      const :organization_id, String
+      const :organization_id, T.nilable(String)
       const :state, String
       const :status, String
       const :created_at, String

@@ -10,7 +10,7 @@ module WorkOS
       const :email, String
       const :first_name, T.nilable(String)
       const :last_name, T.nilable(String)
-      const :organization_id, String
+      const :organization_id, T.nilable(String)
       const :connection_id, String
       const :connection_type, String
       const :idp_id, T.nilable(String)

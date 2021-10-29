@@ -21,7 +21,7 @@ module WorkOS
       @name = T.let(raw.name, String)
       @connection_type = T.let(raw.connection_type, String)
       @domains = T.let(raw.domains, Array)
-      @organization_id = T.let(raw.organization_id, String)
+      @organization_id = raw.organization_id
       @state = T.let(raw.state, String)
       @status = T.let(raw.status, String)
       @created_at = T.let(raw.created_at, String)
