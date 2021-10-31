@@ -14,7 +14,7 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/3.0.1; x86_64-darwin19; v1.2.1
+      - WorkOS; ruby/3.0.2; x86_64-darwin19; v1.6.0
       Authorization:
       - Bearer <API_KEY>
   response:
@@ -22,14 +22,14 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - Cowboy
+      Date:
+      - Sun, 31 Oct 2021 23:03:01 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
       Connection:
       - keep-alive
-      Vary:
-      - Origin, Accept-Encoding
-      Access-Control-Allow-Credentials:
-      - 'true'
       Content-Security-Policy:
       - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
         https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
@@ -52,24 +52,42 @@ http_interactions:
       - no-referrer
       X-Xss-Protection:
       - '0'
+      Vary:
+      - Origin, Accept-Encoding
+      Access-Control-Allow-Credentials:
+      - 'true'
       X-Request-Id:
-      - 0f6aa030-02d6-456e-960b-60682ab134d0
-      Content-Type:
-      - application/json; charset=utf-8
-      Content-Length:
-      - '784'
+      - 6009e44d-df2c-40f3-86ad-929ea9362079
       Etag:
-      - W/"310-fBrsCTIA95j4JLo4UR8X2zBThYQ"
-      Date:
-      - Mon, 07 Jun 2021 17:55:29 GMT
+      - W/"cc4-a76uP4WPcu7cTLA79G0DPZmGW9Q"
       Via:
       - 1.1 vegur
+      Cf-Cache-Status:
+      - DYNAMIC
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=O7wQC%2B7g1ppMHWz9lao8DR2my83z8XtBX68EnYTeP8X1d4tSho2n8jpWq%2FT4xaKExSPn%2BnvlIotIUwtrZ5pkoULZQQvn1vHxHBE3eRKYZi7W0TO86ct3jtxDne%2B3FLOzLjCmkwYVgEEjkeb5Jg%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      Nel:
+      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 6a7083a96c520bef-DFW
+      Alt-Svc:
+      - h3=":443"; ma=86400, h3-29=":443"; ma=86400, h3-28=":443"; ma=86400, h3-27=":443";
+        ma=86400
     body:
-      encoding: UTF-8
-      string: '{"object":"list","listMetadata":{"before":"before-id","after":null},"data":[{"object":"directory","id":"directory_01F7796W20KW0CXEQQEYENT0ZC","organization_id":"org_01EZDF20TZEJXKPSX2BJRN6TV6","name":"Bamboo
-        Test","external_key":"rPzV4pdpbaUiKsc6","type":"bamboohr","state":"unlinked","domain":"foo-corp.com", "created_at":"2021-07-02T19:15:39.556Z","updated_at":"2021-07-02T19:31:28.499Z"},{"object":"directory","id":"directory_01F5ZY7XVQZ3DRYEZTH1EPA8BS","organization_id":"org_01EZDF20TZEJXKPSX2BJRN6TV6","name":"Foo
-        Corp","external_key":"qV4eyK99QGUaYYa0","type":"okta scim v2.0","state":"linked","domain":"foo-corp.com", "created_at":"2021-07-02T19:15:39.556Z","updated_at":"2021-07-02T19:31:28.499Z"},{"object":"directory","id":"directory_01F5XHH1QHX6C2F0Z6WG9YPGCJ","organization_id":"org_01F29YJ068E52HGEB8ZQGC9MJG","name":"Example
-        Azure SCIM","external_key":"YDKJvbWHKKg66cSk","type":"azure scim v2.0","state":"linked","domain":"example.com", "created_at":"2021-07-02T19:15:39.556Z","updated_at":"2021-07-02T19:31:28.499Z"}]}'
+      encoding: ASCII-8BIT
+      string: '{"object":"list","data":[{"object":"directory","id":"directory_01FK3HFFGMC2WF32RR8SKWC8KA","organization_id":"org_01FHRF60X0CDBB8F6A0YGSJJ2B","name":"Azure
+        Set Up Test","external_key":"Ii2mw43BMAIqiKuA","type":"azure scim v2.0","state":"linked","created_at":"2021-10-28T13:29:54.451Z","updated_at":"2021-10-28T13:32:03.737Z"},{"object":"directory","id":"directory_01FK17DWRHH7APAFXT5B52PV0W","organization_id":"org_01F6Q6TFP7RD2PF6J03ANNWDKV","name":"Testing
+        Active Attribute","external_key":"QArgyQQkq4G0MquM","type":"azure scim v2.0","state":"linked","created_at":"2021-10-27T15:55:47.856Z","updated_at":"2021-10-27T16:03:43.990Z","domain":"example.me"},{"object":"directory","id":"directory_01FHZKS052FGZQQCZHAX0E4AC0","organization_id":"org_01FHRF60X0CDBB8F6A0YGSJJ2B","name":"Okta
+        SCIM Test","external_key":"z76YkVQ9vEK0AUyy","type":"okta scim v2.0","state":"linked","created_at":"2021-10-14T14:37:24.004Z","updated_at":"2021-10-27T15:50:21.248Z"},{"object":"directory","id":"directory_01FGCQE0KD0V01GB46NJ7871F7","organization_id":"org_01FGCPJPQ35DR0WGGGBEC2V1GN","name":"Azure
+        Test","external_key":"S16nSw4AaAyW06ia","type":"azure scim v2.0","state":"linked","created_at":"2021-09-24T20:20:02.285Z","updated_at":"2021-10-27T15:50:21.579Z"},{"object":"directory","id":"directory_01FGCPNV312FHFRCX0BYWHVSE1","organization_id":"org_01FGCPJPQ35DR0WGGGBEC2V1GN","name":"Jump
+        Cloud Test","external_key":"amuPHnduKW0WQWmc","type":"generic scim v2.0","state":"linked","created_at":"2021-09-24T20:06:50.208Z","updated_at":"2021-10-27T15:50:21.493Z"},{"object":"directory","id":"directory_01FG7FERZ204FKVG0YJA2CKFNG","organization_id":"org_01FG52B571GYMYNX3JNY5X3QAK","name":"Azure
+        Test","external_key":"UtCjmfF8gmEiOU0O","type":"azure scim v2.0","state":"linked","created_at":"2021-09-22T19:24:26.462Z","updated_at":"2021-10-27T15:50:20.636Z","domain":"example.com"},{"object":"directory","id":"directory_01FG226GXGR369PTWYGFNDWR9D","organization_id":"org_01FCPEJXEZR4DSBA625YMGQT9N","name":"JumpCloud
+        Test","external_key":"NRgx1V0pe8m4ai6u","type":"generic scim v2.0","state":"linked","created_at":"2021-09-20T16:56:32.434Z","updated_at":"2021-10-27T15:50:20.888Z","domain":"example.io"},{"object":"directory","id":"directory_01FFR1120F90Z4YJC29JT37VK0","organization_id":"org_01F8873JSZWN1MJCDN537FEK1H","name":"Azure","external_key":"rAaT6GNCDuyyYkKq","type":"azure
+        scim v2.0","state":"linked","created_at":"2021-09-16T19:23:40.419Z","updated_at":"2021-10-27T15:50:19.998Z"},{"object":"directory","id":"directory_01FE1VTQYEQF7S3T2G0R2MFHN9","organization_id":"org_01FCPEJXEZR4DSBA625YMGQT9N","name":"Okta
+        SCIM test","external_key":"JCik62hLK6CA804q","type":"okta scim v2.0","state":"linked","created_at":"2021-08-26T18:33:51.309Z","updated_at":"2021-10-27T15:50:19.921Z","domain":"example.io"},{"object":"directory","id":"directory_01FCV1FRW3D93X8VBZBCAQWEVS","organization_id":"org_01F9293WD2PDEEV4Y625XPZVG7","name":"Testing","external_key":"p2TZ3heuEoyU2kWk","type":"azure
+        scim v2.0","state":"linked","created_at":"2021-08-11T16:42:20.416Z","updated_at":"2021-10-27T15:50:19.430Z","domain":"foo-corp.com"}],"list_metadata":{"before":"before-id","after":null},"listMetadata":{"before":"before-id","after":null}}'
     http_version:
-  recorded_at: Mon, 07 Jun 2021 17:55:29 GMT
+  recorded_at: Sun, 31 Oct 2021 23:03:01 GMT
 recorded_with: VCR 5.0.0

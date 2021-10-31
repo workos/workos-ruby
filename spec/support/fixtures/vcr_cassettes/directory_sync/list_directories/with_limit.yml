@@ -14,7 +14,7 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/3.0.1; x86_64-darwin19; v1.2.1
+      - WorkOS; ruby/3.0.2; x86_64-darwin19; v1.6.0
       Authorization:
       - Bearer <API_KEY>
   response:
@@ -22,14 +22,14 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - Cowboy
+      Date:
+      - Sun, 31 Oct 2021 23:03:02 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
       Connection:
       - keep-alive
-      Vary:
-      - Origin, Accept-Encoding
-      Access-Control-Allow-Credentials:
-      - 'true'
       Content-Security-Policy:
       - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
         https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
@@ -52,23 +52,34 @@ http_interactions:
       - no-referrer
       X-Xss-Protection:
       - '0'
+      Vary:
+      - Origin, Accept-Encoding
+      Access-Control-Allow-Credentials:
+      - 'true'
       X-Request-Id:
-      - 64e81466-93f3-4496-a218-53982dbf6614
-      Content-Type:
-      - application/json; charset=utf-8
-      Content-Length:
-      - '573'
+      - 5ce37d38-1376-429a-9052-f8b3a20b7a1f
       Etag:
-      - W/"23d-dw0vE9mpthzl0ajnZ3YLimmU4ZU"
-      Date:
-      - Mon, 07 Jun 2021 17:55:31 GMT
+      - W/"32e-Omiowe6KK7MTqS3mgnIBMR53RMc"
       Via:
       - 1.1 vegur
+      Cf-Cache-Status:
+      - DYNAMIC
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=FokV%2F1WK8Sg4dLf6m6Id%2F8wfHWKcdGsLenHbJdpxkh6Pc8TLsRsSD68RDAeDY%2FwavJ%2Bf1TjFwDsuIF%2FV2bPMJFMAqZ6uinTANK2iNXp8FGA9pM98aa9v8bekYflxceYXqDzkW8VhWtv6Wiv%2BsQ%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      Nel:
+      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 6a7083b1f8086799-DFW
+      Alt-Svc:
+      - h3=":443"; ma=86400, h3-29=":443"; ma=86400, h3-28=":443"; ma=86400, h3-27=":443";
+        ma=86400
     body:
-      encoding: UTF-8
-      string: '{"object":"list","listMetadata":{"before":"directory_01F5ZY7XVQZ3DRYEZTH1EPA8BS","after":null},"data":[{"object":"directory","id":"directory_01F7796W20KW0CXEQQEYENT0ZC","organization_id":"org_01EZDF20TZEJXKPSX2BJRN6TV6","name":"Bamboo
-        Test","external_key":"rPzV4pdpbaUiKsc6","type":"bamboohr","state":"unlinked","domain":"foo-corp.com", "created_at":"2021-07-02T19:15:39.556Z","updated_at":"2021-07-02T19:31:28.499Z"},{"object":"directory","id":"directory_01F5ZY7XVQZ3DRYEZTH1EPA8BS","organization_id":"org_01EZDF20TZEJXKPSX2BJRN6TV6","name":"Foo
-        Corp","external_key":"qV4eyK99QGUaYYa0","type":"okta scim v2.0","state":"linked","domain":"foo-corp.com", "created_at":"2021-07-02T19:15:39.556Z","updated_at":"2021-07-02T19:31:28.499Z"}]}'
+      encoding: ASCII-8BIT
+      string: '{"object":"list","data":[{"object":"directory","id":"directory_01FK3HFFGMC2WF32RR8SKWC8KA","organization_id":"org_01FHRF60X0CDBB8F6A0YGSJJ2B","name":"Azure
+        Set Up Test","external_key":"Ii2mw43BMAIqiKuA","type":"azure scim v2.0","state":"linked","created_at":"2021-10-28T13:29:54.451Z","updated_at":"2021-10-28T13:32:03.737Z"},{"object":"directory","id":"directory_01FK17DWRHH7APAFXT5B52PV0W","organization_id":"org_01F6Q6TFP7RD2PF6J03ANNWDKV","name":"Testing
+        Active Attribute","external_key":"QArgyQQkq4G0MquM","type":"azure scim v2.0","state":"linked","created_at":"2021-10-27T15:55:47.856Z","updated_at":"2021-10-27T16:03:43.990Z","domain":"example.me"}],"list_metadata":{"before":"directory_01FK17DWRHH7APAFXT5B52PV0W","after":null},"listMetadata":{"before":"directory_01FK17DWRHH7APAFXT5B52PV0W","after":null}}'
     http_version:
-  recorded_at: Mon, 07 Jun 2021 17:55:31 GMT
+  recorded_at: Sun, 31 Oct 2021 23:03:02 GMT
 recorded_with: VCR 5.0.0

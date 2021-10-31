@@ -15,7 +15,7 @@ describe WorkOS::DirectorySync do
         VCR.use_cassette 'directory_sync/list_directories/with_no_options' do
           directories = described_class.list_directories
 
-          expect(directories.data.size).to eq(3)
+          expect(directories.data.size).to eq(10)
           expect(directories.list_metadata).to eq(expected_metadata)
         end
       end
@@ -46,7 +46,7 @@ describe WorkOS::DirectorySync do
     context 'with search option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/directories?search=Foo',
+          '/directories?search=Testing',
           'Content-Type' => 'application/json'
         ]
 
@@ -57,10 +57,11 @@ describe WorkOS::DirectorySync do
 
         VCR.use_cassette 'directory_sync/list_directories/with_search' do
           directories = described_class.list_directories(
-            search: 'Foo',
+            search: 'Testing',
           )
 
-          expect(directories.data.size).to eq(1)
+          expect(directories.data.size).to eq(2)
+          expect(directories.data[0].name).to include('Testing')
         end
       end
     end
@@ -68,7 +69,7 @@ describe WorkOS::DirectorySync do
     context 'with the before option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/directories?before=before-id',
+          '/directories?before=directory_01FGCPNV312FHFRCX0BYWHVSE1',
           'Content-Type' => 'application/json'
         ]
 
@@ -79,10 +80,10 @@ describe WorkOS::DirectorySync do
 
         VCR.use_cassette 'directory_sync/list_directories/with_before' do
           directories = described_class.list_directories(
-            before: 'before-id',
+            before: 'directory_01FGCPNV312FHFRCX0BYWHVSE1',
           )
 
-          expect(directories.data.size).to eq(3)
+          expect(directories.data.size).to eq(6)
         end
       end
     end
@@ -90,7 +91,7 @@ describe WorkOS::DirectorySync do
     context 'with the after option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/directories?after=after-id',
+          '/directories?after=directory_01FGCPNV312FHFRCX0BYWHVSE1',
           'Content-Type' => 'application/json'
         ]
 
@@ -100,9 +101,9 @@ describe WorkOS::DirectorySync do
           and_return(expected_request)
 
         VCR.use_cassette 'directory_sync/list_directories/with_after' do
-          directories = described_class.list_directories(after: 'after-id')
+          directories = described_class.list_directories(after: 'directory_01FGCPNV312FHFRCX0BYWHVSE1')
 
-          expect(directories.data.size).to eq(3)
+          expect(directories.data.size).to eq(4)
         end
       end
     end
