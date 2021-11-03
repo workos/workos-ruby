@@ -8,7 +8,7 @@ module WorkOS
     class DirectoryStruct < T::Struct
       const :id, String
       const :name, String
-      const :domain, String
+      const :domain, T.nilable(String)
       const :type, String
       const :state, String
       const :organization_id, String

@@ -17,7 +17,7 @@ module WorkOS
 
       @id = T.let(raw.id, String)
       @name = T.let(raw.name, String)
-      @domain = T.let(raw.domain, String)
+      @domain = raw.domain
       @type = T.let(raw.type, String)
       @state = T.let(raw.state, String)
       @organization_id = T.let(raw.organization_id, String)
