@@ -62,12 +62,12 @@ module WorkOS
       #   => #<WorkOS::Directory:0x00007fb6e4193d20
       #         @id="directory_01FK17DWRHH7APAFXT5B52PV0W",
       #         @name="Foo Corp",
-      #         @domain="OktaSAML",
-      #         @type="",
-      #         @state="",
-      #         @organization_id="",
-      #         @created_at="",
-      #         @updated_at=""
+      #         @domain="foo-corp.com",
+      #         @type="okta scim v2.0",
+      #         @state="linked",
+      #         @organization_id="org_01F6Q6TFP7RD2PF6J03ANNWDKV",
+      #         @created_at="2021-10-27T15:55:47.856Z",
+      #         @updated_at="2021-10-27T16:03:43.990Z"
       #
       # @return [WorkOS::Directory]
       sig { params(id: String).returns(WorkOS::Directory) }
