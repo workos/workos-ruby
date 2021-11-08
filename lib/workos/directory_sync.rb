@@ -53,6 +53,35 @@ module WorkOS
         )
       end
 
+      # Retrieve directory.
+      #
+      # @param [String] id Directory unique identifier
+      #
+      # @example
+      #   WorkOS::SSO.get_directory(id: 'directory_01FK17DWRHH7APAFXT5B52PV0W')
+      #   => #<WorkOS::Directory:0x00007fb6e4193d20
+      #         @id="directory_01FK17DWRHH7APAFXT5B52PV0W",
+      #         @name="Foo Corp",
+      #         @domain="foo-corp.com",
+      #         @type="okta scim v2.0",
+      #         @state="linked",
+      #         @organization_id="org_01F6Q6TFP7RD2PF6J03ANNWDKV",
+      #         @created_at="2021-10-27T15:55:47.856Z",
+      #         @updated_at="2021-10-27T16:03:43.990Z"
+      #
+      # @return [WorkOS::Directory]
+      sig { params(id: String).returns(WorkOS::Directory) }
+      def get_directory(id:)
+        request = get_request(
+          auth: true,
+          path: "/directories/#{id}",
+        )
+
+        response = execute_request(request: request)
+
+        WorkOS::Directory.new(response.body)
+      end
+
       # Retrieve directory groups.
       #
       # @param [Hash] options An options hash

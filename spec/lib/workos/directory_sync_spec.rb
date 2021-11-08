@@ -143,6 +143,38 @@ describe WorkOS::DirectorySync do
     end
   end
 
+  describe '.get_directory' do
+    context 'with a valid id' do
+      it 'gets the directory details' do
+        VCR.use_cassette('directory_sync/get_directory_with_valid_id') do
+          directory = WorkOS::DirectorySync.get_directory(
+            id: 'directory_01FK17DWRHH7APAFXT5B52PV0W',
+          )
+
+          expect(directory.id).to eq('directory_01FK17DWRHH7APAFXT5B52PV0W')
+          expect(directory.name).to eq('Testing Active Attribute')
+          expect(directory.domain).to eq('example.me')
+          expect(directory.type).to eq('azure scim v2.0')
+          expect(directory.state).to eq('linked')
+          expect(directory.organization_id).to eq('org_01F6Q6TFP7RD2PF6J03ANNWDKV')
+        end
+      end
+    end
+
+    context 'with an invalid id' do
+      it 'raises an error' do
+        VCR.use_cassette('directory_sync/get_directory_with_invalid_id') do
+          expect do
+            WorkOS::DirectorySync.get_directory(id: 'invalid')
+          end.to raise_error(
+            WorkOS::APIError,
+            "Status 404, Directory not found: 'invalid'. - request ID: ",
+          )
+        end
+      end
+    end
+  end
+
   describe '.list_groups' do
     context 'with no options' do
       it 'raises an error' do
