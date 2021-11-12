@@ -20,7 +20,7 @@ module WorkOS
       @domain = raw.domain
       @type = T.let(raw.type, String)
       @state = T.let(raw.state, String)
-      @organization_id = T.let(raw.organization_id, String)
+      @organization_id = raw.organization_id
       @created_at = T.let(raw.created_at, String)
       @updated_at = T.let(raw.updated_at, String)
     end

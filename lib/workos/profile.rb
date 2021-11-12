@@ -23,7 +23,7 @@ module WorkOS
       @email = T.let(raw.email, String)
       @first_name = raw.first_name
       @last_name = raw.last_name
-      @organization_id = T.let(raw.organization_id, String)
+      @organization_id = raw.organization_id
       @connection_id = T.let(raw.connection_id, String)
       @connection_type = T.let(raw.connection_type, String)
       @idp_id = raw.idp_id

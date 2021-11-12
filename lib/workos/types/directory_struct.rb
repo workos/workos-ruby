@@ -11,7 +11,7 @@ module WorkOS
       const :domain, T.nilable(String)
       const :type, String
       const :state, String
-      const :organization_id, String
+      const :organization_id, T.nilable(String)
       const :created_at, String
       const :updated_at, String
     end
