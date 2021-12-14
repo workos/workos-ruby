@@ -21,23 +21,27 @@ module WorkOS
       # Generate an Oauth2 authorization URL where your users will
       # authenticate using the configured SSO Identity Provider.
       #
-      # @param [String] domain The domain for the relevant SSO Connection
-      #  configured on your WorkOS dashboard. One of provider or domain is
-      #  required
-      # @param [String] provider A provider name for an Identity Provider
-      #  configured on your WorkOS dashboard. Only 'Google' is supported.
-      # @param [String] connection The ID for a Connection configured on
-      #  WorkOS.
-      # @param [String] client_id The WorkOS client ID for the environment
-      #  where you've configured your SSO connection.
       # @param [String] redirect_uri The URI where users are directed
       #  after completing the authentication step. Must match a
       #  configured redirect URI on your WorkOS dashboard.
-      # @param [String] state An aribtrary state object
+      # @param [String] client_id The WorkOS client ID for the environment
+      #  where you've configured your SSO connection.
+      # @param [String] domain The domain for the relevant SSO Connection
+      #  configured on your WorkOS dashboard. One of provider, domain,
+      #  connection, or organization is required.
+      #  The domain is deprecated.
+      # @param [String] provider A provider name for an Identity Provider
+      #  configured on your WorkOS dashboard. Only 'GoogleOAuth' and
+      #  'MicrosoftOAuth' are supported.
+      # @param [String] connection The ID for a Connection configured on
+      #  WorkOS.
+      # @param [String] organization The ID for an Organization configured
+      #  on WorkOS.
+      # @param [String] state An arbitrary state object
       #  that is preserved and available to the client in the response.
       # @example
       #   WorkOS::SSO.authorization_url(
-      #     domain: 'acme.com',
+      #     connection: 'conn_123',
       #     client_id: 'project_01DG5TGK363GRVXP3ZS40WNGEZ',
       #     redirect_uri: 'https://workos.com/callback',
       #     state: {
@@ -45,12 +49,13 @@ module WorkOS
       #     }.to_s
       #   )
       #
-      #   => "https://api.workos.com/sso/authorize?domain=acme.com" \
+      #   => "https://api.workos.com/sso/authorize?connection=conn_123" \
       #      "&client_id=project_01DG5TGK363GRVXP3ZS40WNGEZ" \
       #      "&redirect_uri=https%3A%2F%2Fworkos.com%2Fcallback&" \
       #      "response_type=code&state=%7B%3Anext_page%3D%3E%22%2Fdocs%22%7D"
       #
       # @return [String]
+      # rubocop:disable Metrics/MethodLength, Metrics/ParameterLists
       sig do
         params(
           redirect_uri: String,
@@ -58,6 +63,7 @@ module WorkOS
           domain: T.nilable(String),
           provider: T.nilable(String),
           connection: T.nilable(String),
+          organization: T.nilable(String),
           state: T.nilable(String),
         ).returns(String)
       end
@@ -67,12 +73,19 @@ module WorkOS
         domain: nil,
         provider: nil,
         connection: nil,
+        organization: nil,
         state: ''
       )
+        if domain
+          warn '[DEPRECATION] `domain` is deprecated.
+          Please use `organization` instead.'
+        end
+
         validate_authorization_url_arguments(
           provider: provider,
           domain: domain,
           connection: connection,
+          organization: organization,
         )
 
         query = URI.encode_www_form({
@@ -83,10 +96,12 @@ module WorkOS
           domain: domain,
           provider: provider,
           connection: connection,
+          organization: organization,
         }.compact)
 
         "https://#{WorkOS::API_HOSTNAME}/sso/authorize?#{query}"
       end
+      # rubocop:enable Metrics/MethodLength, Metrics/ParameterLists
 
       sig do
         params(
@@ -229,16 +244,18 @@ module WorkOS
           domain: T.nilable(String),
           provider: T.nilable(String),
           connection: T.nilable(String),
+          organization: T.nilable(String),
         ).void
       end
       def validate_authorization_url_arguments(
         domain:,
         provider:,
-        connection:
+        connection:,
+        organization:
       )
-        if [domain, provider, connection].all?(&:nil?)
-          raise ArgumentError, 'Either connection, domain, or ' \
-            'provider is required.'
+        if [domain, provider, connection, organization].all?(&:nil?)
+          raise ArgumentError, 'Either connection, domain, ' \
+            'provider, or organization is required.'
         end
 
         return unless provider && !PROVIDERS.include?(provider)
