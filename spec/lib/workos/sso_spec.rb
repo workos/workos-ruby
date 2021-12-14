@@ -109,7 +109,75 @@ describe WorkOS::SSO do
       end
     end
 
-    context 'with neither connection, domain, or provider' do
+    context 'with a domain' do
+      let(:args) do
+        {
+          domain: 'foo.com',
+          client_id: 'workos-proj-123',
+          redirect_uri: 'foo.com/auth/callback',
+          state: {
+            next_page: '/dashboard/edit',
+          }.to_s,
+        }
+      end
+      it 'returns a valid URL' do
+        authorization_url = described_class.authorization_url(**args)
+
+        expect(URI.parse(authorization_url)).to be_a URI
+      end
+
+      it 'returns the expected hostname' do
+        authorization_url = described_class.authorization_url(**args)
+
+        expect(URI.parse(authorization_url).host).to eq(WorkOS::API_HOSTNAME)
+      end
+
+      it 'returns the expected query string' do
+        authorization_url = described_class.authorization_url(**args)
+
+        expect(URI.parse(authorization_url).query).to eq(
+          'client_id=workos-proj-123&redirect_uri=foo.com%2Fauth%2Fcallback' \
+          '&response_type=code&state=%7B%3Anext_page%3D%3E%22%2Fdashboard%2F' \
+          'edit%22%7D&domain=foo.com',
+        )
+      end
+    end
+
+    context 'with an organization' do
+      let(:args) do
+        {
+          organization: 'org_123',
+          client_id: 'workos-proj-123',
+          redirect_uri: 'foo.com/auth/callback',
+          state: {
+            next_page: '/dashboard/edit',
+          }.to_s,
+        }
+      end
+      it 'returns a valid URL' do
+        authorization_url = described_class.authorization_url(**args)
+
+        expect(URI.parse(authorization_url)).to be_a URI
+      end
+
+      it 'returns the expected hostname' do
+        authorization_url = described_class.authorization_url(**args)
+
+        expect(URI.parse(authorization_url).host).to eq(WorkOS::API_HOSTNAME)
+      end
+
+      it 'returns the expected query string' do
+        authorization_url = described_class.authorization_url(**args)
+
+        expect(URI.parse(authorization_url).query).to eq(
+          'client_id=workos-proj-123&redirect_uri=foo.com%2Fauth%2Fcallback' \
+          '&response_type=code&state=%7B%3Anext_page%3D%3E%22%2Fdashboard%2F' \
+          'edit%22%7D&organization=org_123',
+        )
+      end
+    end
+
+    context 'with neither connection, domain, provider, or organization' do
       let(:args) do
         {
           client_id: 'workos-proj-123',
@@ -124,7 +192,7 @@ describe WorkOS::SSO do
           described_class.authorization_url(**args)
         end.to raise_error(
           ArgumentError,
-          'Either connection, domain, or provider is required.',
+          'Either connection, domain, provider, or organization is required.',
         )
       end
     end
