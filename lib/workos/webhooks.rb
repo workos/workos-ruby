@@ -65,7 +65,7 @@ module WorkOS
           tolerance: Integer,
         ).returns(T::Boolean)
       end
-      # rubocop:disable Metrics/MethodLength
+      # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
       def verify_header(
         payload:,
         sig_header:,
@@ -86,7 +86,9 @@ module WorkOS
           )
         end
 
-        if timestamp < Time.now - tolerance
+        timestamp_to_time = Time.at(timestamp.to_i / 1000)
+
+        if timestamp_to_time < Time.now - tolerance
           raise WorkOS::SignatureVerificationError.new(
             message: 'Timestamp outside the tolerance zone',
           )
@@ -101,7 +103,7 @@ module WorkOS
 
         true
       end
-      # rubocop:enable Metrics/MethodLength
+      # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
 
       sig do
         params(
@@ -122,12 +124,12 @@ module WorkOS
         timestamp = timestamp.sub('t=', '')
         signature_hash = signature_hash.sub('v1=', '')
 
-        [Time.at(timestamp.to_i), signature_hash]
+        [timestamp, signature_hash]
       end
 
       sig do
         params(
-          timestamp: Time,
+          timestamp: String,
           payload: String,
           secret: String,
         ).returns(String)
@@ -137,7 +139,7 @@ module WorkOS
         payload:,
         secret:
       )
-        unhashed_string = "#{timestamp.to_i}.#{payload}"
+        unhashed_string = "#{timestamp}.#{payload}"
         digest = OpenSSL::Digest.new('sha256')
         OpenSSL::HMAC.hexdigest(digest, secret, unhashed_string)
       end

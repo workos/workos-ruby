@@ -177,7 +177,7 @@ describe WorkOS::Webhooks do
         expect do
           described_class.construct_event(
             payload: @payload,
-            sig_header: "t=9999, v1=#{@signature_hash}",
+            sig_header: "t=#{@timestamp.to_i - (200 * 1000)}, v1=#{@signature_hash}",
             secret: @secret,
           )
         end.to raise_error(
