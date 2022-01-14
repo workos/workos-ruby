@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    workos (2.1.0)
+    workos (2.1.1)
       sorbet-runtime (~> 0.5)
 
 GEM
@@ -60,7 +60,7 @@ GEM
     simplecov_json_formatter (0.1.2)
     sorbet (0.5.6388)
       sorbet-static (= 0.5.6388)
-    sorbet-runtime (0.5.9300)
+    sorbet-runtime (0.5.9528)
     sorbet-static (0.5.6388-universal-darwin-14)
     sorbet-static (0.5.6388-universal-darwin-15)
     sorbet-static (0.5.6388-universal-darwin-16)
