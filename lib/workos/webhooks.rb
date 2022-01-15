@@ -108,7 +108,7 @@ module WorkOS
       sig do
         params(
           sig_header: String,
-        ).returns(T::Array[T.untyped])
+        ).returns([String, String])
       end
       def get_timestamp_and_signature_hash(
         sig_header:
