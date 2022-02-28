@@ -26,6 +26,8 @@ module WorkOS
       #  before a provided Directory ID.
       # @option options [String] after Pagination cursor to receive records
       #  before a provided Directory ID.
+      # @option options [String] organization The ID for an Organization configured
+      #  on WorkOS.
       #
       # @return [Hash]
       sig do
@@ -94,7 +96,7 @@ module WorkOS
       #  before a provided Directory Group ID.
       # @option options [String] after Pagination cursor to receive records
       #  before a provided Directory Group ID.
-      #
+      # 
       # @return [Hash]
       sig do
         params(
