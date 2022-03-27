@@ -18,5 +18,6 @@ module WorkOS
     require_relative 'types/webhook_struct'
     require_relative 'types/factor_struct'
     require_relative 'types/challenge_factor_struct'
+    require_relative 'types/verify_factor_struct'
   end
 end

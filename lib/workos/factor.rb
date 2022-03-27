@@ -14,11 +14,8 @@ module WorkOS
       @type = T.let(raw.type, String)
       @created_at = T.let(raw.created_at, String)
       @updated_at = T.let(raw.updated_at, String)
-      if raw.type == 'totp'
-        @totp = T.let(raw.totp, Hash)
-      elsif raw.type == 'sms'
-        @sms = T.let(raw.sms, Hash) 
-      end
+      @totp = raw.totp
+      @sms = raw.sms 
     end
     # rubocop:enable Metrics/AbcSize
 

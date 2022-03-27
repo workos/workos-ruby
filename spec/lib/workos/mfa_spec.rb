@@ -106,8 +106,45 @@ describe WorkOS::MFA do
           challengeFactor = described_class.challenge_factor(
             authentication_factor_id: 'auth_factor_01FZ4WMXXA09XF6NK1XMKNWB3M',
           )
-          puts challengeFactor.code.class
           expect(challengeFactor.code.class == String)
+        end
+      end
+    end
+  end
+  describe 'challenge factor with valid requests' do
+    context 'verify generic otp' do
+      it 'returns a true boolean if the challenge has not been verifed yet' do
+        VCR.use_cassette 'mfa/verify_factor_generic_valid' do
+          verifyFactor = described_class.verify_factor(
+            authentication_challenge_id: 'auth_challenge_01FZ4YVRBMXP5ZM0A7BP4AJ12J',
+            code: '897792'
+          )
+          expect(verifyFactor.valid == 'true')
+        end
+      end
+    end
+    context 'verify generic otp' do
+      it 'returns error that the challenge has already been verfied' do
+        VCR.use_cassette 'mfa/verify_factor_generic_invalid' do
+          expect do
+            verifyFactor = described_class.verify_factor(
+              authentication_challenge_id: 'auth_challenge_01FZ4YVRBMXP5ZM0A7BP4AJ12J',
+              code: '897792'
+            )
+          end.to raise_error(WorkOS::InvalidRequestError)
+        end
+      end
+      context 'verify generic otp' do
+        it 'returns error that the challenge has expired' do
+          VCR.use_cassette 'mfa/verify_factor_generic_expired' do
+            expect do
+              verifyFactor = described_class.verify_factor(
+                authentication_challenge_id: 'auth_challenge_01FZ4YVRBMXP5ZM0A7BP4AJ12J',
+                code: '897792'
+              )
+
+            end.to raise_error(WorkOS::InvalidRequestError)
+          end
         end
       end
     end

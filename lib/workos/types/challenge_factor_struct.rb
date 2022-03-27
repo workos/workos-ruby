@@ -3,7 +3,7 @@
 
 module WorkOS
     module Types
-        # This FactorStruct acts as a typed interface
+        # This ChallgengeFactorStruct acts as a typed interface
         # for the Factor class
         class ChallengeFactorStruct < T::Struct
             const :id, String

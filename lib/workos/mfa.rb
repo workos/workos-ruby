@@ -132,7 +132,7 @@ module WorkOS
         params(
           authentication_challenge_id: String,
           code: String,
-        ).returns(String)
+        ).returns(WorkOS::VerifyFactor)
       end
       def verify_factor(
         authentication_challenge_id:,
@@ -155,7 +155,7 @@ module WorkOS
             body: options
             ),
         )
-        WorkOS::Factor.new(response.body)
+        WorkOS::VerifyFactor.new(response.body)
        end
     end
   end

@@ -20,7 +20,6 @@ describe WorkOS::SSO do
       end
       it 'returns a valid URL' do
         authorization_url = described_class.authorization_url(**args)
-        puts authorization_url
         expect(URI.parse(authorization_url)).to be_a URI
       end
 
