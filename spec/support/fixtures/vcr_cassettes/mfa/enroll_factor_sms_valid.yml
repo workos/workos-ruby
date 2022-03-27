@@ -1,0 +1,84 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.workos.com/auth/factors/enroll
+    body:
+      encoding: UTF-8
+      string: type=sms&phone_number=%2B15005550006
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - api.workos.com
+      Authorization:
+      - Bearer <API_KEY>
+      Content-Type:
+      - application/x-www-form-urlencoded
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Fri, 25 Mar 2022 23:59:54 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '269'
+      Connection:
+      - keep-alive
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      X-Dns-Prefetch-Control:
+      - 'off'
+      Expect-Ct:
+      - max-age=0
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Download-Options:
+      - noopen
+      X-Content-Type-Options:
+      - nosniff
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - no-referrer
+      X-Xss-Protection:
+      - '0'
+      Vary:
+      - Origin, Accept-Encoding
+      Access-Control-Allow-Credentials:
+      - 'true'
+      X-Request-Id:
+      - 577f962d-2ec9-4c15-9bec-76db959e2510
+      Etag:
+      - W/"10d-MZHk+Xqi2qEduqnXhjVPJ4U7QkM"
+      Via:
+      - 1.1 vegur
+      Cf-Cache-Status:
+      - DYNAMIC
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=FtJa7WYLbQnelzV3upM0Luf0iIbdMiakRfbnJONuC68shEgM29W51g5eKjDvIDrHCbkdJGAPCD5WumfqQ2Y%2FbUaUJCRXm2XFufjR%2FIMRat1Z6QCcL9WmjlwnCT%2Fc7oITAw%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      Nel:
+      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 6f1b9a5bff418f3e-SEA
+      Alt-Svc:
+      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
+    body:
+      encoding: UTF-8
+      string: '{"object":"authentication_factor","id":"auth_factor_01FZ1RBDK2RQGK35F4KNK4FVQP","created_at":"2022-03-25T23:59:54.438Z","updated_at":"2022-03-25T23:59:54.438Z","type":"sms","environment_id":"environment_01EQ1FTYTAZCVYSV4SYSRWRR3A","sms":{"phone_number":"+15005550006"}}'
+    http_version:
+  recorded_at: Fri, 25 Mar 2022 23:59:54 GMT
+recorded_with: VCR 5.0.0

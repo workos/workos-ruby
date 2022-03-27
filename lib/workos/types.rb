@@ -16,5 +16,7 @@ module WorkOS
     require_relative 'types/provider_enum'
     require_relative 'types/directory_user_struct'
     require_relative 'types/webhook_struct'
+    require_relative 'types/factor_struct'
+    require_relative 'types/challenge_factor_struct'
   end
 end

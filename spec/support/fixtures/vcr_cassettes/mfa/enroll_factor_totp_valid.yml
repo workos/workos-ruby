@@ -1,0 +1,82 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.workos.com/auth/factors/enroll
+    body:
+      encoding: UTF-8
+      string: '{"type":"totp","totp_issuer":"WorkOS","totp_user":"some_user","phone_number":null}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/3.0.2; arm64-darwin21; v2.1.1
+      Authorization:
+      - Bearer <API_KEY>
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Fri, 25 Mar 2022 23:47:57 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      X-Dns-Prefetch-Control:
+      - 'off'
+      Expect-Ct:
+      - max-age=0
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Download-Options:
+      - noopen
+      X-Content-Type-Options:
+      - nosniff
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - no-referrer
+      X-Xss-Protection:
+      - '0'
+      Vary:
+      - Origin, Accept-Encoding
+      Access-Control-Allow-Credentials:
+      - 'true'
+      X-Request-Id:
+      - d0ee3f31-5f7a-4816-93c9-8d8a9a883581
+      Etag:
+      - W/"1866-xLBAV02UITeO4xPsZJB1CoKHlTA"
+      Via:
+      - 1.1 vegur
+      Cf-Cache-Status:
+      - DYNAMIC
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=%2Bb1hR7H0JdIJ6H0xWAQV51vaunf0ZAqrIkWDVnoRWNo%2F3CnGwhcd81aLg%2FW4FsadFEgFA3O%2BerTMBvfSRSwCemEdHESFULjXtg5goLKo5ItrKmiof9gVXDt1Nqrnss6oiA%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      Nel:
+      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 6f1b88db5d0b39ad-SEA
+      Alt-Svc:
+      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
+    body:
+      encoding: ASCII-8BIT
+      string: '{"object":"authentication_factor","id":"auth_factor_01FZ1QNHAEKGV5WQQCPM0X2XRD","created_at":"2022-03-25T23:47:57.391Z","updated_at":"2022-03-25T23:47:57.391Z","type":"totp","environment_id":"environment_01EQ1FTYTAZCVYSV4SYSRWRR3A","totp":{"qr_code":"data:image/png;base64,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","secret":"PBUGSW2VOFJW222MFM2UAC26LNBTYWZD","uri":"otpauth://totp/WorkOS:some_user?secret=PBUGSW2VOFJW222MFM2UAC26LNBTYWZD&issuer=WorkOS"}}'
+    http_version:
+  recorded_at: Fri, 25 Mar 2022 23:47:57 GMT
+recorded_with: VCR 5.0.0
