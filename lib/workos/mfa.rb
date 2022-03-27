@@ -55,7 +55,7 @@ module WorkOS
           phone_number: nil
         )
 
-        if type != "sms" and type != "totp"
+        if type != "sms" and type != "totp" and type != "generic_otp"
             raise ArgumentError, "Type parameter must be either 'sms' or 'totp'"
         end
 
@@ -82,6 +82,7 @@ module WorkOS
 
             response = execute_request(request: request)
             WorkOS::Factor.new(response.body)
+
         elsif type == 'sms'
             url = URI("https://#{WorkOS::API_HOSTNAME}/auth/factors/enroll")
 
@@ -101,31 +102,29 @@ module WorkOS
 
       sig do
         params(
-          sms_template: String,
           authentication_factor_id: String,
+          sms_template: T.nilable(String),
         ).returns(WorkOS::ChallengeFactor)
       end
       def challenge_factor(
-        sms_template:,
-        authentication_factor_id:
-        )
+        authentication_factor_id:,
+        sms_template: nil
+    )
 
         if authentication_factor_id == nil
             raise ArgumentError, "Incomplete arguments: 'authentication_factor_id' is a required parameter"
         end
 
-        options = {
-            "sms_template": type,
-            "authentication_factor_id": totp_issuer,
-        }
-
-        response = execute_request(
-            request: post_request(
-            path: '/auth/factors/challenge',
+        request = post_request( 
             auth: true,
-            body: options
-            ),
+            body: {
+                sms_template: sms_template,
+                authentication_factor_id: authentication_factor_id,
+                },
+            path: '/auth/factors/challenge',
         )
+
+        response = execute_request(request: request)
         WorkOS::ChallengeFactor.new(response.body)
       end
 

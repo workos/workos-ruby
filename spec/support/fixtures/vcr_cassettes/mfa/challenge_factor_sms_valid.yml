@@ -2,34 +2,32 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.workos.com/auth/factors/enroll
+    uri: https://api.workos.com/auth/factors/challenge
     body:
       encoding: UTF-8
-      string: type=sms&phone_number=%2B15005550006
+      string: '{"sms_template":"Your code is {{code}}","authentication_factor_id":"auth_factor_01FZ4TS14D1PHFNZ9GF6YD8M1F"}'
     headers:
+      Content-Type:
+      - application/json
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
       - "*/*"
       User-Agent:
-      - Ruby
-      Host:
-      - api.workos.com
+      - WorkOS; ruby/3.0.2; arm64-darwin21; v2.1.1
       Authorization:
       - Bearer <API_KEY>
-      Content-Type:
-      - application/x-www-form-urlencoded
   response:
     status:
       code: 201
       message: Created
     headers:
       Date:
-      - Sun, 27 Mar 2022 04:40:00 GMT
+      - Sun, 27 Mar 2022 05:03:26 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '269'
+      - '274'
       Connection:
       - keep-alive
       Content-Security-Policy:
@@ -59,26 +57,26 @@ http_interactions:
       Access-Control-Allow-Credentials:
       - 'true'
       X-Request-Id:
-      - 2d0f1e87-ae5c-4f5d-99f5-cc41cff500ea
+      - b9c66c87-adf4-4a9a-854f-d838f966ea5c
       Etag:
-      - W/"10d-2xUTGA00wSrdV/03IW+fegu3dmM"
+      - W/"112-VpD9nscbxE6VOcsJlK2RHEzlq3s"
       Via:
       - 1.1 vegur
       Cf-Cache-Status:
       - DYNAMIC
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=bcBtV%2FHZAcx230caJp0Dq0fBM7qyZSl9umV85rHsx6vBED9cxxbOQUjxL69ux0rLMi%2FUWb2j09Si8Q9BZRA9VBIyBDBdLNvkN6MEfiGMTtI5n2KuIN%2FIbcs%2B%2FDhOhRmrYA%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=yNaSbl1oXtixmxb7lJOn7tDKzD0mN8jSFHJmTsZfD6YTlSGeMrdBgfi3LUFeDv1ldKcdNe5eZ%2BkRrVM986RUizGOhL2xzdl2AkJEdudIRaaJCMdWbjQDmGLbC4OPFajMIA%3D%3D"}],"group":"cf-nel","max_age":604800}'
       Nel:
       - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
       Server:
       - cloudflare
       Cf-Ray:
-      - 6f25720c2a500950-SEA
+      - 6f25945b9ee639b4-SEA
       Alt-Svc:
       - h3=":443"; ma=86400, h3-29=":443"; ma=86400
     body:
       encoding: UTF-8
-      string: '{"object":"authentication_factor","id":"auth_factor_01FZ4TS14D1PHFNZ9GF6YD8M1F","created_at":"2022-03-27T04:40:00.856Z","updated_at":"2022-03-27T04:40:00.856Z","type":"sms","environment_id":"environment_01EQ1FTYTAZCVYSV4SYSRWRR3A","sms":{"phone_number":"+15005550006"}}'
+      string: '{"object":"authentication_challenge","id":"auth_challenge_01FZ4W3XG1VD8ZD5TXSYQMFMSR","created_at":"2022-03-27T05:03:26.203Z","updated_at":"2022-03-27T05:03:26.203Z","expires_at":"2022-03-27T05:13:26.204Z","authentication_factor_id":"auth_factor_01FZ4TS14D1PHFNZ9GF6YD8M1F"}'
     http_version:
-  recorded_at: Sun, 27 Mar 2022 04:40:01 GMT
+  recorded_at: Sun, 27 Mar 2022 05:03:26 GMT
 recorded_with: VCR 5.0.0
