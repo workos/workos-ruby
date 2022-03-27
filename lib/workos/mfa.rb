@@ -16,7 +16,7 @@ module WorkOS
       def delete_factor(id:)
         response = execute_request(
             request: delete_request(
-              path: '/auth/factors/#{id}',
+              path: "/auth/factors/#{id}",
               auth: true,
             ),
         )
@@ -33,7 +33,7 @@ module WorkOS
         )
         response = execute_request(
             request: get_request(
-              path: '/auth/factors/#{id}',
+              path: "/auth/factors/#{id}",
               auth: true,
             ),
         )

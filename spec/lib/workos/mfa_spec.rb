@@ -149,4 +149,37 @@ describe WorkOS::MFA do
       end
     end
   end
+  describe 'tests returning and deleting a factor' do
+    context 'returns a factor' do
+      it 'uses get_factor to return  factor' do
+        VCR.use_cassette 'mfa/get_factor_valid' do
+          factor = described_class.get_factor(
+            id: 'auth_factor_01FZ4WMXXA09XF6NK1XMKNWB3M'
+          )
+          expect(factor.id.class == String)
+        end
+      end
+    end
+    context 'invalid factor request' do
+      it 'uses get_factor and throws error if id is wrong' do
+        VCR.use_cassette 'mfa/get_factor_invalid' do
+          expect do
+            factor = described_class.get_factor(
+              id: 'auth_factor_invalid'
+            )
+          end.to raise_error(WorkOS::APIError)
+        end
+      end
+    end
+    context 'deletes facotr' do
+      it 'uses delete_factor to delete factor' do
+        VCR.use_cassette 'mfa/delete_factor' do
+          response = described_class.delete_factor(
+            id: 'auth_factor_01FZ4WMXXA09XF6NK1XMKNWB3M'
+          )
+          expect(response).to be(true)
+        end
+      end
+    end
+  end
 end
