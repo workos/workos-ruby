@@ -54,9 +54,8 @@ module WorkOS
           totp_user: nil,
           phone_number: nil
         )
-
         if type != "sms" and type != "totp" and type != "generic_otp"
-            raise ArgumentError, "Type parameter must be either 'sms' or 'totp'"
+            raise ArgumentError, "Type argument must be either 'sms' or 'totp'"
         end
 
         if (type == "totp" and totp_issuer == nil) or (type == "totp" and totp_user == nil)
@@ -87,17 +86,16 @@ module WorkOS
 
         sig do
           params(
-            authentication_factor_id: String,
+            authentication_factor_id: T.nilable(String),
             sms_template: T.nilable(String),
           ).returns(WorkOS::ChallengeFactor)
         end
         def challenge_factor(
-          authentication_factor_id:,
+          authentication_factor_id: nil,
           sms_template: nil
       )
-
         if authentication_factor_id == nil
-            raise ArgumentError, "Incomplete arguments: 'authentication_factor_id' is a required parameter"
+            raise ArgumentError, "Incomplete arguments: 'authentication_factor_id' is a required argument"
         end
 
         request = post_request( 
@@ -115,17 +113,17 @@ module WorkOS
 
       sig do
         params(
-          authentication_challenge_id: String,
-          code: String,
+          authentication_challenge_id: T.nilable(String),
+          code: T.nilable(String),
         ).returns(WorkOS::VerifyFactor)
       end
       def verify_factor(
-        authentication_challenge_id:,
-        code:
+        authentication_challenge_id: nil,
+        code: nil
         )
 
         if authentication_challenge_id == nil or code == nil
-            raise ArgumentError, "Incomplete arguments: 'authentication_challenge_id' and 'code' are required parameters"
+            raise ArgumentError, "Incomplete arguments: 'authentication_challenge_id' and 'code' are required arguments"
         end
 
         options = {

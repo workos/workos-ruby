@@ -4,7 +4,7 @@
 describe WorkOS::MFA do
   it_behaves_like 'client'
   describe 'enroll_factor valid requests' do
-    context 'enroll factor using valid generic parameters' do
+    context 'enroll factor using valid generic argument' do
       it 'returns a valid factor object' do
         VCR.use_cassette 'mfa/enroll_factor_generic_valid' do
           factor = described_class.enroll_factor(
@@ -14,7 +14,7 @@ describe WorkOS::MFA do
         end
       end
     end
-    context 'enroll factor using valid totp parameters' do
+    context 'enroll factor using valid totp arguments' do
       it 'returns a valid factor object' do
         VCR.use_cassette 'mfa/enroll_factor_totp_valid' do
           factor = described_class.enroll_factor(
@@ -26,7 +26,7 @@ describe WorkOS::MFA do
         end
       end
     end
-    context 'enroll factor using valid sms parameters' do
+    context 'enroll factor using valid sms arguments' do
       it 'returns a valid factor object' do
         VCR.use_cassette 'mfa/enroll_factor_sms_valid' do
           factor = described_class.enroll_factor(
@@ -48,7 +48,7 @@ describe WorkOS::MFA do
           )
         end.to raise_error(
           ArgumentError,
-          "Type parameter must be either 'sms' or 'totp'",
+          "Type argument must be either 'sms' or 'totp'",
         )
       end
     end
@@ -78,7 +78,7 @@ describe WorkOS::MFA do
       end
     end
   end
-  describe 'challenge factor with valid requests' do
+  describe 'challenge factor with valid request arguments' do
     context 'challenge with totp' do
       it 'returns challenge factor object for totp' do
         VCR.use_cassette 'mfa/challenge_factor_totp_valid' do
@@ -108,6 +108,20 @@ describe WorkOS::MFA do
           )
           expect(challengeFactor.code.class == String)
         end
+      end
+    end
+  end
+  describe 'challenge factor with invalid arguments' do
+    context 'challenge with totp mssing authentication_factor_id' do
+      it 'returns argument error' do
+        expect do
+            challengeFactor = described_class.challenge_factor(
+    
+            )
+          end.to raise_error(
+            ArgumentError,
+            "Incomplete arguments: 'authentication_factor_id' is a required argument"
+          )
       end
     end
   end
@@ -142,10 +156,47 @@ describe WorkOS::MFA do
                 authentication_challenge_id: 'auth_challenge_01FZ4YVRBMXP5ZM0A7BP4AJ12J',
                 code: '897792'
               )
-
             end.to raise_error(WorkOS::InvalidRequestError)
           end
         end
+      end
+    end
+  end
+  describe 'verify_factor with invalid argument' do
+    context 'missing code argument' do
+      it 'returns argument error' do
+        expect do
+            challengeFactor = described_class.verify_factor(
+              authentication_challenge_id: 'auth_challenge_01FZ4YVRBMXP5ZM0A7BP4AJ12J'
+            )
+          end.to raise_error(
+            ArgumentError, 
+            "Incomplete arguments: 'authentication_challenge_id' and 'code' are required arguments"
+          )
+      end
+    end
+    context 'missing authentication_challenge_id argument' do
+      it '' do
+        expect do
+            challengeFactor = described_class.verify_factor(
+              code: '897792'
+            )
+          end.to raise_error(
+            ArgumentError, 
+            "Incomplete arguments: 'authentication_challenge_id' and 'code' are required arguments"
+          )
+      end
+    end
+    context 'missing code and authentication_challenge_id arguments' do
+      it 'returns argument error' do
+        expect do
+            challengeFactor = described_class.verify_factor(
+    
+            )
+          end.to raise_error(
+            ArgumentError, 
+            "Incomplete arguments: 'authentication_challenge_id' and 'code' are required arguments"
+          )
       end
     end
   end
