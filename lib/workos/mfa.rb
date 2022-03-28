@@ -45,10 +45,10 @@ module WorkOS
           totp_issuer: T.nilable(String),
           totp_user: T.nilable(String),
           phone_number: T.nilable(String),
-        ).returns(WorkOS::Factor)
+        ).void
       end
-      # rubocop:disable Metrics/MethodLength
-      def enroll_factor(
+
+      def validate_args(
         type:,
         totp_issuer: nil,
         totp_user: nil,
@@ -60,10 +60,32 @@ module WorkOS
         if (type == 'totp' && totp_issuer.nil?) || (type == 'totp' && totp_user.nil?)
           raise ArgumentError, 'Incomplete arguments. Need to specify both totp_issuer and totp_user when type is totp'
         end
-        if type == 'sms' && phone_number.nil?
-          raise ArgumentError, 'Incomplete arguments. Need to specify phone_number when type is sms'
-        end
+        return unless type == 'sms' && phone_number.nil?
 
+        raise ArgumentError, 'Incomplete arguments. Need to specify phone_number when type is sms'
+      end
+
+      sig do
+        params(
+          type: String,
+          totp_issuer: T.nilable(String),
+          totp_user: T.nilable(String),
+          phone_number: T.nilable(String),
+        ).returns(WorkOS::Factor)
+      end
+      # rubocop:disable Metrics/MethodLength
+      def enroll_factor(
+        type:,
+        totp_issuer: nil,
+        totp_user: nil,
+        phone_number: nil
+      )
+        validate_args(
+          type: type,
+          totp_issuer: totp_issuer,
+          totp_user: totp_user,
+          phone_number: phone_number,
+        )
         response = execute_request(request: post_request(
           auth: true,
           body: {
@@ -74,10 +96,10 @@ module WorkOS
           },
           path: '/auth/factors/enroll',
         ))
-
         WorkOS::Factor.new(response.body)
       end
       # rubocop:enable Metrics/MethodLength
+
       sig do
         params(
           authentication_factor_id: T.nilable(String),
