@@ -68,36 +68,21 @@ module WorkOS
             
         end
         # this condition is added as type is sms will return a 500 if content type is application/json
-        if type == "totp" or type == "generic_otp"
-            request = post_request( 
-                auth: true,
-                body: {
-                    type: type,
-                    totp_issuer: totp_issuer,
-                    totp_user: totp_user,
-                    phone_number: phone_number,
-                    },
-                path: '/auth/factors/enroll',
-            )
+        request = post_request( 
+            auth: true,
+            body: {
+                type: type,
+                totp_issuer: totp_issuer,
+                totp_user: totp_user,
+                phone_number: phone_number,
+                },
+            path: '/auth/factors/enroll',
+        )
 
-            response = execute_request(request: request)
-            WorkOS::Factor.new(response.body)
+        response = execute_request(request: request)
 
-        elsif type == 'sms'
-            url = URI("https://#{WorkOS::API_HOSTNAME}/auth/factors/enroll")
-
-            https = Net::HTTP.new(url.host, url.port)
-            https.use_ssl = true
-            
-            request = Net::HTTP::Post.new(url)
-            request["Authorization"] = "Bearer #{WorkOS.key!}"
-            request["Content-Type"] = "application/x-www-form-urlencoded"
-
-            encoded_number = ERB::Util.url_encode(phone_number)
-            request.body = "type=sms&phone_number=#{encoded_number}"
-            response = https.request(request)
-            WorkOS::Factor.new(response.body)
-        end
+        WorkOS::Factor.new(response.body)
+    
       end
 
       sig do

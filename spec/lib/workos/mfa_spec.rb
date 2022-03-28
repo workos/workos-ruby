@@ -31,7 +31,7 @@ describe WorkOS::MFA do
         VCR.use_cassette 'mfa/enroll_factor_sms_valid' do
           factor = described_class.enroll_factor(
             type: 'sms',
-            phone_number: '+15005550006',
+            phone_number: '55555555555',
           )
           expect(factor.sms.class == Hash)
         end
