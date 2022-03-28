@@ -85,16 +85,16 @@ module WorkOS
     
       end
 
-      sig do
-        params(
-          authentication_factor_id: String,
-          sms_template: T.nilable(String),
-        ).returns(WorkOS::ChallengeFactor)
-      end
-      def challenge_factor(
-        authentication_factor_id:,
-        sms_template: nil
-    )
+        sig do
+          params(
+            authentication_factor_id: String,
+            sms_template: T.nilable(String),
+          ).returns(WorkOS::ChallengeFactor)
+        end
+        def challenge_factor(
+          authentication_factor_id:,
+          sms_template: nil
+      )
 
         if authentication_factor_id == nil
             raise ArgumentError, "Incomplete arguments: 'authentication_factor_id' is a required parameter"
@@ -141,7 +141,7 @@ module WorkOS
             ),
         )
         WorkOS::VerifyFactor.new(response.body)
-       end
+      end
     end
   end
 end

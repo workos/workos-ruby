@@ -10,8 +10,8 @@ module WorkOS
         const :environment_id, String
         const :object, String
         const :type, String
-        const :totp, T.nilable(Hash)
-        const :sms, T.nilable(Hash)
+        const :totp, T.nilable(T::Hash[Symbol, Object])
+        const :sms, T.nilable(T::Hash[Symbol, Object])
         const :created_at, String
         const :updated_at, String
     end
