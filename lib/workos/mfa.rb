@@ -15,7 +15,7 @@ module WorkOS
       def delete_factor(id:)
         response = execute_request(
           request: delete_request(
-          ath: "/auth/factors/#{id}",
+          path: "/auth/factors/#{id}",
           auth: true,
           ),
         )
@@ -60,7 +60,7 @@ module WorkOS
         if type == "sms" && phone_number.nil?
             raise ArgumentError, "Incomplete arguments. Need to specify phone_number when type is sms"
         end
-        response = execute_request(post_request( 
+        response = execute_request(request: post_request( 
             auth: true,
             body: {
                 type: type,
@@ -70,6 +70,7 @@ module WorkOS
                 },
             path: '/auth/factors/enroll',
         ))
+        
         WorkOS::Factor.new(response.body)
       end
 
