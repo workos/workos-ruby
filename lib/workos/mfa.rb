@@ -1,40 +1,37 @@
 # frozen_string_literal: true
 # typed: true
 
+
 require 'net/http'
 require 'uri'
 
 module WorkOS
-
   module MFA
     class << self
       extend T::Sig
       include Base
       include Client
-      
       sig { params(id: String).returns(T::Boolean) }
       def delete_factor(id:)
         response = execute_request(
-            request: delete_request(
-              path: "/auth/factors/#{id}",
-              auth: true,
-            ),
+          request: delete_request(
+          ath: "/auth/factors/#{id}",
+          auth: true,
+          ),
         )
         response.is_a? Net::HTTPSuccess
       end
 
       sig do
-        params(
-          id: String,
-        ).returns(WorkOS::Factor)
+        params(id: String).returns(WorkOS::Factor)
       end
       def get_factor(
           id:
         )
         response = execute_request(
             request: get_request(
-              path: "/auth/factors/#{id}",
-              auth: true,
+            path: "/auth/factors/#{id}",
+            auth: true,
             ),
         )
         WorkOS::Factor.new(response.body)
@@ -46,28 +43,24 @@ module WorkOS
             totp_issuer: T.nilable(String),
             totp_user: T.nilable(String),
             phone_number: T.nilable(String),
-        ).returns(WorkOS::Factor)
+      ).returns(WorkOS::Factor)
       end
       def enroll_factor(
           type:,
           totp_issuer: nil,
           totp_user: nil,
           phone_number: nil
-        )
-        if type != "sms" and type != "totp" and type != "generic_otp"
+      )
+        if type != "sms" && type != "totp" && type != "generic_otp"
             raise ArgumentError, "Type argument must be either 'sms' or 'totp'"
         end
-
-        if (type == "totp" and totp_issuer == nil) or (type == "totp" and totp_user == nil)
+        if (type == "totp" && totp_issuer.nil?) || (type == "totp" && totp_user.nil?)
             raise ArgumentError, "Incomplete arguments. Need to specify both totp_issuer and totp_user when type is totp"
         end
-
-        if type == "sms" and phone_number == nil
+        if type == "sms" && phone_number.nil?
             raise ArgumentError, "Incomplete arguments. Need to specify phone_number when type is sms"
-            
         end
-        # this condition is added as type is sms will return a 500 if content type is application/json
-        request = post_request( 
+        response = execute_request(post_request( 
             auth: true,
             body: {
                 type: type,
@@ -76,35 +69,31 @@ module WorkOS
                 phone_number: phone_number,
                 },
             path: '/auth/factors/enroll',
-        )
-
-        response = execute_request(request: request)
-
+        ))
         WorkOS::Factor.new(response.body)
-    
       end
 
-        sig do
-          params(
-            authentication_factor_id: T.nilable(String),
-            sms_template: T.nilable(String),
-          ).returns(WorkOS::ChallengeFactor)
-        end
-        def challenge_factor(
-          authentication_factor_id: nil,
-          sms_template: nil
+      sig do
+        params(
+          authentication_factor_id: T.nilable(String),
+          sms_template: T.nilable(String),
+        ).returns(WorkOS::ChallengeFactor)
+      end
+      def challenge_factor(
+        authentication_factor_id: nil,
+        sms_template: nil
       )
-        if authentication_factor_id == nil
+        if authentication_factor_id.nil?
             raise ArgumentError, "Incomplete arguments: 'authentication_factor_id' is a required argument"
         end
 
         request = post_request( 
-            auth: true,
-            body: {
-                sms_template: sms_template,
-                authentication_factor_id: authentication_factor_id,
-                },
-            path: '/auth/factors/challenge',
+          auth: true,
+          body: {
+              sms_template: sms_template,
+              authentication_factor_id: authentication_factor_id,
+              },
+          path: '/auth/factors/challenge',
         )
 
         response = execute_request(request: request)
@@ -120,9 +109,9 @@ module WorkOS
       def verify_factor(
         authentication_challenge_id: nil,
         code: nil
-        )
+      )
 
-        if authentication_challenge_id == nil or code == nil
+        if authentication_challenge_id.nil? || code.nil?
             raise ArgumentError, "Incomplete arguments: 'authentication_challenge_id' and 'code' are required arguments"
         end
 

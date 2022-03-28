@@ -131,7 +131,7 @@ describe WorkOS::MFA do
         VCR.use_cassette 'mfa/verify_factor_generic_valid' do
           verifyFactor = described_class.verify_factor(
             authentication_challenge_id: 'auth_challenge_01FZ4YVRBMXP5ZM0A7BP4AJ12J',
-            code: '897792'
+            code: '897792',
           )
           expect(verifyFactor.valid == 'true')
         end
@@ -143,7 +143,7 @@ describe WorkOS::MFA do
           expect do
             verifyFactor = described_class.verify_factor(
               authentication_challenge_id: 'auth_challenge_01FZ4YVRBMXP5ZM0A7BP4AJ12J',
-              code: '897792'
+              code: '897792',
             )
           end.to raise_error(WorkOS::InvalidRequestError)
         end
@@ -154,7 +154,7 @@ describe WorkOS::MFA do
             expect do
               verifyFactor = described_class.verify_factor(
                 authentication_challenge_id: 'auth_challenge_01FZ4YVRBMXP5ZM0A7BP4AJ12J',
-                code: '897792'
+                code: '897792',
               )
             end.to raise_error(WorkOS::InvalidRequestError)
           end
@@ -179,7 +179,7 @@ describe WorkOS::MFA do
       it '' do
         expect do
             challengeFactor = described_class.verify_factor(
-              code: '897792'
+              code: '897792',
             )
           end.to raise_error(
             ArgumentError, 
@@ -205,7 +205,7 @@ describe WorkOS::MFA do
       it 'uses get_factor to return  factor' do
         VCR.use_cassette 'mfa/get_factor_valid' do
           factor = described_class.get_factor(
-            id: 'auth_factor_01FZ4WMXXA09XF6NK1XMKNWB3M'
+            id: 'auth_factor_01FZ4WMXXA09XF6NK1XMKNWB3M',
           )
           expect(factor.id.class == String)
         end
@@ -216,7 +216,7 @@ describe WorkOS::MFA do
         VCR.use_cassette 'mfa/get_factor_invalid' do
           expect do
             factor = described_class.get_factor(
-              id: 'auth_factor_invalid'
+              id: 'auth_factor_invalid',
             )
           end.to raise_error(WorkOS::APIError)
         end
@@ -226,7 +226,7 @@ describe WorkOS::MFA do
       it 'uses delete_factor to delete factor' do
         VCR.use_cassette 'mfa/delete_factor' do
           response = described_class.delete_factor(
-            id: 'auth_factor_01FZ4WMXXA09XF6NK1XMKNWB3M'
+            id: 'auth_factor_01FZ4WMXXA09XF6NK1XMKNWB3M',
           )
           expect(response).to be(true)
         end

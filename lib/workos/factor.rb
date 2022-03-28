@@ -2,12 +2,10 @@
 # typed: false
 
 module WorkOS
-    class Factor
-      extend T::Sig
-  
-      attr_accessor :id, :environment_id, :object, :type, :sms, :totp, :updated_at, :created_at
+  class Factor
+    extend T::Sig
+    attr_accessor :id, :environment_id, :object, :type, :sms, :totp, :updated_at, :created_at
 
-    # rubocop:disable Metrics/AbcSize
     sig { params(json: String).void }
     def initialize(json)
       raw = parse_json(json)
@@ -20,19 +18,18 @@ module WorkOS
       @totp = raw.totp
       @sms = raw.sms 
     end
-    # rubocop:enable Metrics/AbcSize
 
     def to_json(*)
-      {
-        id: id,
-        environment_id: environment_id,
-        object: object,
-        type: type,
-        totp: totp,
-        sms: sms,
-        created_at: created_at,
-        updated_at: updated_at,
-      }
+    {
+      id: id,
+      environment_id: environment_id,
+      object: object,
+      type: type,
+      totp: totp,
+      sms: sms,
+      created_at: created_at,
+      updated_at: updated_at,
+    }
     end
 
     private
