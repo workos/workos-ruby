@@ -22,7 +22,7 @@ describe WorkOS::MFA do
             totp_issuer: 'WorkOS',
             totp_user: 'some_user',
           )
-          expect(factor.totp.class == Hash)
+          expect(factor.totp.instance_of?(Hash))
         end
       end
     end
@@ -33,7 +33,7 @@ describe WorkOS::MFA do
             type: 'sms',
             phone_number: '55555555555',
           )
-          expect(factor.sms.class == Hash)
+          expect(factor.sms.instance_of?(Hash))
         end
       end
     end
@@ -42,7 +42,7 @@ describe WorkOS::MFA do
     context 'enroll factor throws error if type is not sms or totp' do
       it 'returns an error' do
         expect do
-          factor = described_class.enroll_factor(
+          described_class.enroll_factor(
             type: 'invalid',
             phone_number: '+15005550006',
           )
@@ -55,25 +55,25 @@ describe WorkOS::MFA do
     context 'enroll factor throws error if type is not sms or totp' do
       it 'returns an error' do
         expect do
-          factor = described_class.enroll_factor(
+          described_class.enroll_factor(
             type: 'totp',
             totp_issuer: 'WorkOS',
           )
         end.to raise_error(
           ArgumentError,
-          "Incomplete arguments. Need to specify both totp_issuer and totp_user when type is totp",
+          'Incomplete arguments. Need to specify both totp_issuer and totp_user when type is totp',
         )
       end
     end
     context 'enroll factor throws error if type sms and phone number is nil' do
       it 'returns an error' do
         expect do
-          factor = described_class.enroll_factor(
+          described_class.enroll_factor(
             type: 'sms',
           )
         end.to raise_error(
           ArgumentError,
-          "Incomplete arguments. Need to specify phone_number when type is sms",
+          'Incomplete arguments. Need to specify phone_number when type is sms',
         )
       end
     end
@@ -82,31 +82,31 @@ describe WorkOS::MFA do
     context 'challenge with totp' do
       it 'returns challenge factor object for totp' do
         VCR.use_cassette 'mfa/challenge_factor_totp_valid' do
-          challengeFactor = described_class.challenge_factor(
+          challenge_factor = described_class.challenge_factor(
             authentication_factor_id: 'auth_factor_01FZ4TS0MWPZR7GATS7KCXANQZ',
           )
-          expect(challengeFactor.authentication_factor_id.class.class == String)
+          expect(challenge_factor.authentication_factor_id.class.instance_of?(String))
         end
       end
     end
     context 'challenge with sms' do
       it 'returns a challenge factor object for sms' do
         VCR.use_cassette 'mfa/challenge_factor_sms_valid' do
-          challengeFactor = described_class.challenge_factor(
+          challenge_factor = described_class.challenge_factor(
             authentication_factor_id: 'auth_factor_01FZ4TS14D1PHFNZ9GF6YD8M1F',
-            sms_template: 'Your code is {{code}}'
+            sms_template: 'Your code is {{code}}',
           )
-          expect(challengeFactor.authentication_factor_id.class == String)
+          expect(challenge_factor.authentication_factor_id.instance_of?(String))
         end
       end
     end
     context 'challenge with generic' do
       it 'returns a valid challenge factor object for generic otp' do
         VCR.use_cassette 'mfa/challenge_factor_generic_valid' do
-          challengeFactor = described_class.challenge_factor(
+          challenge_factor = described_class.challenge_factor(
             authentication_factor_id: 'auth_factor_01FZ4WMXXA09XF6NK1XMKNWB3M',
           )
-          expect(challengeFactor.code.class == String)
+          expect(challenge_factor.code.instance_of?(String))
         end
       end
     end
@@ -115,13 +115,11 @@ describe WorkOS::MFA do
     context 'challenge with totp mssing authentication_factor_id' do
       it 'returns argument error' do
         expect do
-            challengeFactor = described_class.challenge_factor(
-    
-            )
-          end.to raise_error(
-            ArgumentError,
-            "Incomplete arguments: 'authentication_factor_id' is a required argument"
-          )
+          described_class.challenge_factor
+        end.to raise_error(
+          ArgumentError,
+          "Incomplete arguments: 'authentication_factor_id' is a required argument",
+        )
       end
     end
   end
@@ -129,11 +127,11 @@ describe WorkOS::MFA do
     context 'verify generic otp' do
       it 'returns a true boolean if the challenge has not been verifed yet' do
         VCR.use_cassette 'mfa/verify_factor_generic_valid' do
-          verifyFactor = described_class.verify_factor(
+          verify_factor = described_class.verify_factor(
             authentication_challenge_id: 'auth_challenge_01FZ4YVRBMXP5ZM0A7BP4AJ12J',
             code: '897792',
           )
-          expect(verifyFactor.valid == 'true')
+          expect(verify_factor.valid == 'true')
         end
       end
     end
@@ -141,7 +139,7 @@ describe WorkOS::MFA do
       it 'returns error that the challenge has already been verfied' do
         VCR.use_cassette 'mfa/verify_factor_generic_invalid' do
           expect do
-            verifyFactor = described_class.verify_factor(
+            described_class.verify_factor(
               authentication_challenge_id: 'auth_challenge_01FZ4YVRBMXP5ZM0A7BP4AJ12J',
               code: '897792',
             )
@@ -152,7 +150,7 @@ describe WorkOS::MFA do
         it 'returns error that the challenge has expired' do
           VCR.use_cassette 'mfa/verify_factor_generic_expired' do
             expect do
-              verifyFactor = described_class.verify_factor(
+              described_class.verify_factor(
                 authentication_challenge_id: 'auth_challenge_01FZ4YVRBMXP5ZM0A7BP4AJ12J',
                 code: '897792',
               )
@@ -166,37 +164,35 @@ describe WorkOS::MFA do
     context 'missing code argument' do
       it 'returns argument error' do
         expect do
-            challengeFactor = described_class.verify_factor(
-              authentication_challenge_id: 'auth_challenge_01FZ4YVRBMXP5ZM0A7BP4AJ12J'
-            )
-          end.to raise_error(
-            ArgumentError, 
-            "Incomplete arguments: 'authentication_challenge_id' and 'code' are required arguments"
+          described_class.verify_factor(
+            authentication_challenge_id: 'auth_challenge_01FZ4YVRBMXP5ZM0A7BP4AJ12J',
           )
+        end.to raise_error(
+          ArgumentError,
+          "Incomplete arguments: 'authentication_challenge_id' and 'code' are required arguments",
+        )
       end
     end
     context 'missing authentication_challenge_id argument' do
       it '' do
         expect do
-            challengeFactor = described_class.verify_factor(
-              code: '897792',
-            )
-          end.to raise_error(
-            ArgumentError, 
-            "Incomplete arguments: 'authentication_challenge_id' and 'code' are required arguments"
+          described_class.verify_factor(
+            code: '897792',
           )
+        end.to raise_error(
+          ArgumentError,
+          "Incomplete arguments: 'authentication_challenge_id' and 'code' are required arguments",
+        )
       end
     end
     context 'missing code and authentication_challenge_id arguments' do
       it 'returns argument error' do
         expect do
-            challengeFactor = described_class.verify_factor(
-    
-            )
-          end.to raise_error(
-            ArgumentError, 
-            "Incomplete arguments: 'authentication_challenge_id' and 'code' are required arguments"
-          )
+          described_class.verify_factor
+        end.to raise_error(
+          ArgumentError,
+          "Incomplete arguments: 'authentication_challenge_id' and 'code' are required arguments",
+        )
       end
     end
   end
@@ -207,7 +203,7 @@ describe WorkOS::MFA do
           factor = described_class.get_factor(
             id: 'auth_factor_01FZ4WMXXA09XF6NK1XMKNWB3M',
           )
-          expect(factor.id.class == String)
+          expect(factor.id.instance_of?(String))
         end
       end
     end
@@ -215,7 +211,7 @@ describe WorkOS::MFA do
       it 'uses get_factor and throws error if id is wrong' do
         VCR.use_cassette 'mfa/get_factor_invalid' do
           expect do
-            factor = described_class.get_factor(
+            described_class.get_factor(
               id: 'auth_factor_invalid',
             )
           end.to raise_error(WorkOS::APIError)

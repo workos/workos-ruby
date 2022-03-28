@@ -2,12 +2,14 @@
 # typed: false
 
 module WorkOS
-    class ChallengeFactor
-      extend T::Sig
-  
-      attr_accessor :id, :object, :expires_at, :code, :authentication_factor_id, :updated_at, :created_at 
+  # The ChallngeFactor class provides a lightweight wrapper around
+  # a WorkOS DirectoryUser resource. This class is not meant to be instantiated
+  # in DirectoryUser space, and is instantiated internally but exposed.
+  class ChallengeFactor
+    extend T::Sig
 
-    # rubocop:disable Metrics/AbcSize
+    attr_accessor :id, :object, :expires_at, :code, :authentication_factor_id, :updated_at, :created_at
+
     sig { params(json: String).void }
     def initialize(json)
       raw = parse_json(json)
@@ -19,7 +21,6 @@ module WorkOS
       @created_at = T.let(raw.created_at, String)
       @updated_at = T.let(raw.updated_at, String)
     end
-    # rubocop:enable Metrics/AbcSize
 
     def to_json(*)
       {
@@ -51,4 +52,3 @@ module WorkOS
     end
   end
 end
-  

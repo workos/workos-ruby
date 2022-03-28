@@ -2,19 +2,20 @@
 # typed: false
 
 module WorkOS
-    class VerifyFactor
-      extend T::Sig
-  
-      attr_accessor :challenge, :valid
+  # The VerifyFactor class provides a lightweight wrapper around
+  # a WorkOS DirectoryUser resource. This class is not meant to be instantiated
+  # in DirectoryUser space, and is instantiated internally but exposed.
+  class VerifyFactor
+    extend T::Sig
 
-    # rubocop:disable Metrics/AbcSize
+    attr_accessor :challenge, :valid
+
     sig { params(json: String).void }
     def initialize(json)
       raw = parse_json(json)
       @challenge = T.let(raw.challenge, Hash)
       @valid = raw.valid
     end
-    # rubocop:enable Metrics/AbcSize
 
     def to_json(*)
       {
@@ -36,4 +37,3 @@ module WorkOS
     end
   end
 end
-  
