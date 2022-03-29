@@ -144,6 +144,7 @@ module WorkOS
         )
       when 422
         message = json['message']
+        code = json['code']
         errors = extract_error(json['errors']) if json['errors']
         message += " (#{errors})" if errors
 
@@ -151,6 +152,7 @@ module WorkOS
           message: message,
           http_status: http_status,
           request_id: response['x-request-id'],
+          code: code,
         )
       end
     end

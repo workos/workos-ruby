@@ -20,7 +20,6 @@ describe WorkOS::SSO do
       end
       it 'returns a valid URL' do
         authorization_url = described_class.authorization_url(**args)
-
         expect(URI.parse(authorization_url)).to be_a URI
       end
 
@@ -315,7 +314,6 @@ describe WorkOS::SSO do
             verified_email: true,
           },
         }
-
         expect(profile.to_json).to eq(expectation)
       end
     end

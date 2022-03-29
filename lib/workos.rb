@@ -44,6 +44,11 @@ module WorkOS
   autoload :DirectoryUser, 'workos/directory_user'
   autoload :Webhook, 'workos/webhook'
   autoload :Webhooks, 'workos/webhooks'
+  autoload :MFA, 'workos/mfa'
+  autoload :Factor, 'workos/factor'
+  autoload :Challenge, 'workos/challenge'
+  autoload :VerifyFactor, 'workos/verify_factor'
+
 
   # Errors
   autoload :APIError, 'workos/errors'

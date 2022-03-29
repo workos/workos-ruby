@@ -1,0 +1,82 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.workos.com/auth/factors/challenge
+    body:
+      encoding: UTF-8
+      string: '{"sms_template":null,"authentication_factor_id":"auth_factor_01FZ4WMXXA09XF6NK1XMKNWB3M"}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/3.0.2; arm64-darwin21; v2.1.1
+      Authorization:
+      - Bearer <API_KEY>
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Sun, 27 Mar 2022 05:15:26 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '290'
+      Connection:
+      - keep-alive
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      X-Dns-Prefetch-Control:
+      - 'off'
+      Expect-Ct:
+      - max-age=0
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Download-Options:
+      - noopen
+      X-Content-Type-Options:
+      - nosniff
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - no-referrer
+      X-Xss-Protection:
+      - '0'
+      Vary:
+      - Origin, Accept-Encoding
+      Access-Control-Allow-Credentials:
+      - 'true'
+      X-Request-Id:
+      - 6f320a1f-92d8-496c-9c30-69355787d21e
+      Etag:
+      - W/"122-QtSiaXex7UKEyydEC3oPpuHzGNw"
+      Via:
+      - 1.1 vegur
+      Cf-Cache-Status:
+      - DYNAMIC
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=2kePZ4Q7kGQ1by5iXZxRevmSkQq4vTbW1vXTqFev99eLBrrfEHOLK2%2FE0ItWB2GAKoQvhPBk3rhS%2FKg0rtK3ZH4DGTf%2FEQKGFPT6BxtCqQE2L%2ByfEv1AgU152ZwIBPVYjQ%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      Nel:
+      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 6f25a5f0dddf088d-SEA
+      Alt-Svc:
+      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
+    body:
+      encoding: UTF-8
+      string: '{"object":"authentication_challenge","id":"auth_challenge_01FZ4WSWV2SCEDX3GKY1NA9YTN","created_at":"2022-03-27T05:15:26.432Z","updated_at":"2022-03-27T05:15:26.432Z","expires_at":"2022-03-27T05:25:26.434Z","code":"541295","authentication_factor_id":"auth_factor_01FZ4WMXXA09XF6NK1XMKNWB3M"}'
+    http_version:
+  recorded_at: Sun, 27 Mar 2022 05:15:26 GMT
+recorded_with: VCR 5.0.0

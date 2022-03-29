@@ -17,14 +17,16 @@ module WorkOS
         error_description: T.nilable(String),
         http_status: T.nilable(Integer),
         request_id: T.nilable(String),
+        code: T.nilable(String),
       ).void
     end
-    def initialize(message: nil, error: nil, error_description: nil, http_status: nil, request_id: nil)
+    def initialize(message: nil, error: nil, error_description: nil, http_status: nil, request_id: nil, code: nil)
       @message = message
       @error = error
       @error_description = error_description
       @http_status = http_status
       @request_id = request_id
+      @code = code
     end
 
     sig { returns(String) }
