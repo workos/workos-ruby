@@ -47,6 +47,8 @@ module WorkOS
           phone_number: T.nilable(String),
         ).void
       end
+      # rubocop:disable Metrics/CyclomaticComplexity
+      # rubocop:disable Metrics/PerceivedComplexity
 
       def validate_args(
         type:,
@@ -64,6 +66,8 @@ module WorkOS
 
         raise ArgumentError, 'Incomplete arguments. Need to specify phone_number when type is sms'
       end
+      # rubocop:enable Metrics/CyclomaticComplexity
+      # rubocop:enable Metrics/PerceivedComplexity
 
       sig do
         params(
@@ -104,7 +108,7 @@ module WorkOS
         params(
           authentication_factor_id: T.nilable(String),
           sms_template: T.nilable(String),
-        ).returns(WorkOS::ChallengeFactor)
+        ).returns(WorkOS::Challenge)
       end
       def challenge_factor(
         authentication_factor_id: nil,
@@ -124,7 +128,7 @@ module WorkOS
         )
 
         response = execute_request(request: request)
-        WorkOS::ChallengeFactor.new(response.body)
+        WorkOS::Challenge.new(response.body)
       end
 
       sig do
