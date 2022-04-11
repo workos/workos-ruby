@@ -45,7 +45,24 @@ module WorkOS
     end
 
     def [](attribute_name)
-      attributes[attribute_name]
+      case attribute_name.to_s
+      when "id"
+        @id
+      when "idp_id"
+        @idp_id
+      when "emails"
+        @emails
+      when "first_name"
+        @first_name
+      when "last_name"
+        @last_name
+      when "username"
+        @username
+      when "state"
+        @state
+      when "groups"
+        @groups
+      end
     end
 
     private

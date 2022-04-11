@@ -166,7 +166,7 @@ module WorkOS
       # @param [String] id The ID of the directory group.
       #
       # @return WorkOS::DirectoryGroup
-      sig { params(id: String).returns(WorkOS::DirectoryGroup }
+      sig { params(id: String).returns(WorkOS::DirectoryGroup) }
       def get_group(id)
         response = execute_request(
           request: get_request(

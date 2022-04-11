@@ -25,6 +25,15 @@ module WorkOS
       }
     end
 
+    def [](attribute_name)
+      case attribute_name.to_s
+      when "id"
+        @id
+      when "name"
+        @name
+      end
+    end
+
     private
 
     sig do
