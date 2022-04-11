@@ -27,9 +27,9 @@ module WorkOS
 
     def [](attribute_name)
       case attribute_name.to_s
-      when "id"
+      when 'id'
         @id
-      when "name"
+      when 'name'
         @name
       end
     end
