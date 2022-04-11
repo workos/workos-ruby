@@ -175,7 +175,7 @@ module WorkOS
           ),
         )
 
-        JSON.parse(response.body)
+        ::WorkOS::DirectoryGroup.new(response.body)
       end
 
       # Retrieve the directory user with the given ID.
@@ -192,7 +192,7 @@ module WorkOS
           ),
         )
 
-        JSON.parse(response.body)
+        ::WorkOS::DirectoryUser.new(response.body)
       end
 
       # Delete the directory with the given ID.

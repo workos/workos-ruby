@@ -44,6 +44,10 @@ module WorkOS
       }
     end
 
+    def [](attribute_name)
+      attributes[attribute_name]
+    end
+
     private
 
     sig do
