@@ -26,6 +26,16 @@ module WorkOS
       @groups = T.let(raw.groups, Array)
       @custom_attributes = raw.custom_attributes
       @raw_attributes = raw.raw_attributes
+      @attributes_hash = {
+        id: @id,
+        idp_id: @idp_id,
+        emails: @emails,
+        first_name: @first_name,
+        last_name: @last_name,
+        username: @username,
+        state: @state,
+        groups: @groups
+      }
     end
     # rubocop:enable Metrics/AbcSize
 
@@ -45,24 +55,7 @@ module WorkOS
     end
 
     def [](attribute_name)
-      case attribute_name.to_s
-      when 'id'
-        @id
-      when 'idp_id'
-        @idp_id
-      when 'emails'
-        @emails
-      when 'first_name'
-        @first_name
-      when 'last_name'
-        @last_name
-      when 'username'
-        @username
-      when 'state'
-        @state
-      when 'groups'
-        @groups
-      end
+      @attributes_hash[attribute_name.to_sym]
     end
 
     private
