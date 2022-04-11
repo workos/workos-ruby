@@ -204,6 +204,7 @@ describe WorkOS::DirectorySync do
           )
 
           expect(groups.data.size).to eq(10)
+          expect(groups.data[0].name).to eq(groups.data[0]['name'])
         end
       end
     end
@@ -332,6 +333,7 @@ describe WorkOS::DirectorySync do
           )
 
           expect(users.data.size).to eq(4)
+          expect(users.data[0].first_name).to eq(users.data[0]['first_name'])
         end
       end
     end
@@ -440,6 +442,7 @@ describe WorkOS::DirectorySync do
           )
 
           expect(group['name']).to eq('Walrus')
+          expect(group.name).to eq(`Walrus`)
         end
       end
     end
@@ -464,6 +467,7 @@ describe WorkOS::DirectorySync do
           )
 
           expect(user['first_name']).to eq('Logan')
+          expect(user.first_name).to eq('Logan')
         end
       end
     end
