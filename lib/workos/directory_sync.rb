@@ -96,7 +96,7 @@ module WorkOS
       # @option options [String] after Pagination cursor to receive records
       #  before a provided Directory Group ID.
       #
-      # @return [Hash]
+      # @return [WorkOS::DirectoryGroup]
       sig do
         params(
           options: T::Hash[Symbol, String],
@@ -135,7 +135,7 @@ module WorkOS
       # @option options [String] after Pagination cursor to receive records
       #  before a provided Directory User ID.
       #
-      # @return [Hash]
+      # @return [WorkOS::DirectoryUser]
       sig do
         params(
           options: T::Hash[Symbol, String],
@@ -165,8 +165,8 @@ module WorkOS
       #
       # @param [String] id The ID of the directory group.
       #
-      # @return Hash
-      sig { params(id: String).returns(T::Hash[String, T.untyped]) }
+      # @return WorkOS::DirectoryGroup
+      sig { params(id: String).returns(WorkOS::DirectoryGroup }
       def get_group(id)
         response = execute_request(
           request: get_request(
@@ -182,8 +182,8 @@ module WorkOS
       #
       # @param [String] id The ID of the directory user.
       #
-      # @return Hash
-      sig { params(id: String).returns(T::Hash[String, T.untyped]) }
+      # @return WorkOS::DirectoryUser
+      sig { params(id: String).returns(WorkOS::DirectoryUser) }
       def get_user(id)
         response = execute_request(
           request: get_request(
