@@ -26,12 +26,7 @@ module WorkOS
     end
 
     def [](attribute_name)
-      case attribute_name.to_s
-      when 'id'
-        @id
-      when 'name'
-        @name
-      end
+      to_json[attribute_name.to_sym]
     end
 
     private
