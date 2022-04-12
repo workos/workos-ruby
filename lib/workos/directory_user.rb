@@ -46,7 +46,9 @@ module WorkOS
 
     def [](attribute_name)
       # Warn the user not to use the Hash-style access for attributes.
-      puts "WARNING: The Hash style access for DirectoryUser attributes is deprecated and will be removed in a future version. Please use user.#{attribute_name} instead of user['#{attribute_name}']"
+      warning_message = "WARNING: The Hash style access for DirectoryUser attributes is deprecated and will be removed
+in a future version. Please use user.#{attribute_name} instead of user['#{attribute_name}']"
+      puts warning_message
 
       to_json[attribute_name.to_sym]
     end
