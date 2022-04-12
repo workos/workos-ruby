@@ -26,6 +26,9 @@ module WorkOS
     end
 
     def [](attribute_name)
+      # Warn the user not to use the Hash-style access for attributes.
+      puts "WARNING: The Hash style access for DirectoryGroup attributes is deprecated and will be removed in a future version. Please use group.#{attribute_name} instead of group['#{attribute_name}']"
+
       to_json[attribute_name.to_sym]
     end
 
