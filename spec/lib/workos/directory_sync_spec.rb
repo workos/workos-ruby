@@ -442,7 +442,7 @@ describe WorkOS::DirectorySync do
           )
 
           expect(group['name']).to eq('Walrus')
-          expect(group.name).to eq(`Walrus`)
+          expect(group.name).to eq('Walrus')
         end
       end
     end
