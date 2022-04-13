@@ -5,7 +5,7 @@ module WorkOS
   # The DirectoryUser class provides a lightweight wrapper around
   # a WorkOS DirectoryUser resource. This class is not meant to be instantiated
   # in DirectoryUser space, and is instantiated internally but exposed.
-  class DirectoryUser
+  class DirectoryUser < Hash
     extend T::Sig
 
     attr_accessor :id, :idp_id, :emails, :first_name, :last_name, :username, :state,
@@ -26,6 +26,8 @@ module WorkOS
       @groups = T.let(raw.groups, Array)
       @custom_attributes = raw.custom_attributes
       @raw_attributes = raw.raw_attributes
+
+      replace(to_json.except(:custom_attributes, :raw_attributes))
     end
     # rubocop:enable Metrics/AbcSize
 
@@ -50,7 +52,7 @@ module WorkOS
 in a future version. Please use user.#{attribute_name} instead of user['#{attribute_name}']"
       puts warning_message
 
-      to_json[attribute_name.to_sym]
+      super(attribute_name.to_sym)
     end
 
     private

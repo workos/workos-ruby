@@ -5,7 +5,7 @@ module WorkOS
   # The DirectoryGroup class provides a lightweight wrapper around
   # a WorkOS DirectoryGroup resource. This class is not meant to be instantiated
   # in user space, and is instantiated internally but exposed.
-  class DirectoryGroup
+  class DirectoryGroup < Hash
     extend T::Sig
 
     attr_accessor :id, :name
@@ -16,6 +16,8 @@ module WorkOS
 
       @id = T.let(raw.id, String)
       @name = T.let(raw.name, String)
+
+      replace(to_json.except(:custom_attributes, :raw_attributes))
     end
 
     def to_json(*)
@@ -31,7 +33,7 @@ module WorkOS
 in a future version. Please use group.#{attribute_name} instead of group['#{attribute_name}']"
       puts warning_message
 
-      to_json[attribute_name.to_sym]
+      super(attribute_name.to_sym)
     end
 
     private
