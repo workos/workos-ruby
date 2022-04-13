@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 # typed: strict
 
+require 'date'
+
 module WorkOS
   module Types
     # This PasswordlessSessionStruct acts as a typed interface
