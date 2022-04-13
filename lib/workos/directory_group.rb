@@ -5,7 +5,7 @@ module WorkOS
   # The DirectoryGroup class provides a lightweight wrapper around
   # a WorkOS DirectoryGroup resource. This class is not meant to be instantiated
   # in user space, and is instantiated internally but exposed.
-  class DirectoryGroup < ::DeprecatedHashWrapper
+  class DirectoryGroup < DeprecatedHashWrapper
     extend T::Sig
 
     attr_accessor :id, :name, :custom_attributes, :raw_attributes

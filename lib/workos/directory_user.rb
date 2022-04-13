@@ -5,7 +5,7 @@ module WorkOS
   # The DirectoryUser class provides a lightweight wrapper around
   # a WorkOS DirectoryUser resource. This class is not meant to be instantiated
   # in DirectoryUser space, and is instantiated internally but exposed.
-  class DirectoryUser < ::DeprecatedHashWrapper
+  class DirectoryUser < DeprecatedHashWrapper
     extend T::Sig
 
     attr_accessor :id, :idp_id, :emails, :first_name, :last_name, :username, :state,

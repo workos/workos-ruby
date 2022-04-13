@@ -56,9 +56,6 @@ module WorkOS
   autoload :InvalidRequestError, 'workos/errors'
   autoload :SignatureVerificationError, 'workos/errors'
 
-  # Temporary wrapper for Hash
-  autoload :DeprecatedHashWrapper, 'deprecated_hash_wrapper'
-
   # Remove WORKOS_KEY at some point in the future. Keeping it here now for
   # backwards compatibility.
   key = ENV['WORKOS_API_KEY'] || ENV['WORKOS_KEY']
