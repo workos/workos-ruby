@@ -32,7 +32,7 @@ module WorkOS
               end
 
       warning_message = "WARNING: The Hash style access for #{class_name} attributes is deprecated
-  and will be removed in a future version. Please use `#{usage}` or equivalent accessor.\n"
+and will be removed in a future version. Please use `#{usage}` or equivalent accessor.\n"
 
       if RUBY_VERSION > '3'
         warn warning_message, category: :deprecated
