@@ -23,7 +23,7 @@ module WorkOS
 
     private
 
-    def print_deprecation_warning(method_name, param_name)
+    def print_deprecation_warning(method_name, param_name = nil)
       class_name = self.class.name
       usage = if method_name == '[]'
                 "#{class_name.downcase}.#{param_name}"
