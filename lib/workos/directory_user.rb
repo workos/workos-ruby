@@ -27,7 +27,7 @@ module WorkOS
       @custom_attributes = raw.custom_attributes
       @raw_attributes = raw.raw_attributes
 
-      replace(to_json.except(:custom_attributes, :raw_attributes))
+      replace(to_json)
     end
     # rubocop:enable Metrics/AbcSize
 

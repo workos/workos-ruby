@@ -8,7 +8,7 @@ module WorkOS
   class DirectoryGroup < Hash
     extend T::Sig
 
-    attr_accessor :id, :name
+    attr_accessor :id, :name, :custom_attributes, :raw_attributes
 
     sig { params(json: String).void }
     def initialize(json)
@@ -17,7 +17,7 @@ module WorkOS
       @id = T.let(raw.id, String)
       @name = T.let(raw.name, String)
 
-      replace(to_json.except(:custom_attributes, :raw_attributes))
+      replace(to_json)
     end
 
     def to_json(*)
