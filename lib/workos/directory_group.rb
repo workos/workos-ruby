@@ -5,7 +5,7 @@ module WorkOS
   # The DirectoryGroup class provides a lightweight wrapper around
   # a WorkOS DirectoryGroup resource. This class is not meant to be instantiated
   # in user space, and is instantiated internally but exposed.
-  class DirectoryGroup < Hash
+  class DirectoryGroup < DeprecatedHashWrapper
     extend T::Sig
 
     attr_accessor :id, :name, :custom_attributes, :raw_attributes
@@ -27,13 +27,8 @@ module WorkOS
       }
     end
 
-    def [](attribute_name)
-      # Warn the user not to use the Hash-style access for attributes.
-      warning_message = "WARNING: The Hash style access for DirectoryGroup attributes is deprecated and will be removed
-in a future version. Please use group.#{attribute_name} instead of group['#{attribute_name}']"
-      puts warning_message
-
-      super(attribute_name.to_sym)
+    def to_hash
+      to_json
     end
 
     private

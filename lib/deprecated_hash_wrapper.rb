@@ -1,0 +1,34 @@
+class DeprecatedHashWrapper < Hash
+    (public_instance_methods - Object.methods).each do |method_name|
+      define_method method_name do |*args, &block|
+        print_deprecation_warning(method_name)
+        super(*args, &block)
+      end
+    end
+  
+    def [](attribute_name)
+      print_deprecation_warning("[]", attribute_name)
+
+      super(attribute_name.to_sym)
+    end
+  
+    private
+  
+    def print_deprecation_warning(method_name, param_name)
+      class_name = self.class.name
+      usage = if method_name == "[]"
+        "#{class_name.downcase}.#{param_name}"
+      else
+        "#{class_name.downcase}.#{method_name}"
+      end
+
+      warning_message = "WARNING: The Hash style access for #{class_name} attributes is deprecated and will be removed
+in a future version. Please use `#{usage}` or equivalent accessor.\n"
+
+      if RUBY_VERSION > "3"
+        warn warning_message, category: :deprecated
+      else
+        warn warning_message
+      end
+    end
+  end

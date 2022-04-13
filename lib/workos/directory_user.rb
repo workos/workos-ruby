@@ -5,7 +5,7 @@ module WorkOS
   # The DirectoryUser class provides a lightweight wrapper around
   # a WorkOS DirectoryUser resource. This class is not meant to be instantiated
   # in DirectoryUser space, and is instantiated internally but exposed.
-  class DirectoryUser < Hash
+  class DirectoryUser < DeprecatedHashWrapper
     extend T::Sig
 
     attr_accessor :id, :idp_id, :emails, :first_name, :last_name, :username, :state,
@@ -46,13 +46,8 @@ module WorkOS
       }
     end
 
-    def [](attribute_name)
-      # Warn the user not to use the Hash-style access for attributes.
-      warning_message = "WARNING: The Hash style access for DirectoryUser attributes is deprecated and will be removed
-in a future version. Please use user.#{attribute_name} instead of user['#{attribute_name}']"
-      puts warning_message
-
-      super(attribute_name.to_sym)
+    def to_hash
+      to_json
     end
 
     private
