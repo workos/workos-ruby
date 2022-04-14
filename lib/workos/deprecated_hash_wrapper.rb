@@ -53,7 +53,7 @@ in a future version. Please use `#{usage}` to access methods on the attribute Ha
     end
 
     def object_name
-      self.class.name.demodulize.underscore
+      class_name.demodulize.underscore
     end
   end
 end
