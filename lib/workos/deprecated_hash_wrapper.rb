@@ -53,7 +53,8 @@ in a future version. Please use `#{usage}` to access methods on the attribute Ha
     end
 
     def object_name
-      object_name = class_name[0, class_name.rindex('::') || 0]
+      i = name.rindex("::")
+      object_name = i ? name[(i + 2)..-1] : name
       underscore(object_name)
     end
 
