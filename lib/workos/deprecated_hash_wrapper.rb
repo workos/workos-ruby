@@ -53,12 +53,7 @@ in a future version. Please use `#{usage}` to access methods on the attribute Ha
     end
 
     def object_name
-      case self
-      when WorkOS::DirectoryUser
-        'user'
-      when WorkOS::DirectoryGroup
-        'group'
-      end
+      self.class.name.demodulize.underscore
     end
   end
 end
