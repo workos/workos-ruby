@@ -16,28 +16,42 @@ module WorkOS
     end
 
     def [](attribute_name)
-      print_deprecation_warning('[]', attribute_name)
+      usage = "#{object_name}.#{attribute_name}"
+      warning_message = "WARNING: The Hash style access for #{class_name} attributes is deprecated
+and will be removed in a future version. Please use `#{usage}` or equivalent accessor.\n"
+
+      print_deprecation_warning('[]', warning_message)
 
       super(attribute_name.to_sym)
     end
 
     private
 
-    def print_deprecation_warning(method_name, param_name = nil)
-      class_name = self.class.name
-      usage = if method_name == '[]'
-                "#{class_name.downcase}.#{param_name}"
-              else
-                "#{class_name.downcase}.#{method_name}"
-              end
+    def deprecation_warning(method_name)
+      usage = "#{object_name}.to_hash.#{method_name}"
 
-      warning_message = "WARNING: The Hash style access for #{class_name} attributes is deprecated
-and will be removed in a future version. Please use `#{usage}` or equivalent accessor.\n"
+      "WARNING: Hash compatibility for #{class_name} is deprecated and will be removed
+in a future version. Please use `#{usage}` to access methods on the attribute Hash object.\n"
+    end
 
+    def print_deprecation_warning(method_name, warning_message = deprecation_warning(method_name))
       if RUBY_VERSION > '3'
         warn warning_message, category: :deprecated
       else
         warn warning_message
+      end
+    end
+
+    def class_name
+      self.class.name
+    end
+
+    def object_name
+      case self
+      when WorkOS::DirectoryUser
+        'user'
+      when WorkOS::DirectoryGroup
+        'group'
       end
     end
   end
