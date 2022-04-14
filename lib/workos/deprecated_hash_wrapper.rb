@@ -34,7 +34,7 @@ and will be removed in a future version. Please use `#{usage}` or equivalent acc
     private
 
     def deprecation_warning(method_name)
-      usage = "#{object_name}.to_hash.#{method_name}"
+      usage = "#{object_name}.to_h.#{method_name}"
 
       "WARNING: Hash compatibility for #{class_name} is deprecated and will be removed
 in a future version. Please use `#{usage}` to access methods on the attribute Hash object.\n"
@@ -53,7 +53,7 @@ in a future version. Please use `#{usage}` to access methods on the attribute Ha
     end
 
     def object_name
-      object_name = class_name[0, class_name.rindex("::") || 0]
+      object_name = class_name[0, class_name.rindex('::') || 0]
       object_name.underscore
     end
   end
