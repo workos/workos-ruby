@@ -17,7 +17,7 @@ module WorkOS
       @id = T.let(raw.id, String)
       @name = T.let(raw.name, String)
 
-      replace(to_json)
+      replace_without_warning(to_json)
     end
 
     def to_json(*)

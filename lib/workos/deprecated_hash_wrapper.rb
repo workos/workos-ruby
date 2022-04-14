@@ -15,6 +15,12 @@ module WorkOS
       end
     end
 
+    # call the original implementation of :replace in Hash,
+    # so we don't show the deprecation warning
+    def replace_without_warning(new_hash)
+      method(:replace).super_method&.call(new_hash)
+    end
+
     def [](attribute_name)
       usage = "#{object_name}.#{attribute_name}"
       warning_message = "WARNING: The Hash style access for #{class_name} attributes is deprecated

@@ -27,9 +27,7 @@ module WorkOS
       @custom_attributes = raw.custom_attributes
       @raw_attributes = raw.raw_attributes
 
-      # call the original implementation of :replace in Hash,
-      # so we don't get the deprecation warning
-      method(:replace).super_method&.call(to_json)
+      replace_without_warning(to_json)
     end
     # rubocop:enable Metrics/AbcSize
 
