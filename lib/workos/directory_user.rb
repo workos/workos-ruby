@@ -29,7 +29,7 @@ module WorkOS
 
       # call the original implementation of :replace in Hash, 
       # so we don't get the deprecation warning
-      self.method(:replace).super_method.call(to_json)
+      self.method(:replace).super_method&.call(to_json)
     end
     # rubocop:enable Metrics/AbcSize
 
