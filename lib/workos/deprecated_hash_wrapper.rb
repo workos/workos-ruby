@@ -53,7 +53,8 @@ in a future version. Please use `#{usage}` to access methods on the attribute Ha
     end
 
     def object_name
-      class_name.demodulize.underscore
+      object_name = class_name[0, class_name.rindex("::") || 0]
+      object_name.underscore
     end
   end
 end
