@@ -60,7 +60,9 @@ in a future version. Please use `#{usage}` to access methods on the attribute Ha
     def underscore(camel_cased_word)
       return camel_cased_word.to_s unless /[A-Z-]|::/.match?(camel_cased_word)
       word = camel_cased_word.to_s.gsub('::', '/')
-      word.gsub!(/(?:(?<=([A-Za-z\d]))|\b)((?=a)b)(?=\b|[^a-z])/) {"#{Regexp.last_match(1) && '_'}#{Regexp.last_match(2).downcase}" }
+      word.gsub!(/(?:(?<=([A-Za-z\d]))|\b)((?=a)b)(?=\b|[^a-z])/) do
+        "#{Regexp.last_match(1) && '_'}#{Regexp.last_match(2).downcase}"
+      end
       word.gsub!(/([A-Z]+)(?=[A-Z][a-z])|([a-z\d])(?=[A-Z])/) { (Regexp.last_match(1) || Regexp.last_match(2)) << '_' }
       word.tr!('-', '_')
       word.downcase!
