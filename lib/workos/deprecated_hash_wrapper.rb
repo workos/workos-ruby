@@ -59,10 +59,10 @@ in a future version. Please use `#{usage}` to access methods on the attribute Ha
 
     def underscore(camel_cased_word)
       return camel_cased_word.to_s unless /[A-Z-]|::/.match?(camel_cased_word)
-      word = camel_cased_word.to_s.gsub("::", "/")
+      word = camel_cased_word.to_s.gsub('::', '/')
       word.gsub!(/(?:(?<=([A-Za-z\d]))|\b)((?=a)b)(?=\b|[^a-z])/) { "#{$1 && '_' }#{$2.downcase}" }
-      word.gsub!(/([A-Z]+)(?=[A-Z][a-z])|([a-z\d])(?=[A-Z])/) { ($1 || $2) << "_" }
-      word.tr!("-", "_")
+      word.gsub!(/([A-Z]+)(?=[A-Z][a-z])|([a-z\d])(?=[A-Z])/) { ($1 || $2) << '_' }
+      word.tr!('-', '_')
       word.downcase!
       word
     end
