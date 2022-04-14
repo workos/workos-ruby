@@ -55,8 +55,8 @@ in a future version. Please use `#{usage}` to access methods on the attribute Ha
     # We want to do class_name.demodulize.underscore here, but that's not available in Ruby 1.9, so
     # implementing the demodulize and underscore methods here.
     def object_name
-      i = name.rindex('::')
-      object_name = i ? name[(i + 2)..-1] : name
+      i = class_name.rindex('::')
+      object_name = i ? class_name[(i + 2)..-1] : class_name
       underscore(object_name)
     end
 
