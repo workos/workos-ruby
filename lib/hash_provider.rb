@@ -6,6 +6,10 @@ module WorkOS
   # its attributes. Default implementation will simply call to_json. Individual classes
   # may override.
   module HashProvider
+    def to_json
+      raise "Must be implemented by including class."
+    end
+
     def to_h
       to_json
     end
