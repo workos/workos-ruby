@@ -48,6 +48,7 @@ module WorkOS
   autoload :Factor, 'workos/factor'
   autoload :Challenge, 'workos/challenge'
   autoload :VerifyFactor, 'workos/verify_factor'
+  autoload :DeprecatedHashWrapper, 'workos/deprecated_hash_wrapper'
 
 
   # Errors
