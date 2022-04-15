@@ -7,9 +7,9 @@ module WorkOS
   # may override.
   module HashProvider
     include Kernel
-    
-    def to_json
-      raise "Must be implemented by including class."
+
+    def to_json(*)
+      raise 'Must be implemented by including class.'
     end
 
     def to_h
