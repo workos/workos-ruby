@@ -6,6 +6,7 @@ module WorkOS
   # a WorkOS DirectoryUser resource. This class is not meant to be instantiated
   # in DirectoryUser space, and is instantiated internally but exposed.
   class Factor
+    include HashProvider
     # rubocop:disable Metrics/AbcSize
     extend T::Sig
     attr_accessor :id, :environment_id, :object, :type, :sms, :totp, :updated_at, :created_at

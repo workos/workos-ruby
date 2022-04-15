@@ -6,6 +6,7 @@ module WorkOS
   # a WorkOS DirectoryGroup resource. This class is not meant to be instantiated
   # in user space, and is instantiated internally but exposed.
   class DirectoryGroup < DeprecatedHashWrapper
+    include HashProvider
     extend T::Sig
 
     attr_accessor :id, :name, :custom_attributes, :raw_attributes
@@ -25,10 +26,6 @@ module WorkOS
         id: id,
         name: name,
       }
-    end
-
-    def to_h
-      to_json
     end
 
     private

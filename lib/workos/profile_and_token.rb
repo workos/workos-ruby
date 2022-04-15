@@ -6,6 +6,7 @@ module WorkOS
   # Access Token. This class is not meant to be instantiated in user space, and
   # is instantiated internally but exposed.
   class ProfileAndToken
+    include HashProvider
     extend T::Sig
 
     attr_accessor :access_token, :profile

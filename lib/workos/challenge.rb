@@ -6,6 +6,7 @@ module WorkOS
   # a WorkOS DirectoryUser resource. This class is not meant to be instantiated
   # in DirectoryUser space, and is instantiated internally but exposed.
   class Challenge
+    include HashProvider
     extend T::Sig
 
     attr_accessor :id, :object, :expires_at, :code, :authentication_factor_id, :updated_at, :created_at

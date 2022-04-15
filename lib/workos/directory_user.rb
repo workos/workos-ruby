@@ -6,6 +6,7 @@ module WorkOS
   # a WorkOS DirectoryUser resource. This class is not meant to be instantiated
   # in DirectoryUser space, and is instantiated internally but exposed.
   class DirectoryUser < DeprecatedHashWrapper
+    include HashProvider
     extend T::Sig
 
     attr_accessor :id, :idp_id, :emails, :first_name, :last_name, :username, :state,
@@ -44,10 +45,6 @@ module WorkOS
         custom_attributes: custom_attributes,
         raw_attributes: raw_attributes,
       }
-    end
-
-    def to_h
-      to_json
     end
 
     private
