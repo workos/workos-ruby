@@ -135,6 +135,17 @@ describe WorkOS::MFA do
         end
       end
     end
+    context 'verify generic otp invalid response' do
+      it 'returns a true boolean if the challenge has not been verifed yet' do
+        VCR.use_cassette 'mfa/verify_factor_generic_valid_is_false' do
+          verify_factor = described_class.verify_factor(
+            authentication_challenge_id: 'auth_challenge_01FZ4YVRBMXP5ZM0A7BP4AJ12J',
+            code: '897792',
+          )
+          expect(verify_factor.valid == 'false')
+        end
+      end
+    end
     context 'verify generic otp' do
       it 'returns error that the challenge has already been verfied' do
         VCR.use_cassette 'mfa/verify_factor_generic_invalid' do
