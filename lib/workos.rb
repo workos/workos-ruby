@@ -4,6 +4,7 @@
 require 'workos/version'
 require 'sorbet-runtime'
 require 'json'
+require 'workos/hash_provider'
 
 # Use the WorkOS module to authenticate your
 # requests to the WorkOS API. The gem will read

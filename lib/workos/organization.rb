@@ -6,6 +6,7 @@ module WorkOS
   # a WorkOS Organization resource. This class is not meant to be instantiated
   # in user space, and is instantiated internally but exposed.
   class Organization
+    include HashProvider
     extend T::Sig
 
     attr_accessor :id, :domains, :name, :allow_profiles_outside_organization, :created_at, :updated_at

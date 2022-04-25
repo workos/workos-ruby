@@ -6,6 +6,7 @@ module WorkOS
   # a WorkOS DirectoryUser resource. This class is not meant to be instantiated
   # in DirectoryUser space, and is instantiated internally but exposed.
   class VerifyFactor
+    include HashProvider
     extend T::Sig
 
     attr_accessor :challenge, :valid

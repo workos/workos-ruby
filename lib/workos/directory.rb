@@ -6,6 +6,7 @@ module WorkOS
   # a WorkOS Directory resource. This class is not meant to be instantiated
   # in user space, and is instantiated internally but exposed.
   class Directory
+    include HashProvider
     extend T::Sig
 
     attr_accessor :id, :domain, :name, :type, :state, :organization_id, :created_at, :updated_at
