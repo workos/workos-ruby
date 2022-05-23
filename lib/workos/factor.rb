@@ -7,7 +7,6 @@ module WorkOS
   # in DirectoryUser space, and is instantiated internally but exposed.
   class Factor
     include HashProvider
-    # rubocop:disable Metrics/AbcSize
     extend T::Sig
     attr_accessor :id, :object, :type, :sms, :totp, :updated_at, :created_at
 
@@ -51,6 +50,5 @@ module WorkOS
         updated_at: hash[:updated_at],
       )
     end
-    # rubocop:enable Metrics/AbcSize
   end
 end
