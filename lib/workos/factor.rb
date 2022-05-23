@@ -9,13 +9,12 @@ module WorkOS
     include HashProvider
     # rubocop:disable Metrics/AbcSize
     extend T::Sig
-    attr_accessor :id, :environment_id, :object, :type, :sms, :totp, :updated_at, :created_at
+    attr_accessor :id, :object, :type, :sms, :totp, :updated_at, :created_at
 
     sig { params(json: String).void }
     def initialize(json)
       raw = parse_json(json)
       @id = T.let(raw.id, String)
-      @environment_id = T.let(raw.environment_id, String)
       @object = T.let(raw.object, String)
       @type = T.let(raw.type, String)
       @created_at = T.let(raw.created_at, String)
@@ -27,7 +26,6 @@ module WorkOS
     def to_json(*)
       {
         id: id,
-        environment_id: environment_id,
         object: object,
         type: type,
         totp: totp,
@@ -45,7 +43,6 @@ module WorkOS
 
       WorkOS::Types::FactorStruct.new(
         id: hash[:id],
-        environment_id: hash[:environment_id],
         object: hash[:object],
         type: hash[:type],
         totp: hash[:totp],

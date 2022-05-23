@@ -7,7 +7,6 @@ module WorkOS
     # for the Factor class
     class FactorStruct < T::Struct
       const :id, String
-      const :environment_id, String
       const :object, String
       const :type, String
       const :totp, T.nilable(T::Hash[Symbol, Object])
