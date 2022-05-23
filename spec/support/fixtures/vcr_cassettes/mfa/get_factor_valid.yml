@@ -76,7 +76,7 @@ http_interactions:
       - h3=":443"; ma=86400, h3-29=":443"; ma=86400
     body:
       encoding: ASCII-8BIT
-      string: '{"object":"authentication_factor","id":"auth_factor_01FZ4WMXXA09XF6NK1XMKNWB3M","created_at":"2022-03-27T05:12:43.689Z","updated_at":"2022-03-27T05:12:43.689Z","type":"generic_otp","environment_id":"environment_01EQ1FTYTAZCVYSV4SYSRWRR3A"}'
+      string: '{"object":"authentication_factor","id":"auth_factor_01FZ4WMXXA09XF6NK1XMKNWB3M","created_at":"2022-03-27T05:12:43.689Z","updated_at":"2022-03-27T05:12:43.689Z","type":"generic_otp"}'
     http_version:
   recorded_at: Sun, 27 Mar 2022 19:11:09 GMT
 recorded_with: VCR 5.0.0
