@@ -7,6 +7,7 @@ module WorkOS
   # in user space, and is instantiated internally but exposed.
   # Note: status is deprecated - use state instead
   class Connection
+    include HashProvider
     extend T::Sig
 
     attr_accessor :id, :name, :connection_type, :domains, :organization_id,

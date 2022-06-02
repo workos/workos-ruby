@@ -8,6 +8,7 @@ module WorkOS
   # is not meant to be instantiated in user space, and
   # is instantiated internally but exposed.
   class Profile
+    include HashProvider
     extend T::Sig
 
     sig { returns(String) }

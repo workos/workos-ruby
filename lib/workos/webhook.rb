@@ -6,6 +6,7 @@ module WorkOS
   # a WorkOS Webhook resource. This class is not meant to be instantiated
   # in user space, and is instantiated internally but exposed.
   class Webhook
+    include HashProvider
     extend T::Sig
 
     attr_accessor :id, :event, :data
