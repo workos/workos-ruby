@@ -22,6 +22,7 @@ module WorkOS
       #  retrieved.
       # @option options [String] search A search term for direcory names.
       # @option options [String] limit Maximum number of records to return.
+      # @option options [String] order The order in which to paginate records
       # @option options [String] before Pagination cursor to receive records
       #  before a provided Directory ID.
       # @option options [String] after Pagination cursor to receive records
@@ -91,6 +92,7 @@ module WorkOS
       # @option options [String] user The ID of the directory user whose
       #  directory groups will be retrieved.
       # @option options [String] limit Maximum number of records to return.
+      # @option options [String] order The order in which to paginate records
       # @option options [String] before Pagination cursor to receive records
       #  before a provided Directory Group ID.
       # @option options [String] after Pagination cursor to receive records
@@ -130,6 +132,7 @@ module WorkOS
       # @option options [String] user The ID of the directory group whose
       #  directory users will be retrieved.
       # @option options [String] limit Maximum number of records to return.
+      # @option options [String] order The order in which to paginate records
       # @option options [String] before Pagination cursor to receive records
       #  before a provided Directory User ID.
       # @option options [String] after Pagination cursor to receive records

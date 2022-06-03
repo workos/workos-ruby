@@ -65,6 +65,7 @@ module WorkOS
       # @option options [String] before Event ID to look before
       # @option options [String] after Event ID to look after
       # @option options [Integer] limit Number of Events to return
+      # @option options [String] order The order in which to paginate records
       # @option options [Array<String>] group List of Groups to filter for
       # @option options [Array<String>] action List of Actions to filter for
       # @option options [Array<String>] action_type List of Action Types to
