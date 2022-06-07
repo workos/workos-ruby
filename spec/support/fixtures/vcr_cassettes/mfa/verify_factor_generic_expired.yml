@@ -1,0 +1,84 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.workos.com/auth/factors/verify
+    body:
+      encoding: UTF-8
+      string: '{"authentication_challenge_id":"auth_challenge_01FZ4YVRBMXP5ZM0A7BP4AJ12J","code":"897792"}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/3.0.2; arm64-darwin21; v2.1.1
+      Authorization:
+      - Bearer <API_KEY>
+  response:
+    status:
+      code: 422
+      message: Unprocessable Entity
+    headers:
+      Date:
+      - Sun, 27 Mar 2022 05:54:30 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '167'
+      Connection:
+      - keep-alive
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      X-Dns-Prefetch-Control:
+      - 'off'
+      Expect-Ct:
+      - max-age=0
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Download-Options:
+      - noopen
+      X-Content-Type-Options:
+      - nosniff
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - no-referrer
+      X-Xss-Protection:
+      - '0'
+      Vary:
+      - Origin, Accept-Encoding
+      Access-Control-Allow-Credentials:
+      - 'true'
+      X-Request-Id:
+      - 3bf7c473-ef39-4a3f-85fa-609ab4fcfdb4
+      Etag:
+      - W/"a7-3Az5u04ipYu1XY+wqhSwUOFImFI"
+      Via:
+      - 1.1 vegur
+      Cf-Cache-Status:
+      - DYNAMIC
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=gQNkvWQQyL0h1kES333sXgQvo4JV9Bzm%2Bre%2BzJSsD8l%2F4sVjZ1ehj0dDfP40lHYCwx%2FLZ93avI155XM9JkY%2BxYyCAlRXobk2DfsyKmkTkhnWR4AxV%2BTWECeARqtTewSryA%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      Nel:
+      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 6f25df294a253a32-SEA
+      Alt-Svc:
+      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
+    body:
+      encoding: UTF-8
+      string: '{"code":"authentication_challenge_expired","message":"The
+        authentication challenge ''auth_challenge_01FZ4YVRBMXP5ZM0A7BP4AJ12J'' has
+        expired."}'
+    http_version:
+  recorded_at: Sun, 27 Mar 2022 05:54:30 GMT
+recorded_with: VCR 5.0.0

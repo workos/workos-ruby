@@ -5,7 +5,8 @@ module WorkOS
   # The DirectoryGroup class provides a lightweight wrapper around
   # a WorkOS DirectoryGroup resource. This class is not meant to be instantiated
   # in user space, and is instantiated internally but exposed.
-  class DirectoryGroup
+  class DirectoryGroup < DeprecatedHashWrapper
+    include HashProvider
     extend T::Sig
 
     attr_accessor :id, :directory_id, :idp_id, :name, :created_at, :updated_at, :raw_attributes
@@ -21,6 +22,8 @@ module WorkOS
       @created_at = T.let(raw.created_at, String)
       @updated_at = T.let(raw.updated_at, String)
       @raw_attributes = raw.raw_attributes
+
+      replace_without_warning(to_json)
     end
 
     def to_json(*)

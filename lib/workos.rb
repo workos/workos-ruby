@@ -4,6 +4,7 @@
 require 'workos/version'
 require 'sorbet-runtime'
 require 'json'
+require 'workos/hash_provider'
 
 # Use the WorkOS module to authenticate your
 # requests to the WorkOS API. The gem will read
@@ -44,6 +45,12 @@ module WorkOS
   autoload :DirectoryUser, 'workos/directory_user'
   autoload :Webhook, 'workos/webhook'
   autoload :Webhooks, 'workos/webhooks'
+  autoload :MFA, 'workos/mfa'
+  autoload :Factor, 'workos/factor'
+  autoload :Challenge, 'workos/challenge'
+  autoload :VerifyFactor, 'workos/verify_factor'
+  autoload :DeprecatedHashWrapper, 'workos/deprecated_hash_wrapper'
+
 
   # Errors
   autoload :APIError, 'workos/errors'

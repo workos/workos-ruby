@@ -21,6 +21,7 @@ module WorkOS
       # @param [String] after A pagination argument used to request
       #  organizations after the provided Organization ID.
       # @param [Integer] limit A pagination argument used to limit the number
+      # @param [String] order The order in which to paginate records
       #  of listed Organizations that are returned.
       sig do
         params(

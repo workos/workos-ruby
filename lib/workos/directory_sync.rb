@@ -22,6 +22,7 @@ module WorkOS
       #  retrieved.
       # @option options [String] search A search term for direcory names.
       # @option options [String] limit Maximum number of records to return.
+      # @option options [String] order The order in which to paginate records
       # @option options [String] before Pagination cursor to receive records
       #  before a provided Directory ID.
       # @option options [String] after Pagination cursor to receive records
@@ -91,12 +92,13 @@ module WorkOS
       # @option options [String] user The ID of the directory user whose
       #  directory groups will be retrieved.
       # @option options [String] limit Maximum number of records to return.
+      # @option options [String] order The order in which to paginate records
       # @option options [String] before Pagination cursor to receive records
       #  before a provided Directory Group ID.
       # @option options [String] after Pagination cursor to receive records
       #  before a provided Directory Group ID.
       #
-      # @return [Hash]
+      # @return [WorkOS::DirectoryGroup]
       sig do
         params(
           options: T::Hash[Symbol, String],
@@ -130,12 +132,13 @@ module WorkOS
       # @option options [String] user The ID of the directory group whose
       #  directory users will be retrieved.
       # @option options [String] limit Maximum number of records to return.
+      # @option options [String] order The order in which to paginate records
       # @option options [String] before Pagination cursor to receive records
       #  before a provided Directory User ID.
       # @option options [String] after Pagination cursor to receive records
       #  before a provided Directory User ID.
       #
-      # @return [Hash]
+      # @return [WorkOS::DirectoryUser]
       sig do
         params(
           options: T::Hash[Symbol, String],
@@ -165,8 +168,8 @@ module WorkOS
       #
       # @param [String] id The ID of the directory group.
       #
-      # @return Hash
-      sig { params(id: String).returns(T::Hash[String, T.untyped]) }
+      # @return WorkOS::DirectoryGroup
+      sig { params(id: String).returns(WorkOS::DirectoryGroup) }
       def get_group(id)
         response = execute_request(
           request: get_request(
@@ -175,15 +178,15 @@ module WorkOS
           ),
         )
 
-        JSON.parse(response.body)
+        ::WorkOS::DirectoryGroup.new(response.body)
       end
 
       # Retrieve the directory user with the given ID.
       #
       # @param [String] id The ID of the directory user.
       #
-      # @return Hash
-      sig { params(id: String).returns(T::Hash[String, T.untyped]) }
+      # @return WorkOS::DirectoryUser
+      sig { params(id: String).returns(WorkOS::DirectoryUser) }
       def get_user(id)
         response = execute_request(
           request: get_request(
@@ -192,7 +195,7 @@ module WorkOS
           ),
         )
 
-        JSON.parse(response.body)
+        ::WorkOS::DirectoryUser.new(response.body)
       end
 
       # Delete the directory with the given ID.

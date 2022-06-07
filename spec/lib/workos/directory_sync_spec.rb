@@ -204,6 +204,7 @@ describe WorkOS::DirectorySync do
           )
 
           expect(groups.data.size).to eq(10)
+          expect(groups.data[0].name).to eq(groups.data[0]['name'])
         end
       end
     end
@@ -332,6 +333,7 @@ describe WorkOS::DirectorySync do
           )
 
           expect(users.data.size).to eq(4)
+          expect(users.data[0].first_name).to eq(users.data[0]['first_name'])
         end
       end
     end
@@ -442,6 +444,7 @@ describe WorkOS::DirectorySync do
           expect(group['directory_id']).to eq('directory_01G2Z8ADK5NPMVTWF48MVVE4HT')
           expect(group['idp_id']).to eq('01jlao4614two3d')
           expect(group['name']).to eq('Sales')
+          expect(group.name).to eq('Sales')
           expect(group['created_at']).to eq('2022-05-13T17:45:31.732Z')
           expect(group['updated_at']).to eq('2022-06-07T17:45:35.739Z')
         end
@@ -468,6 +471,7 @@ describe WorkOS::DirectorySync do
           )
 
           expect(user['first_name']).to eq('Logan')
+          expect(user.first_name).to eq('Logan')
         end
       end
     end
