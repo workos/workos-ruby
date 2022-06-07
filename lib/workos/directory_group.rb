@@ -8,20 +8,30 @@ module WorkOS
   class DirectoryGroup
     extend T::Sig
 
-    attr_accessor :id, :name
+    attr_accessor :id, :directory_id, :idp_id, :name, :created_at, :updated_at, :raw_attributes
 
     sig { params(json: String).void }
     def initialize(json)
       raw = parse_json(json)
 
       @id = T.let(raw.id, String)
+      @directory_id = T.let(raw.directory_id, String)
+      @idp_id = T.let(raw.idp_id, String)
       @name = T.let(raw.name, String)
+      @created_at = T.let(raw.created_at, String)
+      @updated_at = T.let(raw.updated_at, String)
+      @raw_attributes = raw.raw_attributes
     end
 
     def to_json(*)
       {
         id: id,
+        directory_id: directory_id,
+        idp_id: idp_id,
         name: name,
+        created_at: created_at,
+        updated_at: updated_at,
+        raw_attributes: raw_attributes,
       }
     end
 
@@ -37,7 +47,12 @@ module WorkOS
 
       WorkOS::Types::DirectoryGroupStruct.new(
         id: hash[:id],
+        directory_id: hash[:directory_id],
+        idp_id: hash[:idp_id],
         name: hash[:name],
+        created_at: hash[:created_at],
+        updated_at: hash[:updated_at],
+        raw_attributes: hash[:raw_attributes],
       )
     end
   end

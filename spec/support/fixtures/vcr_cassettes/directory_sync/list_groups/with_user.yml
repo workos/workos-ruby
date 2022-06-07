@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.workos.com/directory_groups?user=directory_user_01EK2YFBC3R10MPB4W49G5QDXG
+    uri: https://api.workos.com/directory_groups?user=directory_user_01G2Z8D4FDB28ZNSRRBVCF2E0P
     body:
       encoding: US-ASCII
       string: ''
@@ -14,7 +14,7 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.10.3
+      - WorkOS; ruby/3.0.2; x86_64-darwin19; v2.1.1
       Authorization:
       - Bearer <API_KEY>
   response:
@@ -22,51 +22,61 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - Cowboy
+      Date:
+      - Tue, 07 Jun 2022 22:48:29 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '612'
       Connection:
       - keep-alive
-      Vary:
-      - Origin, Accept-Encoding
       Access-Control-Allow-Credentials:
       - 'true'
       Content-Security-Policy:
       - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
         https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
         ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
-      X-Dns-Prefetch-Control:
-      - 'off'
+      Etag:
+      - W/"74a-JABiWu66XPEPqE+CDJ+LFYrX/Hk"
       Expect-Ct:
       - max-age=0
-      X-Frame-Options:
-      - SAMEORIGIN
-      Strict-Transport-Security:
-      - max-age=15552000; includeSubDomains
-      X-Download-Options:
-      - noopen
-      X-Content-Type-Options:
-      - nosniff
-      X-Permitted-Cross-Domain-Policies:
-      - none
       Referrer-Policy:
       - no-referrer
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Vary:
+      - Origin, Accept-Encoding
+      Via:
+      - 1.1 spaces-router (664a92218d61)
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - 7d909909-c03b-ab72-02b3-ec7385d008de
       X-Xss-Protection:
       - '0'
-      X-Request-Id:
-      - 68a80eaf-81f0-4d34-87c5-1dddf2be7502
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - W/"505-9SezX82U+n2Zk+jTzRSyGFRrdvQ"
-      Date:
-      - Fri, 23 Apr 2021 14:23:36 GMT
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 vegur
+      Cf-Cache-Status:
+      - DYNAMIC
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=m9ozUh%2F7%2FiIWkqLPDWhF9aDd1CTE9Gv%2BMhuCdh%2Binj7dHVBAUTML3swCnyIXiCnOhTdSSx8IIrUM%2B5q2WRd3HFw%2FnZ7c7aKhd2lEqTh4NZohxhuKiLz9CIcnbcbUuo0HkOeRNenlqBdnxhRwWA%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      Nel:
+      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 717cef8159a993e9-DFW
+      Alt-Svc:
+      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
     body:
       encoding: ASCII-8BIT
-      string: '{"object":"list","listMetadata":{"before":null,"after":null},"data":[{"id":"directory_group_01EQ823D94EF0AH5QMDRB91YWR","name":"Contractors","raw_attributes":{"id":"02iq8gzs1b2i1ae","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/rF1OEdXlr3FwClDxryrS1Qi22xQ\"","kind":"admin#directory#group","name":"Contractors","email":"contractors@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["contractors@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C6SVJ56RR4J9R5QX20Y","name":"Product","raw_attributes":{"id":"03hv69ve1ssgpby","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/f9gbroAH87EH3wU418b4bq6sXv8\"","kind":"admin#directory#group","name":"Product","email":"product@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["product@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C6FBGG55PKG7YB03EFB","name":"Design","raw_attributes":{"id":"03dy6vkm1y2alqi","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/FOmENMweP80vOL_QS7AgEhmMJW0\"","kind":"admin#directory#group","name":"Design","email":"design@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"3","nonEditableAliases":["design@foo-corp.com.test-google-a.com"]}}]}'
+      string: '{"object":"list","data":[{"object":"directory_group","id":"directory_group_01G2Z8D4ZR8RJ03Y1W7P9K8NMG","idp_id":"01jlao4614two3d","directory_id":"directory_01G2Z8ADK5NPMVTWF48MVVE4HT","name":"Sales","created_at":"2022-05-13T17:45:31.732Z","updated_at":"2022-06-07T17:45:35.739Z","raw_attributes":{"id":"01jlao4614two3d","etag":"\"DaDAXuEwpvygu_Ul-89tlT4iVJBEvO3LZpQ0lrbYRrc/uLYJ0Hrx1gXXVg9z-zGLBZET2Wo\"","kind":"admin#directory#group","name":"Sales","email":"sales@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"1","nonEditableAliases":["sales@foo-corp.com.test-google-a.com"]}},{"object":"directory_group","id":"directory_group_01G2Z8D4TXW3JPSK425M710KRM","idp_id":"03dy6vkm1y2alqi","directory_id":"directory_01G2Z8ADK5NPMVTWF48MVVE4HT","name":"Design","created_at":"2022-05-13T17:45:31.732Z","updated_at":"2022-06-07T17:45:35.739Z","raw_attributes":{"id":"03dy6vkm1y2alqi","etag":"\"DaDAXuEwpvygu_Ul-89tlT4iVJBEvO3LZpQ0lrbYRrc/fFPsJbCjOImSDOp5Krvi2NKdjIY\"","kind":"admin#directory#group","name":"Design","email":"design@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["design@foo-corp.com.test-google-a.com"]}},{"object":"directory_group","id":"directory_group_01G2Z8D4PCZPAAB9CGS8EB34G5","idp_id":"00gjdgxs2s95kg4","directory_id":"directory_01G2Z8ADK5NPMVTWF48MVVE4HT","name":"Admins","created_at":"2022-05-13T17:45:31.732Z","updated_at":"2022-06-07T17:45:35.739Z","raw_attributes":{"id":"00gjdgxs2s95kg4","etag":"\"DaDAXuEwpvygu_Ul-89tlT4iVJBEvO3LZpQ0lrbYRrc/Un_xfweaPs74WQWtUQJesHlOKAk\"","kind":"admin#directory#group","name":"Admins","email":"admins@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"3","nonEditableAliases":["admins@foo-corp.com.test-google-a.com"]}}],"list_metadata":{"before":null,"after":null},"listMetadata":{"before":null,"after":null}}'
     http_version:
-  recorded_at: Fri, 23 Apr 2021 14:23:36 GMT
+  recorded_at: Tue, 07 Jun 2022 22:48:29 GMT
 recorded_with: VCR 5.0.0

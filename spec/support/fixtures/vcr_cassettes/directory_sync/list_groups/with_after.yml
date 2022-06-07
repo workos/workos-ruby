@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.workos.com/directory_groups?after=after-id&directory=directory_01EK2YEMVTWGX27STRDR0N3MP9
+    uri: https://api.workos.com/directory_groups?after=directory_group_01G2Z8D4ZR8RJ03Y1W7P9K8NMG&directory=directory_01G2Z8ADK5NPMVTWF48MVVE4HT
     body:
       encoding: US-ASCII
       string: ''
@@ -14,7 +14,7 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.10.3
+      - WorkOS; ruby/3.0.2; x86_64-darwin19; v2.1.1
       Authorization:
       - Bearer <API_KEY>
   response:
@@ -22,55 +22,69 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - Cowboy
+      Date:
+      - Tue, 07 Jun 2022 22:28:36 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '1163'
       Connection:
       - keep-alive
-      Vary:
-      - Origin, Accept-Encoding
       Access-Control-Allow-Credentials:
       - 'true'
       Content-Security-Policy:
       - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
         https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
         ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
-      X-Dns-Prefetch-Control:
-      - 'off'
+      Etag:
+      - W/"15fc-zBhUbLZyJQxiq8umMaogT0kzj/8"
       Expect-Ct:
       - max-age=0
-      X-Frame-Options:
-      - SAMEORIGIN
-      Strict-Transport-Security:
-      - max-age=15552000; includeSubDomains
-      X-Download-Options:
-      - noopen
-      X-Content-Type-Options:
-      - nosniff
-      X-Permitted-Cross-Domain-Policies:
-      - none
       Referrer-Policy:
       - no-referrer
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Vary:
+      - Origin, Accept-Encoding
+      Via:
+      - 1.1 spaces-router (664a92218d61)
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - f3944a4c-8532-4b6a-196a-84ee38216e1b
       X-Xss-Protection:
       - '0'
-      X-Request-Id:
-      - 701ecc5d-6981-4251-ae0c-bef3f25b385d
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - W/"1086-U0g32oMn7n/R4sgNmCrb1ApGS3U"
-      Date:
-      - Thu, 22 Apr 2021 22:11:09 GMT
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 vegur
+      Cf-Cache-Status:
+      - DYNAMIC
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=1YP42SeOofST3UnTgCIrEFd696HKzEJZ8n%2BBstJNNpMA98mb0YLj3fWYfmEA7eO5zxgderbhiUaenVJ9XVHdxOrOqKVitgdDejHBmbTFCceoPJf%2BQoH4wH6aOuSDALnFIe9cPUIsWo3nhxVpvg%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      Nel:
+      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 717cd2605c599ecb-DFW
+      Alt-Svc:
+      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
     body:
       encoding: ASCII-8BIT
-      string: '{"object":"list","listMetadata":{"before":null,"after":"directory_group_01EQ7V7C6FBGG55PKG7YB03EFB"},"data":[{"id":"directory_group_01EQ7V7C6FBGG55PKG7YB03EFB","name":"Design","raw_attributes":{"id":"03dy6vkm1y2alqi","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/FOmENMweP80vOL_QS7AgEhmMJW0\"","kind":"admin#directory#group","name":"Design","email":"design@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"3","nonEditableAliases":["design@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C6AKS8D12WX2CMC2HWR","name":"Admins","raw_attributes":{"id":"00gjdgxs2s95kg4","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/8_DFveza530aqHjNIY138qbXpkw\"","kind":"admin#directory#group","name":"Admins","email":"admins@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["admins@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C6200HRGPS7R63DMQSF","name":"Solutions
-        Engineering","raw_attributes":{"id":"02u6wntf1dyjihd","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/oLFNnHZPgXTE6zt2vA9UCBE9UOs\"","kind":"admin#directory#group","name":"Solutions
-        Engineering","email":"solutions@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["solutions@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C5Y9K2Z4MK9A7YY3QF4","name":"Security","raw_attributes":{"id":"01fob9te1lgjaw4","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/-pzmhVkdxBet5lTdVfY9yKrRslE\"","kind":"admin#directory#group","name":"Security","email":"security@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"3","nonEditableAliases":["security@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C5SQ82F5NNMKRA3B899","name":"Account
-        Management","raw_attributes":{"id":"02grqrue4294w24","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/19PzKtmXLlC1UyVC2k6NA7ye9mk\"","kind":"admin#directory#group","name":"Account
-        Management","email":"account-managers@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["account-managers@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C5NGE4MWHP3FSX3KK47","name":"Marketing","raw_attributes":{"id":"01y810tw1ti9q8c","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/8Bp1ATnSYZXUB84_9v_K0i54jgc\"","kind":"admin#directory#group","name":"Marketing","email":"marketing@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["marketing@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C5EMBZ944Y6AJ3K266Q","name":"Documentation","raw_attributes":{"id":"03as4poj49cz6j9","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/fU4_KaNDCoJ05Uod_dINIl-Cf_s\"","kind":"admin#directory#group","name":"Documentation","email":"docs@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["docs@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C581FB7T0PHV6NERYC4","name":"Partnerships","raw_attributes":{"id":"045jfvxd1049v32","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/dQAxLJSL7rODUPbi9CivyyrpTVQ\"","kind":"admin#directory#group","name":"Partnerships","email":"partnerships@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"1","nonEditableAliases":["partnerships@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EK2YFBQ3F19AD96V9FFMDS1X","name":"Sales","raw_attributes":{"id":"01jlao4614two3d","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/q7KEwEs-K95FIjfrPVol15Ku3YU\"","kind":"admin#directory#group","name":"Sales","email":"sales@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"1","nonEditableAliases":["sales@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EK2YFBPZ8SWMQ01NWN3TNZK4","name":"Engineering","raw_attributes":{"id":"030j0zll1b5a1gf","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/eSnflkB5fzBxa6QfGsXjaftif2A\"","kind":"admin#directory#group","name":"Engineering","email":"engineering@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"8","nonEditableAliases":["engineering@foo-corp.com.test-google-a.com"]}}]}'
+      string: '{"object":"list","data":[{"object":"directory_group","id":"directory_group_01G2Z8D5VBM14YQKFY02DHGFHD","idp_id":"01fob9te1lgjaw4","directory_id":"directory_01G2Z8ADK5NPMVTWF48MVVE4HT","name":"Security","created_at":"2022-05-13T17:45:32.577Z","updated_at":"2022-06-07T17:45:36.258Z","raw_attributes":{"id":"01fob9te1lgjaw4","etag":"\"DaDAXuEwpvygu_Ul-89tlT4iVJBEvO3LZpQ0lrbYRrc/i0mPa7pjMhSlP3jSyX-lRL7ScU8\"","kind":"admin#directory#group","name":"Security","email":"security@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"0","nonEditableAliases":["security@foo-corp.com.test-google-a.com"]}},{"object":"directory_group","id":"directory_group_01G2Z8D5SAKF3GXE9BTR6KZCJR","idp_id":"028h4qwu0uyrb9k","directory_id":"directory_01G2Z8ADK5NPMVTWF48MVVE4HT","name":"Risk
+        Management","created_at":"2022-05-13T17:45:32.577Z","updated_at":"2022-06-07T17:45:36.258Z","raw_attributes":{"id":"028h4qwu0uyrb9k","etag":"\"DaDAXuEwpvygu_Ul-89tlT4iVJBEvO3LZpQ0lrbYRrc/F0K5jmtHPYux11G_e7no2r29804\"","kind":"admin#directory#group","name":"Risk
+        Management","email":"risk@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"0","nonEditableAliases":["risk@foo-corp.com.test-google-a.com"]}},{"object":"directory_group","id":"directory_group_01G2Z8D5P1AFTJ8XK16RQ1FKWD","idp_id":"02szc72q2sp1i88","directory_id":"directory_01G2Z8ADK5NPMVTWF48MVVE4HT","name":"Michael
+        Youngs Group","created_at":"2022-05-13T17:45:32.577Z","updated_at":"2022-06-07T17:45:36.258Z","raw_attributes":{"id":"02szc72q2sp1i88","etag":"\"DaDAXuEwpvygu_Ul-89tlT4iVJBEvO3LZpQ0lrbYRrc/nF7tojOSI2G7C_nIp74DiIKrzbs\"","kind":"admin#directory#group","name":"Michael
+        Youngs Group","email":"michaelyoungsgroup@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"0","nonEditableAliases":["Michaelyoungsgroup@foo-corp.com.test-google-a.com"]}},{"object":"directory_group","id":"directory_group_01G2Z8D5MBRDS85VWEHFHF74SZ","idp_id":"01y810tw1ti9q8c","directory_id":"directory_01G2Z8ADK5NPMVTWF48MVVE4HT","name":"Marketing","created_at":"2022-05-13T17:45:32.577Z","updated_at":"2022-06-07T17:45:36.258Z","raw_attributes":{"id":"01y810tw1ti9q8c","etag":"\"DaDAXuEwpvygu_Ul-89tlT4iVJBEvO3LZpQ0lrbYRrc/41snDYeG-HeWJ3n0Q3SGWwlvUpo\"","kind":"admin#directory#group","name":"Marketing","email":"marketing@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"0","nonEditableAliases":["marketing@foo-corp.com.test-google-a.com"]}},{"object":"directory_group","id":"directory_group_01G2Z8D5JD50HDRNPDYB8VWXSE","idp_id":"02xcytpi45aqkmr","directory_id":"directory_01G2Z8ADK5NPMVTWF48MVVE4HT","name":"Finance","created_at":"2022-05-13T17:45:32.577Z","updated_at":"2022-06-07T17:45:36.258Z","raw_attributes":{"id":"02xcytpi45aqkmr","etag":"\"DaDAXuEwpvygu_Ul-89tlT4iVJBEvO3LZpQ0lrbYRrc/fjF75r0GGL7S9fWA5ngkflNIduQ\"","kind":"admin#directory#group","name":"Finance","email":"finance@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"0","nonEditableAliases":["finance@foo-corp.com.test-google-a.com"]}},{"object":"directory_group","id":"directory_group_01G2Z8D5F80M4DEMGGMFPHV4XV","idp_id":"03as4poj49cz6j9","directory_id":"directory_01G2Z8ADK5NPMVTWF48MVVE4HT","name":"Documentation","created_at":"2022-05-13T17:45:32.577Z","updated_at":"2022-06-07T17:45:36.258Z","raw_attributes":{"id":"03as4poj49cz6j9","etag":"\"DaDAXuEwpvygu_Ul-89tlT4iVJBEvO3LZpQ0lrbYRrc/-sI8PUONUvqYWMpmaVCxKjp8YBY\"","kind":"admin#directory#group","name":"Documentation","email":"docs@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["docs@foo-corp.com.test-google-a.com"]}},{"object":"directory_group","id":"directory_group_01G2Z8D59X1K7Q38CJCN0T9KPR","idp_id":"02iq8gzs1b2i1ae","directory_id":"directory_01G2Z8ADK5NPMVTWF48MVVE4HT","name":"Contractors","created_at":"2022-05-13T17:45:32.577Z","updated_at":"2022-06-07T17:45:36.258Z","raw_attributes":{"id":"02iq8gzs1b2i1ae","etag":"\"DaDAXuEwpvygu_Ul-89tlT4iVJBEvO3LZpQ0lrbYRrc/JHD88ylaaIXdP90ob6UHKZ_PYHo\"","kind":"admin#directory#group","name":"Contractors","email":"contractors@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"0","nonEditableAliases":["contractors@foo-corp.com.test-google-a.com"]}},{"object":"directory_group","id":"directory_group_01G2Z8D586TSJBGTFJ5SGS3BAC","idp_id":"03fwokq01u3hhmd","directory_id":"directory_01G2Z8ADK5NPMVTWF48MVVE4HT","name":"Sync
+        Delay Test All Users","created_at":"2022-05-13T17:45:32.577Z","updated_at":"2022-06-07T17:45:36.258Z","raw_attributes":{"id":"03fwokq01u3hhmd","etag":"\"DaDAXuEwpvygu_Ul-89tlT4iVJBEvO3LZpQ0lrbYRrc/reGSvbZ45OETFOEVxJtCcqUYi3A\"","kind":"admin#directory#group","name":"Sync
+        Delay Test All Users","email":"allusers@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"1","nonEditableAliases":["allusers@foo-corp.com.test-google-a.com"]}},{"object":"directory_group","id":"directory_group_01G2Z8D50AEFFZHKBFNRE0Y16C","idp_id":"041mghml1ld1sg5","directory_id":"directory_01G2Z8ADK5NPMVTWF48MVVE4HT","name":"Sync
+        Delay 2","created_at":"2022-05-13T17:45:31.732Z","updated_at":"2022-06-07T17:45:35.739Z","raw_attributes":{"id":"041mghml1ld1sg5","etag":"\"DaDAXuEwpvygu_Ul-89tlT4iVJBEvO3LZpQ0lrbYRrc/5tCYHwRu-uImFIfoexVJvinM9rM\"","kind":"admin#directory#group","name":"Sync
+        Delay 2","email":"sd2@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"1","nonEditableAliases":["sd2@foo-corp.com.test-google-a.com"]}}],"list_metadata":{"before":"directory_group_01G2Z8D50AEFFZHKBFNRE0Y16C","after":null},"listMetadata":{"before":"directory_group_01G2Z8D50AEFFZHKBFNRE0Y16C","after":null}}'
     http_version:
-  recorded_at: Thu, 22 Apr 2021 22:11:09 GMT
+  recorded_at: Tue, 07 Jun 2022 22:28:36 GMT
 recorded_with: VCR 5.0.0

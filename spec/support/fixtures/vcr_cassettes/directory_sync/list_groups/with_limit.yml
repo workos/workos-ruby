@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.workos.com/directory_groups?directory=directory_01EK2YEMVTWGX27STRDR0N3MP9&limit=2
+    uri: https://api.workos.com/directory_groups?directory=directory_01G2Z8ADK5NPMVTWF48MVVE4HT&limit=2
     body:
       encoding: US-ASCII
       string: ''
@@ -14,7 +14,7 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.10.3
+      - WorkOS; ruby/3.0.2; x86_64-darwin19; v2.1.1
       Authorization:
       - Bearer <API_KEY>
   response:
@@ -22,53 +22,63 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - Cowboy
+      Date:
+      - Tue, 07 Jun 2022 22:52:29 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '535'
       Connection:
       - keep-alive
-      Vary:
-      - Origin, Accept-Encoding
       Access-Control-Allow-Credentials:
       - 'true'
       Content-Security-Policy:
       - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
         https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
         ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
-      X-Dns-Prefetch-Control:
-      - 'off'
+      Etag:
+      - W/"56b-KvIBGDPohNpRGKEuGxgDZ///hJs"
       Expect-Ct:
       - max-age=0
-      X-Frame-Options:
-      - SAMEORIGIN
-      Strict-Transport-Security:
-      - max-age=15552000; includeSubDomains
-      X-Download-Options:
-      - noopen
-      X-Content-Type-Options:
-      - nosniff
-      X-Permitted-Cross-Domain-Policies:
-      - none
       Referrer-Policy:
       - no-referrer
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Vary:
+      - Origin, Accept-Encoding
+      Via:
+      - 1.1 spaces-router (664a92218d61)
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - b47d9803-9cf2-54c0-e486-7ccfd9c0e907
       X-Xss-Protection:
       - '0'
-      X-Request-Id:
-      - 15cec028-c700-40ee-af7a-ff244f1ff217
-      Content-Type:
-      - application/json; charset=utf-8
-      Content-Length:
-      - '938'
-      Etag:
-      - W/"3aa-b4XSi9lY9zoQsT2oNH8tM1j0h/M"
-      Date:
-      - Thu, 22 Apr 2021 22:11:10 GMT
-      Via:
-      - 1.1 vegur
+      Cf-Cache-Status:
+      - DYNAMIC
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=vSG1OnIauGCT8ZAsX5cDWB039V9IkDGSonMdZpLOKLLen1RYfIjaFTYr%2FecbDYVEqbjnY%2BMVcT3R4G5DIopjOZ8Ebtjl3FMcHXmFzr0Hvbnp7BkiTqo4xgAP2rWkLYThrztmMUWMEPWYc%2FURsg%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      Nel:
+      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 717cf558df300c3d-DFW
+      Alt-Svc:
+      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
     body:
-      encoding: UTF-8
-      string: '{"object":"list","listMetadata":{"before":"directory_group_01EQ7V7C74DTH00CYB72T50ABG","after":null},"data":[{"id":"directory_group_01EQ823D94EF0AH5QMDRB91YWR","name":"Contractors","raw_attributes":{"id":"02iq8gzs1b2i1ae","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/rF1OEdXlr3FwClDxryrS1Qi22xQ\"","kind":"admin#directory#group","name":"Contractors","email":"contractors@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"2","nonEditableAliases":["contractors@foo-corp.com.test-google-a.com"]}},{"id":"directory_group_01EQ7V7C74DTH00CYB72T50ABG","name":"Risk
-        Management","raw_attributes":{"id":"028h4qwu0uyrb9k","etag":"\"eqhz5i5wiQgvARWPEnQdniNQ_SjQV5znfZGv9dAkRwc/kbW-E1aXnJl6pxP1nnwTfMnja4Q\"","kind":"admin#directory#group","name":"Risk
-        Management","email":"risk@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"1","nonEditableAliases":["risk@foo-corp.com.test-google-a.com"]}}]}'
+      encoding: ASCII-8BIT
+      string: '{"object":"list","data":[{"object":"directory_group","id":"directory_group_01G2Z8D5VBM14YQKFY02DHGFHD","idp_id":"01fob9te1lgjaw4","directory_id":"directory_01G2Z8ADK5NPMVTWF48MVVE4HT","name":"Security","created_at":"2022-05-13T17:45:32.577Z","updated_at":"2022-06-07T17:45:36.258Z","raw_attributes":{"id":"01fob9te1lgjaw4","etag":"\"DaDAXuEwpvygu_Ul-89tlT4iVJBEvO3LZpQ0lrbYRrc/i0mPa7pjMhSlP3jSyX-lRL7ScU8\"","kind":"admin#directory#group","name":"Security","email":"security@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"0","nonEditableAliases":["security@foo-corp.com.test-google-a.com"]}},{"object":"directory_group","id":"directory_group_01G2Z8D5SAKF3GXE9BTR6KZCJR","idp_id":"028h4qwu0uyrb9k","directory_id":"directory_01G2Z8ADK5NPMVTWF48MVVE4HT","name":"Risk
+        Management","created_at":"2022-05-13T17:45:32.577Z","updated_at":"2022-06-07T17:45:36.258Z","raw_attributes":{"id":"028h4qwu0uyrb9k","etag":"\"DaDAXuEwpvygu_Ul-89tlT4iVJBEvO3LZpQ0lrbYRrc/F0K5jmtHPYux11G_e7no2r29804\"","kind":"admin#directory#group","name":"Risk
+        Management","email":"risk@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"0","nonEditableAliases":["risk@foo-corp.com.test-google-a.com"]}}],"list_metadata":{"before":"directory_group_01G2Z8D5SAKF3GXE9BTR6KZCJR","after":null},"listMetadata":{"before":"directory_group_01G2Z8D5SAKF3GXE9BTR6KZCJR","after":null}}'
     http_version:
-  recorded_at: Thu, 22 Apr 2021 22:11:10 GMT
+  recorded_at: Tue, 07 Jun 2022 22:52:29 GMT
 recorded_with: VCR 5.0.0

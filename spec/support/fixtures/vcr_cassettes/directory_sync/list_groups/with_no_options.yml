@@ -14,7 +14,7 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.10.3
+      - WorkOS; ruby/3.0.2; x86_64-darwin19; v2.1.1
       Authorization:
       - Bearer <API_KEY>
   response:
@@ -22,53 +22,63 @@ http_interactions:
       code: 422
       message: Unprocessable Entity
     headers:
-      Server:
-      - Cowboy
+      Date:
+      - Tue, 07 Jun 2022 22:28:35 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '219'
       Connection:
       - keep-alive
-      Vary:
-      - Origin, Accept-Encoding
       Access-Control-Allow-Credentials:
       - 'true'
       Content-Security-Policy:
       - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
         https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
         ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
-      X-Dns-Prefetch-Control:
-      - 'off'
-      Expect-Ct:
-      - max-age=0
-      X-Frame-Options:
-      - SAMEORIGIN
-      Strict-Transport-Security:
-      - max-age=15552000; includeSubDomains
-      X-Download-Options:
-      - noopen
-      X-Content-Type-Options:
-      - nosniff
-      X-Permitted-Cross-Domain-Policies:
-      - none
-      Referrer-Policy:
-      - no-referrer
-      X-Xss-Protection:
-      - '0'
-      X-Request-Id:
-      - f3a5449b-f4e8-4088-adde-66c678229a63
-      Content-Type:
-      - application/json; charset=utf-8
-      Content-Length:
-      - '219'
       Etag:
       - W/"db-gphk1TAe8P3eXtQnl1v8qxKQjZs"
-      Date:
-      - Thu, 22 Apr 2021 21:58:31 GMT
+      Expect-Ct:
+      - max-age=0
+      Referrer-Policy:
+      - no-referrer
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Vary:
+      - Origin, Accept-Encoding
       Via:
-      - 1.1 vegur
+      - 1.1 spaces-router (664a92218d61)
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - 0e9b2e8d-129e-8cd7-c4a3-078f18455441
+      X-Xss-Protection:
+      - '0'
+      Cf-Cache-Status:
+      - DYNAMIC
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=rolm9dOV9PPapql1sEHtD4Pxu5K%2BTSSv9bNRONOED4qxiBE5Vc6TfLylhv1o%2F9bJz90IQmRlzm%2BtQRgd8gBOPag8j8rxue7PfVNAyiBLaY5nqLUUwtb64q9UTRBUGbncG7SUNxtqPSHjjRznrw%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      Nel:
+      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 717cd25a3c3a9eca-DFW
+      Alt-Svc:
+      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
     body:
       encoding: UTF-8
       string: '{"message":"Validation failed","errors":[{"field":"directory","code":"Please
         provide either \"directory\" or \"user\" parameters."},{"field":"user","code":"Please
         provide either \"directory\" or \"user\" parameters."}]}'
     http_version:
-  recorded_at: Thu, 22 Apr 2021 21:58:31 GMT
+  recorded_at: Tue, 07 Jun 2022 22:28:35 GMT
 recorded_with: VCR 5.0.0
