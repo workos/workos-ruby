@@ -16,7 +16,7 @@ module WorkOS
       raw = parse_json(json)
       @id = T.let(raw.id, String)
       @object = T.let(raw.object, String)
-      @expires_at = raw.expires_at
+      @expires_at = T.let(raw.expires_at, String)
       @code = raw.code
       @authentication_factor_id = T.let(raw.authentication_factor_id, String)
       @created_at = T.let(raw.created_at, String)

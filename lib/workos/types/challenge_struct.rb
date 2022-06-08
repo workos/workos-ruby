@@ -8,7 +8,7 @@ module WorkOS
     class ChallengeStruct < T::Struct
       const :id, String
       const :object, String
-      const :expires_at, T.nilable(String)
+      const :expires_at, String
       const :code, T.nilable(String)
       const :authentication_factor_id, String
       const :created_at, String
