@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.workos.com/directory_groups/directory_grp_01E64QTDNS0EGJ0FMCVY9BWGZT
+    uri: https://api.workos.com/directory_groups/directory_group_01G2Z8D4ZR8RJ03Y1W7P9K8NMG
     body:
       encoding: US-ASCII
       string: ''
@@ -14,7 +14,7 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.2.3
+      - WorkOS; ruby/3.0.2; x86_64-darwin19; v2.1.1
       Authorization:
       - Bearer <API_KEY>
   response:
@@ -22,41 +22,61 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - Cowboy
-      Connection:
-      - keep-alive
-      Vary:
-      - Origin, Accept-Encoding
-      Access-Control-Allow-Credentials:
-      - 'true'
-      X-Dns-Prefetch-Control:
-      - 'off'
-      X-Frame-Options:
-      - SAMEORIGIN
-      Strict-Transport-Security:
-      - max-age=15552000; includeSubDomains
-      X-Download-Options:
-      - noopen
-      X-Content-Type-Options:
-      - nosniff
-      X-Xss-Protection:
-      - 1; mode=block
-      X-Request-Id:
-      - 4fb94ab3-ecff-4cea-b0b7-d4d1b3ffad3a
+      Date:
+      - Tue, 07 Jun 2022 22:28:37 GMT
       Content-Type:
       - application/json; charset=utf-8
-      Content-Length:
-      - '65'
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
       Etag:
-      - W/"41-QrnAKhorJuUwAsR1OyMpfB8q1Kc"
-      Date:
-      - Thu, 30 Apr 2020 04:47:49 GMT
+      - W/"244-4TugYfq6OLpdb2GYu9NN0Z83S0g"
+      Expect-Ct:
+      - max-age=0
+      Referrer-Policy:
+      - no-referrer
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Vary:
+      - Origin, Accept-Encoding
       Via:
-      - 1.1 vegur
+      - 1.1 spaces-router (664a92218d61)
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - 4a7bfd77-da6c-b1ae-bc39-35a1c175ecf2
+      X-Xss-Protection:
+      - '0'
+      Cf-Cache-Status:
+      - DYNAMIC
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=9nQ%2FpfKZE%2BT1W4WrbQGusRS%2FxZHEG7sB0Ps3PUXt4lmPSmC%2FZHLV6KW90D74Y9VQ0QT7q3OIF47yVIwX5fwPKOHMwcOYQv0eyKUrFYxKkNf6QALpJE7%2BVNSUBiEmv3cZ1zOXUFCiuMl2MYygsw%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      Nel:
+      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 717cd26458fd671d-DFW
+      Alt-Svc:
+      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
     body:
-      encoding: UTF-8
-      string: '{"id":"directory_grp_01E64QTDNS0EGJ0FMCVY9BWGZT","name":"Walrus"}'
+      encoding: ASCII-8BIT
+      string: '{"object":"directory_group","id":"directory_group_01G2Z8D4ZR8RJ03Y1W7P9K8NMG","idp_id":"01jlao4614two3d","directory_id":"directory_01G2Z8ADK5NPMVTWF48MVVE4HT","name":"Sales","created_at":"2022-05-13T17:45:31.732Z","updated_at":"2022-06-07T17:45:35.739Z","raw_attributes":{"id":"01jlao4614two3d","etag":"\"DaDAXuEwpvygu_Ul-89tlT4iVJBEvO3LZpQ0lrbYRrc/uLYJ0Hrx1gXXVg9z-zGLBZET2Wo\"","kind":"admin#directory#group","name":"Sales","email":"sales@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"1","nonEditableAliases":["sales@foo-corp.com.test-google-a.com"]}}'
     http_version:
-  recorded_at: Thu, 30 Apr 2020 04:47:49 GMT
+  recorded_at: Tue, 07 Jun 2022 22:28:37 GMT
 recorded_with: VCR 5.0.0

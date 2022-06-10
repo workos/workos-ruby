@@ -189,7 +189,7 @@ describe WorkOS::DirectorySync do
     context 'with directory option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/directory_groups?directory=directory_01EK2YEMVTWGX27STRDR0N3MP9',
+          '/directory_groups?directory=directory_01G2Z8ADK5NPMVTWF48MVVE4HT',
           'Content-Type' => 'application/json'
         ]
 
@@ -200,7 +200,7 @@ describe WorkOS::DirectorySync do
 
         VCR.use_cassette 'directory_sync/list_groups/with_directory' do
           groups = described_class.list_groups(
-            directory: 'directory_01EK2YEMVTWGX27STRDR0N3MP9',
+            directory: 'directory_01G2Z8ADK5NPMVTWF48MVVE4HT',
           )
 
           expect(groups.data.size).to eq(10)
@@ -212,7 +212,7 @@ describe WorkOS::DirectorySync do
     context 'with user option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/directory_groups?user=directory_user_01EK2YFBC3R10MPB4W49G5QDXG',
+          '/directory_groups?user=directory_user_01G2Z8D4FDB28ZNSRRBVCF2E0P',
           'Content-Type' => 'application/json'
         ]
 
@@ -223,7 +223,7 @@ describe WorkOS::DirectorySync do
 
         VCR.use_cassette 'directory_sync/list_groups/with_user' do
           groups = described_class.list_groups(
-            user: 'directory_user_01EK2YFBC3R10MPB4W49G5QDXG',
+            user: 'directory_user_01G2Z8D4FDB28ZNSRRBVCF2E0P',
           )
 
           expect(groups.data.size).to eq(3)
@@ -234,8 +234,8 @@ describe WorkOS::DirectorySync do
     context 'with the before option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/directory_groups?before=before-id&' \
-          'directory=directory_01EK2YEMVTWGX27STRDR0N3MP9',
+          '/directory_groups?before=directory_group_01G2Z8D4ZR8RJ03Y1W7P9K8NMG&' \
+          'directory=directory_01G2Z8ADK5NPMVTWF48MVVE4HT',
           'Content-Type' => 'application/json'
         ]
 
@@ -246,11 +246,11 @@ describe WorkOS::DirectorySync do
 
         VCR.use_cassette 'directory_sync/list_groups/with_before' do
           groups = described_class.list_groups(
-            before: 'before-id',
-            directory: 'directory_01EK2YEMVTWGX27STRDR0N3MP9',
+            before: 'directory_group_01G2Z8D4ZR8RJ03Y1W7P9K8NMG',
+            directory: 'directory_01G2Z8ADK5NPMVTWF48MVVE4HT',
           )
 
-          expect(groups.data.size).to eq(2)
+          expect(groups.data.size).to eq(10)
         end
       end
     end
@@ -258,8 +258,8 @@ describe WorkOS::DirectorySync do
     context 'with the after option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/directory_groups?after=after-id&' \
-          'directory=directory_01EK2YEMVTWGX27STRDR0N3MP9',
+          '/directory_groups?after=directory_group_01G2Z8D4ZR8RJ03Y1W7P9K8NMG&' \
+          'directory=directory_01G2Z8ADK5NPMVTWF48MVVE4HT',
           'Content-Type' => 'application/json'
         ]
 
@@ -270,11 +270,11 @@ describe WorkOS::DirectorySync do
 
         VCR.use_cassette 'directory_sync/list_groups/with_after' do
           groups = described_class.list_groups(
-            after: 'after-id',
-            directory: 'directory_01EK2YEMVTWGX27STRDR0N3MP9',
+            after: 'directory_group_01G2Z8D4ZR8RJ03Y1W7P9K8NMG',
+            directory: 'directory_01G2Z8ADK5NPMVTWF48MVVE4HT',
           )
 
-          expect(groups.data.size).to eq(10)
+          expect(groups.data.size).to eq(9)
         end
       end
     end
@@ -283,7 +283,7 @@ describe WorkOS::DirectorySync do
       it 'forms the proper request to the API' do
         request_args = [
           '/directory_groups?limit=2&' \
-          'directory=directory_01EK2YEMVTWGX27STRDR0N3MP9',
+          'directory=directory_01G2Z8ADK5NPMVTWF48MVVE4HT',
           'Content-Type' => 'application/json'
         ]
 
@@ -295,7 +295,7 @@ describe WorkOS::DirectorySync do
         VCR.use_cassette 'directory_sync/list_groups/with_limit' do
           groups = described_class.list_groups(
             limit: 2,
-            directory: 'directory_01EK2YEMVTWGX27STRDR0N3MP9',
+            directory: 'directory_01G2Z8ADK5NPMVTWF48MVVE4HT',
           )
 
           expect(groups.data.size).to eq(2)
@@ -438,11 +438,15 @@ describe WorkOS::DirectorySync do
       it 'returns a group' do
         VCR.use_cassette('directory_sync/get_group') do
           group = WorkOS::DirectorySync.get_group(
-            'directory_grp_01E64QTDNS0EGJ0FMCVY9BWGZT',
+            'directory_group_01G2Z8D4ZR8RJ03Y1W7P9K8NMG',
           )
 
-          expect(group['name']).to eq('Walrus')
-          expect(group.name).to eq('Walrus')
+          expect(group['directory_id']).to eq('directory_01G2Z8ADK5NPMVTWF48MVVE4HT')
+          expect(group['idp_id']).to eq('01jlao4614two3d')
+          expect(group['name']).to eq('Sales')
+          expect(group.name).to eq('Sales')
+          expect(group['created_at']).to eq('2022-05-13T17:45:31.732Z')
+          expect(group['updated_at']).to eq('2022-06-07T17:45:35.739Z')
         end
       end
     end
