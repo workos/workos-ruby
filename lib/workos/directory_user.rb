@@ -48,12 +48,8 @@ module WorkOS
     end
 
     def primary_email
-      return nil if emails.empty?
-
-      primary_email = emails.find { |email| email[:primary] }
+      primary_email = (emails || []).find { |email| email[:primary] }
       return primary_email[:value] if primary_email
-
-      nil
     end
 
     private
