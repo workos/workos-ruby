@@ -47,6 +47,16 @@ module WorkOS
       }
     end
 
+    def get_primary_email(*)
+      return nil if emails.empty?
+
+      emails.each do |email|
+        return email[:value] if email[:primary]
+      end
+
+      nil
+    end
+
     private
 
     sig do
