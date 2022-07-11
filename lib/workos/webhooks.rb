@@ -55,8 +55,6 @@ module WorkOS
         WorkOS::Webhook.new(payload)
       end
 
-      private
-
       sig do
         params(
           payload: String,
@@ -104,6 +102,8 @@ module WorkOS
         true
       end
       # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
+
+      private
 
       sig do
         params(
