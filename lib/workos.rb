@@ -5,6 +5,7 @@ require 'workos/version'
 require 'sorbet-runtime'
 require 'json'
 require 'workos/hash_provider'
+require 'workos/configuration'
 
 # Use the WorkOS module to authenticate your
 # requests to the WorkOS API. The gem will read
@@ -27,9 +28,18 @@ module WorkOS
     key || raise('WorkOS.key not set')
   end
 
+  def self.config
+    @config ||= Configuration.new
+  end
+
+  def self.configure
+    yield(config)
+  end
+
   autoload :Types, 'workos/types'
   autoload :Base, 'workos/base'
   autoload :Client, 'workos/client'
+  autoload :Configuration, 'workos/configuration'
   autoload :AuditTrail, 'workos/audit_trail'
   autoload :Connection, 'workos/connection'
   autoload :DirectorySync, 'workos/directory_sync'
@@ -57,6 +67,7 @@ module WorkOS
   autoload :AuthenticationError, 'workos/errors'
   autoload :InvalidRequestError, 'workos/errors'
   autoload :SignatureVerificationError, 'workos/errors'
+  autoload :TimeoutError, 'workos/errors'
 
   # Remove WORKOS_KEY at some point in the future. Keeping it here now for
   # backwards compatibility.

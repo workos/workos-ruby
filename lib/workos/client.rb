@@ -11,6 +11,9 @@ module WorkOS
     def client
       Net::HTTP.new(WorkOS::API_HOSTNAME, 443).tap do |http_client|
         http_client.use_ssl = true
+        http_client.open_timeout = WorkOS.config.timeout
+        http_client.read_timeout = WorkOS.config.timeout
+        http_client.write_timeout = WorkOS.config.timeout
       end
     end
 
@@ -20,7 +23,13 @@ module WorkOS
       ).returns(::T.untyped)
     end
     def execute_request(request:)
-      response = client.request(request)
+      begin
+        response = client.request(request)
+      rescue Net::OpenTimeout, Net::ReadTimeout, Net::WriteTimeout
+        raise TimeoutError.new(
+          message: 'API Timeout Error',
+        )
+      end
 
       http_status = response.code.to_i
       handle_error_response(response: response) if http_status >= 400
