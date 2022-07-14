@@ -9,7 +9,8 @@ module WorkOS
     include HashProvider
     extend T::Sig
 
-    attr_accessor :id, :directory_id, :idp_id, :name, :created_at, :updated_at, :raw_attributes
+    attr_accessor :id, :directory_id, :idp_id, :name, :created_at, :updated_at,
+                  :raw_attributes, :organization_id
 
     # rubocop:disable Metrics/AbcSize
     sig { params(json: String).void }
@@ -18,6 +19,7 @@ module WorkOS
 
       @id = T.let(raw.id, String)
       @directory_id = T.let(raw.directory_id, String)
+      @organization_id = raw.organization_id
       @idp_id = T.let(raw.idp_id, String)
       @name = T.let(raw.name, String)
       @created_at = T.let(raw.created_at, String)
@@ -32,6 +34,7 @@ module WorkOS
       {
         id: id,
         directory_id: directory_id,
+        organization_id: organization_id,
         idp_id: idp_id,
         name: name,
         created_at: created_at,
@@ -53,6 +56,7 @@ module WorkOS
       WorkOS::Types::DirectoryGroupStruct.new(
         id: hash[:id],
         directory_id: hash[:directory_id],
+        organization_id: hash[:organization_id],
         idp_id: hash[:idp_id],
         name: hash[:name],
         created_at: hash[:created_at],

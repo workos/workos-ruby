@@ -14,7 +14,7 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/3.0.2; x86_64-darwin19; v2.1.1
+      - WorkOS; ruby/2.7.2; arm64-darwin21; v2.3.0
       Authorization:
       - Bearer <API_KEY>
   response:
@@ -23,7 +23,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Tue, 07 Jun 2022 22:28:37 GMT
+      - Thu, 14 Jul 2022 16:49:09 GMT
       Content-Type:
       - application/json; charset=utf-8
       Transfer-Encoding:
@@ -37,7 +37,7 @@ http_interactions:
         https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
         ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
       Etag:
-      - W/"244-4TugYfq6OLpdb2GYu9NN0Z83S0g"
+      - W/"277-8j8DgAIILf/mCF7LCmvrqcqdwK4"
       Expect-Ct:
       - max-age=0
       Referrer-Policy:
@@ -47,7 +47,7 @@ http_interactions:
       Vary:
       - Origin, Accept-Encoding
       Via:
-      - 1.1 spaces-router (664a92218d61)
+      - 1.1 spaces-router (b642bf20b975)
       X-Content-Type-Options:
       - nosniff
       X-Dns-Prefetch-Control:
@@ -59,24 +59,22 @@ http_interactions:
       X-Permitted-Cross-Domain-Policies:
       - none
       X-Request-Id:
-      - 4a7bfd77-da6c-b1ae-bc39-35a1c175ecf2
+      - 0f21c2f3-e24a-e3a2-85d3-41ee9e45b3e2
       X-Xss-Protection:
       - '0'
       Cf-Cache-Status:
       - DYNAMIC
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=9nQ%2FpfKZE%2BT1W4WrbQGusRS%2FxZHEG7sB0Ps3PUXt4lmPSmC%2FZHLV6KW90D74Y9VQ0QT7q3OIF47yVIwX5fwPKOHMwcOYQv0eyKUrFYxKkNf6QALpJE7%2BVNSUBiEmv3cZ1zOXUFCiuMl2MYygsw%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=Hnm%2BEiBTG2ROFxqX2mdwcp0HvQ173SgQlQDCmTmBQEbLv9w2dkcl2qMqYh44OSHRABBCkRfuJ2MtnHuqb6sQ5RjHRMKSCfRqklsOrgd%2FHo0PEE6mW0u%2BlZqBMIlN1BEp"}],"group":"cf-nel","max_age":604800}'
       Nel:
       - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
       Server:
       - cloudflare
       Cf-Ray:
-      - 717cd26458fd671d-DFW
-      Alt-Svc:
-      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
+      - 72abc002fbd9f039-EWR
     body:
       encoding: ASCII-8BIT
-      string: '{"object":"directory_group","id":"directory_group_01G2Z8D4ZR8RJ03Y1W7P9K8NMG","idp_id":"01jlao4614two3d","directory_id":"directory_01G2Z8ADK5NPMVTWF48MVVE4HT","name":"Sales","created_at":"2022-05-13T17:45:31.732Z","updated_at":"2022-06-07T17:45:35.739Z","raw_attributes":{"id":"01jlao4614two3d","etag":"\"DaDAXuEwpvygu_Ul-89tlT4iVJBEvO3LZpQ0lrbYRrc/uLYJ0Hrx1gXXVg9z-zGLBZET2Wo\"","kind":"admin#directory#group","name":"Sales","email":"sales@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"1","nonEditableAliases":["sales@foo-corp.com.test-google-a.com"]}}'
-    http_version:
-  recorded_at: Tue, 07 Jun 2022 22:28:37 GMT
+      string: '{"object":"directory_group","id":"directory_group_01G2Z8D4ZR8RJ03Y1W7P9K8NMG","idp_id":"01jlao4614two3d","directory_id":"directory_01G2Z8ADK5NPMVTWF48MVVE4HT","organization_id":"org_01EGS4P7QR31EZ4YWD1Z1XA176","name":"Sales","created_at":"2022-05-13T17:45:31.732Z","updated_at":"2022-07-13T17:45:42.618Z","raw_attributes":{"id":"01jlao4614two3d","etag":"\"SEQQBYC70u6XQ2UUjmjNYw6b0a5EzY0mTMShjiZga8A/uLYJ0Hrx1gXXVg9z-zGLBZET2Wo\"","kind":"admin#directory#group","name":"Sales","email":"sales@foo-corp.com","description":"","adminCreated":true,"directMembersCount":"1","nonEditableAliases":["sales@foo-corp.com.test-google-a.com"]}}'
+    http_version: 
+  recorded_at: Thu, 14 Jul 2022 16:49:09 GMT
 recorded_with: VCR 5.0.0

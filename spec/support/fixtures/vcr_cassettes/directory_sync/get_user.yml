@@ -14,7 +14,7 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/3.0.1; x86_64-darwin19; v1.4.0
+      - WorkOS; ruby/2.7.2; arm64-darwin21; v2.3.0
       Authorization:
       - Bearer <API_KEY>
   response:
@@ -23,64 +23,61 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 09 Aug 2021 17:36:13 GMT
+      - Thu, 14 Jul 2022 16:46:23 GMT
       Content-Type:
       - application/json; charset=utf-8
-      Transfer-Encoding:
-      - chunked
+      Content-Length:
+      - '616'
       Connection:
       - keep-alive
-      Vary:
-      - Origin, Accept-Encoding
       Access-Control-Allow-Credentials:
       - 'true'
       Content-Security-Policy:
       - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
         https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
         ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
-      X-Dns-Prefetch-Control:
-      - 'off'
+      Etag:
+      - W/"680-NPvBik348v8xg6EE7iZMYwD5UXw"
       Expect-Ct:
       - max-age=0
-      X-Frame-Options:
-      - SAMEORIGIN
-      Strict-Transport-Security:
-      - max-age=15552000; includeSubDomains
-      X-Download-Options:
-      - noopen
-      X-Content-Type-Options:
-      - nosniff
-      X-Permitted-Cross-Domain-Policies:
-      - none
       Referrer-Policy:
       - no-referrer
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Vary:
+      - Origin, Accept-Encoding
+      Via:
+      - 1.1 spaces-router (b642bf20b975)
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - 51a82273-b413-cead-b968-c07ba4d6fd08
       X-Xss-Protection:
       - '0'
-      X-Request-Id:
-      - 59862449-73e5-4dfd-93ab-3764b1917801
-      Etag:
-      - W/"4c3-Ikxt2N0fUuSxCjv+RdYvW8W9Xwo"
-      Via:
-      - 1.1 vegur
       Cf-Cache-Status:
       - DYNAMIC
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=m6%2FJ3BJ75VMwSOtfDQXjt%2FoL29FI%2Bv5VswhZzg6LVkOQi7nyI19Sks%2FkDGCDrSQ%2FMtyU6DI4OFWR9RB1I04IGdhehsY2oPGugIj%2BhHMiJdQEcE6vPAsuaF1HyVnXGvMgRYdurEW1Jr7rSYBWeA%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=OS7ELJ3A8tkzMafvaIThD%2B5JlYmul1puZlAXTxEKYBLlq%2B6DCtqDqAi4dtr4yRP3khNmg6MwPiuLqtdOXRmPOtag9Ti%2FGK8ra%2BJOlpwkFjD965CNBfzao4EJtExDkbS3"}],"group":"cf-nel","max_age":604800}'
       Nel:
       - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
       Server:
       - cloudflare
       Cf-Ray:
-      - 67c2bed0ebe6c7e6-DFW
-      Alt-Svc:
-      - h3-27=":443"; ma=86400, h3-28=":443"; ma=86400, h3-29=":443"; ma=86400, h3=":443";
-        ma=86400
+      - 72abbbf2b93e8ca5-EWR
     body:
       encoding: ASCII-8BIT
-      string: '{"object":"directory_user","id":"directory_user_01FAZYNPC8M0HRYTKFP2GNX852","directory_id":"directory_01FAZYMST676QMTFN1DDJZZX87","idp_id":"6092c280a3f1e19ef6d8cef8","username":"logan@workos.com","emails":[{"primary":true,"value":"logan@workos.com"}],"first_name":"Logan","last_name":"Gingerich","state":"active","raw_attributes":{"id":"6092c280a3f1e19ef6d8cef8","name":"Logan
-        Paul Gingerich","teams":["5f696c8e9a63a60e965aaca8"],"spokeId":null,"lastName":"Gingerich","createdAt":"2021-05-05T16:06:24+0000","firstName":"Logan","updatedAt":"2021-07-19T19:17:52+0000","workEmail":"logan@workos.com","department":"Infra","departmentId":"5f27ada9a5e9bc0001a0ae4a"},"custom_attributes":{"department":"Infra"},"groups":[{"object":"directory_group","id":"directory_group_01FAZYNN1NZWMBRAXXDSTB5NFH","directory_id":"directory_01FAZYMST676QMTFN1DDJZZX87","name":"Department
-        - Infra","raw_attributes":{"id":"5f27ada9a5e9bc0001a0ae4a","name":"Infra","parent":"5f27ada9a5e9bc0001a0ae48"}},{"object":"directory_group","id":"directory_group_01FAZYNNQ4HQ6EBF29MPTH7VKB","directory_id":"directory_01FAZYMST676QMTFN1DDJZZX87","name":"Team
-        - Platform","raw_attributes":{"id":"5f696c8e9a63a60e965aaca8","name":"Platform","parent":null}}]}'
-    http_version:
-  recorded_at: Mon, 09 Aug 2021 17:36:13 GMT
+      string: '{"object":"directory_user","id":"directory_user_01FAZYNPC8M0HRYTKFP2GNX852","directory_id":"directory_01FAZYMST676QMTFN1DDJZZX87","organization_id":"org_01FAZWCWR03DVWA83NCJYKKD54","idp_id":"6092c280a3f1e19ef6d8cef8","username":"logan@workos.com","emails":[{"primary":true,"value":"logan@workos.com"}],"first_name":"Logan","last_name":"Gingerich","state":"active","raw_attributes":{"id":"6092c280a3f1e19ef6d8cef8","name":"Logan
+        Paul Gingerich","teams":["5f696c8e9a63a60e965aaca8"],"spokeId":null,"lastName":"Gingerich","createdAt":"2021-05-05T16:06:24+0000","firstName":"Logan","updatedAt":"2021-11-11T05:08:14+0000","workEmail":"logan@workos.com","department":"Infra","departmentId":"5f27ada9a5e9bc0001a0ae4a"},"custom_attributes":{},"created_at":"2021-07-19T17:57:57.268Z","updated_at":"2022-01-24T11:23:01.614Z","groups":[{"object":"directory_group","id":"directory_group_01FAZYNNQ4HQ6EBF29MPTH7VKB","idp_id":"5f696c8e9a63a60e965aaca8","directory_id":"directory_01FAZYMST676QMTFN1DDJZZX87","organization_id":"org_01FAZWCWR03DVWA83NCJYKKD54","name":"Team
+        - Platform","created_at":"2021-07-19T17:57:56.580Z","updated_at":"2022-01-24T11:23:01.333Z","raw_attributes":{"id":"5f696c8e9a63a60e965aaca8","name":"Platform","parent":null}},{"object":"directory_group","id":"directory_group_01FAZYNN1NZWMBRAXXDSTB5NFH","idp_id":"5f27ada9a5e9bc0001a0ae4a","directory_id":"directory_01FAZYMST676QMTFN1DDJZZX87","organization_id":"org_01FAZWCWR03DVWA83NCJYKKD54","name":"Department
+        - Infra","created_at":"2021-07-19T17:57:55.893Z","updated_at":"2022-01-24T11:23:01.333Z","raw_attributes":{"id":"5f27ada9a5e9bc0001a0ae4a","name":"Infra","parent":"5f27ada9a5e9bc0001a0ae48"}}]}'
+    http_version: 
+  recorded_at: Thu, 14 Jul 2022 16:46:23 GMT
 recorded_with: VCR 5.0.0
