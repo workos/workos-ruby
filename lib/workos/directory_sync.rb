@@ -12,7 +12,6 @@ module WorkOS
   module DirectorySync
     class << self
       extend T::Sig
-      include Base
       include Client
 
       # Retrieve directories.

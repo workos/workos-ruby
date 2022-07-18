@@ -330,7 +330,7 @@ describe WorkOS::SSO do
     let(:request_body) do
       {
         client_id: args[:client_id],
-        client_secret: WorkOS.key,
+        client_secret: WorkOS.config.key,
         code: args[:code],
         grant_type: 'authorization_code',
       }

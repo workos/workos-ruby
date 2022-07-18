@@ -9,7 +9,6 @@ module WorkOS
   module Portal
     class << self
       extend T::Sig
-      include Base
       include Client
 
       GENERATE_LINK_INTENTS = WorkOS::Types::Intent.values.map(&:serialize).

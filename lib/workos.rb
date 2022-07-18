@@ -17,15 +17,15 @@ module WorkOS
   API_HOSTNAME = ENV['WORKOS_API_HOSTNAME'] || 'api.workos.com'
 
   def self.key=(value)
-    Base.key = value
+    warn '`WorkOS.key=` is deprecated. Use `WorkOS.configure` instead.'
+
+    config.key = value
   end
 
   def self.key
-    Base.key
-  end
+    warn '`WorkOS.key` is deprecated. Use `WorkOS.configure` instead.'
 
-  def self.key!
-    key || raise('WorkOS.key not set')
+    config.key
   end
 
   def self.config
@@ -37,7 +37,6 @@ module WorkOS
   end
 
   autoload :Types, 'workos/types'
-  autoload :Base, 'workos/base'
   autoload :Client, 'workos/client'
   autoload :Configuration, 'workos/configuration'
   autoload :AuditTrail, 'workos/audit_trail'
@@ -72,5 +71,5 @@ module WorkOS
   # Remove WORKOS_KEY at some point in the future. Keeping it here now for
   # backwards compatibility.
   key = ENV['WORKOS_API_KEY'] || ENV['WORKOS_KEY']
-  WorkOS.key = key unless key.nil?
+  config.key = key unless key.nil?
 end

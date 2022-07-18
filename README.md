@@ -35,7 +35,10 @@ Or, you may set the key yourself, such as in an initializer in your application 
 ```ruby
 # /config/initializers/workos.rb
 
-WorkOS.key = '[your api key]'
+WorkOS.configure do |config|
+  config.key = '[your api key]'
+  config.timeout = 120
+end
 ```
 
 ## SDK Versioning

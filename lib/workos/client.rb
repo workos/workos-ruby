@@ -54,7 +54,7 @@ module WorkOS
         'Content-Type' => 'application/json',
       )
 
-      request['Authorization'] = "Bearer #{access_token || WorkOS.key!}" if auth
+      request['Authorization'] = "Bearer #{access_token || WorkOS.config.key!}" if auth
       request['User-Agent'] = user_agent
       request
     end
@@ -70,7 +70,7 @@ module WorkOS
     def post_request(path:, auth: false, idempotency_key: nil, body: nil)
       request = Net::HTTP::Post.new(path, 'Content-Type' => 'application/json')
       request.body = body.to_json if body
-      request['Authorization'] = "Bearer #{WorkOS.key!}" if auth
+      request['Authorization'] = "Bearer #{WorkOS.config.key!}" if auth
       request['Idempotency-Key'] = idempotency_key if idempotency_key
       request['User-Agent'] = user_agent
       request
@@ -92,7 +92,7 @@ module WorkOS
         'Content-Type' => 'application/json',
       )
 
-      request['Authorization'] = "Bearer #{WorkOS.key!}" if auth
+      request['Authorization'] = "Bearer #{WorkOS.config.key!}" if auth
       request['User-Agent'] = user_agent
       request
     end
@@ -108,7 +108,7 @@ module WorkOS
     def put_request(path:, auth: false, idempotency_key: nil, body: nil)
       request = Net::HTTP::Put.new(path, 'Content-Type' => 'application/json')
       request.body = body.to_json if body
-      request['Authorization'] = "Bearer #{WorkOS.key!}" if auth
+      request['Authorization'] = "Bearer #{WorkOS.config.key!}" if auth
       request['Idempotency-Key'] = idempotency_key if idempotency_key
       request['User-Agent'] = user_agent
       request
