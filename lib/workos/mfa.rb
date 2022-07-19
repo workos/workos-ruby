@@ -122,9 +122,8 @@ module WorkOS
           auth: true,
           body: {
             sms_template: sms_template,
-            authentication_factor_id: authentication_factor_id,
           },
-          path: '/auth/factors/challenge',
+          path: "/auth/factors/#{authentication_factor_id}/challenge",
         )
 
         response = execute_request(request: request)
