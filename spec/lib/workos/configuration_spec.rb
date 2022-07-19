@@ -9,6 +9,7 @@ describe WorkOS do
           config.key = 'example_api_key'
         end
       end
+
       it 'sets the key and default timeout configuration' do
         expect(WorkOS.config.key).to eq('example_api_key')
         expect(WorkOS.config.timeout).to eq(60)
@@ -22,6 +23,7 @@ describe WorkOS do
           config.timeout = 120
         end
       end
+
       it 'sets the key and timeout configuration' do
         expect(WorkOS.config.key).to eq('example_api_key')
         expect(WorkOS.config.timeout).to eq(120)
@@ -36,6 +38,7 @@ describe WorkOS::Configuration do
       before do
         WorkOS.config.key = 'example_api_key'
       end
+
       it 'returns the key' do
         expect(WorkOS.config.key!).to eq('example_api_key')
       end
@@ -45,6 +48,7 @@ describe WorkOS::Configuration do
       before do
         WorkOS.config.key = nil
       end
+
       it 'throws an error' do
         expect do
           WorkOS.config.key!
