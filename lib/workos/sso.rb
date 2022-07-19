@@ -13,7 +13,6 @@ module WorkOS
   module SSO
     class << self
       extend T::Sig
-      include Base
       include Client
 
       PROVIDERS = WorkOS::Types::Provider.values.map(&:serialize).freeze
@@ -142,7 +141,7 @@ module WorkOS
       def profile_and_token(code:, client_id: nil)
         body = {
           client_id: client_id,
-          client_secret: WorkOS.key!,
+          client_secret: WorkOS.config.key!,
           grant_type: 'authorization_code',
           code: code,
         }

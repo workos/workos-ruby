@@ -11,6 +11,9 @@ module WorkOS
     def client
       Net::HTTP.new(WorkOS::API_HOSTNAME, 443).tap do |http_client|
         http_client.use_ssl = true
+        http_client.open_timeout = WorkOS.config.timeout
+        http_client.read_timeout = WorkOS.config.timeout
+        http_client.write_timeout = WorkOS.config.timeout
       end
     end
 
@@ -20,7 +23,13 @@ module WorkOS
       ).returns(::T.untyped)
     end
     def execute_request(request:)
-      response = client.request(request)
+      begin
+        response = client.request(request)
+      rescue Net::OpenTimeout, Net::ReadTimeout, Net::WriteTimeout
+        raise TimeoutError.new(
+          message: 'API Timeout Error',
+        )
+      end
 
       http_status = response.code.to_i
       handle_error_response(response: response) if http_status >= 400
@@ -45,7 +54,7 @@ module WorkOS
         'Content-Type' => 'application/json',
       )
 
-      request['Authorization'] = "Bearer #{access_token || WorkOS.key!}" if auth
+      request['Authorization'] = "Bearer #{access_token || WorkOS.config.key!}" if auth
       request['User-Agent'] = user_agent
       request
     end
@@ -61,7 +70,7 @@ module WorkOS
     def post_request(path:, auth: false, idempotency_key: nil, body: nil)
       request = Net::HTTP::Post.new(path, 'Content-Type' => 'application/json')
       request.body = body.to_json if body
-      request['Authorization'] = "Bearer #{WorkOS.key!}" if auth
+      request['Authorization'] = "Bearer #{WorkOS.config.key!}" if auth
       request['Idempotency-Key'] = idempotency_key if idempotency_key
       request['User-Agent'] = user_agent
       request
@@ -83,7 +92,7 @@ module WorkOS
         'Content-Type' => 'application/json',
       )
 
-      request['Authorization'] = "Bearer #{WorkOS.key!}" if auth
+      request['Authorization'] = "Bearer #{WorkOS.config.key!}" if auth
       request['User-Agent'] = user_agent
       request
     end
@@ -99,7 +108,7 @@ module WorkOS
     def put_request(path:, auth: false, idempotency_key: nil, body: nil)
       request = Net::HTTP::Put.new(path, 'Content-Type' => 'application/json')
       request.body = body.to_json if body
-      request['Authorization'] = "Bearer #{WorkOS.key!}" if auth
+      request['Authorization'] = "Bearer #{WorkOS.config.key!}" if auth
       request['Idempotency-Key'] = idempotency_key if idempotency_key
       request['User-Agent'] = user_agent
       request

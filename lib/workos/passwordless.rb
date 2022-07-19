@@ -12,7 +12,6 @@ module WorkOS
   module Passwordless
     class << self
       extend T::Sig
-      include Base
       include Client
 
       # Create a Passwordless Session.

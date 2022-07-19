@@ -5,6 +5,7 @@ require 'workos/version'
 require 'sorbet-runtime'
 require 'json'
 require 'workos/hash_provider'
+require 'workos/configuration'
 
 # Use the WorkOS module to authenticate your
 # requests to the WorkOS API. The gem will read
@@ -16,20 +17,28 @@ module WorkOS
   API_HOSTNAME = ENV['WORKOS_API_HOSTNAME'] || 'api.workos.com'
 
   def self.key=(value)
-    Base.key = value
+    warn '`WorkOS.key=` is deprecated. Use `WorkOS.configure` instead.'
+
+    config.key = value
   end
 
   def self.key
-    Base.key
+    warn '`WorkOS.key` is deprecated. Use `WorkOS.configure` instead.'
+
+    config.key
   end
 
-  def self.key!
-    key || raise('WorkOS.key not set')
+  def self.config
+    @config ||= Configuration.new
+  end
+
+  def self.configure
+    yield(config)
   end
 
   autoload :Types, 'workos/types'
-  autoload :Base, 'workos/base'
   autoload :Client, 'workos/client'
+  autoload :Configuration, 'workos/configuration'
   autoload :AuditTrail, 'workos/audit_trail'
   autoload :Connection, 'workos/connection'
   autoload :DirectorySync, 'workos/directory_sync'
@@ -57,9 +66,10 @@ module WorkOS
   autoload :AuthenticationError, 'workos/errors'
   autoload :InvalidRequestError, 'workos/errors'
   autoload :SignatureVerificationError, 'workos/errors'
+  autoload :TimeoutError, 'workos/errors'
 
   # Remove WORKOS_KEY at some point in the future. Keeping it here now for
   # backwards compatibility.
   key = ENV['WORKOS_API_KEY'] || ENV['WORKOS_KEY']
-  WorkOS.key = key unless key.nil?
+  config.key = key unless key.nil?
 end

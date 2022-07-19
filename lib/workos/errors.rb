@@ -61,4 +61,7 @@ module WorkOS
   # SignatureVerificationError is raised when the signature verification for a
   # webhook fails
   class SignatureVerificationError < WorkOSError; end
+
+  # TimeoutError is raised when the HTTP request to the API times out
+  class TimeoutError < WorkOSError; end
 end
