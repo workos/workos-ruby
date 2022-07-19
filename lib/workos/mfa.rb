@@ -140,8 +140,7 @@ module WorkOS
         authentication_challenge_id: nil,
         code: nil
       )
-        warn '[DEPRECATION] `verify_factor` is deprecated.
-        Please use `verify_challenge` instead.'
+        warn '[DEPRECATION] `verify_factor` is deprecated. Please use `verify_challenge` instead.'
 
         verify_challenge(
           authentication_challenge_id: authentication_challenge_id,
