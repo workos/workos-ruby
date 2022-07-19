@@ -136,33 +136,33 @@ describe WorkOS::MFA do
   describe 'challenge factor with valid requests' do
     context 'verify generic otp' do
       it 'returns a true boolean if the challenge has not been verifed yet' do
-        VCR.use_cassette 'mfa/verify_factor_generic_valid' do
-          verify_factor = described_class.verify_factor(
+        VCR.use_cassette 'mfa/verify_challenge_generic_valid' do
+          verify_challenge = described_class.verify_challenge(
             authentication_challenge_id: 'auth_challenge_01FZ4YVRBMXP5ZM0A7BP4AJ12J',
             code: '897792',
           )
-          expect(verify_factor.valid == 'true')
+          expect(verify_challenge.valid == 'true')
         end
       end
     end
 
     context 'verify generic otp invalid response' do
       it 'returns a true boolean if the challenge has not been verifed yet' do
-        VCR.use_cassette 'mfa/verify_factor_generic_valid_is_false' do
-          verify_factor = described_class.verify_factor(
+        VCR.use_cassette 'mfa/verify_challenge_generic_valid_is_false' do
+          verify_challenge = described_class.verify_challenge(
             authentication_challenge_id: 'auth_challenge_01FZ4YVRBMXP5ZM0A7BP4AJ12J',
             code: '897792',
           )
-          expect(verify_factor.valid == 'false')
+          expect(verify_challenge.valid == 'false')
         end
       end
     end
 
     context 'verify generic otp' do
       it 'returns error that the challenge has already been verfied' do
-        VCR.use_cassette 'mfa/verify_factor_generic_invalid' do
+        VCR.use_cassette 'mfa/verify_challenge_generic_invalid' do
           expect do
-            described_class.verify_factor(
+            described_class.verify_challenge(
               authentication_challenge_id: 'auth_challenge_01FZ4YVRBMXP5ZM0A7BP4AJ12J',
               code: '897792',
             )
@@ -172,9 +172,9 @@ describe WorkOS::MFA do
 
       context 'verify generic otp' do
         it 'returns error that the challenge has expired' do
-          VCR.use_cassette 'mfa/verify_factor_generic_expired' do
+          VCR.use_cassette 'mfa/verify_challenge_generic_expired' do
             expect do
-              described_class.verify_factor(
+              described_class.verify_challenge(
                 authentication_challenge_id: 'auth_challenge_01FZ4YVRBMXP5ZM0A7BP4AJ12J',
                 code: '897792',
               )
@@ -185,11 +185,11 @@ describe WorkOS::MFA do
     end
   end
 
-  describe 'verify_factor with invalid argument' do
+  describe 'verify_challenge with invalid argument' do
     context 'missing code argument' do
       it 'returns argument error' do
         expect do
-          described_class.verify_factor(
+          described_class.verify_challenge(
             authentication_challenge_id: 'auth_challenge_01FZ4YVRBMXP5ZM0A7BP4AJ12J',
           )
         end.to raise_error(
@@ -202,7 +202,7 @@ describe WorkOS::MFA do
     context 'missing authentication_challenge_id argument' do
       it 'returns and error' do
         expect do
-          described_class.verify_factor(
+          described_class.verify_challenge(
             code: '897792',
           )
         end.to raise_error(
@@ -215,7 +215,7 @@ describe WorkOS::MFA do
     context 'missing code and authentication_challenge_id arguments' do
       it 'returns argument error' do
         expect do
-          described_class.verify_factor
+          described_class.verify_challenge
         end.to raise_error(
           ArgumentError,
           "Incomplete arguments: 'authentication_challenge_id' and 'code' are required arguments",

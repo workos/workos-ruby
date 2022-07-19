@@ -2,10 +2,9 @@
 # typed: false
 
 module WorkOS
-  # The VerifyFactor class provides a lightweight wrapper around
-  # a WorkOS DirectoryUser resource. This class is not meant to be instantiated
-  # in DirectoryUser space, and is instantiated internally but exposed.
-  class VerifyFactor
+  # The VerifyChallenge class provides a lightweight wrapper around
+  # a WorkOS Authentication Challenge resource.
+  class VerifyChallenge
     include HashProvider
     extend T::Sig
 
@@ -27,11 +26,11 @@ module WorkOS
 
     private
 
-    sig { params(json_string: String).returns(WorkOS::Types::VerifyFactorStruct) }
+    sig { params(json_string: String).returns(WorkOS::Types::VerifyChallengeStruct) }
     def parse_json(json_string)
       hash = JSON.parse(json_string, symbolize_names: true)
 
-      WorkOS::Types::VerifyFactorStruct.new(
+      WorkOS::Types::VerifyChallengeStruct.new(
         challenge: hash[:challenge],
         valid: hash[:valid],
       )
