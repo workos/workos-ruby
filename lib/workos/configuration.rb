@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-# typed: false
+# typed: true
 
 module WorkOS
   # Configuration class sets config initializer
@@ -7,12 +7,11 @@ module WorkOS
     attr_accessor :timeout, :key
 
     def initialize
-      @timeout = timeout || 60
-      @key = key
+      @timeout = 60
     end
 
     def key!
-      key || raise('WorkOS.config.key not set')
+      key or raise '`WorkOS.config.key` not set'
     end
   end
 end
