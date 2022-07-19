@@ -8,6 +8,7 @@ module WorkOS
     class DirectoryGroupStruct < T::Struct
       const :id, String
       const :directory_id, String
+      const :organization_id, T.nilable(String)
       const :idp_id, String
       const :name, String
       const :created_at, String

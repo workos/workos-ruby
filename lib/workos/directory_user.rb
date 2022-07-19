@@ -10,7 +10,7 @@ module WorkOS
     extend T::Sig
 
     attr_accessor :id, :idp_id, :emails, :first_name, :last_name, :username, :state,
-                  :groups, :custom_attributes, :raw_attributes
+                  :groups, :custom_attributes, :raw_attributes, :directory_id, :organization_id
 
     # rubocop:disable Metrics/AbcSize
     sig { params(json: String).void }
@@ -18,6 +18,8 @@ module WorkOS
       raw = parse_json(json)
 
       @id = T.let(raw.id, String)
+      @directory_id = T.let(raw.directory_id, String)
+      @organization_id = raw.organization_id
       @idp_id = T.let(raw.idp_id, String)
       @emails = T.let(raw.emails, Array)
       @first_name = raw.first_name
@@ -35,6 +37,8 @@ module WorkOS
     def to_json(*)
       {
         id: id,
+        directory_id: directory_id,
+        organization_id: organization_id,
         idp_id: idp_id,
         emails: emails,
         first_name: first_name,
@@ -64,6 +68,8 @@ module WorkOS
 
       WorkOS::Types::DirectoryUserStruct.new(
         id: hash[:id],
+        directory_id: hash[:directory_id],
+        organization_id: hash[:organization_id],
         idp_id: hash[:idp_id],
         emails: hash[:emails],
         first_name: hash[:first_name],
