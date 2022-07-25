@@ -57,7 +57,7 @@ module WorkOS
   autoload :MFA, 'workos/mfa'
   autoload :Factor, 'workos/factor'
   autoload :Challenge, 'workos/challenge'
-  autoload :VerifyFactor, 'workos/verify_factor'
+  autoload :VerifyChallenge, 'workos/verify_challenge'
   autoload :DeprecatedHashWrapper, 'workos/deprecated_hash_wrapper'
 
 

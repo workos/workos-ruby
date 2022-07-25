@@ -2,10 +2,10 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.workos.com/auth/factors/verify
+    uri: https://api.workos.com/auth/challenges/auth_challenge_01FZ4YVRBMXP5ZM0A7BP4AJ12J/verify
     body:
       encoding: UTF-8
-      string: '{"authentication_challenge_id":"auth_challenge_01FZ4YVRBMXP5ZM0A7BP4AJ12J","code":"897792"}'
+      string: '{"code":"897792"}'
     headers:
       Content-Type:
       - application/json

@@ -2,10 +2,10 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.workos.com/auth/factors/verify
+    uri: https://api.workos.com/auth/challenges/auth_challenge_01FZ4YVRBMXP5ZM0A7BP4AJ12J/verify
     body:
       encoding: UTF-8
-      string: '{"authentication_challenge_id":"auth_challenge_01FZ4YVRBMXP5ZM0A7BP4AJ12J","code":"897792"}'
+      string: '{"code":"897792"}'
     headers:
       Content-Type:
       - application/json
@@ -19,15 +19,15 @@ http_interactions:
       - Bearer <API_KEY>
   response:
     status:
-      code: 422
-      message: Unprocessable Entity
+      code: 201
+      message: Created
     headers:
       Date:
-      - Sun, 27 Mar 2022 05:54:30 GMT
+      - Sun, 27 Mar 2022 05:53:03 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '167'
+      - '317'
       Connection:
       - keep-alive
       Content-Security-Policy:
@@ -57,28 +57,26 @@ http_interactions:
       Access-Control-Allow-Credentials:
       - 'true'
       X-Request-Id:
-      - 3bf7c473-ef39-4a3f-85fa-609ab4fcfdb4
+      - 78db6375-0b0a-4492-a913-5e0802a721b7
       Etag:
-      - W/"a7-3Az5u04ipYu1XY+wqhSwUOFImFI"
+      - W/"13d-MlhrtKBkD4LjqRYZFv0nos58XA8"
       Via:
       - 1.1 vegur
       Cf-Cache-Status:
       - DYNAMIC
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=gQNkvWQQyL0h1kES333sXgQvo4JV9Bzm%2Bre%2BzJSsD8l%2F4sVjZ1ehj0dDfP40lHYCwx%2FLZ93avI155XM9JkY%2BxYyCAlRXobk2DfsyKmkTkhnWR4AxV%2BTWECeARqtTewSryA%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=bN92hPz7GN42QtyRg4YR%2BKMTuzd3R241D6A2ktALsB%2F%2FaFwI%2BeJHUMZ9G0oXrDbp%2Binu76aBI%2FC0ICO2Tr0zc8fi9tF1q4XnqyLfgosTjaDE%2BNDcPlRmaduFoDmkc28D4w%3D%3D"}],"group":"cf-nel","max_age":604800}'
       Nel:
       - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
       Server:
       - cloudflare
       Cf-Ray:
-      - 6f25df294a253a32-SEA
+      - 6f25dd0d0882dee9-SEA
       Alt-Svc:
       - h3=":443"; ma=86400, h3-29=":443"; ma=86400
     body:
       encoding: UTF-8
-      string: '{"code":"authentication_challenge_expired","message":"The
-        authentication challenge ''auth_challenge_01FZ4YVRBMXP5ZM0A7BP4AJ12J'' has
-        expired."}'
+      string: '{"challenge":{"object":"authentication_challenge","id":"auth_challenge_01FZ4YVRBMXP5ZM0A7BP4AJ12J","created_at":"2022-03-27T05:51:24.531Z","updated_at":"2022-03-27T05:51:24.531Z","expires_at":"2022-03-27T06:01:24.532Z","code":"897792","authentication_factor_id":"auth_factor_01FZ4YVH2XFQBJXJ4NQVJSSY8Q"},"valid":false}'
     http_version:
-  recorded_at: Sun, 27 Mar 2022 05:54:30 GMT
+  recorded_at: Sun, 27 Mar 2022 05:53:03 GMT
 recorded_with: VCR 5.0.0

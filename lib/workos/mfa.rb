@@ -121,9 +121,8 @@ module WorkOS
           auth: true,
           body: {
             sms_template: sms_template,
-            authentication_factor_id: authentication_factor_id,
           },
-          path: '/auth/factors/challenge',
+          path: "/auth/factors/#{authentication_factor_id}/challenge",
         )
 
         response = execute_request(request: request)
@@ -134,9 +133,27 @@ module WorkOS
         params(
           authentication_challenge_id: T.nilable(String),
           code: T.nilable(String),
-        ).returns(WorkOS::VerifyFactor)
+        ).returns(WorkOS::VerifyChallenge)
       end
       def verify_factor(
+        authentication_challenge_id: nil,
+        code: nil
+      )
+        warn '[DEPRECATION] `verify_factor` is deprecated. Please use `verify_challenge` instead.'
+
+        verify_challenge(
+          authentication_challenge_id: authentication_challenge_id,
+          code: code,
+        )
+      end
+
+      sig do
+        params(
+          authentication_challenge_id: T.nilable(String),
+          code: T.nilable(String),
+        ).returns(WorkOS::VerifyChallenge)
+      end
+      def verify_challenge(
         authentication_challenge_id: nil,
         code: nil
       )
@@ -146,18 +163,17 @@ module WorkOS
         end
 
         options = {
-          "authentication_challenge_id": authentication_challenge_id,
           "code": code,
         }
 
         response = execute_request(
           request: post_request(
-            path: '/auth/factors/verify',
+            path: "/auth/challenges/#{authentication_challenge_id}/verify",
             auth: true,
             body: options,
           ),
         )
-        WorkOS::VerifyFactor.new(response.body)
+        WorkOS::VerifyChallenge.new(response.body)
       end
     end
   end

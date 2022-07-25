@@ -2,10 +2,10 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.workos.com/auth/factors/challenge
+    uri: https://api.workos.com/auth/factors/auth_factor_01FZ4WMXXA09XF6NK1XMKNWB3M/challenge
     body:
       encoding: UTF-8
-      string: '{"sms_template":null,"authentication_factor_id":"auth_factor_01FZ4WMXXA09XF6NK1XMKNWB3M"}'
+      string: '{"sms_template":null}'
     headers:
       Content-Type:
       - application/json
