@@ -11,7 +11,6 @@ module WorkOS
   module MFA
     class << self
       extend T::Sig
-      include Base
       include Client
       sig { params(id: String).returns(T::Boolean) }
       def delete_factor(id:)

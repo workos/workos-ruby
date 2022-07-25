@@ -12,7 +12,6 @@ module WorkOS
   module AuditTrail
     class << self
       extend T::Sig
-      include Base
       include Client
 
       # Create an Audit Trail event.

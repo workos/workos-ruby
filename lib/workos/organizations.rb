@@ -8,7 +8,6 @@ module WorkOS
   module Organizations
     class << self
       extend T::Sig
-      include Base
       include Client
 
       # Retrieve a list of organizations that have connections configured

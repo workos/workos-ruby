@@ -25,7 +25,7 @@ SPEC_ROOT = File.dirname __FILE__
 
 VCR.configure do |config|
   config.cassette_library_dir = 'spec/support/fixtures/vcr_cassettes'
-  config.filter_sensitive_data('<API_KEY>') { WorkOS.key }
+  config.filter_sensitive_data('<API_KEY>') { WorkOS.config.key }
   config.hook_into :webmock
 end
 
@@ -51,6 +51,6 @@ RSpec.configure do |config|
     end
   end)
 
-  config.before(:all) { WorkOS.key ||= '' }
+  config.before(:all) { WorkOS.config.key ||= '' }
   config.before(:each) { VCR.turn_on! }
 end
