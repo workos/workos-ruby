@@ -13,7 +13,7 @@ module WorkOS
         http_client.use_ssl = true
         http_client.open_timeout = WorkOS.config.timeout
         http_client.read_timeout = WorkOS.config.timeout
-        http_client.write_timeout = WorkOS.config.timeout
+        http_client.write_timeout = WorkOS.config.timeout if RUBY_VERSION >= '2.6.0'
       end
     end
 
