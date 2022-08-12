@@ -23,13 +23,13 @@ describe WorkOS::Webhooks do
       idp_id: '00u1e8mutl6wlH3lL4x7',
       object: 'directory_user',
       username: 'blair@foo-corp.com',
-      last_name: 'Lunceford',
+      last_name: 'Lunchford',
       first_name: 'Blair',
       directory_id: 'directory_01F9M7F68PZP8QXP8G7X5QRHS7',
       raw_attributes: {
         name: {
           givenName: 'Blair',
-          familyName: 'Lunceford',
+          familyName: 'Lunchford',
           middleName: 'Elizabeth',
           honorificPrefix: 'Ms.',
         },
@@ -48,17 +48,17 @@ describe WorkOS::Webhooks do
         ],
         userName: 'blair@foo-corp.com',
         addresses: [{
-          region: 'CO',
+          region: 'CA',
           primary: true,
-          locality: 'Steamboat Springs',
-          postalCode: '80487',
+          locality: 'San Francisco',
+          postalCode: '94016',
         }],
         externalId: '00u1e8mutl6wlH3lL4x7',
-        displayName: 'Blair Lunceford',
+        displayName: 'Blair Lunchford',
         "urn:ietf:params:scim:schemas:extension:enterprise:2.0:User": {
           manager: {
             value: '2',
-            displayName: 'Kathleen Chung',
+            displayName: 'Kate Chapman',
           },
           division: 'Engineering',
           department: 'Customer Success',
