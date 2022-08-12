@@ -55,8 +55,25 @@ module WorkOS
         WorkOS::Webhook.new(payload)
       end
 
-      private
-
+      # Verifies WorkOS-Signature header from request
+      # rubocop:disable Layout/LineLength
+      #
+      # @param [String] payload The payload from the webhook sent by WorkOS. This is the RAW_POST_DATA of the request.
+      # @param [String] sig_header The signature from the webhook sent by WorkOS.
+      # @param [String] secret The webhook secret from the WorkOS dashboard.
+      # @param [Integer] tolerance The time tolerance in seconds for the webhook.
+      #
+      # @example
+      #   WorkOS::Webhooks.verify_header(
+      #     payload: "{"id": "wh_123","data":{"id":"directory_user_01FAEAJCR3ZBZ30D8BD1924TVG","state":"active","emails":[{"type":"work","value":"blair@foo-corp.com","primary":true}],"idp_id":"00u1e8mutl6wlH3lL4x7","object":"directory_user","username":"blair@foo-corp.com","last_name":"Lunchford","first_name":"Blair","directory_id":"directory_01F9M7F68PZP8QXP8G7X5QRHS7","raw_attributes":{"name":{"givenName":"Blair","familyName":"Lunchford","middleName":"Elizabeth","honorificPrefix":"Ms."},"title":"Developer Success Engineer","active":true,"emails":[{"type":"work","value":"blair@foo-corp.com","primary":true}],"groups":[],"locale":"en-US","schemas":["urn:ietf:params:scim:schemas:core:2.0:User","urn:ietf:params:scim:schemas:extension:enterprise:2.0:User"],"userName":"blair@foo-corp.com","addresses":[{"region":"CA","primary":true,"locality":"San Francisco","postalCode":"94016"}],"externalId":"00u1e8mutl6wlH3lL4x7","displayName":"Blair Lunchford","urn:ietf:params:scim:schemas:extension:enterprise:2.0:User":{"manager":{"value":"2","displayName":"Kate Chapman"},"division":"Engineering","department":"Customer Success"}}},"event":"dsync.user.created"}",
+      #     sig_header: 't=1626125972272, v1=80f7ab7efadc306eb5797c588cee9410da9be4416782b497bf1e1bf4175fb928',
+      #     secret: 'LJlTiC19GmCKWs8AE0IaOQcos',
+      #   )
+      #
+      #   => true
+      #
+      # @return Boolean
+      # rubocop:enable Layout/LineLength
       sig do
         params(
           payload: String,
@@ -105,6 +122,18 @@ module WorkOS
       end
       # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
 
+      # Extracts timestamp and signature hash from WorkOS-Signature header
+      #
+      # @param [String] sig_header The signature from the webhook sent by WorkOS.
+      #
+      # @example
+      #   WorkOS::Webhooks.get_timestamp_and_signature_hash(
+      #     sig_header: 't=1626125972272, v1=80f7ab7efadc306eb5797c588cee9410da9be4416782b497bf1e1bf4175fb928',
+      #   )
+      #
+      #   => ['1626125972272', '80f7ab7efadc306eb5797c588cee9410da9be4416782b497bf1e1bf4175fb928']
+      #
+      # @return Array
       sig do
         params(
           sig_header: String,
@@ -127,6 +156,24 @@ module WorkOS
         [timestamp, signature_hash]
       end
 
+      # Computes expected signature
+      # rubocop:disable Layout/LineLength
+      #
+      # @param [String] timestamp The timestamp from the webhook signature.
+      # @param [String] payload The payload from the webhook sent by WorkOS. This is the RAW_POST_DATA of the request.
+      # @param [String] secret The webhook secret from the WorkOS dashboard.
+      #
+      # @example
+      #   WorkOS::Webhooks.compute_signature(
+      #     timestamp: '1626125972272',
+      #     payload: "{"id": "wh_123","data":{"id":"directory_user_01FAEAJCR3ZBZ30D8BD1924TVG","state":"active","emails":[{"type":"work","value":"blair@foo-corp.com","primary":true}],"idp_id":"00u1e8mutl6wlH3lL4x7","object":"directory_user","username":"blair@foo-corp.com","last_name":"Lunchford","first_name":"Blair","directory_id":"directory_01F9M7F68PZP8QXP8G7X5QRHS7","raw_attributes":{"name":{"givenName":"Blair","familyName":"Lunchford","middleName":"Elizabeth","honorificPrefix":"Ms."},"title":"Developer Success Engineer","active":true,"emails":[{"type":"work","value":"blair@foo-corp.com","primary":true}],"groups":[],"locale":"en-US","schemas":["urn:ietf:params:scim:schemas:core:2.0:User","urn:ietf:params:scim:schemas:extension:enterprise:2.0:User"],"userName":"blair@foo-corp.com","addresses":[{"region":"CA","primary":true,"locality":"San Francisco","postalCode":"94016"}],"externalId":"00u1e8mutl6wlH3lL4x7","displayName":"Blair Lunchford","urn:ietf:params:scim:schemas:extension:enterprise:2.0:User":{"manager":{"value":"2","displayName":"Kate Chapman"},"division":"Engineering","department":"Customer Success"}}},"event":"dsync.user.created"}",
+      #     secret: 'LJlTiC19GmCKWs8AE0IaOQcos',
+      #   )
+      #
+      #   => '80f7ab7efadc306eb5797c588cee9410da9be4416782b497bf1e1bf4175fb928'
+      #
+      # @return String
+      # rubocop:enable Layout/LineLength
       sig do
         params(
           timestamp: String,
