@@ -1,0 +1,154 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.workos.com/organizations
+    body:
+      encoding: UTF-8
+      string: '{"domains":["example.com"],"name":"Test Organization","allow_profiles_outside_organization":null}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/3.0.2; x86_64-darwin19; v2.5.1
+      Authorization:
+      - Bearer <API_KEY>
+      Idempotency-Key:
+      - foo
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Fri, 19 Aug 2022 13:40:01 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '327'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      Etag:
+      - W/"147-YF7FuE2/wP7OMOkruNN4e9OkzCY"
+      Expect-Ct:
+      - max-age=0
+      Referrer-Policy:
+      - no-referrer
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Vary:
+      - Origin, Accept-Encoding
+      Via:
+      - 1.1 spaces-router (a302eeabfffb)
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - 6162afb9-dba5-9e18-7d3a-f373facb51e1
+      X-Xss-Protection:
+      - '0'
+      Cf-Cache-Status:
+      - DYNAMIC
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 73d34c747c868eaa-DEN
+    body:
+      encoding: UTF-8
+      string: '{"object":"organization","id":"org_01GAV5A1B248PX6WRB13XARPTZ","name":"Test
+        Organization","allow_profiles_outside_organization":false,"created_at":"2022-08-19T13:40:01.505Z","updated_at":"2022-08-19T13:40:01.505Z","domains":[{"object":"organization_domain","id":"org_domain_01GAV5A1BBGR8WCV5971BFZAQX","domain":"example.com"}]}'
+    http_version:
+  recorded_at: Fri, 19 Aug 2022 13:40:01 GMT
+- request:
+    method: post
+    uri: https://api.workos.com/organizations
+    body:
+      encoding: UTF-8
+      string: '{"domains":["example.com"],"name":"Test Organization","allow_profiles_outside_organization":null}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/3.0.2; x86_64-darwin19; v2.5.1
+      Authorization:
+      - Bearer <API_KEY>
+      Idempotency-Key:
+      - foo
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Fri, 19 Aug 2022 13:40:01 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '327'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      Etag:
+      - W/"147-6F+ebkGefNxiuuyTjUt6cZjj5f4"
+      Expect-Ct:
+      - max-age=0
+      Referrer-Policy:
+      - no-referrer
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Vary:
+      - Origin, Accept-Encoding
+      Via:
+      - 1.1 spaces-router (a302eeabfffb)
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - 04aa9022-1a6a-8041-ec60-e218f5fd8ffa
+      X-Xss-Protection:
+      - '0'
+      Cf-Cache-Status:
+      - DYNAMIC
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 73d34c765de88ea8-DEN
+    body:
+      encoding: UTF-8
+      string: '{"id":"org_01GAV5A1B248PX6WRB13XARPTZ","name":"Test Organization","object":"organization","domains":[{"id":"org_domain_01GAV5A1BBGR8WCV5971BFZAQX","domain":"example.com","object":"organization_domain"}],"created_at":"2022-08-19T13:40:01.505Z","updated_at":"2022-08-19T13:40:01.505Z","allow_profiles_outside_organization":false}'
+    http_version:
+  recorded_at: Fri, 19 Aug 2022 13:40:01 GMT
+recorded_with: VCR 5.0.0
