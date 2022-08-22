@@ -39,7 +39,7 @@ describe WorkOS::Organizations do
 
         context 'when idempotency key is used more than once' do
           context 'with duplicate event payloads' do
-            it 'creates an organization' do
+            it 'returns the already created organization' do
               VCR.use_cassette 'organization/create_with_duplicate_idempotency_key_and_payload' do
                 organization1 = described_class.create_organization(
                   domains: ['example.com'],
