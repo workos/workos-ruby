@@ -7,14 +7,18 @@ require 'uri'
 module WorkOS
   # The Audit Logs module provides convenience methods for working with the
   # WorkOS Audit Logs platform. You'll need a valid API key.
-  #
-  # @see https://docs.workos.com/audit-logs/overview
   module AuditLogs
     class << self
       extend T::Sig
       include Client
 
       # Create an Audit Log Event.
+      #
+      # @param [String] organization An Organization ID
+      # @param [Hash] event An Audit Log Event
+      # @param [String] idempotency_key An idempotency key
+      #
+      # @return [nil]
       sig do
         params(
           organization: String,
@@ -39,7 +43,16 @@ module WorkOS
         nil
       end
 
-      # Create an export of Audit Log Events.
+      # Create an Export of Audit Log Events.
+      #
+      # @param [String] organization An Organization ID
+      # @param [String] range_start ISO-8601 datetime
+      # @param [String] range_end ISO-8601 datetime
+      # @param [Array<String>] actions A list of actions to filter by
+      # @param [Array<String>] actors A list of actor names to filter by
+      # @param [Array<String>] targets A list of target types to filter by
+      #
+      # @return [WorkOS::AuditLogExport]
       sig do
         params(
           organization: String,
@@ -72,7 +85,11 @@ module WorkOS
         WorkOS::AuditLogExport.new(response.body)
       end
 
-      # Retreives an export of Audit Log Events
+      # Retrieves an Export of Audit Log Events
+      #
+      # @param [String] id An Audit Log Export ID
+      #
+      # @return [WorkOS::AuditLogExport]
       sig do
         params(
           id: String,
