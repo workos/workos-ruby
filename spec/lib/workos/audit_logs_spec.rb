@@ -74,7 +74,9 @@ describe WorkOS::AuditLogs do
               event: valid_event,
             )
           rescue WorkOS::InvalidRequestError => e
-            expect(e.message).to eq 'Status 400, Invalid Audit Log event - request ID: 1cf9b8e7-5910-4a6d-a333-46bcf841422e'
+            expect(
+              e.message,
+            ).to eq 'Status 400, Invalid Audit Log event - request ID: 1cf9b8e7-5910-4a6d-a333-46bcf841422e'
             expect(e.code).to eq 'invalid_audit_log'
             expect(e.errors.count).to eq 1
           end

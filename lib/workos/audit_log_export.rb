@@ -2,6 +2,7 @@
 # typed: true
 
 module WorkOS
+  # The AuditLogExport class represents the WorkOS entity created when exporting Audit Log Events.
   class AuditLogExport
     include HashProvider
     extend T::Sig

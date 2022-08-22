@@ -12,6 +12,7 @@ module WorkOS
     attr_reader :code
     attr_reader :errors
 
+    # rubocop:disable Metrics/ParameterLists
     sig do
       params(
         message: T.nilable(String),
@@ -40,6 +41,7 @@ module WorkOS
       @code = code
       @errors = errors
     end
+    # rubocop:enable Metrics/ParameterLists
 
     sig { returns(String) }
     def to_s
