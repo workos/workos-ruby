@@ -5,6 +5,7 @@ module WorkOS
   # WorkOS believes strongly in typed languages,
   # so we're using Sorbet throughout this Ruby gem.
   module Types
+    require_relative 'types/audit_log_export_struct'
     require_relative 'types/connection_struct'
     require_relative 'types/directory_struct'
     require_relative 'types/directory_group_struct'

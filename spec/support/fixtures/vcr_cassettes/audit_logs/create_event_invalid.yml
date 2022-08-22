@@ -11,11 +11,11 @@ http_interactions:
         Accept-Encoding: "gzip;q=1.0,deflate;q=0.6,identity;q=0.3"
         Accept: "*/*"
         User-Agent: "WorkOS; ruby/3.0.2; x86_64-darwin21; v2.5.1"
-        Authorization: "Bearer "
+        Authorization: "Bearer example_api_key"
     response:
       status:
         code: 400
-        message: Created
+        message: Bad Request
       headers:
         Server:
           - Cowboy

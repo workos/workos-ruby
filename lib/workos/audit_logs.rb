@@ -14,11 +14,7 @@ module WorkOS
       extend T::Sig
       include Client
 
-      # Create an Audit Log event.
-      #
-      # @param [String] organization An Organization ID
-      # @param [Hash] event An event hash
-      # @param [String] idempotency_key An idempotency key
+      # Create an Audit Log Event.
       sig do
         params(
           organization: String,
@@ -39,6 +35,58 @@ module WorkOS
         )
 
         execute_request(request: request)
+
+        nil
+      end
+
+      # Create an export of Audit Log Events.
+      sig do
+        params(
+          organization: String,
+          range_start: String,
+          range_end: String,
+          actions: T.nilable(T::Array[String]),
+          actors: T.nilable(T::Array[String]),
+          targets: T.nilable(T::Array[String]),
+        ).returns(WorkOS::AuditLogExport)
+      end
+      def create_export(organization:, range_start:, range_end:, actions: nil, actors: nil, targets: nil)
+        body = {
+          organization_id: organization,
+          range_start: range_start,
+          range_end: range_end,
+        }
+
+        body['actions'] = actions unless actions.nil?
+        body['actors'] = actors unless actors.nil?
+        body['targets'] = targets unless targets.nil?
+
+        request = post_request(
+          path: '/audit_logs/exports',
+          auth: true,
+          body: body,
+        )
+
+        response = execute_request(request: request)
+
+        WorkOS::AuditLogExport.new(response.body)
+      end
+
+      # Retreives an export of Audit Log Events
+      sig do
+        params(
+          id: String,
+        ).returns(WorkOS::AuditLogExport)
+      end
+      def get_export(id:)
+        request = get_request(
+          auth: true,
+          path: "/audit_logs/exports/#{id}",
+        )
+
+        response = execute_request(request: request)
+
+        WorkOS::AuditLogExport.new(response.body)
       end
     end
   end

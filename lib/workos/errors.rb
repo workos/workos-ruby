@@ -9,6 +9,8 @@ module WorkOS
 
     attr_reader :http_status
     attr_reader :request_id
+    attr_reader :code
+    attr_reader :errors
 
     sig do
       params(
@@ -18,7 +20,7 @@ module WorkOS
         http_status: T.nilable(Integer),
         request_id: T.nilable(String),
         code: T.nilable(String),
-        errors: T::Array[T::Hash],
+        errors: T.nilable(T::Array[T::Hash[T.untyped, T.untyped]]),
       ).void
     end
     def initialize(
