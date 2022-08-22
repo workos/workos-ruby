@@ -41,7 +41,7 @@ describe WorkOS::AuditLogs do
 
       context 'with idempotency key' do
         it 'creates an event' do
-          VCR.use_cassette 'audit_logs/create_event_custom_idempotency_key', match_requests_on: %i[path body headers] do
+          VCR.use_cassette 'audit_logs/create_event_custom_idempotency_key', match_requests_on: %i[path body] do
             response = described_class.create_event(
               organization: 'org_123',
               event: valid_event,
@@ -55,7 +55,7 @@ describe WorkOS::AuditLogs do
 
       context 'without idempotency key' do
         it 'creates an event' do
-          VCR.use_cassette 'audit_logs/create_event', match_requests_on: %i[path body headers] do
+          VCR.use_cassette 'audit_logs/create_event', match_requests_on: %i[path body] do
             response = described_class.create_event(
               organization: 'org_123',
               event: valid_event,
@@ -68,7 +68,7 @@ describe WorkOS::AuditLogs do
 
       context 'with invalid event' do
         it 'returns error' do
-          VCR.use_cassette 'audit_logs/create_event_invalid', match_requests_on: %i[path body headers] do
+          VCR.use_cassette 'audit_logs/create_event_invalid', match_requests_on: %i[path body] do
             described_class.create_event(
               organization: 'org_123',
               event: valid_event,
@@ -88,7 +88,7 @@ describe WorkOS::AuditLogs do
   describe '.create_export' do
     context 'without filters applied' do
       it 'creates an event' do
-        VCR.use_cassette 'audit_logs/create_export', match_requests_on: %i[path body headers] do
+        VCR.use_cassette 'audit_logs/create_export', match_requests_on: %i[path body] do
           audit_log_export = described_class.create_export(
             organization: 'org_123',
             range_start: '2022-06-22T15:04:19.704Z',
@@ -107,7 +107,7 @@ describe WorkOS::AuditLogs do
 
     context 'with filters applied' do
       it 'creates an export' do
-        VCR.use_cassette 'audit_logs/create_export_with_filters', match_requests_on: %i[path body headers] do
+        VCR.use_cassette 'audit_logs/create_export_with_filters', match_requests_on: %i[path body] do
           audit_log_export = described_class.create_export(
             organization: 'org_123',
             range_start: '2022-06-22T15:04:19.704Z',
@@ -130,7 +130,7 @@ describe WorkOS::AuditLogs do
 
   describe '.get_export' do
     it 'returns an export' do
-      VCR.use_cassette 'audit_logs/get_export', match_requests_on: %i[path headers] do
+      VCR.use_cassette 'audit_logs/get_export', match_requests_on: %i[path] do
         audit_log_export = described_class.get_export(
           id: 'audit_log_export_123',
         )
