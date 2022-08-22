@@ -39,6 +39,7 @@ module WorkOS
   autoload :Types, 'workos/types'
   autoload :Client, 'workos/client'
   autoload :Configuration, 'workos/configuration'
+  autoload :AuditLogs, 'workos/audit_logs'
   autoload :AuditTrail, 'workos/audit_trail'
   autoload :Connection, 'workos/connection'
   autoload :DirectorySync, 'workos/directory_sync'

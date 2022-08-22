@@ -18,15 +18,25 @@ module WorkOS
         http_status: T.nilable(Integer),
         request_id: T.nilable(String),
         code: T.nilable(String),
+        errors: T::Array[T::Hash],
       ).void
     end
-    def initialize(message: nil, error: nil, error_description: nil, http_status: nil, request_id: nil, code: nil)
+    def initialize(
+      message: nil,
+      error: nil,
+      error_description: nil,
+      http_status: nil,
+      request_id: nil,
+      code: nil,
+      errors: nil
+    )
       @message = message
       @error = error
       @error_description = error_description
       @http_status = http_status
       @request_id = request_id
       @code = code
+      @errors = errors
     end
 
     sig { returns(String) }
