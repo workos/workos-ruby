@@ -101,7 +101,7 @@ describe WorkOS::AuditLogs do
             state: 'pending',
             url: nil,
             created_at: '2022-08-22T15:04:19.704Z',
-            updated_at: '2022-08-22T15:04:19.704Z'
+            updated_at: '2022-08-22T15:04:19.704Z',
           )
         end
       end
