@@ -9,7 +9,10 @@ module WorkOS
 
     attr_reader :http_status
     attr_reader :request_id
+    attr_reader :code
+    attr_reader :errors
 
+    # rubocop:disable Metrics/ParameterLists
     sig do
       params(
         message: T.nilable(String),
@@ -18,16 +21,27 @@ module WorkOS
         http_status: T.nilable(Integer),
         request_id: T.nilable(String),
         code: T.nilable(String),
+        errors: T.nilable(T::Array[T::Hash[T.untyped, T.untyped]]),
       ).void
     end
-    def initialize(message: nil, error: nil, error_description: nil, http_status: nil, request_id: nil, code: nil)
+    def initialize(
+      message: nil,
+      error: nil,
+      error_description: nil,
+      http_status: nil,
+      request_id: nil,
+      code: nil,
+      errors: nil
+    )
       @message = message
       @error = error
       @error_description = error_description
       @http_status = http_status
       @request_id = request_id
       @code = code
+      @errors = errors
     end
+    # rubocop:enable Metrics/ParameterLists
 
     sig { returns(String) }
     def to_s

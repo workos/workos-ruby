@@ -1,0 +1,59 @@
+---
+http_interactions:
+  - request:
+      method: post
+      uri: https://api.workos.com/audit_logs/events
+      body:
+        encoding: UTF-8
+        string: '{"organization_id":"org_123","event":{"action":"user.signed_in","occurred_at":"2022-08-22T15:04:19.704Z","actor":{"id":"user_123","type":"user","name":"User","metadata":{"foo":"bar"}},"targets":[{"id":"team_123","type":"team","name":"Team","metadata":{"foo":"bar"}}],"context":{"location":"1.1.1.1","user_agent":"Mozilla"}}}'
+      headers:
+        Content-Type: "application/json"
+        Accept-Encoding: "gzip;q=1.0,deflate;q=0.6,identity;q=0.3"
+        Accept: "*/*"
+        User-Agent: "WorkOS; ruby/3.0.2; x86_64-darwin21; v2.5.1"
+        Authorization: "Bearer example_api_key"
+    response:
+      status:
+        code: 201
+        message: Created
+      headers:
+        Server:
+          - Cowboy
+        Connection:
+          - keep-alive
+        Access-Control-Allow-Origin:
+          - https://dashboard.workos.com
+        Vary:
+          - Origin, Accept-Encoding
+        Access-Control-Allow-Credentials:
+          - "true"
+        X-Dns-Prefetch-Control:
+          - "off"
+        X-Frame-Options:
+          - SAMEORIGIN
+        Strict-Transport-Security:
+          - max-age=15552000; includeSubDomains
+        X-Download-Options:
+          - noopen
+        X-Content-Type-Options:
+          - nosniff
+        X-Xss-Protection:
+          - 1; mode=block
+        X-Request-Id:
+          - 1cf9b8e7-5910-4a6d-a333-46bcf841422e
+        Content-Type:
+          - application/json; charset=utf-8
+        Content-Length:
+          - "16"
+        Etag:
+          - W/"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA"
+        Date:
+          - Sat, 11 Jan 2020 04:22:48 GMT
+        Via:
+          - 1.1 vegur
+      body:
+        encoding: UTF-8
+        string: '{"success":true}'
+      http_version:
+    recorded_at: Sat, 11 Jan 2020 04:22:48 GMT
+recorded_with: VCR 5.0.0
