@@ -26,7 +26,6 @@ module WorkOS
           idempotency_key: T.nilable(String),
         ).returns(::T.untyped)
       end
-
       def create_event(organization:, event:, idempotency_key: nil)
         request = post_request(
           path: '/audit_logs/events',
