@@ -24,7 +24,7 @@ module WorkOS
           organization: String,
           event: Hash,
           idempotency_key: T.nilable(String),
-        ).returns(::T.untyped)
+        ).void
       end
       def create_event(organization:, event:, idempotency_key: nil)
         request = post_request(
@@ -38,8 +38,6 @@ module WorkOS
         )
 
         execute_request(request: request)
-
-        nil
       end
 
       # Create an Export of Audit Log Events.

@@ -48,7 +48,7 @@ describe WorkOS::AuditLogs do
               idempotency_key: 'idempotency_key',
             )
 
-            expect(response).to eq nil
+            expect(response).to eq T::Private::Types::Void::VOID
           end
         end
       end
@@ -61,7 +61,7 @@ describe WorkOS::AuditLogs do
               event: valid_event,
             )
 
-            expect(response).to eq nil
+            expect(response).to eq T::Private::Types::Void::VOID
           end
         end
       end
