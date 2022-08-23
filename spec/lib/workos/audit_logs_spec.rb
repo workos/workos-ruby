@@ -95,12 +95,14 @@ describe WorkOS::AuditLogs do
             range_end: '2022-08-22T15:04:19.704Z',
           )
 
-          expect(audit_log_export.object).to eq 'audit_log_export'
-          expect(audit_log_export.id).to eq 'audit_log_export_123'
-          expect(audit_log_export.state).to eq 'pending'
-          expect(audit_log_export.url).to eq nil
-          expect(audit_log_export.created_at).to eq '2022-08-22T15:04:19.704Z'
-          expect(audit_log_export.updated_at).to eq '2022-08-22T15:04:19.704Z'
+          expect(audit_log_export).to have_attributes(
+            object: 'audit_log_export',
+            id: 'audit_log_export_123',
+            state: 'pending',
+            url: nil,
+            created_at: '2022-08-22T15:04:19.704Z',
+            updated_at: '2022-08-22T15:04:19.704Z'
+          )
         end
       end
     end
