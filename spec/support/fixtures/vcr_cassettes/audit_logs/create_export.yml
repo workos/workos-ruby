@@ -1,0 +1,76 @@
+---
+http_interactions:
+  - request:
+      method: post
+      uri: https://api.workos.com/audit_logs/exports
+      body:
+        encoding: UTF-8
+        string: '{"organization_id":"org_123","range_start":"2022-06-22T15:04:19.704Z","range_end":"2022-08-22T15:04:19.704Z"}'
+      headers:
+        Content-Type:
+          - application/json
+        Accept-Encoding:
+          - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+        Accept:
+          - "*/*"
+        User-Agent:
+          - WorkOS; ruby/3.0.2; x86_64-darwin21; v2.5.1
+        Authorization:
+          - "Bearer example_api_key"
+    response:
+      status:
+        code: 201
+        message: Created
+      headers:
+        Date:
+          - Mon, 22 Aug 2022 17:47:49 GMT
+        Content-Type:
+          - application/json; charset=utf-8
+        Content-Length:
+          - "26"
+        Connection:
+          - keep-alive
+        Cf-Ray:
+          - 73ed6f92c9161847-ATL
+        Etag:
+          - W/"1a-pljHtlo127JYJR4E/RYOPb6ucbw"
+        Strict-Transport-Security:
+          - max-age=15552000; includeSubDomains
+        Vary:
+          - Origin, Accept-Encoding
+        Via:
+          - 1.1 spaces-router (a302eeabfffb)
+        Cf-Cache-Status:
+          - DYNAMIC
+        Access-Control-Allow-Credentials:
+          - "true"
+        Content-Security-Policy:
+          - "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self'
+            https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src
+            'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+        Expect-Ct:
+          - max-age=0
+        Referrer-Policy:
+          - no-referrer
+        X-Content-Type-Options:
+          - nosniff
+        X-Dns-Prefetch-Control:
+          - "off"
+        X-Download-Options:
+          - noopen
+        X-Frame-Options:
+          - SAMEORIGIN
+        X-Permitted-Cross-Domain-Policies:
+          - none
+        X-Request-Id:
+          - eb09b349-08f4-b79b-ccb2-87fa4609c1ee
+        X-Xss-Protection:
+          - "0"
+        Server:
+          - cloudflare
+      body:
+        encoding: UTF-8
+        string: '{"object":"audit_log_export","id":"audit_log_export_123","state":"pending","created_at":"2022-08-22T15:04:19.704Z","updated_at":"2022-08-22T15:04:19.704Z"}'
+      http_version:
+    recorded_at: Mon, 22 Aug 2022 17:47:49 GMT
+recorded_with: VCR 5.0.0

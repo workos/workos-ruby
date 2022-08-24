@@ -82,14 +82,16 @@ module WorkOS
       # @param [String] name A unique, descriptive name for the organization
       # @param [Boolean, nil] allow_profiles_outside_organization Whether Connections
       #  within the Organization allow profiles that are outside of the Organization's configured User Email Domains.
+      # @param [String] idempotency_key An idempotency key
       sig do
         params(
           domains: T::Array[String],
           name: String,
           allow_profiles_outside_organization: T.nilable(T::Boolean),
+          idempotency_key: T.nilable(String),
         ).returns(WorkOS::Organization)
       end
-      def create_organization(domains:, name:, allow_profiles_outside_organization: nil)
+      def create_organization(domains:, name:, allow_profiles_outside_organization: nil, idempotency_key: nil)
         request = post_request(
           auth: true,
           body: {
@@ -98,6 +100,7 @@ module WorkOS
             allow_profiles_outside_organization: allow_profiles_outside_organization,
           },
           path: '/organizations',
+          idempotency_key: idempotency_key,
         )
 
         response = execute_request(request: request)
