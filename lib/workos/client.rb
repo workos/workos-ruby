@@ -138,6 +138,8 @@ module WorkOS
           message: json['message'],
           http_status: http_status,
           request_id: response['x-request-id'],
+          code: json['code'],
+          errors: json['errors'],
         )
       when 401
         raise AuthenticationError.new(
