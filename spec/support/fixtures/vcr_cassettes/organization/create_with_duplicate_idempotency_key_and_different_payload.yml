@@ -1,0 +1,155 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.workos.com/organizations
+    body:
+      encoding: UTF-8
+      string: '{"domains":["example.me"],"name":"Test Organization","allow_profiles_outside_organization":null}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/3.0.2; x86_64-darwin19; v2.5.1
+      Authorization:
+      - Bearer <API_KEY>
+      Idempotency-Key:
+      - bar
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Fri, 19 Aug 2022 13:40:02 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '326'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      Etag:
+      - W/"146-afNLOMwUQIrtlSBL9lu7IDJkGmE"
+      Expect-Ct:
+      - max-age=0
+      Referrer-Policy:
+      - no-referrer
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Vary:
+      - Origin, Accept-Encoding
+      Via:
+      - 1.1 spaces-router (a302eeabfffb)
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - e9f565ee-a58a-b2a1-5e71-93f14afdd747
+      X-Xss-Protection:
+      - '0'
+      Cf-Cache-Status:
+      - DYNAMIC
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 73d34c789f228e9c-DEN
+    body:
+      encoding: UTF-8
+      string: '{"object":"organization","id":"org_01GAV5A1WPHEZSV53EAPCTBR9B","name":"Test
+        Organization","allow_profiles_outside_organization":false,"created_at":"2022-08-19T13:40:02.070Z","updated_at":"2022-08-19T13:40:02.070Z","domains":[{"object":"organization_domain","id":"org_domain_01GAV5A1ZFCW6RQDRV10ZE483J","domain":"example.me"}]}'
+    http_version:
+  recorded_at: Fri, 19 Aug 2022 13:40:02 GMT
+- request:
+    method: post
+    uri: https://api.workos.com/organizations
+    body:
+      encoding: UTF-8
+      string: '{"domains":["example.me"],"name":"Organization Test","allow_profiles_outside_organization":null}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/3.0.2; x86_64-darwin19; v2.5.1
+      Authorization:
+      - Bearer <API_KEY>
+      Idempotency-Key:
+      - bar
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Date:
+      - Fri, 19 Aug 2022 13:40:02 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '128'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      Etag:
+      - W/"80-jILfJK6SRXhN8oqz8Na6yutVwHM"
+      Expect-Ct:
+      - max-age=0
+      Referrer-Policy:
+      - no-referrer
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Vary:
+      - Origin, Accept-Encoding
+      Via:
+      - 1.1 spaces-router (a302eeabfffb)
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - afbf7322-2e3e-22ae-62a6-08ecdd247a30
+      X-Xss-Protection:
+      - '0'
+      Cf-Cache-Status:
+      - DYNAMIC
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 73d34c7a6b778e9c-DEN
+    body:
+      encoding: UTF-8
+      string: '{"message":"Another idempotency key (bar) with different request parameters
+        was found. Please use a different idempotency key."}'
+    http_version:
+  recorded_at: Fri, 19 Aug 2022 13:40:02 GMT
+recorded_with: VCR 5.0.0

@@ -6,16 +6,80 @@ describe WorkOS::Organizations do
 
   describe '.create_organization' do
     context 'with valid payload' do
-      it 'creates an organization' do
-        VCR.use_cassette 'organization/create' do
-          organization = described_class.create_organization(
-            domains: ['example.io'],
-            name: 'Test Organization',
-          )
+      context 'with no idempotency key' do
+        it 'creates an organization' do
+          VCR.use_cassette 'organization/create' do
+            organization = described_class.create_organization(
+              domains: ['example.io'],
+              name: 'Test Organization',
+            )
 
-          expect(organization.id).to eq('org_01FCPEJXEZR4DSBA625YMGQT9N')
-          expect(organization.name).to eq('Test Organization')
-          expect(organization.domains.first[:domain]).to eq('example.io')
+            expect(organization.id).to eq('org_01FCPEJXEZR4DSBA625YMGQT9N')
+            expect(organization.name).to eq('Test Organization')
+            expect(organization.domains.first[:domain]).to eq('example.io')
+          end
+        end
+      end
+
+      context 'with idempotency key' do
+        context 'when idempotency key is used once' do
+          it 'creates an organization' do
+            VCR.use_cassette 'organization/create_with_idempotency_key' do
+              organization = described_class.create_organization(
+                domains: ['example.io'],
+                name: 'Test Organization',
+                idempotency_key: 'key',
+              )
+
+              expect(organization.name).to eq('Test Organization')
+              expect(organization.domains.first[:domain]).to eq('example.io')
+            end
+          end
+        end
+
+        context 'when idempotency key is used more than once' do
+          context 'with duplicate event payloads' do
+            it 'returns the already created organization' do
+              VCR.use_cassette 'organization/create_with_duplicate_idempotency_key_and_payload' do
+                organization1 = described_class.create_organization(
+                  domains: ['example.com'],
+                  name: 'Test Organization',
+                  idempotency_key: 'foo',
+                )
+
+                organization2 = described_class.create_organization(
+                  domains: ['example.com'],
+                  name: 'Test Organization',
+                  idempotency_key: 'foo',
+                )
+
+                expect(organization1.id).to eq(organization2.id)
+              end
+            end
+          end
+
+          context 'with different event payloads' do
+            it 'raises an error' do
+              VCR.use_cassette 'organization/create_with_duplicate_idempotency_key_and_different_payload' do
+                described_class.create_organization(
+                  domains: ['example.me'],
+                  name: 'Test Organization',
+                  idempotency_key: 'bar',
+                )
+
+                expect do
+                  described_class.create_organization(
+                    domains: ['example.me'],
+                    name: 'Organization Test',
+                    idempotency_key: 'bar',
+                  )
+                end.to raise_error(
+                  WorkOS::InvalidRequestError,
+                  /Status 400, Another idempotency key \(bar\) with different request parameters was found. Please use a different idempotency key./,
+                )
+              end
+            end
+          end
         end
       end
     end
