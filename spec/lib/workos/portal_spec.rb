@@ -40,7 +40,7 @@ describe WorkOS::Portal do
 
       describe 'with the audit_logs intent' do
         it 'returns an Admin Portal link' do
-          VCR.use_cassette 'portal/generate_link_dsync' do
+          VCR.use_cassette 'portal/generate_link_audit_logs', match_requests_on: %i[path body] do
             portal_link = described_class.generate_link(
               intent: 'audit_logs',
               organization: organization,
