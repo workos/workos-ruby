@@ -9,6 +9,7 @@ module WorkOS
       enums do
         SSO = new('sso')
         DSYNC = new('dsync')
+        AUDIT_LOGS = new('audit_logs')
       end
     end
   end
