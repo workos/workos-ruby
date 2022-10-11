@@ -9,7 +9,7 @@ module WorkOS
     include HashProvider
     extend T::Sig
 
-    attr_accessor :id, :idp_id, :emails, :first_name, :last_name, :username, :state,
+    attr_accessor :id, :idp_id, :emails, :first_name, :last_name, :job_title, :username, :state,
                   :groups, :custom_attributes, :raw_attributes, :directory_id, :organization_id
 
     # rubocop:disable Metrics/AbcSize
@@ -24,6 +24,7 @@ module WorkOS
       @emails = T.let(raw.emails, Array)
       @first_name = raw.first_name
       @last_name = raw.last_name
+      @job_title = raw.job_title
       @username = raw.username
       @state = raw.state
       @groups = T.let(raw.groups, Array)
@@ -43,6 +44,7 @@ module WorkOS
         emails: emails,
         first_name: first_name,
         last_name: last_name,
+        job_title: job_title,
         username: username,
         state: state,
         groups: groups,
@@ -58,6 +60,7 @@ module WorkOS
 
     private
 
+    # rubocop:disable Metrics/MethodLength
     sig do
       params(
         json_string: String,
@@ -74,6 +77,7 @@ module WorkOS
         emails: hash[:emails],
         first_name: hash[:first_name],
         last_name: hash[:last_name],
+        job_title: hash[:job_title],
         username: hash[:username],
         state: hash[:state],
         groups: hash[:groups],
@@ -81,5 +85,6 @@ module WorkOS
         raw_attributes: hash[:raw_attributes],
       )
     end
+    # rubocop:enable Metrics/MethodLength
   end
 end

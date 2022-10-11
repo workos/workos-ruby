@@ -13,6 +13,7 @@ module WorkOS
       const :emails, T::Array[T.untyped]
       const :first_name, T.nilable(String)
       const :last_name, T.nilable(String)
+      const :job_title, T.nilable(String)
       const :username, T.nilable(String)
       const :state, T.nilable(String)
       const :groups, T::Array[T.untyped]
