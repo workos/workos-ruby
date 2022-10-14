@@ -23,14 +23,17 @@ module WorkOS
       # @param [String] The URL that the end user will be redirected to upon
       #  exiting the generated Admin Portal. If none is provided, the default
       #  redirect link set in your WorkOS Dashboard will be used.
+      # @param [String] The URL to which WorkOS will redirect users to upon
+      #  successfully setting up Single Sign On or Directory Sync.
       sig do
         params(
           intent: String,
           organization: String,
           return_url: T.nilable(String),
+          success_url: T.nilable(String),
         ).returns(String)
       end
-      def generate_link(intent:, organization:, return_url: nil)
+      def generate_link(intent:, organization:, return_url: nil, success_url: nil)
         validate_intent(intent)
 
         request = post_request(
@@ -39,6 +42,7 @@ module WorkOS
             intent: intent,
             organization: organization,
             return_url: return_url,
+            success_url: success_url,
           },
           path: '/portal/generate_link',
         )
