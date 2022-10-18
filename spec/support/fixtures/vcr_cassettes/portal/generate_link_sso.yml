@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.workos.com/portal/generate_link
     body:
       encoding: UTF-8
-      string: '{"intent":"sso","organization":"org_01EHQMYV6MBK39QC5PZXHY59C3","return_url":null}'
+      string: '{"intent":"sso","organization":"org_01EHQMYV6MBK39QC5PZXHY59C3","return_url":null,"success_url":null}'
     headers:
       Content-Type:
       - application/json
