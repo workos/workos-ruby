@@ -17,7 +17,7 @@ module WorkOS
       # Generate a link to grant access to an organization's Admin Portal
       #
       # @param [String] intent The access scope for the generated Admin Portal
-      #  link. Valid values are: ["sso", "dsync"]
+      #  link. Valid values are: ["audit_logs", "dsync", "log_streams", "sso",]
       # @param [String] organization The ID of the organization the Admin
       #  Portal link will be generated for.
       # @param [String] The URL that the end user will be redirected to upon

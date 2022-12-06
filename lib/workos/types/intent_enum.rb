@@ -7,9 +7,10 @@ module WorkOS
     # intents while generating an Admin Portal link.
     class Intent < T::Enum
       enums do
-        SSO = new('sso')
-        DSYNC = new('dsync')
         AUDIT_LOGS = new('audit_logs')
+        DSYNC = new('dsync')
+        LOG_STREAMS = new('log_streams')
+        SSO = new('sso')
       end
     end
   end
