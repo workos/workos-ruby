@@ -29,7 +29,6 @@ GEM
       method_source (~> 1.0)
     public_suffix (4.0.6)
     rainbow (3.0.0)
-    rake (13.0.3)
     rbi (0.0.16)
       ast
       parser (>= 2.6.4.0)
@@ -115,7 +114,6 @@ PLATFORMS
 DEPENDENCIES
   bundler (>= 2.0.1)
   codecov (~> 0.2.8)
-  rake
   rspec (~> 3.9.0)
   rubocop (~> 0.77)
   sorbet (~> 0.5)
