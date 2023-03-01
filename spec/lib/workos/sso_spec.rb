@@ -289,6 +289,7 @@ describe WorkOS::SSO do
   end
 
   describe '.get_profile' do
+    # rubocop:disable Metrics/BlockLength
     it 'returns a profile' do
       VCR.use_cassette 'sso/profile' do
         profile = described_class.get_profile(access_token: 'access_token')
@@ -301,6 +302,7 @@ describe WorkOS::SSO do
           id: 'prof_01EEJTY9SZ1R350RB7B73SNBKF',
           idp_id: '116485463307139932699',
           last_name: 'Loblaw',
+          groups: nil,
           organization_id: 'org_01FG53X8636WSNW2WEKB2C31ZB',
           raw_attributes: {
             email: 'bob.loblaw@workos.com',
@@ -317,6 +319,7 @@ describe WorkOS::SSO do
         expect(profile.to_json).to eq(expectation)
       end
     end
+    # rubocop:enable Metrics/BlockLength
   end
 
   describe '.profile_and_token' do
@@ -370,6 +373,7 @@ describe WorkOS::SSO do
           id: 'prof_01DRA1XNSJDZ19A31F183ECQW5',
           idp_id: '00u1klkowm8EGah2H357',
           last_name: 'Demo',
+          groups: %w[Admins Developers],
           organization_id: 'org_01FG53X8636WSNW2WEKB2C31ZB',
           raw_attributes: {
             email: 'demo@workos-okta.com',
@@ -377,6 +381,7 @@ describe WorkOS::SSO do
             id: 'prof_01DRA1XNSJDZ19A31F183ECQW5',
             idp_id: '00u1klkowm8EGah2H357',
             last_name: 'Demo',
+            groups: %w[Admins Developers],
           },
         }
 
