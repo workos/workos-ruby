@@ -12,7 +12,7 @@ module WorkOS
     extend T::Sig
 
     sig { returns(String) }
-    attr_accessor :id, :email, :first_name, :last_name, :organization_id,
+    attr_accessor :id, :email, :first_name, :last_name, :groups, :organization_id,
                   :connection_id, :connection_type, :idp_id, :raw_attributes
 
     # rubocop:disable Metrics/AbcSize
@@ -24,6 +24,7 @@ module WorkOS
       @email = T.let(raw.email, String)
       @first_name = raw.first_name
       @last_name = raw.last_name
+      @groups = raw.groups
       @organization_id = raw.organization_id
       @connection_id = T.let(raw.connection_id, String)
       @connection_type = T.let(raw.connection_type, String)
@@ -43,6 +44,7 @@ module WorkOS
         email: email,
         first_name: first_name,
         last_name: last_name,
+        groups: groups,
         organization_id: organization_id,
         connection_id: connection_id,
         connection_type: connection_type,
@@ -62,6 +64,7 @@ module WorkOS
         email: hash[:email],
         first_name: hash[:first_name],
         last_name: hash[:last_name],
+        groups: hash[:groups],
         organization_id: hash[:organization_id],
         connection_id: hash[:connection_id],
         connection_type: hash[:connection_type],
