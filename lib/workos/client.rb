@@ -165,6 +165,12 @@ module WorkOS
           request_id: response['x-request-id'],
           code: code,
         )
+      else
+        raise APIError.new(
+          message: json['message'],
+          http_status: http_status,
+          request_id: response['x-request-id'],
+        )
       end
     end
     # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
