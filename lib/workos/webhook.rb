@@ -9,7 +9,7 @@ module WorkOS
     include HashProvider
     extend T::Sig
 
-    attr_accessor :id, :event, :data
+    attr_accessor :id, :event, :data, :created_at
 
     sig { params(json: String).void }
     def initialize(json)
