@@ -9,7 +9,7 @@ module WorkOS
     include HashProvider
     extend T::Sig
 
-    attr_accessor :id, :event, :data
+    attr_accessor :id, :event, :data, :created_at
 
     sig { params(json: String).void }
     def initialize(json)
@@ -18,6 +18,7 @@ module WorkOS
       @id = T.let(raw.id, String)
       @event = T.let(raw.event, String)
       @data = raw.data
+      @created_at = T.let(raw.created_at, String)
     end
 
     def to_json(*)
@@ -25,6 +26,7 @@ module WorkOS
         id: id,
         event: event,
         data: data,
+        created_at: created_at,
       }
     end
 
@@ -42,6 +44,7 @@ module WorkOS
         id: hash[:id],
         event: hash[:event],
         data: hash[:data],
+        created_at: hash[:created_at],
       )
     end
   end

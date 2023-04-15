@@ -9,6 +9,7 @@ module WorkOS
       const :id, String
       const :event, String
       const :data, T::Hash[Symbol, Object]
+      const :created_at, String
     end
   end
 end
