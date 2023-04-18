@@ -10,7 +10,8 @@ module WorkOS
     extend T::Sig
 
     attr_accessor :id, :idp_id, :emails, :first_name, :last_name, :job_title, :username, :state,
-                  :groups, :custom_attributes, :raw_attributes, :directory_id, :organization_id
+                  :groups, :custom_attributes, :raw_attributes, :directory_id, :organization_id,
+                  :created_at, :updated_at
 
     # rubocop:disable Metrics/AbcSize
     sig { params(json: String).void }
@@ -30,6 +31,8 @@ module WorkOS
       @groups = T.let(raw.groups, Array)
       @custom_attributes = raw.custom_attributes
       @raw_attributes = raw.raw_attributes
+      @created_at = T.let(raw.created_at, String)
+      @updated_at = T.let(raw.updated_at, String)
 
       replace_without_warning(to_json)
     end
@@ -50,6 +53,8 @@ module WorkOS
         groups: groups,
         custom_attributes: custom_attributes,
         raw_attributes: raw_attributes,
+        created_at: created_at,
+        updated_at: updated_at,
       }
     end
 
@@ -83,6 +88,8 @@ module WorkOS
         groups: hash[:groups],
         custom_attributes: hash[:custom_attributes],
         raw_attributes: hash[:raw_attributes],
+        created_at: hash[:created_at],
+        updated_at: hash[:updated_at],
       )
     end
     # rubocop:enable Metrics/MethodLength
