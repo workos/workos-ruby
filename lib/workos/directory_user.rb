@@ -38,7 +38,7 @@ module WorkOS
     end
     # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
-    # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+    # rubocop:disable Metrics/MethodLength
     def to_json(*)
       {
         id: id,
@@ -58,7 +58,7 @@ module WorkOS
         updated_at: updated_at,
       }
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
+    # rubocop:enable Metrics/MethodLength
 
     def primary_email
       primary_email = (emails || []).find { |email| email[:primary] }
