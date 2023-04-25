@@ -19,6 +19,8 @@ module WorkOS
       const :groups, T::Array[T.untyped]
       const :custom_attributes, T::Hash[Symbol, T.untyped]
       const :raw_attributes, T::Hash[Symbol, Object]
+      const :created_at, String
+      const :updated_at, String
     end
   end
 end
