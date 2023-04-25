@@ -89,9 +89,9 @@ module WorkOS
         state: hash[:state],
         groups: hash[:groups],
         custom_attributes: hash[:custom_attributes],
-        raw_attributes: hash[:raw_attributes],
         created_at: hash[:created_at],
         updated_at: hash[:updated_at],
+        raw_attributes: hash[:raw_attributes],
       )
     end
     # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
