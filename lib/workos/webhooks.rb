@@ -82,7 +82,7 @@ module WorkOS
           tolerance: Integer,
         ).returns(T::Boolean)
       end
-      # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+      # rubocop:disable Metrics/AbcSize
       def verify_header(
         payload:,
         sig_header:,
@@ -120,7 +120,7 @@ module WorkOS
 
         true
       end
-      # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
+      # rubocop:enable Metrics/AbcSize
 
       # Extracts timestamp and signature hash from WorkOS-Signature header
       #

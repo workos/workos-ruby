@@ -76,7 +76,6 @@ module WorkOS
           phone_number: T.nilable(String),
         ).returns(WorkOS::Factor)
       end
-      # rubocop:disable Metrics/MethodLength
       def enroll_factor(
         type:,
         totp_issuer: nil,
@@ -101,7 +100,6 @@ module WorkOS
         ))
         WorkOS::Factor.new(response.body)
       end
-      # rubocop:enable Metrics/MethodLength
 
       sig do
         params(

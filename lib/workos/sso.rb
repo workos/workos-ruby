@@ -54,7 +54,7 @@ module WorkOS
       #      "response_type=code&state=%7B%3Anext_page%3D%3E%22%2Fdocs%22%7D"
       #
       # @return [String]
-      # rubocop:disable Metrics/MethodLength, Metrics/ParameterLists
+      # rubocop:disable Metrics/ParameterLists
       sig do
         params(
           redirect_uri: String,
@@ -106,7 +106,7 @@ module WorkOS
 
         "https://#{WorkOS::API_HOSTNAME}/sso/authorize?#{query}"
       end
-      # rubocop:enable Metrics/MethodLength, Metrics/ParameterLists
+      # rubocop:enable Metrics/ParameterLists
 
       sig do
         params(
@@ -271,7 +271,6 @@ module WorkOS
       end
 
       sig { params(response: Net::HTTPResponse).void }
-      # rubocop:disable Metrics/MethodLength
       def check_and_raise_profile_and_token_error(response:)
         begin
           body = JSON.parse(response.body)
@@ -293,7 +292,6 @@ module WorkOS
           request_id: request_id,
         )
       end
-      # rubocop:enable Metrics/MethodLength
     end
   end
 end

@@ -64,7 +64,8 @@ module WorkOS
           targets: T.nilable(T::Array[String]),
         ).returns(WorkOS::AuditLogExport)
       end
-      def create_export(organization:, range_start:, range_end:, actions: nil, actors: nil, actor_names: nil, actor_ids: nil, targets: nil)
+      def create_export(organization:, range_start:, range_end:, actions: nil, # rubocop:disable Metrics/ParameterLists
+                        actors: nil, actor_names: nil, actor_ids: nil, targets: nil)
         body = {
           organization_id: organization,
           range_start: range_start,

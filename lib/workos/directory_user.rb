@@ -13,7 +13,7 @@ module WorkOS
                   :groups, :custom_attributes, :raw_attributes, :directory_id, :organization_id,
                   :created_at, :updated_at
 
-    # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+    # rubocop:disable Metrics/AbcSize
     sig { params(json: String).void }
     def initialize(json)
       raw = parse_json(json)
@@ -36,9 +36,8 @@ module WorkOS
 
       replace_without_warning(to_json)
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
+    # rubocop:enable Metrics/AbcSize
 
-    # rubocop:disable Metrics/MethodLength
     def to_json(*)
       {
         id: id,
@@ -58,7 +57,6 @@ module WorkOS
         updated_at: updated_at,
       }
     end
-    # rubocop:enable Metrics/MethodLength
 
     def primary_email
       primary_email = (emails || []).find { |email| email[:primary] }
@@ -67,7 +65,7 @@ module WorkOS
 
     private
 
-    # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+    # rubocop:disable Metrics/AbcSize
     sig do
       params(
         json_string: String,
@@ -94,6 +92,6 @@ module WorkOS
         raw_attributes: hash[:raw_attributes],
       )
     end
-    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
+    # rubocop:enable Metrics/AbcSize
   end
 end

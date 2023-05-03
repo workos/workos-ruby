@@ -11,7 +11,7 @@ Layout/LineLength:
 Metrics/BlockLength:
   ExcludedMethods: ['describe', 'context', 'before']
 Metrics/MethodLength:
-  Max: 15
+  Max: 30
 Metrics/ModuleLength:
   Max: 200
 Metrics/ParameterLists:
