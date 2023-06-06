@@ -76,8 +76,8 @@ describe WorkOS::Events do
 
         VCR.use_cassette 'events/list_events_with_range' do
           events = described_class.list_events(
-            rangeStart: "2023-01-01T00:00:00Z",
-            rangeEnd: "2023-01-03T00:00:00Z"
+            rangeStart: '2023-01-01T00:00:00Z',
+            rangeEnd: '2023-01-03T00:00:00Z',
           )
 
           expect(events.data.size).to eq(1)

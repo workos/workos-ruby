@@ -8,7 +8,7 @@ module WorkOS
   # WorkOS Events platform. You'll need a valid API key and be in the
   # Events beta to be able to access the API
   #
-  module Events 
+  module Events
     class << self
       extend T::Sig
       include Client
