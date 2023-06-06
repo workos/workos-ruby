@@ -28,7 +28,7 @@ module WorkOS
           options: T::Hash[Symbol, String],
         ).returns(WorkOS::Types::ListStruct)
       end
-      def get_events(options = {})
+      def list_events(options = {})
         response = execute_request(
           request: get_request(
             path: '/events',

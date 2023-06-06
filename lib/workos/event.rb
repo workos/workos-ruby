@@ -5,7 +5,7 @@ module WorkOS
   # The Event class provides a lightweight wrapper around
   # a WorkOS Event resource. This class is not meant to be instantiated
   # in user space, and is instantiated internally but exposed.
-  class Event 
+  class Event
     include HashProvider
     extend T::Sig
 
@@ -18,7 +18,7 @@ module WorkOS
       @id = T.let(raw.id, String)
       @event = T.let(raw.event, String)
       @created_at = T.let(raw.created_at, String)
-      @data = raw.raw_attributes
+      @data = raw.data
     end
 
     def to_json(*)

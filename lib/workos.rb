@@ -46,6 +46,7 @@ module WorkOS
   autoload :DirectorySync, 'workos/directory_sync'
   autoload :Directory, 'workos/directory'
   autoload :DirectoryGroup, 'workos/directory_group'
+  autoload :Event, 'workos/event'
   autoload :Events, 'workos/events'
   autoload :Organization, 'workos/organization'
   autoload :Organizations, 'workos/organizations'
