@@ -8,7 +8,7 @@ module WorkOS
     class EventStruct < T::Struct
       const :id, String
       const :event, String
-      const :data, T::Hash[Symbol, T.untyped]
+      const :data, T::Hash[Symbol, Object]
       const :created_at, String
     end
   end
