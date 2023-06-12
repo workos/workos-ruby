@@ -9,6 +9,7 @@ module WorkOS
     require_relative 'types/connection_struct'
     require_relative 'types/directory_struct'
     require_relative 'types/directory_group_struct'
+    require_relative 'types/event_struct'
     require_relative 'types/intent_enum'
     require_relative 'types/list_struct'
     require_relative 'types/organization_struct'
