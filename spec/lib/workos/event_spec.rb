@@ -62,10 +62,10 @@ describe WorkOS::Events do
       end
     end
 
-    context 'with the rangeStart and rangeEnd options' do
+    context 'with the range_start and range_end options' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/events?rangeStart=2023-01-01T00%3A00%3A00Z&rangeEnd=2023-01-03T00%3A00%3A00Z',
+          '/events?range_start=2023-01-01T00%3A00%3A00Z&range_end=2023-01-03T00%3A00%3A00Z',
           'Content-Type' => 'application/json'
         ]
 
@@ -76,8 +76,8 @@ describe WorkOS::Events do
 
         VCR.use_cassette 'events/list_events_with_range' do
           events = described_class.list_events(
-            rangeStart: '2023-01-01T00:00:00Z',
-            rangeEnd: '2023-01-03T00:00:00Z',
+            range_start: '2023-01-01T00:00:00Z',
+            range_end: '2023-01-03T00:00:00Z',
           )
 
           expect(events.data.size).to eq(1)
