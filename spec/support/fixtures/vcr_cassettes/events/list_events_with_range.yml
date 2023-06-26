@@ -1,0 +1,80 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.workos.com/events?range_end=2023-01-03T00:00:00Z&range_start=2023-01-01T00:00:00Z
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/2.7.2; arm64-darwin21; v2.3.0
+      Authorization:
+      - Bearer <API_KEY>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 14 Jul 2022 16:46:23 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '616'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      Etag:
+      - W/"680-NPvBik348v8xg6EE7iZMYwD5UXw"
+      Expect-Ct:
+      - max-age=0
+      Referrer-Policy:
+      - no-referrer
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Vary:
+      - Origin, Accept-Encoding
+      Via:
+      - 1.1 spaces-router (b642bf20b975)
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - 51a82273-b413-cead-b968-c07ba4d6fd08
+      X-Xss-Protection:
+      - '0'
+      Cf-Cache-Status:
+      - DYNAMIC
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=OS7ELJ3A8tkzMafvaIThD%2B5JlYmul1puZlAXTxEKYBLlq%2B6DCtqDqAi4dtr4yRP3khNmg6MwPiuLqtdOXRmPOtag9Ti%2FGK8ra%2BJOlpwkFjD965CNBfzao4EJtExDkbS3"}],"group":"cf-nel","max_age":604800}'
+      Nel:
+      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 72abbbf2b93e8ca5-EWR
+    body:
+      encoding: ASCII-8BIT
+      string: '{"object":"list","data":[{"object":"event","id":"event_01FK3HFFGMC2WF32RR8SKWC8KA","event":"dsync.user.created","created_at":"2021-10-28T13:29:54.451Z","data":{"email":"foo@foocorp.com"}}], "listMetadata":{"after":null}}'
+    http_version:
+  recorded_at: Thu, 14 Jul 2022 16:46:23 GMT
+recorded_with: VCR 5.0.0
