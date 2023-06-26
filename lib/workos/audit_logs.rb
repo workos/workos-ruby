@@ -46,7 +46,9 @@ module WorkOS
       # @param [String] range_start ISO-8601 datetime
       # @param [String] range_end ISO-8601 datetime
       # @param [Array<String>] actions A list of actions to filter by
-      # @param [Array<String>] actors A list of actor names to filter by
+      # @param [Array<String>] @deprecated use `actor_names` instead
+      # @param [Array<String>] actor_names A list of actor names to filter by
+      # @param [Array<String>] actor_ids A list of actor ids to filter by
       # @param [Array<String>] targets A list of target types to filter by
       #
       # @return [WorkOS::AuditLogExport]
@@ -58,9 +60,12 @@ module WorkOS
           actions: T.nilable(T::Array[String]),
           actors: T.nilable(T::Array[String]),
           targets: T.nilable(T::Array[String]),
+          actor_names: T.nilable(T::Array[String]),
+          actor_ids: T.nilable(T::Array[String]),
         ).returns(WorkOS::AuditLogExport)
       end
-      def create_export(organization:, range_start:, range_end:, actions: nil, actors: nil, targets: nil)
+      def create_export(organization:, range_start:, range_end:, actions: nil, # rubocop:disable Metrics/ParameterLists
+                        actors: nil, targets: nil, actor_names: nil, actor_ids: nil)
         body = {
           organization_id: organization,
           range_start: range_start,
@@ -69,6 +74,8 @@ module WorkOS
 
         body['actions'] = actions unless actions.nil?
         body['actors'] = actors unless actors.nil?
+        body['actor_names'] = actor_names unless actor_names.nil?
+        body['actor_ids'] = actor_ids unless actor_ids.nil?
         body['targets'] = targets unless targets.nil?
 
         request = post_request(

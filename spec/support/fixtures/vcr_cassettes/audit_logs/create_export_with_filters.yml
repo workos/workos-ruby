@@ -6,8 +6,7 @@ http_interactions:
       body:
         encoding: UTF-8
         string:
-          '{"organization_id":"org_123","range_start":"2022-06-22T15:04:19.704Z","range_end":"2022-08-22T15:04:19.704Z","actions":["user.signed_in"],"actors":["Jon
-          Smith"],"targets":["user","team"]}'
+          '{"organization_id":"org_123","range_start":"2022-06-22T15:04:19.704Z","range_end":"2022-08-22T15:04:19.704Z","actions":["user.signed_in"],"actors":["Jon Smith"],"actor_names":["Jon Smith"],"actor_ids":["user_123"],"targets":["user","team"]}'
       headers:
         Content-Type:
           - application/json

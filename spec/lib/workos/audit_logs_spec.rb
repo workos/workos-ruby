@@ -116,6 +116,8 @@ describe WorkOS::AuditLogs do
             range_end: '2022-08-22T15:04:19.704Z',
             actions: ['user.signed_in'],
             actors: ['Jon Smith'],
+            actor_names: ['Jon Smith'],
+            actor_ids: ['user_123'],
             targets: %w[user team],
           )
 
