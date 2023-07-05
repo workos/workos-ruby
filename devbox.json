@@ -1,0 +1,17 @@
+{
+  "packages": [
+    "ruby@3.0.2",
+    "bundler@latest",
+    "rubocop@0.93.1"
+  ],
+  "shell": {
+    "init_hook": [
+      "sudo gem install rails"
+    ],
+    "scripts": {
+      "test": [
+        "bundle exec rspec"
+      ]
+    }
+  }
+}
