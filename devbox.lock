@@ -1,11 +1,6 @@
 {
   "lockfile_version": "1",
   "packages": {
-    "rubocop@0.93.1": {
-      "last_modified": "2022-06-30T00:42:12Z",
-      "resolved": "github:NixOS/nixpkgs/d3248619647234b5dc74a6921bcdf6dd8323eb22#rubocop",
-      "version": "0.93.1"
-    },
     "ruby@3.0.2": {
       "last_modified": "2021-11-01T15:39:33Z",
       "plugin_version": "0.0.1",
