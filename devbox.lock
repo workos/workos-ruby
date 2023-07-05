@@ -1,11 +1,6 @@
 {
   "lockfile_version": "1",
   "packages": {
-    "bundler@latest": {
-      "last_modified": "2023-05-25T03:54:59Z",
-      "resolved": "github:NixOS/nixpkgs/8d4d822bc0efa9de6eddc79cb0d82897a9baa750#bundler",
-      "version": "2.4.13"
-    },
     "rubocop@0.93.1": {
       "last_modified": "2022-06-30T00:42:12Z",
       "resolved": "github:NixOS/nixpkgs/d3248619647234b5dc74a6921bcdf6dd8323eb22#rubocop",
