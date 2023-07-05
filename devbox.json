@@ -1,11 +1,10 @@
 {
   "packages": [
-    "ruby@3.0.2",
-    "rubocop@0.93.1"
+    "ruby@3.0.2"
   ],
   "shell": {
     "init_hook": [
-      "sudo gem install rails"
+      "bundle install"
     ],
     "scripts": {
       "test": [
