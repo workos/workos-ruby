@@ -104,7 +104,7 @@ module WorkOS
           organization: organization,
         }.compact)
 
-        "https://#{WorkOS::API_HOSTNAME}/sso/authorize?#{query}"
+        "https://#{WorkOS.config.api_hostname}/sso/authorize?#{query}"
       end
       # rubocop:enable Metrics/ParameterLists
 

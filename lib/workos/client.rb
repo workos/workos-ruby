@@ -9,7 +9,7 @@ module WorkOS
 
     sig { returns(Net::HTTP) }
     def client
-      Net::HTTP.new(WorkOS::API_HOSTNAME, 443).tap do |http_client|
+      Net::HTTP.new(WorkOS.config.api_hostname, 443).tap do |http_client|
         http_client.use_ssl = true
         http_client.open_timeout = WorkOS.config.timeout
         http_client.read_timeout = WorkOS.config.timeout
