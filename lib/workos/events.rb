@@ -44,7 +44,7 @@ module WorkOS
 
         WorkOS::Types::ListStruct.new(
           data: events,
-          list_metadata: parsed_response['listMetadata'],
+          list_metadata: parsed_response['list_metadata'],
         )
       end
     end
