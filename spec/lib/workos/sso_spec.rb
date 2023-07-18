@@ -26,7 +26,7 @@ describe WorkOS::SSO do
       it 'returns the expected hostname' do
         authorization_url = described_class.authorization_url(**args)
 
-        expect(URI.parse(authorization_url).host).to eq(WorkOS::API_HOSTNAME)
+        expect(URI.parse(authorization_url).host).to eq(WorkOS.config.api_hostname)
       end
 
       it 'returns the expected query string' do
@@ -60,7 +60,7 @@ describe WorkOS::SSO do
       it 'returns the expected hostname' do
         authorization_url = described_class.authorization_url(**args)
 
-        expect(URI.parse(authorization_url).host).to eq(WorkOS::API_HOSTNAME)
+        expect(URI.parse(authorization_url).host).to eq(WorkOS.config.api_hostname)
       end
 
       it 'returns the expected query string' do
@@ -94,7 +94,7 @@ describe WorkOS::SSO do
       it 'returns the expected hostname' do
         authorization_url = described_class.authorization_url(**args)
 
-        expect(URI.parse(authorization_url).host).to eq(WorkOS::API_HOSTNAME)
+        expect(URI.parse(authorization_url).host).to eq(WorkOS.config.api_hostname)
       end
 
       it 'returns the expected query string' do
@@ -128,7 +128,7 @@ describe WorkOS::SSO do
       it 'returns the expected hostname' do
         authorization_url = described_class.authorization_url(**args)
 
-        expect(URI.parse(authorization_url).host).to eq(WorkOS::API_HOSTNAME)
+        expect(URI.parse(authorization_url).host).to eq(WorkOS.config.api_hostname)
       end
 
       it 'returns the expected query string' do
@@ -163,7 +163,7 @@ describe WorkOS::SSO do
       it 'returns the expected hostname' do
         authorization_url = described_class.authorization_url(**args)
 
-        expect(URI.parse(authorization_url).host).to eq(WorkOS::API_HOSTNAME)
+        expect(URI.parse(authorization_url).host).to eq(WorkOS.config.api_hostname)
       end
 
       it 'returns the expected query string' do
@@ -198,7 +198,7 @@ describe WorkOS::SSO do
       it 'returns the expected hostname' do
         authorization_url = described_class.authorization_url(**args)
 
-        expect(URI.parse(authorization_url).host).to eq(WorkOS::API_HOSTNAME)
+        expect(URI.parse(authorization_url).host).to eq(WorkOS.config.api_hostname)
       end
 
       it 'returns the expected query string' do
@@ -232,7 +232,7 @@ describe WorkOS::SSO do
       it 'returns the expected hostname' do
         authorization_url = described_class.authorization_url(**args)
 
-        expect(URI.parse(authorization_url).host).to eq(WorkOS::API_HOSTNAME)
+        expect(URI.parse(authorization_url).host).to eq(WorkOS.config.api_hostname)
       end
 
       it 'returns the expected query string' do

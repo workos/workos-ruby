@@ -11,10 +11,25 @@ require 'workos/configuration'
 # requests to the WorkOS API. The gem will read
 # your API key automatically from the ENV var `WORKOS_API_KEY`.
 # Alternatively, you can set the key yourself with
-# `WorkOS.key = [your api key]` somewhere in the load path of
-# your application, such as an initializer.
+# `WorkOS.configure { |config| config.key = [your api key] }` somewhere
+# in the load path of your application, such as an initializer.
 module WorkOS
-  API_HOSTNAME = ENV['WORKOS_API_HOSTNAME'] || 'api.workos.com'
+  def self.default_config
+    Configuration.new.tap do |config|
+      config.api_hostname = ENV['WORKOS_API_HOSTNAME'] || 'api.workos.com'
+      # Remove WORKOS_KEY at some point in the future. Keeping it here now for
+      # backwards compatibility.
+      config.key = ENV['WORKOS_API_KEY'] || ENV['WORKOS_KEY']
+    end
+  end
+
+  def self.config
+    @config ||= default_config
+  end
+
+  def self.configure
+    yield(config)
+  end
 
   def self.key=(value)
     warn '`WorkOS.key=` is deprecated. Use `WorkOS.configure` instead.'
@@ -26,14 +41,6 @@ module WorkOS
     warn '`WorkOS.key` is deprecated. Use `WorkOS.configure` instead.'
 
     config.key
-  end
-
-  def self.config
-    @config ||= Configuration.new
-  end
-
-  def self.configure
-    yield(config)
   end
 
   autoload :Types, 'workos/types'
@@ -71,9 +78,4 @@ module WorkOS
   autoload :InvalidRequestError, 'workos/errors'
   autoload :SignatureVerificationError, 'workos/errors'
   autoload :TimeoutError, 'workos/errors'
-
-  # Remove WORKOS_KEY at some point in the future. Keeping it here now for
-  # backwards compatibility.
-  key = ENV['WORKOS_API_KEY'] || ENV['WORKOS_KEY']
-  config.key = key unless key.nil?
 end
