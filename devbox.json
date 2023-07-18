@@ -1,0 +1,18 @@
+{
+  "packages": [
+    "ruby@3.0.2"
+  ],
+  "shell": {
+    "init_hook": [
+      "bundle install"
+    ],
+    "scripts": {
+      "test": [
+        "bundle exec rspec"
+      ], 
+      "lint": [
+        "bundle exec rubocop"
+      ]
+    }
+  }
+}
