@@ -68,6 +68,8 @@ module WorkOS
   autoload :MFA, 'workos/mfa'
   autoload :Factor, 'workos/factor'
   autoload :Challenge, 'workos/challenge'
+  autoload :User, 'workos/user'
+  autoload :UserManagement, 'workos/user_management'
   autoload :VerifyChallenge, 'workos/verify_challenge'
   autoload :DeprecatedHashWrapper, 'workos/deprecated_hash_wrapper'
 
