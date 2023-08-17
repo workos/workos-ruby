@@ -132,4 +132,30 @@ describe WorkOS::UserManagement do
       end
     end
   end
+
+  describe '.send_verification_email' do
+    context 'with valid paramters' do
+      it 'sends an email to that user and returns it' do
+        VCR.use_cassette 'user_management/send_verification_email/valid' do
+          user = described_class.send_verification_email(
+            id: 'user_01H7WRJBPAAHX1BYRQHEK7QC4A',
+          )
+
+          expect(user.id).to eq('user_01H7WRJBPAAHX1BYRQHEK7QC4A')
+        end
+      end
+    end
+
+    context 'when the user does not exist' do
+      it 'returns an error' do
+        VCR.use_cassette 'user_management/send_verification_email/invalid' do
+          expect do
+            described_class.send_verification_email(
+              id: 'bad_id',
+            )
+          end.to raise_error(WorkOS::APIError, /User not found/)
+        end
+      end
+    end
+  end
 end

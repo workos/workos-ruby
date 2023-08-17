@@ -123,6 +123,27 @@ module WorkOS
 
         WorkOS::User.new(response.body)
       end
+
+      # Sends a verification email to the provided user.
+      #
+      # @param [String] id The unique ID of the User whose email address will be verified.
+      #
+      # @return WorkOS::User
+      sig do
+        params(
+          id: String,
+        ).returns(WorkOS::User)
+      end
+      def send_verification_email(id:)
+        response = execute_request(
+          request: post_request(
+            path: "/users/#{id}/send_verification_email",
+            auth: true,
+          ),
+        )
+
+        WorkOS::User.new(response.body)
+      end
     end
   end
 end
