@@ -12,6 +12,32 @@ module WorkOS
       extend T::Sig
       include Client
 
+      # Adds a User as a member of the given Organization.
+      #
+      # @param [String] id The unique ID of the User.
+      # @param [String] organization_id Unique identifier of the Organization.
+      #
+      # @return WorkOS::User
+      sig do
+        params(
+          id: String,
+          organization_id: String,
+        ).returns(WorkOS::User)
+      end
+      def add_user_to_organization(id:, organization_id:)
+        response = execute_request(
+          request: post_request(
+            path: "/users/#{id}/organizations",
+            body: {
+              organization_id: organization_id,
+            },
+            auth: true,
+          ),
+        )
+
+        WorkOS::User.new(response.body)
+      end
+
       # Creates a password reset challenge and emails a password reset link to a user.
       #
       # @param [String] email The email of the user that wishes to reset their password.
