@@ -66,6 +66,29 @@ module WorkOS
           list_metadata: parsed_response['list_metadata'],
         )
       end
+
+      # Removes an unmanaged User from the given Organization.
+      #
+      # @param [String] id The unique ID of the User.
+      # @param [String] organization_id Unique identifier of the Organization.
+      #
+      # @return WorkOS::User
+      sig do
+        params(
+          id: String,
+          organization_id: String,
+        ).returns(WorkOS::User)
+      end
+      def remove_user_from_organization(id:, organization_id:)
+        response = execute_request(
+          request: delete_request(
+            path: "/users/#{id}/organizations/#{organization_id}",
+            auth: true,
+          ),
+        )
+
+        WorkOS::User.new(response.body)
+      end
     end
   end
 end

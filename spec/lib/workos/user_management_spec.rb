@@ -72,4 +72,32 @@ describe WorkOS::UserManagement do
       end
     end
   end
+
+  describe '.remove_user_from_organization' do
+    context 'with valid paramters' do
+      it 'removes the user from the organization' do
+        VCR.use_cassette 'user_management/remove_user_from_organization_valid' do
+          user = described_class.remove_user_from_organization(
+            id: 'user_01H7WRJBPAAHX1BYRQHEK7QC4A',
+            organization_id: 'org_01GEQJ8PKE4WH1Q09RSC8CCVJ1',
+          )
+
+          expect(user.id).to eq('user_01H7WRJBPAAHX1BYRQHEK7QC4A')
+        end
+      end
+    end
+
+    context 'with invalid parameters' do
+      it 'returns an error' do
+        VCR.use_cassette 'user_management/remove_user_from_organization_invalid' do
+          expect do
+            described_class.remove_user_from_organization(
+              id: 'bad_id',
+              organization_id: 'bad_id',
+            )
+          end.to raise_error(WorkOS::APIError, /UserOrganizationMembership not found/)
+        end
+      end
+    end
+  end
 end
