@@ -12,6 +12,40 @@ module WorkOS
       extend T::Sig
       include Client
 
+      # Create a user
+      #
+      # @param [String] email The email address of the user.
+      # @param [String] password The password to set for the user.
+      # @param [String] first_name The user's first name.
+      # @param [String] last_name The user's last name.
+      # @param [Boolean] email_verified Whether the user's email address was previously verified.
+      sig do
+        params(
+          email: String,
+          password: T.nilable(String),
+          first_name: T.nilable(String),
+          last_name: T.nilable(String),
+          email_verified: T.nilable(T::Boolean),
+        ).returns(WorkOS::User)
+      end
+      def create_user(email:, password: nil, first_name: nil, last_name: nil, email_verified: nil)
+        request = post_request(
+          path: '/users',
+          body: {
+            email: email,
+            password: password,
+            first_name: first_name,
+            last_name: last_name,
+            email_verified: email_verified,
+          },
+          auth: true,
+        )
+
+        response = execute_request(request: request)
+
+        WorkOS::User.new(response.body)
+      end
+
       sig do
         params(id: String).returns(WorkOS::User)
       end
