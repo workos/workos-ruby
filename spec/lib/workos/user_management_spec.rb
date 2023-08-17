@@ -4,6 +4,38 @@
 describe WorkOS::UserManagement do
   it_behaves_like 'client'
 
+  describe '.create_user' do
+    context 'with a valid payload' do
+      it 'creates a user' do
+        VCR.use_cassette 'user_management/create_user_valid' do
+          user = described_class.create_user(
+            email: 'foo@example.com',
+            first_name: 'Foo',
+            last_name: 'Bar',
+            email_verified: true,
+          )
+
+          expect(user.first_name).to eq('Foo')
+          expect(user.last_name).to eq('Bar')
+          expect(user.email).to eq('foo@example.com')
+        end
+      end
+    end
+
+    context 'with an invalid payload' do
+      it 'returns an error' do
+        VCR.use_cassette 'user_management/create_user_invalid' do
+          expect do
+            described_class.create_user(email: '')
+          end.to raise_error(
+            WorkOS::InvalidRequestError,
+            /email_string_required/,
+          )
+        end
+      end
+    end
+  end
+
   describe '.get_user' do
     context 'with a valid id' do
       it 'returns a user' do

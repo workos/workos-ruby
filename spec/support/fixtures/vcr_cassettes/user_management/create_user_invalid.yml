@@ -1,0 +1,83 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.workos.com/users
+    body:
+      encoding: UTF-8
+      string: '{"email":"","password":null,"first_name":null,"last_name":null,"email_verified":null}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/3.0.2; arm64-darwin22; v2.16.0
+      Authorization:
+      - Bearer <API_KEY>
+  response:
+    status:
+      code: 422
+      message: Unprocessable Entity
+    headers:
+      Date:
+      - Wed, 16 Aug 2023 22:20:27 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '159'
+      Connection:
+      - keep-alive
+      Cf-Ray:
+      - 7f7d108dbb190c96-EWR
+      Cf-Cache-Status:
+      - DYNAMIC
+      Etag:
+      - W/"9f-BfzHwYu4Bw+fPyyn8hWTmMF4Lio"
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Vary:
+      - Origin, Accept-Encoding
+      Via:
+      - 1.1 spaces-router (devel)
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      Expect-Ct:
+      - max-age=0
+      Referrer-Policy:
+      - no-referrer
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - 2613d428-dfcc-4a40-8a32-d8b5634ad25e
+      X-Xss-Protection:
+      - '0'
+      Set-Cookie:
+      - __cf_bm=A.5rC7UV26nOVmm0JDUdbBqITMPrX4eH4TaWgNTR8vw-1692224427-0-Abv9MzVBcqqhkKXLp7mgiOMgg+6rW9W3BKhbbhAR3P3msKzRNGsvztll65omw63yshr4A4S4FTvipQJGajpKRws=;
+        path=/; expires=Wed, 16-Aug-23 22:50:27 GMT; domain=.workos.com; HttpOnly;
+        Secure; SameSite=None
+      - __cfruid=e57296bbc6ac05c18bc3a943f7bfc936fa954094-1692224427; path=/; domain=.workos.com;
+        HttpOnly; Secure; SameSite=None
+      Server:
+      - cloudflare
+    body:
+      encoding: UTF-8
+      string: '{"code":"invalid_request_parameters","message":"Validation failed","errors":[{"code":"email_string_required","message":"Email
+        should be a non-empty string."}]}'
+    http_version:
+  recorded_at: Wed, 16 Aug 2023 22:20:27 GMT
+recorded_with: VCR 5.0.0
