@@ -28,4 +28,48 @@ describe WorkOS::UserManagement do
       end
     end
   end
+
+  describe '.list_users' do
+    context 'with no options' do
+      it 'returns a list of users' do
+        expected_metadata = {
+          'after' => nil,
+          'before' => 'before-id',
+        }
+
+        VCR.use_cassette 'user_management/list_users/no_options' do
+          users = described_class.list_users
+
+          expect(users.data.size).to eq(2)
+          expect(users.list_metadata).to eq(expected_metadata)
+        end
+      end
+    end
+
+    context 'with options' do
+      it 'returns a list of matching users' do
+        request_args = [
+          '/users?email=lucy.lawless%40example.com&type=unmanaged&order=desc&limit=5',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'user_management/list_users/with_options' do
+          users = described_class.list_users(
+            email: 'lucy.lawless@example.com',
+            type: 'unmanaged',
+            order: 'desc',
+            limit: '5',
+          )
+
+          expect(users.data.size).to eq(1)
+          expect(users.data[0].email).to eq('lucy.lawless@example.com')
+        end
+      end
+    end
+  end
 end
