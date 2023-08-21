@@ -12,6 +12,7 @@ module WorkOS
     require_relative 'types/event_struct'
     require_relative 'types/intent_enum'
     require_relative 'types/list_struct'
+    require_relative 'types/magic_auth_challenge_struct'
     require_relative 'types/organization_struct'
     require_relative 'types/passwordless_session_struct'
     require_relative 'types/profile_struct'
