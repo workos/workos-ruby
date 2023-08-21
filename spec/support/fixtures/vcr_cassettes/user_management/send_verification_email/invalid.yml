@@ -1,0 +1,82 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.workos.com/users/bad_id/send_verification_email
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/3.0.2; arm64-darwin22; v2.16.0
+      Authorization:
+      - Bearer <API_KEY>
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Date:
+      - Mon, 21 Aug 2023 18:28:05 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Cf-Ray:
+      - 7fa4ef0eeafe8c12-EWR
+      Cf-Cache-Status:
+      - DYNAMIC
+      Etag:
+      - W/"56-2Auj80JGmZ1uWGCY950ud8v4KLQ"
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Vary:
+      - Origin, Accept-Encoding
+      Via:
+      - 1.1 spaces-router (devel)
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      Expect-Ct:
+      - max-age=0
+      Referrer-Policy:
+      - no-referrer
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - f5f06564-2f73-4b73-989b-b577cfbdaa9a
+      X-Xss-Protection:
+      - '0'
+      Set-Cookie:
+      - __cf_bm=v55WlV2dq1rXkfx9668LFtglSD5c9292fFLKsviMegY-1692642485-0-AWmCDzQSIwCjWvanffzmFA5KJT/nWucOWyv7i3fyyXeH+i5iM9ZusABSbNOUR6zO2mcugNYr/TRj6ltRmm8eC3M=;
+        path=/; expires=Mon, 21-Aug-23 18:58:05 GMT; domain=.workos.com; HttpOnly;
+        Secure; SameSite=None
+      - __cfruid=bea6b3e4c8ea6479881eb565b1ab9a0b6deabae9-1692642485; path=/; domain=.workos.com;
+        HttpOnly; Secure; SameSite=None
+      Server:
+      - cloudflare
+    body:
+      encoding: ASCII-8BIT
+      string: '{"message":"User not found: ''bad_id''.","code":"entity_not_found","entity_id":"bad_id"}'
+    http_version:
+  recorded_at: Mon, 21 Aug 2023 18:28:05 GMT
+recorded_with: VCR 5.0.0
