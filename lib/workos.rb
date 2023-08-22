@@ -65,6 +65,7 @@ module WorkOS
   autoload :DirectoryUser, 'workos/directory_user'
   autoload :Webhook, 'workos/webhook'
   autoload :Webhooks, 'workos/webhooks'
+  autoload :MagicAuthChallenge, 'workos/magic_auth_challenge'
   autoload :MFA, 'workos/mfa'
   autoload :Factor, 'workos/factor'
   autoload :Challenge, 'workos/challenge'
