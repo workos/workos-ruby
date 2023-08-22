@@ -151,6 +151,30 @@ module WorkOS
         WorkOS::User.new(response.body)
       end
 
+      # Creates a one-time Magic Auth code and emails it to the user.
+      #
+      # @param [String] email_address The email address the one-time code will be sent to.
+      #
+      # @return WorkOS::MagicAuthChallenge
+      sig do
+        params(
+          email_address: String,
+        ).returns(WorkOS::MagicAuthChallenge)
+      end
+      def send_magic_auth_code(email_address:)
+        response = execute_request(
+          request: post_request(
+            path: '/users/magic_auth/send',
+            body: {
+              email_address: email_address,
+            },
+            auth: true,
+          ),
+        )
+
+        WorkOS::MagicAuthChallenge.new(response.body)
+      end
+
       # Sends a verification email to the provided user.
       #
       # @param [String] id The unique ID of the User whose email address will be verified.
