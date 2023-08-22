@@ -4,6 +4,65 @@
 describe WorkOS::UserManagement do
   it_behaves_like 'client'
 
+  describe '.add_user_to_organization' do
+    context 'with valid paramters' do
+      it 'adds the user to the organization' do
+        VCR.use_cassette 'user_management/add_user_to_organization_valid' do
+          user = described_class.add_user_to_organization(
+            id: 'user_01H7WRJBPAAHX1BYRQHEK7QC4A',
+            organization_id: 'org_01GEQJ8PKE4WH1Q09RSC8CCVJ1',
+          )
+
+          expect(user.id).to eq('user_01H7WRJBPAAHX1BYRQHEK7QC4A')
+        end
+      end
+    end
+
+    context 'with invalid parameters' do
+      it 'returns an error' do
+        VCR.use_cassette 'user_management/add_user_to_organization_invalid' do
+          expect do
+            described_class.add_user_to_organization(
+              id: 'bad_id',
+              organization_id: 'bad_id',
+            )
+          end.to raise_error(WorkOS::APIError, /User not found/)
+        end
+      end
+    end
+  end
+
+  describe '.confirm_password_reset' do
+    context 'with a valid payload' do
+      it 'resets the password and returns the user' do
+        VCR.use_cassette 'user_management/confirm_password_reset/valid' do
+          user = described_class.confirm_password_reset(
+            token: 'eEgAgvAE0blvU1zWV3yWVAD22',
+            new_password: 'very_cool_new_pa$$word',
+          )
+
+          expect(user.email).to eq('lucy.lawless@example.com')
+        end
+      end
+    end
+
+    context 'with an invalid payload' do
+      it 'returns an error' do
+        VCR.use_cassette 'user_management/confirm_password_reset/invalid' do
+          expect do
+            described_class.confirm_password_reset(
+              token: 'bogus_token',
+              new_password: 'new_password',
+            )
+          end.to raise_error(
+            WorkOS::APIError,
+            /Could not locate user with provided token/,
+          )
+        end
+      end
+    end
+  end
+
   describe '.create_password_reset_challenge' do
     context 'with a valid payload' do
       it 'creates a password reset challenge' do
@@ -63,34 +122,6 @@ describe WorkOS::UserManagement do
               /email_string_required/,
             )
           end
-        end
-      end
-    end
-  end
-
-  describe '.add_user_to_organization' do
-    context 'with valid paramters' do
-      it 'adds the user to the organization' do
-        VCR.use_cassette 'user_management/add_user_to_organization_valid' do
-          user = described_class.add_user_to_organization(
-            id: 'user_01H7WRJBPAAHX1BYRQHEK7QC4A',
-            organization_id: 'org_01GEQJ8PKE4WH1Q09RSC8CCVJ1',
-          )
-
-          expect(user.id).to eq('user_01H7WRJBPAAHX1BYRQHEK7QC4A')
-        end
-      end
-    end
-
-    context 'with invalid parameters' do
-      it 'returns an error' do
-        VCR.use_cassette 'user_management/add_user_to_organization_invalid' do
-          expect do
-            described_class.add_user_to_organization(
-              id: 'bad_id',
-              organization_id: 'bad_id',
-            )
-          end.to raise_error(WorkOS::APIError, /User not found/)
         end
       end
     end
