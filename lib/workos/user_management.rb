@@ -12,6 +12,33 @@ module WorkOS
       extend T::Sig
       include Client
 
+      # Creates a password reset challenge and emails a password reset link to a user.
+      #
+      # @param [String] email The email of the user that wishes to reset their password.
+      # @param [String] password_reset_url The URL that will be linked to in the email.
+      #
+      # @return WorkOS::UserAndToken
+      sig do
+        params(
+          email: String,
+          password_reset_url: String,
+        ).returns(WorkOS::UserAndToken)
+      end
+      def create_password_reset_challenge(email:, password_reset_url:)
+        request = post_request(
+          path: '/users/password_reset_challenge',
+          body: {
+            email: email,
+            password_reset_url: password_reset_url,
+          },
+          auth: true,
+        )
+
+        response = execute_request(request: request)
+
+        WorkOS::UserAndToken.new(response.body)
+      end
+
       # Create a user
       #
       # @param [String] email The email address of the user.

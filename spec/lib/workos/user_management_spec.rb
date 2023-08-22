@@ -4,6 +4,38 @@
 describe WorkOS::UserManagement do
   it_behaves_like 'client'
 
+  describe '.create_password_reset_challenge' do
+    context 'with a valid payload' do
+      it 'creates a password reset challenge' do
+        VCR.use_cassette 'user_management/create_password_reset_challenge/valid' do
+          user_and_token = described_class.create_password_reset_challenge(
+            email: 'lucy.lawless@example.com',
+            password_reset_url: 'https://example.com/reset',
+          )
+
+          expect(user_and_token.user.email).to eq('lucy.lawless@example.com')
+          expect(user_and_token.token.instance_of?(String))
+        end
+      end
+    end
+
+    context 'with an invalid payload' do
+      it 'returns an error' do
+        VCR.use_cassette 'user_management/create_password_reset_challenge/invalid' do
+          expect do
+            described_class.create_password_reset_challenge(
+              email: 'foo@bar.com',
+              password_reset_url: '',
+            )
+          end.to raise_error(
+            WorkOS::InvalidRequestError,
+            /password_reset_url_string_required/,
+          )
+        end
+      end
+    end
+  end
+
   describe '.create_user' do
     context 'with a valid payload' do
       it 'creates a user' do
