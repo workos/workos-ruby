@@ -23,19 +23,19 @@ http_interactions:
       message: Created
     headers:
       Date:
-      - Mon, 21 Aug 2023 18:28:05 GMT
+      - Tue, 22 Aug 2023 11:10:36 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '327'
+      - '82'
       Connection:
       - keep-alive
       Cf-Ray:
-      - 7fa4ef0d0c534241-EWR
+      - 7faaab93fe301a40-EWR
       Cf-Cache-Status:
       - DYNAMIC
       Etag:
-      - W/"147-G4EfExabdwys9ksC+plhseeuASM"
+      - W/"52-OBnObTfCbPpx81G0x+Li8QU5BRY"
       Strict-Transport-Security:
       - max-age=15552000; includeSubDomains
       Vary:
@@ -63,20 +63,20 @@ http_interactions:
       X-Permitted-Cross-Domain-Policies:
       - none
       X-Request-Id:
-      - c1a649eb-9836-4ad8-b8bd-4735bf8d7ca7
+      - 05f2d563-f655-4232-83d8-54015e4dd72e
       X-Xss-Protection:
       - '0'
       Set-Cookie:
-      - __cf_bm=_gEoQIMwvhn.OyzkrM9E6rpFsLuyp1XOxhmaj6.eQXg-1692642485-0-Aa1T56gXgsNKZYAKbV3cKjp4U2gTi9otVBQL5HnDcO/3cG+73E+TxA7oMHSybDOAhigJ/mGsvfSE8f9QkAd3jkE=;
-        path=/; expires=Mon, 21-Aug-23 18:58:05 GMT; domain=.workos.com; HttpOnly;
+      - __cf_bm=tplWRZxeWTkVO5rvky8mJZCwa4QxD_h8MweLrnhg.OY-1692702636-0-Ae0/4/5gxwB7mqy5w2zrcFkeoPN192W640RN0qDp7ogHO2Q6G6nmpWYcRArPsx5v1I/SLM2ZjUgRIn5gou41Z6E=;
+        path=/; expires=Tue, 22-Aug-23 11:40:36 GMT; domain=.workos.com; HttpOnly;
         Secure; SameSite=None
-      - __cfruid=bea6b3e4c8ea6479881eb565b1ab9a0b6deabae9-1692642485; path=/; domain=.workos.com;
+      - __cfruid=0552a73eca49e874706386c20e62eefbd0386fbd-1692702636; path=/; domain=.workos.com;
         HttpOnly; Secure; SameSite=None
       Server:
       - cloudflare
     body:
       encoding: UTF-8
-      string: '{"object":"user","id":"user_01H7WRJBPAAHX1BYRQHEK7QC4A","email":"lucy.lawless@example.com","first_name":"Lucy","last_name":"Lawless","created_at":"2023-08-15T14:11:04.519Z","updated_at":"2023-08-17T19:43:38.890Z","user_type":"unmanaged","email_verified_at":null,"google_oauth_profile_id":null,"microsoft_oauth_profile_id":null}'
+      string: '{"object":"magic_auth_challenge","id":"auth_challenge_01H8EF0Y6FH6Z5VJ9ZDPRKZT2B"}'
     http_version:
-  recorded_at: Mon, 21 Aug 2023 18:28:05 GMT
+  recorded_at: Tue, 22 Aug 2023 11:10:36 GMT
 recorded_with: VCR 5.0.0
