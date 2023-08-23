@@ -205,11 +205,11 @@ module WorkOS
       #
       # @param [String] id The unique ID of the User whose email address will be verified.
       #
-      # @return WorkOS::User
+      # @return WorkOS::MagicAuthChallenge
       sig do
         params(
           id: String,
-        ).returns(WorkOS::User)
+        ).returns(WorkOS::MagicAuthChallenge)
       end
       def send_verification_email(id:)
         response = execute_request(
@@ -219,7 +219,7 @@ module WorkOS
           ),
         )
 
-        WorkOS::User.new(response.body)
+        WorkOS::MagicAuthChallenge.new(response.body)
       end
     end
   end

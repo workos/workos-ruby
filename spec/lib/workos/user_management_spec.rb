@@ -209,13 +209,13 @@ describe WorkOS::UserManagement do
 
   describe '.send_verification_email' do
     context 'with valid paramters' do
-      it 'sends an email to that user and returns it' do
+      it 'sends an email to that user and the magic auth challenge' do
         VCR.use_cassette 'user_management/send_verification_email/valid' do
           user = described_class.send_verification_email(
             id: 'user_01H7WRJBPAAHX1BYRQHEK7QC4A',
           )
 
-          expect(user.id).to eq('user_01H7WRJBPAAHX1BYRQHEK7QC4A')
+          expect(user.id).to eq('auth_challenge_01H8EF0Y6FH6Z5VJ9ZDPRKZT2B')
         end
       end
     end
