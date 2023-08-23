@@ -197,7 +197,7 @@ describe WorkOS::UserManagement do
   end
 
   describe '.remove_user_from_organization' do
-    context 'with valid paramters' do
+    context 'with valid parameters' do
       it 'removes the user from the organization' do
         VCR.use_cassette 'user_management/remove_user_from_organization_valid' do
           user = described_class.remove_user_from_organization(
@@ -239,7 +239,7 @@ describe WorkOS::UserManagement do
   end
 
   describe '.send_verification_email' do
-    context 'with valid paramters' do
+    context 'with valid parameters' do
       it 'sends an email to that user and the magic auth challenge' do
         VCR.use_cassette 'user_management/send_verification_email/valid' do
           user = described_class.send_verification_email(
@@ -259,6 +259,49 @@ describe WorkOS::UserManagement do
               id: 'bad_id',
             )
           end.to raise_error(WorkOS::APIError, /User not found/)
+        end
+      end
+    end
+  end
+
+  describe '.verify_email' do
+    context 'with valid parameters' do
+      it 'verifies the email and returns the user' do
+        VCR.use_cassette 'user_management/verify_email/valid' do
+          user = described_class.verify_email(
+            code: '587300',
+            magic_auth_challenge_id: 'auth_challenge_01H8EFC1WAHYPKGC96NT9EC9GE',
+          )
+
+          expect(user.id).to eq('user_01H7TVSKS45SDHN5V9XPSM6H44')
+        end
+      end
+    end
+
+    context 'with invalid parameters' do
+      context 'when the magic_auth_challenge_id does not exist' do
+        it 'raises an error' do
+          VCR.use_cassette 'user_management/verify_email/invalid_magic_auth_challenge' do
+            expect do
+              described_class.verify_email(
+                code: '587300',
+                magic_auth_challenge_id: 'auth_challenge_fake',
+              )
+            end.to raise_error(WorkOS::APIError, /Authentication Challenge not found/)
+          end
+        end
+      end
+
+      context 'when the code is incorrect' do
+        it 'raises an error' do
+          VCR.use_cassette 'user_management/verify_email/invalid_code' do
+            expect do
+              described_class.verify_email(
+                code: '000000',
+                magic_auth_challenge_id: 'auth_challenge_01H8EFR3M9T9S7SMNTBMTYEEDG',
+              )
+            end.to raise_error(WorkOS::InvalidRequestError, /Email verification code is incorrect/)
+          end
         end
       end
     end

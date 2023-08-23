@@ -248,6 +248,33 @@ module WorkOS
 
         WorkOS::MagicAuthChallenge.new(response.body)
       end
+
+      # Verifies user email using one-time code that was sent to the user.
+      #
+      # @param [String] magic_auth_challenge_id The challenge ID returned from the send verification email endpoint.
+      # @param [String] code The one-time code emailed to the user.
+      #
+      # @return WorkOS::User
+      sig do
+        params(
+          magic_auth_challenge_id: String,
+          code: String,
+        ).returns(WorkOS::User)
+      end
+      def verify_email(magic_auth_challenge_id:, code:)
+        response = execute_request(
+          request: post_request(
+            path: '/users/verify_email',
+            body: {
+              magic_auth_challenge_id: magic_auth_challenge_id,
+              code: code,
+            },
+            auth: true,
+          ),
+        )
+
+        WorkOS::User.new(response.body)
+      end
     end
   end
 end
