@@ -52,17 +52,45 @@ describe WorkOS::UserManagement do
           expect(user.email).to eq('foo@example.com')
         end
       end
+
+      context 'with an invalid payload' do
+        it 'returns an error' do
+          VCR.use_cassette 'user_management/create_user_invalid' do
+            expect do
+              described_class.create_user(email: '')
+            end.to raise_error(
+              WorkOS::InvalidRequestError,
+              /email_string_required/,
+            )
+          end
+        end
+      end
+    end
+  end
+
+  describe '.add_user_to_organization' do
+    context 'with valid paramters' do
+      it 'adds the user to the organization' do
+        VCR.use_cassette 'user_management/add_user_to_organization_valid' do
+          user = described_class.add_user_to_organization(
+            id: 'user_01H7WRJBPAAHX1BYRQHEK7QC4A',
+            organization_id: 'org_01GEQJ8PKE4WH1Q09RSC8CCVJ1',
+          )
+
+          expect(user.id).to eq('user_01H7WRJBPAAHX1BYRQHEK7QC4A')
+        end
+      end
     end
 
-    context 'with an invalid payload' do
+    context 'with invalid parameters' do
       it 'returns an error' do
-        VCR.use_cassette 'user_management/create_user_invalid' do
+        VCR.use_cassette 'user_management/add_user_to_organization_invalid' do
           expect do
-            described_class.create_user(email: '')
-          end.to raise_error(
-            WorkOS::InvalidRequestError,
-            /email_string_required/,
-          )
+            described_class.add_user_to_organization(
+              id: 'bad_id',
+              organization_id: 'bad_id',
+            )
+          end.to raise_error(WorkOS::APIError, /User not found/)
         end
       end
     end
