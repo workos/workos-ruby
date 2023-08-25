@@ -126,6 +126,7 @@ module WorkOS
         WorkOS::User.new(response.body)
       end
 
+
       # Update a user
       #
       # @param [String] id of the user.
@@ -144,7 +145,6 @@ module WorkOS
         request = put_request(
           path: "/users/#{id}",
           body: {
-            id: id,
             first_name: first_name,
             last_name: last_name,
             email_verified: email_verified,
