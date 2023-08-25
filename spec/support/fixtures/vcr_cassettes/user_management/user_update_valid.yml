@@ -1,0 +1,82 @@
+---
+http_interactions:
+- request:
+    method: put
+    uri: https://api.workos.com/users/user_01H7TVSKS45SDHN5V9XPSM6H44
+    body:
+      encoding: UTF-8
+      string: '{"id":"user_01H7TVSKS45SDHN5V9XPSM6H44","first_name":"Jane","last_name":"Doe","email_verified":false}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/3.0.2; arm64-darwin21; v2.16.0
+      Authorization:
+      - Bearer <API_KEY>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 25 Aug 2023 22:57:44 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Cf-Ray:
+      - 7fc76f89ea226829-SEA
+      Cf-Cache-Status:
+      - DYNAMIC
+      Etag:
+      - W/"153-w5d8Z7u7b9Obt9NziECtNSAY9Ac"
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Vary:
+      - Origin, Accept-Encoding
+      Via:
+      - 1.1 spaces-router (devel)
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      Expect-Ct:
+      - max-age=0
+      Referrer-Policy:
+      - no-referrer
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - f5e3e1fd-02ba-4fa1-8aa5-4092ef017730
+      X-Xss-Protection:
+      - '0'
+      Set-Cookie:
+      - __cf_bm=eVmtt8PdGW9xPRMjxzfPDTCYwZr9ka8t8Jt4XPuYxzA-1693004264-0-AfOvUByWQCyy7+jv3RObgQepn1yPUW9+OJvanIFzhIRvgsOVKdQuZffyn+WXD402UQMH/bXym50ii65/7TjCV10=;
+        path=/; expires=Fri, 25-Aug-23 23:27:44 GMT; domain=.workos.com; HttpOnly;
+        Secure; SameSite=None
+      - __cfruid=8c0325855ad637074bded9e792514d3349024691-1693004264; path=/; domain=.workos.com;
+        HttpOnly; Secure; SameSite=None
+      Server:
+      - cloudflare
+    body:
+      encoding: ASCII-8BIT
+      string: '{"object":"user","id":"user_01H7TVSKS45SDHN5V9XPSM6H44","email":"willman@blips.app","email_verified":false,"first_name":"Jane","last_name":"Doe","created_at":"2023-08-14T20:28:58.929Z","updated_at":"2023-08-25T22:57:44.262Z","user_type":"unmanaged","email_verified_at":null,"google_oauth_profile_id":null,"microsoft_oauth_profile_id":null}'
+    http_version:
+  recorded_at: Fri, 25 Aug 2023 22:57:44 GMT
+recorded_with: VCR 5.0.0
