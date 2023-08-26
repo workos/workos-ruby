@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.workos.com/users?email=lucy.lawless@example.com&limit=5&order=desc&type=unmanaged
+    uri: https://api.workos.com/users?email=lucy.lawless@example.com&limit=5&order=desc
     body:
       encoding: US-ASCII
       string: ''
@@ -76,7 +76,7 @@ http_interactions:
       - cloudflare
     body:
       encoding: ASCII-8BIT
-      string: '{"object":"list","data":[{"object":"user","id":"user_01H7WRJBPAAHX1BYRQHEK7QC4A","email":"lucy.lawless@example.com","first_name":"Lucy","last_name":"Lawless","created_at":"2023-08-15T14:11:04.519Z","updated_at":"2023-08-15T14:11:04.519Z","user_type":"unmanaged","email_verified_at":null,"google_oauth_profile_id":null,"microsoft_oauth_profile_id":null}],"list_metadata":{"before":null,"after":null}}'
+      string: '{"object":"list","data":[{"object":"user","id":"user_01H7WRJBPAAHX1BYRQHEK7QC4A","email":"lucy.lawless@example.com","first_name":"Lucy","last_name":"Lawless","created_at":"2023-08-15T14:11:04.519Z","updated_at":"2023-08-15T14:11:04.519Z","email_verified":false}],"list_metadata":{"before":null,"after":null}}'
     http_version:
   recorded_at: Tue, 15 Aug 2023 16:37:20 GMT
 recorded_with: VCR 5.0.0
