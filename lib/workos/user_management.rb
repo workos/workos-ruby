@@ -7,6 +7,8 @@ require 'uri'
 module WorkOS
   # The UserManagement module provides convenience methods for working with the
   # WorkOS User platform. You'll need a valid API key.
+
+  # rubocop:disable Metrics/ModuleLength
   module UserManagement
     class << self
       extend T::Sig
@@ -307,4 +309,5 @@ module WorkOS
       end
     end
   end
+  # rubocop:enable Metrics/ModuleLength
 end
