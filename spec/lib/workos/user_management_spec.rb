@@ -365,7 +365,7 @@ describe WorkOS::UserManagement do
             password: '7YtYic00VWcXatPb',
             client_id: 'client_123',
             ip_address: '200.240.210.16',
-            user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+            user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36',
           )
           puts authentication_response
           expect(authentication_response.user.id).to eq('user_01H7TVSKS45SDHN5V9XPSM6H44')
@@ -382,7 +382,7 @@ describe WorkOS::UserManagement do
               password: 'invalid',
               client_id: 'client_123',
               ip_address: '200.240.210.16',
-              user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+              user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36',
             )
           end.to raise_error(WorkOS::APIError, /User not found/)
         end
