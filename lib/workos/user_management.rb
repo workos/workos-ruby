@@ -7,6 +7,8 @@ require 'uri'
 module WorkOS
   # The UserManagement module provides convenience methods for working with the
   # WorkOS User platform. You'll need a valid API key.
+
+  # rubocop:disable Metrics/ModuleLength
   module UserManagement
     class << self
       extend T::Sig
@@ -136,6 +138,37 @@ module WorkOS
           body: {
             email: email,
             password: password,
+            first_name: first_name,
+            last_name: last_name,
+            email_verified: email_verified,
+          },
+          auth: true,
+        )
+
+        response = execute_request(request: request)
+
+        WorkOS::User.new(response.body)
+      end
+
+
+      # Update a user
+      #
+      # @param [String] id of the user.
+      # @param [String] first_name The user's first name.
+      # @param [String] last_name The user's last name.
+      # @param [Boolean] email_verified Whether the user's email address was previously verified.
+      sig do
+        params(
+          id: String,
+          first_name: T.nilable(String),
+          last_name: T.nilable(String),
+          email_verified: T.nilable(T::Boolean),
+        ).returns(WorkOS::User)
+      end
+      def update_user(id:, first_name: nil, last_name: nil, email_verified: nil)
+        request = put_request(
+          path: "/users/#{id}",
+          body: {
             first_name: first_name,
             last_name: last_name,
             email_verified: email_verified,
@@ -298,4 +331,5 @@ module WorkOS
       end
     end
   end
+  # rubocop:enable Metrics/ModuleLength
 end

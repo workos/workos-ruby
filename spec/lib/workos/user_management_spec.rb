@@ -305,6 +305,34 @@ describe WorkOS::UserManagement do
       end
     end
   end
+  describe '.update_user' do
+    context 'with a valid payload' do
+      it 'update_user a user' do
+        VCR.use_cassette 'user_management/update_user/valid' do
+          user = described_class.update_user(
+            id: 'user_01H7TVSKS45SDHN5V9XPSM6H44',
+            first_name: 'Jane',
+            last_name: 'Doe',
+            email_verified: false,
+          )
+          puts
+          expect(user.first_name).to eq('Jane')
+          expect(user.last_name).to eq('Doe')
+          expect(user.email_verified).to eq(false)
+        end
+      end
+
+      context 'with an invalid payload' do
+        it 'returns an error' do
+          VCR.use_cassette 'user_management/update_user/invalid' do
+            expect do
+              described_class.update_user(id: 'invalid')
+            end.to raise_error(WorkOS::APIError, /User not found/)
+          end
+        end
+      end
+    end
+  end
   describe '.delete_user' do
     context 'with a valid id' do
       it 'returns true' do
