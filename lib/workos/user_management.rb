@@ -329,6 +329,44 @@ module WorkOS
 
         WorkOS::User.new(response.body)
       end
+
+
+      # Authenticates user by email and password.
+      #
+      # @param [String] email The email address of the user.
+      # @param [String] password The password to set for the user.
+      # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
+      # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
+      # @param [String] client_id The WorkOS client ID for the environment
+      #
+      # @return WorkOS::User
+      sig do
+        params(
+          email: String,
+          password: String,
+          ip_address: T.nilable(String),
+          user_agent: T.nilable(String),
+          client_id: T.nilable(String),
+        ).returns(WorkOS::AuthenticationResponse)
+      end
+      def authenticate_user_password(email:, password:, ip_address: nil, user_agent: nil, client_id: nil)
+        response = execute_request(
+          request: post_request(
+            path: '/users/authenticate',
+            body: {
+              client_id: client_id,
+              client_secret: WorkOS.config.key!,
+              email: email,
+              password: password,
+              ip_address: ip_address,
+              user_agent: user_agent,
+              grant_type: 'password',
+            },
+            auth: true,
+          ),
+        )
+        WorkOS::AuthenticationResponse.new(response.body)
+      end
     end
   end
   # rubocop:enable Metrics/ModuleLength
