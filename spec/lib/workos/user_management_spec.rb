@@ -376,9 +376,6 @@ describe WorkOS::UserManagement do
                 id: 'invalid',
                 password: '7YtYic00VWcXatPb',
               )
-          VCR.use_cassette 'user_management/update_user/invalid' do
-            expect do
-              described_class.update_user(id: 'invalid')
             end.to raise_error(WorkOS::APIError, /User not found/)
           end
         end
