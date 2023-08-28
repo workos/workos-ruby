@@ -310,7 +310,7 @@ describe WorkOS::UserManagement do
   describe '.update_user_password' do
     context 'with a valid payload' do
       it 'updates a user password' do
-        VCR.use_cassette 'user_management/update_user_password_valid' do
+        VCR.use_cassette 'user_management/update_user_password/valid' do
           user = described_class.update_user_password(
             id: 'user_01H7TVSKS45SDHN5V9XPSM6H44',
             password: '7YtYic00VWcXatPb',
@@ -321,7 +321,7 @@ describe WorkOS::UserManagement do
 
       context 'with an invalid payload' do
         it 'returns an error' do
-          VCR.use_cassette 'user_management/update_user_password_invalid' do
+          VCR.use_cassette 'user_management/update_user_password/invalid' do
             expect do
               described_class.update_user_password(
                 id: 'invalid',
