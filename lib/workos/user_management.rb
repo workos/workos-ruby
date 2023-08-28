@@ -292,7 +292,7 @@ module WorkOS
       def update_user_password(id:, password:)
         response = execute_request(
           request: put_request(
-            path: "/users/#{id}",
+            path: "/users/#{id}/password",
             body: {
               password: password,
             },
