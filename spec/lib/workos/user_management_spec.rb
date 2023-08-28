@@ -329,6 +329,10 @@ describe WorkOS::UserManagement do
               described_class.update_user(id: 'invalid')
             end.to raise_error(WorkOS::APIError, /User not found/)
           end
+        end
+      end
+    end
+  end
   describe '.delete_user' do
     context 'with a valid id' do
       it 'returns true' do
