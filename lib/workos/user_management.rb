@@ -279,7 +279,7 @@ module WorkOS
       # Updates user user password.
       #
       # @param [String] id The unique ID of the User.
-      # @param [String] new_password The new password to set for the user.
+      # @param [String] password The new password to set for the user.
       #
       # @return WorkOS::User
 
