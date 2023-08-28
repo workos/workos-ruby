@@ -40,6 +40,28 @@ module WorkOS
         WorkOS::User.new(response.body)
       end
 
+
+      # Deletes a User
+      #
+      # @param [String] id The unique ID of the User.
+      #
+      # @return [Bool] - returns `true` if successful
+      sig do
+        params(
+          id: String,
+        ).returns(T::Boolean)
+      end
+      def delete_user(id:)
+        response = execute_request(
+          request: delete_request(
+            path: "/users/#{id}",
+            auth: true,
+          ),
+        )
+
+        response.is_a? Net::HTTPSuccess
+      end
+
       # Resets user password using token that was sent to the user.
       #
       # @param [String] token The token that was sent to the user.
