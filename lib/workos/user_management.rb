@@ -174,7 +174,6 @@ module WorkOS
       # Retrieve a list of users.
       #
       # @param [Hash] options
-      # @option options [String] type Filter Users by their type.
       # @option options [String] email Filter Users by their email.
       # @option options [String] organization Filter Users by the organization
       #  they are members of.

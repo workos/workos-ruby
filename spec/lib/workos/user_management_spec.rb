@@ -172,7 +172,7 @@ describe WorkOS::UserManagement do
     context 'with options' do
       it 'returns a list of matching users' do
         request_args = [
-          '/users?email=lucy.lawless%40example.com&type=unmanaged&order=desc&limit=5',
+          '/users?email=lucy.lawless%40example.com&order=desc&limit=5',
           'Content-Type' => 'application/json'
         ]
 
@@ -184,7 +184,6 @@ describe WorkOS::UserManagement do
         VCR.use_cassette 'user_management/list_users/with_options' do
           users = described_class.list_users(
             email: 'lucy.lawless@example.com',
-            type: 'unmanaged',
             order: 'desc',
             limit: '5',
           )
