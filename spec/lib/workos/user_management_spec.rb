@@ -172,7 +172,7 @@ describe WorkOS::UserManagement do
     context 'with options' do
       it 'returns a list of matching users' do
         request_args = [
-          '/users?email=lucy.lawless%40example.com&type=unmanaged&order=desc&limit=5',
+          '/users?email=lucy.lawless%40example.com&order=desc&limit=5',
           'Content-Type' => 'application/json'
         ]
 
@@ -184,7 +184,6 @@ describe WorkOS::UserManagement do
         VCR.use_cassette 'user_management/list_users/with_options' do
           users = described_class.list_users(
             email: 'lucy.lawless@example.com',
-            type: 'unmanaged',
             order: 'desc',
             limit: '5',
           )
@@ -306,7 +305,57 @@ describe WorkOS::UserManagement do
       end
     end
   end
+  describe '.update_user' do
+    context 'with a valid payload' do
+      it 'update_user a user' do
+        VCR.use_cassette 'user_management/update_user/valid' do
+          user = described_class.update_user(
+            id: 'user_01H7TVSKS45SDHN5V9XPSM6H44',
+            first_name: 'Jane',
+            last_name: 'Doe',
+            email_verified: false,
+          )
+          puts
+          expect(user.first_name).to eq('Jane')
+          expect(user.last_name).to eq('Doe')
+          expect(user.email_verified).to eq(false)
+        end
+      end
 
+      context 'with an invalid payload' do
+        it 'returns an error' do
+          VCR.use_cassette 'user_management/update_user/invalid' do
+            expect do
+              described_class.update_user(id: 'invalid')
+            end.to raise_error(WorkOS::APIError, /User not found/)
+          end
+        end
+      end
+    end
+  end
+  describe '.delete_user' do
+    context 'with a valid id' do
+      it 'returns true' do
+        VCR.use_cassette('user_management/delete_user/valid') do
+          response = WorkOS::UserManagement.delete_user(
+            id: 'user_01H7WRJBPAAHX1BYRQHEK7QC4A',
+          )
+
+          expect(response).to be(true)
+        end
+      end
+    end
+
+    context 'with an invalid id' do
+      it 'raises an error' do
+        VCR.use_cassette('user_management/delete_user/invalid') do
+          expect do
+            WorkOS::UserManagement.delete_user(id: 'invalid')
+          end.to raise_error(WorkOS::APIError, /User not found/)
+        end
+      end
+    end
+  end
   describe '.update_user_password' do
     context 'with a valid payload' do
       it 'updates a user password' do
@@ -327,6 +376,9 @@ describe WorkOS::UserManagement do
                 id: 'invalid',
                 password: '7YtYic00VWcXatPb',
               )
+          VCR.use_cassette 'user_management/update_user/invalid' do
+            expect do
+              described_class.update_user(id: 'invalid')
             end.to raise_error(WorkOS::APIError, /User not found/)
           end
         end
