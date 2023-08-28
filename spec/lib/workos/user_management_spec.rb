@@ -309,7 +309,7 @@ describe WorkOS::UserManagement do
   describe '.delete_user' do
     context 'with a valid id' do
       it 'returns true' do
-        VCR.use_cassette('user_management/delete_user_with_valid_id') do
+        VCR.use_cassette('user_management/delete_user/valid') do
           response = WorkOS::UserManagement.delete_user(
             id: 'user_01H7WRJBPAAHX1BYRQHEK7QC4A',
           )
@@ -321,7 +321,7 @@ describe WorkOS::UserManagement do
 
     context 'with an invalid id' do
       it 'raises an error' do
-        VCR.use_cassette('user_management/delete_user_with_invalid_id') do
+        VCR.use_cassette('user_management/delete_user/invalid') do
           expect do
             WorkOS::UserManagement.delete_user(id: 'invalid')
           end.to raise_error(WorkOS::APIError, /User not found/)
