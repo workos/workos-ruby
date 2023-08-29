@@ -7,8 +7,7 @@ http_interactions:
         encoding: UTF-8
         string:
           '{"client_id":"client_123","client_secret":"<API_KEY>","email":"other@blips.app","password":"invalid","ip_address":"200.240.210.16","user_agent":"Mozilla/5.0
-          (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)
-          Chrome/108.0.0.0 Safari/537.36","grant_type":"password"}'
+          (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36","grant_type":"password"}'
       headers:
         Content-Type:
           - application/json
@@ -18,15 +17,13 @@ http_interactions:
           - "*/*"
         User-Agent:
           - WorkOS; ruby/3.0.2; arm64-darwin21; v2.16.0
-        Authorization:
-          - Bearer <API_KEY>
     response:
       status:
         code: 404
         message: Not Found
       headers:
         Date:
-          - Mon, 28 Aug 2023 23:43:44 GMT
+          - Tue, 29 Aug 2023 00:24:25 GMT
         Content-Type:
           - application/json; charset=utf-8
         Transfer-Encoding:
@@ -34,7 +31,7 @@ http_interactions:
         Connection:
           - keep-alive
         Cf-Ray:
-          - 7fe06b0e5c89c37a-SEA
+          - 7fe0a6a5aff008df-SEA
         Cf-Cache-Status:
           - DYNAMIC
         Etag:
@@ -66,14 +63,14 @@ http_interactions:
         X-Permitted-Cross-Domain-Policies:
           - none
         X-Request-Id:
-          - a1402f15-7f0d-48ab-b332-c2e2345bfb61
+          - 0ed3cdf7-03f9-4b37-bbc8-b86834679ed9
         X-Xss-Protection:
           - "0"
         Set-Cookie:
-          - __cf_bm=lfF0gIW5MxQ7zpNwRf1O41eae5JEMEoGr980dKMoeP8-1693266224-0-AeTQ3DZuWOdWhgFjcKN8dKM0Y6m8KPTDpBQTwr1r9uBYSJPiexxX7PFq9ARP3HULrcAIYuJLFJTRjFtDRqD1r8w=;
-            path=/; expires=Tue, 29-Aug-23 00:13:44 GMT; domain=.workos.com; HttpOnly;
+          - __cf_bm=_uZ1fHEnPVRWYuwQtAju5yf86eP5qqgBjNwvB2Albts-1693268665-0-Ads+iW6svcBYUZvMoNJBzxcUx+KQnhea78QwLCa2DUxT70OtGFXL95y+5BVHtkU4+a0vq1478vpuWzCr/dUzHls=;
+            path=/; expires=Tue, 29-Aug-23 00:54:25 GMT; domain=.workos.com; HttpOnly;
             Secure; SameSite=None
-          - __cfruid=d519a1bed4eee04ca5b90a4ddedc1f05a1621808-1693266224; path=/; domain=.workos.com;
+          - __cfruid=beafd87202de7b7d34fd4a1af55696cb5d19364d-1693268665; path=/; domain=.workos.com;
             HttpOnly; Secure; SameSite=None
         Server:
           - cloudflare
@@ -81,5 +78,5 @@ http_interactions:
         encoding: ASCII-8BIT
         string: '{"message":"User not found: ''other@blips.app''.","code":"entity_not_found","entity_id":"other@blips.app"}'
       http_version:
-    recorded_at: Mon, 28 Aug 2023 23:43:44 GMT
+    recorded_at: Tue, 29 Aug 2023 00:24:25 GMT
 recorded_with: VCR 5.0.0

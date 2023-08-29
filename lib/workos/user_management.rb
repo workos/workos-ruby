@@ -339,7 +339,7 @@ module WorkOS
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
       # @param [String] client_id The WorkOS client ID for the environment
       #
-      # @return WorkOS::User
+      # @return WorkOS::AuthenticationResponse
       sig do
         params(
           email: String,
@@ -362,7 +362,6 @@ module WorkOS
               user_agent: user_agent,
               grant_type: 'password',
             },
-            auth: true,
           ),
         )
         WorkOS::AuthenticationResponse.new(response.body)
