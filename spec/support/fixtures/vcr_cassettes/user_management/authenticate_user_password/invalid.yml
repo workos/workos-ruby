@@ -6,7 +6,7 @@ http_interactions:
       body:
         encoding: UTF-8
         string:
-          '{"client_id":"client_123","client_secret":"<API_KEY>","email":"other@blips.app","password":"invalid","ip_address":"200.240.210.16","user_agent":"Mozilla/5.0
+          '{"client_id":"client_123","client_secret":"<API_KEY>","email":"invalid@workos.app","password":"invalid","ip_address":"200.240.210.16","user_agent":"Mozilla/5.0
           (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36","grant_type":"password"}'
       headers:
         Content-Type:

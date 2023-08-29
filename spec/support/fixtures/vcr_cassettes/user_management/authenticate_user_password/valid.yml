@@ -6,7 +6,7 @@ http_interactions:
       body:
         encoding: UTF-8
         string:
-          '{"client_id":"client_123","client_secret":"<API_KEY>","email":"willman@blips.app","password":"7YtYic00VWcXatPb","ip_address":"200.240.210.16","user_agent":"Mozilla/5.0
+          '{"client_id":"client_123","client_secret":"<API_KEY>","email":"test@workos.app","password":"7YtYic00VWcXatPb","ip_address":"200.240.210.16","user_agent":"Mozilla/5.0
           (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36","grant_type":"password"}'
       headers:
         Content-Type:
@@ -76,7 +76,7 @@ http_interactions:
           - cloudflare
       body:
         encoding: ASCII-8BIT
-        string: '{"user":{"object":"user","id":"user_01H7TVSKS45SDHN5V9XPSM6H44","email":"willman@blips.app","email_verified":true,"first_name":null,"last_name":null,"created_at":"2023-08-14T20:28:58.929Z","updated_at":"2023-08-28T15:56:19.798Z","user_type":"unmanaged","email_verified_at":"2023-08-22T11:18:01.850Z","google_oauth_profile_id":null,"microsoft_oauth_profile_id":null}}'
+        string: '{"user":{"object":"user","id":"user_01H7TVSKS45SDHN5V9XPSM6H44","email":"test@workos.app","email_verified":true,"first_name":null,"last_name":null,"created_at":"2023-08-14T20:28:58.929Z","updated_at":"2023-08-28T15:56:19.798Z","user_type":"unmanaged","email_verified_at":"2023-08-22T11:18:01.850Z","google_oauth_profile_id":null,"microsoft_oauth_profile_id":null}}'
       http_version:
     recorded_at: Tue, 29 Aug 2023 00:24:25 GMT
 recorded_with: VCR 5.0.0

@@ -361,7 +361,7 @@ describe WorkOS::UserManagement do
       it 'returns user' do
         VCR.use_cassette('user_management/authenticate_user_password/valid') do
           authentication_response = WorkOS::UserManagement.authenticate_user_password(
-            email: 'willman@blips.app',
+            email: 'test@workos.app',
             password: '7YtYic00VWcXatPb',
             client_id: 'client_123',
             ip_address: '200.240.210.16',
@@ -378,7 +378,7 @@ describe WorkOS::UserManagement do
         VCR.use_cassette('user_management/authenticate_user_password/invalid') do
           expect do
             WorkOS::UserManagement.authenticate_user_password(
-              email: 'other@blips.app',
+              email: 'invalid@workos.app',
               password: 'invalid',
               client_id: 'client_123',
               ip_address: '200.240.210.16',

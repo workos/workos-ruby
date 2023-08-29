@@ -334,7 +334,7 @@ module WorkOS
       # Authenticates user by email and password.
       #
       # @param [String] email The email address of the user.
-      # @param [String] password The password to set for the user.
+      # @param [String] password The password for the user.
       # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
       # @param [String] client_id The WorkOS client ID for the environment

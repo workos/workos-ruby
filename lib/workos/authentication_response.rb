@@ -10,9 +10,9 @@ module WorkOS
 
     attr_accessor :user
 
-    sig { params(authenitcation_response_json: String).void }
-    def initialize(authenitcation_response_json)
-      json = JSON.parse(authenitcation_response_json, symbolize_names: true)
+    sig { params(authentication_response_json: String).void }
+    def initialize(authentication_response_json)
+      json = JSON.parse(authentication_response_json, symbolize_names: true)
       @user = WorkOS::User.new(json[:user].to_json)
     end
 
