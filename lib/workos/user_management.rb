@@ -429,7 +429,7 @@ module WorkOS
         )
         WorkOS::AuthenticationResponse.new(response.body)
       end
-      
+
       # Authenticates a user using OAuth code.
       #
       # @param [String] code The one-time code that was emailed to the user.
