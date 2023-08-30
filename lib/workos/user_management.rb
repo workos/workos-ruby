@@ -338,7 +338,7 @@ module WorkOS
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
       # @param [String] client_id The WorkOS client ID for the environment
       #
-      # @return T::Hash[WorkOS::User]
+      # @return WorkOS::AuthenticationResponse
       sig do
         params(
           email: String,
@@ -346,7 +346,7 @@ module WorkOS
           ip_address: T.nilable(String),
           user_agent: T.nilable(String),
           client_id: T.nilable(String),
-        ).returns({ user: WorkOS::User })
+        ).returns(WorkOS::AuthenticationResponse)
       end
       def authenticate_user_password(email:, password:, ip_address: nil, user_agent: nil, client_id: nil)
         response = execute_request(
@@ -363,9 +363,7 @@ module WorkOS
             },
           ),
         )
-
-        json_response = JSON.parse(response.body, symbolize_names: false)
-        { user: WorkOS::User.new(json_response['user'].to_s) }
+        WorkOS::AuthenticationResponse.new(response.body)
       end
     end
   end
