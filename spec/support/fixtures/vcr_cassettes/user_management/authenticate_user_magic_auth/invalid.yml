@@ -1,0 +1,82 @@
+---
+http_interactions:
+  - request:
+      method: post
+      uri: https://api.workos.com/users/authenticate
+      body:
+        encoding: UTF-8
+        string:
+          '{"code":"test@workos.app","user_id":"user_01H93WD0R0KWF8Q7BK02C0RPY","client_id":"client_123","client_secret":"<API_KEY>","ip_address":"200.240.210.16","user_agent":"Mozilla/5.0
+          (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36","grant_type":"urn:workos:oauth:grant-type:magic-auth:code"}'
+      headers:
+        Content-Type:
+          - application/json
+        Accept-Encoding:
+          - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+        Accept:
+          - "*/*"
+        User-Agent:
+          - WorkOS; ruby/3.0.2; arm64-darwin21; v2.16.0
+    response:
+      status:
+        code: 404
+        message: Not Found
+      headers:
+        Date:
+          - Wed, 30 Aug 2023 18:58:01 GMT
+        Content-Type:
+          - application/json; charset=utf-8
+        Transfer-Encoding:
+          - chunked
+        Connection:
+          - keep-alive
+        Cf-Ray:
+          - 7fef4344cb386811-SEA
+        Cf-Cache-Status:
+          - DYNAMIC
+        Etag:
+          - W/"86-X4Q7F02iXed9FifFtOSpB/M42Bc"
+        Strict-Transport-Security:
+          - max-age=15552000; includeSubDomains
+        Vary:
+          - Origin, Accept-Encoding
+        Via:
+          - 1.1 spaces-router (devel)
+        Access-Control-Allow-Credentials:
+          - "true"
+        Content-Security-Policy:
+          - "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self'
+            https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src
+            'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+        Expect-Ct:
+          - max-age=0
+        Referrer-Policy:
+          - no-referrer
+        X-Content-Type-Options:
+          - nosniff
+        X-Dns-Prefetch-Control:
+          - "off"
+        X-Download-Options:
+          - noopen
+        X-Frame-Options:
+          - SAMEORIGIN
+        X-Permitted-Cross-Domain-Policies:
+          - none
+        X-Request-Id:
+          - 4d33111f-a488-4250-a946-7dceb07af151
+        X-Xss-Protection:
+          - "0"
+        Set-Cookie:
+          - __cf_bm=vPqfj2Z.hrS6vFkS6IuPzCyzTvKEzqKRxfwaaFAaaO8-1693421881-0-AUTukg7nPdQwavyZXIMKFWXnk+xXmC4q0ioe3Jalz3feLjTbouHB5lBI/Qp99KfZyslQxRxMlvJPeDo2iBOYbGs=;
+            path=/; expires=Wed, 30-Aug-23 19:28:01 GMT; domain=.workos.com; HttpOnly;
+            Secure; SameSite=None
+          - __cfruid=16391e6119f12d4d9bca79552f799341cb54e8ef-1693421881; path=/; domain=.workos.com;
+            HttpOnly; Secure; SameSite=None
+        Server:
+          - cloudflare
+      body:
+        encoding: ASCII-8BIT
+        string: '{"message":"User not found: ''user_01H93WD0R0KWF8Q7BK02C0RPY''.","code":"entity_not_found","entity_id":"user_01H93WD0R0KWF8Q7BK02C0RPY"}'
+      http_version:
+    recorded_at: Wed, 30 Aug 2023 18:58:01 GMT
+recorded_with: VCR 5.0.0
