@@ -315,7 +315,6 @@ describe WorkOS::UserManagement do
             last_name: 'Doe',
             email_verified: false,
           )
-          puts
           expect(user.first_name).to eq('Jane')
           expect(user.last_name).to eq('Doe')
           expect(user.email_verified).to eq(false)
@@ -393,7 +392,6 @@ describe WorkOS::UserManagement do
             ip_address: '200.240.210.16',
             user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36',
           )
-          puts authentication_response
           expect(authentication_response.user.id).to eq('user_01H7TVSKS45SDHN5V9XPSM6H44')
         end
       end
@@ -411,6 +409,40 @@ describe WorkOS::UserManagement do
               user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36',
             )
           end.to raise_error(WorkOS::APIError, /User not found/)
+        end
+      end
+    end
+
+    describe '.authenticate_user_magic_auth' do
+      context 'with a valid password' do
+        it 'returns user' do
+          VCR.use_cassette('user_management/authenticate_user_magic_auth/valid') do
+            authentication_response = WorkOS::UserManagement.authenticate_user_magic_auth(
+              code: '452079',
+              user_id: 'user_01H93WD0R0KWF8Q7BK02C0RPYJ',
+              client_id: 'client_123',
+              ip_address: '200.240.210.16',
+              user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36',
+            )
+            puts authentication_response
+            expect(authentication_response.user.id).to eq('user_01H93WD0R0KWF8Q7BK02C0RPYJ')
+          end
+        end
+      end
+
+      context 'with an incorrect user id' do
+        it 'raises an error' do
+          VCR.use_cassette('user_management/authenticate_user_magic_auth/invalid') do
+            expect do
+              WorkOS::UserManagement.authenticate_user_magic_auth(
+                code: '452079',
+                user_id: 'user_01H93WD0R0KWF8Q7BK02C0RPY',
+                client_id: 'client_123',
+                ip_address: '200.240.210.16',
+                user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36',
+              )
+            end.to raise_error(WorkOS::APIError, /User not found/)
+          end
         end
       end
     end
