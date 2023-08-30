@@ -74,7 +74,6 @@ module WorkOS
   autoload :UserManagement, 'workos/user_management'
   autoload :VerifyChallenge, 'workos/verify_challenge'
   autoload :DeprecatedHashWrapper, 'workos/deprecated_hash_wrapper'
-  autoload :AuthenticationResponse, 'workos/authentication_response'
 
 
   # Errors
