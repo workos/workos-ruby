@@ -329,7 +329,32 @@ module WorkOS
         WorkOS::User.new(response.body)
       end
 
+      # Updates user user password.
+      #
+      # @param [String] id The unique ID of the User.
+      # @param [String] password The new password to set for the user.
+      #
+      # @return WorkOS::User
 
+      sig do
+        params(
+          id: String,
+          password: String,
+        ).returns(WorkOS::User)
+      end
+      def update_user_password(id:, password:)
+        response = execute_request(
+          request: put_request(
+            path: "/users/#{id}/password",
+            body: {
+              password: password,
+            },
+            auth: true,
+          ),
+        )
+
+        WorkOS::User.new(response.body)
+      end
       # Authenticates user by email and password.
       #
       # @param [String] email The email address of the user.
