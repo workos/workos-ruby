@@ -368,12 +368,12 @@ module WorkOS
         params(
           email: String,
           password: String,
+          client_id: String,
           ip_address: T.nilable(String),
           user_agent: T.nilable(String),
-          client_id: T.nilable(String),
         ).returns(WorkOS::AuthenticationResponse)
       end
-      def authenticate_user_password(email:, password:, ip_address: nil, user_agent: nil, client_id: nil)
+      def authenticate_user_password(email:, password:, client_id:, ip_address: nil, user_agent: nil)
         response = execute_request(
           request: post_request(
             path: '/users/authenticate',
