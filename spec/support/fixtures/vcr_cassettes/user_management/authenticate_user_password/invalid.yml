@@ -1,0 +1,82 @@
+---
+http_interactions:
+  - request:
+      method: post
+      uri: https://api.workos.com/users/authenticate
+      body:
+        encoding: UTF-8
+        string:
+          '{"client_id":"client_123","client_secret":"<API_KEY>","email":"invalid@workos.app","password":"invalid","ip_address":"200.240.210.16","user_agent":"Mozilla/5.0
+          (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36","grant_type":"password"}'
+      headers:
+        Content-Type:
+          - application/json
+        Accept-Encoding:
+          - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+        Accept:
+          - "*/*"
+        User-Agent:
+          - WorkOS; ruby/3.0.2; arm64-darwin21; v2.16.0
+    response:
+      status:
+        code: 404
+        message: Not Found
+      headers:
+        Date:
+          - Tue, 29 Aug 2023 00:24:25 GMT
+        Content-Type:
+          - application/json; charset=utf-8
+        Transfer-Encoding:
+          - chunked
+        Connection:
+          - keep-alive
+        Cf-Ray:
+          - 7fe0a6a5aff008df-SEA
+        Cf-Cache-Status:
+          - DYNAMIC
+        Etag:
+          - W/"68-vJ+qM+jhqT7OYdncb+ks9c+Wbao"
+        Strict-Transport-Security:
+          - max-age=15552000; includeSubDomains
+        Vary:
+          - Origin, Accept-Encoding
+        Via:
+          - 1.1 spaces-router (devel)
+        Access-Control-Allow-Credentials:
+          - "true"
+        Content-Security-Policy:
+          - "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self'
+            https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src
+            'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+        Expect-Ct:
+          - max-age=0
+        Referrer-Policy:
+          - no-referrer
+        X-Content-Type-Options:
+          - nosniff
+        X-Dns-Prefetch-Control:
+          - "off"
+        X-Download-Options:
+          - noopen
+        X-Frame-Options:
+          - SAMEORIGIN
+        X-Permitted-Cross-Domain-Policies:
+          - none
+        X-Request-Id:
+          - 0ed3cdf7-03f9-4b37-bbc8-b86834679ed9
+        X-Xss-Protection:
+          - "0"
+        Set-Cookie:
+          - __cf_bm=_uZ1fHEnPVRWYuwQtAju5yf86eP5qqgBjNwvB2Albts-1693268665-0-Ads+iW6svcBYUZvMoNJBzxcUx+KQnhea78QwLCa2DUxT70OtGFXL95y+5BVHtkU4+a0vq1478vpuWzCr/dUzHls=;
+            path=/; expires=Tue, 29-Aug-23 00:54:25 GMT; domain=.workos.com; HttpOnly;
+            Secure; SameSite=None
+          - __cfruid=beafd87202de7b7d34fd4a1af55696cb5d19364d-1693268665; path=/; domain=.workos.com;
+            HttpOnly; Secure; SameSite=None
+        Server:
+          - cloudflare
+      body:
+        encoding: ASCII-8BIT
+        string: '{"message":"User not found: ''other@blips.app''.","code":"entity_not_found","entity_id":"other@blips.app"}'
+      http_version:
+    recorded_at: Tue, 29 Aug 2023 00:24:25 GMT
+recorded_with: VCR 5.0.0

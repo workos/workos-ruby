@@ -382,4 +382,37 @@ describe WorkOS::UserManagement do
       end
     end
   end
+  describe '.authenticate_user_password' do
+    context 'with a valid password' do
+      it 'returns user' do
+        VCR.use_cassette('user_management/authenticate_user_password/valid') do
+          authentication_response = WorkOS::UserManagement.authenticate_user_password(
+            email: 'test@workos.app',
+            password: '7YtYic00VWcXatPb',
+            client_id: 'client_123',
+            ip_address: '200.240.210.16',
+            user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36',
+          )
+          puts authentication_response
+          expect(authentication_response.user.id).to eq('user_01H7TVSKS45SDHN5V9XPSM6H44')
+        end
+      end
+    end
+
+    context 'with an invalid user' do
+      it 'raises an error' do
+        VCR.use_cassette('user_management/authenticate_user_password/invalid') do
+          expect do
+            WorkOS::UserManagement.authenticate_user_password(
+              email: 'invalid@workos.app',
+              password: 'invalid',
+              client_id: 'client_123',
+              ip_address: '200.240.210.16',
+              user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36',
+            )
+          end.to raise_error(WorkOS::APIError, /User not found/)
+        end
+      end
+    end
+  end
 end
