@@ -393,7 +393,7 @@ module WorkOS
         WorkOS::AuthenticationResponse.new(response.body)
       end
 
-      # Authenticates user by email and password.
+      # Authenticates user by Magic Auth Code.
       #
       # @param [String] code The one-time code that was emailed to the user.
       # @param [String] user_id The unique ID of the User who will be authenticated.
