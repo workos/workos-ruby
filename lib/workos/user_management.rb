@@ -305,20 +305,20 @@ module WorkOS
 
       # Verifies user email using one-time code that was sent to the user.
       #
-      # @param [String] id The unique ID of the User whose email address will be verified.
+      # @param [String] user_id The unique ID of the User whose email address will be verified.
       # @param [String] code The one-time code emailed to the user.
       #
       # @return WorkOS::UserResponse
       sig do
         params(
-          id: String,
+          user_id: String,
           code: String,
         ).returns(WorkOS::UserResponse)
       end
-      def verify_email(id:, code:)
+      def verify_email(user_id:, code:)
         response = execute_request(
           request: post_request(
-            path: "/users/#{id}/verify_email_code",
+            path: "/users/#{user_id}/verify_email_code",
             body: {
               code: code,
             },

@@ -267,7 +267,7 @@ describe WorkOS::UserManagement do
         VCR.use_cassette 'user_management/verify_email/valid' do
           verify_response = described_class.verify_email(
             code: '333495',
-            id: 'user_01H968BR1R84DSPYS9QR5PM6RZ',
+            user_id: 'user_01H968BR1R84DSPYS9QR5PM6RZ',
           )
 
           expect(verify_response.user.id).to eq('user_01H968BR1R84DSPYS9QR5PM6RZ')
@@ -282,7 +282,7 @@ describe WorkOS::UserManagement do
             expect do
               described_class.verify_email(
                 code: '659770',
-                id: 'bad_id',
+                user_id: 'bad_id',
               )
             end.to raise_error(WorkOS::APIError, /User not found/)
           end
@@ -295,7 +295,7 @@ describe WorkOS::UserManagement do
             expect do
               described_class.verify_email(
                 code: '000000',
-                id: 'user_01H93WD0R0KWF8Q7BK02C0RPYJ',
+                user_id: 'user_01H93WD0R0KWF8Q7BK02C0RPYJ',
               )
             end.to raise_error(WorkOS::InvalidRequestError, /Email verification code is incorrect/)
           end
