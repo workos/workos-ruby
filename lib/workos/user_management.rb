@@ -262,11 +262,11 @@ module WorkOS
       #
       # @param [String] email_address The email address the one-time code will be sent to.
       #
-      # @return WorkOS::MagicAuthChallenge
+      # @return WorkOS::UserResponse
       sig do
         params(
           email_address: String,
-        ).returns(WorkOS::MagicAuthChallenge)
+        ).returns(WorkOS::UserResponse)
       end
       def send_magic_auth_code(email_address:)
         response = execute_request(
@@ -279,18 +279,18 @@ module WorkOS
           ),
         )
 
-        WorkOS::MagicAuthChallenge.new(response.body)
+        WorkOS::UserResponse.new(response.body)
       end
 
       # Sends a verification email to the provided user.
       #
       # @param [String] id The unique ID of the User whose email address will be verified.
       #
-      # @return WorkOS::MagicAuthChallenge
+      # @return WorkOS::UserResponse
       sig do
         params(
           id: String,
-        ).returns(WorkOS::MagicAuthChallenge)
+        ).returns(WorkOS::UserResponse)
       end
       def send_verification_email(id:)
         response = execute_request(
@@ -300,33 +300,32 @@ module WorkOS
           ),
         )
 
-        WorkOS::MagicAuthChallenge.new(response.body)
+        WorkOS::UserResponse.new(response.body)
       end
 
       # Verifies user email using one-time code that was sent to the user.
       #
-      # @param [String] magic_auth_challenge_id The challenge ID returned from the send verification email endpoint.
+      # @param [String] id The unique ID of the User whose email address will be verified.
       # @param [String] code The one-time code emailed to the user.
       #
-      # @return WorkOS::User
+      # @return WorkOS::UserResponse
       sig do
         params(
-          magic_auth_challenge_id: String,
+          id: String,
           code: String,
-        ).returns(WorkOS::User)
+        ).returns(WorkOS::UserResponse)
       end
-      def verify_email(magic_auth_challenge_id:, code:)
+      def verify_email(id:, code:)
         response = execute_request(
           request: post_request(
-            path: '/users/verify_email',
+            path: "/users/#{id}/verify_email_code",
             body: {
-              magic_auth_challenge_id: magic_auth_challenge_id,
               code: code,
             },
             auth: true,
           ),
         )
-        WorkOS::User.new(response.body)
+        WorkOS::UserResponse.new(response.body)
       end
 
       # Updates user user password.
@@ -364,7 +363,7 @@ module WorkOS
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
       # @param [String] client_id The WorkOS client ID for the environment
       #
-      # @return WorkOS::AuthenticationResponse
+      # @return WorkOS::UserResponse
 
       sig do
         params(
@@ -373,7 +372,7 @@ module WorkOS
           client_id: String,
           ip_address: T.nilable(String),
           user_agent: T.nilable(String),
-        ).returns(WorkOS::AuthenticationResponse)
+        ).returns(WorkOS::UserResponse)
       end
       def authenticate_user_password(email:, password:, client_id:, ip_address: nil, user_agent: nil)
         response = execute_request(
@@ -390,7 +389,7 @@ module WorkOS
             },
           ),
         )
-        WorkOS::AuthenticationResponse.new(response.body)
+        WorkOS::UserResponse.new(response.body)
       end
 
       # Authenticates user by Magic Auth Code.
@@ -401,7 +400,7 @@ module WorkOS
       # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
       #
-      # @return WorkOS::AuthenticationResponse
+      # @return WorkOS::UserResponse
 
       sig do
         params(
@@ -410,7 +409,7 @@ module WorkOS
           client_id: String,
           ip_address: T.nilable(String),
           user_agent: T.nilable(String),
-        ).returns(WorkOS::AuthenticationResponse)
+        ).returns(WorkOS::UserResponse)
       end
       def authenticate_user_magic_auth(code:, user_id:, client_id:, ip_address: nil, user_agent: nil)
         response = execute_request(
@@ -427,7 +426,7 @@ module WorkOS
             },
           ),
         )
-        WorkOS::AuthenticationResponse.new(response.body)
+        WorkOS::UserResponse.new(response.body)
       end
 
       # Authenticates a user using OAuth code.
@@ -437,7 +436,7 @@ module WorkOS
       # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
       #
-      # @return WorkOS::AuthenticationResponse
+      # @return WorkOS::UserResponse
 
       sig do
         params(
@@ -445,7 +444,7 @@ module WorkOS
           client_id: String,
           ip_address: T.nilable(String),
           user_agent: T.nilable(String),
-        ).returns(WorkOS::AuthenticationResponse)
+        ).returns(WorkOS::UserResponse)
       end
       def authenticate_user_with_code(code:, client_id:, ip_address: nil, user_agent: nil)
         response = execute_request(
@@ -461,7 +460,7 @@ module WorkOS
             },
           ),
         )
-        WorkOS::AuthenticationResponse.new(response.body)
+        WorkOS::UserResponse.new(response.body)
       end
     end
   end

@@ -2,17 +2,17 @@
 # typed: true
 
 module WorkOS
-  # The AuthenticationResponse class represents a User as well as an corresponding
+  # The UserResponse class represents a User as well as an corresponding
   # response data that can later be appended on.
-  class AuthenticationResponse
+  class UserResponse
     include HashProvider
     extend T::Sig
 
     attr_accessor :user
 
-    sig { params(authentication_response_json: String).void }
-    def initialize(authentication_response_json)
-      json = JSON.parse(authentication_response_json, symbolize_names: true)
+    sig { params(user_response_json: String).void }
+    def initialize(user_response_json)
+      json = JSON.parse(user_response_json, symbolize_names: true)
       @user = WorkOS::User.new(json[:user].to_json)
     end
 

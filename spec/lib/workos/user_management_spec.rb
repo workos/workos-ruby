@@ -227,11 +227,10 @@ describe WorkOS::UserManagement do
     context 'with valid parameters' do
       it 'sends a magic link to the email address' do
         VCR.use_cassette 'user_management/send_magic_auth_code/valid' do
-          magic_auth_challenge = described_class.send_magic_auth_code(
-            email_address: 'lucy.lawless@example.com',
+          magic_link_response = described_class.send_magic_auth_code(
+            email_address: 'test@gmail.com',
           )
-
-          expect(magic_auth_challenge.id).to eq('auth_challenge_01H8D0ZVH77EEYMDJJRRT8A8AC')
+          expect(magic_link_response.user.id).to eq('user_01H93WD0R0KWF8Q7BK02C0RPYJ')
         end
       end
     end
@@ -241,11 +240,10 @@ describe WorkOS::UserManagement do
     context 'with valid parameters' do
       it 'sends an email to that user and the magic auth challenge' do
         VCR.use_cassette 'user_management/send_verification_email/valid' do
-          user = described_class.send_verification_email(
-            id: 'user_01H7WRJBPAAHX1BYRQHEK7QC4A',
+          verification_response = described_class.send_verification_email(
+            id: 'user_01H93WD0R0KWF8Q7BK02C0RPYJ',
           )
-
-          expect(user.id).to eq('auth_challenge_01H8EF0Y6FH6Z5VJ9ZDPRKZT2B')
+          expect(verification_response.user.id).to eq('user_01H93WD0R0KWF8Q7BK02C0RPYJ')
         end
       end
     end
@@ -267,26 +265,26 @@ describe WorkOS::UserManagement do
     context 'with valid parameters' do
       it 'verifies the email and returns the user' do
         VCR.use_cassette 'user_management/verify_email/valid' do
-          user = described_class.verify_email(
-            code: '587300',
-            magic_auth_challenge_id: 'auth_challenge_01H8EFC1WAHYPKGC96NT9EC9GE',
+          verify_response = described_class.verify_email(
+            code: '333495',
+            id: 'user_01H968BR1R84DSPYS9QR5PM6RZ',
           )
 
-          expect(user.id).to eq('user_01H7TVSKS45SDHN5V9XPSM6H44')
+          expect(verify_response.user.id).to eq('user_01H968BR1R84DSPYS9QR5PM6RZ')
         end
       end
     end
 
     context 'with invalid parameters' do
-      context 'when the magic_auth_challenge_id does not exist' do
+      context 'when the id does not exist' do
         it 'raises an error' do
           VCR.use_cassette 'user_management/verify_email/invalid_magic_auth_challenge' do
             expect do
               described_class.verify_email(
-                code: '587300',
-                magic_auth_challenge_id: 'auth_challenge_fake',
+                code: '659770',
+                id: 'bad_id',
               )
-            end.to raise_error(WorkOS::APIError, /Authentication Challenge not found/)
+            end.to raise_error(WorkOS::APIError, /User not found/)
           end
         end
       end
@@ -297,7 +295,7 @@ describe WorkOS::UserManagement do
             expect do
               described_class.verify_email(
                 code: '000000',
-                magic_auth_challenge_id: 'auth_challenge_01H8EFR3M9T9S7SMNTBMTYEEDG',
+                id: 'user_01H93WD0R0KWF8Q7BK02C0RPYJ',
               )
             end.to raise_error(WorkOS::InvalidRequestError, /Email verification code is incorrect/)
           end
@@ -305,6 +303,7 @@ describe WorkOS::UserManagement do
       end
     end
   end
+
   describe '.update_user' do
     context 'with a valid payload' do
       it 'update_user a user' do
@@ -424,7 +423,6 @@ describe WorkOS::UserManagement do
               ip_address: '200.240.210.16',
               user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36',
             )
-            puts authentication_response
             expect(authentication_response.user.id).to eq('user_01H93WD0R0KWF8Q7BK02C0RPYJ')
           end
         end
@@ -458,7 +456,6 @@ describe WorkOS::UserManagement do
             ip_address: '200.240.210.16',
             user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36',
           )
-          puts authentication_response
           expect(authentication_response.user.id).to eq('user_01H93ZY4F80YZRRS6N59Z2HFVS')
         end
       end

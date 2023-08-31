@@ -2,10 +2,10 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.workos.com/users/verify_email
+    uri: https://api.workos.com/users/user_01H93WD0R0KWF8Q7BK02C0RPYJ/verify_email_code
     body:
       encoding: UTF-8
-      string: '{"magic_auth_challenge_id":"auth_challenge_01H8EFR3M9T9S7SMNTBMTYEEDG","code":"000000"}'
+      string: '{"code":"000000"}'
     headers:
       Content-Type:
       - application/json
@@ -14,7 +14,7 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/3.0.2; arm64-darwin22; v2.16.0
+      - WorkOS; ruby/3.0.2; arm64-darwin21; v2.16.0
       Authorization:
       - Bearer <API_KEY>
   response:
@@ -23,7 +23,7 @@ http_interactions:
       message: Bad Request
     headers:
       Date:
-      - Tue, 22 Aug 2023 11:24:17 GMT
+      - Thu, 31 Aug 2023 16:41:48 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
@@ -31,7 +31,7 @@ http_interactions:
       Connection:
       - keep-alive
       Cf-Ray:
-      - 7faabf9f1c634216-EWR
+      - 7ff6b919e9c6ec80-SEA
       Cf-Cache-Status:
       - DYNAMIC
       Etag:
@@ -63,14 +63,14 @@ http_interactions:
       X-Permitted-Cross-Domain-Policies:
       - none
       X-Request-Id:
-      - 401dc8f8-66cc-4511-bf06-8a3723e186b1
+      - e10e2199-a4e7-44aa-90ee-2fe45664072a
       X-Xss-Protection:
       - '0'
       Set-Cookie:
-      - __cf_bm=S0TwTIxQ0_wLjf5lRkjp5TauNH_QbHL1RmS_prmZx_M-1692703457-0-ATRT2xQl56ufCbybYglO7Pikh/nWKKoPBZ0hjUnpDrffA45Dj/p71Rf9GWu14oCw9XpKONulzmiInSozPnThf2U=;
-        path=/; expires=Tue, 22-Aug-23 11:54:17 GMT; domain=.workos.com; HttpOnly;
+      - __cf_bm=K_MuDGjknjAqXvlYf4m0s0631OeP.NrWvWqpautzf30-1693500108-0-AUJxSZYXznSY1XVyINUTW2SRmVzo5ZJIok/2RhQxEp3BgajU95DdohdoKzTpP+T853TpyFOe+3VxXUC3KzvQY8I=;
+        path=/; expires=Thu, 31-Aug-23 17:11:48 GMT; domain=.workos.com; HttpOnly;
         Secure; SameSite=None
-      - __cfruid=c43331bf56528592426e189f7db127749db7928b-1692703457; path=/; domain=.workos.com;
+      - __cfruid=4f30d39edf87ebcadd84f444fe0c4a5270a3a340-1693500108; path=/; domain=.workos.com;
         HttpOnly; Secure; SameSite=None
       Server:
       - cloudflare
@@ -79,5 +79,5 @@ http_interactions:
       string: '{"code":"email_verification_code_incorrect","message":"Email verification
         code is incorrect."}'
     http_version:
-  recorded_at: Tue, 22 Aug 2023 11:24:17 GMT
+  recorded_at: Thu, 31 Aug 2023 16:41:48 GMT
 recorded_with: VCR 5.0.0
