@@ -2,10 +2,10 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.workos.com/users/verify_email
+    uri: https://api.workos.com/users/bad_id/verify_email_code
     body:
       encoding: UTF-8
-      string: '{"magic_auth_challenge_id":"auth_challenge_fake","code":"587300"}'
+      string: '{"code":"966451"}'
     headers:
       Content-Type:
       - application/json
@@ -14,7 +14,7 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/3.0.2; arm64-darwin22; v2.16.0
+      - WorkOS; ruby/3.0.2; arm64-darwin21; v2.16.0
       Authorization:
       - Bearer <API_KEY>
   response:
@@ -23,7 +23,7 @@ http_interactions:
       message: Not Found
     headers:
       Date:
-      - Tue, 22 Aug 2023 11:20:33 GMT
+      - Thu, 31 Aug 2023 16:41:47 GMT
       Content-Type:
       - application/json; charset=utf-8
       Transfer-Encoding:
@@ -31,11 +31,11 @@ http_interactions:
       Connection:
       - keep-alive
       Cf-Ray:
-      - 7faaba25bf584364-EWR
+      - 7ff6b917481c6838-SEA
       Cf-Cache-Status:
       - DYNAMIC
       Etag:
-      - W/"84-VIVMj2yaAtLD+e2JsHpL7WBxIXo"
+      - W/"56-2Auj80JGmZ1uWGCY950ud8v4KLQ"
       Strict-Transport-Security:
       - max-age=15552000; includeSubDomains
       Vary:
@@ -63,20 +63,20 @@ http_interactions:
       X-Permitted-Cross-Domain-Policies:
       - none
       X-Request-Id:
-      - 37d47147-8c43-4182-abb4-8685112e5a75
+      - 1e92992d-56ff-4cbd-b5c3-d46fa80ad644
       X-Xss-Protection:
       - '0'
       Set-Cookie:
-      - __cf_bm=bjp3i8iBaUN1XC1ul_hpT.kfG2IIFS0AaVJl7xSuxUk-1692703233-0-AfY/BYdMwFhXD02/lX1dxOpbLeLzkyh+bInCHQmnXvXT/pgUgxN6lblWpsyq5Bjt61Ex6trxwzeGSIY/+QOJOpE=;
-        path=/; expires=Tue, 22-Aug-23 11:50:33 GMT; domain=.workos.com; HttpOnly;
+      - __cf_bm=HBWNGnIi1vRLIjXGSjll8e1OmwUgBMqolzrm6HX.U2U-1693500107-0-AVQrm4b4jzM89RlujwEH0Q8i8Crxh09SatSNDcbSeG6X2NOyK7q6s6xWIYhoeGHvSI3mgjOsdqWmPG0I7YY/YN0=;
+        path=/; expires=Thu, 31-Aug-23 17:11:47 GMT; domain=.workos.com; HttpOnly;
         Secure; SameSite=None
-      - __cfruid=78cab50c50647c680d31033f73472fc62940569d-1692703233; path=/; domain=.workos.com;
+      - __cfruid=c0487a301adbc3ab2d5cea66fcddff76943f422f-1693500107; path=/; domain=.workos.com;
         HttpOnly; Secure; SameSite=None
       Server:
       - cloudflare
     body:
       encoding: ASCII-8BIT
-      string: '{"message":"Authentication Challenge not found: ''auth_challenge_fake''.","code":"entity_not_found","entity_id":"auth_challenge_fake"}'
+      string: '{"message":"User not found: ''bad_id''.","code":"entity_not_found","entity_id":"bad_id"}'
     http_version:
-  recorded_at: Tue, 22 Aug 2023 11:20:33 GMT
+  recorded_at: Thu, 31 Aug 2023 16:41:47 GMT
 recorded_with: VCR 5.0.0

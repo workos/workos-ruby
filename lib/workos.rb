@@ -65,7 +65,6 @@ module WorkOS
   autoload :DirectoryUser, 'workos/directory_user'
   autoload :Webhook, 'workos/webhook'
   autoload :Webhooks, 'workos/webhooks'
-  autoload :MagicAuthChallenge, 'workos/magic_auth_challenge'
   autoload :MFA, 'workos/mfa'
   autoload :Factor, 'workos/factor'
   autoload :Challenge, 'workos/challenge'
@@ -74,7 +73,7 @@ module WorkOS
   autoload :UserManagement, 'workos/user_management'
   autoload :VerifyChallenge, 'workos/verify_challenge'
   autoload :DeprecatedHashWrapper, 'workos/deprecated_hash_wrapper'
-  autoload :AuthenticationResponse, 'workos/authentication_response'
+  autoload :UserResponse, 'workos/user_response'
 
   # Errors
   autoload :APIError, 'workos/errors'
