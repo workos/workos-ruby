@@ -482,7 +482,7 @@ describe WorkOS::UserManagement do
       it 'returns an auth factor and challenge' do
         VCR.use_cassette('user_management/enroll_auth_factor/valid') do
           authentication_response = WorkOS::UserManagement.enroll_auth_factor(
-            id: 'user_01H7TVSKS45SDHN5V9XPSM6H44',
+            user_id: 'user_01H7TVSKS45SDHN5V9XPSM6H44',
           )
 
           expect(authentication_response.authentication_factor.id).to eq('auth_factor_01H96FETXENNY99ARX0GRC804C')
@@ -496,7 +496,7 @@ describe WorkOS::UserManagement do
         VCR.use_cassette('user_management/enroll_auth_factor/invalid') do
           expect do
             WorkOS::UserManagement.enroll_auth_factor(
-              id: 'user_01H7TVSKS45SDHN5V9XPSM6H44',
+              user_id: 'user_01H7TVSKS45SDHN5V9XPSM6H44',
             )
           end.to raise_error(WorkOS::InvalidRequestError, /Status 400/)
         end
@@ -509,7 +509,7 @@ describe WorkOS::UserManagement do
       it 'returns a list of auth factors' do
         VCR.use_cassette('user_management/list_auth_factors/valid') do
           authentication_response = WorkOS::UserManagement.list_auth_factors(
-            id: 'user_01H7TVSKS45SDHN5V9XPSM6H44',
+            user_id: 'user_01H7TVSKS45SDHN5V9XPSM6H44',
           )
 
           expect(authentication_response.data.first.id).to eq('auth_factor_01H96FETXENNY99ARX0GRC804C')
@@ -521,7 +521,7 @@ describe WorkOS::UserManagement do
         VCR.use_cassette('user_management/list_auth_factors/invalid') do
           expect do
             WorkOS::UserManagement.list_auth_factors(
-              id: 'user_01H7TVSKS45SDHN5V9XPSM6H44',
+              user_id: 'user_01H7TVSKS45SDHN5V9XPSM6H44',
             )
           end.to raise_error(WorkOS::InvalidRequestError, /Status 400/)
         end

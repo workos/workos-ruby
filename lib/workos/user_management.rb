@@ -465,20 +465,20 @@ module WorkOS
 
       # Enroll a user into an authentication factor.
       #
-      # @param [String] id The id for the user.
+      # @param [String] user_id The id for the user.
       #
       # @return WorkOS::AuthenticationFactorAndChallenge
       sig do
         params(
-          id: String,
+          user_id: String,
         ).returns(WorkOS::AuthenticationFactorAndChallenge)
       end
-      def enroll_auth_factor(id:)
+      def enroll_auth_factor(user_id:)
         response = execute_request(
           request: post_request(
-            path: "/users/#{id}/auth/factors",
+            path: "/users/#{user_id}/auth/factors",
             body: {
-              type: 'topd',
+              type: 'totp',
             },
             auth: true,
           ),
@@ -489,31 +489,31 @@ module WorkOS
 
       # Get all auth factors for a user
       #
-      # @param [String] id The id for the user.
+      # @param [String] user_id The id for the user.
       #
       # @return WorkOS::ListStruct
       sig do
         params(
-          id: String,
+          user_id: String,
         ).returns(WorkOS::Types::ListStruct)
       end
-      def list_auth_factors(id:)
+      def list_auth_factors(user_id:)
         response = execute_request(
           request: get_request(
-            path: "/users/#{id}/auth/factors",
+            path: "/users/#{user_id}/auth/factors",
             auth: true,
           ),
         )
 
         parsed_response = JSON.parse(response.body)
 
-        auth_factors = parsed_response.map do |auth_factor|
+        auth_factors = parsed_response['data'].map do |auth_factor|
           ::WorkOS::Factor.new(auth_factor.to_json)
         end
 
         WorkOS::Types::ListStruct.new(
           data: auth_factors,
-          list_metadata: {},
+          list_metadata: parsed_response['list_metadata'],
         )
       end
     end
