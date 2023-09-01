@@ -47,6 +47,7 @@ module WorkOS
   autoload :Client, 'workos/client'
   autoload :Configuration, 'workos/configuration'
   autoload :AuditLogExport, 'workos/audit_log_export'
+  autoload :AuthenticationFactorAndChallenge, 'workos/authentication_factor_and_challenge'
   autoload :AuditLogs, 'workos/audit_logs'
   autoload :AuditTrail, 'workos/audit_trail'
   autoload :Connection, 'workos/connection'

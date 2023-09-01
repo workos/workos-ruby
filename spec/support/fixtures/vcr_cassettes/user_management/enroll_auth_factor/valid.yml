@@ -1,0 +1,82 @@
+---
+http_interactions:
+- request:
+    method: post 
+    uri: https://api.workos.com/users/user_01H7TVSKS45SDHN5V9XPSM6H44/auth/factors
+    body:
+      encoding: UTF-8
+      string: '{"type":"totp"}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/3.0.2; arm64-darwin21; v2.16.0
+      Authorization:
+      - Bearer <API_KEY>
+  response:
+    status:
+      code: 201
+      message: OK
+    headers:
+      Date:
+      - Fri, 25 Aug 2023 23:37:04 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Cf-Ray:
+      - 7fc7a9287d0330ba-SEA
+      Cf-Cache-Status:
+      - DYNAMIC
+      Etag:
+      - W/"153-w5d8Z7u7b9Obt9NziECtNSAY9Ac"
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Vary:
+      - Origin, Accept-Encoding
+      Via:
+      - 1.1 spaces-router (devel)
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      Expect-Ct:
+      - max-age=0
+      Referrer-Policy:
+      - no-referrer
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - b333b9e1-c9ec-4e99-ae4f-17a854859cf1
+      X-Xss-Protection:
+      - '0'
+      Set-Cookie:
+      - __cf_bm=adC6w3NUNGTpdZDzNn39guANJ9wi798uCuqc_EI8190-1693006624-0-AcpsuyzFE/KdM7ev5pSVTt2vnGqCSZBOuQYZ0iKFiJT0mBlAuNITn3hICEKvcZ4LH7JUIyjnEOWfq2w7JyRmrJ4=;
+        path=/; expires=Sat, 26-Aug-23 00:07:04 GMT; domain=.workos.com; HttpOnly;
+        Secure; SameSite=None
+      - __cfruid=1d0cc3edf886cc7b90bd0c9c3226f5611a385c1a-1693006624; path=/; domain=.workos.com;
+        HttpOnly; Secure; SameSite=None
+      Server:
+      - cloudflare
+    body:
+      encoding: ASCII-8BIT
+      string: '{ "authentication_factor": { "object": "authentication_factor", "id": "auth_factor_01H96FETXENNY99ARX0GRC804C", "user_id": "user_01H96FETWYSJMJEGF0Q3ZB272F", "type": "totp", "totp": { "issuer": "Foo Corp", "qr_code": "data:image/png;base64,iVBOR...", "secret": "OFAFOQAPHR6XMQKAIYMWU72XIE3DGI3P", "uri": "otpauth://totp/Foo%20Corp:user@foo-corp.com?secret=OFAFOQAPHR6XMQKAIYMWU72XIE3DGI3P&issuer=Foo%20Corp&algorithm=SHA1&digits=6&period=30", "user": "user@foo-corp.com" }, "created_at": "2023-08-31T18:59:57.962Z", "updated_at": "2023-08-31T18:59:57.962Z" }, "authentication_challenge": { "object": "authentication_challenge", "id": "auth_challenge_01H96FETXGTW1QMBSBT2T36PW0", "authentication_factor_id": "auth_factor_01H96FETXENNY99ARX0GRC804C", "expires_at": "2023-08-31T19:09:57.999Z", "created_at": "2023-08-31T18:59:57.962Z", "updated_at": "2023-08-31T18:59:57.962Z" } }'
+    http_version:
+  recorded_at: Fri, 25 Aug 2023 23:37:04 GMT
+recorded_with: VCR 5.0.0
