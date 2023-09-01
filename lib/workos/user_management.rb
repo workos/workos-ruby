@@ -462,6 +462,60 @@ module WorkOS
         )
         WorkOS::UserResponse.new(response.body)
       end
+
+      # Enroll a user into an authentication factor.
+      #
+      # @param [String] id The id for the user.
+      #
+      # @return WorkOS::AuthenticationFactorAndChallenge
+      sig do
+        params(
+          id: String,
+        ).returns(WorkOS::AuthenticationFactorAndChallenge)
+      end
+      def enroll_auth_factor(id:)
+        response = execute_request(
+          request: post_request(
+            path: "/users/#{id}/auth/factors",
+            body: {
+              type: 'topd',
+            },
+            auth: true,
+          ),
+        )
+
+        WorkOS::AuthenticationFactorAndChallenge.new(response.body)
+      end
+
+      # Get all auth factors for a user
+      #
+      # @param [String] id The id for the user.
+      #
+      # @return WorkOS::Factor
+      sig do
+        params(
+          id: String,
+        ).returns(WorkOS::Types::ListStruct)
+      end
+      def list_auth_factors(id:)
+        response = execute_request(
+          request: get_request(
+            path: "/users/#{id}/auth/factors",
+            auth: true,
+          ),
+        )
+
+        parsed_response = JSON.parse(response.body)
+
+        auth_factors = parsed_response.map do |auth_factor|
+          ::WorkOS::Factor.new(auth_factor.to_json)
+        end
+
+        WorkOS::Types::ListStruct.new(
+          data: auth_factors,
+          list_metadata: {},
+        )
+      end
     end
   end
   # rubocop:enable Metrics/ModuleLength
