@@ -491,7 +491,7 @@ module WorkOS
       #
       # @param [String] id The id for the user.
       #
-      # @return WorkOS::Factor
+      # @return WorkOS::ListStruct
       sig do
         params(
           id: String,
