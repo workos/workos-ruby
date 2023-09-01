@@ -32,11 +32,11 @@ describe WorkOS::UserManagement do
     end
   end
 
-  describe '.confirm_password_reset' do
+  describe '.reset_password' do
     context 'with a valid payload' do
       it 'resets the password and returns the user' do
         VCR.use_cassette 'user_management/confirm_password_reset/valid' do
-          user = described_class.confirm_password_reset(
+          user = described_class.reset_password(
             token: 'eEgAgvAE0blvU1zWV3yWVAD22',
             new_password: 'very_cool_new_pa$$word',
           )
@@ -50,7 +50,7 @@ describe WorkOS::UserManagement do
       it 'returns an error' do
         VCR.use_cassette 'user_management/confirm_password_reset/invalid' do
           expect do
-            described_class.confirm_password_reset(
+            described_class.reset_password(
               token: 'bogus_token',
               new_password: 'new_password',
             )
@@ -63,11 +63,11 @@ describe WorkOS::UserManagement do
     end
   end
 
-  describe '.create_password_reset_challenge' do
+  describe '.send_password_reset_email' do
     context 'with a valid payload' do
-      it 'creates a password reset challenge' do
-        VCR.use_cassette 'user_management/create_password_reset_challenge/valid' do
-          user_and_token = described_class.create_password_reset_challenge(
+      it 'sends a password reset email' do
+        VCR.use_cassette 'user_management/send_password_reset_email/valid' do
+          user_and_token = described_class.send_password_reset_email(
             email: 'lucy.lawless@example.com',
             password_reset_url: 'https://example.com/reset',
           )
@@ -80,9 +80,9 @@ describe WorkOS::UserManagement do
 
     context 'with an invalid payload' do
       it 'returns an error' do
-        VCR.use_cassette 'user_management/create_password_reset_challenge/invalid' do
+        VCR.use_cassette 'user_management/send_password_reset_email/invalid' do
           expect do
-            described_class.create_password_reset_challenge(
+            described_class.send_password_reset_email(
               email: 'foo@bar.com',
               password_reset_url: '',
             )
