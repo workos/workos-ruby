@@ -462,6 +462,40 @@ module WorkOS
         )
         WorkOS::UserResponse.new(response.body)
       end
+      #
+      # Authenticates a user using TOTP.
+      #
+      # @param [String] code The one-time code that was emailed to the user.
+      # @param [String] client_id The WorkOS client ID for the environment
+      # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
+      # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
+      #
+      # @return WorkOS::UserResponse
+
+      sig do
+        params(
+          code: String,
+          client_id: String,
+          pending_authentication_token: String,
+          authentication_challenge_id: String,
+        ).returns(WorkOS::UserResponse)
+      end
+      def authenticate_user_with_totp(code:, client_id:, pending_authentication_token:, authentication_challenge_id:)
+        response = execute_request(
+          request: post_request(
+            path: '/users/authenticate',
+            body: {
+              code: code,
+              client_id: client_id,
+              client_secret: WorkOS.config.key!,
+              pending_authentication_token: pending_authentication_token,
+              authentication_challenge_id: authentication_challenge_id,
+              grant_type: 'urn:workos:oauth:grant-type:mfa-totp',
+            },
+          ),
+        )
+        WorkOS::UserResponse.new(response.body)
+      end
 
       # Enroll a user into an authentication factor.
       #
