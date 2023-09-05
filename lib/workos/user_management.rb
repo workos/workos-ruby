@@ -462,14 +462,16 @@ module WorkOS
         )
         WorkOS::UserResponse.new(response.body)
       end
- 
+
       #
       # Authenticates a user using TOTP.
       #
       # @param [String] code The one-time code that was emailed to the user.
       # @param [String] client_id The WorkOS client ID for the environment
-      # @param [String] pending_authentication_token The pending authentication token from the initial authentication request.
-      # @param [String] authentication_challenge_id The authentication challenge ID from the initial authentication request.
+      # @param [String] pending_authentication_token The pending authentication token
+      # from the initial authentication request.
+      # @param [String] authentication_challenge_id The authentication challenge ID for the
+      # authentication request.
       #
       # @return WorkOS::UserResponse
 
