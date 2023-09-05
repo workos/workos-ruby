@@ -74,7 +74,7 @@ module WorkOS
           new_password: String,
         ).returns(WorkOS::User)
       end
-      def confirm_password_reset(token:, new_password:)
+      def reset_password(token:, new_password:)
         response = execute_request(
           request: post_request(
             path: '/users/password_reset',
@@ -101,9 +101,9 @@ module WorkOS
           password_reset_url: String,
         ).returns(WorkOS::UserAndToken)
       end
-      def create_password_reset_challenge(email:, password_reset_url:)
+      def send_password_reset_email(email:, password_reset_url:)
         request = post_request(
-          path: '/users/password_reset_challenge',
+          path: '/users/send_password_reset_email',
           body: {
             email: email,
             password_reset_url: password_reset_url,
