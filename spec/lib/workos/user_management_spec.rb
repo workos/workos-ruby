@@ -380,6 +380,38 @@ describe WorkOS::UserManagement do
       end
     end
   end
+
+  describe '.autthenticate_user_with_totp' do
+    context 'with a valid code' do
+      it 'returns user' do
+        VCR.use_cassette('user_management/authenticate_user_with_totp/valid') do
+          authentication_response = WorkOS::UserManagement.authenticate_user_with_totp(
+            client_id: 'client_123',
+            pending_authentication_token: 'pending_authentication_token_1234',
+            authentication_challenge_id: 'authentication_challenge_id_1234',
+            code: '123456',
+          )
+          expect(authentication_response.user.id).to eq('user_01H93ZY4F80YZRRS6N59Z2HFVS')
+        end
+      end
+    end
+
+    context 'with an invalid code' do
+      it 'returns an error' do
+        VCR.use_cassette('user_management/authenticate_user_with_totp/invalid') do
+          expect do
+            WorkOS::UserManagement.authenticate_user_with_totp(
+              client_id: 'client_123',
+              pending_authentication_token: 'pending_authentication_token_1234',
+              authentication_challenge_id: 'authentication_challenge_id_1234',
+              code: '123456',
+            )
+          end.to raise_error(WorkOS::InvalidRequestError, /Status 400/)
+        end
+      end
+    end
+  end
+
   describe '.authenticate_user_password' do
     context 'with a valid password' do
       it 'returns user' do
