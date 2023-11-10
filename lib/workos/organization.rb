@@ -9,7 +9,7 @@ module WorkOS
     include HashProvider
     extend T::Sig
 
-    attr_accessor :id, :domains, :name, :allow_profiles_outside_organization, :created_at, :updated_at
+    attr_accessor :id, :name, :created_at, :updated_at
 
     sig { params(json: String).void }
     def initialize(json)
@@ -17,8 +17,6 @@ module WorkOS
 
       @id = T.let(raw.id, String)
       @name = T.let(raw.name, String)
-      @allow_profiles_outside_organization = T.let(raw.allow_profiles_outside_organization, T::Boolean)
-      @domains = T.let(raw.domains, Array)
       @created_at = T.let(raw.created_at, String)
       @updated_at = T.let(raw.updated_at, String)
     end
@@ -27,8 +25,6 @@ module WorkOS
       {
         id: id,
         name: name,
-        allow_profiles_outside_organization: allow_profiles_outside_organization,
-        domains: domains,
         created_at: created_at,
         updated_at: updated_at,
       }
@@ -47,8 +43,6 @@ module WorkOS
       WorkOS::Types::OrganizationStruct.new(
         id: hash[:id],
         name: hash[:name],
-        allow_profiles_outside_organization: hash[:allow_profiles_outside_organization],
-        domains: hash[:domains],
         created_at: hash[:created_at],
         updated_at: hash[:updated_at],
       )

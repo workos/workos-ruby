@@ -56,11 +56,7 @@ module WorkOS
       #   WorkOS::Portal.get_organization(id: 'org_02DRA1XNSJDZ19A31F183ECQW9')
       #   => #<WorkOS::Organization:0x00007fb6e4193d20
       #         @id="org_02DRA1XNSJDZ19A31F183ECQW9",
-      #         @name="Foo Corp",
-      #         @domains=
-      #          [{:object=>"organization_domain",
-      #            :id=>"org_domain_01E6PK9N3XMD8RHWF7S66380AR",
-      #            :domain=>"foo-corp.com"}]>
+      #         @name="Foo Corp"
       #
       # @return [WorkOS::Organization]
       sig { params(id: String).returns(WorkOS::Organization) }
@@ -77,27 +73,18 @@ module WorkOS
 
       # Create an organization
       #
-      # @param [Array<String>] domains List of domains that belong to the
-      #  organization
       # @param [String] name A unique, descriptive name for the organization
-      # @param [Boolean, nil] allow_profiles_outside_organization Whether Connections
-      #  within the Organization allow profiles that are outside of the Organization's configured User Email Domains.
-      # @param [String] idempotency_key An idempotency key
       sig do
         params(
-          domains: T::Array[String],
           name: String,
-          allow_profiles_outside_organization: T.nilable(T::Boolean),
           idempotency_key: T.nilable(String),
         ).returns(WorkOS::Organization)
       end
-      def create_organization(domains:, name:, allow_profiles_outside_organization: nil, idempotency_key: nil)
+      def create_organization(name:, idempotency_key: nil)
         request = post_request(
           auth: true,
           body: {
-            domains: domains,
             name: name,
-            allow_profiles_outside_organization: allow_profiles_outside_organization,
           },
           path: '/organizations',
           idempotency_key: idempotency_key,
@@ -112,26 +99,18 @@ module WorkOS
       # Update an organization
       #
       # @param [String] organization Organization unique identifier
-      # @param [Array<String>] domains List of domains that belong to the
-      #  organization
       # @param [String] name A unique, descriptive name for the organization
-      # @param [Boolean, nil] allow_profiles_outside_organization Whether Connections
-      #  within the Organization allow profiles that are outside of the Organization's configured User Email Domains.
       sig do
         params(
           organization: String,
-          domains: T::Array[String],
           name: String,
-          allow_profiles_outside_organization: T.nilable(T::Boolean),
         ).returns(WorkOS::Organization)
       end
-      def update_organization(organization:, domains:, name:, allow_profiles_outside_organization: nil)
+      def update_organization(organization:, name:)
         request = put_request(
           auth: true,
           body: {
-            domains: domains,
             name: name,
-            allow_profiles_outside_organization: allow_profiles_outside_organization,
           },
           path: "/organizations/#{organization}",
         )

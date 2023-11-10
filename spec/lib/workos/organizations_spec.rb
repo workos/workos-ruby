@@ -10,13 +10,11 @@ describe WorkOS::Organizations do
         it 'creates an organization' do
           VCR.use_cassette 'organization/create' do
             organization = described_class.create_organization(
-              domains: ['example.io'],
               name: 'Test Organization',
             )
 
             expect(organization.id).to eq('org_01FCPEJXEZR4DSBA625YMGQT9N')
             expect(organization.name).to eq('Test Organization')
-            expect(organization.domains.first[:domain]).to eq('example.io')
           end
         end
       end
@@ -26,13 +24,11 @@ describe WorkOS::Organizations do
           it 'creates an organization' do
             VCR.use_cassette 'organization/create_with_idempotency_key' do
               organization = described_class.create_organization(
-                domains: ['example.io'],
                 name: 'Test Organization',
                 idempotency_key: 'key',
               )
 
               expect(organization.name).to eq('Test Organization')
-              expect(organization.domains.first[:domain]).to eq('example.io')
             end
           end
         end
@@ -42,13 +38,11 @@ describe WorkOS::Organizations do
             it 'returns the already created organization' do
               VCR.use_cassette 'organization/create_with_duplicate_idempotency_key_and_payload' do
                 organization1 = described_class.create_organization(
-                  domains: ['example.com'],
                   name: 'Test Organization',
                   idempotency_key: 'foo',
                 )
 
                 organization2 = described_class.create_organization(
-                  domains: ['example.com'],
                   name: 'Test Organization',
                   idempotency_key: 'foo',
                 )
@@ -62,14 +56,12 @@ describe WorkOS::Organizations do
             it 'raises an error' do
               VCR.use_cassette 'organization/create_with_duplicate_idempotency_key_and_different_payload' do
                 described_class.create_organization(
-                  domains: ['example.me'],
                   name: 'Test Organization',
                   idempotency_key: 'bar',
                 )
 
                 expect do
                   described_class.create_organization(
-                    domains: ['example.me'],
                     name: 'Organization Test',
                     idempotency_key: 'bar',
                   )
@@ -89,7 +81,6 @@ describe WorkOS::Organizations do
         VCR.use_cassette 'organization/create_invalid' do
           expect do
             described_class.create_organization(
-              domains: ['example.com'],
               name: 'Test Organization 2',
             )
           end.to raise_error(
@@ -191,7 +182,6 @@ describe WorkOS::Organizations do
 
           expect(organization.id).to eq('org_01F9293WD2PDEEV4Y625XPZVG7')
           expect(organization.name).to eq('Foo Corp')
-          expect(organization.domains.first[:domain]).to eq('foo-corp.com')
         end
       end
     end
@@ -216,13 +206,11 @@ describe WorkOS::Organizations do
         VCR.use_cassette 'organization/update' do
           organization = described_class.update_organization(
             organization: 'org_01F6Q6TFP7RD2PF6J03ANNWDKV',
-            domains: ['example.me'],
             name: 'Test Organization',
           )
 
           expect(organization.id).to eq('org_01F6Q6TFP7RD2PF6J03ANNWDKV')
           expect(organization.name).to eq('Test Organization')
-          expect(organization.domains.first[:domain]).to eq('example.me')
         end
       end
     end
