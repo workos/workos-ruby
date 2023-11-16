@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-bundle exec yard -o docs
-rm docs/index.html
-mv docs/_index.html docs/index.html
