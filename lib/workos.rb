@@ -49,7 +49,6 @@ module WorkOS
   autoload :AuditLogExport, 'workos/audit_log_export'
   autoload :AuthenticationFactorAndChallenge, 'workos/authentication_factor_and_challenge'
   autoload :AuditLogs, 'workos/audit_logs'
-  autoload :AuditTrail, 'workos/audit_trail'
   autoload :Connection, 'workos/connection'
   autoload :DirectorySync, 'workos/directory_sync'
   autoload :Directory, 'workos/directory'
