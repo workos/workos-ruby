@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    workos (2.12.1)
+    workos (2.16.0)
       sorbet-runtime (~> 0.5)
 
 GEM
@@ -67,19 +67,11 @@ GEM
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.12.3)
     simplecov_json_formatter (0.1.2)
-    sorbet (0.5.10346)
-      sorbet-static (= 0.5.10346)
+    sorbet (0.5.11132)
+      sorbet-static (= 0.5.11132)
     sorbet-runtime (0.5.10484)
-    sorbet-static (0.5.10346-universal-darwin-14)
-    sorbet-static (0.5.10346-universal-darwin-15)
-    sorbet-static (0.5.10346-universal-darwin-16)
-    sorbet-static (0.5.10346-universal-darwin-17)
-    sorbet-static (0.5.10346-universal-darwin-18)
-    sorbet-static (0.5.10346-universal-darwin-19)
-    sorbet-static (0.5.10346-universal-darwin-20)
-    sorbet-static (0.5.10346-universal-darwin-21)
-    sorbet-static (0.5.10346-universal-darwin-22)
-    sorbet-static (0.5.10346-x86_64-linux)
+    sorbet-static (0.5.11132-universal-darwin)
+    sorbet-static (0.5.11132-x86_64-linux)
     spoom (1.1.15)
       sorbet (>= 0.5.10187)
       sorbet-runtime (>= 0.5.9204)
