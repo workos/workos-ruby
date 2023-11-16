@@ -113,7 +113,6 @@ DEPENDENCIES
   vcr (~> 5.0.0)
   webmock
   workos!
-  yard
 
 BUNDLED WITH
    2.2.33
