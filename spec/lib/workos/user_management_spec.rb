@@ -172,7 +172,7 @@ describe WorkOS::UserManagement do
     context 'with options' do
       it 'returns a list of matching users' do
         request_args = [
-          '/users?email=lucy.lawless%40example.com&order=desc&limit=5',
+          '/users?email=lucy.lawless%40example.com&order=desc&limit=5&organization_id=org_123',
           'Content-Type' => 'application/json'
         ]
 
@@ -186,6 +186,7 @@ describe WorkOS::UserManagement do
             email: 'lucy.lawless@example.com',
             order: 'desc',
             limit: '5',
+            organization_id: 'org_123'
           )
 
           expect(users.data.size).to eq(1)

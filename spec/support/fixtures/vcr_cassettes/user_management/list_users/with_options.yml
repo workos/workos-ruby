@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.workos.com/users?email=lucy.lawless@example.com&limit=5&order=desc
+    uri: https://api.workos.com/users?email=lucy.lawless@example.com&limit=5&order=desc&organization_id=org_123
     body:
       encoding: US-ASCII
       string: ''

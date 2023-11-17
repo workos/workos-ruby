@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.workos.com/users/send_password_reset_email
+    uri: https://api.workos.com/user_management/send_password_reset_email
     body:
       encoding: UTF-8
       string: '{"email":"lucy.lawless@example.com","password_reset_url":"https://example.com/reset"}'

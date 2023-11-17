@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: put
-    uri: https://api.workos.com/users/invalid
+    uri: https://api.workos.com/user_management/invalid
     body:
       encoding: UTF-8
       string: '{"first_name":null,"last_name":null,"email_verified":null}'

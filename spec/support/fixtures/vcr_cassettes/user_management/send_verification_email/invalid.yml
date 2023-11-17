@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.workos.com/users/bad_id/send_verification_email
+    uri: https://api.workos.com/user_management/bad_id/send_verification_email
     body:
       encoding: UTF-8
       string: ''

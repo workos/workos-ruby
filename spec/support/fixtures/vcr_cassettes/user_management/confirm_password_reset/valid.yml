@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.workos.com/users/password_reset
+    uri: https://api.workos.com/user_management/password_reset
     body:
       encoding: UTF-8
       string: '{"token":"eEgAgvAE0blvU1zWV3yWVAD22","new_password":"very_cool_new_pa$$word"}'

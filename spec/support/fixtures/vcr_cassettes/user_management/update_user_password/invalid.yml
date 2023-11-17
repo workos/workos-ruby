@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: put
-    uri: https://api.workos.com/users/invalid/password
+    uri: https://api.workos.com/user_management/invalid/password
     body:
       encoding: UTF-8
       string: '{"password":"7YtYic00VWcXatPb"}'
