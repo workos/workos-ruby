@@ -2,7 +2,7 @@
 http_interactions:
   - request:
       method: post
-      uri: https://api.workos.com/user_management/authenticate
+      uri: https://api.workos.com/user_management/users/authenticate
       body:
         encoding: UTF-8
         string:

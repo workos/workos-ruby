@@ -2,7 +2,7 @@
 http_interactions:
   - request:
       method: post
-      uri: https://api.workos.com/user_management/magic_auth/send
+      uri: https://api.workos.com/user_management/users/magic_auth/send
       body:
         encoding: UTF-8
         string: '{"email_address":"test@gmail.com"}'

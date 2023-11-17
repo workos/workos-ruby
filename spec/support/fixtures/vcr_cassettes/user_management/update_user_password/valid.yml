@@ -2,7 +2,7 @@
 http_interactions:
   - request:
       method: put
-      uri: https://api.workos.com/user_management/user_01H7TVSKS45SDHN5V9XPSM6H44/password
+      uri: https://api.workos.com/user_management/users/user_01H7TVSKS45SDHN5V9XPSM6H44/password
       body:
         encoding: UTF-8
         string: '{"password":"7YtYic00VWcXatPb"}'

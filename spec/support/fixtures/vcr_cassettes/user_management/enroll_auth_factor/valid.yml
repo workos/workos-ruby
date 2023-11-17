@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post 
-    uri: https://api.workos.com/user_management/user_01H7TVSKS45SDHN5V9XPSM6H44/auth/factors
+    uri: https://api.workos.com/user_management/users/user_01H7TVSKS45SDHN5V9XPSM6H44/auth/factors
     body:
       encoding: UTF-8
       string: '{"type":"totp"}'

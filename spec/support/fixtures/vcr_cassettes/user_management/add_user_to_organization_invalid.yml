@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.workos.com/user_management/bad_id/organizations
+    uri: https://api.workos.com/user_management/users/bad_id/organizations
     body:
       encoding: UTF-8
       string: '{"organization_id":"bad_id"}'

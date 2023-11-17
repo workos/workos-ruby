@@ -186,7 +186,7 @@ describe WorkOS::UserManagement do
             email: 'lucy.lawless@example.com',
             order: 'desc',
             limit: '5',
-            organization_id: 'org_123'
+            organization_id: 'org_123',
           )
 
           expect(users.data.size).to eq(1)

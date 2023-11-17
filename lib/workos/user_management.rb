@@ -29,7 +29,7 @@ module WorkOS
       def add_user_to_organization(id:, organization_id:)
         response = execute_request(
           request: post_request(
-            path: "/user_management/#{id}/organizations",
+            path: "/user_management/users/#{id}/organizations",
             body: {
               organization_id: organization_id,
             },
@@ -54,7 +54,7 @@ module WorkOS
       def delete_user(id:)
         response = execute_request(
           request: delete_request(
-            path: "/user_management/#{id}",
+            path: "/user_management/users/#{id}",
             auth: true,
           ),
         )
@@ -77,7 +77,7 @@ module WorkOS
       def reset_password(token:, new_password:)
         response = execute_request(
           request: post_request(
-            path: '/user_management/password_reset',
+            path: '/user_management/users/password_reset',
             body: {
               token: token,
               new_password: new_password,
@@ -103,7 +103,7 @@ module WorkOS
       end
       def send_password_reset_email(email:, password_reset_url:)
         request = post_request(
-          path: '/user_management/send_password_reset_email',
+          path: '/user_management/users/send_password_reset_email',
           body: {
             email: email,
             password_reset_url: password_reset_url,
@@ -167,7 +167,7 @@ module WorkOS
       end
       def update_user(id:, first_name: nil, last_name: nil, email_verified: nil)
         request = put_request(
-          path: "/user_management/#{id}",
+          path: "/user_management/users/#{id}",
           body: {
             first_name: first_name,
             last_name: last_name,
@@ -187,7 +187,7 @@ module WorkOS
       def get_user(id:)
         response = execute_request(
           request: get_request(
-            path: "/user_management/#{id}",
+            path: "/user_management/users/#{id}",
             auth: true,
           ),
         )
@@ -250,7 +250,7 @@ module WorkOS
       def remove_user_from_organization(id:, organization_id:)
         response = execute_request(
           request: delete_request(
-            path: "/user_management/#{id}/organizations/#{organization_id}",
+            path: "/user_management/users/#{id}/organizations/#{organization_id}",
             auth: true,
           ),
         )
@@ -271,7 +271,7 @@ module WorkOS
       def send_magic_auth_code(email_address:)
         response = execute_request(
           request: post_request(
-            path: '/user_management/magic_auth/send',
+            path: '/user_management/users/magic_auth/send',
             body: {
               email_address: email_address,
             },
@@ -295,7 +295,7 @@ module WorkOS
       def send_verification_email(id:)
         response = execute_request(
           request: post_request(
-            path: "/user_management/#{id}/send_verification_email",
+            path: "/user_management/users/#{id}/send_verification_email",
             auth: true,
           ),
         )
@@ -318,7 +318,7 @@ module WorkOS
       def verify_email(user_id:, code:)
         response = execute_request(
           request: post_request(
-            path: "/user_management/#{user_id}/verify_email_code",
+            path: "/user_management/users/#{user_id}/verify_email_code",
             body: {
               code: code,
             },
@@ -344,7 +344,7 @@ module WorkOS
       def update_user_password(id:, password:)
         response = execute_request(
           request: put_request(
-            path: "/user_management/#{id}/password",
+            path: "/user_management/users/#{id}/password",
             body: {
               password: password,
             },
@@ -377,7 +377,7 @@ module WorkOS
       def authenticate_user_password(email:, password:, client_id:, ip_address: nil, user_agent: nil)
         response = execute_request(
           request: post_request(
-            path: '/user_management/authenticate',
+            path: '/user_management/users/authenticate',
             body: {
               client_id: client_id,
               client_secret: WorkOS.config.key!,
@@ -414,7 +414,7 @@ module WorkOS
       def authenticate_user_magic_auth(code:, user_id:, client_id:, ip_address: nil, user_agent: nil)
         response = execute_request(
           request: post_request(
-            path: '/user_management/authenticate',
+            path: '/user_management/users/authenticate',
             body: {
               code: code,
               user_id: user_id,
@@ -449,7 +449,7 @@ module WorkOS
       def authenticate_user_with_code(code:, client_id:, ip_address: nil, user_agent: nil)
         response = execute_request(
           request: post_request(
-            path: '/user_management/authenticate',
+            path: '/user_management/users/authenticate',
             body: {
               code: code,
               client_id: client_id,
@@ -486,7 +486,7 @@ module WorkOS
       def authenticate_user_with_totp(code:, client_id:, pending_authentication_token:, authentication_challenge_id:)
         response = execute_request(
           request: post_request(
-            path: '/user_management/authenticate',
+            path: '/user_management/users/authenticate',
             body: {
               code: code,
               client_id: client_id,
@@ -513,7 +513,7 @@ module WorkOS
       def enroll_auth_factor(user_id:)
         response = execute_request(
           request: post_request(
-            path: "/user_management/#{user_id}/auth/factors",
+            path: "/user_management/users/#{user_id}/auth/factors",
             body: {
               type: 'totp',
             },
@@ -537,7 +537,7 @@ module WorkOS
       def list_auth_factors(user_id:)
         response = execute_request(
           request: get_request(
-            path: "/user_management/#{user_id}/auth/factors",
+            path: "/user_management/users/#{user_id}/auth/factors",
             auth: true,
           ),
         )
