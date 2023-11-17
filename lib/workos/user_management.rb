@@ -370,6 +370,7 @@ module WorkOS
           email: String,
           password: String,
           client_id: String,
+          invite_token: T.nilable(String),
           ip_address: T.nilable(String),
           user_agent: T.nilable(String),
         ).returns(WorkOS::UserResponse)
@@ -383,6 +384,7 @@ module WorkOS
               client_secret: WorkOS.config.key!,
               email: email,
               password: password,
+              invite_token: invite_token,
               ip_address: ip_address,
               user_agent: user_agent,
               grant_type: 'password',
@@ -444,6 +446,7 @@ module WorkOS
           client_id: String,
           ip_address: T.nilable(String),
           user_agent: T.nilable(String),
+          code_verifier: T.nilable(String),
         ).returns(WorkOS::UserResponse)
       end
       def authenticate_user_with_code(code:, client_id:, ip_address: nil, user_agent: nil)
@@ -456,6 +459,7 @@ module WorkOS
               client_secret: WorkOS.config.key!,
               ip_address: ip_address,
               user_agent: user_agent,
+              code_verifier: code_verifier,
               grant_type: 'authorization_code',
             },
           ),
