@@ -187,7 +187,7 @@ module WorkOS
       def get_user(id:)
         response = execute_request(
           request: get_request(
-            path: "/users/#{id}",
+            path: "/user_management/users/#{id}",
             auth: true,
           ),
         )

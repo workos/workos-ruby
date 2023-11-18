@@ -17,6 +17,7 @@ module WorkOS
       raw = parse_json(json)
 
       @id = T.let(raw.id, String)
+      @object = raw.object
       @email = T.let(raw.email, String)
       @first_name = raw.first_name
       @last_name = raw.last_name
