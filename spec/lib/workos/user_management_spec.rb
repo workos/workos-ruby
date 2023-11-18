@@ -136,6 +136,7 @@ describe WorkOS::UserManagement do
           )
 
           expect(user.id.instance_of?(String))
+          expect(user.object).to eq('user')
           expect(user.instance_of?(WorkOS::User))
         end
       end
