@@ -54,7 +54,7 @@ module WorkOS
       def delete_user(id:)
         response = execute_request(
           request: delete_request(
-            path: "/users/#{id}",
+            path: "/user_management/users/#{id}",
             auth: true,
           ),
         )
