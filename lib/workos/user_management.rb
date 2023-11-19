@@ -463,9 +463,10 @@ module WorkOS
       #
       # @param [String] email The email address of the user.
       # @param [String] password The password for the user.
+      # @param [String] client_id The WorkOS client ID for the environment
       # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
-      # @param [String] client_id The WorkOS client ID for the environment
+      # @param [String] invite_token The token used to accept the invitation.
       #
       # @return WorkOS::UserResponse
 
@@ -541,6 +542,8 @@ module WorkOS
       # @param [String] client_id The WorkOS client ID for the environment
       # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
+      # @param [String] invite_token The token used to accept the invitation.
+      # @param [String] code_verifier One-time code that was sent to the user.
       #
       # @return WorkOS::UserResponse
 
@@ -550,9 +553,18 @@ module WorkOS
           client_id: String,
           ip_address: T.nilable(String),
           user_agent: T.nilable(String),
+          invite_token: T.nilable(String),
+          code_verifier: T.nilable(String),
         ).returns(WorkOS::UserResponse)
       end
-      def authenticate_user_with_code(code:, client_id:, ip_address: nil, user_agent: nil)
+      def authenticate_user_with_code(
+        code:,
+        client_id:,
+        ip_address: nil,
+        user_agent: nil,
+        invite_token: nil,
+        code_verifier: nil
+      )
         response = execute_request(
           request: post_request(
             path: '/users/authenticate',
@@ -563,6 +575,8 @@ module WorkOS
               ip_address: ip_address,
               user_agent: user_agent,
               grant_type: 'authorization_code',
+              invite_token: invite_token,
+              code_verifier: code_verifier,
             },
           ),
         )
