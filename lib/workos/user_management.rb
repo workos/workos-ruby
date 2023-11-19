@@ -167,7 +167,7 @@ module WorkOS
       end
       def update_user(id:, first_name: nil, last_name: nil, email_verified: nil)
         request = put_request(
-          path: "/users/#{id}",
+          path: "/user_management/users/#{id}",
           body: {
             first_name: first_name,
             last_name: last_name,
