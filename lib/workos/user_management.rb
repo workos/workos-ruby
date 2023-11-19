@@ -638,7 +638,7 @@ module WorkOS
       end
 
       private
-      
+
       sig do
         params(
           provider: T.nilable(String),
