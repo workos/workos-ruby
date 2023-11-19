@@ -22,14 +22,13 @@ module WorkOS
       # @param [String] redirect_uri The URI where users are directed
       #  after completing the authentication step. Must match a
       #  configured redirect URI on your WorkOS dashboard.
-      # @param [String] client_id The WorkOS client ID for the environment
-      #  where you've configured your SSO connection.
+      # @param [String] client_id This value can be obtained from the API Keys page in the WorkOS dashboard.
       # @param [String] provider A provider name is used to initiate SSO using an
       # OAuth-compatible provider. Only 'authkit ,'GoogleOAuth' and 'MicrosoftOAuth' are supported.
       # @param [String] connection_id The ID for a Connection configured on
       #  WorkOS.
-      # @param [String] organization_id The ID for an Organization configured
-      #  on WorkOS.
+      # @param [String] organization_id The organization_id selector is used to
+      # initiate SSO for an Organization.
       # @param [String] state An arbitrary state object
       #  that is preserved and available to the client in the response.
       # @param [String] login_hint Can be used to pre-fill the username/email address
@@ -38,7 +37,7 @@ module WorkOS
       # initiating authentication with Microsoft OAuth, or with a GoogleSAML connection type.
       # @example
       #   WorkOS::UserManagement.authorization_url(
-      #     connection: 'conn_123',
+      #     connection_id: 'conn_123',
       #     client_id: 'project_01DG5TGK363GRVXP3ZS40WNGEZ',
       #     redirect_uri: 'https://your-app.com/callback',
       #     state: {
@@ -46,7 +45,7 @@ module WorkOS
       #     }.to_s
       #   )
       #
-      #   => "https://api.workos.com/sso/authorize?connection=conn_123" \
+      #   => "https://api.workos.com/user_management/authorize?connection_id=conn_123" \
       #      "&client_id=project_01DG5TGK363GRVXP3ZS40WNGEZ" \
       #      "&redirect_uri=https%3A%2F%2Fyour-app.com%2Fcallback&" \
       #      "response_type=code&state=%7B%3Anext_page%3D%3E%22%2Fdocs%22%7D"
