@@ -481,7 +481,7 @@ module WorkOS
       def authenticate_user_password(email:, password:, client_id:, ip_address: nil, user_agent: nil)
         response = execute_request(
           request: post_request(
-            path: '/users/authenticate',
+            path: '/user_management/authenticate',
             body: {
               client_id: client_id,
               client_secret: WorkOS.config.key!,
@@ -590,7 +590,7 @@ module WorkOS
       def authenticate_user_with_totp(code:, client_id:, pending_authentication_token:, authentication_challenge_id:)
         response = execute_request(
           request: post_request(
-            path: '/users/authenticate',
+            path: '/user_management/authenticate',
             body: {
               code: code,
               client_id: client_id,
