@@ -372,9 +372,10 @@ module WorkOS
           client_id: String,
           ip_address: T.nilable(String),
           user_agent: T.nilable(String),
+          invite_token: T.nilable(String),
         ).returns(WorkOS::UserResponse)
       end
-      def authenticate_user_password(email:, password:, client_id:, ip_address: nil, user_agent: nil)
+      def authenticate_user_password(email:, password:, client_id:, ip_address: nil, user_agent: nil, invite_token: nil)
         response = execute_request(
           request: post_request(
             path: '/user_management/authenticate',
@@ -386,6 +387,7 @@ module WorkOS
               ip_address: ip_address,
               user_agent: user_agent,
               grant_type: 'password',
+              invite_token: invite_token,
             },
           ),
         )
