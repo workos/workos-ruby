@@ -431,7 +431,8 @@ module WorkOS
 
       # Authenticates a user using OAuth code.
       #
-      # @param [String] code The one-time code that was emailed to the user.
+      # @param [String] code The authorization value which was passed back as a
+      # query parameter in the callback to the Redirect URI.
       # @param [String] client_id The WorkOS client ID for the environment
       # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
