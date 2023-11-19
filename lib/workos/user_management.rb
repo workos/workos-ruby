@@ -199,7 +199,7 @@ module WorkOS
       #
       # @param [Hash] options
       # @option options [String] email Filter Users by their email.
-      # @option options [String] organization Filter Users by the organization
+      # @option options [String] organization_id Filter Users by the organization
       #  they are members of.
       # @option options [String] limit Maximum number of records to return.
       # @option options [String] order The order in which to paginate records
@@ -217,7 +217,7 @@ module WorkOS
       def list_users(options = {})
         response = execute_request(
           request: get_request(
-            path: '/users',
+            path: '/user_management/users',
             auth: true,
             params: options,
           ),
