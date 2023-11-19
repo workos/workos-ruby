@@ -134,7 +134,7 @@ module WorkOS
       end
       def create_user(email:, password: nil, first_name: nil, last_name: nil, email_verified: nil)
         request = post_request(
-          path: '/users',
+          path: '/user_management/users',
           body: {
             email: email,
             password: password,
