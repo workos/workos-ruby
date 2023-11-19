@@ -533,7 +533,7 @@ module WorkOS
         WorkOS::UserResponse.new(response.body)
       end
 
-      # Authenticates a user using OAuth code.
+      # Authenticate a user using OAuth or an organization's SSO connection.
       #
       # @param [String] code The authorization value which was passed back as a
       # query parameter in the callback to the Redirect URI.
