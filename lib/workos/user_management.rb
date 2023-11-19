@@ -489,6 +489,7 @@ module WorkOS
               password: password,
               ip_address: ip_address,
               user_agent: user_agent,
+              grant_type: 'password',
             },
           ),
         )
