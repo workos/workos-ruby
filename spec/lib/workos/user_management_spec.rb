@@ -384,8 +384,8 @@ describe WorkOS::UserManagement do
   describe '.autthenticate_user_with_totp' do
     context 'with a valid code' do
       it 'returns user' do
-        VCR.use_cassette('user_management/authenticate_user_with_totp/valid') do
-          authentication_response = WorkOS::UserManagement.authenticate_user_with_totp(
+        VCR.use_cassette('user_management/authenticate_with_totp/valid') do
+          authentication_response = WorkOS::UserManagement.authenticate_with_totp(
             client_id: 'client_123',
             pending_authentication_token: 'pending_authentication_token_1234',
             authentication_challenge_id: 'authentication_challenge_id_1234',
@@ -398,9 +398,9 @@ describe WorkOS::UserManagement do
 
     context 'with an invalid code' do
       it 'returns an error' do
-        VCR.use_cassette('user_management/authenticate_user_with_totp/invalid') do
+        VCR.use_cassette('user_management/authenticate_with_totp/invalid') do
           expect do
-            WorkOS::UserManagement.authenticate_user_with_totp(
+            WorkOS::UserManagement.authenticate_with_totp(
               client_id: 'client_123',
               pending_authentication_token: 'pending_authentication_token_1234',
               authentication_challenge_id: 'authentication_challenge_id_1234',
@@ -412,11 +412,11 @@ describe WorkOS::UserManagement do
     end
   end
 
-  describe '.authenticate_user_password' do
+  describe '.authenticate_with_password' do
     context 'with a valid password' do
       it 'returns user' do
-        VCR.use_cassette('user_management/authenticate_user_password/valid') do
-          authentication_response = WorkOS::UserManagement.authenticate_user_password(
+        VCR.use_cassette('user_management/authenticate_with_password/valid') do
+          authentication_response = WorkOS::UserManagement.authenticate_with_password(
             email: 'test@workos.app',
             password: '7YtYic00VWcXatPb',
             client_id: 'client_123',
@@ -430,9 +430,9 @@ describe WorkOS::UserManagement do
 
     context 'with an invalid user' do
       it 'raises an error' do
-        VCR.use_cassette('user_management/authenticate_user_password/invalid') do
+        VCR.use_cassette('user_management/authenticate_with_password/invalid') do
           expect do
-            WorkOS::UserManagement.authenticate_user_password(
+            WorkOS::UserManagement.authenticate_with_password(
               email: 'invalid@workos.app',
               password: 'invalid',
               client_id: 'client_123',
@@ -444,11 +444,11 @@ describe WorkOS::UserManagement do
       end
     end
 
-    describe '.authenticate_user_magic_auth' do
+    describe '.authenticate_with_magic_auth' do
       context 'with a valid password' do
         it 'returns user' do
-          VCR.use_cassette('user_management/authenticate_user_magic_auth/valid') do
-            authentication_response = WorkOS::UserManagement.authenticate_user_magic_auth(
+          VCR.use_cassette('user_management/authenticate_with_magic_auth/valid') do
+            authentication_response = WorkOS::UserManagement.authenticate_with_magic_auth(
               code: '452079',
               user_id: 'user_01H93WD0R0KWF8Q7BK02C0RPYJ',
               client_id: 'client_123',
@@ -462,9 +462,9 @@ describe WorkOS::UserManagement do
 
       context 'with an incorrect user id' do
         it 'raises an error' do
-          VCR.use_cassette('user_management/authenticate_user_magic_auth/invalid') do
+          VCR.use_cassette('user_management/authenticate_with_magic_auth/invalid') do
             expect do
-              WorkOS::UserManagement.authenticate_user_magic_auth(
+              WorkOS::UserManagement.authenticate_with_magic_auth(
                 code: '452079',
                 user_id: 'user_01H93WD0R0KWF8Q7BK02C0RPY',
                 client_id: 'client_123',
@@ -478,11 +478,11 @@ describe WorkOS::UserManagement do
     end
   end
 
-  describe '.authenticate_user_with_code' do
+  describe '.authenticate_with_code' do
     context 'with a valid password' do
       it 'returns user' do
-        VCR.use_cassette('user_management/authenticate_user_with_code/valid') do
-          authentication_response = WorkOS::UserManagement.authenticate_user_with_code(
+        VCR.use_cassette('user_management/authenticate_with_code/valid') do
+          authentication_response = WorkOS::UserManagement.authenticate_with_code(
             code: '01H93ZZHA0JBHFJH9RR11S83YN',
             client_id: 'client_123',
             ip_address: '200.240.210.16',
@@ -495,9 +495,9 @@ describe WorkOS::UserManagement do
 
     context 'with an incorrect user id' do
       it 'raises an error' do
-        VCR.use_cassette('user_management/authenticate_user_with_code/invalid') do
+        VCR.use_cassette('user_management/authenticate_with_code/invalid') do
           expect do
-            WorkOS::UserManagement.authenticate_user_with_code(
+            WorkOS::UserManagement.authenticate_with_code(
               code: '452079',
               client_id: 'client_123',
               ip_address: '200.240.210.16',
