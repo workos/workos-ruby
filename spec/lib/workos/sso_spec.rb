@@ -282,7 +282,7 @@ describe WorkOS::SSO do
           described_class.authorization_url(**args)
         end.to raise_error(
           ArgumentError,
-          'Okta is not a valid value. `provider` must be in ["GoogleOAuth", "MicrosoftOAuth"]',
+          'Okta is not a valid value. `provider` must be in ["GoogleOAuth", "MicrosoftOAuth", "authkit"]',
         )
       end
     end
