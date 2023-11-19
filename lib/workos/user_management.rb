@@ -637,6 +637,8 @@ module WorkOS
         )
       end
 
+      private
+      
       sig do
         params(
           provider: T.nilable(String),
@@ -644,8 +646,6 @@ module WorkOS
           organization_id: T.nilable(String),
         ).void
       end
-
-      private
 
       def validate_authorization_url_arguments(
         provider:,
