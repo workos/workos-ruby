@@ -478,6 +478,8 @@ module WorkOS
       # from the initial authentication request.
       # @param [String] authentication_challenge_id The authentication challenge ID for the
       # authentication request.
+      # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
+      # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
       #
       # @return WorkOS::UserResponse
 
@@ -487,9 +489,18 @@ module WorkOS
           client_id: String,
           pending_authentication_token: String,
           authentication_challenge_id: String,
+          ip_address: T.nilable(String),
+          user_agent: T.nilable(String),
         ).returns(WorkOS::UserResponse)
       end
-      def authenticate_with_totp(code:, client_id:, pending_authentication_token:, authentication_challenge_id:)
+      def authenticate_with_totp(
+        code:,
+        client_id:,
+        pending_authentication_token:,
+        authentication_challenge_id:,
+        ip_address: nil,
+        user_agent: nil
+      )
         response = execute_request(
           request: post_request(
             path: '/user_management/authenticate',
@@ -498,8 +509,10 @@ module WorkOS
               client_id: client_id,
               client_secret: WorkOS.config.key!,
               pending_authentication_token: pending_authentication_token,
+              grant_type: 'urn:workos:oauth:grant-type:email-verification:code',
               authentication_challenge_id: authentication_challenge_id,
-              grant_type: 'urn:workos:oauth:grant-type:mfa-totp',
+              ip_address: ip_address,
+              user_agent: user_agent,
             },
           ),
         )
