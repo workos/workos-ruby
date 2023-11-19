@@ -559,7 +559,7 @@ module WorkOS
       )
         response = execute_request(
           request: post_request(
-            path: '/users/authenticate',
+            path: '/user_management/authenticate',
             body: {
               code: code,
               client_id: client_id,
