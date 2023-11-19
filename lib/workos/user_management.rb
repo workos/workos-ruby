@@ -260,20 +260,20 @@ module WorkOS
 
       # Creates a one-time Magic Auth code and emails it to the user.
       #
-      # @param [String] email_address The email address the one-time code will be sent to.
+      # @param [String] email The email address the one-time code will be sent to.
       #
       # @return WorkOS::UserResponse
       sig do
         params(
-          email_address: String,
+          email: String,
         ).returns(WorkOS::UserResponse)
       end
-      def send_magic_auth_code(email_address:)
+      def send_magic_auth_code(email:)
         response = execute_request(
           request: post_request(
-            path: '/users/magic_auth/send',
+            path: '/user_management/magic_auth/send',
             body: {
-              email_address: email_address,
+              email: email,
             },
             auth: true,
           ),
