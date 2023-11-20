@@ -641,7 +641,7 @@ module WorkOS
       def list_auth_factors(user_id:)
         response = execute_request(
           request: get_request(
-            path: "/users/#{user_id}/auth/factors",
+            path: "/user_management/users/#{user_id}/auth_factors",
             auth: true,
           ),
         )
