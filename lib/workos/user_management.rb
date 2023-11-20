@@ -76,7 +76,7 @@ module WorkOS
           state: T.nilable(String),
         ).returns(String)
       end
-      def get_authorization_url(
+      def authorization_url(
         redirect_uri:,
         client_id: nil,
         domain_hint: nil,
@@ -87,7 +87,7 @@ module WorkOS
         state: ''
       )
 
-        validate_get_authorization_url_arguments(
+        validate_authorization_url_arguments(
           provider: provider,
           connection_id: connection_id,
           organization_id: organization_id,
@@ -659,7 +659,7 @@ module WorkOS
         ).void
       end
 
-      def validate_get_authorization_url_arguments(
+      def validate_authorization_url_arguments(
         provider:,
         connection_id:,
         organization_id:

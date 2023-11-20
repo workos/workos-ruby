@@ -4,7 +4,7 @@
 describe WorkOS::UserManagement do
   it_behaves_like 'client'
 
-  describe '.get_authorization_url' do
+  describe '.authorization_url' do
     context 'with a provider' do
       let(:args) do
         {
@@ -17,19 +17,19 @@ describe WorkOS::UserManagement do
         }
       end
       it 'returns a valid URL' do
-        authorization_url = described_class.get_authorization_url(**args)
+        authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url)).to be_a URI
       end
 
       it 'returns the expected hostname' do
-        authorization_url = described_class.get_authorization_url(**args)
+        authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url).host).to eq(WorkOS.config.api_hostname)
       end
 
       it 'returns the expected query string' do
-        authorization_url = described_class.get_authorization_url(**args)
+        authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url).query).to eq(
           'client_id=workos-proj-123&redirect_uri=foo.com%2Fauth%2Fcallback' \
@@ -51,19 +51,19 @@ describe WorkOS::UserManagement do
         }
       end
       it 'returns a valid URL' do
-        authorization_url = described_class.get_authorization_url(**args)
+        authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url)).to be_a URI
       end
 
       it 'returns the expected hostname' do
-        authorization_url = described_class.get_authorization_url(**args)
+        authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url).host).to eq(WorkOS.config.api_hostname)
       end
 
       it 'returns the expected query string' do
-        authorization_url = described_class.get_authorization_url(**args)
+        authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url).query).to eq(
           'client_id=workos-proj-123&redirect_uri=foo.com%2Fauth%2Fcallback' \
@@ -85,19 +85,19 @@ describe WorkOS::UserManagement do
         }
       end
       it 'returns a valid URL' do
-        authorization_url = described_class.get_authorization_url(**args)
+        authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url)).to be_a URI
       end
 
       it 'returns the expected hostname' do
-        authorization_url = described_class.get_authorization_url(**args)
+        authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url).host).to eq(WorkOS.config.api_hostname)
       end
 
       it 'returns the expected query string' do
-        authorization_url = described_class.get_authorization_url(**args)
+        authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url).query).to eq(
           'client_id=workos-proj-123&redirect_uri=foo.com%2Fauth%2Fcallback' \
@@ -120,19 +120,19 @@ describe WorkOS::UserManagement do
         }
       end
       it 'returns a valid URL' do
-        authorization_url = described_class.get_authorization_url(**args)
+        authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url)).to be_a URI
       end
 
       it 'returns the expected hostname' do
-        authorization_url = described_class.get_authorization_url(**args)
+        authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url).host).to eq(WorkOS.config.api_hostname)
       end
 
       it 'returns the expected query string' do
-        authorization_url = described_class.get_authorization_url(**args)
+        authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url).query).to eq(
           'client_id=workos-proj-123&redirect_uri=foo.com%2Fauth%2Fcallback' \
@@ -155,19 +155,19 @@ describe WorkOS::UserManagement do
         }
       end
       it 'returns a valid URL' do
-        authorization_url = described_class.get_authorization_url(**args)
+        authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url)).to be_a URI
       end
 
       it 'returns the expected hostname' do
-        authorization_url = described_class.get_authorization_url(**args)
+        authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url).host).to eq(WorkOS.config.api_hostname)
       end
 
       it 'returns the expected query string' do
-        authorization_url = described_class.get_authorization_url(**args)
+        authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url).query).to eq(
           'client_id=workos-proj-123&redirect_uri=foo.com%2Fauth%2Fcallback' \
@@ -189,7 +189,7 @@ describe WorkOS::UserManagement do
       end
       it 'raises an error' do
         expect do
-          described_class.get_authorization_url(**args)
+          described_class.authorization_url(**args)
         end.to raise_error(
           ArgumentError,
           'Either connection ID, organization ID, or provider is required.',
@@ -210,7 +210,7 @@ describe WorkOS::UserManagement do
       end
       it 'raises an error' do
         expect do
-          described_class.get_authorization_url(**args)
+          described_class.authorization_url(**args)
         end.to raise_error(
           ArgumentError,
           'Okta is not a valid value. `provider` must be in ["GoogleOAuth", "MicrosoftOAuth", "authkit"]',
