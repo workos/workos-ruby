@@ -8,23 +8,23 @@ module WorkOS
     include HashProvider
     extend T::Sig
 
-    attr_accessor :authentication_factor, :authentication_challenge
+    attr_accessor :factor, :challenge
 
     sig { params(authentication_response_json: String).void }
     def initialize(authentication_response_json)
       json = JSON.parse(authentication_response_json, symbolize_names: true)
-      @authentication_factor = WorkOS::Factor.new(
-        json[:authentication_factor].to_json,
+      @factor = WorkOS::Factor.new(
+        json[:factor].to_json,
       )
-      @authentication_challenge = WorkOS::Challenge.new(
-        json[:authentication_challenge].to_json,
+      @challenge = WorkOS::Challenge.new(
+        json[:challenge].to_json,
       )
     end
 
     def to_json(*)
       {
-        authentication_factor: authentication_factor.to_json,
-        authentication_challenge: authentication_challenge.to_json,
+        factor: factor.to_json,
+        challenge: challenge.to_json,
       }
     end
   end

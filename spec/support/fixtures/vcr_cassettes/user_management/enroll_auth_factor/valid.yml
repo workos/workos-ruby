@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post 
-    uri: https://api.workos.com/users/user_01H7TVSKS45SDHN5V9XPSM6H44/auth/factors
+    uri: https://api.workos.com/user_management/users/user_01H7TVSKS45SDHN5V9XPSM6H44/auth_factors
     body:
       encoding: UTF-8
       string: '{"type":"totp"}'
@@ -76,7 +76,7 @@ http_interactions:
       - cloudflare
     body:
       encoding: ASCII-8BIT
-      string: '{ "authentication_factor": { "object": "authentication_factor", "id": "auth_factor_01H96FETXENNY99ARX0GRC804C", "user_id": "user_01H96FETWYSJMJEGF0Q3ZB272F", "type": "totp", "totp": { "issuer": "Foo Corp", "qr_code": "data:image/png;base64,iVBOR...", "secret": "OFAFOQAPHR6XMQKAIYMWU72XIE3DGI3P", "uri": "otpauth://totp/Foo%20Corp:user@foo-corp.com?secret=OFAFOQAPHR6XMQKAIYMWU72XIE3DGI3P&issuer=Foo%20Corp&algorithm=SHA1&digits=6&period=30", "user": "user@foo-corp.com" }, "created_at": "2023-08-31T18:59:57.962Z", "updated_at": "2023-08-31T18:59:57.962Z" }, "authentication_challenge": { "object": "authentication_challenge", "id": "auth_challenge_01H96FETXGTW1QMBSBT2T36PW0", "authentication_factor_id": "auth_factor_01H96FETXENNY99ARX0GRC804C", "expires_at": "2023-08-31T19:09:57.999Z", "created_at": "2023-08-31T18:59:57.962Z", "updated_at": "2023-08-31T18:59:57.962Z" } }'
+      string: '{ "factor": { "object": "authentication_factor", "id": "auth_factor_01H96FETXENNY99ARX0GRC804C", "user_id": "user_01H96FETWYSJMJEGF0Q3ZB272F", "type": "totp", "totp": { "issuer": "Foo Corp", "qr_code": "data:image/png;base64,iVBOR...", "secret": "OFAFOQAPHR6XMQKAIYMWU72XIE3DGI3P", "uri": "otpauth://totp/Foo%20Corp:user@foo-corp.com?secret=OFAFOQAPHR6XMQKAIYMWU72XIE3DGI3P&issuer=Foo%20Corp&algorithm=SHA1&digits=6&period=30", "user": "user@foo-corp.com" }, "created_at": "2023-08-31T18:59:57.962Z", "updated_at": "2023-08-31T18:59:57.962Z" }, "challenge": { "object": "authentication_challenge", "id": "auth_challenge_01H96FETXGTW1QMBSBT2T36PW0", "authentication_factor_id": "auth_factor_01H96FETXENNY99ARX0GRC804C", "expires_at": "2023-08-31T19:09:57.999Z", "created_at": "2023-08-31T18:59:57.962Z", "updated_at": "2023-08-31T18:59:57.962Z" } }'
     http_version:
   recorded_at: Fri, 25 Aug 2023 23:37:04 GMT
 recorded_with: VCR 5.0.0

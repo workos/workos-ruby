@@ -598,19 +598,28 @@ module WorkOS
       # Enroll a user into an authentication factor.
       #
       # @param [String] user_id The id for the user.
+      # @param [String] type The type of the factor to enroll. Only option available is totp.
+      # @param [String] totp_issuer For totp factors. Typically your application 
+      #  or company name, this helps users distinguish between factors in authenticator apps.
+      # @param [String] totp_user For totp factors. Used as the account name in authenticator apps.
       #
       # @return WorkOS::AuthenticationFactorAndChallenge
       sig do
         params(
           user_id: String,
+          type: String,
+          totp_issuer: T.nilable(String),
+          totp_user: T.nilable(String),
         ).returns(WorkOS::AuthenticationFactorAndChallenge)
       end
-      def enroll_auth_factor(user_id:)
+      def enroll_auth_factor(user_id:, type:, totp_issuer: nil, totp_user: nil)
         response = execute_request(
           request: post_request(
-            path: "/users/#{user_id}/auth/factors",
+            path: "/user_management/users/#{user_id}/auth_factors",
             body: {
-              type: 'totp',
+              type: type,
+              totp_issuer: totp_issuer,
+              totp_user: totp_user
             },
             auth: true,
           ),

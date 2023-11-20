@@ -725,15 +725,16 @@ describe WorkOS::UserManagement do
   end
 
   describe '.enroll_auth_factor' do
-    context 'with a valid user_id' do
+    context 'with a valid user_id and type' do
       it 'returns an auth factor and challenge' do
         VCR.use_cassette('user_management/enroll_auth_factor/valid') do
           authentication_response = WorkOS::UserManagement.enroll_auth_factor(
             user_id: 'user_01H7TVSKS45SDHN5V9XPSM6H44',
+            type: 'totp',
           )
 
-          expect(authentication_response.authentication_factor.id).to eq('auth_factor_01H96FETXENNY99ARX0GRC804C')
-          expect(authentication_response.authentication_challenge.id).to eq('auth_challenge_01H96FETXGTW1QMBSBT2T36PW0')
+          expect(authentication_response.factor.id).to eq('auth_factor_01H96FETXENNY99ARX0GRC804C')
+          expect(authentication_response.challenge.id).to eq('auth_challenge_01H96FETXGTW1QMBSBT2T36PW0')
         end
       end
     end
@@ -744,6 +745,7 @@ describe WorkOS::UserManagement do
           expect do
             WorkOS::UserManagement.enroll_auth_factor(
               user_id: 'user_01H7TVSKS45SDHN5V9XPSM6H44',
+              type: 'totp',
             )
           end.to raise_error(WorkOS::InvalidRequestError, /Status 400/)
         end
