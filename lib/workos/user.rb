@@ -9,7 +9,7 @@ module WorkOS
     include HashProvider
     extend T::Sig
 
-    attr_accessor :id, :object, :email, :first_name, :last_name, :email_verified,
+    attr_accessor :id, :email, :first_name, :last_name, :email_verified,
                   :created_at, :updated_at
 
     sig { params(json: String).void }
@@ -17,7 +17,6 @@ module WorkOS
       raw = parse_json(json)
 
       @id = T.let(raw.id, String)
-      @object = raw.object
       @email = T.let(raw.email, String)
       @first_name = raw.first_name
       @last_name = raw.last_name
@@ -29,7 +28,6 @@ module WorkOS
     def to_json(*)
       {
         id: id,
-        object: object,
         email: email,
         first_name: first_name,
         last_name: last_name,
@@ -47,7 +45,6 @@ module WorkOS
 
       WorkOS::Types::UserStruct.new(
         id: hash[:id],
-        object: hash[:object],
         email: hash[:email],
         first_name: hash[:first_name],
         last_name: hash[:last_name],
