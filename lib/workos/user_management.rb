@@ -599,7 +599,7 @@ module WorkOS
       #
       # @param [String] user_id The id for the user.
       # @param [String] type The type of the factor to enroll. Only option available is totp.
-      # @param [String] totp_issuer For totp factors. Typically your application 
+      # @param [String] totp_issuer For totp factors. Typically your application
       #  or company name, this helps users distinguish between factors in authenticator apps.
       # @param [String] totp_user For totp factors. Used as the account name in authenticator apps.
       #
@@ -619,7 +619,7 @@ module WorkOS
             body: {
               type: type,
               totp_issuer: totp_issuer,
-              totp_user: totp_user
+              totp_user: totp_user,
             },
             auth: true,
           ),

@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.workos.com/user_management/users/user_01H7TVSKS45SDHN5V9XPSM6H44/auth_factors
     body:
       encoding: US-ASCII
-      string: '{"type":"topd"}'
+      string: '{"type":"totp"}'
     headers:
       Content-Type:
       - application/json
