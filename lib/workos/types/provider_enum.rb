@@ -9,7 +9,6 @@ module WorkOS
       enums do
         Google = new('GoogleOAuth')
         Microsoft = new('MicrosoftOAuth')
-        AuthKit = new('authkit')
       end
     end
   end

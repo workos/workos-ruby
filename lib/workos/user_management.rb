@@ -10,11 +10,23 @@ module WorkOS
 
   # rubocop:disable Metrics/ModuleLength
   module UserManagement
+    module Types
+      # The ProviderEnum is type-safe declaration of a
+      # fixed set of values for User Management Providers.
+      class Provider < T::Enum
+        enums do
+          Google = new('GoogleOAuth')
+          Microsoft = new('MicrosoftOAuth')
+          AuthKit = new('authkit')
+        end
+      end
+    end
+
     class << self
       extend T::Sig
       include Client
 
-      PROVIDERS = WorkOS::Types::Provider.values.map(&:serialize).freeze
+      PROVIDERS = WorkOS::UserManagement::Types::Provider.values.map(&:serialize).freeze
 
       # Generate an OAuth 2.0 authorization URL that automatically directs a user
       # to their Identity Provider.
