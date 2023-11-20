@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: delete
-    uri: https://api.workos.com/users/user_01H7WRJBPAAHX1BYRQHEK7QC4A
+    uri: https://api.workos.com/user_management/users/user_01H7WRJBPAAHX1BYRQHEK7QC4A
     body:
       encoding: US-ASCII
       string: ''

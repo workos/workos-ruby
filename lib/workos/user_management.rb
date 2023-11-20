@@ -54,7 +54,7 @@ module WorkOS
       def delete_user(id:)
         response = execute_request(
           request: delete_request(
-            path: "/users/#{id}",
+            path: "/user_management/users/#{id}",
             auth: true,
           ),
         )
@@ -134,7 +134,7 @@ module WorkOS
       end
       def create_user(email:, password: nil, first_name: nil, last_name: nil, email_verified: nil)
         request = post_request(
-          path: '/users',
+          path: '/user_management/users',
           body: {
             email: email,
             password: password,
@@ -167,7 +167,7 @@ module WorkOS
       end
       def update_user(id:, first_name: nil, last_name: nil, email_verified: nil)
         request = put_request(
-          path: "/users/#{id}",
+          path: "/user_management/users/#{id}",
           body: {
             first_name: first_name,
             last_name: last_name,
@@ -187,7 +187,7 @@ module WorkOS
       def get_user(id:)
         response = execute_request(
           request: get_request(
-            path: "/users/#{id}",
+            path: "/user_management/users/#{id}",
             auth: true,
           ),
         )
@@ -199,7 +199,7 @@ module WorkOS
       #
       # @param [Hash] options
       # @option options [String] email Filter Users by their email.
-      # @option options [String] organization Filter Users by the organization
+      # @option options [String] organization_id Filter Users by the organization
       #  they are members of.
       # @option options [String] limit Maximum number of records to return.
       # @option options [String] order The order in which to paginate records
@@ -217,7 +217,7 @@ module WorkOS
       def list_users(options = {})
         response = execute_request(
           request: get_request(
-            path: '/users',
+            path: '/user_management/users',
             auth: true,
             params: options,
           ),

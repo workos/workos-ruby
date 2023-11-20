@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.workos.com/users
+    uri: https://api.workos.com/user_management/users
     body:
       encoding: UTF-8
       string: '{"email":"","password":null,"first_name":null,"last_name":null,"email_verified":null}'

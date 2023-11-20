@@ -172,7 +172,7 @@ describe WorkOS::UserManagement do
     context 'with options' do
       it 'returns a list of matching users' do
         request_args = [
-          '/users?email=lucy.lawless%40example.com&order=desc&limit=5',
+          '/user_management/users?email=lucy.lawless%40example.com&order=desc&limit=5',
           'Content-Type' => 'application/json'
         ]
 
