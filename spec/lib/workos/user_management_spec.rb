@@ -725,7 +725,7 @@ describe WorkOS::UserManagement do
   end
 
   describe '.enroll_auth_factor' do
-    context 'with a valid user_id and type' do
+    context 'with a valid user_id and auth factor type' do
       it 'returns an auth factor and challenge' do
         VCR.use_cassette('user_management/enroll_auth_factor/valid') do
           authentication_response = WorkOS::UserManagement.enroll_auth_factor(
@@ -752,7 +752,7 @@ describe WorkOS::UserManagement do
       end
     end
 
-    context 'with an invalid provider' do
+    context 'with an invalid auth factor type' do
       it 'raises an error' do
         expect do
           described_class.enroll_auth_factor(user_id: 'user_01H7TVSKS45SDHN5V9XPSM6H44',
