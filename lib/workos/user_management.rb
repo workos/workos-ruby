@@ -118,173 +118,11 @@ module WorkOS
       end
       # rubocop:enable Metrics/ParameterLists
 
-      # Adds a User as a member of the given Organization.
-      #
-      # @param [String] id The unique ID of the User.
-      # @param [String] organization_id Unique identifier of the Organization.
-      #
-      # @return WorkOS::User
-      sig do
-        params(
-          id: String,
-          organization_id: String,
-        ).returns(WorkOS::User)
-      end
-      def add_user_to_organization(id:, organization_id:)
-        response = execute_request(
-          request: post_request(
-            path: "/users/#{id}/organizations",
-            body: {
-              organization_id: organization_id,
-            },
-            auth: true,
-          ),
-        )
-
-        WorkOS::User.new(response.body)
-      end
-
-
-      # Deletes a User
+      # Gets a User
       #
       # @param [String] id The unique ID of the User.
       #
-      # @return [Bool] - returns `true` if successful
-      sig do
-        params(
-          id: String,
-        ).returns(T::Boolean)
-      end
-      def delete_user(id:)
-        response = execute_request(
-          request: delete_request(
-            path: "/user_management/users/#{id}",
-            auth: true,
-          ),
-        )
-
-        response.is_a? Net::HTTPSuccess
-      end
-
-      # Resets user password using token that was sent to the user.
-      #
-      # @param [String] token The token that was sent to the user.
-      # @param [String] new_password The new password to set for the user.
-      #
       # @return WorkOS::User
-      sig do
-        params(
-          token: String,
-          new_password: String,
-        ).returns(WorkOS::User)
-      end
-      def reset_password(token:, new_password:)
-        response = execute_request(
-          request: post_request(
-            path: '/users/password_reset',
-            body: {
-              token: token,
-              new_password: new_password,
-            },
-            auth: true,
-          ),
-        )
-
-        WorkOS::User.new(response.body)
-      end
-
-      # Creates a password reset challenge and emails a password reset link to a user.
-      #
-      # @param [String] email The email of the user that wishes to reset their password.
-      # @param [String] password_reset_url The URL that will be linked to in the email.
-      #
-      # @return WorkOS::UserAndToken
-      sig do
-        params(
-          email: String,
-          password_reset_url: String,
-        ).returns(WorkOS::UserAndToken)
-      end
-      def send_password_reset_email(email:, password_reset_url:)
-        request = post_request(
-          path: '/users/send_password_reset_email',
-          body: {
-            email: email,
-            password_reset_url: password_reset_url,
-          },
-          auth: true,
-        )
-
-        response = execute_request(request: request)
-
-        WorkOS::UserAndToken.new(response.body)
-      end
-
-      # Create a user
-      #
-      # @param [String] email The email address of the user.
-      # @param [String] password The password to set for the user.
-      # @param [String] first_name The user's first name.
-      # @param [String] last_name The user's last name.
-      # @param [Boolean] email_verified Whether the user's email address was previously verified.
-      sig do
-        params(
-          email: String,
-          password: T.nilable(String),
-          first_name: T.nilable(String),
-          last_name: T.nilable(String),
-          email_verified: T.nilable(T::Boolean),
-        ).returns(WorkOS::User)
-      end
-      def create_user(email:, password: nil, first_name: nil, last_name: nil, email_verified: nil)
-        request = post_request(
-          path: '/user_management/users',
-          body: {
-            email: email,
-            password: password,
-            first_name: first_name,
-            last_name: last_name,
-            email_verified: email_verified,
-          },
-          auth: true,
-        )
-
-        response = execute_request(request: request)
-
-        WorkOS::User.new(response.body)
-      end
-
-
-      # Update a user
-      #
-      # @param [String] id of the user.
-      # @param [String] first_name The user's first name.
-      # @param [String] last_name The user's last name.
-      # @param [Boolean] email_verified Whether the user's email address was previously verified.
-      sig do
-        params(
-          id: String,
-          first_name: T.nilable(String),
-          last_name: T.nilable(String),
-          email_verified: T.nilable(T::Boolean),
-        ).returns(WorkOS::User)
-      end
-      def update_user(id:, first_name: nil, last_name: nil, email_verified: nil)
-        request = put_request(
-          path: "/user_management/users/#{id}",
-          body: {
-            first_name: first_name,
-            last_name: last_name,
-            email_verified: email_verified,
-          },
-          auth: true,
-        )
-
-        response = execute_request(request: request)
-
-        WorkOS::User.new(response.body)
-      end
-
       sig do
         params(id: String).returns(WorkOS::User)
       end
@@ -339,124 +177,89 @@ module WorkOS
         )
       end
 
-      # Removes an unmanaged User from the given Organization.
+      # Create a user
       #
-      # @param [String] id The unique ID of the User.
-      # @param [String] organization_id Unique identifier of the Organization.
-      #
-      # @return WorkOS::User
-      sig do
-        params(
-          id: String,
-          organization_id: String,
-        ).returns(WorkOS::User)
-      end
-      def remove_user_from_organization(id:, organization_id:)
-        response = execute_request(
-          request: delete_request(
-            path: "/users/#{id}/organizations/#{organization_id}",
-            auth: true,
-          ),
-        )
-
-        WorkOS::User.new(response.body)
-      end
-
-      # Creates a one-time Magic Auth code and emails it to the user.
-      #
-      # @param [String] email The email address the one-time code will be sent to.
-      #
-      # @return WorkOS::UserResponse
+      # @param [String] email The email address of the user.
+      # @param [String] password The password to set for the user.
+      # @param [String] first_name The user's first name.
+      # @param [String] last_name The user's last name.
+      # @param [Boolean] email_verified Whether the user's email address was previously verified.
       sig do
         params(
           email: String,
-        ).returns(WorkOS::UserResponse)
-      end
-      def send_magic_auth_code(email:)
-        response = execute_request(
-          request: post_request(
-            path: '/user_management/magic_auth/send',
-            body: {
-              email: email,
-            },
-            auth: true,
-          ),
-        )
-
-        WorkOS::UserResponse.new(response.body)
-      end
-
-      # Sends a verification email to the provided user.
-      #
-      # @param [String] id The unique ID of the User whose email address will be verified.
-      #
-      # @return WorkOS::UserResponse
-      sig do
-        params(
-          id: String,
-        ).returns(WorkOS::UserResponse)
-      end
-      def send_verification_email(id:)
-        response = execute_request(
-          request: post_request(
-            path: "/users/#{id}/send_verification_email",
-            auth: true,
-          ),
-        )
-
-        WorkOS::UserResponse.new(response.body)
-      end
-
-      # Verifies user email using one-time code that was sent to the user.
-      #
-      # @param [String] user_id The unique ID of the User whose email address will be verified.
-      # @param [String] code The one-time code emailed to the user.
-      #
-      # @return WorkOS::UserResponse
-      sig do
-        params(
-          user_id: String,
-          code: String,
-        ).returns(WorkOS::UserResponse)
-      end
-      def verify_email(user_id:, code:)
-        response = execute_request(
-          request: post_request(
-            path: "/users/#{user_id}/verify_email_code",
-            body: {
-              code: code,
-            },
-            auth: true,
-          ),
-        )
-        WorkOS::UserResponse.new(response.body)
-      end
-
-      # Updates user user password.
-      #
-      # @param [String] id The unique ID of the User.
-      # @param [String] password The new password to set for the user.
-      #
-      # @return WorkOS::User
-
-      sig do
-        params(
-          id: String,
-          password: String,
+          password: T.nilable(String),
+          first_name: T.nilable(String),
+          last_name: T.nilable(String),
+          email_verified: T.nilable(T::Boolean),
         ).returns(WorkOS::User)
       end
-      def update_user_password(id:, password:)
+      def create_user(email:, password: nil, first_name: nil, last_name: nil, email_verified: nil)
+        request = post_request(
+          path: '/user_management/users',
+          body: {
+            email: email,
+            password: password,
+            first_name: first_name,
+            last_name: last_name,
+            email_verified: email_verified,
+          },
+          auth: true,
+        )
+
+        response = execute_request(request: request)
+
+        WorkOS::User.new(response.body)
+      end
+
+      # Update a user
+      #
+      # @param [String] id of the user.
+      # @param [String] first_name The user's first name.
+      # @param [String] last_name The user's last name.
+      # @param [Boolean] email_verified Whether the user's email address was previously verified.
+      sig do
+        params(
+          id: String,
+          first_name: T.nilable(String),
+          last_name: T.nilable(String),
+          email_verified: T.nilable(T::Boolean),
+        ).returns(WorkOS::User)
+      end
+      def update_user(id:, first_name: nil, last_name: nil, email_verified: nil)
+        request = put_request(
+          path: "/user_management/users/#{id}",
+          body: {
+            first_name: first_name,
+            last_name: last_name,
+            email_verified: email_verified,
+          },
+          auth: true,
+        )
+
+        response = execute_request(request: request)
+
+        WorkOS::User.new(response.body)
+      end
+
+      # Deletes a User
+      #
+      # @param [String] id The unique ID of the User.
+      #
+      # @return [Bool] - returns `true` if successful
+      sig do
+        params(
+          id: String,
+        ).returns(T::Boolean)
+      end
+      def delete_user(id:)
         response = execute_request(
-          request: put_request(
-            path: "/users/#{id}/password",
-            body: {
-              password: password,
-            },
+          request: delete_request(
+            path: "/user_management/users/#{id}",
             auth: true,
           ),
         )
 
-        WorkOS::User.new(response.body)
+        response.is_a? Net::HTTPSuccess
       end
 
       # Authenticates user by email and password.
@@ -679,6 +482,33 @@ module WorkOS
         WorkOS::UserResponse.new(response.body)
       end
 
+      # Creates a one-time Magic Auth code and emails it to the user.
+      #
+      # @param [String] email The email address the one-time code will be sent to.
+      #
+      # @return WorkOS::UserResponse
+      sig do
+        params(
+          email: String,
+        ).returns(WorkOS::UserResponse)
+      end
+      def send_magic_auth_code(email:)
+        response = execute_request(
+          request: post_request(
+            path: '/user_management/magic_auth/send',
+            body: {
+              email: email,
+            },
+            auth: true,
+          ),
+        )
+
+        WorkOS::UserResponse.new(response.body)
+      end
+
+
+
+
       # Enroll a user into an authentication factor.
       #
       # @param [String] user_id The id for the user.
@@ -744,6 +574,133 @@ module WorkOS
           data: auth_factors,
           list_metadata: parsed_response['list_metadata'],
         )
+      end
+
+      # Resets user password using token that was sent to the user.
+      #
+      # @param [String] token The token that was sent to the user.
+      # @param [String] new_password The new password to set for the user.
+      #
+      # @return WorkOS::User
+      sig do
+        params(
+          token: String,
+          new_password: String,
+        ).returns(WorkOS::User)
+      end
+      def reset_password(token:, new_password:)
+        response = execute_request(
+          request: post_request(
+            path: '/users/password_reset',
+            body: {
+              token: token,
+              new_password: new_password,
+            },
+            auth: true,
+          ),
+        )
+
+        WorkOS::User.new(response.body)
+      end
+
+      # Creates a password reset challenge and emails a password reset link to a user.
+      #
+      # @param [String] email The email of the user that wishes to reset their password.
+      # @param [String] password_reset_url The URL that will be linked to in the email.
+      #
+      # @return WorkOS::UserAndToken
+      sig do
+        params(
+          email: String,
+          password_reset_url: String,
+        ).returns(WorkOS::UserAndToken)
+      end
+      def send_password_reset_email(email:, password_reset_url:)
+        request = post_request(
+          path: '/users/send_password_reset_email',
+          body: {
+            email: email,
+            password_reset_url: password_reset_url,
+          },
+          auth: true,
+        )
+
+        response = execute_request(request: request)
+
+        WorkOS::UserAndToken.new(response.body)
+      end
+
+      # Sends a verification email to the provided user.
+      #
+      # @param [String] id The unique ID of the User whose email address will be verified.
+      #
+      # @return WorkOS::UserResponse
+      sig do
+        params(
+          id: String,
+        ).returns(WorkOS::UserResponse)
+      end
+      def send_verification_email(id:)
+        response = execute_request(
+          request: post_request(
+            path: "/users/#{id}/send_verification_email",
+            auth: true,
+          ),
+        )
+
+        WorkOS::UserResponse.new(response.body)
+      end
+
+      # Verifies user email using one-time code that was sent to the user.
+      #
+      # @param [String] user_id The unique ID of the User whose email address will be verified.
+      # @param [String] code The one-time code emailed to the user.
+      #
+      # @return WorkOS::UserResponse
+      sig do
+        params(
+          user_id: String,
+          code: String,
+        ).returns(WorkOS::UserResponse)
+      end
+      def verify_email(user_id:, code:)
+        response = execute_request(
+          request: post_request(
+            path: "/users/#{user_id}/verify_email_code",
+            body: {
+              code: code,
+            },
+            auth: true,
+          ),
+        )
+        WorkOS::UserResponse.new(response.body)
+      end
+
+      # Updates user user password.
+      #
+      # @param [String] id The unique ID of the User.
+      # @param [String] password The new password to set for the user.
+      #
+      # @return WorkOS::User
+
+      sig do
+        params(
+          id: String,
+          password: String,
+        ).returns(WorkOS::User)
+      end
+      def update_user_password(id:, password:)
+        response = execute_request(
+          request: put_request(
+            path: "/users/#{id}/password",
+            body: {
+              password: password,
+            },
+            auth: true,
+          ),
+        )
+
+        WorkOS::User.new(response.body)
       end
 
       private

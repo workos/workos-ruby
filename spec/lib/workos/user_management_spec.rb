@@ -219,34 +219,6 @@ describe WorkOS::UserManagement do
     end
   end
 
-  describe '.add_user_to_organization' do
-    context 'with valid paramters' do
-      it 'adds the user to the organization' do
-        VCR.use_cassette 'user_management/add_user_to_organization_valid' do
-          user = described_class.add_user_to_organization(
-            id: 'user_01H7WRJBPAAHX1BYRQHEK7QC4A',
-            organization_id: 'org_01GEQJ8PKE4WH1Q09RSC8CCVJ1',
-          )
-
-          expect(user.id).to eq('user_01H7WRJBPAAHX1BYRQHEK7QC4A')
-        end
-      end
-    end
-
-    context 'with invalid parameters' do
-      it 'returns an error' do
-        VCR.use_cassette 'user_management/add_user_to_organization_invalid' do
-          expect do
-            described_class.add_user_to_organization(
-              id: 'bad_id',
-              organization_id: 'bad_id',
-            )
-          end.to raise_error(WorkOS::APIError, /User not found/)
-        end
-      end
-    end
-  end
-
   describe '.reset_password' do
     context 'with a valid payload' do
       it 'resets the password and returns the user' do
@@ -405,34 +377,6 @@ describe WorkOS::UserManagement do
 
           expect(users.data.size).to eq(1)
           expect(users.data[0].email).to eq('lucy.lawless@example.com')
-        end
-      end
-    end
-  end
-
-  describe '.remove_user_from_organization' do
-    context 'with valid parameters' do
-      it 'removes the user from the organization' do
-        VCR.use_cassette 'user_management/remove_user_from_organization_valid' do
-          user = described_class.remove_user_from_organization(
-            id: 'user_01H7WRJBPAAHX1BYRQHEK7QC4A',
-            organization_id: 'org_01GEQJ8PKE4WH1Q09RSC8CCVJ1',
-          )
-
-          expect(user.id).to eq('user_01H7WRJBPAAHX1BYRQHEK7QC4A')
-        end
-      end
-    end
-
-    context 'with invalid parameters' do
-      it 'returns an error' do
-        VCR.use_cassette 'user_management/remove_user_from_organization_invalid' do
-          expect do
-            described_class.remove_user_from_organization(
-              id: 'bad_id',
-              organization_id: 'bad_id',
-            )
-          end.to raise_error(WorkOS::APIError, /UserOrganizationMembership not found/)
         end
       end
     end
