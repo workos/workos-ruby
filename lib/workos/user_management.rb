@@ -506,9 +506,6 @@ module WorkOS
         WorkOS::UserResponse.new(response.body)
       end
 
-
-
-
       # Enroll a user into an authentication factor.
       #
       # @param [String] user_id The id for the user.
@@ -589,7 +586,7 @@ module WorkOS
       def send_verification_email(id:)
         response = execute_request(
           request: post_request(
-            path: "/users/#{id}/send_verification_email",
+            path: "/user_management/users/#{id}/email_verification/send",
             auth: true,
           ),
         )
@@ -612,7 +609,7 @@ module WorkOS
       def verify_email(user_id:, code:)
         response = execute_request(
           request: post_request(
-            path: "/users/#{user_id}/verify_email_code",
+            path: "/user_management/users/#{user_id}/email_verification/confirm",
             body: {
               code: code,
             },
