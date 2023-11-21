@@ -725,11 +725,12 @@ describe WorkOS::UserManagement do
   end
 
   describe '.enroll_auth_factor' do
-    context 'with a valid user_id' do
+    context 'with a valid user_id and auth factor type' do
       it 'returns an auth factor and challenge' do
         VCR.use_cassette('user_management/enroll_auth_factor/valid') do
           authentication_response = WorkOS::UserManagement.enroll_auth_factor(
             user_id: 'user_01H7TVSKS45SDHN5V9XPSM6H44',
+            type: 'totp',
           )
 
           expect(authentication_response.authentication_factor.id).to eq('auth_factor_01H96FETXENNY99ARX0GRC804C')
@@ -744,9 +745,22 @@ describe WorkOS::UserManagement do
           expect do
             WorkOS::UserManagement.enroll_auth_factor(
               user_id: 'user_01H7TVSKS45SDHN5V9XPSM6H44',
+              type: 'totp',
             )
           end.to raise_error(WorkOS::InvalidRequestError, /Status 400/)
         end
+      end
+    end
+
+    context 'with an invalid auth factor type' do
+      it 'raises an error' do
+        expect do
+          described_class.enroll_auth_factor(user_id: 'user_01H7TVSKS45SDHN5V9XPSM6H44',
+                                             type: 'invalid-factor',)
+        end.to raise_error(
+          ArgumentError,
+          'invalid-factor is not a valid value. `type` must be in ["totp"]',
+        )
       end
     end
   end

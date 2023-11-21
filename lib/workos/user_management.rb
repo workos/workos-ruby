@@ -20,6 +20,14 @@ module WorkOS
           AuthKit = new('authkit')
         end
       end
+
+      # The AuthFactorType is type-safe declaration of a
+      # fixed set of factor values to enroll
+      class AuthFactorType < T::Enum
+        enums do
+          Totp = new('totp')
+        end
+      end
     end
 
     class << self
@@ -27,6 +35,7 @@ module WorkOS
       include Client
 
       PROVIDERS = WorkOS::UserManagement::Types::Provider.values.map(&:serialize).freeze
+      AUTH_FACTOR_TYPES = WorkOS::UserManagement::Types::AuthFactorType.values.map(&:serialize).freeze
 
       # Generate an OAuth 2.0 authorization URL that automatically directs a user
       # to their Identity Provider.
@@ -598,19 +607,32 @@ module WorkOS
       # Enroll a user into an authentication factor.
       #
       # @param [String] user_id The id for the user.
+      # @param [String] type The type of the factor to enroll. Only option available is totp.
+      # @param [String] totp_issuer For totp factors. Typically your application
+      #  or company name, this helps users distinguish between factors in authenticator apps.
+      # @param [String] totp_user For totp factors. Used as the account name in authenticator apps.
       #
       # @return WorkOS::AuthenticationFactorAndChallenge
       sig do
         params(
           user_id: String,
+          type: String,
+          totp_issuer: T.nilable(String),
+          totp_user: T.nilable(String),
         ).returns(WorkOS::AuthenticationFactorAndChallenge)
       end
-      def enroll_auth_factor(user_id:)
+      def enroll_auth_factor(user_id:, type:, totp_issuer: nil, totp_user: nil)
+        validate_auth_factor_type(
+          type: type,
+        )
+
         response = execute_request(
           request: post_request(
-            path: "/users/#{user_id}/auth/factors",
+            path: "/user_management/users/#{user_id}/auth_factors",
             body: {
-              type: 'totp',
+              type: type,
+              totp_issuer: totp_issuer,
+              totp_user: totp_user,
             },
             auth: true,
           ),
@@ -632,7 +654,7 @@ module WorkOS
       def list_auth_factors(user_id:)
         response = execute_request(
           request: get_request(
-            path: "/users/#{user_id}/auth/factors",
+            path: "/user_management/users/#{user_id}/auth_factors",
             auth: true,
           ),
         )
@@ -673,6 +695,21 @@ module WorkOS
 
         raise ArgumentError, "#{provider} is not a valid value." \
           " `provider` must be in #{PROVIDERS}"
+      end
+
+      sig do
+        params(
+          type: String,
+        ).void
+      end
+
+      def validate_auth_factor_type(
+        type:
+      )
+        return if AUTH_FACTOR_TYPES.include?(type)
+
+        raise ArgumentError, "#{type} is not a valid value." \
+          " `type` must be in #{AUTH_FACTOR_TYPES}"
       end
     end
   end
