@@ -35,6 +35,7 @@ module WorkOS
       include Client
 
       PROVIDERS = WorkOS::UserManagement::Types::Provider.values.map(&:serialize).freeze
+      AUTH_FACTOR_TYPES = WorkOS::UserManagement::Types::AuthFactorType.values.map(&:serialize).freeze
 
       # Generate an OAuth 2.0 authorization URL that automatically directs a user
       # to their Identity Provider.
@@ -621,6 +622,10 @@ module WorkOS
         ).returns(WorkOS::AuthenticationFactorAndChallenge)
       end
       def enroll_auth_factor(user_id:, type:, totp_issuer: nil, totp_user: nil)
+        validate_auth_factor_type(
+          type: type,
+        )
+
         response = execute_request(
           request: post_request(
             path: "/user_management/users/#{user_id}/auth_factors",
@@ -690,6 +695,21 @@ module WorkOS
 
         raise ArgumentError, "#{provider} is not a valid value." \
           " `provider` must be in #{PROVIDERS}"
+      end
+
+      sig do
+        params(
+          type: String,
+        ).void
+      end
+
+      def validate_auth_factor_type(
+        type:
+      )
+        return unless !AUTH_FACTOR_TYPES.include?(type)
+
+        raise ArgumentError, "#{type} is not a valid value." \
+          " `type` must be in #{AUTH_FACTOR_TYPES}"
       end
     end
   end
