@@ -706,7 +706,7 @@ module WorkOS
       def validate_auth_factor_type(
         type:
       )
-        return unless !AUTH_FACTOR_TYPES.include?(type)
+        return if AUTH_FACTOR_TYPES.include?(type)
 
         raise ArgumentError, "#{type} is not a valid value." \
           " `type` must be in #{AUTH_FACTOR_TYPES}"
