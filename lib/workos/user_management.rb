@@ -502,6 +502,8 @@ module WorkOS
       # @param [String] user_id The unique ID of the User who will be authenticated.
       # @param [String] client_id The WorkOS client ID for the environment.
       # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
+      # @param [String] link_authorization_code Used to link an OAuth profile to an existing user,
+      # after having completed a Magic Code challenge.
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
       #
       # @return WorkOS::UserResponse
@@ -513,9 +515,17 @@ module WorkOS
           client_id: String,
           ip_address: T.nilable(String),
           user_agent: T.nilable(String),
+          link_authorization_code: T.nilable(String),
         ).returns(WorkOS::UserResponse)
       end
-      def authenticate_with_magic_auth(code:, user_id:, client_id:, ip_address: nil, user_agent: nil)
+      def authenticate_with_magic_auth(
+        code:,
+        user_id:,
+        client_id:,
+        ip_address: nil,
+        user_agent: nil,
+        link_authorization_code: nil
+      )
         response = execute_request(
           request: post_request(
             path: '/user_management/authenticate',
@@ -527,6 +537,7 @@ module WorkOS
               ip_address: ip_address,
               user_agent: user_agent,
               grant_type: 'urn:workos:oauth:grant-type:magic-auth:code',
+              link_authorization_code: link_authorization_code,
             },
           ),
         )
@@ -613,7 +624,7 @@ module WorkOS
               client_id: client_id,
               client_secret: WorkOS.config.key!,
               pending_authentication_token: pending_authentication_token,
-              grant_type: 'urn:workos:oauth:grant-type:email-verification:code',
+              grant_type: 'urn:workos:oauth:grant-type:mfa-totp',
               authentication_challenge_id: authentication_challenge_id,
               ip_address: ip_address,
               user_agent: user_agent,
