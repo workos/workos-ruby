@@ -4,6 +4,221 @@
 describe WorkOS::UserManagement do
   it_behaves_like 'client'
 
+  describe '.authorization_url' do
+    context 'with a provider' do
+      let(:args) do
+        {
+          provider: 'authkit',
+          client_id: 'workos-proj-123',
+          redirect_uri: 'foo.com/auth/callback',
+          state: {
+            next_page: '/dashboard/edit',
+          }.to_s,
+        }
+      end
+      it 'returns a valid URL' do
+        authorization_url = described_class.authorization_url(**args)
+
+        expect(URI.parse(authorization_url)).to be_a URI
+      end
+
+      it 'returns the expected hostname' do
+        authorization_url = described_class.authorization_url(**args)
+
+        expect(URI.parse(authorization_url).host).to eq(WorkOS.config.api_hostname)
+      end
+
+      it 'returns the expected query string' do
+        authorization_url = described_class.authorization_url(**args)
+
+        expect(URI.parse(authorization_url).query).to eq(
+          'client_id=workos-proj-123&redirect_uri=foo.com%2Fauth%2Fcallback' \
+          '&response_type=code&state=%7B%3Anext_page%3D%3E%22%2Fdashboard%2F' \
+          'edit%22%7D&provider=authkit',
+        )
+      end
+    end
+
+    context 'with a connection selector' do
+      let(:args) do
+        {
+          connection_id: 'connection_123',
+          client_id: 'workos-proj-123',
+          redirect_uri: 'foo.com/auth/callback',
+          state: {
+            next_page: '/dashboard/edit',
+          }.to_s,
+        }
+      end
+      it 'returns a valid URL' do
+        authorization_url = described_class.authorization_url(**args)
+
+        expect(URI.parse(authorization_url)).to be_a URI
+      end
+
+      it 'returns the expected hostname' do
+        authorization_url = described_class.authorization_url(**args)
+
+        expect(URI.parse(authorization_url).host).to eq(WorkOS.config.api_hostname)
+      end
+
+      it 'returns the expected query string' do
+        authorization_url = described_class.authorization_url(**args)
+
+        expect(URI.parse(authorization_url).query).to eq(
+          'client_id=workos-proj-123&redirect_uri=foo.com%2Fauth%2Fcallback' \
+          '&response_type=code&state=%7B%3Anext_page%3D%3E%22%2Fdashboard%2F' \
+          'edit%22%7D&connection_id=connection_123',
+        )
+      end
+    end
+
+    context 'with an organization selector' do
+      let(:args) do
+        {
+          organization_id: 'org_123',
+          client_id: 'workos-proj-123',
+          redirect_uri: 'foo.com/auth/callback',
+          state: {
+            next_page: '/dashboard/edit',
+          }.to_s,
+        }
+      end
+      it 'returns a valid URL' do
+        authorization_url = described_class.authorization_url(**args)
+
+        expect(URI.parse(authorization_url)).to be_a URI
+      end
+
+      it 'returns the expected hostname' do
+        authorization_url = described_class.authorization_url(**args)
+
+        expect(URI.parse(authorization_url).host).to eq(WorkOS.config.api_hostname)
+      end
+
+      it 'returns the expected query string' do
+        authorization_url = described_class.authorization_url(**args)
+
+        expect(URI.parse(authorization_url).query).to eq(
+          'client_id=workos-proj-123&redirect_uri=foo.com%2Fauth%2Fcallback' \
+          '&response_type=code&state=%7B%3Anext_page%3D%3E%22%2Fdashboard%2F' \
+          'edit%22%7D&organization_id=org_123',
+        )
+      end
+    end
+
+    context 'with a domain hint' do
+      let(:args) do
+        {
+          connection_id: 'connection_123',
+          domain_hint: 'foo.com',
+          client_id: 'workos-proj-123',
+          redirect_uri: 'foo.com/auth/callback',
+          state: {
+            next_page: '/dashboard/edit',
+          }.to_s,
+        }
+      end
+      it 'returns a valid URL' do
+        authorization_url = described_class.authorization_url(**args)
+
+        expect(URI.parse(authorization_url)).to be_a URI
+      end
+
+      it 'returns the expected hostname' do
+        authorization_url = described_class.authorization_url(**args)
+
+        expect(URI.parse(authorization_url).host).to eq(WorkOS.config.api_hostname)
+      end
+
+      it 'returns the expected query string' do
+        authorization_url = described_class.authorization_url(**args)
+
+        expect(URI.parse(authorization_url).query).to eq(
+          'client_id=workos-proj-123&redirect_uri=foo.com%2Fauth%2Fcallback' \
+          '&response_type=code&state=%7B%3Anext_page%3D%3E%22%2Fdashboard%2' \
+          'Fedit%22%7D&domain_hint=foo.com&connection_id=connection_123',
+        )
+      end
+    end
+
+    context 'with a login hint' do
+      let(:args) do
+        {
+          connection_id: 'connection_123',
+          login_hint: 'foo@workos.com',
+          client_id: 'workos-proj-123',
+          redirect_uri: 'foo.com/auth/callback',
+          state: {
+            next_page: '/dashboard/edit',
+          }.to_s,
+        }
+      end
+      it 'returns a valid URL' do
+        authorization_url = described_class.authorization_url(**args)
+
+        expect(URI.parse(authorization_url)).to be_a URI
+      end
+
+      it 'returns the expected hostname' do
+        authorization_url = described_class.authorization_url(**args)
+
+        expect(URI.parse(authorization_url).host).to eq(WorkOS.config.api_hostname)
+      end
+
+      it 'returns the expected query string' do
+        authorization_url = described_class.authorization_url(**args)
+
+        expect(URI.parse(authorization_url).query).to eq(
+          'client_id=workos-proj-123&redirect_uri=foo.com%2Fauth%2Fcallback' \
+          '&response_type=code&state=%7B%3Anext_page%3D%3E%22%2Fdashboard%2' \
+          'Fedit%22%7D&login_hint=foo%40workos.com&connection_id=connection_123',
+        )
+      end
+    end
+
+    context 'with neither connection_id, organization_id or provider' do
+      let(:args) do
+        {
+          client_id: 'workos-proj-123',
+          redirect_uri: 'foo.com/auth/callback',
+          state: {
+            next_page: '/dashboard/edit',
+          }.to_s,
+        }
+      end
+      it 'raises an error' do
+        expect do
+          described_class.authorization_url(**args)
+        end.to raise_error(
+          ArgumentError,
+          'Either connection ID, organization ID, or provider is required.',
+        )
+      end
+    end
+
+    context 'with an invalid provider' do
+      let(:args) do
+        {
+          provider: 'Okta',
+          client_id: 'workos-proj-123',
+          redirect_uri: 'foo.com/auth/callback',
+          state: {
+            next_page: '/dashboard/edit',
+          }.to_s,
+        }
+      end
+      it 'raises an error' do
+        expect do
+          described_class.authorization_url(**args)
+        end.to raise_error(
+          ArgumentError,
+          'Okta is not a valid value. `provider` must be in ["GoogleOAuth", "MicrosoftOAuth", "authkit"]',
+        )
+      end
+    end
+  end
+
   describe '.add_user_to_organization' do
     context 'with valid paramters' do
       it 'adds the user to the organization' do

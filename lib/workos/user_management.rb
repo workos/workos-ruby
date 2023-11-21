@@ -10,9 +10,104 @@ module WorkOS
 
   # rubocop:disable Metrics/ModuleLength
   module UserManagement
+    module Types
+      # The ProviderEnum is type-safe declaration of a
+      # fixed set of values for User Management Providers.
+      class Provider < T::Enum
+        enums do
+          Google = new('GoogleOAuth')
+          Microsoft = new('MicrosoftOAuth')
+          AuthKit = new('authkit')
+        end
+      end
+    end
+
     class << self
       extend T::Sig
       include Client
+
+      PROVIDERS = WorkOS::UserManagement::Types::Provider.values.map(&:serialize).freeze
+
+      # Generate an OAuth 2.0 authorization URL that automatically directs a user
+      # to their Identity Provider.
+      #
+      # @param [String] redirect_uri The URI where users are directed
+      #  after completing the authentication step. Must match a
+      #  configured redirect URI on your WorkOS dashboard.
+      # @param [String] client_id This value can be obtained from the API Keys page in the WorkOS dashboard.
+      # @param [String] provider A provider name is used to initiate SSO using an
+      # OAuth-compatible provider. Only 'authkit ,'GoogleOAuth' and 'MicrosoftOAuth' are supported.
+      # @param [String] connection_id The ID for a Connection configured on
+      #  WorkOS.
+      # @param [String] organization_id The organization_id selector is used to
+      # initiate SSO for an Organization.
+      # @param [String] state An arbitrary state object
+      #  that is preserved and available to the client in the response.
+      # @param [String] login_hint Can be used to pre-fill the username/email address
+      # field of the IdP sign-in page for the user, if you know their username ahead of time.
+      # @param [String] domain_hint Can be used to pre-fill the domain field when
+      # initiating authentication with Microsoft OAuth, or with a GoogleSAML connection type.
+      # @example
+      #   WorkOS::UserManagement.authorization_url(
+      #     connection_id: 'conn_123',
+      #     client_id: 'project_01DG5TGK363GRVXP3ZS40WNGEZ',
+      #     redirect_uri: 'https://your-app.com/callback',
+      #     state: {
+      #       next_page: '/docs'
+      #     }.to_s
+      #   )
+      #
+      #   => "https://api.workos.com/user_management/authorize?connection_id=conn_123" \
+      #      "&client_id=project_01DG5TGK363GRVXP3ZS40WNGEZ" \
+      #      "&redirect_uri=https%3A%2F%2Fyour-app.com%2Fcallback&" \
+      #      "response_type=code&state=%7B%3Anext_page%3D%3E%22%2Fdocs%22%7D"
+      #
+      # @return [String]
+      # rubocop:disable Metrics/ParameterLists
+      sig do
+        params(
+          redirect_uri: String,
+          client_id: T.nilable(String),
+          domain_hint: T.nilable(String),
+          login_hint: T.nilable(String),
+          provider: T.nilable(String),
+          connection_id: T.nilable(String),
+          organization_id: T.nilable(String),
+          state: T.nilable(String),
+        ).returns(String)
+      end
+      def authorization_url(
+        redirect_uri:,
+        client_id: nil,
+        domain_hint: nil,
+        login_hint: nil,
+        provider: nil,
+        connection_id: nil,
+        organization_id: nil,
+        state: ''
+      )
+
+        validate_authorization_url_arguments(
+          provider: provider,
+          connection_id: connection_id,
+          organization_id: organization_id,
+        )
+
+        query = URI.encode_www_form({
+          client_id: client_id,
+          redirect_uri: redirect_uri,
+          response_type: 'code',
+          state: state,
+          domain_hint: domain_hint,
+          login_hint: login_hint,
+          provider: provider,
+          connection_id: connection_id,
+          organization_id: organization_id,
+        }.compact)
+
+        "https://#{WorkOS.config.api_hostname}/user_management/authorize?#{query}"
+      end
+      # rubocop:enable Metrics/ParameterLists
 
       # Adds a User as a member of the given Organization.
       #
@@ -552,6 +647,32 @@ module WorkOS
           data: auth_factors,
           list_metadata: parsed_response['list_metadata'],
         )
+      end
+
+      private
+
+      sig do
+        params(
+          provider: T.nilable(String),
+          connection_id: T.nilable(String),
+          organization_id: T.nilable(String),
+        ).void
+      end
+
+      def validate_authorization_url_arguments(
+        provider:,
+        connection_id:,
+        organization_id:
+      )
+        if [provider, connection_id, organization_id].all?(&:nil?)
+          raise ArgumentError, 'Either connection ID, organization ID,' \
+            ' or provider is required.'
+        end
+
+        return unless provider && !PROVIDERS.include?(provider)
+
+        raise ArgumentError, "#{provider} is not a valid value." \
+          " `provider` must be in #{PROVIDERS}"
       end
     end
   end
