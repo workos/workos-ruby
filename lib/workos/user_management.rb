@@ -20,6 +20,14 @@ module WorkOS
           AuthKit = new('authkit')
         end
       end
+
+      # The AuthFactorType is type-safe declaration of a
+      # fixed set of factor values to enroll
+      class AuthFactorType < T::Enum
+        enums do
+          Totp = new('totp')
+        end
+      end
     end
 
     class << self
