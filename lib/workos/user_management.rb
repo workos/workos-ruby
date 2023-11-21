@@ -463,9 +463,9 @@ module WorkOS
       #
       # @param [String] email The email address of the user.
       # @param [String] password The password for the user.
+      # @param [String] client_id The WorkOS client ID for the environment
       # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
-      # @param [String] client_id The WorkOS client ID for the environment
       #
       # @return WorkOS::UserResponse
 
@@ -478,10 +478,10 @@ module WorkOS
           user_agent: T.nilable(String),
         ).returns(WorkOS::UserResponse)
       end
-      def authenticate_user_password(email:, password:, client_id:, ip_address: nil, user_agent: nil)
+      def authenticate_with_password(email:, password:, client_id:, ip_address: nil, user_agent: nil)
         response = execute_request(
           request: post_request(
-            path: '/users/authenticate',
+            path: '/user_management/authenticate',
             body: {
               client_id: client_id,
               client_secret: WorkOS.config.key!,
@@ -496,46 +496,10 @@ module WorkOS
         WorkOS::UserResponse.new(response.body)
       end
 
-      # Authenticates user by Magic Auth Code.
+      # Authenticate a user using OAuth or an organization's SSO connection.
       #
-      # @param [String] code The one-time code that was emailed to the user.
-      # @param [String] user_id The unique ID of the User who will be authenticated.
-      # @param [String] client_id The WorkOS client ID for the environment.
-      # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
-      # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
-      #
-      # @return WorkOS::UserResponse
-
-      sig do
-        params(
-          code: String,
-          user_id: String,
-          client_id: String,
-          ip_address: T.nilable(String),
-          user_agent: T.nilable(String),
-        ).returns(WorkOS::UserResponse)
-      end
-      def authenticate_user_magic_auth(code:, user_id:, client_id:, ip_address: nil, user_agent: nil)
-        response = execute_request(
-          request: post_request(
-            path: '/users/authenticate',
-            body: {
-              code: code,
-              user_id: user_id,
-              client_id: client_id,
-              client_secret: WorkOS.config.key!,
-              ip_address: ip_address,
-              user_agent: user_agent,
-              grant_type: 'urn:workos:oauth:grant-type:magic-auth:code',
-            },
-          ),
-        )
-        WorkOS::UserResponse.new(response.body)
-      end
-
-      # Authenticates a user using OAuth code.
-      #
-      # @param [String] code The one-time code that was emailed to the user.
+      # @param [String] code The authorization value which was passed back as a
+      # query parameter in the callback to the Redirect URI.
       # @param [String] client_id The WorkOS client ID for the environment
       # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
@@ -550,10 +514,15 @@ module WorkOS
           user_agent: T.nilable(String),
         ).returns(WorkOS::UserResponse)
       end
-      def authenticate_user_with_code(code:, client_id:, ip_address: nil, user_agent: nil)
+      def authenticate_with_code(
+        code:,
+        client_id:,
+        ip_address: nil,
+        user_agent: nil
+      )
         response = execute_request(
           request: post_request(
-            path: '/users/authenticate',
+            path: '/user_management/authenticate',
             body: {
               code: code,
               client_id: client_id,
@@ -561,6 +530,54 @@ module WorkOS
               ip_address: ip_address,
               user_agent: user_agent,
               grant_type: 'authorization_code',
+            },
+          ),
+        )
+        WorkOS::UserResponse.new(response.body)
+      end
+
+      # Authenticates user by Magic Auth Code.
+      #
+      # @param [String] code The one-time code that was emailed to the user.
+      # @param [String] user_id The unique ID of the User who will be authenticated.
+      # @param [String] client_id The WorkOS client ID for the environment.
+      # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
+      # @param [String] link_authorization_code Used to link an OAuth profile to an existing user,
+      # after having completed a Magic Code challenge.
+      # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
+      #
+      # @return WorkOS::UserResponse
+
+      sig do
+        params(
+          code: String,
+          user_id: String,
+          client_id: String,
+          ip_address: T.nilable(String),
+          user_agent: T.nilable(String),
+          link_authorization_code: T.nilable(String),
+        ).returns(WorkOS::UserResponse)
+      end
+      def authenticate_with_magic_auth(
+        code:,
+        user_id:,
+        client_id:,
+        ip_address: nil,
+        user_agent: nil,
+        link_authorization_code: nil
+      )
+        response = execute_request(
+          request: post_request(
+            path: '/user_management/authenticate',
+            body: {
+              code: code,
+              user_id: user_id,
+              client_id: client_id,
+              client_secret: WorkOS.config.key!,
+              ip_address: ip_address,
+              user_agent: user_agent,
+              grant_type: 'urn:workos:oauth:grant-type:magic-auth:code',
+              link_authorization_code: link_authorization_code,
             },
           ),
         )
@@ -576,6 +593,8 @@ module WorkOS
       # from the initial authentication request.
       # @param [String] authentication_challenge_id The authentication challenge ID for the
       # authentication request.
+      # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
+      # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
       #
       # @return WorkOS::UserResponse
 
@@ -585,19 +604,75 @@ module WorkOS
           client_id: String,
           pending_authentication_token: String,
           authentication_challenge_id: String,
+          ip_address: T.nilable(String),
+          user_agent: T.nilable(String),
         ).returns(WorkOS::UserResponse)
       end
-      def authenticate_user_with_totp(code:, client_id:, pending_authentication_token:, authentication_challenge_id:)
+      def authenticate_with_totp(
+        code:,
+        client_id:,
+        pending_authentication_token:,
+        authentication_challenge_id:,
+        ip_address: nil,
+        user_agent: nil
+      )
         response = execute_request(
           request: post_request(
-            path: '/users/authenticate',
+            path: '/user_management/authenticate',
             body: {
               code: code,
               client_id: client_id,
               client_secret: WorkOS.config.key!,
               pending_authentication_token: pending_authentication_token,
-              authentication_challenge_id: authentication_challenge_id,
               grant_type: 'urn:workos:oauth:grant-type:mfa-totp',
+              authentication_challenge_id: authentication_challenge_id,
+              ip_address: ip_address,
+              user_agent: user_agent,
+            },
+          ),
+        )
+        WorkOS::UserResponse.new(response.body)
+      end
+
+      #
+      # Authenticates a user using Email Verification Code.
+      #
+      # @param [String] code The one-time code that was emailed to the user.
+      # @param [String] client_id The WorkOS client ID for the environment
+      # @param [String] pending_authentication_token The token returned from a failed email/password or OAuth
+      # authentication attempt due to an unverified email address.
+      # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
+      # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
+      #
+      # @return WorkOS::UserResponse
+
+      sig do
+        params(
+          code: String,
+          client_id: String,
+          pending_authentication_token: String,
+          ip_address: T.nilable(String),
+          user_agent: T.nilable(String),
+        ).returns(WorkOS::UserResponse)
+      end
+      def authenticate_with_email_verification(
+        code:,
+        client_id:,
+        pending_authentication_token:,
+        ip_address: nil,
+        user_agent: nil
+      )
+        response = execute_request(
+          request: post_request(
+            path: '/user_management/authenticate',
+            body: {
+              code: code,
+              client_id: client_id,
+              pending_authentication_token: pending_authentication_token,
+              client_secret: WorkOS.config.key!,
+              grant_type: 'urn:workos:oauth:grant-type:email-verification:code',
+              ip_address: ip_address,
+              user_agent: user_agent,
             },
           ),
         )

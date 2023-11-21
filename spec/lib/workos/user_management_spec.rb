@@ -596,42 +596,11 @@ describe WorkOS::UserManagement do
     end
   end
 
-  describe '.autthenticate_user_with_totp' do
-    context 'with a valid code' do
-      it 'returns user' do
-        VCR.use_cassette('user_management/authenticate_user_with_totp/valid') do
-          authentication_response = WorkOS::UserManagement.authenticate_user_with_totp(
-            client_id: 'client_123',
-            pending_authentication_token: 'pending_authentication_token_1234',
-            authentication_challenge_id: 'authentication_challenge_id_1234',
-            code: '123456',
-          )
-          expect(authentication_response.user.id).to eq('user_01H93ZY4F80YZRRS6N59Z2HFVS')
-        end
-      end
-    end
-
-    context 'with an invalid code' do
-      it 'returns an error' do
-        VCR.use_cassette('user_management/authenticate_user_with_totp/invalid') do
-          expect do
-            WorkOS::UserManagement.authenticate_user_with_totp(
-              client_id: 'client_123',
-              pending_authentication_token: 'pending_authentication_token_1234',
-              authentication_challenge_id: 'authentication_challenge_id_1234',
-              code: '123456',
-            )
-          end.to raise_error(WorkOS::InvalidRequestError, /Status 400/)
-        end
-      end
-    end
-  end
-
-  describe '.authenticate_user_password' do
+  describe '.authenticate_with_password' do
     context 'with a valid password' do
       it 'returns user' do
-        VCR.use_cassette('user_management/authenticate_user_password/valid') do
-          authentication_response = WorkOS::UserManagement.authenticate_user_password(
+        VCR.use_cassette('user_management/authenticate_with_password/valid') do
+          authentication_response = WorkOS::UserManagement.authenticate_with_password(
             email: 'test@workos.app',
             password: '7YtYic00VWcXatPb',
             client_id: 'client_123',
@@ -645,9 +614,9 @@ describe WorkOS::UserManagement do
 
     context 'with an invalid user' do
       it 'raises an error' do
-        VCR.use_cassette('user_management/authenticate_user_password/invalid') do
+        VCR.use_cassette('user_management/authenticate_with_password/invalid') do
           expect do
-            WorkOS::UserManagement.authenticate_user_password(
+            WorkOS::UserManagement.authenticate_with_password(
               email: 'invalid@workos.app',
               password: 'invalid',
               client_id: 'client_123',
@@ -658,46 +627,13 @@ describe WorkOS::UserManagement do
         end
       end
     end
-
-    describe '.authenticate_user_magic_auth' do
-      context 'with a valid password' do
-        it 'returns user' do
-          VCR.use_cassette('user_management/authenticate_user_magic_auth/valid') do
-            authentication_response = WorkOS::UserManagement.authenticate_user_magic_auth(
-              code: '452079',
-              user_id: 'user_01H93WD0R0KWF8Q7BK02C0RPYJ',
-              client_id: 'client_123',
-              ip_address: '200.240.210.16',
-              user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36',
-            )
-            expect(authentication_response.user.id).to eq('user_01H93WD0R0KWF8Q7BK02C0RPYJ')
-          end
-        end
-      end
-
-      context 'with an incorrect user id' do
-        it 'raises an error' do
-          VCR.use_cassette('user_management/authenticate_user_magic_auth/invalid') do
-            expect do
-              WorkOS::UserManagement.authenticate_user_magic_auth(
-                code: '452079',
-                user_id: 'user_01H93WD0R0KWF8Q7BK02C0RPY',
-                client_id: 'client_123',
-                ip_address: '200.240.210.16',
-                user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36',
-              )
-            end.to raise_error(WorkOS::APIError, /User not found/)
-          end
-        end
-      end
-    end
   end
 
-  describe '.authenticate_user_with_code' do
-    context 'with a valid password' do
+  describe '.authenticate_with_code' do
+    context 'with a valid code' do
       it 'returns user' do
-        VCR.use_cassette('user_management/authenticate_user_with_code/valid') do
-          authentication_response = WorkOS::UserManagement.authenticate_user_with_code(
+        VCR.use_cassette('user_management/authenticate_with_code/valid') do
+          authentication_response = WorkOS::UserManagement.authenticate_with_code(
             code: '01H93ZZHA0JBHFJH9RR11S83YN',
             client_id: 'client_123',
             ip_address: '200.240.210.16',
@@ -708,13 +644,112 @@ describe WorkOS::UserManagement do
       end
     end
 
-    context 'with an incorrect user id' do
+    context 'with an invalid code' do
       it 'raises an error' do
-        VCR.use_cassette('user_management/authenticate_user_with_code/invalid') do
+        VCR.use_cassette('user_management/authenticate_with_code/invalid') do
           expect do
-            WorkOS::UserManagement.authenticate_user_with_code(
-              code: '452079',
+            WorkOS::UserManagement.authenticate_with_code(
+              code: 'invalid',
               client_id: 'client_123',
+              ip_address: '200.240.210.16',
+              user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36',
+            )
+          end.to raise_error(WorkOS::InvalidRequestError, /Status 400/)
+        end
+      end
+    end
+  end
+
+  describe '.authenticate_with_magic_auth' do
+    context 'with a valid code' do
+      it 'returns user' do
+        VCR.use_cassette('user_management/authenticate_with_magic_auth/valid') do
+          authentication_response = WorkOS::UserManagement.authenticate_with_magic_auth(
+            code: '452079',
+            client_id: 'project_01EGKAEB7G5N88E83MF99J785F',
+            user_id: 'user_01H93WD0R0KWF8Q7BK02C0RPYJ',
+            ip_address: '200.240.210.16',
+            user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36',
+          )
+          expect(authentication_response.user.id).to eq('user_01H93WD0R0KWF8Q7BK02C0RPYJ')
+        end
+      end
+    end
+
+    context 'with an invalid code' do
+      it 'returns an error' do
+        VCR.use_cassette('user_management/authenticate_with_magic_auth/invalid') do
+          expect do
+            WorkOS::UserManagement.authenticate_with_magic_auth(
+              code: 'invalid',
+              client_id: 'client_123',
+              user_id: 'user_01H93WD0R0KWF8Q7BK02C0RPY',
+            )
+          end.to raise_error(WorkOS::APIError, /User not found/)
+        end
+      end
+    end
+  end
+
+  describe '.authenticate_with_totp' do
+    context 'with a valid code' do
+      it 'returns user' do
+        VCR.use_cassette('user_management/authenticate_with_totp/valid') do
+          authentication_response = WorkOS::UserManagement.authenticate_with_totp(
+            code: '01H93ZZHA0JBHFJH9RR11S83YN',
+            client_id: 'client_123',
+            pending_authentication_token: 'pending_authentication_token_1234',
+            authentication_challenge_id: 'authentication_challenge_id',
+            ip_address: '200.240.210.16',
+            user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36',
+          )
+          expect(authentication_response.user.id).to eq('user_01H93ZY4F80YZRRS6N59Z2HFVS')
+        end
+      end
+    end
+
+    context 'with an invalid code' do
+      it 'raises an error' do
+        VCR.use_cassette('user_management/authenticate_with_totp/invalid') do
+          expect do
+            WorkOS::UserManagement.authenticate_with_totp(
+              code: 'invalid',
+              client_id: 'client_123',
+              pending_authentication_token: 'pending_authentication_token_1234',
+              authentication_challenge_id: 'authentication_challenge_id',
+              ip_address: '200.240.210.16',
+              user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36',
+            )
+          end.to raise_error(WorkOS::InvalidRequestError, /Status 400/)
+        end
+      end
+    end
+  end
+
+  describe '.authenticate_with_email_verification' do
+    context 'with a valid code' do
+      it 'returns user' do
+        VCR.use_cassette('user_management/authenticate_with_email_verification/valid') do
+          authentication_response = WorkOS::UserManagement.authenticate_with_email_verification(
+            code: '01H93ZZHA0JBHFJH9RR11S83YN',
+            client_id: 'client_123',
+            pending_authentication_token: 'pending_authentication_token_1234',
+            ip_address: '200.240.210.16',
+            user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36',
+          )
+          expect(authentication_response.user.id).to eq('user_01H93ZY4F80YZRRS6N59Z2HFVS')
+        end
+      end
+    end
+
+    context 'with an invalid code' do
+      it 'raises an error' do
+        VCR.use_cassette('user_management/authenticate_with_email_verification/invalid') do
+          expect do
+            WorkOS::UserManagement.authenticate_with_email_verification(
+              code: 'invalid',
+              client_id: 'client_123',
+              pending_authentication_token: 'pending_authentication_token_1234',
               ip_address: '200.240.210.16',
               user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36',
             )
