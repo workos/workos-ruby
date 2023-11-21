@@ -6,7 +6,7 @@ http_interactions:
       body:
         encoding: UTF-8
         string:
-          '{"code":"test@workos.app","user_id":"user_01H93WD0R0KWF8Q7BK02C0RPY","client_id":"client_123","client_secret":"<API_KEY>","ip_address":"200.240.210.16","user_agent":"Mozilla/5.0
+          '{"code":"invalid","user_id":"user_01H93WD0R0KWF8Q7BK02C0RPY","client_id":"client_123","client_secret":"<API_KEY>","ip_address":"200.240.210.16","user_agent":"Mozilla/5.0
           (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36","grant_type":"urn:workos:oauth:grant-type:magic-auth:code"}'
       headers:
         Content-Type:
