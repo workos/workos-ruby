@@ -743,3 +743,198 @@ describe WorkOS::UserManagement do
     end
   end
 end
+
+describe '.get_invitation' do
+  context 'with a valid id' do
+    it 'returns an invitation' do
+      VCR.use_cassette 'user_management/get_invitation/valid' do
+        invitation = described_class.get_invitation(
+          id: 'invitation_01H5JQDV7R7ATEYZDEG0W5PRYS',
+        )
+
+        expect(invitation.id.instance_of?(String))
+        expect(invitation.instance_of?(WorkOS::Invitation))
+      end
+    end
+  end
+
+  context 'with an invalid id' do
+    it 'raises an error' do
+      VCR.use_cassette('user_management/get_invitation/invalid') do
+        expect do
+          WorkOS::UserManagement.get_invitation(id: 'invalid')
+        end.to raise_error(WorkOS::APIError, /Invitation not found/)
+      end
+    end
+  end
+end
+
+describe '.list_invitations' do
+  context 'with no options' do
+    it 'returns invitations and metadata' do
+      expected_metadata = {
+        'after' => nil,
+        'before' => 'before_id',
+      }
+
+      VCR.use_cassette 'user_management/list_invitations/with_no_options' do
+        invitations = described_class.list_invitations
+
+        expect(invitations.data.size).to eq(5)
+        expect(invitations.list_metadata).to eq(expected_metadata)
+      end
+    end
+  end
+
+  context 'with organization_id option' do
+    it 'forms the proper request to the API' do
+      request_args = [
+        '/user_management/invitations?organization_id=org_01H5JQDV7R7ATEYZDEG0W5PRYS',
+        'Content-Type' => 'application/json'
+      ]
+
+      expected_request = Net::HTTP::Get.new(*request_args)
+
+      expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+        and_return(expected_request)
+
+      VCR.use_cassette 'user_management/list_invitations/with_organization_id' do
+        invitations = described_class.list_invitations(
+          organization_id: 'org_01H5JQDV7R7ATEYZDEG0W5PRYS',
+        )
+
+        expect(invitations.data.size).to eq(1)
+        expect(invitations.data.first.organization_id).to eq(
+          'org_01H5JQDV7R7ATEYZDEG0W5PRYS',
+        )
+      end
+    end
+  end
+
+  context 'with limit option' do
+    it 'forms the proper request to the API' do
+      request_args = [
+        '/user_management/invitations?limit=2',
+        'Content-Type' => 'application/json'
+      ]
+
+      expected_request = Net::HTTP::Get.new(*request_args)
+
+      expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+        and_return(expected_request)
+
+      VCR.use_cassette 'user_management/list_invitations/with_limit' do
+        invitations = described_class.list_invitations(
+          limit: 2,
+        )
+
+        expect(invitations.data.size).to eq(3)
+      end
+    end
+  end
+
+  context 'with before option' do
+    it 'forms the proper request to the API' do
+      request_args = [
+        '/user_management/invitations?before=invitation_01H5JQDV7R7ATEYZDEG0W5PRYS',
+        'Content-Type' => 'application/json'
+      ]
+
+      expected_request = Net::HTTP::Get.new(*request_args)
+
+      expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+        and_return(expected_request)
+
+      VCR.use_cassette 'user_management/list_invitations/with_before' do
+        invitations = described_class.list_invitations(
+          before: 'invitation_01H5JQDV7R7ATEYZDEG0W5PRYS',
+        )
+
+        expect(invitations.data.size).to eq(2)
+      end
+    end
+  end
+
+  context 'with after option' do
+    it 'forms the proper request to the API' do
+      request_args = [
+        '/user_management/invitations?after=invitation_01H5JQDV7R7ATEYZDEG0W5PRYS',
+        'Content-Type' => 'application/json'
+      ]
+
+      expected_request = Net::HTTP::Get.new(*request_args)
+
+      expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+        and_return(expected_request)
+
+      VCR.use_cassette 'user_management/list_invitations/with_after' do
+        invitations = described_class.list_invitations(
+          after: 'invitation_01H5JQDV7R7ATEYZDEG0W5PRYS',
+        )
+
+        expect(invitations.data.size).to eq(2)
+      end
+    end
+  end
+end
+
+describe '.send_invitation' do
+  context 'with valid payload' do
+    it 'sends an invitation' do
+      VCR.use_cassette 'user_management/send_invitation/valid' do
+        invitation = described_class.send_invitation(
+          email: 'test@workos.com',
+        )
+
+        expect(invitation.id).to eq('invitation_01H5JQDV7R7ATEYZDEG0W5PRYS')
+        expect(invitation.email).to eq('test@workos.com')
+      end
+    end
+  end
+
+  context 'with an invalid payload' do
+    it 'returns an error' do
+      VCR.use_cassette 'user_management/send_invitation/invalid' do
+        expect do
+          described_class.send_invitation(
+            email: 'invalid@workos.com',
+          )
+        end.to raise_error(
+          WorkOS::APIError,
+          /An Invitation with the email invalid@workos.com already exists/,
+        )
+      end
+    end
+  end
+end
+
+describe '.revoke_invitation' do
+  context 'with valid payload' do
+    it 'revokes invitation' do
+      VCR.use_cassette 'user_management/revoke_invitation/valid' do
+        invitation = described_class.revoke_invitation(
+          id: 'invitation_01H5JQDV7R7ATEYZDEG0W5PRYS',
+        )
+
+        expect(invitation.id).to eq('invitation_01H5JQDV7R7ATEYZDEG0W5PRYS')
+        expect(invitation.email).to eq('test@workos.com')
+      end
+    end
+  end
+
+  context 'with an invalid payload' do
+    it 'returns an error' do
+      VCR.use_cassette 'user_management/revoke_invitation/invalid' do
+        expect do
+          described_class.revoke_invitation(
+            id: 'invalid_id',
+          )
+        end.to raise_error(
+          WorkOS::APIError,
+          /Invitation not found/,
+        )
+      end
+    end
+  end
+end
+end
