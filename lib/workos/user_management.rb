@@ -576,6 +576,52 @@ module WorkOS
         )
       end
 
+      # Sends a verification email to the provided user.
+      #
+      # @param [String] id The unique ID of the User whose email address will be verified.
+      #
+      # @return WorkOS::UserResponse
+      sig do
+        params(
+          id: String,
+        ).returns(WorkOS::UserResponse)
+      end
+      def send_verification_email(id:)
+        response = execute_request(
+          request: post_request(
+            path: "/users/#{id}/send_verification_email",
+            auth: true,
+          ),
+        )
+
+        WorkOS::UserResponse.new(response.body)
+      end
+
+      # Verifies user email using one-time code that was sent to the user.
+      #
+      # @param [String] user_id The unique ID of the User whose email address will be verified.
+      # @param [String] code The one-time code emailed to the user.
+      #
+      # @return WorkOS::UserResponse
+      sig do
+        params(
+          user_id: String,
+          code: String,
+        ).returns(WorkOS::UserResponse)
+      end
+      def verify_email(user_id:, code:)
+        response = execute_request(
+          request: post_request(
+            path: "/users/#{user_id}/verify_email_code",
+            body: {
+              code: code,
+            },
+            auth: true,
+          ),
+        )
+        WorkOS::UserResponse.new(response.body)
+      end
+
       # Resets user password using token that was sent to the user.
       #
       # @param [String] token The token that was sent to the user.
@@ -628,79 +674,6 @@ module WorkOS
         response = execute_request(request: request)
 
         WorkOS::UserAndToken.new(response.body)
-      end
-
-      # Sends a verification email to the provided user.
-      #
-      # @param [String] id The unique ID of the User whose email address will be verified.
-      #
-      # @return WorkOS::UserResponse
-      sig do
-        params(
-          id: String,
-        ).returns(WorkOS::UserResponse)
-      end
-      def send_verification_email(id:)
-        response = execute_request(
-          request: post_request(
-            path: "/users/#{id}/send_verification_email",
-            auth: true,
-          ),
-        )
-
-        WorkOS::UserResponse.new(response.body)
-      end
-
-      # Verifies user email using one-time code that was sent to the user.
-      #
-      # @param [String] user_id The unique ID of the User whose email address will be verified.
-      # @param [String] code The one-time code emailed to the user.
-      #
-      # @return WorkOS::UserResponse
-      sig do
-        params(
-          user_id: String,
-          code: String,
-        ).returns(WorkOS::UserResponse)
-      end
-      def verify_email(user_id:, code:)
-        response = execute_request(
-          request: post_request(
-            path: "/users/#{user_id}/verify_email_code",
-            body: {
-              code: code,
-            },
-            auth: true,
-          ),
-        )
-        WorkOS::UserResponse.new(response.body)
-      end
-
-      # Updates user user password.
-      #
-      # @param [String] id The unique ID of the User.
-      # @param [String] password The new password to set for the user.
-      #
-      # @return WorkOS::User
-
-      sig do
-        params(
-          id: String,
-          password: String,
-        ).returns(WorkOS::User)
-      end
-      def update_user_password(id:, password:)
-        response = execute_request(
-          request: put_request(
-            path: "/users/#{id}/password",
-            body: {
-              password: password,
-            },
-            auth: true,
-          ),
-        )
-
-        WorkOS::User.new(response.body)
       end
 
       private

@@ -513,32 +513,6 @@ describe WorkOS::UserManagement do
       end
     end
   end
-  describe '.update_user_password' do
-    context 'with a valid payload' do
-      it 'updates a user password' do
-        VCR.use_cassette 'user_management/update_user_password/valid' do
-          user = described_class.update_user_password(
-            id: 'user_01H7TVSKS45SDHN5V9XPSM6H44',
-            password: '7YtYic00VWcXatPb',
-          )
-          expect(user.id).to eq('user_01H7TVSKS45SDHN5V9XPSM6H44')
-        end
-      end
-
-      context 'with an invalid payload' do
-        it 'returns an error' do
-          VCR.use_cassette 'user_management/update_user_password/invalid' do
-            expect do
-              described_class.update_user_password(
-                id: 'invalid',
-                password: '7YtYic00VWcXatPb',
-              )
-            end.to raise_error(WorkOS::APIError, /User not found/)
-          end
-        end
-      end
-    end
-  end
 
   describe '.authenticate_with_password' do
     context 'with a valid password' do
