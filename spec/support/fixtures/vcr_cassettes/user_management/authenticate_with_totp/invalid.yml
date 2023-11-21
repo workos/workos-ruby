@@ -6,7 +6,7 @@ http_interactions:
       body:
         encoding: UTF-8
         string:
-          '{"code":"123456","client_id":"client_123","client_secret":"<API_KEY>","grant_type":"urn:workos:oauth:grant-type:mfa-totp", "pending_authentication_token="pending_authentication_token_1234", "authentication_challenge_id": "authentication_challenge_id_1234"}'
+          '{"code":"invalid","client_id":"client_123","client_secret":"<API_KEY>","grant_type":"urn:workos:oauth:grant-type:mfa-totp", "pending_authentication_token="pending_authentication_token_1234", "authentication_challenge_id": "authentication_challenge_id_1234"}'
       headers:
         Content-Type:
           - application/json
