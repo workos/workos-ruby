@@ -727,7 +727,36 @@ describe WorkOS::UserManagement do
   end
 
   describe '.authenticate_with_email_verification' do
-    # TODO: - Implement test
+    context 'with a valid code' do
+      it 'returns user' do
+        VCR.use_cassette('user_management/authenticate_with_email_verification/valid') do
+          authentication_response = WorkOS::UserManagement.authenticate_with_email_verification(
+            code: '01H93ZZHA0JBHFJH9RR11S83YN',
+            client_id: 'client_123',
+            pending_authentication_token: 'pending_authentication_token_1234',
+            ip_address: '200.240.210.16',
+            user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36',
+          )
+          expect(authentication_response.user.id).to eq('user_01H93ZY4F80YZRRS6N59Z2HFVS')
+        end
+      end
+    end
+
+    context 'with an invalid code' do
+      it 'raises an error' do
+        VCR.use_cassette('user_management/authenticate_with_email_verification/invalid') do
+          expect do
+            WorkOS::UserManagement.authenticate_with_email_verification(
+              code: 'invalid',
+              client_id: 'client_123',
+              pending_authentication_token: 'pending_authentication_token_1234',
+              ip_address: '200.240.210.16',
+              user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36',
+            )
+          end.to raise_error(WorkOS::InvalidRequestError, /Status 400/)
+        end
+      end
+    end
   end
 
   describe '.enroll_auth_factor' do

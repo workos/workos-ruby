@@ -639,6 +639,8 @@ module WorkOS
       #
       # @param [String] code The one-time code that was emailed to the user.
       # @param [String] client_id The WorkOS client ID for the environment
+      # @param [String] pending_authentication_token The token returned from a failed email/password or OAuth
+      # authentication attempt due to an unverified email address.
       # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
       #
