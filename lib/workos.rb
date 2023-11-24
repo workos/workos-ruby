@@ -74,6 +74,7 @@ module WorkOS
   autoload :VerifyChallenge, 'workos/verify_challenge'
   autoload :DeprecatedHashWrapper, 'workos/deprecated_hash_wrapper'
   autoload :UserResponse, 'workos/user_response'
+  autoload :Invitation, 'workos/invitation'
 
   # Errors
   autoload :APIError, 'workos/errors'

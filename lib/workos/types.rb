@@ -23,5 +23,6 @@ module WorkOS
     require_relative 'types/challenge_struct'
     require_relative 'types/user_struct'
     require_relative 'types/verify_challenge_struct'
+    require_relative 'types/invitation_struct'
   end
 end
