@@ -620,6 +620,7 @@ module WorkOS
             auth: true,
           ),
         )
+        
         WorkOS::UserResponse.new(response.body)
       end
 

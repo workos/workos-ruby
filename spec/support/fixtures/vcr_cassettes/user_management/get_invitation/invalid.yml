@@ -1,82 +1,82 @@
 ---
 http_interactions:
-- request:
-    method: get
-    uri: https://api.workos.com/user_management/invitations/invalid
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Content-Type:
-      - application/json
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - WorkOS; ruby/3.0.2; arm64-darwin21; v2.16.0
-      Authorization:
-      - Bearer <API_KEY>
-  response:
-    status:
-      code: 404
-      message: Not Found
-    headers:
-      Date:
-      - Fri, 25 Aug 2023 21:38:47 GMT
-      Content-Type:
-      - application/json; charset=utf-8
-      Transfer-Encoding:
-      - chunked
-      Connection:
-      - keep-alive
-      Cf-Ray:
-      - 7fc6fbe4ef26ec80-SEA
-      Cf-Cache-Status:
-      - DYNAMIC
-      Etag:
-      - W/"58-5GtYccQgavNavjEU+gaKkOl1gq4"
-      Strict-Transport-Security:
-      - max-age=15552000; includeSubDomains
-      Vary:
-      - Origin, Accept-Encoding
-      Via:
-      - 1.1 spaces-router (devel)
-      Access-Control-Allow-Credentials:
-      - 'true'
-      Content-Security-Policy:
-      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
-        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
-        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
-      Expect-Ct:
-      - max-age=0
-      Referrer-Policy:
-      - no-referrer
-      X-Content-Type-Options:
-      - nosniff
-      X-Dns-Prefetch-Control:
-      - 'off'
-      X-Download-Options:
-      - noopen
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-Permitted-Cross-Domain-Policies:
-      - none
-      X-Request-Id:
-      - f3bf3ce2-ed1c-4fdf-9bba-065c2ab4e5e3
-      X-Xss-Protection:
-      - '0'
-      Set-Cookie:
-      - __cf_bm=VyJvcfBZAdCVUhGKRtHsl9enJXaR64T8urur5ClUQWY-1692999527-0-AahBwhyZ59RlA2LkZ5bsanqtnkJWCPSngTzr7vokapEBcsZzjppDl90U6KcM3t3w2iZ0p7uHvZZ5zI0G74Wlmg4=;
-        path=/; expires=Fri, 25-Aug-23 22:08:47 GMT; domain=.workos.com; HttpOnly;
-        Secure; SameSite=None
-      - __cfruid=1a7b02324f49135ba91ab0fc79714ad620549ae5-1692999527; path=/; domain=.workos.com;
-        HttpOnly; Secure; SameSite=None
-      Server:
-      - cloudflare
-    body:
-      encoding: ASCII-8BIT
-      string: '{"message":"Not Found"}'
-    http_version:
-  recorded_at: Fri, 25 Aug 2023 21:38:47 GMT
+  - request:
+      method: get
+      uri: https://api.workos.com/user_management/invitations/invalid
+      body:
+        encoding: US-ASCII
+        string: ""
+      headers:
+        Content-Type:
+          - application/json
+        Accept-Encoding:
+          - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+        Accept:
+          - "*/*"
+        User-Agent:
+          - WorkOS; ruby/3.0.2; arm64-darwin22; v2.16.0
+        Authorization:
+          - Bearer <API_KEY>
+    response:
+      status:
+        code: 404
+        message: Not Found
+      headers:
+        Date:
+          - Mon, 14 Aug 2023 21:42:04 GMT
+        Content-Type:
+          - application/json; charset=utf-8
+        Transfer-Encoding:
+          - chunked
+        Connection:
+          - keep-alive
+        Cf-Ray:
+          - 7f6c5d952da1431b-EWR
+        Cf-Cache-Status:
+          - DYNAMIC
+        Etag:
+          - W/"141-O6DsNeF3SRNndlNrActm2XgXhM8"
+        Strict-Transport-Security:
+          - max-age=15552000; includeSubDomains
+        Vary:
+          - Origin, Accept-Encoding
+        Via:
+          - 1.1 spaces-router (devel)
+        Access-Control-Allow-Credentials:
+          - "true"
+        Content-Security-Policy:
+          - "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self'
+            https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src
+            'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+        Expect-Ct:
+          - max-age=0
+        Referrer-Policy:
+          - no-referrer
+        X-Content-Type-Options:
+          - nosniff
+        X-Dns-Prefetch-Control:
+          - "off"
+        X-Download-Options:
+          - noopen
+        X-Frame-Options:
+          - SAMEORIGIN
+        X-Permitted-Cross-Domain-Policies:
+          - none
+        X-Request-Id:
+          - d774318d-c77b-47eb-9974-47e587a5242e
+        X-Xss-Protection:
+          - "0"
+        Set-Cookie:
+          - __cf_bm=BV7wg6GRB.g.PmjVqpTueEgpVm4zhgL.Jb_FhpUkQDc-1692049324-0-AXZinFJJ+pibtaAcxVXaSSRque4aiUt1xUih81Q0oIyBpuoQFVT1fZc5kmyCUhdM/7VR/NhM818gxjJLjAC0BHE=;
+            path=/; expires=Mon, 14-Aug-23 22:12:04 GMT; domain=.workos.com; HttpOnly;
+            Secure; SameSite=None
+          - __cfruid=5c73c06a5245951a8821c4d8302ae7be643317b4-1692049324; path=/; domain=.workos.com;
+            HttpOnly; Secure; SameSite=None
+        Server:
+          - cloudflare
+      body:
+        encoding: ASCII-8BIT
+        string: '{"message":"Invitation not found: ''invalid''.","code":"entity_not_found","entity_id":"invalid"}'
+      http_version:
+    recorded_at: Mon, 14 Aug 2023 21:42:04 GMT
 recorded_with: VCR 5.0.0
