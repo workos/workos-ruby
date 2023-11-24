@@ -141,8 +141,7 @@ module WorkOS
       #
       # @param [Hash] options
       # @option options [String] email Filter Users by their email.
-      # @option options [String] organization_id Filter Users by the organization
-      #  they are members of.
+      # @option options [String] organization_id Filter Users by the organization they are members of.
       # @option options [String] limit Maximum number of records to return.
       # @option options [String] order The order in which to paginate records
       # @option options [String] before Pagination cursor to receive records
