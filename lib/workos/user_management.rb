@@ -788,7 +788,7 @@ module WorkOS
 
         WorkOS::Invitation.new(response.body)
       end
-      
+
       private
 
       sig do

@@ -810,7 +810,7 @@ describe WorkOS::UserManagement do
     context 'with before option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/user_management/invitations?before=conn_01FA3WGCWPCCY1V2FGES2FDNP7',
+          '/user_management/invitations?before=invitation_01H5JQDV7R7ATEYZDEG0W5PRYS',
           'Content-Type' => 'application/json'
         ]
 
@@ -821,7 +821,7 @@ describe WorkOS::UserManagement do
 
         VCR.use_cassette 'user_management/list_invitations/with_before' do
           invitations = described_class.list_invitations(
-            before: 'conn_01FA3WGCWPCCY1V2FGES2FDNP7',
+            before: 'invitation_01H5JQDV7R7ATEYZDEG0W5PRYS',
           )
 
           expect(invitations.data.size).to eq(2)
@@ -832,7 +832,7 @@ describe WorkOS::UserManagement do
     context 'with after option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/user_management/invitations?after=conn_01FA3WGCWPCCY1V2FGES2FDNP7',
+          '/user_management/invitations?after=invitation_01H5JQDV7R7ATEYZDEG0W5PRYS',
           'Content-Type' => 'application/json'
         ]
 
@@ -843,7 +843,7 @@ describe WorkOS::UserManagement do
 
         VCR.use_cassette 'user_management/list_invitations/with_after' do
           invitations = described_class.list_invitations(
-            after: 'conn_01FA3WGCWPCCY1V2FGES2FDNP7',
+            after: 'invitation_01H5JQDV7R7ATEYZDEG0W5PRYS',
           )
 
           expect(invitations.data.size).to eq(2)
@@ -883,7 +883,33 @@ describe WorkOS::UserManagement do
   end
 
   describe '.revoke_invitation' do
-    # TODO: - Implement tests
+    context 'with valid payload' do
+      it 'revokes invitation' do
+        VCR.use_cassette 'user_management/revoke_invitation/valid' do
+          invitation = described_class.revoke_invitation(
+            id: 'invitation_01H5JQDV7R7ATEYZDEG0W5PRYS',
+          )
+
+          expect(invitation.id).to eq('invitation_01H5JQDV7R7ATEYZDEG0W5PRYS')
+          expect(invitation.email).to eq('test@workos.com')
+        end
+      end
+    end
+
+    context 'with an invalid payload' do
+      it 'returns an error' do
+        VCR.use_cassette 'user_management/revoke_invitation/invalid' do
+          expect do
+            described_class.revoke_invitation(
+              id: 'invalid_id',
+            )
+          end.to raise_error(
+            WorkOS::APIError,
+            /Invitation not found/,
+          )
+        end
+      end
+    end
   end
 end
 
