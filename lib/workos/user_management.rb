@@ -389,7 +389,6 @@ module WorkOS
         WorkOS::UserResponse.new(response.body)
       end
 
-      #
       # Authenticates a user using TOTP.
       #
       # @param [String] code The one-time code that was emailed to the user.
@@ -440,7 +439,6 @@ module WorkOS
         WorkOS::UserResponse.new(response.body)
       end
 
-      #
       # Authenticates a user using Email Verification Code.
       #
       # @param [String] code The one-time code that was emailed to the user.
@@ -620,7 +618,7 @@ module WorkOS
             auth: true,
           ),
         )
-        
+
         WorkOS::UserResponse.new(response.body)
       end
 
@@ -677,6 +675,7 @@ module WorkOS
 
         WorkOS::User.new(response.body)
       end
+
 
       # Gets an Invitation
       #
@@ -789,7 +788,7 @@ module WorkOS
 
         WorkOS::Invitation.new(response.body)
       end
-
+      
       private
 
       sig do

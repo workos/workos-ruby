@@ -742,6 +742,123 @@ describe WorkOS::UserManagement do
       end
     end
   end
+
+  describe '.list_invitations' do
+    context 'with no options' do
+      it 'returns invitations and metadata' do
+        expected_metadata = {
+          'after' => nil,
+          'before' => 'before_id',
+        }
+
+        VCR.use_cassette 'user_management/list_invitations/with_no_options' do
+          invitations = described_class.list_invitations
+
+          expect(invitations.data.size).to eq(5)
+          expect(invitations.list_metadata).to eq(expected_metadata)
+        end
+      end
+    end
+
+    context 'with organization_id option' do
+      it 'forms the proper request to the API' do
+        request_args = [
+          '/user_management/invitations?organization_id=org_01H5JQDV7R7ATEYZDEG0W5PRYS',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'user_management/list_invitations/with_organization_id' do
+          invitations = described_class.list_invitations(
+            organization_id: 'org_01H5JQDV7R7ATEYZDEG0W5PRYS',
+          )
+
+          expect(invitations.data.size).to eq(1)
+          expect(invitations.data.first.organization_id).to eq(
+            'org_01H5JQDV7R7ATEYZDEG0W5PRYS',
+          )
+        end
+      end
+    end
+
+    context 'with limit option' do
+      it 'forms the proper request to the API' do
+        request_args = [
+          '/user_management/invitations?limit=2',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'user_management/list_invitations/with_limit' do
+          invitations = described_class.list_invitations(
+            limit: 2,
+          )
+
+          expect(invitations.data.size).to eq(3)
+        end
+      end
+    end
+
+    context 'with before option' do
+      it 'forms the proper request to the API' do
+        request_args = [
+          '/user_management/invitations?before=conn_01FA3WGCWPCCY1V2FGES2FDNP7',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'user_management/list_invitations/with_before' do
+          invitations = described_class.list_invitations(
+            before: 'conn_01FA3WGCWPCCY1V2FGES2FDNP7',
+          )
+
+          expect(invitations.data.size).to eq(2)
+        end
+      end
+    end
+
+    context 'with after option' do
+      it 'forms the proper request to the API' do
+        request_args = [
+          '/user_management/invitations?after=conn_01FA3WGCWPCCY1V2FGES2FDNP7',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'user_management/list_invitations/with_after' do
+          invitations = described_class.list_invitations(
+            after: 'conn_01FA3WGCWPCCY1V2FGES2FDNP7',
+          )
+
+          expect(invitations.data.size).to eq(2)
+        end
+      end
+    end
+  end
+
+  describe '.send_invitation' do
+    # TODO: - Implement tests
+  end
+
+  describe '.revoke_invitation' do
+    # TODO: - Implement tests
+  end
 end
 
 describe '.get_invitation' do
