@@ -624,33 +624,6 @@ module WorkOS
         WorkOS::UserResponse.new(response.body)
       end
 
-      # Resets user password using token that was sent to the user.
-      #
-      # @param [String] token The token that was sent to the user.
-      # @param [String] new_password The new password to set for the user.
-      #
-      # @return WorkOS::User
-      sig do
-        params(
-          token: String,
-          new_password: String,
-        ).returns(WorkOS::User)
-      end
-      def reset_password(token:, new_password:)
-        response = execute_request(
-          request: post_request(
-            path: '/users/password_reset',
-            body: {
-              token: token,
-              new_password: new_password,
-            },
-            auth: true,
-          ),
-        )
-
-        WorkOS::User.new(response.body)
-      end
-
       # Creates a password reset challenge and emails a password reset link to a user.
       #
       # @param [String] email The email of the user that wishes to reset their password.
@@ -665,7 +638,7 @@ module WorkOS
       end
       def send_password_reset_email(email:, password_reset_url:)
         request = post_request(
-          path: '/users/send_password_reset_email',
+          path: '/user_management/password_reset/send',
           body: {
             email: email,
             password_reset_url: password_reset_url,
