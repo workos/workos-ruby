@@ -712,4 +712,35 @@ describe WorkOS::UserManagement do
       end
     end
   end
+
+  describe '.reset_password' do
+    context 'with a valid payload' do
+      it 'resets the password and returns the user' do
+        VCR.use_cassette 'user_management/reset_password/valid' do
+          user = described_class.reset_password(
+            token: 'eEgAgvAE0blvU1zWV3yWVAD22',
+            new_password: 'very_cool_new_pa$$word',
+          )
+
+          expect(user.email).to eq('lucy.lawless@example.com')
+        end
+      end
+    end
+
+    context 'with an invalid payload' do
+      it 'returns an error' do
+        VCR.use_cassette 'user_management/reset_password/invalid' do
+          expect do
+            described_class.reset_password(
+              token: 'bogus_token',
+              new_password: 'new_password',
+            )
+          end.to raise_error(
+            WorkOS::APIError,
+            /Could not locate user with provided token/,
+          )
+        end
+      end
+    end
+  end
 end

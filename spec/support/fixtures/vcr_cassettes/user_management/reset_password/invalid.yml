@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.workos.com/user_management/password_reset/confirm
     body:
       encoding: UTF-8
-      string: '{"token":"eEgAgvAE0blvU1zWV3yWVAD22","new_password":"very_cool_new_pa$$word"}'
+      string: '{"token":"bogus_token","new_password":"new_password"}'
     headers:
       Content-Type:
       - application/json
@@ -14,28 +14,28 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/3.0.2; arm64-darwin23; v2.16.0
+      - WorkOS; ruby/3.0.2; arm64-darwin22; v2.16.0
       Authorization:
-      - 'Bearer '
+      - Bearer <API_KEY>
   response:
     status:
-      code: 401
-      message: Unauthorized
+      code: 404
+      message: Not Found
     headers:
       Date:
-      - Sat, 25 Nov 2023 21:46:08 GMT
+      - Tue, 22 Aug 2023 20:37:23 GMT
       Content-Type:
       - application/json; charset=utf-8
-      Content-Length:
-      - '26'
+      Transfer-Encoding:
+      - chunked
       Connection:
       - keep-alive
       Cf-Ray:
-      - 82bd15254f97a56e-GRU
+      - 7fade9d76fd5c443-EWR
       Cf-Cache-Status:
       - DYNAMIC
       Etag:
-      - W/"1a-pljHtlo127JYJR4E/RYOPb6ucbw"
+      - W/"6e-ewNsQiFn+97Q628gVxOcxYY8/4k"
       Strict-Transport-Security:
       - max-age=15552000; includeSubDomains
       Vary:
@@ -63,20 +63,20 @@ http_interactions:
       X-Permitted-Cross-Domain-Policies:
       - none
       X-Request-Id:
-      - 7b813ca7-add6-4a7f-a7de-62b6a888543a
+      - 6de35dcb-7631-4ffe-95f7-2e0f45fa4fe0
       X-Xss-Protection:
       - '0'
       Set-Cookie:
-      - __cf_bm=hmCZ.6OoiqzmwuUv6cpz.7XUdZcGTwNtfljW2v0dgPU-1700948768-0-ARWxWopNivTNFw8yWMnXuWh02wkLM9ahNWpAbgpDrKDdgzjMG7NPI1AQS81qrJakN4McyBudLtMYxrrVSoLm0I0=;
-        path=/; expires=Sat, 25-Nov-23 22:16:08 GMT; domain=.workos.com; HttpOnly;
+      - __cf_bm=3YpjDFO_KeR0V.HElgb4nKH0.Ixe_Kr3uSwR.sbSmsM-1692736643-0-AV69ETcL8wiAv3YIQ5mB+YssIizhLxQx5gSh4jLBpVKsr/fLS5pivrU+7BBuCSl8xrrR4HGvB8ijEIYiYyF0P7I=;
+        path=/; expires=Tue, 22-Aug-23 21:07:23 GMT; domain=.workos.com; HttpOnly;
         Secure; SameSite=None
-      - __cfruid=7aeaa81f9fe2d2f5c00011adcc897a137e871796-1700948768; path=/; domain=.workos.com;
+      - __cfruid=d094d0e9ed722cc5178c6d8aa368d9761b1b2e5c-1692736643; path=/; domain=.workos.com;
         HttpOnly; Secure; SameSite=None
       Server:
       - cloudflare
     body:
-      encoding: UTF-8
-      string: '{"message":"Unauthorized"}'
+      encoding: ASCII-8BIT
+      string: '{"message":"Could not locate user with provided token: ''bogus_token''","code":"password_reset_token_not_found"}'
     http_version:
-  recorded_at: Sat, 25 Nov 2023 21:46:07 GMT
+  recorded_at: Tue, 22 Aug 2023 20:37:23 GMT
 recorded_with: VCR 5.0.0

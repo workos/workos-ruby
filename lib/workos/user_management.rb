@@ -651,6 +651,33 @@ module WorkOS
         WorkOS::UserAndToken.new(response.body)
       end
 
+      # Resets user password using token that was sent to the user.
+      #
+      # @param [String] token The token that was sent to the user.
+      # @param [String] new_password The new password to set for the user.
+      #
+      # @return WorkOS::User
+      sig do
+        params(
+          token: String,
+          new_password: String,
+        ).returns(WorkOS::User)
+      end
+      def reset_password(token:, new_password:)
+        response = execute_request(
+          request: post_request(
+            path: '/user_management/password_reset/confirm',
+            body: {
+              token: token,
+              new_password: new_password,
+            },
+            auth: true,
+          ),
+        )
+
+        WorkOS::User.new(response.body)
+      end
+
       private
 
       sig do
