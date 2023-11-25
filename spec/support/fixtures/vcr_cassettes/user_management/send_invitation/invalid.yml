@@ -1,0 +1,82 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.workos.com/user_management/invitations
+    body:
+      encoding: UTF-8
+      string: '{"email":"invalid@workos.com"}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/3.0.2; arm64-darwin22; v2.16.0
+      Authorization:
+      - Bearer <API_KEY>
+  response:
+    status:
+      code: 409
+      message: Conflict
+    headers:
+      Date:
+      - Tue, 22 Aug 2023 15:17:55 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '185'
+      Connection:
+      - keep-alive
+      Cf-Ray:
+      - 7fac15db0d8878d0-EWR
+      Cf-Cache-Status:
+      - DYNAMIC
+      Etag:
+      - W/"b9-MwpjOZS5P8vwlJwJ2Wcz1gYyf6Y"
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Vary:
+      - Origin, Accept-Encoding
+      Via:
+      - 1.1 spaces-router (devel)
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      Expect-Ct:
+      - max-age=0
+      Referrer-Policy:
+      - no-referrer
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - 2b2e336d-0505-43c3-9cc5-4b18841bd31c
+      X-Xss-Protection:
+      - '0'
+      Set-Cookie:
+      - __cf_bm=RJi4ZoHPaRE92J8Hyh7jvHe9uc55nnVpOMBuQKZfCb8-1692717475-0-AeTId8BwH1uElzCNWtu+dsvrIY89q9vKqVJ8qd0hEON/AbMwDbsLatlPjyGecK9XamUFzX78taIjJLW5cRIxLF8=;
+        path=/; expires=Tue, 22-Aug-23 15:47:55 GMT; domain=.workos.com; HttpOnly;
+        Secure; SameSite=None
+      - __cfruid=67a732b1ed159ca5729e30e84c73587d61e22441-1692717475; path=/; domain=.workos.com;
+        HttpOnly; Secure; SameSite=None
+      Server:
+      - cloudflare
+    body:
+      encoding: UTF-8
+      string: '{"message":"An Invitation with the email invalid@workos.com already exists."}'
+    http_version:
+  recorded_at: Tue, 22 Aug 2023 15:17:55 GMT
+recorded_with: VCR 5.0.0

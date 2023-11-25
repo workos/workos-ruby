@@ -853,7 +853,33 @@ describe WorkOS::UserManagement do
   end
 
   describe '.send_invitation' do
-    # TODO: - Implement tests
+    context 'with valid payload' do
+      it 'sends an invitation' do
+        VCR.use_cassette 'user_management/send_invitation/valid' do
+          invitation = described_class.send_invitation(
+            email: 'test@workos.com',
+          )
+
+          expect(invitation.id).to eq('invitation_01H5JQDV7R7ATEYZDEG0W5PRYS')
+          expect(invitation.email).to eq('test@workos.com')
+        end
+      end
+    end
+
+    context 'with an invalid payload' do
+      it 'returns an error' do
+        VCR.use_cassette 'user_management/send_invitation/invalid' do
+          expect do
+            described_class.send_invitation(
+              email: 'invalid@workos.com',
+            )
+          end.to raise_error(
+            WorkOS::APIError,
+            /An Invitation with the email invalid@workos.com already exists/,
+          )
+        end
+      end
+    end
   end
 
   describe '.revoke_invitation' do
