@@ -34,7 +34,7 @@ module WorkOS
 
     private
 
-    sig { params(json_string: String).returns(WorkOS::Types::UserStruct) }
+    sig { params(json_string: String).returns(WorkOS::Types::OrganizationMembershipStruct) }
     def parse_json(json_string)
       hash = JSON.parse(json_string, symbolize_names: true)
 

@@ -57,7 +57,7 @@ module WorkOS
   autoload :Events, 'workos/events'
   autoload :Organization, 'workos/organization'
   autoload :Organizations, 'workos/organizations'
-  autoload :OrganizationMembership, 'workos/OrganizationMembership'
+  autoload :OrganizationMembership, 'workos/organization_membership'
   autoload :Passwordless, 'workos/passwordless'
   autoload :Portal, 'workos/portal'
   autoload :Profile, 'workos/profile'
