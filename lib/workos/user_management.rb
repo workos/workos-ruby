@@ -629,12 +629,12 @@ module WorkOS
       # @param [String] email The email of the user that wishes to reset their password.
       # @param [String] password_reset_url The URL that will be linked to in the email.
       #
-      # @return WorkOS::UserAndToken
+      # @return [Bool] - returns `true` if successful
       sig do
         params(
           email: String,
           password_reset_url: String,
-        ).returns(WorkOS::UserAndToken)
+        ).returns(T::Boolean)
       end
       def send_password_reset_email(email:, password_reset_url:)
         request = post_request(
@@ -648,7 +648,7 @@ module WorkOS
 
         response = execute_request(request: request)
 
-        WorkOS::UserAndToken.new(response.body)
+        response.is_a? Net::HTTPSuccess
       end
 
       # Resets user password using token that was sent to the user.
