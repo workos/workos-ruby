@@ -355,7 +355,7 @@ module WorkOS
       sig do
         params(
           code: String,
-          user_id: String,
+          email: String,
           client_id: String,
           ip_address: T.nilable(String),
           user_agent: T.nilable(String),
@@ -364,7 +364,7 @@ module WorkOS
       end
       def authenticate_with_magic_auth(
         code:,
-        user_id:,
+        email:,
         client_id:,
         ip_address: nil,
         user_agent: nil,
@@ -375,7 +375,7 @@ module WorkOS
             path: '/user_management/authenticate',
             body: {
               code: code,
-              user_id: user_id,
+              email: email,
               client_id: client_id,
               client_secret: WorkOS.config.key!,
               ip_address: ip_address,

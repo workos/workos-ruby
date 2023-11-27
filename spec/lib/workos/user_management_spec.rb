@@ -442,7 +442,7 @@ describe WorkOS::UserManagement do
           authentication_response = WorkOS::UserManagement.authenticate_with_magic_auth(
             code: '452079',
             client_id: 'project_01EGKAEB7G5N88E83MF99J785F',
-            user_id: 'user_01H93WD0R0KWF8Q7BK02C0RPYJ',
+            email: 'test@workos.com',
             ip_address: '200.240.210.16',
             user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36',
           )
@@ -458,7 +458,7 @@ describe WorkOS::UserManagement do
             WorkOS::UserManagement.authenticate_with_magic_auth(
               code: 'invalid',
               client_id: 'client_123',
-              user_id: 'user_01H93WD0R0KWF8Q7BK02C0RPY',
+              email: 'test@workos.com',
             )
           end.to raise_error(WorkOS::APIError, /User not found/)
         end
