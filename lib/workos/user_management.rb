@@ -676,7 +676,6 @@ module WorkOS
         WorkOS::User.new(response.body)
       end
 
-
       # Gets an Invitation
       #
       # @param [String] id The unique ID of the Invitation.
@@ -768,7 +767,6 @@ module WorkOS
 
         WorkOS::Invitation.new(response.body)
       end
-
 
       # Revokes an existing Invitation.
       #
