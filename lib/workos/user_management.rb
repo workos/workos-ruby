@@ -624,6 +624,33 @@ module WorkOS
         WorkOS::UserResponse.new(response.body)
       end
 
+      # Creates a password reset challenge and emails a password reset link to a user.
+      #
+      # @param [String] email The email of the user that wishes to reset their password.
+      # @param [String] password_reset_url The URL that will be linked to in the email.
+      #
+      # @return [Bool] - returns `true` if successful
+      sig do
+        params(
+          email: String,
+          password_reset_url: String,
+        ).returns(T::Boolean)
+      end
+      def send_password_reset_email(email:, password_reset_url:)
+        request = post_request(
+          path: '/user_management/password_reset/send',
+          body: {
+            email: email,
+            password_reset_url: password_reset_url,
+          },
+          auth: true,
+        )
+
+        response = execute_request(request: request)
+
+        response.is_a? Net::HTTPSuccess
+      end
+
       # Resets user password using token that was sent to the user.
       #
       # @param [String] token The token that was sent to the user.
@@ -639,7 +666,7 @@ module WorkOS
       def reset_password(token:, new_password:)
         response = execute_request(
           request: post_request(
-            path: '/users/password_reset',
+            path: '/user_management/password_reset/confirm',
             body: {
               token: token,
               new_password: new_password,
@@ -649,33 +676,6 @@ module WorkOS
         )
 
         WorkOS::User.new(response.body)
-      end
-
-      # Creates a password reset challenge and emails a password reset link to a user.
-      #
-      # @param [String] email The email of the user that wishes to reset their password.
-      # @param [String] password_reset_url The URL that will be linked to in the email.
-      #
-      # @return WorkOS::UserAndToken
-      sig do
-        params(
-          email: String,
-          password_reset_url: String,
-        ).returns(WorkOS::UserAndToken)
-      end
-      def send_password_reset_email(email:, password_reset_url:)
-        request = post_request(
-          path: '/users/send_password_reset_email',
-          body: {
-            email: email,
-            password_reset_url: password_reset_url,
-          },
-          auth: true,
-        )
-
-        response = execute_request(request: request)
-
-        WorkOS::UserAndToken.new(response.body)
       end
 
       private
