@@ -490,11 +490,11 @@ module WorkOS
       #
       # @param [String] email The email address the one-time code will be sent to.
       #
-      # @return WorkOS::UserResponse
+      # @return [Bool] - returns `true` if successful
       sig do
         params(
           email: String,
-        ).returns(WorkOS::UserResponse)
+        ).returns(T::Boolean)
       end
       def send_magic_auth_code(email:)
         response = execute_request(
@@ -507,7 +507,7 @@ module WorkOS
           ),
         )
 
-        WorkOS::UserResponse.new(response.body)
+        response.is_a? Net::HTTPSuccess
       end
 
       # Enroll a user into an authentication factor.

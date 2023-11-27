@@ -541,7 +541,7 @@ describe WorkOS::UserManagement do
           magic_link_response = described_class.send_magic_auth_code(
             email: 'test@gmail.com',
           )
-          expect(magic_link_response.user.id).to eq('user_01H93WD0R0KWF8Q7BK02C0RPYJ')
+          expect(magic_link_response).to be(true)
         end
       end
     end
