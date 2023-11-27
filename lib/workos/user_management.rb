@@ -343,7 +343,7 @@ module WorkOS
       # Authenticates user by Magic Auth Code.
       #
       # @param [String] code The one-time code that was emailed to the user.
-      # @param [String] user_id The unique ID of the User who will be authenticated.
+      # @param [String] email The email address of the user.
       # @param [String] client_id The WorkOS client ID for the environment.
       # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
       # @param [String] link_authorization_code Used to link an OAuth profile to an existing user,
