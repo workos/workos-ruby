@@ -726,8 +726,8 @@ module WorkOS
 
         parsed_response = JSON.parse(response.body)
 
-        organization_memberships = parsed_response['data'].map do |user|
-          ::WorkOS::OrganizationMembership.new(user.to_json)
+        organization_memberships = parsed_response['data'].map do |organization_membership|
+          ::WorkOS::OrganizationMembership.new(organization_membership.to_json)
         end
 
         WorkOS::Types::ListStruct.new(
@@ -748,7 +748,7 @@ module WorkOS
           organization_id: String,
         ).returns(WorkOS::OrganizationMembership)
       end
-      def create_organization_membership(user_id:, organization_id: nil)
+      def create_organization_membership(user_id:, organization_id:)
         request = post_request(
           path: '/user_management/organization_memberships',
           body: {

@@ -747,12 +747,12 @@ describe WorkOS::UserManagement do
     context 'with a valid id' do
       it 'returns a organization membership' do
         VCR.use_cassette 'user_management/get_organization_membership' do
-          user = described_class.get_organization_membership(
+          organization_membership = described_class.get_organization_membership(
             id: 'om_01H5JQDV7R7ATEYZDEG0W5PRYS',
           )
 
-          expect(user.id.instance_of?(String))
-          expect(user.instance_of?(WorkOS::OrganizationMembership))
+          expect(organization_membership.id.instance_of?(String))
+          expect(organization_membership.instance_of?(WorkOS::OrganizationMembership))
         end
       end
     end
@@ -777,10 +777,10 @@ describe WorkOS::UserManagement do
         }
 
         VCR.use_cassette 'user_management/list_organization_memberships/no_options' do
-          users = described_class.list_organization_memberships
+          organization_memberships = described_class.list_organization_memberships
 
-          expect(users.data.size).to eq(2)
-          expect(users.list_metadata).to eq(expected_metadata)
+          expect(organization_memberships.data.size).to eq(2)
+          expect(organization_memberships.list_metadata).to eq(expected_metadata)
         end
       end
     end
@@ -798,14 +798,14 @@ describe WorkOS::UserManagement do
           and_return(expected_request)
 
         VCR.use_cassette 'user_management/list_organization_memberships/with_options' do
-          users = described_class.list_organization_memberships(
+          organization_memberships = described_class.list_organization_memberships(
             user_id: 'user_01H5JQDV7R7ATEYZDEG0W5PRYS',
             order: 'desc',
             limit: '5',
           )
 
-          expect(users.data.size).to eq(1)
-          expect(users.data[0].user_id).to eq('user_01H5JQDV7R7ATEYZDEG0W5PRYS')
+          expect(organization_memberships.data.size).to eq(1)
+          expect(organization_memberships.data[0].user_id).to eq('user_01H5JQDV7R7ATEYZDEG0W5PRYS')
         end
       end
     end

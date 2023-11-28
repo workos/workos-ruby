@@ -2,7 +2,7 @@
 # typed: true
 
 module WorkOS
-  # The OrganizationMembership class provide a lightweight wrapper around a WorkOS OrganizationMembership
+  # The OrganizationMembership class provides a lightweight wrapper around a WorkOS OrganizationMembership
   # resource. This class is not meant to be instantiated in a user space,
   # and is instantiated internally but exposed.
   class OrganizationMembership
