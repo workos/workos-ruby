@@ -746,7 +746,7 @@ module WorkOS
         params(
           user_id: String,
           organization_id: String,
-        ).returns(WorkOS::User)
+        ).returns(WorkOS::OrganizationMembership)
       end
       def create_organization_membership(user_id:, organization_id: nil)
         request = post_request(
@@ -760,7 +760,7 @@ module WorkOS
 
         response = execute_request(request: request)
 
-        WorkOS::User.new(response.body)
+        WorkOS::OrganizationMembership.new(response.body)
       end
 
       # Delete an Organization Membership
