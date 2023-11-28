@@ -389,7 +389,6 @@ module WorkOS
         WorkOS::UserResponse.new(response.body)
       end
 
-      #
       # Authenticates a user using TOTP.
       #
       # @param [String] code The one-time code that was emailed to the user.
@@ -440,7 +439,6 @@ module WorkOS
         WorkOS::UserResponse.new(response.body)
       end
 
-      #
       # Authenticates a user using Email Verification Code.
       #
       # @param [String] code The one-time code that was emailed to the user.
@@ -676,6 +674,117 @@ module WorkOS
         )
 
         WorkOS::User.new(response.body)
+      end
+
+      # Gets an Invitation
+      #
+      # @param [String] id The unique ID of the Invitation.
+      #
+      # @return WorkOS::Invitation
+      sig do
+        params(id: String).returns(WorkOS::Invitation)
+      end
+      def get_invitation(id:)
+        response = execute_request(
+          request: get_request(
+            path: "/user_management/invitations/#{id}",
+            auth: true,
+          ),
+        )
+
+        WorkOS::Invitation.new(response.body)
+      end
+
+      # Retrieve a list of invitations.
+      #
+      # @param [Hash] options
+      # @option options [String] email The email address of a recipient.
+      # @option options [String] organization_id The ID of the Organization that the recipient was invited to join.
+      # @option options [String] limit Maximum number of records to return.
+      # @option options [String] order The order in which to paginate records
+      # @option options [String] before Pagination cursor to receive records
+      #  before a provided User ID.
+      # @option options [String] after Pagination cursor to receive records
+      #  before a provided User ID.
+      #
+      # @return [WorkOS::Invitation]
+      sig do
+        params(
+          options: T::Hash[Symbol, String],
+        ).returns(WorkOS::Types::ListStruct)
+      end
+      def list_invitations(options = {})
+        response = execute_request(
+          request: get_request(
+            path: '/user_management/invitations',
+            auth: true,
+            params: options,
+          ),
+        )
+
+        parsed_response = JSON.parse(response.body)
+
+        invitations = parsed_response['data'].map do |invitation|
+          ::WorkOS::Invitation.new(invitation.to_json)
+        end
+
+        WorkOS::Types::ListStruct.new(
+          data: invitations,
+          list_metadata: parsed_response['list_metadata'],
+        )
+      end
+
+      # Sends an Invitation to a recipient.
+      #
+      # @param [String] email The email address of the recipient.
+      # @param [String] organization_id The ID of the Organization to which the recipient is being invited.
+      # @param [Integer] expires_in_days The number of days the invitations will be valid for.
+      # Must be between 1 and 30, defaults to 7 if not specified.
+      # @param [String] inviter_user_id The ID of the User sending the invitation.
+      #
+      # @return WorkOS::Invitation
+      sig do
+        params(
+          email: String,
+          organization_id: T.nilable(String),
+          expires_in_days: T.nilable(Integer),
+          inviter_user_id: T.nilable(String),
+        ).returns(WorkOS::Invitation)
+      end
+      def send_invitation(email:, organization_id: nil, expires_in_days: nil, inviter_user_id: nil)
+        response = execute_request(
+          request: post_request(
+            path: '/user_management/invitations',
+            body: {
+              email: email,
+              organization_id: organization_id,
+              expires_in_days: expires_in_days,
+              inviter_user_id: inviter_user_id,
+            },
+            auth: true,
+          ),
+        )
+
+        WorkOS::Invitation.new(response.body)
+      end
+
+      # Revokes an existing Invitation.
+      #
+      # @param [String] id The unique ID of the Invitation.
+      #
+      # @return WorkOS::Invitation
+      sig do
+        params(id: String).returns(WorkOS::Invitation)
+      end
+      def revoke_invitation(id:)
+        request = post_request(
+          path: "/user_management/invitations/#{id}/revoke",
+          auth: true,
+        )
+
+        response = execute_request(request: request)
+
+        WorkOS::Invitation.new(response.body)
       end
 
       private

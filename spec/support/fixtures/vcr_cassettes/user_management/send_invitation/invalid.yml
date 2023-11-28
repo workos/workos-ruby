@@ -1,11 +1,11 @@
 ---
 http_interactions:
 - request:
-    method: delete
-    uri: https://api.workos.com/users/bad_id/organizations/bad_id
+    method: post
+    uri: https://api.workos.com/user_management/invitations
     body:
-      encoding: US-ASCII
-      string: ''
+      encoding: UTF-8
+      string: '{"email":"invalid@workos.com"}'
     headers:
       Content-Type:
       - application/json
@@ -19,23 +19,23 @@ http_interactions:
       - Bearer <API_KEY>
   response:
     status:
-      code: 404
-      message: Not Found
+      code: 409
+      message: Conflict
     headers:
       Date:
-      - Thu, 17 Aug 2023 15:38:38 GMT
+      - Tue, 22 Aug 2023 15:17:55 GMT
       Content-Type:
       - application/json; charset=utf-8
-      Transfer-Encoding:
-      - chunked
+      Content-Length:
+      - '185'
       Connection:
       - keep-alive
       Cf-Ray:
-      - 7f8301533ed91774-EWR
+      - 7fac15db0d8878d0-EWR
       Cf-Cache-Status:
       - DYNAMIC
       Etag:
-      - W/"6c-1w6g+Bb2hZ3cFFUMzyAN6Cqk2/k"
+      - W/"b9-MwpjOZS5P8vwlJwJ2Wcz1gYyf6Y"
       Strict-Transport-Security:
       - max-age=15552000; includeSubDomains
       Vary:
@@ -63,20 +63,20 @@ http_interactions:
       X-Permitted-Cross-Domain-Policies:
       - none
       X-Request-Id:
-      - 42791dc8-cf09-4c7a-8395-6874e7e3f13e
+      - 2b2e336d-0505-43c3-9cc5-4b18841bd31c
       X-Xss-Protection:
       - '0'
       Set-Cookie:
-      - __cf_bm=2.dLEkO4gsj2TOI8Q_SoLn7KG3QNyz1LPfYHP8p2iX0-1692286718-0-AeZCaPPzRgf4N+MmUVZcXQ5Xks6rp3oxgcDIf51Rq5v6vB90gbRIZTA2t8wdvEJ6A419sNjRPimO6UeXqWMODoc=;
-        path=/; expires=Thu, 17-Aug-23 16:08:38 GMT; domain=.workos.com; HttpOnly;
+      - __cf_bm=RJi4ZoHPaRE92J8Hyh7jvHe9uc55nnVpOMBuQKZfCb8-1692717475-0-AeTId8BwH1uElzCNWtu+dsvrIY89q9vKqVJ8qd0hEON/AbMwDbsLatlPjyGecK9XamUFzX78taIjJLW5cRIxLF8=;
+        path=/; expires=Tue, 22-Aug-23 15:47:55 GMT; domain=.workos.com; HttpOnly;
         Secure; SameSite=None
-      - __cfruid=42f76015e77c1f01212213c28b19fde5a7c9fe8f-1692286718; path=/; domain=.workos.com;
+      - __cfruid=67a732b1ed159ca5729e30e84c73587d61e22441-1692717475; path=/; domain=.workos.com;
         HttpOnly; Secure; SameSite=None
       Server:
       - cloudflare
     body:
-      encoding: ASCII-8BIT
-      string: '{"message":"UserOrganizationMembership not found: ''bad_id''.","code":"entity_not_found","entity_id":"bad_id"}'
+      encoding: UTF-8
+      string: '{"message":"An Invitation with the email invalid@workos.com already exists."}'
     http_version:
-  recorded_at: Thu, 17 Aug 2023 15:38:37 GMT
+  recorded_at: Tue, 22 Aug 2023 15:17:55 GMT
 recorded_with: VCR 5.0.0
