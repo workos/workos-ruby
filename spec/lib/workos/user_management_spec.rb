@@ -810,7 +810,7 @@ describe WorkOS::UserManagement do
       end
     end
   end
-  
+
   describe '.get_invitation' do
     context 'with a valid id' do
       it 'returns an invitation' do

@@ -118,7 +118,7 @@ module WorkOS
       end
       # rubocop:enable Metrics/ParameterLists
 
-      # Gets a User
+      # Get a User
       #
       # @param [String] id The unique ID of the User.
       #
@@ -183,6 +183,8 @@ module WorkOS
       # @param [String] first_name The user's first name.
       # @param [String] last_name The user's last name.
       # @param [Boolean] email_verified Whether the user's email address was previously verified.
+      #
+      # @return [WorkOS::User]
       sig do
         params(
           email: String,
@@ -240,7 +242,7 @@ module WorkOS
         WorkOS::User.new(response.body)
       end
 
-      # Deletes a User
+      # Delete a User
       #
       # @param [String] id The unique ID of the User.
       #
@@ -340,7 +342,7 @@ module WorkOS
         WorkOS::UserResponse.new(response.body)
       end
 
-      # Authenticates user by Magic Auth Code.
+      # Authenticate user by Magic Auth Code.
       #
       # @param [String] code The one-time code that was emailed to the user.
       # @param [String] user_id The unique ID of the User who will be authenticated.
@@ -389,7 +391,7 @@ module WorkOS
         WorkOS::UserResponse.new(response.body)
       end
 
-      # Authenticates a user using TOTP.
+      # Authenticate a user using TOTP.
       #
       # @param [String] code The one-time code that was emailed to the user.
       # @param [String] client_id The WorkOS client ID for the environment
@@ -439,7 +441,7 @@ module WorkOS
         WorkOS::UserResponse.new(response.body)
       end
 
-      # Authenticates a user using Email Verification Code.
+      # Authenticate a user using Email Verification Code.
       #
       # @param [String] code The one-time code that was emailed to the user.
       # @param [String] client_id The WorkOS client ID for the environment
@@ -484,7 +486,7 @@ module WorkOS
         WorkOS::UserResponse.new(response.body)
       end
 
-      # Creates a one-time Magic Auth code and emails it to the user.
+      # Create a one-time Magic Auth code and emails it to the user.
       #
       # @param [String] email The email address the one-time code will be sent to.
       #
@@ -596,7 +598,7 @@ module WorkOS
         WorkOS::UserResponse.new(response.body)
       end
 
-      # Verifies user email using one-time code that was sent to the user.
+      # Verifiy user email using one-time code that was sent to the user.
       #
       # @param [String] user_id The unique ID of the User whose email address will be verified.
       # @param [String] code The one-time code emailed to the user.
@@ -622,7 +624,7 @@ module WorkOS
         WorkOS::UserResponse.new(response.body)
       end
 
-      # Creates a password reset challenge and emails a password reset link to a user.
+      # Create a password reset challenge and emails a password reset link to a user.
       #
       # @param [String] email The email of the user that wishes to reset their password.
       # @param [String] password_reset_url The URL that will be linked to in the email.
@@ -649,7 +651,7 @@ module WorkOS
         response.is_a? Net::HTTPSuccess
       end
 
-      # Resets user password using token that was sent to the user.
+      # Reset user password using token that was sent to the user.
       #
       # @param [String] token The token that was sent to the user.
       # @param [String] new_password The new password to set for the user.
@@ -675,8 +677,8 @@ module WorkOS
 
         WorkOS::User.new(response.body)
       end
-      
-      # Gets an Organization Membership
+
+      # Get an Organization Membership
       #
       # @param [String] id The unique ID of the Organization Membership.
       #
@@ -695,7 +697,7 @@ module WorkOS
         WorkOS::OrganizationMembership.new(response.body)
       end
 
-      # Retrieves a list of Organization Memberships.
+      # Retrieve a list of Organization Memberships.
       #
       # @param [Hash] options
       # @option options [String] user_id The ID of the User.
@@ -732,6 +734,54 @@ module WorkOS
           data: organization_memberships,
           list_metadata: parsed_response['list_metadata'],
         )
+      end
+
+      # Create an Organization Membership
+      #
+      # @param [String] user_id The ID of the User.
+      # @param [String] organization_id The ID of the Organization to which the user belongs to.
+      #
+      # @return [WorkOS::OrganizationMembership]
+      sig do
+        params(
+          user_id: String,
+          organization_id: String,
+        ).returns(WorkOS::User)
+      end
+      def create_organization_membership(user_id:, organization_id: nil)
+        request = post_request(
+          path: '/user_management/organization_memberships',
+          body: {
+            user_id: user_id,
+            organization_id: organization_id,
+          },
+          auth: true,
+        )
+
+        response = execute_request(request: request)
+
+        WorkOS::User.new(response.body)
+      end
+
+      # Delete an Organization Membership
+      #
+      # @param [String] id The unique ID of the Organization Membership.
+      #
+      # @return [Bool] - returns `true` if successful
+      sig do
+        params(
+          id: String,
+        ).returns(T::Boolean)
+      end
+      def delete_organization_membership(id:)
+        response = execute_request(
+          request: delete_request(
+            path: "/user_management/organization_memberships/#{id}",
+            auth: true,
+          ),
+        )
+
+        response.is_a? Net::HTTPSuccess
       end
 
       # Gets an Invitation
