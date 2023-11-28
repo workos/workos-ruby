@@ -840,6 +840,30 @@ describe WorkOS::UserManagement do
     end
   end
 
+  describe '.delete_organization_membership' do
+    context 'with a valid id' do
+      it 'returns true' do
+        VCR.use_cassette('user_management/delete_organization_membership/valid') do
+          response = WorkOS::UserManagement.delete_organization_membership(
+            id: 'om_01H5JQDV7R7ATEYZDEG0W5PRYS',
+          )
+
+          expect(response).to be(true)
+        end
+      end
+    end
+
+    context 'with an invalid id' do
+      it 'raises an error' do
+        VCR.use_cassette('user_management/delete_organization_membership/invalid') do
+          expect do
+            WorkOS::UserManagement.delete_organization_membership(id: 'invalid')
+          end.to raise_error(WorkOS::APIError, /Organization Membership not found/)
+        end
+      end
+    end
+  end
+
   describe '.get_invitation' do
     context 'with a valid id' do
       it 'returns an invitation' do
