@@ -743,6 +743,74 @@ describe WorkOS::UserManagement do
     end
   end
 
+  describe '.get_organization_membership' do
+    context 'with a valid id' do
+      it 'returns a organization membership' do
+        VCR.use_cassette 'user_management/get_organization_membership' do
+          user = described_class.get_organization_membership(
+            id: 'om_01H5JQDV7R7ATEYZDEG0W5PRYS',
+          )
+
+          expect(user.id.instance_of?(String))
+          expect(user.instance_of?(WorkOS::OrganizationMembership))
+        end
+      end
+    end
+
+    context 'with an invalid id' do
+      it 'returns an error' do
+        expect do
+          described_class.get_organization_membership(
+            id: 'invalid_organization_membership_id',
+          ).to raise_error(WorkOS::APIError)
+        end
+      end
+    end
+  end
+
+  describe '.list_organization_memberships' do
+    context 'with no options' do
+      it 'returns a list of users' do
+        expected_metadata = {
+          'after' => nil,
+          'before' => 'before-id',
+        }
+
+        VCR.use_cassette 'user_management/list_organization_memberships/no_options' do
+          users = described_class.list_organization_memberships
+
+          expect(users.data.size).to eq(2)
+          expect(users.list_metadata).to eq(expected_metadata)
+        end
+      end
+    end
+
+    context 'with options' do
+      it 'returns a list of matching users' do
+        request_args = [
+          '/user_management/organization_memberships?user_id=user_01H5JQDV7R7ATEYZDEG0W5PRYS&order=desc&limit=5',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'user_management/list_organization_memberships/with_options' do
+          users = described_class.list_organization_memberships(
+            user_id: 'user_01H5JQDV7R7ATEYZDEG0W5PRYS',
+            order: 'desc',
+            limit: '5',
+          )
+
+          expect(users.data.size).to eq(1)
+          expect(users.data[0].user_id).to eq('user_01H5JQDV7R7ATEYZDEG0W5PRYS')
+        end
+      end
+    end
+  end
+  
   describe '.get_invitation' do
     context 'with a valid id' do
       it 'returns an invitation' do

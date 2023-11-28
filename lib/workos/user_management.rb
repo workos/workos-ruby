@@ -675,6 +675,64 @@ module WorkOS
 
         WorkOS::User.new(response.body)
       end
+      
+      # Gets an Organization Membership
+      #
+      # @param [String] id The unique ID of the Organization Membership.
+      #
+      # @return WorkOS::OrganizationMembership
+      sig do
+        params(id: String).returns(WorkOS::OrganizationMembership)
+      end
+      def get_organization_membership(id:)
+        response = execute_request(
+          request: get_request(
+            path: "/user_management/organization_memberships/#{id}",
+            auth: true,
+          ),
+        )
+
+        WorkOS::OrganizationMembership.new(response.body)
+      end
+
+      # Retrieves a list of Organization Memberships.
+      #
+      # @param [Hash] options
+      # @option options [String] user_id The ID of the User.
+      # @option options [String] organization_id Filter Users by the organization they are members of.
+      # @option options [String] limit Maximum number of records to return.
+      # @option options [String] order The order in which to paginate records
+      # @option options [String] before Pagination cursor to receive records
+      #  before a provided User ID.
+      # @option options [String] after Pagination cursor to receive records
+      #  before a provided User ID.
+      #
+      # @return [WorkOS::OrganizationMembership]
+      sig do
+        params(
+          options: T::Hash[Symbol, String],
+        ).returns(WorkOS::Types::ListStruct)
+      end
+      def list_organization_memberships(options = {})
+        response = execute_request(
+          request: get_request(
+            path: '/user_management/organization_memberships',
+            auth: true,
+            params: options,
+          ),
+        )
+
+        parsed_response = JSON.parse(response.body)
+
+        organization_memberships = parsed_response['data'].map do |user|
+          ::WorkOS::OrganizationMembership.new(user.to_json)
+        end
+
+        WorkOS::Types::ListStruct.new(
+          data: organization_memberships,
+          list_metadata: parsed_response['list_metadata'],
+        )
+      end
 
       # Gets an Invitation
       #
