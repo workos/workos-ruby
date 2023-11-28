@@ -63,7 +63,7 @@ module WorkOS
   autoload :Organizations, 'workos/organizations'
   autoload :OrganizationMembership, 'workos/organization_membership'
   autoload :Passwordless, 'workos/passwordless'
-  autoload :Portal, 'workos/po\rtal'
+  autoload :Portal, 'workos/portal'
   autoload :Profile, 'workos/profile'
   autoload :ProfileAndToken, 'workos/profile_and_token'
   autoload :SSO, 'workos/sso'
