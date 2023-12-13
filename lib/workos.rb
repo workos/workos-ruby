@@ -11,25 +11,10 @@ require 'workos/configuration'
 # requests to the WorkOS API. The gem will read
 # your API key automatically from the ENV var `WORKOS_API_KEY`.
 # Alternatively, you can set the key yourself with
-# `WorkOS.configure { |config| config.key = [your api key] }` somewhere
-# in the load path of your application, such as an initializer.
+# `WorkOS.key = [your api key]` somewhere in the load path of
+# your application, such as an initializer.
 module WorkOS
-  def self.default_config
-    Configuration.new.tap do |config|
-      config.api_hostname = ENV['WORKOS_API_HOSTNAME'] || 'api.workos.com'
-      # Remove WORKOS_KEY at some point in the future. Keeping it here now for
-      # backwards compatibility.
-      config.key = ENV['WORKOS_API_KEY'] || ENV['WORKOS_KEY']
-    end
-  end
-
-  def self.config
-    @config ||= default_config
-  end
-
-  def self.configure
-    yield(config)
-  end
+  API_HOSTNAME = ENV['WORKOS_API_HOSTNAME'] || 'api.workos.com'
 
   def self.key=(value)
     warn '`WorkOS.key=` is deprecated. Use `WorkOS.configure` instead.'
@@ -43,11 +28,18 @@ module WorkOS
     config.key
   end
 
+  def self.config
+    @config ||= Configuration.new
+  end
+
+  def self.configure
+    yield(config)
+  end
+
   autoload :Types, 'workos/types'
   autoload :Client, 'workos/client'
   autoload :Configuration, 'workos/configuration'
   autoload :AuditLogExport, 'workos/audit_log_export'
-  autoload :AuthenticationFactorAndChallenge, 'workos/authentication_factor_and_challenge'
   autoload :AuditLogs, 'workos/audit_logs'
   autoload :AuditTrail, 'workos/audit_trail'
   autoload :Connection, 'workos/connection'
@@ -69,12 +61,9 @@ module WorkOS
   autoload :MFA, 'workos/mfa'
   autoload :Factor, 'workos/factor'
   autoload :Challenge, 'workos/challenge'
-  autoload :User, 'workos/user'
-  autoload :UserAndToken, 'workos/user_and_token'
-  autoload :UserManagement, 'workos/user_management'
   autoload :VerifyChallenge, 'workos/verify_challenge'
   autoload :DeprecatedHashWrapper, 'workos/deprecated_hash_wrapper'
-  autoload :UserResponse, 'workos/user_response'
+
 
   # Errors
   autoload :APIError, 'workos/errors'
@@ -82,4 +71,9 @@ module WorkOS
   autoload :InvalidRequestError, 'workos/errors'
   autoload :SignatureVerificationError, 'workos/errors'
   autoload :TimeoutError, 'workos/errors'
+
+  # Remove WORKOS_KEY at some point in the future. Keeping it here now for
+  # backwards compatibility.
+  key = ENV['WORKOS_API_KEY'] || ENV['WORKOS_KEY']
+  config.key = key unless key.nil?
 end

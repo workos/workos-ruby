@@ -4,7 +4,7 @@
 module WorkOS
   # Configuration class sets config initializer
   class Configuration
-    attr_accessor :api_hostname, :timeout, :key
+    attr_accessor :timeout, :key
 
     def initialize
       @timeout = 60
