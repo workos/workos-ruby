@@ -15,6 +15,7 @@ module WorkOS
       # fixed set of values for User Management Providers.
       class Provider < T::Enum
         enums do
+          GitHub = new('GitHubOAuth')
           Google = new('GoogleOAuth')
           Microsoft = new('MicrosoftOAuth')
           AuthKit = new('authkit')
