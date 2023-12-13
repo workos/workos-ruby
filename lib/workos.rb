@@ -47,7 +47,6 @@ module WorkOS
   autoload :Client, 'workos/client'
   autoload :Configuration, 'workos/configuration'
   autoload :AuditLogExport, 'workos/audit_log_export'
-  autoload :AuthenticationFactorAndChallenge, 'workos/authentication_factor_and_challenge'
   autoload :AuditLogs, 'workos/audit_logs'
   autoload :AuditTrail, 'workos/audit_trail'
   autoload :Connection, 'workos/connection'
@@ -69,12 +68,9 @@ module WorkOS
   autoload :MFA, 'workos/mfa'
   autoload :Factor, 'workos/factor'
   autoload :Challenge, 'workos/challenge'
-  autoload :User, 'workos/user'
-  autoload :UserAndToken, 'workos/user_and_token'
-  autoload :UserManagement, 'workos/user_management'
   autoload :VerifyChallenge, 'workos/verify_challenge'
   autoload :DeprecatedHashWrapper, 'workos/deprecated_hash_wrapper'
-  autoload :UserResponse, 'workos/user_response'
+
 
   # Errors
   autoload :APIError, 'workos/errors'
