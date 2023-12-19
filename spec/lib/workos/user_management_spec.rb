@@ -744,6 +744,127 @@ describe WorkOS::UserManagement do
     end
   end
 
+  describe '.get_organization_membership' do
+    context 'with a valid id' do
+      it 'returns a organization membership' do
+        VCR.use_cassette 'user_management/get_organization_membership' do
+          organization_membership = described_class.get_organization_membership(
+            id: 'om_01H5JQDV7R7ATEYZDEG0W5PRYS',
+          )
+
+          expect(organization_membership.id.instance_of?(String))
+          expect(organization_membership.instance_of?(WorkOS::OrganizationMembership))
+        end
+      end
+    end
+
+    context 'with an invalid id' do
+      it 'returns an error' do
+        expect do
+          described_class.get_organization_membership(
+            id: 'invalid_organization_membership_id',
+          ).to raise_error(WorkOS::APIError)
+        end
+      end
+    end
+  end
+
+  describe '.list_organization_memberships' do
+    context 'with no options' do
+      it 'returns a list of users' do
+        expected_metadata = {
+          'after' => nil,
+          'before' => 'before-id',
+        }
+
+        VCR.use_cassette 'user_management/list_organization_memberships/no_options' do
+          organization_memberships = described_class.list_organization_memberships
+
+          expect(organization_memberships.data.size).to eq(2)
+          expect(organization_memberships.list_metadata).to eq(expected_metadata)
+        end
+      end
+    end
+
+    context 'with options' do
+      it 'returns a list of matching users' do
+        request_args = [
+          '/user_management/organization_memberships?user_id=user_01H5JQDV7R7ATEYZDEG0W5PRYS&order=desc&limit=5',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'user_management/list_organization_memberships/with_options' do
+          organization_memberships = described_class.list_organization_memberships(
+            user_id: 'user_01H5JQDV7R7ATEYZDEG0W5PRYS',
+            order: 'desc',
+            limit: '5',
+          )
+
+          expect(organization_memberships.data.size).to eq(1)
+          expect(organization_memberships.data[0].user_id).to eq('user_01H5JQDV7R7ATEYZDEG0W5PRYS')
+        end
+      end
+    end
+  end
+
+  describe '.create_organization_membership' do
+    context 'with a valid payload' do
+      it 'creates an organization membership' do
+        VCR.use_cassette 'user_management/create_organization_membership/valid' do
+          organization_membership = described_class.create_organization_membership(
+            user_id: 'user_01H5JQDV7R7ATEYZDEG0W5PRYS',
+            organization_id: 'org_01H5JQDV7R7ATEYZDEG0W5PRYS',
+          )
+
+          expect(organization_membership.organization_id).to eq('organization_01H5JQDV7R7ATEYZDEG0W5PRYS')
+          expect(organization_membership.user_id).to eq('user_01H5JQDV7R7ATEYZDEG0W5PRYS')
+        end
+      end
+
+      context 'with an invalid payload' do
+        it 'returns an error' do
+          VCR.use_cassette 'user_management/create_organization_membership/invalid' do
+            expect do
+              described_class.create_organization_membership(user_id: '', organization_id: '')
+            end.to raise_error(
+              WorkOS::InvalidRequestError,
+              /user_id_string_required/,
+            )
+          end
+        end
+      end
+    end
+  end
+
+  describe '.delete_organization_membership' do
+    context 'with a valid id' do
+      it 'returns true' do
+        VCR.use_cassette('user_management/delete_organization_membership/valid') do
+          response = WorkOS::UserManagement.delete_organization_membership(
+            id: 'om_01H5JQDV7R7ATEYZDEG0W5PRYS',
+          )
+
+          expect(response).to be(true)
+        end
+      end
+    end
+
+    context 'with an invalid id' do
+      it 'raises an error' do
+        VCR.use_cassette('user_management/delete_organization_membership/invalid') do
+          expect do
+            WorkOS::UserManagement.delete_organization_membership(id: 'invalid')
+          end.to raise_error(WorkOS::APIError, /Organization Membership not found/)
+        end
+      end
+    end
+  end
+
   describe '.get_invitation' do
     context 'with a valid id' do
       it 'returns an invitation' do
