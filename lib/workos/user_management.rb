@@ -232,7 +232,7 @@ module WorkOS
           email_verified: T.nilable(T::Boolean),
           password: T.nilable(String),
           password_hash: T.nilable(String),
-          password_hash_type: T.nilable(String)
+          password_hash_type: T.nilable(String),
         ).returns(WorkOS::User)
       end
       def update_user(
@@ -261,6 +261,7 @@ module WorkOS
 
         WorkOS::User.new(response.body)
       end
+      # rubocop:enable Metrics/ParameterLists
 
       # Deletes a User
       #
