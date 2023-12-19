@@ -217,21 +217,42 @@ module WorkOS
       # @param [String] first_name The user's first name.
       # @param [String] last_name The user's last name.
       # @param [Boolean] email_verified Whether the user's email address was previously verified.
+      # @param [String] password The user's password.
+      # @param [String] password_hash The user's hashed password.
+      # @option [String] password_hash_type The algorithm originally used to hash the password.
+      #  Valid values are bcrypt.
+      #
+      # @return [WorkOS::User]
+      # rubocop:disable Metrics/ParameterLists
       sig do
         params(
           id: String,
           first_name: T.nilable(String),
           last_name: T.nilable(String),
           email_verified: T.nilable(T::Boolean),
+          password: T.nilable(String),
+          password_hash: T.nilable(String),
+          password_hash_type: T.nilable(String),
         ).returns(WorkOS::User)
       end
-      def update_user(id:, first_name: nil, last_name: nil, email_verified: nil)
+      def update_user(
+        id:,
+        first_name: nil,
+        last_name: nil,
+        email_verified: nil,
+        password: nil,
+        password_hash: nil,
+        password_hash_type: nil
+      )
         request = put_request(
           path: "/user_management/users/#{id}",
           body: {
             first_name: first_name,
             last_name: last_name,
             email_verified: email_verified,
+            password: password,
+            password_hash: password_hash,
+            password_hash_type: password_hash_type,
           },
           auth: true,
         )
@@ -240,6 +261,7 @@ module WorkOS
 
         WorkOS::User.new(response.body)
       end
+      # rubocop:enable Metrics/ParameterLists
 
       # Deletes a User
       #
