@@ -214,34 +214,36 @@ module WorkOS
       # Update a user
       #
       # @param [String] id of the user.
-      # @param [String] first_name The user's first name.
-      # @param [String] last_name The user's last name.
-      # @param [Boolean] email_verified Whether the user's email address was previously verified.
-      # @param [String] password The user's password.
-      # @param [String] password_hash The user's hashed password.
-      # @param [String] last_name The algorithm originally used to hash the password. Valid values are bcrypt.
-   
+      # @param [Hash] update_hash
+      # @option update_hash [String] first_name The user's first name.
+      # @option update_hash [String] last_name The user's last name.
+      # @option update_hash [Boolean] email_verified Whether the user's email address was previously verified.
+      # @option update_hash [String] password The user's password.
+      # @option update_hash [String] password_hash The user's hashed password.
+      # @option update_hash [String] password_hash_type The algorithm originally used to hash the password. Valid values are bcrypt.
       sig do
         params(
           id: String,
-          first_name: T.nilable(String),
-          last_name: T.nilable(String),
-          email_verified: T.nilable(T::Boolean),
-          password: T.nilable(String),
-          password_hash: T.nilable(String),
-          password_hash_type: T.nilable(String),
+          update_hash: {
+            first_name: T.nilable(String), 
+            last_name: T.nilable(String),
+            email_verified: T.nilable(T::Boolean),
+            password: T.nilable(String),
+            password_hash: T.nilable(String),
+            password_hash_type: T.nilable(String)
+          },
         ).returns(WorkOS::User)
       end
-      def update_user(id:, first_name: nil, last_name: nil, email_verified: nil, password: nil, password_hash: nil, password_hash_type: nil)
+      def update_user(id:, update_hash:)
         request = put_request(
           path: "/user_management/users/#{id}",
           body: {
-            first_name: first_name,
-            last_name: last_name,
-            email_verified: email_verified,
-            password: password,
-            password_hash: password_hash,
-            password_hash_type: password_hash_type,
+            first_name: update_hash[:first_name],
+            last_name: update_hash[:last_name],
+            email_verified: update_hash[:email_verified],
+            password: update_hash[:password],
+            password_hash: update_hash[:password_hash],
+            password_hash_type: update_hash[:password_hash_type],
           },
           auth: true,
         )

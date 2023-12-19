@@ -324,12 +324,12 @@ describe WorkOS::UserManagement do
     context 'with a valid payload' do
       it 'update_user a user' do
         VCR.use_cassette 'user_management/update_user/valid' do
-          user = described_class.update_user(
-            id: 'user_01H7TVSKS45SDHN5V9XPSM6H44',
+          update = {
             first_name: 'Jane',
             last_name: 'Doe',
             email_verified: false,
-          )
+          }
+          user = described_class.update_user(id: 'user_01H7TVSKS45SDHN5V9XPSM6H44', update_hash: update)
           expect(user.first_name).to eq('Jane')
           expect(user.last_name).to eq('Doe')
           expect(user.email_verified).to eq(false)
@@ -340,7 +340,10 @@ describe WorkOS::UserManagement do
         it 'returns an error' do
           VCR.use_cassette 'user_management/update_user/invalid' do
             expect do
-              described_class.update_user(id: 'invalid')
+              update = {
+                first_name: 'Jane'
+              }
+              described_class.update_user(id: 'invalid', update_hash: update)
             end.to raise_error(WorkOS::APIError, /User not found/)
           end
         end
