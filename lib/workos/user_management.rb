@@ -242,7 +242,7 @@ module WorkOS
         email_verified: nil,
         password: nil,
         password_hash: nil,
-        password_hash_type: nil,
+        password_hash_type: nil
       )
         request = put_request(
           path: "/user_management/users/#{id}",
