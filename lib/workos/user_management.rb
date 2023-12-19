@@ -220,17 +220,18 @@ module WorkOS
       # @option update_hash [Boolean] email_verified Whether the user's email address was previously verified.
       # @option update_hash [String] password The user's password.
       # @option update_hash [String] password_hash The user's hashed password.
-      # @option update_hash [String] password_hash_type The algorithm originally used to hash the password. Valid values are bcrypt.
+      # @option update_hash [String] password_hash_type The algorithm originally used to hash the password. 
+      #  Valid values are bcrypt.
       sig do
         params(
           id: String,
           update_hash: {
-            first_name: T.nilable(String), 
+            first_name: T.nilable(String),
             last_name: T.nilable(String),
             email_verified: T.nilable(T::Boolean),
             password: T.nilable(String),
             password_hash: T.nilable(String),
-            password_hash_type: T.nilable(String)
+            password_hash_type: T.nilable(String),
           },
         ).returns(WorkOS::User)
       end
