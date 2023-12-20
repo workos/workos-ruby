@@ -414,6 +414,50 @@ module WorkOS
         WorkOS::AuthenticationResponse.new(response.body)
       end
 
+
+      # Authenticate a user into an organization they are a member of.
+      #
+      # @param [String] client_id The WorkOS client ID for the environment.
+      # @param [String] organization_id The organization ID the user selected to sign in to.
+      # @param [String] pending_authentication_token The pending authentication token
+      # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
+      # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
+      #
+      # @return WorkOS::AuthenticationResponse
+      sig do
+        params(
+          client_id: String,
+          organization_id: String,
+          pending_authentication_token: String,
+          ip_address: T.nilable(String),
+          user_agent: T.nilable(String)
+        ).returns(WorkOS::AuthenticationResponse)
+      end
+      def authenticate_with_organization_selection(
+        client_id:,
+        organization_id:,
+        pending_authentication_token: nil,
+        ip_address: nil,
+        user_agent: nil
+      )
+        response = execute_request(
+          request: post_request(
+            path: '/user_management/authenticate',
+            body: {
+              client_id: client_id,
+              client_secret: WorkOS.config.key!,
+              ip_address: ip_address,
+              user_agent: user_agent,
+              grant_type: 'urn:workos:oauth:grant-type:organization-selection',
+              organization_id: organization_id,
+              pending_authentication_token: pending_authentication_token,
+            },
+          ),
+        )
+
+        WorkOS::AuthenticationResponse.new(response.body)
+      end
+
       # Authenticate a user using TOTP.
       #
       # @param [String] code The one-time code that was emailed to the user.
