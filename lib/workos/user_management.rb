@@ -430,7 +430,7 @@ module WorkOS
           organization_id: String,
           pending_authentication_token: String,
           ip_address: T.nilable(String),
-          user_agent: T.nilable(String)
+          user_agent: T.nilable(String),
         ).returns(WorkOS::AuthenticationResponse)
       end
       def authenticate_with_organization_selection(

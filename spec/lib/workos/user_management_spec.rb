@@ -493,7 +493,7 @@ describe WorkOS::UserManagement do
               client_id: 'project_01EGKAEB7G5N88E83MF99J785F',
               pending_authentication_token: 'pending_authentication_token_1234',
             )
-          end.to raise_error(WorkOS::InvalidRequestError,  /Status 400/)
+          end.to raise_error(WorkOS::InvalidRequestError, /Status 400/)
         end
       end
     end
