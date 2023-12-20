@@ -1,0 +1,81 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.workos.com/user_management/authenticate
+    body:
+      encoding: UTF-8
+      string: '{"client_id":"project_01EGKAEB7G5N88E83MF99J785F","client_secret":"","ip_address":null,"user_agent":null,"grant_type":"urn:workos:oauth:grant-type:organization-selection","organization_id":"invalid_org_id","pending_authentication_token":"pending_authentication_token_1234"}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/3.0.6; arm64-darwin23; v2.16.0
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Date:
+      - Wed, 20 Dec 2023 22:00:13 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '155'
+      Connection:
+      - keep-alive
+      Cf-Ray:
+      - 838b28288bab1588-SJC
+      Cf-Cache-Status:
+      - DYNAMIC
+      Etag:
+      - W/"9b-OK0o7f8HUr1VD42cGHuyxEaTUsQ"
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Vary:
+      - Origin, Accept-Encoding
+      Via:
+      - 1.1 spaces-router (devel)
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      Expect-Ct:
+      - max-age=0
+      Referrer-Policy:
+      - no-referrer
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - be14dde8-2d00-4b00-8619-4586c0d811af
+      X-Xss-Protection:
+      - '0'
+      Set-Cookie:
+      - __cf_bm=7BxHtdm8uv2CHfYDw8rzp4.OIRtS41sROdLi.QeBoos-1703109613-1-AZjOgJ3uXY3OUH0x0E2p9lf4mQWAiN95j2vUJ2WZTkH/bRMjJMiKm0bBtrV4A8ok8elfmr34+mQGJaTw4FHR7ww=;
+        path=/; expires=Wed, 20-Dec-23 22:30:13 GMT; domain=.workos.com; HttpOnly;
+        Secure; SameSite=None
+      - __cfruid=71b77aa5ec84c0fc82c02ff4d4fc8e8ae6d37ee3-1703109613; path=/; domain=.workos.com;
+        HttpOnly; Secure; SameSite=None
+      Server:
+      - cloudflare
+    body:
+      encoding: UTF-8
+      string: '{"code":"invalid_pending_authentication_token","message":"The pending_authentication_token
+        ''pending_authentication_token_1234'' has expired or is invalid."}'
+    http_version:
+  recorded_at: Wed, 20 Dec 2023 22:00:13 GMT
+recorded_with: VCR 5.0.0
