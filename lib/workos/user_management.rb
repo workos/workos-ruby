@@ -294,7 +294,7 @@ module WorkOS
       # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
       #
-      # @return WorkOS::UserResponse
+      # @return WorkOS::AuthenticationResponse
 
       sig do
         params(
@@ -303,7 +303,7 @@ module WorkOS
           client_id: String,
           ip_address: T.nilable(String),
           user_agent: T.nilable(String),
-        ).returns(WorkOS::UserResponse)
+        ).returns(WorkOS::AuthenticationResponse)
       end
       def authenticate_with_password(email:, password:, client_id:, ip_address: nil, user_agent: nil)
         response = execute_request(
@@ -321,7 +321,7 @@ module WorkOS
           ),
         )
 
-        WorkOS::UserResponse.new(response.body)
+        WorkOS::AuthenticationResponse.new(response.body)
       end
 
       # Authenticate a user using OAuth or an organization's SSO connection.
@@ -332,7 +332,7 @@ module WorkOS
       # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
       #
-      # @return WorkOS::UserResponse
+      # @return WorkOS::AuthenticationResponse
 
       sig do
         params(
@@ -340,7 +340,7 @@ module WorkOS
           client_id: String,
           ip_address: T.nilable(String),
           user_agent: T.nilable(String),
-        ).returns(WorkOS::UserResponse)
+        ).returns(WorkOS::AuthenticationResponse)
       end
       def authenticate_with_code(
         code:,
@@ -362,7 +362,7 @@ module WorkOS
           ),
         )
 
-        WorkOS::UserResponse.new(response.body)
+        WorkOS::AuthenticationResponse.new(response.body)
       end
 
       # Authenticate user by Magic Auth Code.
@@ -375,7 +375,7 @@ module WorkOS
       # after having completed a Magic Code challenge.
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
       #
-      # @return WorkOS::UserResponse
+      # @return WorkOS::AuthenticationResponse
 
       sig do
         params(
@@ -385,7 +385,7 @@ module WorkOS
           ip_address: T.nilable(String),
           user_agent: T.nilable(String),
           link_authorization_code: T.nilable(String),
-        ).returns(WorkOS::UserResponse)
+        ).returns(WorkOS::AuthenticationResponse)
       end
       def authenticate_with_magic_auth(
         code:,
@@ -411,7 +411,7 @@ module WorkOS
           ),
         )
 
-        WorkOS::UserResponse.new(response.body)
+        WorkOS::AuthenticationResponse.new(response.body)
       end
 
       # Authenticate a user using TOTP.
@@ -425,7 +425,7 @@ module WorkOS
       # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
       #
-      # @return WorkOS::UserResponse
+      # @return WorkOS::AuthenticationResponse
 
       sig do
         params(
@@ -435,7 +435,7 @@ module WorkOS
           authentication_challenge_id: String,
           ip_address: T.nilable(String),
           user_agent: T.nilable(String),
-        ).returns(WorkOS::UserResponse)
+        ).returns(WorkOS::AuthenticationResponse)
       end
       def authenticate_with_totp(
         code:,
@@ -461,7 +461,7 @@ module WorkOS
           ),
         )
 
-        WorkOS::UserResponse.new(response.body)
+        WorkOS::AuthenticationResponse.new(response.body)
       end
 
       # Authenticate a user using Email Verification Code.
@@ -473,7 +473,7 @@ module WorkOS
       # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
       #
-      # @return WorkOS::UserResponse
+      # @return WorkOS::AuthenticationResponse
 
       sig do
         params(
@@ -482,7 +482,7 @@ module WorkOS
           pending_authentication_token: String,
           ip_address: T.nilable(String),
           user_agent: T.nilable(String),
-        ).returns(WorkOS::UserResponse)
+        ).returns(WorkOS::AuthenticationResponse)
       end
       def authenticate_with_email_verification(
         code:,
@@ -506,7 +506,7 @@ module WorkOS
           ),
         )
 
-        WorkOS::UserResponse.new(response.body)
+        WorkOS::AuthenticationResponse.new(response.body)
       end
 
       # Create a one-time Magic Auth code and emails it to the user.
