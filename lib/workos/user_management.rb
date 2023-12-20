@@ -436,7 +436,7 @@ module WorkOS
       def authenticate_with_organization_selection(
         client_id:,
         organization_id:,
-        pending_authentication_token: nil,
+        pending_authentication_token:,
         ip_address: nil,
         user_agent: nil
       )
