@@ -650,7 +650,7 @@ describe WorkOS::UserManagement do
       it 'sends an email to that user and the magic auth challenge' do
         VCR.use_cassette 'user_management/send_verification_email/valid' do
           verification_response = described_class.send_verification_email(
-            id: 'user_01H93WD0R0KWF8Q7BK02C0RPYJ',
+            user_id: 'user_01H93WD0R0KWF8Q7BK02C0RPYJ',
           )
           expect(verification_response.user.id).to eq('user_01H93WD0R0KWF8Q7BK02C0RPYJ')
         end
@@ -662,7 +662,7 @@ describe WorkOS::UserManagement do
         VCR.use_cassette 'user_management/send_verification_email/invalid' do
           expect do
             described_class.send_verification_email(
-              id: 'bad_id',
+              user_id: 'bad_id',
             )
           end.to raise_error(WorkOS::APIError, /User not found/)
         end
