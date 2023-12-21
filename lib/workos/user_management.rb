@@ -557,8 +557,6 @@ module WorkOS
       #
       # @param [String] email The email address the one-time code will be sent to.
       #
-      # @return WorkOS::UserResponse
-      #
       # @return Boolean
       sig do
         params(
