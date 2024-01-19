@@ -17,8 +17,6 @@ module WorkOS
       # Retrieve directories.
       #
       # @param [Hash] options An options hash
-      # @option options [String] domain The domain of the directory to be
-      #  retrieved.
       # @option options [String] search A search term for direcory names.
       # @option options [String] limit Maximum number of records to return.
       # @option options [String] order The order in which to paginate records
