@@ -10,7 +10,7 @@ module WorkOS
     extend T::Sig
 
     attr_accessor :id, :email, :first_name, :last_name, :email_verified,
-                  :created_at, :updated_at
+                  :profile_picture_url, :created_at, :updated_at
 
     sig { params(json: String).void }
     def initialize(json)
@@ -21,6 +21,7 @@ module WorkOS
       @first_name = raw.first_name
       @last_name = raw.last_name
       @email_verified = raw.email_verified
+      @profile_picture_url = raw.profile_picture_url
       @created_at = T.let(raw.created_at, String)
       @updated_at = T.let(raw.updated_at, String)
     end
@@ -32,6 +33,7 @@ module WorkOS
         first_name: first_name,
         last_name: last_name,
         email_verified: email_verified,
+        profile_picture_url: profile_picture_url,
         created_at: created_at,
         updated_at: updated_at,
       }
@@ -49,6 +51,7 @@ module WorkOS
         first_name: hash[:first_name],
         last_name: hash[:last_name],
         email_verified: hash[:email_verified],
+        profile_picture_url: hash[:profile_picture_url],
         created_at: hash[:created_at],
         updated_at: hash[:updated_at],
       )

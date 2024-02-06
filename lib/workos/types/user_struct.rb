@@ -10,6 +10,7 @@ module WorkOS
       const :first_name, T.nilable(String)
       const :last_name, T.nilable(String)
       const :email_verified, T::Boolean
+      const :profile_picture_url, T.nilable(String)
       const :created_at, String
       const :updated_at, String
     end
