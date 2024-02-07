@@ -225,7 +225,7 @@ describe WorkOS::UserManagement do
       it 'returns a user' do
         VCR.use_cassette 'user_management/get_user' do
           user = described_class.get_user(
-            id: 'user_01H7TVSKS45SDHN5V9XPSM6H44',
+            id: 'user_01HP0B4ZV2FWWVY0BF16GFDAER',
           )
 
           expect(user.id.instance_of?(String))
