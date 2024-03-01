@@ -7,7 +7,8 @@ module WorkOS
     class OrganizationMembershipStruct < T::Struct
       const :id, String
       const :user_id, String
-      const :organization_id, String
+      const :organization_id, T.nilable(String)
+      const :status, String
       const :created_at, String
       const :updated_at, String
     end
