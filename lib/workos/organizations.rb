@@ -28,6 +28,7 @@ module WorkOS
         ).returns(WorkOS::Types::ListStruct)
       end
       def list_organizations(options = {})
+        options[:order] ||= 'desc'
         response = execute_request(
           request: get_request(
             path: '/organizations',

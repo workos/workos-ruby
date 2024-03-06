@@ -29,6 +29,7 @@ module WorkOS
         ).returns(WorkOS::Types::ListStruct)
       end
       def list_events(options = {})
+        options[:order] ||= 'desc'
         response = execute_request(
           request: get_request(
             path: '/events',
