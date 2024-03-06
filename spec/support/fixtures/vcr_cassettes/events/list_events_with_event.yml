@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.workos.com/events?events=connection.activated&order=desc
+    uri: https://api.workos.com/events?events=connection.activated
     body:
       encoding: US-ASCII
       string: ''
