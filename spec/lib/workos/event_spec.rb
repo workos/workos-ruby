@@ -23,7 +23,8 @@ describe WorkOS::Events do
     context 'with event option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/events?events=connection.activated',
+          '/events?events=connection.activated&'\
+          'order=desc',
           'Content-Type' => 'application/json'
         ]
 
@@ -45,7 +46,8 @@ describe WorkOS::Events do
     context 'with the after option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/events?after=event_01FGCPNV312FHFRCX0BYWHVSE1',
+          '/events?after=event_01FGCPNV312FHFRCX0BYWHVSE1&'\
+          'order=desc',
           'Content-Type' => 'application/json'
         ]
 
@@ -65,7 +67,8 @@ describe WorkOS::Events do
     context 'with the range_start and range_end options' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/events?range_start=2023-01-01T00%3A00%3A00Z&range_end=2023-01-03T00%3A00%3A00Z',
+          '/events?range_start=2023-01-01T00%3A00%3A00Z&range_end=2023-01-03T00%3A00%3A00Z&'\
+          'order=desc',
           'Content-Type' => 'application/json'
         ]
 

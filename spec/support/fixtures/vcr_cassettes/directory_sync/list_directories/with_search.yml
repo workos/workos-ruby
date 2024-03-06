@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.workos.com/directories?search=Testing
+    uri: https://api.workos.com/directories?order=desc&search=Testing
     body:
       encoding: US-ASCII
       string: ''

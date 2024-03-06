@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.workos.com/directory_groups
+    uri: https://api.workos.com/directory_groups?order=desc
     body:
       encoding: US-ASCII
       string: ''
