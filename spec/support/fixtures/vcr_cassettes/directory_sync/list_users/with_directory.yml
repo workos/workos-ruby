@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.workos.com/directory_users?directory=directory_01FAZYMST676QMTFN1DDJZZX87
+    uri: https://api.workos.com/directory_users?directory=directory_01FAZYMST676QMTFN1DDJZZX87&order=desc
     body:
       encoding: US-ASCII
       string: ''

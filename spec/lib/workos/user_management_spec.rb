@@ -265,7 +265,9 @@ describe WorkOS::UserManagement do
     context 'with options' do
       it 'returns a list of matching users' do
         request_args = [
-          '/user_management/users?email=lucy.lawless%40example.com&order=desc&limit=5',
+          '/user_management/users?email=lucy.lawless%40example.com&'\
+          'order=desc&'\
+          'limit=5',
           'Content-Type' => 'application/json'
         ]
 
@@ -820,7 +822,8 @@ describe WorkOS::UserManagement do
     context 'with options' do
       it 'returns a list of matching users' do
         request_args = [
-          '/user_management/organization_memberships?user_id=user_01H5JQDV7R7ATEYZDEG0W5PRYS&order=desc&limit=5',
+          '/user_management/organization_memberships?user_id=user_01H5JQDV7R7ATEYZDEG0W5PRYS&'\
+          'order=desc&limit=5',
           'Content-Type' => 'application/json'
         ]
 
@@ -941,7 +944,8 @@ describe WorkOS::UserManagement do
     context 'with organization_id option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/user_management/invitations?organization_id=org_01H5JQDV7R7ATEYZDEG0W5PRYS',
+          '/user_management/invitations?organization_id=org_01H5JQDV7R7ATEYZDEG0W5PRYS&'\
+          'order=desc',
           'Content-Type' => 'application/json'
         ]
 
@@ -966,7 +970,8 @@ describe WorkOS::UserManagement do
     context 'with limit option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/user_management/invitations?limit=2',
+          '/user_management/invitations?limit=2&'\
+          'order=desc',
           'Content-Type' => 'application/json'
         ]
 
@@ -988,7 +993,8 @@ describe WorkOS::UserManagement do
     context 'with before option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/user_management/invitations?before=invitation_01H5JQDV7R7ATEYZDEG0W5PRYS',
+          '/user_management/invitations?before=invitation_01H5JQDV7R7ATEYZDEG0W5PRYS&'\
+          'order=desc',
           'Content-Type' => 'application/json'
         ]
 
@@ -1010,7 +1016,8 @@ describe WorkOS::UserManagement do
     context 'with after option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/user_management/invitations?after=invitation_01H5JQDV7R7ATEYZDEG0W5PRYS',
+          '/user_management/invitations?after=invitation_01H5JQDV7R7ATEYZDEG0W5PRYS&'\
+          'order=desc',
           'Content-Type' => 'application/json'
         ]
 

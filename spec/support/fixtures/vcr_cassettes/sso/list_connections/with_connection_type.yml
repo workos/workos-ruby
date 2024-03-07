@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.workos.com/connections?connection_type=OktaSAML
+    uri: https://api.workos.com/connections?connection_type=OktaSAML&order=desc
     body:
       encoding: US-ASCII
       string: ''

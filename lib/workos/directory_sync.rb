@@ -35,6 +35,7 @@ module WorkOS
         ).returns(WorkOS::Types::ListStruct)
       end
       def list_directories(options = {})
+        options[:order] ||= 'desc'
         response = execute_request(
           request: get_request(
             path: '/directories',
@@ -104,6 +105,7 @@ module WorkOS
         ).returns(WorkOS::Types::ListStruct)
       end
       def list_groups(options = {})
+        options[:order] ||= 'desc'
         response = execute_request(
           request: get_request(
             path: '/directory_groups',
@@ -144,6 +146,7 @@ module WorkOS
         ).returns(WorkOS::Types::ListStruct)
       end
       def list_users(options = {})
+        options[:order] ||= 'desc'
         response = execute_request(
           request: get_request(
             path: '/directory_users',

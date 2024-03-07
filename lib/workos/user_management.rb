@@ -157,6 +157,7 @@ module WorkOS
         ).returns(WorkOS::Types::ListStruct)
       end
       def list_users(options = {})
+        options[:order] ||= 'desc'
         response = execute_request(
           request: get_request(
             path: '/user_management/users',
@@ -783,6 +784,7 @@ module WorkOS
         ).returns(WorkOS::Types::ListStruct)
       end
       def list_organization_memberships(options = {})
+        options[:order] ||= 'desc'
         response = execute_request(
           request: get_request(
             path: '/user_management/organization_memberships',
@@ -889,6 +891,7 @@ module WorkOS
         ).returns(WorkOS::Types::ListStruct)
       end
       def list_invitations(options = {})
+        options[:order] ||= 'desc'
         response = execute_request(
           request: get_request(
             path: '/user_management/invitations',

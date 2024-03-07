@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.workos.com/connections?domain=foo-corp.com
+    uri: https://api.workos.com/connections?domain=foo-corp.com&order=desc
     body:
       encoding: US-ASCII
       string: ''
