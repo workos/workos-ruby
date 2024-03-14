@@ -2,6 +2,8 @@
 # typed: true
 
 module WorkOS
+  # Contains information about a WorkOS Dashboard user impersonating
+  # a User Management user.
   class Impersonator
     include HashProvider
     extend T::Sig

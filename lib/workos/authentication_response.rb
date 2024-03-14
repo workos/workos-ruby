@@ -16,11 +16,9 @@ module WorkOS
       @user = WorkOS::User.new(json[:user].to_json)
       @organization_id = T.let(json[:organization_id], T.nilable(String))
       @impersonator =
-        if impersonator_json = json[:impersonator]
+        if (impersonator_json = json[:impersonator])
           Impersonator.new(email: impersonator_json[:email],
-                           reason: impersonator_json[:reason])
-        else
-          nil
+                           reason: impersonator_json[:reason],)
         end
     end
 
