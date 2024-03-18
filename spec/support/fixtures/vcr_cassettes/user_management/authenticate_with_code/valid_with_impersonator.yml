@@ -1,0 +1,80 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.workos.com/user_management/authenticate
+    body:
+      encoding: UTF-8
+      string: '{"code":"01HRX85ATQB2MN40K4FZ9C2HFR","client_id":"client_01GS91XFB2YPR1C0NR5SH758Q0","client_secret":"<API_KEY>","ip_address":null,"user_agent":null,"grant_type":"authorization_code"}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/3.1.1; arm64-darwin21; v4.0.0
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 14 Mar 2024 01:10:34 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '875'
+      Connection:
+      - keep-alive
+      Cf-Ray:
+      - 8640628169fa0d54-LAX
+      Cf-Cache-Status:
+      - DYNAMIC
+      Etag:
+      - W/"47c-66YSPNMN47PZx4ahCgTQvmryR90"
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Vary:
+      - Origin, Accept-Encoding
+      Via:
+      - 1.1 spaces-router (devel)
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      Expect-Ct:
+      - max-age=0
+      Referrer-Policy:
+      - no-referrer
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - f22ea52f-bf1a-4d5e-acb1-10b2e99ffbe5
+      X-Xss-Protection:
+      - '0'
+      Set-Cookie:
+      - __cf_bm=pYiV6zsrN3V8vd8vKA_bp0qN2LYd1HUQAIVHcevLYw4-1710378634-1.0.1.1-wNPVRK6jpySHc7bqiAVCtM6T64oKxFAjrcvJNJAPU.RhZFRgPfQRGWYbC4l0ckcsyhZ2_I7GTu17yNowC.smHA;
+        path=/; expires=Thu, 14-Mar-24 01:40:34 GMT; domain=.workos.com; HttpOnly;
+        Secure; SameSite=None
+      - __cfruid=914cc38ede83520e897d1eaef25a8e5daa4975d0-1710378634; path=/; domain=.workos.com;
+        HttpOnly; Secure; SameSite=None
+      Server:
+      - cloudflare
+    body:
+      encoding: ASCII-8BIT
+      string: '{"user":{"object":"user","id":"user_01HP0B4ZV2FWWVY0BF16GFDAER","email":"bob@example.com","email_verified":false,"first_name":"Bob","last_name":"Loblaw","profile_picture_url":null,"created_at":"2024-02-06T23:13:18.137Z","updated_at":"2024-02-06T23:13:36.946Z"},"impersonator":{"email":"admin@foocorp.com","reason":"For testing."}}'
+    http_version:
+  recorded_at: Thu, 14 Mar 2024 01:10:34 GMT
+recorded_with: VCR 5.0.0

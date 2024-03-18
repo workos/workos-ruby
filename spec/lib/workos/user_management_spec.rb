@@ -420,6 +420,22 @@ describe WorkOS::UserManagement do
           expect(authentication_response.user.id).to eq('user_01H93ZY4F80YZRRS6N59Z2HFVS')
         end
       end
+
+      context 'when the user is being impersonated' do
+        it 'contains the impersonator metadata' do
+          VCR.use_cassette('user_management/authenticate_with_code/valid_with_impersonator') do
+            authentication_response = WorkOS::UserManagement.authenticate_with_code(
+              code: '01HRX85ATQB2MN40K4FZ9C2HFR',
+              client_id: 'client_01GS91XFB2YPR1C0NR5SH758Q0',
+            )
+
+            expect(authentication_response.impersonator).to have_attributes(
+              email: 'admin@foocorp.com',
+              reason: 'For testing.',
+            )
+          end
+        end
+      end
     end
 
     context 'with an invalid code' do
