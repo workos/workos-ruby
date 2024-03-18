@@ -26,6 +26,12 @@ SPEC_ROOT = File.dirname __FILE__
 VCR.configure do |config|
   config.cassette_library_dir = 'spec/support/fixtures/vcr_cassettes'
   config.filter_sensitive_data('<API_KEY>') { WorkOS.config.key }
+  config.filter_sensitive_data('<ACCESS_TOKEN>', :token) do |interaction|
+    JSON.parse(interaction.response.body)['access_token']
+  end
+  config.filter_sensitive_data('<REFRESH_TOKEN>', :token) do |interaction|
+    JSON.parse(interaction.response.body)['refresh_token']
+  end
   config.hook_into :webmock
 end
 

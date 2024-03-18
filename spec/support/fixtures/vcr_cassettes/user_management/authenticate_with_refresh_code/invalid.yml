@@ -5,7 +5,8 @@ http_interactions:
     uri: https://api.workos.com/user_management/authenticate
     body:
       encoding: UTF-8
-      string: '{"code":"01HRX85ATQB2MN40K4FZ9C2HFR","client_id":"client_01GS91XFB2YPR1C0NR5SH758Q0","client_secret":"<API_KEY>","ip_address":null,"user_agent":null,"grant_type":"authorization_code"}'
+      string: '{"refresh_token":"invalid","client_id":"client_123","client_secret":"<API_KEY>","ip_address":"200.240.210.16","user_agent":"Mozilla/5.0
+        (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36","grant_type":"refresh_token"}'
     headers:
       Content-Type:
       - application/json
@@ -14,26 +15,26 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/3.1.1; arm64-darwin21; v4.0.0
+      - WorkOS; ruby/3.2.2; arm64-darwin22; v4.0.0
   response:
     status:
-      code: 200
-      message: OK
+      code: 400
+      message: Bad Request
     headers:
       Date:
-      - Thu, 14 Mar 2024 01:10:34 GMT
+      - Tue, 19 Mar 2024 16:06:37 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '875'
+      - '70'
       Connection:
       - keep-alive
       Cf-Ray:
-      - 8640628169fa0d54-LAX
+      - 866eb5f11e5f5304-SLC
       Cf-Cache-Status:
       - DYNAMIC
       Etag:
-      - W/"47c-66YSPNMN47PZx4ahCgTQvmryR90"
+      - W/"46-6ugkBnqF9SxNnhijAAHjGcT083A"
       Strict-Transport-Security:
       - max-age=15552000; includeSubDomains
       Vary:
@@ -61,20 +62,20 @@ http_interactions:
       X-Permitted-Cross-Domain-Policies:
       - none
       X-Request-Id:
-      - f22ea52f-bf1a-4d5e-acb1-10b2e99ffbe5
+      - 32619697-61a5-4ad1-80ab-9d26a6a74d12
       X-Xss-Protection:
       - '0'
       Set-Cookie:
-      - __cf_bm=pYiV6zsrN3V8vd8vKA_bp0qN2LYd1HUQAIVHcevLYw4-1710378634-1.0.1.1-wNPVRK6jpySHc7bqiAVCtM6T64oKxFAjrcvJNJAPU.RhZFRgPfQRGWYbC4l0ckcsyhZ2_I7GTu17yNowC.smHA;
-        path=/; expires=Thu, 14-Mar-24 01:40:34 GMT; domain=.workos.com; HttpOnly;
+      - __cf_bm=QdnPZspsJTPGj.ljZ.hfxMSzw0C1in.rjVkGjY75Ht8-1710864397-1.0.1.1-dA2qdL_CwORHen0HwGvbeJXGixoc_htTepIFYUnChePSsMpTdvHI7pWe0ddNWtrRbDD6GEK7TkgM7qPdAXVsaw;
+        path=/; expires=Tue, 19-Mar-24 16:36:37 GMT; domain=.workos.com; HttpOnly;
         Secure; SameSite=None
-      - __cfruid=914cc38ede83520e897d1eaef25a8e5daa4975d0-1710378634; path=/; domain=.workos.com;
+      - __cfruid=a7cc4637e2746cb557755f0665c5f2a6206b907a-1710864397; path=/; domain=.workos.com;
         HttpOnly; Secure; SameSite=None
       Server:
       - cloudflare
     body:
-      encoding: ASCII-8BIT
-      string: '{"user":{"object":"user","id":"user_01HP0B4ZV2FWWVY0BF16GFDAER","email":"bob@example.com","email_verified":false,"first_name":"Bob","last_name":"Loblaw","profile_picture_url":null,"created_at":"2024-02-06T23:13:18.137Z","updated_at":"2024-02-06T23:13:36.946Z"},"impersonator":{"email":"admin@foocorp.com","reason":"For testing."},"access_token":"<ACCESS_TOKEN>","refresh_token":"<REFRESH_TOKEN>"}'
+      encoding: UTF-8
+      string: '{"error":"invalid_grant","error_description":"Invalid refresh token."}'
     http_version:
-  recorded_at: Thu, 14 Mar 2024 01:10:34 GMT
+  recorded_at: Tue, 19 Mar 2024 16:06:37 GMT
 recorded_with: VCR 5.0.0
