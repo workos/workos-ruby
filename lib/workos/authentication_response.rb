@@ -8,7 +8,7 @@ module WorkOS
     include HashProvider
     extend T::Sig
 
-    attr_accessor :user, :organization_id, :impersonator
+    attr_accessor :user, :organization_id, :impersonator, :access_token, :refresh_token
 
     sig { params(authentication_response_json: String).void }
     def initialize(authentication_response_json)
@@ -20,6 +20,8 @@ module WorkOS
           Impersonator.new(email: impersonator_json[:email],
                            reason: impersonator_json[:reason],)
         end
+      @access_token = T.let(json[:access_token], String)
+      @refresh_token = T.let(json[:refresh_token], String)
     end
 
     def to_json(*)
@@ -27,6 +29,8 @@ module WorkOS
         user: user.to_json,
         organization_id: organization_id,
         impersonator: impersonator.to_json,
+        access_token: access_token,
+        refresh_token: refresh_token,
       }
     end
   end

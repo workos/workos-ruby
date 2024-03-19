@@ -68,6 +68,7 @@ module WorkOS
   autoload :Portal, 'workos/portal'
   autoload :Profile, 'workos/profile'
   autoload :ProfileAndToken, 'workos/profile_and_token'
+  autoload :RefreshAuthenticationResponse, 'workos/refresh_authentication_response'
   autoload :SSO, 'workos/sso'
   autoload :Types, 'workos/types'
   autoload :User, 'workos/user'

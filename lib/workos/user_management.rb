@@ -366,6 +366,46 @@ module WorkOS
         WorkOS::AuthenticationResponse.new(response.body)
       end
 
+      # Authenticate a user using a refresh token.
+      #
+      # @param [String] refresh_token The refresh token previously obtained from a successful authentication call
+      # @param [String] client_id The WorkOS client ID for the environment
+      # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
+      # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
+      #
+      # @return WorkOS::RefreshAuthenticationResponse
+
+      sig do
+        params(
+          refresh_token: String,
+          client_id: String,
+          ip_address: T.nilable(String),
+          user_agent: T.nilable(String),
+        ).returns(WorkOS::RefreshAuthenticationResponse)
+      end
+      def authenticate_with_refresh_token(
+        refresh_token:,
+        client_id:,
+        ip_address: nil,
+        user_agent: nil
+      )
+        response = execute_request(
+          request: post_request(
+            path: '/user_management/authenticate',
+            body: {
+              refresh_token: refresh_token,
+              client_id: client_id,
+              client_secret: WorkOS.config.key!,
+              ip_address: ip_address,
+              user_agent: user_agent,
+              grant_type: 'refresh_token',
+            },
+          ),
+        )
+
+        WorkOS::RefreshAuthenticationResponse.new(response.body)
+      end
+
       # Authenticate user by Magic Auth Code.
       #
       # @param [String] code The one-time code that was emailed to the user.
@@ -552,6 +592,66 @@ module WorkOS
         )
 
         WorkOS::AuthenticationResponse.new(response.body)
+      end
+
+      # Get the logout URL for a session
+      #
+      # The user's browser should be navigated to this URL
+      #
+      # @param [String] session_id The session ID can be found in the `sid`
+      #   claim of the access token
+      #
+      # @return String
+      sig do
+        params(
+          session_id: String,
+        ).returns(String)
+      end
+      def get_logout_url(session_id:)
+        URI::HTTPS.build(
+          host: WorkOS.config.api_hostname,
+          path: '/user_management/sessions/logout',
+          query: "session_id=#{session_id}",
+        ).to_s
+      end
+
+      # Revokes a session
+      #
+      # @param [String] session_id The session ID can be found in the `sid`
+      #   claim of the access token
+      sig do
+        params(
+          session_id: String,
+        ).void
+      end
+      def revoke_session(session_id:)
+        execute_request(
+          request: post_request(
+            path: '/user_management/sessions/revoke',
+            body: {
+              session_id: session_id,
+            },
+          ),
+        )
+      end
+
+      # Get the JWKS URL
+      #
+      # The JWKS can be used to validate the access token returned upon successful authentication
+      #
+      # @param [String] client_id The WorkOS client ID for the environment
+      #
+      # @return String
+      sig do
+        params(
+          client_id: String,
+        ).returns(String)
+      end
+      def get_jwks_url(client_id)
+        URI::HTTPS.build(
+          host: WorkOS.config.api_hostname,
+          path: "/sso/jwks/#{client_id}",
+        ).to_s
       end
 
       # Create a one-time Magic Auth code and emails it to the user.
