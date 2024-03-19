@@ -622,7 +622,7 @@ module WorkOS
       sig do
         params(
           session_id: String,
-        ).returns(NilClass)
+        ).void
       end
       def revoke_session(session_id:)
         execute_request(

@@ -2,8 +2,8 @@
 # typed: true
 
 module WorkOS
-  # The AuthenticationResponse class represents an Authentication Response as well as an corresponding
-  # response data that can later be appended on.
+  # The RefreshAuthenticationResponse contains response data from a successful
+  # `UserManagement.authenticate_with_refresh_token` call
   class RefreshAuthenticationResponse
     include HashProvider
     extend T::Sig
