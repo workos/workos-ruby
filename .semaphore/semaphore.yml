@@ -3,8 +3,10 @@ name: Ruby
 
 agent:
   machine:
-    type: e2-standard-2
-    os_image: ubuntu2204
+    # We have to stay on 20.04 because the 22.04 image
+    # drops all support for Ruby 2.7
+    type: e1-standard-2
+    os_image: ubuntu2004
 
 blocks:
   - name: Run Tests 👩🏽‍🔬
@@ -23,7 +25,7 @@ blocks:
                 - '3.3'
           commands:
             - checkout
-            - sem-version ruby $RUBY_VERSION
+            - sem-version ruby $RUBY_VERSION -f
             - which bundle
             - which ruby
             - bundle --version
