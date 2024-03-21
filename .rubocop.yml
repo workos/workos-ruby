@@ -1,3 +1,6 @@
+# Disabling due to conflict with Ruby 2.7/3.1
+Layout/BlockAlignment:
+  Enabled: false
 Layout/DotPosition:
   EnforcedStyle: trailing
 Layout/EmptyLineAfterMagicComment:
