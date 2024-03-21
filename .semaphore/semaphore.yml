@@ -24,6 +24,10 @@ blocks:
           commands:
             - checkout
             - sem-version ruby $RUBY_VERSION
+            - which bundle
+            - which ruby
+            - bundle --version
+            - ruby --version
             - bundle install
             - bundle exec rubocop
             - bundle exec rspec
