@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# typed: true
 
 module WorkOS
   # Module to include an explicit method for converting a model into a Hash containing

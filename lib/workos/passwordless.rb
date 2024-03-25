@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# typed: true
 
 require 'net/http'
 
@@ -11,7 +10,6 @@ module WorkOS
   # @see https://workos.com/docs/sso/configuring-magic-link
   module Passwordless
     class << self
-      extend T::Sig
       include Client
 
       # Create a Passwordless Session.
@@ -33,12 +31,6 @@ module WorkOS
       #  configured redirect URI on your WorkOS dashboard.
       #
       # @return Hash
-      sig do
-        params(
-          options: Hash,
-        ).returns(WorkOS::Types::PasswordlessSessionStruct)
-      end
-
       def create_session(options)
         response = execute_request(
           request: post_request(
@@ -64,12 +56,6 @@ module WorkOS
       #  Session to send an email for.
       #
       # @return Hash
-      sig do
-        params(
-          session_id: String,
-        ).returns(T::Hash[String, T::Boolean])
-      end
-
       def send_session(session_id)
         response = execute_request(
           request: post_request(

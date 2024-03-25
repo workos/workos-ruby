@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# typed: false
 
 describe WorkOS::AuditLogs do
   it_behaves_like 'client'
@@ -48,7 +47,7 @@ describe WorkOS::AuditLogs do
               idempotency_key: 'idempotency_key',
             )
 
-            expect(response).to eq T::Private::Types::Void::VOID
+            expect(response.code).to eq '201'
           end
         end
       end
@@ -61,7 +60,7 @@ describe WorkOS::AuditLogs do
               event: valid_event,
             )
 
-            expect(response).to eq T::Private::Types::Void::VOID
+            expect(response.code).to eq '201'
           end
         end
       end

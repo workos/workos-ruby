@@ -9,4 +9,3 @@ parsers:
     include_full_missed_files: true
 ignore:
   - "spec/*/**"
-  - "sorbet/*/**"

@@ -16,6 +16,10 @@ Metrics/ModuleLength:
   Max: 200
 Metrics/ParameterLists:
   Max: 6
+Naming/ConstantName:
+  Exclude:
+    - 'lib/workos/user_management.rb'
+    - 'lib/workos/types/*.rb'
 Style/TrailingCommaInArguments:
   EnforcedStyleForMultiline: 'consistent_comma'
 Style/TrailingCommaInHashLiteral:

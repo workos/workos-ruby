@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# typed: strict
 
 require 'net/http'
 
@@ -10,7 +9,6 @@ module WorkOS
   #
   module Events
     class << self
-      extend T::Sig
       include Client
 
       # Retrieve events.
@@ -23,11 +21,6 @@ module WorkOS
       #  after a provided Event ID.
       #
       # @return [Hash]
-      sig do
-        params(
-          options: T::Hash[Symbol, String],
-        ).returns(WorkOS::Types::ListStruct)
-      end
       def list_events(options = {})
         response = execute_request(
           request: get_request(

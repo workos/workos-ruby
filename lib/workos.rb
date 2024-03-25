@@ -1,8 +1,6 @@
 # frozen_string_literal: true
-# typed: true
 
 require 'workos/version'
-require 'sorbet-runtime'
 require 'json'
 require 'workos/hash_provider'
 require 'workos/configuration'

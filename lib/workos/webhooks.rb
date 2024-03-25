@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# typed: true
 
 require 'openssl'
 
@@ -14,8 +13,6 @@ module WorkOS
   #
   module Webhooks
     class << self
-      extend T::Sig
-
       DEFAULT_TOLERANCE = 180
 
       # Initializes an Event object from a JSON payload
@@ -37,14 +34,6 @@ module WorkOS
       #
       # @return [WorkOS::Webhook]
       # rubocop:enable Layout/LineLength
-      sig do
-        params(
-          payload: String,
-          sig_header: String,
-          secret: String,
-          tolerance: Integer,
-        ).returns(WorkOS::Webhook)
-      end
       def construct_event(
         payload:,
         sig_header:,
@@ -74,14 +63,6 @@ module WorkOS
       #
       # @return Boolean
       # rubocop:enable Layout/LineLength
-      sig do
-        params(
-          payload: String,
-          sig_header: String,
-          secret: String,
-          tolerance: Integer,
-        ).returns(T::Boolean)
-      end
       # rubocop:disable Metrics/AbcSize
       def verify_header(
         payload:,
@@ -134,11 +115,6 @@ module WorkOS
       #   => ['1626125972272', '80f7ab7efadc306eb5797c588cee9410da9be4416782b497bf1e1bf4175fb928']
       #
       # @return Array
-      sig do
-        params(
-          sig_header: String,
-        ).returns([String, String])
-      end
       def get_timestamp_and_signature_hash(
         sig_header:
       )
@@ -174,13 +150,6 @@ module WorkOS
       #
       # @return String
       # rubocop:enable Layout/LineLength
-      sig do
-        params(
-          timestamp: String,
-          payload: String,
-          secret: String,
-        ).returns(String)
-      end
       def compute_signature(
         timestamp:,
         payload:,
@@ -193,19 +162,13 @@ module WorkOS
 
       # Constant time string comparison to prevent timing attacks
       # Code borrowed from ActiveSupport
-      sig do
-        params(
-          str_a: String,
-          str_b: String,
-        ).returns(T::Boolean)
-      end
       def secure_compare(
         str_a:,
         str_b:
       )
         return false unless str_a.bytesize == str_b.bytesize
 
-        l = T.unsafe(str_a.unpack("C#{str_a.bytesize}"))
+        l = str_a.unpack("C#{str_a.bytesize}")
 
         res = 0
         str_b.each_byte { |byte| res |= byte ^ l.shift }
