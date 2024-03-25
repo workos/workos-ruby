@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# typed: true
 
 module WorkOS
   # The Connection class provides a lightweight wrapper around
@@ -8,25 +7,23 @@ module WorkOS
   # Note: status is deprecated - use state instead
   class Connection
     include HashProvider
-    extend T::Sig
 
     attr_accessor :id, :name, :connection_type, :domains, :organization_id,
                   :state, :status, :created_at, :updated_at
 
     # rubocop:disable Metrics/AbcSize
-    sig { params(json: String).void }
     def initialize(json)
-      raw = parse_json(json)
+      hash = JSON.parse(json, symbolize_names: true)
 
-      @id = T.let(raw.id, String)
-      @name = T.let(raw.name, String)
-      @connection_type = T.let(raw.connection_type, String)
-      @domains = T.let(raw.domains, Array)
-      @organization_id = raw.organization_id
-      @state = T.let(raw.state, String)
-      @status = T.let(raw.status, String)
-      @created_at = T.let(raw.created_at, String)
-      @updated_at = T.let(raw.updated_at, String)
+      @id = hash[:id]
+      @name = hash[:name]
+      @connection_type = hash[:connection_type]
+      @domains = hash[:domains]
+      @organization_id = hash[:organization_id]
+      @state = hash[:state]
+      @status = hash[:status]
+      @created_at = hash[:created_at]
+      @updated_at = hash[:updated_at]
     end
     # rubocop:enable Metrics/AbcSize
 
@@ -42,25 +39,6 @@ module WorkOS
         created_at: created_at,
         updated_at: updated_at,
       }
-    end
-
-    private
-
-    sig { params(json_string: String).returns(WorkOS::Types::ConnectionStruct) }
-    def parse_json(json_string)
-      hash = JSON.parse(json_string, symbolize_names: true)
-
-      WorkOS::Types::ConnectionStruct.new(
-        id: hash[:id],
-        name: hash[:name],
-        connection_type: hash[:connection_type],
-        domains: hash[:domains],
-        organization_id: hash[:organization_id],
-        state: hash[:state],
-        status: hash[:status],
-        created_at: hash[:created_at],
-        updated_at: hash[:updated_at],
-      )
     end
   end
 end

@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# typed: false
 
 describe WorkOS::Organizations do
   it_behaves_like 'client'

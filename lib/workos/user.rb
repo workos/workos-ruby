@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# typed: true
 
 module WorkOS
   # The User class provides a lightweight wrapper around a WorkOS User
@@ -7,23 +6,21 @@ module WorkOS
   # and is instantiated internally but exposed.
   class User
     include HashProvider
-    extend T::Sig
 
     attr_accessor :id, :email, :first_name, :last_name, :email_verified,
                   :profile_picture_url, :created_at, :updated_at
 
-    sig { params(json: String).void }
     def initialize(json)
-      raw = parse_json(json)
+      hash = JSON.parse(json, symbolize_names: true)
 
-      @id = T.let(raw.id, String)
-      @email = T.let(raw.email, String)
-      @first_name = raw.first_name
-      @last_name = raw.last_name
-      @email_verified = raw.email_verified
-      @profile_picture_url = raw.profile_picture_url
-      @created_at = T.let(raw.created_at, String)
-      @updated_at = T.let(raw.updated_at, String)
+      @id = hash[:id]
+      @email = hash[:email]
+      @first_name = hash[:first_name]
+      @last_name = hash[:last_name]
+      @email_verified = hash[:email_verified]
+      @profile_picture_url = hash[:profile_picture_url]
+      @created_at = hash[:created_at]
+      @updated_at = hash[:updated_at]
     end
 
     def to_json(*)
@@ -37,24 +34,6 @@ module WorkOS
         created_at: created_at,
         updated_at: updated_at,
       }
-    end
-
-    private
-
-    sig { params(json_string: String).returns(WorkOS::Types::UserStruct) }
-    def parse_json(json_string)
-      hash = JSON.parse(json_string, symbolize_names: true)
-
-      WorkOS::Types::UserStruct.new(
-        id: hash[:id],
-        email: hash[:email],
-        first_name: hash[:first_name],
-        last_name: hash[:last_name],
-        email_verified: hash[:email_verified],
-        profile_picture_url: hash[:profile_picture_url],
-        created_at: hash[:created_at],
-        updated_at: hash[:updated_at],
-      )
     end
   end
 end

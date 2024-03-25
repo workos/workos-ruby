@@ -7,15 +7,6 @@ agent:
     os_image: ubuntu2004
 
 blocks:
-  - name: Run Sorbet 🍦
-    task:
-      jobs:
-        - name: srb tc
-          commands:
-            - checkout
-            - bundle install
-            - bundle exec srb tc
-
   - name: Run Rubocop 🚔
     task:
       jobs:

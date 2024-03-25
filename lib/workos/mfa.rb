@@ -1,6 +1,4 @@
 # frozen_string_literal: true
-# typed: true
-
 
 require 'net/http'
 require 'uri'
@@ -10,9 +8,7 @@ module WorkOS
   # MFA platform. You'll need a valid API key
   module MFA
     class << self
-      extend T::Sig
       include Client
-      sig { params(id: String).returns(T::Boolean) }
       def delete_factor(id:)
         response = execute_request(
           request: delete_request(
@@ -23,9 +19,6 @@ module WorkOS
         response.is_a? Net::HTTPSuccess
       end
 
-      sig do
-        params(id: String).returns(WorkOS::Factor)
-      end
       def get_factor(
         id:
       )
@@ -38,17 +31,8 @@ module WorkOS
         WorkOS::Factor.new(response.body)
       end
 
-      sig do
-        params(
-          type: String,
-          totp_issuer: T.nilable(String),
-          totp_user: T.nilable(String),
-          phone_number: T.nilable(String),
-        ).void
-      end
       # rubocop:disable Metrics/CyclomaticComplexity
       # rubocop:disable Metrics/PerceivedComplexity
-
       def validate_args(
         type:,
         totp_issuer: nil,
@@ -68,14 +52,6 @@ module WorkOS
       # rubocop:enable Metrics/CyclomaticComplexity
       # rubocop:enable Metrics/PerceivedComplexity
 
-      sig do
-        params(
-          type: String,
-          totp_issuer: T.nilable(String),
-          totp_user: T.nilable(String),
-          phone_number: T.nilable(String),
-        ).returns(WorkOS::Factor)
-      end
       def enroll_factor(
         type:,
         totp_issuer: nil,
@@ -101,12 +77,6 @@ module WorkOS
         WorkOS::Factor.new(response.body)
       end
 
-      sig do
-        params(
-          authentication_factor_id: T.nilable(String),
-          sms_template: T.nilable(String),
-        ).returns(WorkOS::Challenge)
-      end
       def challenge_factor(
         authentication_factor_id: nil,
         sms_template: nil
@@ -127,12 +97,6 @@ module WorkOS
         WorkOS::Challenge.new(response.body)
       end
 
-      sig do
-        params(
-          authentication_challenge_id: T.nilable(String),
-          code: T.nilable(String),
-        ).returns(WorkOS::VerifyChallenge)
-      end
       def verify_factor(
         authentication_challenge_id: nil,
         code: nil
@@ -145,12 +109,6 @@ module WorkOS
         )
       end
 
-      sig do
-        params(
-          authentication_challenge_id: T.nilable(String),
-          code: T.nilable(String),
-        ).returns(WorkOS::VerifyChallenge)
-      end
       def verify_challenge(
         authentication_challenge_id: nil,
         code: nil

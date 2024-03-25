@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# typed: true
 
 module WorkOS
   # The ProfileAndToken class represents a Profile and a corresponding
@@ -7,15 +6,13 @@ module WorkOS
   # is instantiated internally but exposed.
   class ProfileAndToken
     include HashProvider
-    extend T::Sig
 
     attr_accessor :access_token, :profile
 
-    sig { params(profile_and_token_json: String).void }
     def initialize(profile_and_token_json)
       json = JSON.parse(profile_and_token_json, symbolize_names: true)
 
-      @access_token = T.let(json[:access_token], String)
+      @access_token = json[:access_token]
       @profile = WorkOS::Profile.new(json[:profile].to_json)
     end
 
