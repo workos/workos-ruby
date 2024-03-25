@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# typed: false
 
 RSpec.shared_examples 'client' do
   subject(:client) { described_class.client }

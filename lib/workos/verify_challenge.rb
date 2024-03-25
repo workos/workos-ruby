@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# typed: false
 
 module WorkOS
   # The VerifyChallenge class provides a lightweight wrapper around
