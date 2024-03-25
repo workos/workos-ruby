@@ -369,7 +369,6 @@ module WorkOS
         WorkOS::AuthenticationResponse.new(response.body)
       end
 
-
       # Authenticate a user into an organization they are a member of.
       #
       # @param [String] client_id The WorkOS client ID for the environment.

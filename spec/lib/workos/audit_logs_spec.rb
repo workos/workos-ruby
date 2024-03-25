@@ -47,7 +47,7 @@ describe WorkOS::AuditLogs do
               idempotency_key: 'idempotency_key',
             )
 
-            expect(response.code).to eq "201"
+            expect(response.code).to eq '201'
           end
         end
       end
@@ -60,7 +60,7 @@ describe WorkOS::AuditLogs do
               event: valid_event,
             )
 
-            expect(response.code).to eq "201"
+            expect(response.code).to eq '201'
           end
         end
       end

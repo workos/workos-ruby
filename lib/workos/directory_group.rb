@@ -10,7 +10,6 @@ module WorkOS
     attr_accessor :id, :directory_id, :idp_id, :name, :created_at, :updated_at,
                   :raw_attributes, :organization_id
 
-    # rubocop:disable Metrics/AbcSize
     def initialize(json)
       hash = JSON.parse(json, symbolize_names: true)
 
@@ -25,7 +24,6 @@ module WorkOS
 
       replace_without_warning(to_json)
     end
-    # rubocop:enable Metrics/AbcSize
 
     def to_json(*)
       {

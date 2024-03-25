@@ -13,7 +13,6 @@ module WorkOS
   #
   module Webhooks
     class << self
-
       DEFAULT_TOLERANCE = 180
 
       # Initializes an Event object from a JSON payload

@@ -3,7 +3,6 @@
 module WorkOS
   # Parent class for WorkOS related errors
   class WorkOSError < StandardError
-
     attr_reader :http_status
     attr_reader :request_id
     attr_reader :code
