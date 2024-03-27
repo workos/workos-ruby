@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# typed: false
 
 describe WorkOS::UserManagement do
   it_behaves_like 'client'
@@ -225,7 +224,7 @@ describe WorkOS::UserManagement do
       it 'returns a user' do
         VCR.use_cassette 'user_management/get_user' do
           user = described_class.get_user(
-            id: 'user_01H7TVSKS45SDHN5V9XPSM6H44',
+            id: 'user_01HP0B4ZV2FWWVY0BF16GFDAER',
           )
 
           expect(user.id.instance_of?(String))
@@ -265,7 +264,9 @@ describe WorkOS::UserManagement do
     context 'with options' do
       it 'returns a list of matching users' do
         request_args = [
-          '/user_management/users?email=lucy.lawless%40example.com&order=desc&limit=5',
+          '/user_management/users?email=lucy.lawless%40example.com&'\
+          'order=desc&'\
+          'limit=5',
           'Content-Type' => 'application/json'
         ]
 
@@ -375,7 +376,7 @@ describe WorkOS::UserManagement do
   describe '.authenticate_with_password' do
     context 'with a valid password' do
       it 'returns user' do
-        VCR.use_cassette('user_management/authenticate_with_password/valid') do
+        VCR.use_cassette('user_management/authenticate_with_password/valid', tag: :token) do
           authentication_response = WorkOS::UserManagement.authenticate_with_password(
             email: 'test@workos.app',
             password: '7YtYic00VWcXatPb',
@@ -416,6 +417,24 @@ describe WorkOS::UserManagement do
             user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36',
           )
           expect(authentication_response.user.id).to eq('user_01H93ZY4F80YZRRS6N59Z2HFVS')
+          expect(authentication_response.access_token).to eq('<ACCESS_TOKEN>')
+          expect(authentication_response.refresh_token).to eq('<REFRESH_TOKEN>')
+        end
+      end
+
+      context 'when the user is being impersonated' do
+        it 'contains the impersonator metadata' do
+          VCR.use_cassette('user_management/authenticate_with_code/valid_with_impersonator') do
+            authentication_response = WorkOS::UserManagement.authenticate_with_code(
+              code: '01HRX85ATQB2MN40K4FZ9C2HFR',
+              client_id: 'client_01GS91XFB2YPR1C0NR5SH758Q0',
+            )
+
+            expect(authentication_response.impersonator).to have_attributes(
+              email: 'admin@foocorp.com',
+              reason: 'For testing.',
+            )
+          end
         end
       end
     end
@@ -436,10 +455,42 @@ describe WorkOS::UserManagement do
     end
   end
 
+  describe '.authenticate_with_refresh_token' do
+    context 'with a valid refresh_token' do
+      it 'returns user' do
+        VCR.use_cassette('user_management/authenticate_with_refresh_token/valid', tag: :token) do
+          authentication_response = WorkOS::UserManagement.authenticate_with_refresh_token(
+            refresh_token: 'some_refresh_token',
+            client_id: 'client_123',
+            ip_address: '200.240.210.16',
+            user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36',
+          )
+          expect(authentication_response.access_token).to eq('<ACCESS_TOKEN>')
+          expect(authentication_response.refresh_token).to eq('<REFRESH_TOKEN>')
+        end
+      end
+    end
+
+    context 'with an invalid refresh_token' do
+      it 'raises an error' do
+        VCR.use_cassette('user_management/authenticate_with_refresh_code/invalid', tag: :token) do
+          expect do
+            WorkOS::UserManagement.authenticate_with_refresh_token(
+              refresh_token: 'invalid',
+              client_id: 'client_123',
+              ip_address: '200.240.210.16',
+              user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36',
+            )
+          end.to raise_error(WorkOS::InvalidRequestError, /Status 400/)
+        end
+      end
+    end
+  end
+
   describe '.authenticate_with_magic_auth' do
     context 'with a valid code' do
       it 'returns user' do
-        VCR.use_cassette('user_management/authenticate_with_magic_auth/valid') do
+        VCR.use_cassette('user_management/authenticate_with_magic_auth/valid', tag: :token) do
           authentication_response = WorkOS::UserManagement.authenticate_with_magic_auth(
             code: '452079',
             client_id: 'project_01EGKAEB7G5N88E83MF99J785F',
@@ -454,7 +505,7 @@ describe WorkOS::UserManagement do
 
     context 'with an invalid code' do
       it 'returns an error' do
-        VCR.use_cassette('user_management/authenticate_with_magic_auth/invalid') do
+        VCR.use_cassette('user_management/authenticate_with_magic_auth/invalid', tag: :token) do
           expect do
             WorkOS::UserManagement.authenticate_with_magic_auth(
               code: 'invalid',
@@ -470,7 +521,7 @@ describe WorkOS::UserManagement do
   describe '.authenticate_with_organization_selection' do
     context 'with a valid code' do
       it 'returns user' do
-        VCR.use_cassette('user_management/authenticate_with_organization_selection/valid') do
+        VCR.use_cassette('user_management/authenticate_with_organization_selection/valid', tag: :token) do
           authentication_response = WorkOS::UserManagement.authenticate_with_organization_selection(
             client_id: 'project_01EGKAEB7G5N88E83MF99J785F',
             organization_id: 'org_01H5JQDV7R7ATEYZDEG0W5PRYS',
@@ -486,7 +537,7 @@ describe WorkOS::UserManagement do
 
     context 'with an invalid token' do
       it 'returns an error' do
-        VCR.use_cassette('user_management/authenticate_with_organization_selection/invalid') do
+        VCR.use_cassette('user_management/authenticate_with_organization_selection/invalid', tag: :token) do
           expect do
             WorkOS::UserManagement.authenticate_with_organization_selection(
               organization_id: 'invalid_org_id',
@@ -502,7 +553,7 @@ describe WorkOS::UserManagement do
   describe '.authenticate_with_totp' do
     context 'with a valid code' do
       it 'returns user' do
-        VCR.use_cassette('user_management/authenticate_with_totp/valid') do
+        VCR.use_cassette('user_management/authenticate_with_totp/valid', tag: :token) do
           authentication_response = WorkOS::UserManagement.authenticate_with_totp(
             code: '01H93ZZHA0JBHFJH9RR11S83YN',
             client_id: 'client_123',
@@ -518,7 +569,7 @@ describe WorkOS::UserManagement do
 
     context 'with an invalid code' do
       it 'raises an error' do
-        VCR.use_cassette('user_management/authenticate_with_totp/invalid') do
+        VCR.use_cassette('user_management/authenticate_with_totp/invalid', tag: :token) do
           expect do
             WorkOS::UserManagement.authenticate_with_totp(
               code: 'invalid',
@@ -537,7 +588,7 @@ describe WorkOS::UserManagement do
   describe '.authenticate_with_email_verification' do
     context 'with a valid code' do
       it 'returns user' do
-        VCR.use_cassette('user_management/authenticate_with_email_verification/valid') do
+        VCR.use_cassette('user_management/authenticate_with_email_verification/valid', tag: :token) do
           authentication_response = WorkOS::UserManagement.authenticate_with_email_verification(
             code: '01H93ZZHA0JBHFJH9RR11S83YN',
             client_id: 'client_123',
@@ -552,7 +603,7 @@ describe WorkOS::UserManagement do
 
     context 'with an invalid code' do
       it 'raises an error' do
-        VCR.use_cassette('user_management/authenticate_with_email_verification/invalid') do
+        VCR.use_cassette('user_management/authenticate_with_email_verification/invalid', tag: :token) do
           expect do
             WorkOS::UserManagement.authenticate_with_email_verification(
               code: 'invalid',
@@ -820,7 +871,8 @@ describe WorkOS::UserManagement do
     context 'with options' do
       it 'returns a list of matching users' do
         request_args = [
-          '/user_management/organization_memberships?user_id=user_01H5JQDV7R7ATEYZDEG0W5PRYS&order=desc&limit=5',
+          '/user_management/organization_memberships?user_id=user_01H5JQDV7R7ATEYZDEG0W5PRYS&'\
+          'order=desc&limit=5',
           'Content-Type' => 'application/json'
         ]
 
@@ -941,7 +993,8 @@ describe WorkOS::UserManagement do
     context 'with organization_id option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/user_management/invitations?organization_id=org_01H5JQDV7R7ATEYZDEG0W5PRYS',
+          '/user_management/invitations?organization_id=org_01H5JQDV7R7ATEYZDEG0W5PRYS&'\
+          'order=desc',
           'Content-Type' => 'application/json'
         ]
 
@@ -966,7 +1019,8 @@ describe WorkOS::UserManagement do
     context 'with limit option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/user_management/invitations?limit=2',
+          '/user_management/invitations?limit=2&'\
+          'order=desc',
           'Content-Type' => 'application/json'
         ]
 
@@ -988,7 +1042,8 @@ describe WorkOS::UserManagement do
     context 'with before option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/user_management/invitations?before=invitation_01H5JQDV7R7ATEYZDEG0W5PRYS',
+          '/user_management/invitations?before=invitation_01H5JQDV7R7ATEYZDEG0W5PRYS&'\
+          'order=desc',
           'Content-Type' => 'application/json'
         ]
 
@@ -1010,7 +1065,8 @@ describe WorkOS::UserManagement do
     context 'with after option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/user_management/invitations?after=invitation_01H5JQDV7R7ATEYZDEG0W5PRYS',
+          '/user_management/invitations?after=invitation_01H5JQDV7R7ATEYZDEG0W5PRYS&'\
+          'order=desc',
           'Content-Type' => 'application/json'
         ]
 

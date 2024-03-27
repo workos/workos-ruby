@@ -1,29 +1,14 @@
 # frozen_string_literal: true
-# typed: true
-
 
 module WorkOS
   # Parent class for WorkOS related errors
   class WorkOSError < StandardError
-    extend T::Sig
-
     attr_reader :http_status
     attr_reader :request_id
     attr_reader :code
     attr_reader :errors
 
     # rubocop:disable Metrics/ParameterLists
-    sig do
-      params(
-        message: T.nilable(String),
-        error: T.nilable(String),
-        error_description: T.nilable(String),
-        http_status: T.nilable(Integer),
-        request_id: T.nilable(String),
-        code: T.nilable(String),
-        errors: T.nilable(T::Array[T::Hash[T.untyped, T.untyped]]),
-      ).void
-    end
     def initialize(
       message: nil,
       error: nil,
@@ -43,7 +28,6 @@ module WorkOS
     end
     # rubocop:enable Metrics/ParameterLists
 
-    sig { returns(String) }
     def to_s
       status_string = @http_status.nil? ? '' : "Status #{@http_status}, "
       id_string = @request_id.nil? ? '' : " - request ID: #{@request_id}"

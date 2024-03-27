@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# typed: true
 
 require 'net/http'
 
@@ -7,7 +6,6 @@ module WorkOS
   # The Organizations module provides resource methods for working with Organizations
   module Organizations
     class << self
-      extend T::Sig
       include Client
 
       # Retrieve a list of organizations that have connections configured
@@ -22,12 +20,8 @@ module WorkOS
       # @param [Integer] limit A pagination argument used to limit the number
       # @param [String] order The order in which to paginate records
       #  of listed Organizations that are returned.
-      sig do
-        params(
-          options: T::Hash[Symbol, String],
-        ).returns(WorkOS::Types::ListStruct)
-      end
       def list_organizations(options = {})
+        options[:order] ||= 'desc'
         response = execute_request(
           request: get_request(
             path: '/organizations',
@@ -63,7 +57,6 @@ module WorkOS
       #            :domain=>"foo-corp.com"}]>
       #
       # @return [WorkOS::Organization]
-      sig { params(id: String).returns(WorkOS::Organization) }
       def get_organization(id:)
         request = get_request(
           auth: true,
@@ -83,14 +76,6 @@ module WorkOS
       # @param [Boolean, nil] allow_profiles_outside_organization Whether Connections
       #  within the Organization allow profiles that are outside of the Organization's configured User Email Domains.
       # @param [String] idempotency_key An idempotency key
-      sig do
-        params(
-          domains: T::Array[String],
-          name: String,
-          allow_profiles_outside_organization: T.nilable(T::Boolean),
-          idempotency_key: T.nilable(String),
-        ).returns(WorkOS::Organization)
-      end
       def create_organization(domains:, name:, allow_profiles_outside_organization: nil, idempotency_key: nil)
         request = post_request(
           auth: true,
@@ -117,14 +102,6 @@ module WorkOS
       # @param [String] name A unique, descriptive name for the organization
       # @param [Boolean, nil] allow_profiles_outside_organization Whether Connections
       #  within the Organization allow profiles that are outside of the Organization's configured User Email Domains.
-      sig do
-        params(
-          organization: String,
-          domains: T::Array[String],
-          name: String,
-          allow_profiles_outside_organization: T.nilable(T::Boolean),
-        ).returns(WorkOS::Organization)
-      end
       def update_organization(organization:, domains:, name:, allow_profiles_outside_organization: nil)
         request = put_request(
           auth: true,
@@ -151,7 +128,6 @@ module WorkOS
       #   => true
       #
       # @return [Bool] - returns `true` if successful
-      sig { params(id: String).returns(T::Boolean) }
       def delete_organization(id:)
         request = delete_request(
           auth: true,
@@ -165,7 +141,6 @@ module WorkOS
 
       private
 
-      sig { params(response: Net::HTTPResponse).void }
       def check_and_raise_organization_error(response:)
         begin
           body = JSON.parse(response.body)

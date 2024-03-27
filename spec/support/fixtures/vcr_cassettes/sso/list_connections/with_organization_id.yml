@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.workos.com/connections?organization_id=org_01F9293WD2PDEEV4Y625XPZVG7
+    uri: https://api.workos.com/connections?order=desc&organization_id=org_01F9293WD2PDEEV4Y625XPZVG7
     body:
       encoding: US-ASCII
       string: ''

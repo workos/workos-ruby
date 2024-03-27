@@ -1,8 +1,6 @@
 # frozen_string_literal: true
-# typed: true
 
 require 'workos/version'
-require 'sorbet-runtime'
 require 'json'
 require 'workos/hash_provider'
 require 'workos/configuration'
@@ -58,6 +56,7 @@ module WorkOS
   autoload :Event, 'workos/event'
   autoload :Events, 'workos/events'
   autoload :Factor, 'workos/factor'
+  autoload :Impersonator, 'workos/impersonator'
   autoload :Invitation, 'workos/invitation'
   autoload :MFA, 'workos/mfa'
   autoload :Organization, 'workos/organization'
@@ -67,6 +66,7 @@ module WorkOS
   autoload :Portal, 'workos/portal'
   autoload :Profile, 'workos/profile'
   autoload :ProfileAndToken, 'workos/profile_and_token'
+  autoload :RefreshAuthenticationResponse, 'workos/refresh_authentication_response'
   autoload :SSO, 'workos/sso'
   autoload :Types, 'workos/types'
   autoload :User, 'workos/user'

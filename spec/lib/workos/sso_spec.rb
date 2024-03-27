@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# typed: false
 
 require 'securerandom'
 
@@ -457,7 +456,8 @@ describe WorkOS::SSO do
     context 'with connection_type option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/connections?connection_type=OktaSAML',
+          '/connections?connection_type=OktaSAML&'\
+          'order=desc',
           'Content-Type' => 'application/json'
         ]
 
@@ -480,7 +480,8 @@ describe WorkOS::SSO do
     context 'with domain option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/connections?domain=foo-corp.com',
+          '/connections?domain=foo-corp.com&'\
+          'order=desc',
           'Content-Type' => 'application/json'
         ]
 
@@ -502,7 +503,8 @@ describe WorkOS::SSO do
     context 'with organization_id option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/connections?organization_id=org_01F9293WD2PDEEV4Y625XPZVG7',
+          '/connections?organization_id=org_01F9293WD2PDEEV4Y625XPZVG7&'\
+          'order=desc',
           'Content-Type' => 'application/json'
         ]
 
@@ -527,7 +529,8 @@ describe WorkOS::SSO do
     context 'with limit option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/connections?limit=2',
+          '/connections?limit=2&'\
+          'order=desc',
           'Content-Type' => 'application/json'
         ]
 
@@ -549,7 +552,8 @@ describe WorkOS::SSO do
     context 'with before option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/connections?before=conn_01FA3WGCWPCCY1V2FGES2FDNP7',
+          '/connections?before=conn_01FA3WGCWPCCY1V2FGES2FDNP7&'\
+          'order=desc',
           'Content-Type' => 'application/json'
         ]
 
@@ -571,7 +575,8 @@ describe WorkOS::SSO do
     context 'with after option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/connections?after=conn_01FA3WGCWPCCY1V2FGES2FDNP7',
+          '/connections?after=conn_01FA3WGCWPCCY1V2FGES2FDNP7&'\
+          'order=desc',
           'Content-Type' => 'application/json'
         ]
 

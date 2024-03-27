@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# typed: true
 
 require 'net/http'
 require 'uri'
@@ -9,7 +8,6 @@ module WorkOS
   # WorkOS Audit Logs platform. You'll need a valid API key.
   module AuditLogs
     class << self
-      extend T::Sig
       include Client
 
       # Create an Audit Log Event.
@@ -19,13 +17,6 @@ module WorkOS
       # @param [String] idempotency_key An idempotency key
       #
       # @return [nil]
-      sig do
-        params(
-          organization: String,
-          event: Hash,
-          idempotency_key: T.nilable(String),
-        ).void
-      end
       def create_event(organization:, event:, idempotency_key: nil)
         request = post_request(
           path: '/audit_logs/events',
@@ -52,18 +43,6 @@ module WorkOS
       # @param [Array<String>] targets A list of target types to filter by
       #
       # @return [WorkOS::AuditLogExport]
-      sig do
-        params(
-          organization: String,
-          range_start: String,
-          range_end: String,
-          actions: T.nilable(T::Array[String]),
-          actors: T.nilable(T::Array[String]),
-          targets: T.nilable(T::Array[String]),
-          actor_names: T.nilable(T::Array[String]),
-          actor_ids: T.nilable(T::Array[String]),
-        ).returns(WorkOS::AuditLogExport)
-      end
       def create_export(organization:, range_start:, range_end:, actions: nil, # rubocop:disable Metrics/ParameterLists
                         actors: nil, targets: nil, actor_names: nil, actor_ids: nil)
         body = {
@@ -94,11 +73,6 @@ module WorkOS
       # @param [String] id An Audit Log Export ID
       #
       # @return [WorkOS::AuditLogExport]
-      sig do
-        params(
-          id: String,
-        ).returns(WorkOS::AuditLogExport)
-      end
       def get_export(id:)
         request = get_request(
           auth: true,

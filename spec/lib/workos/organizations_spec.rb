@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# typed: false
 
 describe WorkOS::Organizations do
   it_behaves_like 'client'
@@ -121,7 +120,8 @@ describe WorkOS::Organizations do
     context 'with the before option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/organizations?before=before-id',
+          '/organizations?before=before-id&'\
+          'order=desc',
           'Content-Type' => 'application/json'
         ]
 
@@ -143,7 +143,8 @@ describe WorkOS::Organizations do
     context 'with the after option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/organizations?after=after-id',
+          '/organizations?after=after-id&'\
+          'order=desc',
           'Content-Type' => 'application/json'
         ]
 
@@ -163,7 +164,8 @@ describe WorkOS::Organizations do
     context 'with the limit option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/organizations?limit=10',
+          '/organizations?limit=10&'\
+          'order=desc',
           'Content-Type' => 'application/json'
         ]
 

@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# typed: false
 
 describe WorkOS::DirectorySync do
   it_behaves_like 'client'
@@ -24,7 +23,8 @@ describe WorkOS::DirectorySync do
     context 'with search option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/directories?search=Testing',
+          '/directories?search=Testing&'\
+          'order=desc',
           'Content-Type' => 'application/json'
         ]
 
@@ -47,7 +47,8 @@ describe WorkOS::DirectorySync do
     context 'with the before option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/directories?before=directory_01FGCPNV312FHFRCX0BYWHVSE1',
+          '/directories?before=directory_01FGCPNV312FHFRCX0BYWHVSE1&'\
+          'order=desc',
           'Content-Type' => 'application/json'
         ]
 
@@ -69,7 +70,8 @@ describe WorkOS::DirectorySync do
     context 'with the after option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/directories?after=directory_01FGCPNV312FHFRCX0BYWHVSE1',
+          '/directories?after=directory_01FGCPNV312FHFRCX0BYWHVSE1&'\
+          'order=desc',
           'Content-Type' => 'application/json'
         ]
 
@@ -89,7 +91,8 @@ describe WorkOS::DirectorySync do
     context 'with the limit option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/directories?limit=2',
+          '/directories?limit=2&'\
+          'order=desc',
           'Content-Type' => 'application/json'
         ]
 
@@ -167,7 +170,8 @@ describe WorkOS::DirectorySync do
     context 'with directory option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/directory_groups?directory=directory_01G2Z8ADK5NPMVTWF48MVVE4HT',
+          '/directory_groups?directory=directory_01G2Z8ADK5NPMVTWF48MVVE4HT&'\
+          'order=desc',
           'Content-Type' => 'application/json'
         ]
 
@@ -190,7 +194,8 @@ describe WorkOS::DirectorySync do
     context 'with user option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/directory_groups?user=directory_user_01G2Z8D4FDB28ZNSRRBVCF2E0P',
+          '/directory_groups?user=directory_user_01G2Z8D4FDB28ZNSRRBVCF2E0P&'\
+          'order=desc',
           'Content-Type' => 'application/json'
         ]
 
@@ -213,7 +218,8 @@ describe WorkOS::DirectorySync do
       it 'forms the proper request to the API' do
         request_args = [
           '/directory_groups?before=directory_group_01G2Z8D4ZR8RJ03Y1W7P9K8NMG&' \
-          'directory=directory_01G2Z8ADK5NPMVTWF48MVVE4HT',
+          'directory=directory_01G2Z8ADK5NPMVTWF48MVVE4HT&'\
+          'order=desc',
           'Content-Type' => 'application/json'
         ]
 
@@ -237,7 +243,8 @@ describe WorkOS::DirectorySync do
       it 'forms the proper request to the API' do
         request_args = [
           '/directory_groups?after=directory_group_01G2Z8D4ZR8RJ03Y1W7P9K8NMG&' \
-          'directory=directory_01G2Z8ADK5NPMVTWF48MVVE4HT',
+          'directory=directory_01G2Z8ADK5NPMVTWF48MVVE4HT&'\
+          'order=desc',
           'Content-Type' => 'application/json'
         ]
 
@@ -261,7 +268,8 @@ describe WorkOS::DirectorySync do
       it 'forms the proper request to the API' do
         request_args = [
           '/directory_groups?limit=2&' \
-          'directory=directory_01G2Z8ADK5NPMVTWF48MVVE4HT',
+          'directory=directory_01G2Z8ADK5NPMVTWF48MVVE4HT&'\
+          'order=desc',
           'Content-Type' => 'application/json'
         ]
 
@@ -296,7 +304,8 @@ describe WorkOS::DirectorySync do
     context 'with directory option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/directory_users?directory=directory_01FAZYMST676QMTFN1DDJZZX87',
+          '/directory_users?directory=directory_01FAZYMST676QMTFN1DDJZZX87&'\
+          'order=desc',
           'Content-Type' => 'application/json'
         ]
 
@@ -319,7 +328,8 @@ describe WorkOS::DirectorySync do
     context 'with group option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/directory_users?group=directory_group_01FBXGP79EJAYKW0WS9JCK1V6E',
+          '/directory_users?group=directory_group_01FBXGP79EJAYKW0WS9JCK1V6E&'\
+          'order=desc',
           'Content-Type' => 'application/json'
         ]
 
@@ -342,7 +352,8 @@ describe WorkOS::DirectorySync do
       it 'forms the proper request to the API' do
         request_args = [
           '/directory_users?before=directory_user_01FAZYNPC8TJBP7Y2ERT51MGDF&'\
-          'directory=directory_01FAZYMST676QMTFN1DDJZZX87',
+          'directory=directory_01FAZYMST676QMTFN1DDJZZX87&'\
+          'order=desc',
           'Content-Type' => 'application/json'
         ]
 
@@ -366,7 +377,8 @@ describe WorkOS::DirectorySync do
       it 'forms the proper request to the API' do
         request_args = [
           '/directory_users?after=directory_user_01FAZYNPC8TJBP7Y2ERT51MGDF&' \
-          'directory=directory_01FAZYMST676QMTFN1DDJZZX87',
+          'directory=directory_01FAZYMST676QMTFN1DDJZZX87&'\
+          'order=desc',
           'Content-Type' => 'application/json'
         ]
 
@@ -390,7 +402,8 @@ describe WorkOS::DirectorySync do
       it 'forms the proper request to the API' do
         request_args = [
           '/directory_users?limit=2&' \
-          'directory=directory_01FAZYMST676QMTFN1DDJZZX87',
+          'directory=directory_01FAZYMST676QMTFN1DDJZZX87&'\
+          'order=desc',
           'Content-Type' => 'application/json'
         ]
 

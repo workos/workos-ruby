@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.workos.com/user_management/invitations?after=invitation_01H5JQDV7R7ATEYZDEG0W5PRYS
+    uri: https://api.workos.com/user_management/invitations?after=invitation_01H5JQDV7R7ATEYZDEG0W5PRYS&order=desc
     body:
       encoding: US-ASCII
       string: ''

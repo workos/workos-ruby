@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# typed: true
 
 require 'net/http'
 require 'uri'
@@ -11,32 +10,31 @@ module WorkOS
   # rubocop:disable Metrics/ModuleLength
   module UserManagement
     module Types
-      # The ProviderEnum is type-safe declaration of a
+      # The ProviderEnum is a declaration of a
       # fixed set of values for User Management Providers.
-      class Provider < T::Enum
-        enums do
-          GitHub = new('GitHubOAuth')
-          Google = new('GoogleOAuth')
-          Microsoft = new('MicrosoftOAuth')
-          AuthKit = new('authkit')
-        end
+      class Provider
+        GitHub = 'GitHubOAuth'
+        Google = 'GoogleOAuth'
+        Microsoft = 'MicrosoftOAuth'
+        AuthKit = 'authkit'
+
+        ALL = [GitHub, Google, Microsoft, AuthKit].freeze
       end
 
-      # The AuthFactorType is type-safe declaration of a
+      # The AuthFactorType is a declaration of a
       # fixed set of factor values to enroll
-      class AuthFactorType < T::Enum
-        enums do
-          Totp = new('totp')
-        end
+      class AuthFactorType
+        Totp = 'totp'
+
+        ALL = [Totp].freeze
       end
     end
 
     class << self
-      extend T::Sig
       include Client
 
-      PROVIDERS = WorkOS::UserManagement::Types::Provider.values.map(&:serialize).freeze
-      AUTH_FACTOR_TYPES = WorkOS::UserManagement::Types::AuthFactorType.values.map(&:serialize).freeze
+      PROVIDERS = WorkOS::UserManagement::Types::Provider::ALL
+      AUTH_FACTOR_TYPES = WorkOS::UserManagement::Types::AuthFactorType::ALL
 
       # Generate an OAuth 2.0 authorization URL that automatically directs a user
       # to their Identity Provider.
@@ -74,18 +72,6 @@ module WorkOS
       #
       # @return [String]
       # rubocop:disable Metrics/ParameterLists
-      sig do
-        params(
-          redirect_uri: String,
-          client_id: T.nilable(String),
-          domain_hint: T.nilable(String),
-          login_hint: T.nilable(String),
-          provider: T.nilable(String),
-          connection_id: T.nilable(String),
-          organization_id: T.nilable(String),
-          state: T.nilable(String),
-        ).returns(String)
-      end
       def authorization_url(
         redirect_uri:,
         client_id: nil,
@@ -124,9 +110,6 @@ module WorkOS
       # @param [String] id The unique ID of the User.
       #
       # @return WorkOS::User
-      sig do
-        params(id: String).returns(WorkOS::User)
-      end
       def get_user(id:)
         response = execute_request(
           request: get_request(
@@ -151,12 +134,8 @@ module WorkOS
       #  before a provided User ID.
       #
       # @return [WorkOS::User]
-      sig do
-        params(
-          options: T::Hash[Symbol, String],
-        ).returns(WorkOS::Types::ListStruct)
-      end
       def list_users(options = {})
+        options[:order] ||= 'desc'
         response = execute_request(
           request: get_request(
             path: '/user_management/users',
@@ -186,15 +165,6 @@ module WorkOS
       # @param [Boolean] email_verified Whether the user's email address was previously verified.
       #
       # @return [WorkOS::User]
-      sig do
-        params(
-          email: String,
-          password: T.nilable(String),
-          first_name: T.nilable(String),
-          last_name: T.nilable(String),
-          email_verified: T.nilable(T::Boolean),
-        ).returns(WorkOS::User)
-      end
       def create_user(email:, password: nil, first_name: nil, last_name: nil, email_verified: nil)
         request = post_request(
           path: '/user_management/users',
@@ -226,17 +196,6 @@ module WorkOS
       #
       # @return [WorkOS::User]
       # rubocop:disable Metrics/ParameterLists
-      sig do
-        params(
-          id: String,
-          first_name: T.nilable(String),
-          last_name: T.nilable(String),
-          email_verified: T.nilable(T::Boolean),
-          password: T.nilable(String),
-          password_hash: T.nilable(String),
-          password_hash_type: T.nilable(String),
-        ).returns(WorkOS::User)
-      end
       def update_user(
         id:,
         first_name: nil,
@@ -270,11 +229,6 @@ module WorkOS
       # @param [String] id The unique ID of the User.
       #
       # @return [Bool] - returns `true` if successful
-      sig do
-        params(
-          id: String,
-        ).returns(T::Boolean)
-      end
       def delete_user(id:)
         response = execute_request(
           request: delete_request(
@@ -295,16 +249,6 @@ module WorkOS
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
       #
       # @return WorkOS::AuthenticationResponse
-
-      sig do
-        params(
-          email: String,
-          password: String,
-          client_id: String,
-          ip_address: T.nilable(String),
-          user_agent: T.nilable(String),
-        ).returns(WorkOS::AuthenticationResponse)
-      end
       def authenticate_with_password(email:, password:, client_id:, ip_address: nil, user_agent: nil)
         response = execute_request(
           request: post_request(
@@ -333,15 +277,6 @@ module WorkOS
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
       #
       # @return WorkOS::AuthenticationResponse
-
-      sig do
-        params(
-          code: String,
-          client_id: String,
-          ip_address: T.nilable(String),
-          user_agent: T.nilable(String),
-        ).returns(WorkOS::AuthenticationResponse)
-      end
       def authenticate_with_code(
         code:,
         client_id:,
@@ -365,6 +300,37 @@ module WorkOS
         WorkOS::AuthenticationResponse.new(response.body)
       end
 
+      # Authenticate a user using a refresh token.
+      #
+      # @param [String] refresh_token The refresh token previously obtained from a successful authentication call
+      # @param [String] client_id The WorkOS client ID for the environment
+      # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
+      # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
+      #
+      # @return WorkOS::RefreshAuthenticationResponse
+      def authenticate_with_refresh_token(
+        refresh_token:,
+        client_id:,
+        ip_address: nil,
+        user_agent: nil
+      )
+        response = execute_request(
+          request: post_request(
+            path: '/user_management/authenticate',
+            body: {
+              refresh_token: refresh_token,
+              client_id: client_id,
+              client_secret: WorkOS.config.key!,
+              ip_address: ip_address,
+              user_agent: user_agent,
+              grant_type: 'refresh_token',
+            },
+          ),
+        )
+
+        WorkOS::RefreshAuthenticationResponse.new(response.body)
+      end
+
       # Authenticate user by Magic Auth Code.
       #
       # @param [String] code The one-time code that was emailed to the user.
@@ -376,17 +342,6 @@ module WorkOS
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
       #
       # @return WorkOS::AuthenticationResponse
-
-      sig do
-        params(
-          code: String,
-          email: String,
-          client_id: String,
-          ip_address: T.nilable(String),
-          user_agent: T.nilable(String),
-          link_authorization_code: T.nilable(String),
-        ).returns(WorkOS::AuthenticationResponse)
-      end
       def authenticate_with_magic_auth(
         code:,
         email:,
@@ -414,7 +369,6 @@ module WorkOS
         WorkOS::AuthenticationResponse.new(response.body)
       end
 
-
       # Authenticate a user into an organization they are a member of.
       #
       # @param [String] client_id The WorkOS client ID for the environment.
@@ -424,15 +378,6 @@ module WorkOS
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
       #
       # @return WorkOS::AuthenticationResponse
-      sig do
-        params(
-          client_id: String,
-          organization_id: String,
-          pending_authentication_token: String,
-          ip_address: T.nilable(String),
-          user_agent: T.nilable(String),
-        ).returns(WorkOS::AuthenticationResponse)
-      end
       def authenticate_with_organization_selection(
         client_id:,
         organization_id:,
@@ -470,17 +415,6 @@ module WorkOS
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
       #
       # @return WorkOS::AuthenticationResponse
-
-      sig do
-        params(
-          code: String,
-          client_id: String,
-          pending_authentication_token: String,
-          authentication_challenge_id: String,
-          ip_address: T.nilable(String),
-          user_agent: T.nilable(String),
-        ).returns(WorkOS::AuthenticationResponse)
-      end
       def authenticate_with_totp(
         code:,
         client_id:,
@@ -518,16 +452,6 @@ module WorkOS
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
       #
       # @return WorkOS::AuthenticationResponse
-
-      sig do
-        params(
-          code: String,
-          client_id: String,
-          pending_authentication_token: String,
-          ip_address: T.nilable(String),
-          user_agent: T.nilable(String),
-        ).returns(WorkOS::AuthenticationResponse)
-      end
       def authenticate_with_email_verification(
         code:,
         client_id:,
@@ -553,16 +477,56 @@ module WorkOS
         WorkOS::AuthenticationResponse.new(response.body)
       end
 
+      # Get the logout URL for a session
+      #
+      # The user's browser should be navigated to this URL
+      #
+      # @param [String] session_id The session ID can be found in the `sid`
+      #   claim of the access token
+      #
+      # @return String
+      def get_logout_url(session_id:)
+        URI::HTTPS.build(
+          host: WorkOS.config.api_hostname,
+          path: '/user_management/sessions/logout',
+          query: "session_id=#{session_id}",
+        ).to_s
+      end
+
+      # Revokes a session
+      #
+      # @param [String] session_id The session ID can be found in the `sid`
+      #   claim of the access token
+      def revoke_session(session_id:)
+        execute_request(
+          request: post_request(
+            path: '/user_management/sessions/revoke',
+            body: {
+              session_id: session_id,
+            },
+          ),
+        )
+      end
+
+      # Get the JWKS URL
+      #
+      # The JWKS can be used to validate the access token returned upon successful authentication
+      #
+      # @param [String] client_id The WorkOS client ID for the environment
+      #
+      # @return String
+      def get_jwks_url(client_id)
+        URI::HTTPS.build(
+          host: WorkOS.config.api_hostname,
+          path: "/sso/jwks/#{client_id}",
+        ).to_s
+      end
+
       # Create a one-time Magic Auth code and emails it to the user.
       #
       # @param [String] email The email address the one-time code will be sent to.
       #
       # @return Boolean
-      sig do
-        params(
-          email: String,
-        ).returns(T::Boolean)
-      end
       def send_magic_auth_code(email:)
         response = execute_request(
           request: post_request(
@@ -586,14 +550,6 @@ module WorkOS
       # @param [String] totp_user For totp factors. Used as the account name in authenticator apps.
       #
       # @return WorkOS::AuthenticationFactorAndChallenge
-      sig do
-        params(
-          user_id: String,
-          type: String,
-          totp_issuer: T.nilable(String),
-          totp_user: T.nilable(String),
-        ).returns(WorkOS::AuthenticationFactorAndChallenge)
-      end
       def enroll_auth_factor(user_id:, type:, totp_issuer: nil, totp_user: nil)
         validate_auth_factor_type(
           type: type,
@@ -619,11 +575,6 @@ module WorkOS
       # @param [String] user_id The id for the user.
       #
       # @return WorkOS::ListStruct
-      sig do
-        params(
-          user_id: String,
-        ).returns(WorkOS::Types::ListStruct)
-      end
       def list_auth_factors(user_id:)
         response = execute_request(
           request: get_request(
@@ -649,11 +600,6 @@ module WorkOS
       # @param [String] user_id The unique ID of the User whose email address will be verified.
       #
       # @return WorkOS::UserResponse
-      sig do
-        params(
-          user_id: String,
-        ).returns(WorkOS::UserResponse)
-      end
       def send_verification_email(user_id:)
         response = execute_request(
           request: post_request(
@@ -671,12 +617,6 @@ module WorkOS
       # @param [String] code The one-time code emailed to the user.
       #
       # @return WorkOS::UserResponse
-      sig do
-        params(
-          user_id: String,
-          code: String,
-        ).returns(WorkOS::UserResponse)
-      end
       def verify_email(user_id:, code:)
         response = execute_request(
           request: post_request(
@@ -697,12 +637,6 @@ module WorkOS
       # @param [String] password_reset_url The URL that will be linked to in the email.
       #
       # @return [Bool] - returns `true` if successful
-      sig do
-        params(
-          email: String,
-          password_reset_url: String,
-        ).returns(T::Boolean)
-      end
       def send_password_reset_email(email:, password_reset_url:)
         request = post_request(
           path: '/user_management/password_reset/send',
@@ -724,12 +658,6 @@ module WorkOS
       # @param [String] new_password The new password to set for the user.
       #
       # @return WorkOS::User
-      sig do
-        params(
-          token: String,
-          new_password: String,
-        ).returns(WorkOS::User)
-      end
       def reset_password(token:, new_password:)
         response = execute_request(
           request: post_request(
@@ -750,9 +678,6 @@ module WorkOS
       # @param [String] id The unique ID of the Organization Membership.
       #
       # @return WorkOS::OrganizationMembership
-      sig do
-        params(id: String).returns(WorkOS::OrganizationMembership)
-      end
       def get_organization_membership(id:)
         response = execute_request(
           request: get_request(
@@ -777,12 +702,8 @@ module WorkOS
       #  before a provided User ID.
       #
       # @return [WorkOS::OrganizationMembership]
-      sig do
-        params(
-          options: T::Hash[Symbol, String],
-        ).returns(WorkOS::Types::ListStruct)
-      end
       def list_organization_memberships(options = {})
+        options[:order] ||= 'desc'
         response = execute_request(
           request: get_request(
             path: '/user_management/organization_memberships',
@@ -809,12 +730,6 @@ module WorkOS
       # @param [String] organization_id The ID of the Organization to which the user belongs to.
       #
       # @return [WorkOS::OrganizationMembership]
-      sig do
-        params(
-          user_id: String,
-          organization_id: String,
-        ).returns(WorkOS::OrganizationMembership)
-      end
       def create_organization_membership(user_id:, organization_id:)
         request = post_request(
           path: '/user_management/organization_memberships',
@@ -835,11 +750,6 @@ module WorkOS
       # @param [String] id The unique ID of the Organization Membership.
       #
       # @return [Bool] - returns `true` if successful
-      sig do
-        params(
-          id: String,
-        ).returns(T::Boolean)
-      end
       def delete_organization_membership(id:)
         response = execute_request(
           request: delete_request(
@@ -856,9 +766,6 @@ module WorkOS
       # @param [String] id The unique ID of the Invitation.
       #
       # @return WorkOS::Invitation
-      sig do
-        params(id: String).returns(WorkOS::Invitation)
-      end
       def get_invitation(id:)
         response = execute_request(
           request: get_request(
@@ -883,12 +790,8 @@ module WorkOS
       #  before a provided User ID.
       #
       # @return [WorkOS::Invitation]
-      sig do
-        params(
-          options: T::Hash[Symbol, String],
-        ).returns(WorkOS::Types::ListStruct)
-      end
       def list_invitations(options = {})
+        options[:order] ||= 'desc'
         response = execute_request(
           request: get_request(
             path: '/user_management/invitations',
@@ -918,14 +821,6 @@ module WorkOS
       # @param [String] inviter_user_id The ID of the User sending the invitation.
       #
       # @return WorkOS::Invitation
-      sig do
-        params(
-          email: String,
-          organization_id: T.nilable(String),
-          expires_in_days: T.nilable(Integer),
-          inviter_user_id: T.nilable(String),
-        ).returns(WorkOS::Invitation)
-      end
       def send_invitation(email:, organization_id: nil, expires_in_days: nil, inviter_user_id: nil)
         response = execute_request(
           request: post_request(
@@ -948,9 +843,6 @@ module WorkOS
       # @param [String] id The unique ID of the Invitation.
       #
       # @return WorkOS::Invitation
-      sig do
-        params(id: String).returns(WorkOS::Invitation)
-      end
       def revoke_invitation(id:)
         request = post_request(
           path: "/user_management/invitations/#{id}/revoke",
@@ -963,14 +855,6 @@ module WorkOS
       end
 
       private
-
-      sig do
-        params(
-          provider: T.nilable(String),
-          connection_id: T.nilable(String),
-          organization_id: T.nilable(String),
-        ).void
-      end
 
       def validate_authorization_url_arguments(
         provider:,
@@ -986,12 +870,6 @@ module WorkOS
 
         raise ArgumentError, "#{provider} is not a valid value." \
           " `provider` must be in #{PROVIDERS}"
-      end
-
-      sig do
-        params(
-          type: String,
-        ).void
       end
 
       def validate_auth_factor_type(

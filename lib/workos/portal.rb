@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# typed: true
 
 require 'net/http'
 
@@ -8,11 +7,9 @@ module WorkOS
   # Portal product
   module Portal
     class << self
-      extend T::Sig
       include Client
 
-      GENERATE_LINK_INTENTS = WorkOS::Types::Intent.values.map(&:serialize).
-                              freeze
+      GENERATE_LINK_INTENTS = WorkOS::Types::Intent::ALL
 
       # Generate a link to grant access to an organization's Admin Portal
       #
@@ -25,14 +22,6 @@ module WorkOS
       #  redirect link set in your WorkOS Dashboard will be used.
       # @param [String] The URL to which WorkOS will redirect users to upon
       #  successfully setting up Single Sign On or Directory Sync.
-      sig do
-        params(
-          intent: String,
-          organization: String,
-          return_url: T.nilable(String),
-          success_url: T.nilable(String),
-        ).returns(String)
-      end
       def generate_link(intent:, organization:, return_url: nil, success_url: nil)
         validate_intent(intent)
 
@@ -54,7 +43,6 @@ module WorkOS
 
       private
 
-      sig { params(intent: String).void }
       def validate_intent(intent)
         return if GENERATE_LINK_INTENTS.include?(intent)
 

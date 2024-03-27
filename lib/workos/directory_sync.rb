@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# typed: strict
 
 require 'net/http'
 
@@ -11,7 +10,6 @@ module WorkOS
   # @see https://docs.workos.com/directory-sync/overview
   module DirectorySync
     class << self
-      extend T::Sig
       include Client
 
       # Retrieve directories.
@@ -27,12 +25,8 @@ module WorkOS
       # @option options [String] organization_id The ID for an Organization configured on WorkOS.
       #
       # @return [Hash]
-      sig do
-        params(
-          options: T::Hash[Symbol, String],
-        ).returns(WorkOS::Types::ListStruct)
-      end
       def list_directories(options = {})
+        options[:order] ||= 'desc'
         response = execute_request(
           request: get_request(
             path: '/directories',
@@ -69,7 +63,6 @@ module WorkOS
       #         @updated_at="2021-10-27T16:03:43.990Z"
       #
       # @return [WorkOS::Directory]
-      sig { params(id: String).returns(WorkOS::Directory) }
       def get_directory(id:)
         request = get_request(
           auth: true,
@@ -96,12 +89,8 @@ module WorkOS
       #  before a provided Directory Group ID.
       #
       # @return [WorkOS::DirectoryGroup]
-      sig do
-        params(
-          options: T::Hash[Symbol, String],
-        ).returns(WorkOS::Types::ListStruct)
-      end
       def list_groups(options = {})
+        options[:order] ||= 'desc'
         response = execute_request(
           request: get_request(
             path: '/directory_groups',
@@ -136,12 +125,8 @@ module WorkOS
       #  before a provided Directory User ID.
       #
       # @return [WorkOS::DirectoryUser]
-      sig do
-        params(
-          options: T::Hash[Symbol, String],
-        ).returns(WorkOS::Types::ListStruct)
-      end
       def list_users(options = {})
+        options[:order] ||= 'desc'
         response = execute_request(
           request: get_request(
             path: '/directory_users',
@@ -166,7 +151,6 @@ module WorkOS
       # @param [String] id The ID of the directory group.
       #
       # @return WorkOS::DirectoryGroup
-      sig { params(id: String).returns(WorkOS::DirectoryGroup) }
       def get_group(id)
         response = execute_request(
           request: get_request(
@@ -183,7 +167,6 @@ module WorkOS
       # @param [String] id The ID of the directory user.
       #
       # @return WorkOS::DirectoryUser
-      sig { params(id: String).returns(WorkOS::DirectoryUser) }
       def get_user(id)
         response = execute_request(
           request: get_request(
@@ -200,7 +183,6 @@ module WorkOS
       # @param [String] id The ID of the directory.
       #
       # @return Boolean
-      sig { params(id: String).returns(T::Boolean) }
       def delete_directory(id)
         request = delete_request(
           auth: true,

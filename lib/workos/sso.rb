@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# typed: true
 
 require 'net/http'
 require 'uri'
@@ -12,10 +11,9 @@ module WorkOS
   # @see https://docs.workos.com/sso/overview
   module SSO
     class << self
-      extend T::Sig
       include Client
 
-      PROVIDERS = WorkOS::Types::Provider.values.map(&:serialize).freeze
+      PROVIDERS = WorkOS::Types::Provider::ALL
 
       # Generate an Oauth2 authorization URL where your users will
       # authenticate using the configured SSO Identity Provider.
@@ -55,19 +53,6 @@ module WorkOS
       #
       # @return [String]
       # rubocop:disable Metrics/ParameterLists
-      sig do
-        params(
-          redirect_uri: String,
-          client_id: T.nilable(String),
-          domain: T.nilable(String),
-          domain_hint: T.nilable(String),
-          login_hint: T.nilable(String),
-          provider: T.nilable(String),
-          connection: T.nilable(String),
-          organization: T.nilable(String),
-          state: T.nilable(String),
-        ).returns(String)
-      end
       def authorization_url(
         redirect_uri:,
         client_id: nil,
@@ -108,11 +93,6 @@ module WorkOS
       end
       # rubocop:enable Metrics/ParameterLists
 
-      sig do
-        params(
-          access_token: String,
-        ).returns(WorkOS::Profile)
-      end
       def get_profile(access_token:)
         response = execute_request(
           request: get_request(
@@ -132,12 +112,6 @@ module WorkOS
       #  where you've configured your SSO connection
       #
       # @return [WorkOS::ProfileAndToken]
-      sig do
-        params(
-          code: String,
-          client_id: T.nilable(String),
-        ).returns(WorkOS::ProfileAndToken)
-      end
       def profile_and_token(code:, client_id: nil)
         body = {
           client_id: client_id,
@@ -169,12 +143,8 @@ module WorkOS
       #  before a provided Connection ID.
       #
       # @return [Hash]
-      sig do
-        params(
-          options: T::Hash[Symbol, String],
-        ).returns(WorkOS::Types::ListStruct)
-      end
       def list_connections(options = {})
+        options[:order] ||= 'desc'
         response = execute_request(
           request: get_request(
             path: '/connections',
@@ -210,7 +180,6 @@ module WorkOS
       #            :domain=>"example.com"}]>
       #
       # @return [WorkOS::Connection]
-      sig { params(id: String).returns(WorkOS::Connection) }
       def get_connection(id:)
         request = get_request(
           auth: true,
@@ -231,7 +200,6 @@ module WorkOS
       #   => true
       #
       # @return [Bool] - returns `true` if successful
-      sig { params(id: String).returns(T::Boolean) }
       def delete_connection(id:)
         request = delete_request(
           auth: true,
@@ -245,14 +213,6 @@ module WorkOS
 
       private
 
-      sig do
-        params(
-          domain: T.nilable(String),
-          provider: T.nilable(String),
-          connection: T.nilable(String),
-          organization: T.nilable(String),
-        ).void
-      end
       def validate_authorization_url_arguments(
         domain:,
         provider:,
@@ -270,7 +230,6 @@ module WorkOS
           " `provider` must be in #{PROVIDERS}"
       end
 
-      sig { params(response: Net::HTTPResponse).void }
       def check_and_raise_profile_and_token_error(response:)
         begin
           body = JSON.parse(response.body)
