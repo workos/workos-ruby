@@ -20,29 +20,6 @@ describe WorkOS::DirectorySync do
       end
     end
 
-    context 'with domain option' do
-      it 'forms the proper request to the API' do
-        request_args = [
-          '/directories?domain=foo-corp.com&'\
-          'order=desc',
-          'Content-Type' => 'application/json'
-        ]
-
-        expected_request = Net::HTTP::Get.new(*request_args)
-
-        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
-          and_return(expected_request)
-
-        VCR.use_cassette 'directory_sync/list_directories/with_domain' do
-          directories = described_class.list_directories(
-            domain: 'foo-corp.com',
-          )
-
-          expect(directories.data.size).to eq(1)
-        end
-      end
-    end
-
     context 'with search option' do
       it 'forms the proper request to the API' do
         request_args = [
