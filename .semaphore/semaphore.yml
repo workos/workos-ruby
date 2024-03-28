@@ -3,39 +3,31 @@ name: Ruby
 
 agent:
   machine:
+    # We have to stay on 20.04 because the 22.04 image
+    # drops all support for Ruby 2.7
     type: e1-standard-2
     os_image: ubuntu2004
 
 blocks:
-  - name: Run Rubocop 🚔
-    task:
-      jobs:
-        - name: rubocop
-          commands:
-            - checkout
-            - bundle install
-            - bundle exec rubocop
-
   - name: Run Tests 👩🏽‍🔬
     task:
       secrets:
         - name: codecov-workos-ruby
       jobs:
-        - name: Ruby 1.9.3
+        - name: Ruby
           matrix:
             - env_var: RUBY_VERSION
               values:
-                - 1.9.3-p551
-                - 2.0.0-p648
-                - 2.3.4
-                - 2.5.7
-                - 2.6.5
-                - 2.7.3
-                - 3.0.2
+                - '2.7'
+                - '3.0'
+                - '3.1'
+                - '3.2'
+                - '3.3'
           commands:
             - checkout
-            - sem-version ruby $RUBY_VERSION
+            - sem-version ruby $RUBY_VERSION -f
             - bundle install
+            - bundle exec rubocop
             - bundle exec rspec
 promotions:
   - name: Deploy workos-rb to rubygems
