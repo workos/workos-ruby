@@ -208,7 +208,6 @@ module WorkOS
       #  Valid values are bcrypt.
       #
       # @return [WorkOS::User]
-      # rubocop:disable Metrics/ParameterLists
       def update_user(
         id:,
         first_name: nil,
