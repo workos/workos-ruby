@@ -167,7 +167,15 @@ module WorkOS
       # @option [String] password_hash_type The algorithm originally used to hash the password.
       #
       # @return [WorkOS::User]
-      def create_user(email:, password: nil, first_name: nil, last_name: nil, email_verified: nil, password_hash: nil, password_hash_type: nil)
+      def create_user(
+        email:,
+        password: nil,
+        first_name: nil,
+        last_name: nil,
+        email_verified: nil,
+        password_hash: nil,
+        password_hash_type: nil
+      )
         request = post_request(
           path: '/user_management/users',
           body: {
