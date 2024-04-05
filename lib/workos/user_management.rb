@@ -163,9 +163,11 @@ module WorkOS
       # @param [String] first_name The user's first name.
       # @param [String] last_name The user's last name.
       # @param [Boolean] email_verified Whether the user's email address was previously verified.
+      # @param [String] password_hash The user's hashed password.
+      # @option [String] password_hash_type The algorithm originally used to hash the password.
       #
       # @return [WorkOS::User]
-      def create_user(email:, password: nil, first_name: nil, last_name: nil, email_verified: nil)
+      def create_user(email:, password: nil, first_name: nil, last_name: nil, email_verified: nil, password_hash: nil, password_hash_type: nil)
         request = post_request(
           path: '/user_management/users',
           body: {
@@ -174,6 +176,8 @@ module WorkOS
             first_name: first_name,
             last_name: last_name,
             email_verified: email_verified,
+            password_hash: password_hash,
+            password_hash_type: password_hash_type,
           },
           auth: true,
         )
