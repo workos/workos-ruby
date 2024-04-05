@@ -167,6 +167,7 @@ module WorkOS
       # @option [String] password_hash_type The algorithm originally used to hash the password.
       #
       # @return [WorkOS::User]
+      # rubocop:disable Metrics/ParameterLists
       def create_user(
         email:,
         password: nil,
