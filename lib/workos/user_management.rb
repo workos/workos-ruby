@@ -831,9 +831,10 @@ module WorkOS
       # @param [Integer] expires_in_days The number of days the invitations will be valid for.
       # Must be between 1 and 30, defaults to 7 if not specified.
       # @param [String] inviter_user_id The ID of the User sending the invitation.
+      # @param [String] role_slug The slug of the role to assign to the user upon invitation.
       #
       # @return WorkOS::Invitation
-      def send_invitation(email:, organization_id: nil, expires_in_days: nil, inviter_user_id: nil)
+      def send_invitation(email:, organization_id: nil, expires_in_days: nil, inviter_user_id: nil, role_slug: nil)
         response = execute_request(
           request: post_request(
             path: '/user_management/invitations',
@@ -842,6 +843,7 @@ module WorkOS
               organization_id: organization_id,
               expires_in_days: expires_in_days,
               inviter_user_id: inviter_user_id,
+              role_slug: role_slug,
             },
             auth: true,
           ),
