@@ -50,7 +50,7 @@ GEM
       parser (>= 3.3.0.4)
     ruby-progressbar (1.13.0)
     unicode-display_width (1.8.0)
-    vcr (6.2.0)
+    vcr (5.0.0)
     webmock (3.23.0)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
@@ -63,7 +63,7 @@ DEPENDENCIES
   bundler (>= 2.0.1)
   rspec (~> 3.9.0)
   rubocop (~> 0.77)
-  vcr (~> 6.2.0)
+  vcr (~> 5.0.0)
   webmock
   workos!
 
