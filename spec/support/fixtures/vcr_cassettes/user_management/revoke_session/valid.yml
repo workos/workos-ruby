@@ -1,0 +1,76 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.workos.com/user_management/sessions/revoke
+    body:
+      encoding: UTF-8
+      string: '{"session_id":"session_01HRX85ATNADY1GQ053AHRFFN6"}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/3.1.4; arm64-darwin22; v4.2.0
+      Authorization:
+      - Bearer <API_KEY>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 11 Apr 2024 22:36:42 GMT
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Cf-Ray:
+      - 872e74fc2ee3092d-LAX
+      Cf-Cache-Status:
+      - DYNAMIC
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Vary:
+      - Origin, Accept-Encoding
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      Expect-Ct:
+      - max-age=0
+      Referrer-Policy:
+      - no-referrer
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - 1b04e560-4438-40ba-97d2-05ae571aeedf
+      X-Xss-Protection:
+      - '0'
+      Set-Cookie:
+      - __cf_bm=lXssAzjuk1ajbWnDLtD_SUYIufESNBd9WVxCY8MCxJU-1712875002-1.0.1.1-oBbEhifco.kAMIrc30VrsrzW8tP4OpouniBD3jTd.5UowyS_IWs6ah59yKeFO9X6IqMLjlJt6n5O9lTpN0.2fw;
+        path=/; expires=Thu, 11-Apr-24 23:06:42 GMT; domain=.workos.com; HttpOnly;
+        Secure; SameSite=None
+      - __cfruid=c2a61e4869ba7669d8dd1d11a8e59bba189e21ba-1712875002; path=/; domain=.workos.com;
+        HttpOnly; Secure; SameSite=None
+      Server:
+      - cloudflare
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version:
+  recorded_at: Thu, 11 Apr 2024 22:36:42 GMT
+recorded_with: VCR 5.0.0

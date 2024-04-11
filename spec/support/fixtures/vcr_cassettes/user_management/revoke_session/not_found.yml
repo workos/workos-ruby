@@ -1,0 +1,80 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.workos.com/user_management/sessions/revoke
+    body:
+      encoding: UTF-8
+      string: '{"session_id":"session_01H5JQDV7R7ATEYZDEG0W5PRYS"}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/3.1.4; arm64-darwin22; v4.2.0
+      Authorization:
+      - Bearer <API_KEY>
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Date:
+      - Thu, 11 Apr 2024 22:36:42 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Cf-Ray:
+      - 872e74fd9ed6db9e-LAX
+      Cf-Cache-Status:
+      - DYNAMIC
+      Etag:
+      - W/"91-9u3slgvENRDVFp/62vKalhPzVuw"
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Vary:
+      - Origin, Accept-Encoding
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      Expect-Ct:
+      - max-age=0
+      Referrer-Policy:
+      - no-referrer
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - bc0771a4-8d66-4b34-809c-d3d8976af390
+      X-Xss-Protection:
+      - '0'
+      Set-Cookie:
+      - __cf_bm=iJMFbMBT_gDvh2ZbVYwAWHii9wrMPSJJeFQ3sXKSNNw-1712875002-1.0.1.1-d0033NtW0ShwCrgulDZg60Nw0yfEROthaCZQWVIAnWbbmaoa5HDqSkl4DsECxoAaZNdoLWqOxi9YXtZx9FqVSA;
+        path=/; expires=Thu, 11-Apr-24 23:06:42 GMT; domain=.workos.com; HttpOnly;
+        Secure; SameSite=None
+      - __cfruid=c2a61e4869ba7669d8dd1d11a8e59bba189e21ba-1712875002; path=/; domain=.workos.com;
+        HttpOnly; Secure; SameSite=None
+      Server:
+      - cloudflare
+    body:
+      encoding: ASCII-8BIT
+      string: '{"message":"Session not found: ''session_01H5JQDV7R7ATEYZDEG0W5PRYS''.","code":"entity_not_found","entity_id":"session_01H5JQDV7R7ATEYZDEG0W5PRYS"}'
+    http_version:
+  recorded_at: Thu, 11 Apr 2024 22:36:42 GMT
+recorded_with: VCR 5.0.0
