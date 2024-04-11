@@ -1168,7 +1168,7 @@ describe WorkOS::UserManagement do
             )
           end.to raise_error(
             WorkOS::APIError,
-            /Session not found/
+            /Session not found/,
           )
         end
       end
