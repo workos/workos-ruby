@@ -1145,4 +1145,33 @@ describe WorkOS::UserManagement do
       end
     end
   end
+
+  describe '.revoke_session' do
+    context 'with valid payload' do
+      it 'revokes session' do
+        VCR.use_cassette 'user_management/revoke_session/valid' do
+          result = described_class.revoke_session(
+            session_id: 'session_01HRX85ATNADY1GQ053AHRFFN6',
+          )
+
+          expect(result).to be true
+        end
+      end
+    end
+
+    context 'with a non-existant session' do
+      it 'returns an error' do
+        VCR.use_cassette 'user_management/revoke_session/not_found' do
+          expect do
+            described_class.revoke_session(
+              session_id: 'session_01H5JQDV7R7ATEYZDEG0W5PRYS',
+            )
+          end.to raise_error(
+            WorkOS::APIError,
+            /Session not found/,
+          )
+        end
+      end
+    end
+  end
 end

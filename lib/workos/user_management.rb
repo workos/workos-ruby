@@ -510,14 +510,17 @@ module WorkOS
       # @param [String] session_id The session ID can be found in the `sid`
       #   claim of the access token
       def revoke_session(session_id:)
-        execute_request(
+        response = execute_request(
           request: post_request(
             path: '/user_management/sessions/revoke',
             body: {
               session_id: session_id,
             },
+            auth: true,
           ),
         )
+
+        response.is_a? Net::HTTPSuccess
       end
 
       # Get the JWKS URL
