@@ -21,7 +21,7 @@ module WorkOS
       #  after a provided Event ID.
       #
       # @return [Hash]
-      def list_events(options = {})
+      def list_events(events:, options = {})
         response = execute_request(
           request: get_request(
             path: '/events',
