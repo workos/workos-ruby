@@ -21,15 +21,14 @@ module WorkOS
       #  after a provided Event ID.
       #
       # @return [Hash]
-      def list_events(events:, options: {})
+      def list_events(options = {})
+        raise ArgumentError, 'Events parameter is required.' if options[:events].nil?
+
         response = execute_request(
           request: get_request(
             path: '/events',
             auth: true,
-            params: {
-              **options,
-              events: events,
-            },
+            params: options,
           ),
         )
 
