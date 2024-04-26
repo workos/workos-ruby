@@ -15,7 +15,7 @@ module WorkOS
       #
       # @param [Hash] options An options hash
       # @option options [String] event The type of event
-      #  retrieved.
+      # @option options [String] organization_id Limit scope of events to an organization
       # @option options [String] limit Maximum number of records to return.
       # @option options [String] after Pagination cursor to receive records
       #  after a provided Event ID.
