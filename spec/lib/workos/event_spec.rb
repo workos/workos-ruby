@@ -96,7 +96,7 @@ describe WorkOS::Events do
         expect(Net::HTTP::Get).to receive(:new).with(*request_args).
           and_return(expected_request)
 
-        VCR.use_cassette 'events/list_events_with_org_id' do
+        VCR.use_cassette 'events/list_events_with_organization_id' do
           events = described_class.list_events(
             organization_id: 'org_1234'
           )
