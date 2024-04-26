@@ -83,5 +83,27 @@ describe WorkOS::Events do
         end
       end
     end
+
+    context 'with the organization_id option' do
+      it 'forms the proper request to the API' do
+        request_args = [
+          '/events?organization_id=org_1234',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'events/list_events_with_org_id' do
+          events = described_class.list_events(
+            organization_id: 'org_1234'
+          )
+
+          expect(events.data.size).to eq(1)
+        end
+      end
+    end
   end
 end
