@@ -98,7 +98,7 @@ describe WorkOS::Events do
 
         VCR.use_cassette 'events/list_events_with_organization_id' do
           events = described_class.list_events(
-            organization_id: 'org_1234'
+            organization_id: 'org_1234',
           )
 
           expect(events.data.size).to eq(1)
