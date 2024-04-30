@@ -8,7 +8,8 @@ module WorkOS
   # MFA platform. You'll need a valid API key
   module MFA
     class << self
-      include Client
+      include Client, Deprecation
+
       def delete_factor(id:)
         response = execute_request(
           request: delete_request(
@@ -101,7 +102,7 @@ module WorkOS
         authentication_challenge_id: nil,
         code: nil
       )
-        warn '[DEPRECATION] `verify_factor` is deprecated. Please use `verify_challenge` instead.'
+        warn_deprecation '`verify_factor` is deprecated. Please use `verify_challenge` instead.'
 
         verify_challenge(
           authentication_challenge_id: authentication_challenge_id,

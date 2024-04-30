@@ -4,10 +4,6 @@ describe WorkOS::Organizations do
   it_behaves_like 'client'
 
   describe '.create_organization' do
-    before(:each) do
-      allow(Warning).to receive(:warn) { nil }
-    end
-
     context 'with valid payload' do
       context 'with no idempotency key' do
         it 'creates an organization' do
@@ -40,6 +36,8 @@ describe WorkOS::Organizations do
         context 'with domains' do
           it 'creates an organization and warns' do
             VCR.use_cassette 'organization/create_with_domains' do
+              allow(Warning).to receive(:warn)
+
               organization = described_class.create_organization(
                 domains: ['example.io'],
                 name: 'Test Organization',

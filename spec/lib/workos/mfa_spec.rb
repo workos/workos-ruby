@@ -130,14 +130,19 @@ describe WorkOS::MFA do
 
   describe '.verify_factor' do
     it 'throws a warning' do
-      expect do
-        VCR.use_cassette 'mfa/verify_challenge_generic_valid' do
-          described_class.verify_factor(
-            authentication_challenge_id: 'auth_challenge_01FZ4YVRBMXP5ZM0A7BP4AJ12J',
-            code: '897792',
-          )
-        end
-      end.to output("[DEPRECATION] `verify_factor` is deprecated. Please use `verify_challenge` instead.\n").to_stderr
+      VCR.use_cassette 'mfa/verify_challenge_generic_valid' do
+        allow(Warning).to receive(:warn)
+
+        described_class.verify_factor(
+          authentication_challenge_id: 'auth_challenge_01FZ4YVRBMXP5ZM0A7BP4AJ12J',
+          code: '897792',
+        )
+
+        expect(Warning).to have_received(:warn).with(
+          "[DEPRECATION] `verify_factor` is deprecated. Please use `verify_challenge` instead.\n",
+          { category: :deprecated }
+        )
+      end
     end
 
     it 'calls verify_challenge' do
