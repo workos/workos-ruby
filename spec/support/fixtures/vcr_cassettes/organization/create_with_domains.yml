@@ -1,0 +1,81 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.workos.com/organizations
+    body:
+      encoding: UTF-8
+      string: '{"domain_data":null,"domains":["example.io"],"name":"Test Organization","allow_profiles_outside_organization":null}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/3.1.4; arm64-darwin22; v4.3.0
+      Authorization:
+      - Bearer <API_KEY>
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Tue, 30 Apr 2024 01:06:58 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '352'
+      Connection:
+      - keep-alive
+      Cf-Ray:
+      - 87c3a1dc79f82f1c-LAX
+      Cf-Cache-Status:
+      - DYNAMIC
+      Etag:
+      - W/"160-DoBiYByX9XrgXYYHDZKVF2kbtrY"
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Vary:
+      - Origin, Accept-Encoding
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      Expect-Ct:
+      - max-age=0
+      Referrer-Policy:
+      - no-referrer
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - c11d19bf-bd68-4d3e-ba59-9e2ec6f5e71f
+      X-Xss-Protection:
+      - '0'
+      Set-Cookie:
+      - __cf_bm=1Qt0kSHHEyud3lsP.gz06VPTCcv5J35Xq1b2FudzKFk-1714439218-1.0.1.1-Pb5WXPCKuJfKXO3ri73EA_RuzaBMD.6brPkMihsQQzaC6gPRJdGiB_g3OT3eoN6km3RwF72MqD_Jlf8xb.Nb2A;
+        path=/; expires=Tue, 30-Apr-24 01:36:58 GMT; domain=.workos.com; HttpOnly;
+        Secure; SameSite=None
+      - __cfruid=d4e3496284dd882965f61d10e392da91c73aa5c2-1714439218; path=/; domain=.workos.com;
+        HttpOnly; Secure; SameSite=None
+      Server:
+      - cloudflare
+    body:
+      encoding: UTF-8
+      string: '{"object":"organization","id":"org_01HWP8MSH28Z7SW2H6KK65S6VF","name":"Test
+        Organization","allow_profiles_outside_organization":false,"created_at":"2024-04-30T01:06:58.720Z","updated_at":"2024-04-30T01:06:58.720Z","domains":[{"state":"legacy_verified","object":"organization_domain","id":"org_domain_01HWP8MSHEX4KR7TJJFAFN9MK2","domain":"example.io"}]}'
+    http_version:
+  recorded_at: Tue, 30 Apr 2024 01:06:58 GMT
+recorded_with: VCR 5.0.0

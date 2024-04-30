@@ -49,6 +49,7 @@ module WorkOS
   autoload :Client, 'workos/client'
   autoload :Connection, 'workos/connection'
   autoload :DeprecatedHashWrapper, 'workos/deprecated_hash_wrapper'
+  autoload :Deprecation, 'workos/deprecation'
   autoload :Directory, 'workos/directory'
   autoload :DirectoryGroup, 'workos/directory_group'
   autoload :DirectorySync, 'workos/directory_sync'

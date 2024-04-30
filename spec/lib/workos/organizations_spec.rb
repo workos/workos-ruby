@@ -18,6 +18,59 @@ describe WorkOS::Organizations do
             expect(organization.domains.first[:domain]).to eq('example.io')
           end
         end
+
+        context 'without domains' do
+          it 'creates an organization' do
+            VCR.use_cassette 'organization/create_without_domains' do
+              organization = described_class.create_organization(
+                name: 'Test Organization',
+              )
+
+              expect(organization.id).to start_with('org_')
+              expect(organization.name).to eq('Test Organization')
+              expect(organization.domains).to be_empty
+            end
+          end
+        end
+
+        context 'with domains' do
+          it 'creates an organization and warns' do
+            VCR.use_cassette 'organization/create_with_domains' do
+              allow(Warning).to receive(:warn)
+
+              organization = described_class.create_organization(
+                domains: ['example.io'],
+                name: 'Test Organization',
+              )
+
+              expect(organization.id).to start_with('org_')
+              expect(organization.name).to eq('Test Organization')
+              expect(organization.domains.first[:domain]).to eq('example.io')
+
+              expect(Warning).to have_received(:warn).with(
+                "[DEPRECATION] `domains` is deprecated. Use `domain_data` instead.\n",
+                any_args,
+              )
+            end
+          end
+        end
+
+        context 'with domain_data' do
+          it 'creates an organization' do
+            VCR.use_cassette 'organization/create_with_domain_data' do
+              organization = described_class.create_organization(
+                domain_data: [{ domain: 'example.io', state: 'verified' }],
+                name: 'Test Organization',
+              )
+
+              expect(organization.id).to start_with('org_')
+              expect(organization.name).to eq('Test Organization')
+              expect(organization.domains.first).to include(
+                domain: 'example.io', state: 'verified',
+              )
+            end
+          end
+        end
       end
 
       context 'with idempotency key' do

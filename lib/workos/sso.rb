@@ -11,7 +11,7 @@ module WorkOS
   # @see https://docs.workos.com/sso/overview
   module SSO
     class << self
-      include Client
+      include Client, Deprecation
 
       PROVIDERS = WorkOS::Types::Provider::ALL
 
@@ -65,7 +65,7 @@ module WorkOS
         state: ''
       )
         if domain
-          warn '[DEPRECATION] `domain` is deprecated.
+          warn_deprecation '[DEPRECATION] `domain` is deprecated.
           Please use `organization` instead.'
         end
 
