@@ -4,6 +4,10 @@ describe WorkOS::Organizations do
   it_behaves_like 'client'
 
   describe '.create_organization' do
+    before(:each) do
+      allow(Warning).to receive(:warn) { nil }
+    end
+
     context 'with valid payload' do
       context 'with no idempotency key' do
         it 'creates an organization' do
@@ -16,6 +20,57 @@ describe WorkOS::Organizations do
             expect(organization.id).to eq('org_01FCPEJXEZR4DSBA625YMGQT9N')
             expect(organization.name).to eq('Test Organization')
             expect(organization.domains.first[:domain]).to eq('example.io')
+          end
+        end
+
+        context 'without domains' do
+          it 'creates an organization' do
+            VCR.use_cassette 'organization/create_without_domains' do
+              organization = described_class.create_organization(
+                name: 'Test Organization',
+              )
+
+              expect(organization.id).to start_with('org_')
+              expect(organization.name).to eq('Test Organization')
+              expect(organization.domains).to be_empty
+            end
+          end
+        end
+
+        context 'with domains' do
+          it 'creates an organization and warns' do
+            VCR.use_cassette 'organization/create_with_domains' do
+              organization = described_class.create_organization(
+                domains: ['example.io'],
+                name: 'Test Organization',
+              )
+
+              expect(organization.id).to start_with('org_')
+              expect(organization.name).to eq('Test Organization')
+              expect(organization.domains.first[:domain]).to eq('example.io')
+
+              expect(Warning).to have_received(:warn).with(
+                "[DEPRECATION] `domains` is deprecated. Use `domain_data` instead.\n",
+                { category: :deprecated }
+              )
+            end
+          end
+        end
+
+        context 'with domain_data' do
+          it 'creates an organization' do
+            VCR.use_cassette 'organization/create_with_domain_data' do
+              organization = described_class.create_organization(
+                domain_data: [{ domain: 'example.io', state: 'verified' }],
+                name: 'Test Organization',
+              )
+
+              expect(organization.id).to start_with('org_')
+              expect(organization.name).to eq('Test Organization')
+              expect(organization.domains.first).to include(
+                domain: 'example.io', state: 'verified'
+              )
+            end
           end
         end
       end
