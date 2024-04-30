@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module WorkOS
+  # Provides helpers for working with deprecated SDK and API features.
   module Deprecation
     def warn_deprecation(message)
       full_message = "[DEPRECATION] #{message}"

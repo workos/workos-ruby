@@ -87,9 +87,7 @@ module WorkOS
         allow_profiles_outside_organization: nil,
         idempotency_key: nil
       )
-        if domains
-          warn_deprecation '`domains` is deprecated. Use `domain_data` instead.'
-        end
+        warn_deprecation '`domains` is deprecated. Use `domain_data` instead.' if domains
 
         request = post_request(
           auth: true,
@@ -121,9 +119,7 @@ module WorkOS
       # @param [Boolean, nil] allow_profiles_outside_organization Whether Connections
       #  within the Organization allow profiles that are outside of the Organization's configured User Email Domains.
       def update_organization(organization:, domains:, name:, allow_profiles_outside_organization: nil)
-        if domains
-          warn_deprecation '`domains` is deprecated. Use `domain_data` instead.'
-        end
+        warn_deprecation '`domains` is deprecated. Use `domain_data` instead.' if domains
 
         request = put_request(
           auth: true,

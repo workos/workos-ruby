@@ -49,7 +49,7 @@ describe WorkOS::Organizations do
 
               expect(Warning).to have_received(:warn).with(
                 "[DEPRECATION] `domains` is deprecated. Use `domain_data` instead.\n",
-                { category: :deprecated }
+                category: :deprecated,
               )
             end
           end
@@ -66,7 +66,7 @@ describe WorkOS::Organizations do
               expect(organization.id).to start_with('org_')
               expect(organization.name).to eq('Test Organization')
               expect(organization.domains.first).to include(
-                domain: 'example.io', state: 'verified'
+                domain: 'example.io', state: 'verified',
               )
             end
           end
