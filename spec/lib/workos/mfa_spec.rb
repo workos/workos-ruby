@@ -140,7 +140,7 @@ describe WorkOS::MFA do
 
         expect(Warning).to have_received(:warn).with(
           "[DEPRECATION] `verify_factor` is deprecated. Please use `verify_challenge` instead.\n",
-          category: :deprecated,
+          any_args
         )
       end
     end

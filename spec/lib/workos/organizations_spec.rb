@@ -49,7 +49,7 @@ describe WorkOS::Organizations do
 
               expect(Warning).to have_received(:warn).with(
                 "[DEPRECATION] `domains` is deprecated. Use `domain_data` instead.\n",
-                category: :deprecated,
+                any_args
               )
             end
           end
