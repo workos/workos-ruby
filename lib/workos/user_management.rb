@@ -580,7 +580,8 @@ module WorkOS
       #
       # @return Boolean
       def send_magic_auth_code(email:)
-        warn_deprecation '`send_magic_auth_code` is deprecated. Please use `create_magic_auth` instead.'
+        warn_deprecation '`send_magic_auth_code` is deprecated.
+        Please use `create_magic_auth` instead. This method will be removed in a future major version.'
 
         response = execute_request(
           request: post_request(
