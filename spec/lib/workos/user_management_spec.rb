@@ -618,6 +618,46 @@ describe WorkOS::UserManagement do
     end
   end
 
+  describe '.get_magic_auth' do
+    context 'with a valid id' do
+      it 'returns a magic_auth object' do
+        VCR.use_cassette 'user_management/get_magic_auth/valid' do
+          magic_auth = described_class.get_magic_auth(
+            id: 'magic_auth_01HWXVEWWSMR5HS8M6FBGMBJJ9',
+          )
+
+          expect(magic_auth.id.instance_of?(String))
+          expect(magic_auth.instance_of?(WorkOS::MagicAuth))
+        end
+      end
+    end
+
+    context 'with an invalid id' do
+      it 'raises an error' do
+        VCR.use_cassette('user_management/get_magic_auth/invalid') do
+          expect do
+            WorkOS::UserManagement.get_magic_auth(id: 'invalid')
+          end.to raise_error(WorkOS::APIError, /MagicAuth not found/)
+        end
+      end
+    end
+  end
+
+  describe '.create_magic_auth' do
+    context 'with valid payload' do
+      it 'creates a magic_auth' do
+        VCR.use_cassette 'user_management/create_magic_auth/valid' do
+          magic_auth = described_class.create_magic_auth(
+            email: 'test@workos.com',
+          )
+
+          expect(magic_auth.id).to eq('magic_auth_01HWXVEWWSMR5HS8M6FBGMBJJ9')
+          expect(magic_auth.email).to eq('test@workos.com')
+        end
+      end
+    end
+  end
+
   describe '.send_magic_auth_code' do
     context 'with valid parameters' do
       it 'sends a magic link to the email address' do

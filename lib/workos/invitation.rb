@@ -7,7 +7,7 @@ module WorkOS
   class Invitation
     include HashProvider
 
-    attr_accessor :id, :email, :state, :accepted_at, :revoked_at,
+    attr_accessor :id, :email, :state, :accepted_at, :revoked_at, :accept_invitation_url,
                   :expires_at, :token, :organization_id, :created_at, :updated_at
 
     def initialize(json)
@@ -17,6 +17,7 @@ module WorkOS
       @email = hash[:email]
       @state = hash[:state]
       @token = hash[:token]
+      @accept_invitation_url = hash[:accept_invitation_url]
       @organization_id = hash[:organization_id]
       @accepted_at = hash[:accepted_at]
       @revoked_at = hash[:revoked_at]
@@ -31,6 +32,7 @@ module WorkOS
         email: email,
         state: state,
         token: token,
+        accept_invitation_url: accept_invitation_url,
         organization_id: organization_id,
         accepted_at: accepted_at,
         revoked_at: revoked_at,

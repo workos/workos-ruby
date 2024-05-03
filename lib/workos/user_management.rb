@@ -31,7 +31,7 @@ module WorkOS
     end
 
     class << self
-      include Client
+      include Client, Deprecation
 
       PROVIDERS = WorkOS::UserManagement::Types::Provider::ALL
       AUTH_FACTOR_TYPES = WorkOS::UserManagement::Types::AuthFactorType::ALL
@@ -537,12 +537,51 @@ module WorkOS
         ).to_s
       end
 
+      # Gets a Magic Auth object
+      #
+      # @param [String] id The unique ID of the MagicAuth object.
+      #
+      # @return WorkOS::MagicAuth
+      def get_magic_auth(id:)
+        response = execute_request(
+          request: get_request(
+            path: "/user_management/magic_auth/#{id}",
+            auth: true,
+          ),
+        )
+
+        WorkOS::MagicAuth.new(response.body)
+      end
+
+      # Creates a MagicAuth code
+      #
+      # @param [String] email The email address of the recipient.
+      # @param [String] invitation_token The token of an Invitation, if required.
+      #
+      # @return WorkOS::MagicAuth
+      def create_magic_auth(email:, invitation_token: nil)
+        response = execute_request(
+          request: post_request(
+            path: '/user_management/magic_auth',
+            body: {
+              email: email,
+              invitation_token: invitation_token,
+            },
+            auth: true,
+          ),
+        )
+
+        WorkOS::MagicAuth.new(response.body)
+      end
+
       # Create a one-time Magic Auth code and emails it to the user.
       #
       # @param [String] email The email address the one-time code will be sent to.
       #
       # @return Boolean
       def send_magic_auth_code(email:)
+        warn_deprecation '`send_magic_auth_code` is deprecated. Please use `create_magic_auth` instead.'
+
         response = execute_request(
           request: post_request(
             path: '/user_management/magic_auth/send',

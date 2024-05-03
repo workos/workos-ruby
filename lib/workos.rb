@@ -59,6 +59,7 @@ module WorkOS
   autoload :Factor, 'workos/factor'
   autoload :Impersonator, 'workos/impersonator'
   autoload :Invitation, 'workos/invitation'
+  autoload :MagicAuth, 'workos/magic_auth'
   autoload :MFA, 'workos/mfa'
   autoload :Organization, 'workos/organization'
   autoload :Organizations, 'workos/organizations'
