@@ -748,7 +748,8 @@ module WorkOS
       #
       # @param [Hash] options
       # @option options [String] user_id The ID of the User.
-      # @option options [String] organization_id Filter Users by the organization they are members of.
+      # @option options [String] organization_id Filter memberships by the organization they are members of.
+      # @option options [Array<String>] statuses Filter memberships by status.
       # @option options [String] limit Maximum number of records to return.
       # @option options [String] order The order in which to paginate records
       # @option options [String] before Pagination cursor to receive records
@@ -814,6 +815,38 @@ module WorkOS
         )
 
         response.is_a? Net::HTTPSuccess
+      end
+
+      # Deactivate an Organization Membership
+      #
+      # @param [String] id The unique ID of the Organization Membership.
+      #
+      # @return WorkOS::OrganizationMembership
+      def deactivate_organization_membership(id:)
+        response = execute_request(
+          request: put_request(
+            path: "/user_management/organization_memberships/#{id}/deactivate",
+            auth: true,
+          ),
+        )
+
+        WorkOS::OrganizationMembership.new(response.body)
+      end
+
+      # Reactivate an Organization Membership
+      #
+      # @param [String] id The unique ID of the Organization Membership.
+      #
+      # @return WorkOS::OrganizationMembership
+      def reactivate_organization_membership(id:)
+        response = execute_request(
+          request: put_request(
+            path: "/user_management/organization_memberships/#{id}/reactivate",
+            auth: true,
+          ),
+        )
+
+        WorkOS::OrganizationMembership.new(response.body)
       end
 
       # Gets an Invitation
