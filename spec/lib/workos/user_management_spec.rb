@@ -950,7 +950,7 @@ describe WorkOS::UserManagement do
         VCR.use_cassette 'user_management/list_organization_memberships/with_statuses_option' do
           organization_memberships = described_class.list_organization_memberships(
             user_id: 'user_01HXYSZBKQE2N3NHBKZHDP1X5X',
-            statuses: ['active', 'inactive'],
+            statuses: %w[active inactive],
             order: 'desc',
             limit: '5',
           )
