@@ -933,6 +933,33 @@ describe WorkOS::UserManagement do
         end
       end
     end
+
+    context 'with statuses option' do
+      it 'returns a list of matching users' do
+        request_args = [
+          '/user_management/organization_memberships?user_id=user_01HXYSZBKQE2N3NHBKZHDP1X5X&'\
+          'statuses=active&statuses=inactive&order=desc&limit=5',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'user_management/list_organization_memberships/with_statuses_option' do
+          organization_memberships = described_class.list_organization_memberships(
+            user_id: 'user_01HXYSZBKQE2N3NHBKZHDP1X5X',
+            statuses: %w[active inactive],
+            order: 'desc',
+            limit: '5',
+          )
+
+          expect(organization_memberships.data.size).to eq(1)
+          expect(organization_memberships.data[0].user_id).to eq('user_01HXYSZBKQE2N3NHBKZHDP1X5X')
+        end
+      end
+    end
   end
 
   describe '.create_organization_membership' do
@@ -983,6 +1010,56 @@ describe WorkOS::UserManagement do
           expect do
             WorkOS::UserManagement.delete_organization_membership(id: 'invalid')
           end.to raise_error(WorkOS::APIError, /Organization Membership not found/)
+        end
+      end
+    end
+  end
+
+  describe '.deactivate_organization_membership' do
+    context 'with a valid id' do
+      it 'returns a organization membership' do
+        VCR.use_cassette 'user_management/deactivate_organization_membership' do
+          organization_membership = described_class.deactivate_organization_membership(
+            id: 'om_01HXYT0G3H5QG9YTSHSHFZQE6D',
+          )
+
+          expect(organization_membership.id.instance_of?(String))
+          expect(organization_membership.instance_of?(WorkOS::OrganizationMembership))
+        end
+      end
+    end
+
+    context 'with an invalid id' do
+      it 'returns an error' do
+        expect do
+          described_class.deactivate_organization_membership(
+            id: 'invalid_organization_membership_id',
+          ).to raise_error(WorkOS::APIError)
+        end
+      end
+    end
+  end
+
+  describe '.reactivate_organization_membership' do
+    context 'with a valid id' do
+      it 'returns a organization membership' do
+        VCR.use_cassette 'user_management/reactivate_organization_membership' do
+          organization_membership = described_class.reactivate_organization_membership(
+            id: 'om_01HXYT0G3H5QG9YTSHSHFZQE6D',
+          )
+
+          expect(organization_membership.id.instance_of?(String))
+          expect(organization_membership.instance_of?(WorkOS::OrganizationMembership))
+        end
+      end
+    end
+
+    context 'with an invalid id' do
+      it 'returns an error' do
+        expect do
+          described_class.reactivate_organization_membership(
+            id: 'invalid_organization_membership_id',
+          ).to raise_error(WorkOS::APIError)
         end
       end
     end
