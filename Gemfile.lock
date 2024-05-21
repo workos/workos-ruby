@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    workos (4.5.0)
+    workos (4.6.0)
 
 GEM
   remote: https://rubygems.org/
