@@ -736,6 +736,31 @@ describe WorkOS::UserManagement do
     end
   end
 
+  describe '.get_email_verification' do
+    context 'with a valid id' do
+      it 'returns an email_verification object' do
+        VCR.use_cassette 'user_management/get_email_verification/valid' do
+          email_verification = described_class.get_email_verification(
+            id: 'email_verification_01HYK9VKNJQ0MJDXEXQP0DA1VK',
+          )
+
+          expect(email_verification.id.instance_of?(String))
+          expect(email_verification.instance_of?(WorkOS::EmailVerification))
+        end
+      end
+    end
+
+    context 'with an invalid id' do
+      it 'raises an error' do
+        VCR.use_cassette('user_management/get_email_verification/invalid') do
+          expect do
+            WorkOS::UserManagement.get_email_verification(id: 'invalid')
+          end.to raise_error(WorkOS::APIError, /Email Verification not found/)
+        end
+      end
+    end
+  end
+
   describe '.send_verification_email' do
     context 'with valid parameters' do
       it 'sends an email to that user and the magic auth challenge' do
@@ -799,6 +824,46 @@ describe WorkOS::UserManagement do
               )
             end.to raise_error(WorkOS::InvalidRequestError, /Email verification code is incorrect/)
           end
+        end
+      end
+    end
+  end
+
+  describe '.get_password_reset' do
+    context 'with a valid id' do
+      it 'returns a password_reset object' do
+        VCR.use_cassette 'user_management/get_password_reset/valid' do
+          password_reset = described_class.get_password_reset(
+            id: 'password_reset_01HYKA8DTF8TW5YD30MF0ZXZKT',
+          )
+
+          expect(password_reset.id.instance_of?(String))
+          expect(password_reset.instance_of?(WorkOS::PasswordReset))
+        end
+      end
+    end
+
+    context 'with an invalid id' do
+      it 'raises an error' do
+        VCR.use_cassette('user_management/get_password_reset/invalid') do
+          expect do
+            WorkOS::UserManagement.get_password_reset(id: 'invalid')
+          end.to raise_error(WorkOS::APIError, /Password Reset not found/)
+        end
+      end
+    end
+  end
+
+  describe '.create_password_reset' do
+    context 'with valid payload' do
+      it 'creates a password_reset object' do
+        VCR.use_cassette 'user_management/create_password_reset/valid' do
+          password_reset = described_class.create_password_reset(
+            email: 'test@workos.com',
+          )
+
+          expect(password_reset.id).to eq('password_reset_01HYKA8DTF8TW5YD30MF0ZXZKT')
+          expect(password_reset.email).to eq('test@workos.com')
         end
       end
     end

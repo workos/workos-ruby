@@ -1,0 +1,80 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.workos.com/user_management/password_reset
+    body:
+      encoding: UTF-8
+      string: '{"email":"blair@workos.com"}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/3.0.2; x86_64-darwin19; v4.6.0
+      Authorization:
+      - Bearer <API_KEY>
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Thu, 23 May 2024 18:08:51 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '397'
+      Connection:
+      - keep-alive
+      Cf-Ray:
+      - 8886fe5e1c317b24-DEN
+      Cf-Cache-Status:
+      - DYNAMIC
+      Etag:
+      - W/"18d-Z6VC8jkvZuXmNL0BcJcqkF7M0BQ"
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Vary:
+      - Origin, Accept-Encoding
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      Expect-Ct:
+      - max-age=0
+      Referrer-Policy:
+      - no-referrer
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - db59df36-fce8-4174-a031-bd259bca32f8
+      X-Xss-Protection:
+      - '0'
+      Set-Cookie:
+      - __cf_bm=d6moUiiUczj82CNolGPFWxb99g4YP_C.ZlaH9W7xnF8-1716487731-1.0.1.1-pRG1tKVpL4EV8NrdL78THPAhMdBiKwY_tOlgnuanVHgNFvw6MeMv2wJG0Nkp4oLwXdW629gkH1OwSaLIv9EuYQ;
+        path=/; expires=Thu, 23-May-24 18:38:51 GMT; domain=.workos.com; HttpOnly;
+        Secure; SameSite=None
+      - __cfruid=bd64ac4e2572b6fc609d5cc06577eed03bc1bbcb-1716487731; path=/; domain=.workos.com;
+        HttpOnly; Secure; SameSite=None
+      Server:
+      - cloudflare
+    body:
+      encoding: UTF-8
+      string: '{"object":"password_reset","id":"password_reset_01HYKA8DTF8TW5YD30MF0ZXZKT","user_id":"user_01HH5GTVSP6PEXV0SRB9ANFE9G","email":"test@workos.com","password_reset_token":"DmNQt1ZWOz7k5hulOoGDN0TZd","password_reset_url":"https://my-app.com/reset-password/?token=DmNQt1ZWOz7k5hulOoGDN0TZd","expires_at":"2024-05-23T18:23:51.024Z","created_at":"2024-05-23T18:08:51.024Z"}'
+    http_version:
+  recorded_at: Thu, 23 May 2024 18:08:50 GMT
+recorded_with: VCR 5.0.0

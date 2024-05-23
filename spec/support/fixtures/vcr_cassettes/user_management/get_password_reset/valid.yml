@@ -1,0 +1,80 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.workos.com/user_management/password_reset/password_reset_01HYKA8DTF8TW5YD30MF0ZXZKT
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/3.0.2; x86_64-darwin19; v4.6.0
+      Authorization:
+      - Bearer <API_KEY>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 23 May 2024 18:10:20 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Cf-Ray:
+      - 8887008eb83c51eb-DEN
+      Cf-Cache-Status:
+      - DYNAMIC
+      Etag:
+      - W/"18d-Z6VC8jkvZuXmNL0BcJcqkF7M0BQ"
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Vary:
+      - Origin, Accept-Encoding
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      Expect-Ct:
+      - max-age=0
+      Referrer-Policy:
+      - no-referrer
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - bd5403d4-e651-4b63-acde-50287326e0d7
+      X-Xss-Protection:
+      - '0'
+      Set-Cookie:
+      - __cf_bm=YhPLb6u6gDZZcI3AVyfPTCitp9JKWpSMhZ236D6EPJI-1716487820-1.0.1.1-F0GOL.FAH1ROxtTJumLoe_YGWkO6uoozp7qv4oFniAc0aX20kqay7JvCfszxpxRsEbvj5mPTJcqVyvDm7qedeA;
+        path=/; expires=Thu, 23-May-24 18:40:20 GMT; domain=.workos.com; HttpOnly;
+        Secure; SameSite=None
+      - __cfruid=cdbb09208777e3b5b5ee0ae80b61e07279d590c0-1716487820; path=/; domain=.workos.com;
+        HttpOnly; Secure; SameSite=None
+      Server:
+      - cloudflare
+    body:
+      encoding: ASCII-8BIT
+      string: '{"object":"password_reset","id":"password_reset_01HYKA8DTF8TW5YD30MF0ZXZKT","user_id":"user_01HH5GTVSP6PEXV0SRB9ANFE9G","email":"blair@workos.com","password_reset_token":"DmNQt1ZWOz7k5hulOoGDN0TZd","password_reset_url":"https://manageable-child-63-staging.authkit.app/reset-password/?token=DmNQt1ZWOz7k5hulOoGDN0TZd","expires_at":"2024-05-23T18:23:51.024Z","created_at":"2024-05-23T18:08:51.024Z"}'
+    http_version:
+  recorded_at: Thu, 23 May 2024 18:10:20 GMT
+recorded_with: VCR 5.0.0

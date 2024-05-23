@@ -650,6 +650,22 @@ module WorkOS
         )
       end
 
+      # Gets an email verification object
+      #
+      # @param [String] id The unique ID of the EmailVerification object.
+      #
+      # @return WorkOS::EmailVerification
+      def get_email_verification(id:)
+        response = execute_request(
+          request: get_request(
+            path: "/user_management/email_verification/#{id}",
+            auth: true,
+          ),
+        )
+
+        WorkOS::EmailVerification.new(response.body)
+      end
+
       # Sends a verification email to the provided user.
       #
       # @param [String] user_id The unique ID of the User whose email address will be verified.
@@ -686,6 +702,41 @@ module WorkOS
         WorkOS::UserResponse.new(response.body)
       end
 
+      # Gets a password reset object
+      #
+      # @param [String] id The unique ID of the PasswordReset object.
+      #
+      # @return WorkOS::PasswordReset
+      def get_password_reset(id:)
+        response = execute_request(
+          request: get_request(
+            path: "/user_management/password_reset/#{id}",
+            auth: true,
+          ),
+        )
+
+        WorkOS::PasswordReset.new(response.body)
+      end
+
+      # Creates a password reset token
+      #
+      # @param [String] email The email address of the user.
+      #
+      # @return WorkOS::PasswordReset
+      def create_password_reset(email:)
+        response = execute_request(
+          request: post_request(
+            path: '/user_management/password_reset',
+            body: {
+              email: email,
+            },
+            auth: true,
+          ),
+        )
+
+        WorkOS::PasswordReset.new(response.body)
+      end
+
       # Create a password reset challenge and emails a password reset link to a user.
       #
       # @param [String] email The email of the user that wishes to reset their password.
@@ -693,6 +744,9 @@ module WorkOS
       #
       # @return [Bool] - returns `true` if successful
       def send_password_reset_email(email:, password_reset_url:)
+        warn_deprecation '`send_password_reset_email` is deprecated.
+        Please use `create_password_reset` instead. This method will be removed in a future major version.'
+
         request = post_request(
           path: '/user_management/password_reset/send',
           body: {

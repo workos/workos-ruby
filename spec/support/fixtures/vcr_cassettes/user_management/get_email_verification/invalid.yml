@@ -1,0 +1,80 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.workos.com/user_management/email_verification/invalid
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/3.0.2; x86_64-darwin19; v4.6.0
+      Authorization:
+      - Bearer <API_KEY>
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Date:
+      - Thu, 23 May 2024 18:04:34 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Cf-Ray:
+      - 8886f81a5d7e7b18-DEN
+      Cf-Cache-Status:
+      - DYNAMIC
+      Etag:
+      - W/"66-ESd/ROLsUvsCu/wiWkoaXfmv1gY"
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Vary:
+      - Origin, Accept-Encoding
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      Expect-Ct:
+      - max-age=0
+      Referrer-Policy:
+      - no-referrer
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - 777e6230-9045-4858-9925-efb5c5783aa7
+      X-Xss-Protection:
+      - '0'
+      Set-Cookie:
+      - __cf_bm=jfT91VpwVMXi901oaS57bdvcPNjXwzgT0NN.TADMkSA-1716487474-1.0.1.1-D3FZIQ5VQOMnMl3UudReuAR600DpJh8NzCxffFA.bRKl_H6zziPQu7Kk3_.wsy8_ESDjlcUQ3suhVmUb5Iwbhg;
+        path=/; expires=Thu, 23-May-24 18:34:34 GMT; domain=.workos.com; HttpOnly;
+        Secure; SameSite=None
+      - __cfruid=387f8a46c39c44e43af2f39cd9fd8aea810da563-1716487474; path=/; domain=.workos.com;
+        HttpOnly; Secure; SameSite=None
+      Server:
+      - cloudflare
+    body:
+      encoding: ASCII-8BIT
+      string: '{"message":"Email Verification not found: ''invalid''.","code":"entity_not_found","entity_id":"invalid"}'
+    http_version:
+  recorded_at: Thu, 23 May 2024 18:04:34 GMT
+recorded_with: VCR 5.0.0
