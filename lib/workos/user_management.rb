@@ -603,9 +603,11 @@ module WorkOS
       # @param [String] totp_issuer For totp factors. Typically your application
       #  or company name, this helps users distinguish between factors in authenticator apps.
       # @param [String] totp_user For totp factors. Used as the account name in authenticator apps.
+      # @param [String] totp_secret For totp factors.  The Base32 encdoded secret key for the
+      # factor. Generated if not provided. (Optional)
       #
       # @return WorkOS::AuthenticationFactorAndChallenge
-      def enroll_auth_factor(user_id:, type:, totp_issuer: nil, totp_user: nil)
+      def enroll_auth_factor(user_id:, type:, totp_issuer: nil, totp_user: nil, totp_secret: nil)
         validate_auth_factor_type(
           type: type,
         )
@@ -617,6 +619,7 @@ module WorkOS
               type: type,
               totp_issuer: totp_issuer,
               totp_user: totp_user,
+              totp_secret: totp_secret,
             },
             auth: true,
           ),

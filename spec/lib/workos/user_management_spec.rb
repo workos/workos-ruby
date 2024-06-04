@@ -677,6 +677,7 @@ describe WorkOS::UserManagement do
           authentication_response = WorkOS::UserManagement.enroll_auth_factor(
             user_id: 'user_01H7TVSKS45SDHN5V9XPSM6H44',
             type: 'totp',
+            totp_secret: 'secret-test',
           )
 
           expect(authentication_response.authentication_factor.id).to eq('auth_factor_01H96FETXENNY99ARX0GRC804C')
