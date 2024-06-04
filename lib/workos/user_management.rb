@@ -919,6 +919,22 @@ module WorkOS
         WorkOS::Invitation.new(response.body)
       end
 
+      # Finds an Invitation by Token
+      #
+      # @param [String] token The token of the Invitation.
+      #
+      # @return WorkOS::Invitation
+      def find_invitation_by_token(token:)
+        response = execute_request(
+          request: get_request(
+            path: "/user_management/invitations/by_token/#{token}",
+            auth: true,
+          ),
+        )
+
+        WorkOS::Invitation.new(response.body)
+      end
+
       # Retrieve a list of invitations.
       #
       # @param [Hash] options

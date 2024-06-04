@@ -1155,6 +1155,31 @@ describe WorkOS::UserManagement do
     end
   end
 
+  describe '.find_invitation_by_token' do
+    context 'with a valid id' do
+      it 'returns an invitation' do
+        VCR.use_cassette 'user_management/find_invitation_by_token/valid' do
+          invitation = described_class.find_invitation_by_token(
+            token: 'iUV3XbYajpJlbpw1Qt3ZKlaKx',
+          )
+
+          expect(invitation.id.instance_of?(String))
+          expect(invitation.instance_of?(WorkOS::Invitation))
+        end
+      end
+    end
+
+    context 'with an invalid id' do
+      it 'raises an error' do
+        VCR.use_cassette('user_management/find_invitation_by_token/invalid') do
+          expect do
+            WorkOS::UserManagement.find_invitation_by_token(token: 'invalid')
+          end.to raise_error(WorkOS::APIError, /Invitation not found/)
+        end
+      end
+    end
+  end
+
   describe '.list_invitations' do
     context 'with no options' do
       it 'returns invitations and metadata' do
