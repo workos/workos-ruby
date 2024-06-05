@@ -86,7 +86,7 @@ module WorkOS
       ].join('; ')
     end
 
-    # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+    # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Metrics/CyclomaticComplexity:
     def handle_error_response(response:)
       http_status = response.code.to_i
       json = JSON.parse(response.body)
@@ -142,7 +142,7 @@ module WorkOS
         )
       end
     end
-    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
+    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize, Metrics/CyclomaticComplexity:
 
     private
 
