@@ -90,8 +90,8 @@ module WorkOS
     def handle_error_response(response:)
       http_status = response.code.to_i
 
-      # 429 errors shouldn't have a body
-      json = http_status != 429 ? JSON.parse(response.body, object_class: OpenStruct) : nil
+      # Some responses don't have bodies
+      json = response.body.nil? ? JSON.parse(response.body, object_class: OpenStruct) : nil
 
       case http_status
       when 400
