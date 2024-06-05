@@ -7,6 +7,8 @@ module WorkOS
     attr_reader :request_id
     attr_reader :code
     attr_reader :errors
+    attr_reader :error
+    attr_reader :error_description
 
     # rubocop:disable Metrics/ParameterLists
     def initialize(
@@ -16,7 +18,9 @@ module WorkOS
       http_status: nil,
       request_id: nil,
       code: nil,
-      errors: nil
+      errors: nil,
+      data: nil,
+      retry_after: nil
     )
       @message = message
       @error = error
@@ -25,20 +29,43 @@ module WorkOS
       @request_id = request_id
       @code = code
       @errors = errors
+      @data = data
+      @retry_after = retry_after
     end
     # rubocop:enable Metrics/ParameterLists
 
     def to_s
       status_string = @http_status.nil? ? '' : "Status #{@http_status}, "
+      retry_after_string = @retry_after.nil? ? '' : " Retry-After: #{@retry_after}"
       id_string = @request_id.nil? ? '' : " - request ID: #{@request_id}"
-      if @error && @error_description
+
+      if @error && @error_description && @data
+        error_string = "error: #{@error}, error_description: #{@error_description} #{extract_fields(@data)}"
+        "#{status_string}#{error_string}#{retry_after_string}#{id_string}"
+      elsif @error && @error_description
         error_string = "error: #{@error}, error_description: #{@error_description}"
-        "#{status_string}#{error_string}#{id_string}"
+        "#{status_string}#{error_string}#{retry_after_string}#{id_string}"
       elsif @error
-        "#{status_string}#{@error}#{id_string}"
+        "#{status_string}#{@error}#{retry_after_string}#{id_string}"
       else
-        "#{status_string}#{@message}#{id_string}"
+        "#{status_string}#{@message}#{retry_after_string}#{id_string}"
       end
+    end
+
+    def extract_fields(data)
+      # return early if data is empty or nil
+      return '' if data.nil? || data.empty?
+
+      ret = []
+
+      # loop over data and return key value pairs
+      data.each_pair do |field, value|
+        if field.to_s != "error" && field.to_s != "error_description" && field.to_s != "code"
+          ret.push("#{field}: #{value}")
+        end
+      end
+
+      ret.join(', ')
     end
   end
 
@@ -62,4 +89,13 @@ module WorkOS
 
   # TimeoutError is raised when the HTTP request to the API times out
   class TimeoutError < WorkOSError; end
+
+  # RateLimitExceededError is raised when the rate limit for the API has been hit
+  class RateLimitExceededError < WorkOSError; end
+
+  # NotFoundError is raised when a resource is not found
+  class NotFoundError < WorkOSError; end
+
+  # UnprocessableEntityError is raised when a request is made that cannot be processed
+  class UnprocessableEntityError < WorkOSError; end
 end

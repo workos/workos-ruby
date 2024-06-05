@@ -89,57 +89,61 @@ module WorkOS
     # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
     def handle_error_response(response:)
       http_status = response.code.to_i
-      json = JSON.parse(response.body)
+
+      # 429 errors shouldn't have a body
+      json = http_status != 429 ? JSON.parse(response.body, object_class: OpenStruct) : nil
 
       case http_status
       when 400
         raise InvalidRequestError.new(
-          message: json['message'],
+          message: response.message,
           http_status: http_status,
           request_id: response['x-request-id'],
-          code: json['code'],
-          errors: json['errors'],
+          error: json.error,
+          error_description: json.error_description,
+          data: json,
+          code: json.code,
         )
       when 401
         raise AuthenticationError.new(
-          message: json['message'],
+          message: response.message,
           http_status: http_status,
           request_id: response['x-request-id'],
         )
       when 404
-        raise APIError.new(
-          message: json['message'],
+        raise NotFoundError.new(
+          message: json.message,
+          code: json.code,
           http_status: http_status,
           request_id: response['x-request-id'],
         )
       when 422
-        message = json['message']
-        code = json['code']
-        errors = extract_error(json['errors']) if json['errors']
-        message += " (#{errors})" if errors
-
-        raise InvalidRequestError.new(
-          message: message,
+        raise UnprocessableEntityError.new(
+          message: response.message,
           http_status: http_status,
           request_id: response['x-request-id'],
-          code: code,
+          error: json.error,
+          error_description: json.message,
+          code: json.code,
+        )
+      when 429
+        raise RateLimitExceededError.new(
+          message: response.message,
+          http_status: http_status,
+          request_id: response['x-request-id'],
+          retry_after: response['Retry-After'],
         )
       else
         raise APIError.new(
-          message: json['message'],
+          message: response.message,
           http_status: http_status,
           request_id: response['x-request-id'],
+          code: json.code,
+          error: json.error,
+          error_description: json.error_description,
+          data: json,
         )
       end
-    end
-    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
-
-    private
-
-    def extract_error(errors)
-      errors.map do |error|
-        "#{error['field']}: #{error['code']}"
-      end.join('; ')
     end
   end
 end
