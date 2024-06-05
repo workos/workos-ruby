@@ -87,4 +87,7 @@ module WorkOS
   autoload :InvalidRequestError, 'workos/errors'
   autoload :SignatureVerificationError, 'workos/errors'
   autoload :TimeoutError, 'workos/errors'
+  autoload :NotFoundError, 'workos/errors'
+  autoload :UnprocessableEntityError, 'workos/errors'
+  autoload :RateLimitExceededError, 'workos/errors'
 end

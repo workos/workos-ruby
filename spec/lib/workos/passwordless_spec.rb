@@ -32,7 +32,7 @@ describe WorkOS::Passwordless do
           expect do
             described_class.create_session(invalid_options)
           end.to raise_error(
-            WorkOS::InvalidRequestError,
+            WorkOS::UnprocessableEntityError,
             /Status 422, Validation failed \(email: email must be a string; type: type must be a valid enum value\)/,
           )
         end
@@ -66,7 +66,7 @@ describe WorkOS::Passwordless do
           expect do
             described_class.send_session('session_123')
           end.to raise_error(
-            WorkOS::InvalidRequestError,
+            WorkOS::UnprocessableEntityError,
             /Status 422, The passwordless session 'session_123' has expired or is invalid./,
           )
         end

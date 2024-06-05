@@ -171,7 +171,7 @@ describe WorkOS::DirectorySync do
           expect do
             WorkOS::DirectorySync.get_directory(id: 'invalid')
           end.to raise_error(
-            WorkOS::APIError,
+            WorkOS::NotFoundError,
             "Status 404, Directory not found: 'invalid'. - request ID: ",
           )
         end
@@ -185,7 +185,7 @@ describe WorkOS::DirectorySync do
         VCR.use_cassette('directory_sync/list_groups/with_no_options') do
           expect do
             WorkOS::DirectorySync.list_groups
-          end.to raise_error(WorkOS::InvalidRequestError)
+          end.to raise_error(WorkOS::UnprocessableEntityError)
         end
       end
     end
@@ -319,7 +319,7 @@ describe WorkOS::DirectorySync do
         VCR.use_cassette('directory_sync/list_users/with_no_options') do
           expect do
             WorkOS::DirectorySync.list_users
-          end.to raise_error(WorkOS::InvalidRequestError)
+          end.to raise_error(WorkOS::UnprocessableEntityError)
         end
       end
     end
@@ -471,7 +471,7 @@ describe WorkOS::DirectorySync do
         VCR.use_cassette('directory_sync/get_group_with_invalid_id') do
           expect do
             WorkOS::DirectorySync.get_group('invalid')
-          end.to raise_error(WorkOS::APIError)
+          end.to raise_error(WorkOS:: NotFoundError)
         end
       end
     end
@@ -498,7 +498,7 @@ describe WorkOS::DirectorySync do
         VCR.use_cassette('directory_sync/get_user_with_invalid_id') do
           expect do
             WorkOS::DirectorySync.get_user('invalid')
-          end.to raise_error(WorkOS::APIError)
+          end.to raise_error(WorkOS::NotFoundError)
         end
       end
     end

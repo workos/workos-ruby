@@ -99,6 +99,9 @@ module WorkOS
           request_id: response['x-request-id'],
           code: json['code'],
           errors: json['errors'],
+          error: json['error'],
+          error_description: json['error_description'],
+          data: json,
         )
       when 401
         raise AuthenticationError.new(
@@ -107,7 +110,7 @@ module WorkOS
           request_id: response['x-request-id'],
         )
       when 404
-        raise APIError.new(
+        raise NotFoundError.new(
           message: json['message'],
           http_status: http_status,
           request_id: response['x-request-id'],
@@ -118,11 +121,18 @@ module WorkOS
         errors = extract_error(json['errors']) if json['errors']
         message += " (#{errors})" if errors
 
-        raise InvalidRequestError.new(
+        raise UnprocessableEntityError.new(
           message: message,
           http_status: http_status,
           request_id: response['x-request-id'],
           code: code,
+        )
+      when 429
+        raise RateLimitExceededError.new(
+          message: json['message'],
+          http_status: http_status,
+          request_id: response['x-request-id'],
+          retry_after: response['Retry-After'],
         )
       else
         raise APIError.new(

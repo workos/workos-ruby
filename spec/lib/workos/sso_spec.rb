@@ -618,7 +618,7 @@ describe WorkOS::SSO do
           expect do
             WorkOS::SSO.get_connection(id: 'invalid')
           end.to raise_error(
-            WorkOS::APIError,
+            WorkOS::NotFoundError,
             'Status 404, Not Found - request ID: ',
           )
         end
@@ -645,7 +645,7 @@ describe WorkOS::SSO do
           expect do
             WorkOS::SSO.delete_connection(id: 'invalid')
           end.to raise_error(
-            WorkOS::APIError,
+            WorkOS::NotFoundError,
             'Status 404, Not Found - request ID: ',
           )
         end

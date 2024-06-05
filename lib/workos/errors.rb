@@ -7,6 +7,10 @@ module WorkOS
     attr_reader :request_id
     attr_reader :code
     attr_reader :errors
+    attr_reader :error
+    attr_reader :error_description
+    attr_reader :data
+    attr_reader :retry_after
 
     # rubocop:disable Metrics/ParameterLists
     def initialize(
@@ -16,7 +20,9 @@ module WorkOS
       http_status: nil,
       request_id: nil,
       code: nil,
-      errors: nil
+      errors: nil,
+      data: nil,
+      retry_after: nil
     )
       @message = message
       @error = error
@@ -25,6 +31,8 @@ module WorkOS
       @request_id = request_id
       @code = code
       @errors = errors
+      @data = data
+      @retry_after = retry_after
     end
     # rubocop:enable Metrics/ParameterLists
 
@@ -62,4 +70,13 @@ module WorkOS
 
   # TimeoutError is raised when the HTTP request to the API times out
   class TimeoutError < WorkOSError; end
+
+  # RateLimitExceededError is raised when the rate limit for the API has been hit
+  class RateLimitExceededError < WorkOSError; end
+
+  # NotFoundError is raised when a resource is not found
+  class NotFoundError < WorkOSError; end
+
+  # UnprocessableEntityError is raised when a request is made that cannot be processed
+  class UnprocessableEntityError < WorkOSError; end
 end
