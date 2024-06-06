@@ -86,7 +86,7 @@ describe WorkOS::Events do
     context 'with the organization_id option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/events?organization_id=org_1234',
+          '/events?events=dsync.user.created&organization_id=org_1234',
           'Content-Type' => 'application/json'
         ]
 
@@ -97,6 +97,7 @@ describe WorkOS::Events do
 
         VCR.use_cassette 'events/list_events_with_organization_id' do
           events = described_class.list_events(
+            events: ['dsync.user.created'],
             organization_id: 'org_1234',
           )
 

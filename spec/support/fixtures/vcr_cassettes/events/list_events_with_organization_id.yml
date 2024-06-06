@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.workos.com/events?organization_id=org_1234
+    uri: https://api.workos.com/events?events=dsync.user.created&organization_id=org_1234
     body:
       encoding: US-ASCII
       string: ''
