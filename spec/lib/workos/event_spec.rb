@@ -5,16 +5,11 @@ describe WorkOS::Events do
 
   describe '.list_events' do
     context 'with no options' do
-      it 'returns events and metadata' do
-        expected_metadata = {
-          'after' => nil,
-        }
-
+      it 'raises ArgumentError' do
         VCR.use_cassette 'events/list_events_with_no_options' do
-          events = described_class.list_events
-
-          expect(events.data.size).to eq(1)
-          expect(events.list_metadata).to eq(expected_metadata)
+          expect do
+            described_class.list_events
+          end.to raise_error(ArgumentError)
         end
       end
     end
@@ -44,7 +39,7 @@ describe WorkOS::Events do
     context 'with the after option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/events?after=event_01FGCPNV312FHFRCX0BYWHVSE1',
+          '/events?after=event_01FGCPNV312FHFRCX0BYWHVSE1&events=dsync.user.created',
           'Content-Type' => 'application/json'
         ]
 
@@ -54,7 +49,10 @@ describe WorkOS::Events do
           and_return(expected_request)
 
         VCR.use_cassette 'events/list_events_with_after' do
-          events = described_class.list_events(after: 'event_01FGCPNV312FHFRCX0BYWHVSE1')
+          events = described_class.list_events(
+            after: 'event_01FGCPNV312FHFRCX0BYWHVSE1',
+            events: ['dsync.user.created'],
+          )
 
           expect(events.data.size).to eq(1)
         end
@@ -64,7 +62,7 @@ describe WorkOS::Events do
     context 'with the range_start and range_end options' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/events?range_start=2023-01-01T00%3A00%3A00Z&range_end=2023-01-03T00%3A00%3A00Z',
+          '/events?events=dsync.user.created&range_start=2023-01-01T00%3A00%3A00Z&range_end=2023-01-03T00%3A00%3A00Z',
           'Content-Type' => 'application/json'
         ]
 
@@ -75,6 +73,7 @@ describe WorkOS::Events do
 
         VCR.use_cassette 'events/list_events_with_range' do
           events = described_class.list_events(
+            events: ['dsync.user.created'],
             range_start: '2023-01-01T00:00:00Z',
             range_end: '2023-01-03T00:00:00Z',
           )

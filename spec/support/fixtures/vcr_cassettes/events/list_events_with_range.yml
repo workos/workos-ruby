@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.workos.com/events?range_end=2023-01-03T00:00:00Z&range_start=2023-01-01T00:00:00Z
+    uri: https://api.workos.com/events?events=dsync.user.created&range_end=2023-01-03T00:00:00Z&range_start=2023-01-01T00:00:00Z
     body:
       encoding: US-ASCII
       string: ''
