@@ -86,7 +86,7 @@ module WorkOS
       ].join('; ')
     end
 
-    # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+    # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Metrics/CyclomaticComplexity:
     def handle_error_response(response:)
       http_status = response.code.to_i
       json = JSON.parse(response.body)
@@ -99,6 +99,9 @@ module WorkOS
           request_id: response['x-request-id'],
           code: json['code'],
           errors: json['errors'],
+          error: json['error'],
+          error_description: json['error_description'],
+          data: json,
         )
       when 401
         raise AuthenticationError.new(
@@ -107,7 +110,7 @@ module WorkOS
           request_id: response['x-request-id'],
         )
       when 404
-        raise APIError.new(
+        raise NotFoundError.new(
           message: json['message'],
           http_status: http_status,
           request_id: response['x-request-id'],
@@ -118,11 +121,20 @@ module WorkOS
         errors = extract_error(json['errors']) if json['errors']
         message += " (#{errors})" if errors
 
-        raise InvalidRequestError.new(
+        raise UnprocessableEntityError.new(
           message: message,
           http_status: http_status,
           request_id: response['x-request-id'],
+          error: json['error'],
+          errors: errors,
           code: code,
+        )
+      when 429
+        raise RateLimitExceededError.new(
+          message: json['message'],
+          http_status: http_status,
+          request_id: response['x-request-id'],
+          retry_after: response['Retry-After'],
         )
       else
         raise APIError.new(
@@ -132,7 +144,7 @@ module WorkOS
         )
       end
     end
-    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
+    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize, Metrics/CyclomaticComplexity:
 
     private
 

@@ -188,7 +188,7 @@ describe WorkOS::MFA do
                 authentication_challenge_id: 'auth_challenge_01FZ4YVRBMXP5ZM0A7BP4AJ12J',
                 code: '897792',
               )
-            end.to raise_error(WorkOS::InvalidRequestError)
+            end.to raise_error(WorkOS::UnprocessableEntityError)
           end
         end
       end
@@ -201,7 +201,7 @@ describe WorkOS::MFA do
                 authentication_challenge_id: 'auth_challenge_01FZ4YVRBMXP5ZM0A7BP4AJ12J',
                 code: '897792',
               )
-            end.to raise_error(WorkOS::InvalidRequestError)
+            end.to raise_error(WorkOS::UnprocessableEntityError)
           end
         end
       end
@@ -264,7 +264,7 @@ describe WorkOS::MFA do
             described_class.get_factor(
               id: 'auth_factor_invalid',
             )
-          end.to raise_error(WorkOS::APIError)
+          end.to raise_error(WorkOS::NotFoundError)
         end
       end
     end

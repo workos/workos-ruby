@@ -257,7 +257,7 @@ describe WorkOS::Organizations do
           expect do
             described_class.get_organization(id: 'invalid')
           end.to raise_error(
-            WorkOS::APIError,
+            WorkOS::NotFoundError,
             'Status 404, Not Found - request ID: ',
           )
         end
@@ -302,7 +302,7 @@ describe WorkOS::Organizations do
           expect do
             described_class.delete_organization(id: 'invalid')
           end.to raise_error(
-            WorkOS::APIError,
+            WorkOS::NotFoundError,
             'Status 404, Not Found - request ID: ',
           )
         end

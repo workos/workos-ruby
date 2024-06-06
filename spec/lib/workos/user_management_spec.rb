@@ -312,7 +312,7 @@ describe WorkOS::UserManagement do
             expect do
               described_class.create_user(email: '')
             end.to raise_error(
-              WorkOS::InvalidRequestError,
+              WorkOS::UnprocessableEntityError,
               /email_string_required/,
             )
           end
@@ -342,7 +342,7 @@ describe WorkOS::UserManagement do
           VCR.use_cassette 'user_management/update_user/invalid' do
             expect do
               described_class.update_user(id: 'invalid')
-            end.to raise_error(WorkOS::APIError, /User not found/)
+            end.to raise_error(WorkOS::NotFoundError, /User not found/)
           end
         end
       end
@@ -367,7 +367,7 @@ describe WorkOS::UserManagement do
         VCR.use_cassette('user_management/delete_user/invalid') do
           expect do
             WorkOS::UserManagement.delete_user(id: 'invalid')
-          end.to raise_error(WorkOS::APIError, /User not found/)
+          end.to raise_error(WorkOS::NotFoundError, /User not found/)
         end
       end
     end
@@ -400,7 +400,7 @@ describe WorkOS::UserManagement do
               ip_address: '200.240.210.16',
               user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36',
             )
-          end.to raise_error(WorkOS::APIError, /User not found/)
+          end.to raise_error(WorkOS::NotFoundError, /User not found/)
         end
       end
     end
@@ -512,7 +512,7 @@ describe WorkOS::UserManagement do
               client_id: 'client_123',
               email: 'test@workos.com',
             )
-          end.to raise_error(WorkOS::APIError, /User not found/)
+          end.to raise_error(WorkOS::NotFoundError, /User not found/)
         end
       end
     end
@@ -637,7 +637,7 @@ describe WorkOS::UserManagement do
         VCR.use_cassette('user_management/get_magic_auth/invalid') do
           expect do
             WorkOS::UserManagement.get_magic_auth(id: 'invalid')
-          end.to raise_error(WorkOS::APIError, /MagicAuth not found/)
+          end.to raise_error(WorkOS::NotFoundError, /MagicAuth not found/)
         end
       end
     end
@@ -756,7 +756,7 @@ describe WorkOS::UserManagement do
         VCR.use_cassette('user_management/get_email_verification/invalid') do
           expect do
             WorkOS::UserManagement.get_email_verification(id: 'invalid')
-          end.to raise_error(WorkOS::APIError, /Email Verification not found/)
+          end.to raise_error(WorkOS::NotFoundError, /Email Verification not found/)
         end
       end
     end
@@ -781,7 +781,7 @@ describe WorkOS::UserManagement do
             described_class.send_verification_email(
               user_id: 'bad_id',
             )
-          end.to raise_error(WorkOS::APIError, /User not found/)
+          end.to raise_error(WorkOS::NotFoundError, /User not found/)
         end
       end
     end
@@ -810,7 +810,7 @@ describe WorkOS::UserManagement do
                 code: '659770',
                 user_id: 'bad_id',
               )
-            end.to raise_error(WorkOS::APIError, /User not found/)
+            end.to raise_error(WorkOS::NotFoundError, /User not found/)
           end
         end
       end
@@ -849,7 +849,7 @@ describe WorkOS::UserManagement do
         VCR.use_cassette('user_management/get_password_reset/invalid') do
           expect do
             WorkOS::UserManagement.get_password_reset(id: 'invalid')
-          end.to raise_error(WorkOS::APIError, /Password Reset not found/)
+          end.to raise_error(WorkOS::NotFoundError, /Password Reset not found/)
         end
       end
     end
@@ -893,7 +893,7 @@ describe WorkOS::UserManagement do
               password_reset_url: '',
             )
           end.to raise_error(
-            WorkOS::InvalidRequestError,
+            WorkOS::UnprocessableEntityError,
             /password_reset_url_string_required/,
           )
         end
@@ -924,7 +924,7 @@ describe WorkOS::UserManagement do
               new_password: 'new_password',
             )
           end.to raise_error(
-            WorkOS::APIError,
+            WorkOS::NotFoundError,
             /Could not locate user with provided token/,
           )
         end
@@ -1048,7 +1048,7 @@ describe WorkOS::UserManagement do
             expect do
               described_class.create_organization_membership(user_id: '', organization_id: '')
             end.to raise_error(
-              WorkOS::InvalidRequestError,
+              WorkOS::UnprocessableEntityError,
               /user_id_string_required/,
             )
           end
@@ -1075,7 +1075,7 @@ describe WorkOS::UserManagement do
         VCR.use_cassette('user_management/delete_organization_membership/invalid') do
           expect do
             WorkOS::UserManagement.delete_organization_membership(id: 'invalid')
-          end.to raise_error(WorkOS::APIError, /Organization Membership not found/)
+          end.to raise_error(WorkOS::NotFoundError, /Organization Membership not found/)
         end
       end
     end
@@ -1150,7 +1150,7 @@ describe WorkOS::UserManagement do
         VCR.use_cassette('user_management/get_invitation/invalid') do
           expect do
             WorkOS::UserManagement.get_invitation(id: 'invalid')
-          end.to raise_error(WorkOS::APIError, /Invitation not found/)
+          end.to raise_error(WorkOS::NotFoundError, /Invitation not found/)
         end
       end
     end
@@ -1175,7 +1175,7 @@ describe WorkOS::UserManagement do
         VCR.use_cassette('user_management/find_invitation_by_token/invalid') do
           expect do
             WorkOS::UserManagement.find_invitation_by_token(token: 'invalid')
-          end.to raise_error(WorkOS::APIError, /Invitation not found/)
+          end.to raise_error(WorkOS::NotFoundError, /Invitation not found/)
         end
       end
     end
@@ -1346,7 +1346,7 @@ describe WorkOS::UserManagement do
               id: 'invalid_id',
             )
           end.to raise_error(
-            WorkOS::APIError,
+            WorkOS::NotFoundError,
             /Invitation not found/,
           )
         end
@@ -1375,7 +1375,7 @@ describe WorkOS::UserManagement do
               session_id: 'session_01H5JQDV7R7ATEYZDEG0W5PRYS',
             )
           end.to raise_error(
-            WorkOS::APIError,
+            WorkOS::NotFoundError,
             /Session not found/,
           )
         end
