@@ -86,7 +86,7 @@ describe WorkOS::Events do
     context 'with the organization_id option' do
       it 'forms the proper request to the API' do
         request_args = [
-          '/events?organization_id=org_1234',
+          '/events?events=dsync.user.created&organization_id=org_1234',
           'Content-Type' => 'application/json'
         ]
 
