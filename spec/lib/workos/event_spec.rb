@@ -97,6 +97,7 @@ describe WorkOS::Events do
 
         VCR.use_cassette 'events/list_events_with_organization_id' do
           events = described_class.list_events(
+            events: ['dsync.user.created'],
             organization_id: 'org_1234',
           )
 
