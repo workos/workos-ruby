@@ -125,6 +125,8 @@ module WorkOS
           message: message,
           http_status: http_status,
           request_id: response['x-request-id'],
+          error: json['error'],
+          errors: errors,
           code: code,
         )
       when 429
