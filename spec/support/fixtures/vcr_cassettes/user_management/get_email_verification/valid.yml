@@ -1,11 +1,11 @@
 ---
 http_interactions:
 - request:
-    method: post
-    uri: https://api.workos.com/user_management/invitations
+    method: get
+    uri: https://api.workos.com/user_management/email_verification/email_verification_01HYK9VKNJQ0MJDXEXQP0DA1VK
     body:
-      encoding: UTF-8
-      string: '{"email":"test@workos.com"}'
+      encoding: US-ASCII
+      string: ''
     headers:
       Content-Type:
       - application/json
@@ -14,34 +14,32 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/3.0.2; arm64-darwin22; v2.16.0
+      - WorkOS; ruby/3.0.2; x86_64-darwin19; v4.6.0
       Authorization:
       - Bearer <API_KEY>
   response:
     status:
-      code: 201
-      message: Created
+      code: 200
+      message: OK
     headers:
       Date:
-      - Tue, 22 Aug 2023 15:17:54 GMT
+      - Thu, 23 May 2024 18:20:20 GMT
       Content-Type:
       - application/json; charset=utf-8
-      Content-Length:
-      - '372'
+      Transfer-Encoding:
+      - chunked
       Connection:
       - keep-alive
       Cf-Ray:
-      - 7fac15d95b344307-EWR
+      - 88870f32dcd07c2e-DEN
       Cf-Cache-Status:
       - DYNAMIC
       Etag:
-      - W/"174-DVzVYOTqyX3q/AyatAXKdpEIXt0"
+      - W/"12b-ekjr8XAvfdiqyjIkVD8WtynlLBo"
       Strict-Transport-Security:
       - max-age=15552000; includeSubDomains
       Vary:
       - Origin, Accept-Encoding
-      Via:
-      - 1.1 spaces-router (devel)
       Access-Control-Allow-Credentials:
       - 'true'
       Content-Security-Policy:
@@ -63,20 +61,20 @@ http_interactions:
       X-Permitted-Cross-Domain-Policies:
       - none
       X-Request-Id:
-      - 81a9837a-98c2-4672-b676-c0373801bee7
+      - 52bf7914-d672-454b-bd61-353e397fdad5
       X-Xss-Protection:
       - '0'
       Set-Cookie:
-      - __cf_bm=umdTRtFxoQN.4ktEcYtcbX1s8jKssJoHPtyhIn6WTks-1692717474-0-AdDIQx1e2bzuszzeXKtvCNRha0v3k93d1P8K+nwBMI2ZwMwU28jXRrsrZibk4tPRFo9wk5sXm2BSyKn+cb8wH+o=;
-        path=/; expires=Tue, 22-Aug-23 15:47:54 GMT; domain=.workos.com; HttpOnly;
+      - __cf_bm=huBpGvZo0rq1TOrNY2F0wBwT69_y.Paz9joecCAWK2Y-1716488420-1.0.1.1-YY9yAQE6aOIbVg6Vf8Rxc8ScBPueEKTcUGUXIQmi_AYXfCtcQUa3MzjWeeC0.vmO0AetYPSX3FmmWUf26GH2Fw;
+        path=/; expires=Thu, 23-May-24 18:50:20 GMT; domain=.workos.com; HttpOnly;
         Secure; SameSite=None
-      - __cfruid=18d4d766679a0d25305751659ba8551c12a6ab44-1692717474; path=/; domain=.workos.com;
+      - __cfruid=823df799452104e182687db9c4f57d862b59f78e-1716488420; path=/; domain=.workos.com;
         HttpOnly; Secure; SameSite=None
       Server:
       - cloudflare
     body:
-      encoding: UTF-8
-      string: '{"object":"invitation","id":"invitation_01H5JQDV7R7ATEYZDEG0W5PRYS","email":"test@workos.com","state":"pending","accepted_at":"2023-07-18T02:07:19.911Z","revoked_at":"2023-07-18T02:07:19.911Z","expires_at":"2023-07-18T02:07:19.911Z","organization_id":"org_01H5JQDV7R7ATEYZDEG0W5PRYS","token":"Z1uX3RbwcIl5fIGJJJCXXisdI","accept_invitation_url":"https://myauthkit.com/invite?invitation_token=Z1uX3RbwcIl5fIGJJJCXXisdI","created_at":"2023-07-18T02:07:19.911Z","updated_at":"2023-07-18T02:07:19.911Z"}'
+      encoding: ASCII-8BIT
+      string: '{"object":"email_verification","id":"email_verification_01HYK9VKNJQ0MJDXEXQP0DA1VK","user_id":"user_01HYK9VAAW34TPP0KSYXCX44SB","email":"blairlunceford@gmail.com","code":"561814","expires_at":"2024-05-23T18:11:51.024Z","created_at":"2024-05-23T18:01:50.997Z","updated_at":"2024-05-23T18:01:50.997Z"}'
     http_version:
-  recorded_at: Tue, 22 Aug 2023 15:17:54 GMT
+  recorded_at: Thu, 23 May 2024 18:20:20 GMT
 recorded_with: VCR 5.0.0

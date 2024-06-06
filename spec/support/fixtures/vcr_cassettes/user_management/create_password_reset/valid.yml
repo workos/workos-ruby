@@ -2,10 +2,10 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.workos.com/user_management/invitations
+    uri: https://api.workos.com/user_management/password_reset
     body:
       encoding: UTF-8
-      string: '{"email":"test@workos.com"}'
+      string: '{"email":"blair@workos.com"}'
     headers:
       Content-Type:
       - application/json
@@ -14,7 +14,7 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/3.0.2; arm64-darwin22; v2.16.0
+      - WorkOS; ruby/3.0.2; x86_64-darwin19; v4.6.0
       Authorization:
       - Bearer <API_KEY>
   response:
@@ -23,25 +23,23 @@ http_interactions:
       message: Created
     headers:
       Date:
-      - Tue, 22 Aug 2023 15:17:54 GMT
+      - Thu, 23 May 2024 18:08:51 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '372'
+      - '397'
       Connection:
       - keep-alive
       Cf-Ray:
-      - 7fac15d95b344307-EWR
+      - 8886fe5e1c317b24-DEN
       Cf-Cache-Status:
       - DYNAMIC
       Etag:
-      - W/"174-DVzVYOTqyX3q/AyatAXKdpEIXt0"
+      - W/"18d-Z6VC8jkvZuXmNL0BcJcqkF7M0BQ"
       Strict-Transport-Security:
       - max-age=15552000; includeSubDomains
       Vary:
       - Origin, Accept-Encoding
-      Via:
-      - 1.1 spaces-router (devel)
       Access-Control-Allow-Credentials:
       - 'true'
       Content-Security-Policy:
@@ -63,20 +61,20 @@ http_interactions:
       X-Permitted-Cross-Domain-Policies:
       - none
       X-Request-Id:
-      - 81a9837a-98c2-4672-b676-c0373801bee7
+      - db59df36-fce8-4174-a031-bd259bca32f8
       X-Xss-Protection:
       - '0'
       Set-Cookie:
-      - __cf_bm=umdTRtFxoQN.4ktEcYtcbX1s8jKssJoHPtyhIn6WTks-1692717474-0-AdDIQx1e2bzuszzeXKtvCNRha0v3k93d1P8K+nwBMI2ZwMwU28jXRrsrZibk4tPRFo9wk5sXm2BSyKn+cb8wH+o=;
-        path=/; expires=Tue, 22-Aug-23 15:47:54 GMT; domain=.workos.com; HttpOnly;
+      - __cf_bm=d6moUiiUczj82CNolGPFWxb99g4YP_C.ZlaH9W7xnF8-1716487731-1.0.1.1-pRG1tKVpL4EV8NrdL78THPAhMdBiKwY_tOlgnuanVHgNFvw6MeMv2wJG0Nkp4oLwXdW629gkH1OwSaLIv9EuYQ;
+        path=/; expires=Thu, 23-May-24 18:38:51 GMT; domain=.workos.com; HttpOnly;
         Secure; SameSite=None
-      - __cfruid=18d4d766679a0d25305751659ba8551c12a6ab44-1692717474; path=/; domain=.workos.com;
+      - __cfruid=bd64ac4e2572b6fc609d5cc06577eed03bc1bbcb-1716487731; path=/; domain=.workos.com;
         HttpOnly; Secure; SameSite=None
       Server:
       - cloudflare
     body:
       encoding: UTF-8
-      string: '{"object":"invitation","id":"invitation_01H5JQDV7R7ATEYZDEG0W5PRYS","email":"test@workos.com","state":"pending","accepted_at":"2023-07-18T02:07:19.911Z","revoked_at":"2023-07-18T02:07:19.911Z","expires_at":"2023-07-18T02:07:19.911Z","organization_id":"org_01H5JQDV7R7ATEYZDEG0W5PRYS","token":"Z1uX3RbwcIl5fIGJJJCXXisdI","accept_invitation_url":"https://myauthkit.com/invite?invitation_token=Z1uX3RbwcIl5fIGJJJCXXisdI","created_at":"2023-07-18T02:07:19.911Z","updated_at":"2023-07-18T02:07:19.911Z"}'
+      string: '{"object":"password_reset","id":"password_reset_01HYKA8DTF8TW5YD30MF0ZXZKT","user_id":"user_01HH5GTVSP6PEXV0SRB9ANFE9G","email":"test@workos.com","password_reset_token":"DmNQt1ZWOz7k5hulOoGDN0TZd","password_reset_url":"https://my-app.com/reset-password/?token=DmNQt1ZWOz7k5hulOoGDN0TZd","expires_at":"2024-05-23T18:23:51.024Z","created_at":"2024-05-23T18:08:51.024Z"}'
     http_version:
-  recorded_at: Tue, 22 Aug 2023 15:17:54 GMT
+  recorded_at: Thu, 23 May 2024 18:08:50 GMT
 recorded_with: VCR 5.0.0

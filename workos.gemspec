@@ -22,11 +22,10 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_development_dependency 'bundler', '>= 2.0.1'
-  spec.add_development_dependency 'codecov', '~> 0.2.8'
   spec.add_development_dependency 'rspec', '~> 3.9.0'
   spec.add_development_dependency 'rubocop', '~> 0.77'
   spec.add_development_dependency 'vcr', '~> 5.0.0'
   spec.add_development_dependency 'webmock'
 
-  spec.required_ruby_version = '>= 2.5'
+  spec.required_ruby_version = '>= 2.7'
 end

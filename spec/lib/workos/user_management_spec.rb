@@ -618,6 +618,46 @@ describe WorkOS::UserManagement do
     end
   end
 
+  describe '.get_magic_auth' do
+    context 'with a valid id' do
+      it 'returns a magic_auth object' do
+        VCR.use_cassette 'user_management/get_magic_auth/valid' do
+          magic_auth = described_class.get_magic_auth(
+            id: 'magic_auth_01HWXVEWWSMR5HS8M6FBGMBJJ9',
+          )
+
+          expect(magic_auth.id.instance_of?(String))
+          expect(magic_auth.instance_of?(WorkOS::MagicAuth))
+        end
+      end
+    end
+
+    context 'with an invalid id' do
+      it 'raises an error' do
+        VCR.use_cassette('user_management/get_magic_auth/invalid') do
+          expect do
+            WorkOS::UserManagement.get_magic_auth(id: 'invalid')
+          end.to raise_error(WorkOS::APIError, /MagicAuth not found/)
+        end
+      end
+    end
+  end
+
+  describe '.create_magic_auth' do
+    context 'with valid payload' do
+      it 'creates a magic_auth' do
+        VCR.use_cassette 'user_management/create_magic_auth/valid' do
+          magic_auth = described_class.create_magic_auth(
+            email: 'test@workos.com',
+          )
+
+          expect(magic_auth.id).to eq('magic_auth_01HWXVEWWSMR5HS8M6FBGMBJJ9')
+          expect(magic_auth.email).to eq('test@workos.com')
+        end
+      end
+    end
+  end
+
   describe '.send_magic_auth_code' do
     context 'with valid parameters' do
       it 'sends a magic link to the email address' do
@@ -637,6 +677,7 @@ describe WorkOS::UserManagement do
           authentication_response = WorkOS::UserManagement.enroll_auth_factor(
             user_id: 'user_01H7TVSKS45SDHN5V9XPSM6H44',
             type: 'totp',
+            totp_secret: 'secret-test',
           )
 
           expect(authentication_response.authentication_factor.id).to eq('auth_factor_01H96FETXENNY99ARX0GRC804C')
@@ -691,6 +732,31 @@ describe WorkOS::UserManagement do
               user_id: 'user_01H7TVSKS45SDHN5V9XPSM6H44',
             )
           end.to raise_error(WorkOS::InvalidRequestError, /Status 400/)
+        end
+      end
+    end
+  end
+
+  describe '.get_email_verification' do
+    context 'with a valid id' do
+      it 'returns an email_verification object' do
+        VCR.use_cassette 'user_management/get_email_verification/valid' do
+          email_verification = described_class.get_email_verification(
+            id: 'email_verification_01HYK9VKNJQ0MJDXEXQP0DA1VK',
+          )
+
+          expect(email_verification.id.instance_of?(String))
+          expect(email_verification.instance_of?(WorkOS::EmailVerification))
+        end
+      end
+    end
+
+    context 'with an invalid id' do
+      it 'raises an error' do
+        VCR.use_cassette('user_management/get_email_verification/invalid') do
+          expect do
+            WorkOS::UserManagement.get_email_verification(id: 'invalid')
+          end.to raise_error(WorkOS::APIError, /Email Verification not found/)
         end
       end
     end
@@ -759,6 +825,46 @@ describe WorkOS::UserManagement do
               )
             end.to raise_error(WorkOS::InvalidRequestError, /Email verification code is incorrect/)
           end
+        end
+      end
+    end
+  end
+
+  describe '.get_password_reset' do
+    context 'with a valid id' do
+      it 'returns a password_reset object' do
+        VCR.use_cassette 'user_management/get_password_reset/valid' do
+          password_reset = described_class.get_password_reset(
+            id: 'password_reset_01HYKA8DTF8TW5YD30MF0ZXZKT',
+          )
+
+          expect(password_reset.id.instance_of?(String))
+          expect(password_reset.instance_of?(WorkOS::PasswordReset))
+        end
+      end
+    end
+
+    context 'with an invalid id' do
+      it 'raises an error' do
+        VCR.use_cassette('user_management/get_password_reset/invalid') do
+          expect do
+            WorkOS::UserManagement.get_password_reset(id: 'invalid')
+          end.to raise_error(WorkOS::APIError, /Password Reset not found/)
+        end
+      end
+    end
+  end
+
+  describe '.create_password_reset' do
+    context 'with valid payload' do
+      it 'creates a password_reset object' do
+        VCR.use_cassette 'user_management/create_password_reset/valid' do
+          password_reset = described_class.create_password_reset(
+            email: 'test@workos.com',
+          )
+
+          expect(password_reset.id).to eq('password_reset_01HYKA8DTF8TW5YD30MF0ZXZKT')
+          expect(password_reset.email).to eq('test@workos.com')
         end
       end
     end
@@ -893,6 +999,33 @@ describe WorkOS::UserManagement do
         end
       end
     end
+
+    context 'with statuses option' do
+      it 'returns a list of matching users' do
+        request_args = [
+          '/user_management/organization_memberships?user_id=user_01HXYSZBKQE2N3NHBKZHDP1X5X&'\
+          'statuses=active&statuses=inactive&order=desc&limit=5',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'user_management/list_organization_memberships/with_statuses_option' do
+          organization_memberships = described_class.list_organization_memberships(
+            user_id: 'user_01HXYSZBKQE2N3NHBKZHDP1X5X',
+            statuses: %w[active inactive],
+            order: 'desc',
+            limit: '5',
+          )
+
+          expect(organization_memberships.data.size).to eq(1)
+          expect(organization_memberships.data[0].user_id).to eq('user_01HXYSZBKQE2N3NHBKZHDP1X5X')
+        end
+      end
+    end
   end
 
   describe '.create_organization_membership' do
@@ -948,6 +1081,56 @@ describe WorkOS::UserManagement do
     end
   end
 
+  describe '.deactivate_organization_membership' do
+    context 'with a valid id' do
+      it 'returns a organization membership' do
+        VCR.use_cassette 'user_management/deactivate_organization_membership' do
+          organization_membership = described_class.deactivate_organization_membership(
+            id: 'om_01HXYT0G3H5QG9YTSHSHFZQE6D',
+          )
+
+          expect(organization_membership.id.instance_of?(String))
+          expect(organization_membership.instance_of?(WorkOS::OrganizationMembership))
+        end
+      end
+    end
+
+    context 'with an invalid id' do
+      it 'returns an error' do
+        expect do
+          described_class.deactivate_organization_membership(
+            id: 'invalid_organization_membership_id',
+          ).to raise_error(WorkOS::APIError)
+        end
+      end
+    end
+  end
+
+  describe '.reactivate_organization_membership' do
+    context 'with a valid id' do
+      it 'returns a organization membership' do
+        VCR.use_cassette 'user_management/reactivate_organization_membership' do
+          organization_membership = described_class.reactivate_organization_membership(
+            id: 'om_01HXYT0G3H5QG9YTSHSHFZQE6D',
+          )
+
+          expect(organization_membership.id.instance_of?(String))
+          expect(organization_membership.instance_of?(WorkOS::OrganizationMembership))
+        end
+      end
+    end
+
+    context 'with an invalid id' do
+      it 'returns an error' do
+        expect do
+          described_class.reactivate_organization_membership(
+            id: 'invalid_organization_membership_id',
+          ).to raise_error(WorkOS::APIError)
+        end
+      end
+    end
+  end
+
   describe '.get_invitation' do
     context 'with a valid id' do
       it 'returns an invitation' do
@@ -967,6 +1150,31 @@ describe WorkOS::UserManagement do
         VCR.use_cassette('user_management/get_invitation/invalid') do
           expect do
             WorkOS::UserManagement.get_invitation(id: 'invalid')
+          end.to raise_error(WorkOS::APIError, /Invitation not found/)
+        end
+      end
+    end
+  end
+
+  describe '.find_invitation_by_token' do
+    context 'with a valid id' do
+      it 'returns an invitation' do
+        VCR.use_cassette 'user_management/find_invitation_by_token/valid' do
+          invitation = described_class.find_invitation_by_token(
+            token: 'iUV3XbYajpJlbpw1Qt3ZKlaKx',
+          )
+
+          expect(invitation.id.instance_of?(String))
+          expect(invitation.instance_of?(WorkOS::Invitation))
+        end
+      end
+    end
+
+    context 'with an invalid id' do
+      it 'raises an error' do
+        VCR.use_cassette('user_management/find_invitation_by_token/invalid') do
+          expect do
+            WorkOS::UserManagement.find_invitation_by_token(token: 'invalid')
           end.to raise_error(WorkOS::APIError, /Invitation not found/)
         end
       end
@@ -1140,6 +1348,35 @@ describe WorkOS::UserManagement do
           end.to raise_error(
             WorkOS::APIError,
             /Invitation not found/,
+          )
+        end
+      end
+    end
+  end
+
+  describe '.revoke_session' do
+    context 'with valid payload' do
+      it 'revokes session' do
+        VCR.use_cassette 'user_management/revoke_session/valid' do
+          result = described_class.revoke_session(
+            session_id: 'session_01HRX85ATNADY1GQ053AHRFFN6',
+          )
+
+          expect(result).to be true
+        end
+      end
+    end
+
+    context 'with a non-existant session' do
+      it 'returns an error' do
+        VCR.use_cassette 'user_management/revoke_session/not_found' do
+          expect do
+            described_class.revoke_session(
+              session_id: 'session_01H5JQDV7R7ATEYZDEG0W5PRYS',
+            )
+          end.to raise_error(
+            WorkOS::APIError,
+            /Session not found/,
           )
         end
       end

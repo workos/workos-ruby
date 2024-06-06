@@ -31,7 +31,7 @@ module WorkOS
     end
 
     class << self
-      include Client
+      include Client, Deprecation
 
       PROVIDERS = WorkOS::UserManagement::Types::Provider::ALL
       AUTH_FACTOR_TYPES = WorkOS::UserManagement::Types::AuthFactorType::ALL
@@ -163,9 +163,20 @@ module WorkOS
       # @param [String] first_name The user's first name.
       # @param [String] last_name The user's last name.
       # @param [Boolean] email_verified Whether the user's email address was previously verified.
+      # @param [String] password_hash The user's hashed password.
+      # @option [String] password_hash_type The algorithm originally used to hash the password.
       #
       # @return [WorkOS::User]
-      def create_user(email:, password: nil, first_name: nil, last_name: nil, email_verified: nil)
+      # rubocop:disable Metrics/ParameterLists
+      def create_user(
+        email:,
+        password: nil,
+        first_name: nil,
+        last_name: nil,
+        email_verified: nil,
+        password_hash: nil,
+        password_hash_type: nil
+      )
         request = post_request(
           path: '/user_management/users',
           body: {
@@ -174,6 +185,8 @@ module WorkOS
             first_name: first_name,
             last_name: last_name,
             email_verified: email_verified,
+            password_hash: password_hash,
+            password_hash_type: password_hash_type,
           },
           auth: true,
         )
@@ -195,7 +208,6 @@ module WorkOS
       #  Valid values are bcrypt.
       #
       # @return [WorkOS::User]
-      # rubocop:disable Metrics/ParameterLists
       def update_user(
         id:,
         first_name: nil,
@@ -498,14 +510,17 @@ module WorkOS
       # @param [String] session_id The session ID can be found in the `sid`
       #   claim of the access token
       def revoke_session(session_id:)
-        execute_request(
+        response = execute_request(
           request: post_request(
             path: '/user_management/sessions/revoke',
             body: {
               session_id: session_id,
             },
+            auth: true,
           ),
         )
+
+        response.is_a? Net::HTTPSuccess
       end
 
       # Get the JWKS URL
@@ -522,12 +537,52 @@ module WorkOS
         ).to_s
       end
 
+      # Gets a Magic Auth object
+      #
+      # @param [String] id The unique ID of the MagicAuth object.
+      #
+      # @return WorkOS::MagicAuth
+      def get_magic_auth(id:)
+        response = execute_request(
+          request: get_request(
+            path: "/user_management/magic_auth/#{id}",
+            auth: true,
+          ),
+        )
+
+        WorkOS::MagicAuth.new(response.body)
+      end
+
+      # Creates a MagicAuth code
+      #
+      # @param [String] email The email address of the recipient.
+      # @param [String] invitation_token The token of an Invitation, if required.
+      #
+      # @return WorkOS::MagicAuth
+      def create_magic_auth(email:, invitation_token: nil)
+        response = execute_request(
+          request: post_request(
+            path: '/user_management/magic_auth',
+            body: {
+              email: email,
+              invitation_token: invitation_token,
+            },
+            auth: true,
+          ),
+        )
+
+        WorkOS::MagicAuth.new(response.body)
+      end
+
       # Create a one-time Magic Auth code and emails it to the user.
       #
       # @param [String] email The email address the one-time code will be sent to.
       #
       # @return Boolean
       def send_magic_auth_code(email:)
+        warn_deprecation '`send_magic_auth_code` is deprecated.
+        Please use `create_magic_auth` instead. This method will be removed in a future major version.'
+
         response = execute_request(
           request: post_request(
             path: '/user_management/magic_auth/send',
@@ -548,9 +603,11 @@ module WorkOS
       # @param [String] totp_issuer For totp factors. Typically your application
       #  or company name, this helps users distinguish between factors in authenticator apps.
       # @param [String] totp_user For totp factors. Used as the account name in authenticator apps.
+      # @param [String] totp_secret For totp factors.  The Base32 encdoded secret key for the
+      # factor. Generated if not provided. (Optional)
       #
       # @return WorkOS::AuthenticationFactorAndChallenge
-      def enroll_auth_factor(user_id:, type:, totp_issuer: nil, totp_user: nil)
+      def enroll_auth_factor(user_id:, type:, totp_issuer: nil, totp_user: nil, totp_secret: nil)
         validate_auth_factor_type(
           type: type,
         )
@@ -562,6 +619,7 @@ module WorkOS
               type: type,
               totp_issuer: totp_issuer,
               totp_user: totp_user,
+              totp_secret: totp_secret,
             },
             auth: true,
           ),
@@ -593,6 +651,22 @@ module WorkOS
           data: auth_factors,
           list_metadata: parsed_response['list_metadata'],
         )
+      end
+
+      # Gets an email verification object
+      #
+      # @param [String] id The unique ID of the EmailVerification object.
+      #
+      # @return WorkOS::EmailVerification
+      def get_email_verification(id:)
+        response = execute_request(
+          request: get_request(
+            path: "/user_management/email_verification/#{id}",
+            auth: true,
+          ),
+        )
+
+        WorkOS::EmailVerification.new(response.body)
       end
 
       # Sends a verification email to the provided user.
@@ -631,6 +705,41 @@ module WorkOS
         WorkOS::UserResponse.new(response.body)
       end
 
+      # Gets a password reset object
+      #
+      # @param [String] id The unique ID of the PasswordReset object.
+      #
+      # @return WorkOS::PasswordReset
+      def get_password_reset(id:)
+        response = execute_request(
+          request: get_request(
+            path: "/user_management/password_reset/#{id}",
+            auth: true,
+          ),
+        )
+
+        WorkOS::PasswordReset.new(response.body)
+      end
+
+      # Creates a password reset token
+      #
+      # @param [String] email The email address of the user.
+      #
+      # @return WorkOS::PasswordReset
+      def create_password_reset(email:)
+        response = execute_request(
+          request: post_request(
+            path: '/user_management/password_reset',
+            body: {
+              email: email,
+            },
+            auth: true,
+          ),
+        )
+
+        WorkOS::PasswordReset.new(response.body)
+      end
+
       # Create a password reset challenge and emails a password reset link to a user.
       #
       # @param [String] email The email of the user that wishes to reset their password.
@@ -638,6 +747,9 @@ module WorkOS
       #
       # @return [Bool] - returns `true` if successful
       def send_password_reset_email(email:, password_reset_url:)
+        warn_deprecation '`send_password_reset_email` is deprecated.
+        Please use `create_password_reset` instead. This method will be removed in a future major version.'
+
         request = post_request(
           path: '/user_management/password_reset/send',
           body: {
@@ -693,7 +805,8 @@ module WorkOS
       #
       # @param [Hash] options
       # @option options [String] user_id The ID of the User.
-      # @option options [String] organization_id Filter Users by the organization they are members of.
+      # @option options [String] organization_id Filter memberships by the organization they are members of.
+      # @option options [Array<String>] statuses Filter memberships by status.
       # @option options [String] limit Maximum number of records to return.
       # @option options [String] order The order in which to paginate records
       # @option options [String] before Pagination cursor to receive records
@@ -761,6 +874,38 @@ module WorkOS
         response.is_a? Net::HTTPSuccess
       end
 
+      # Deactivate an Organization Membership
+      #
+      # @param [String] id The unique ID of the Organization Membership.
+      #
+      # @return WorkOS::OrganizationMembership
+      def deactivate_organization_membership(id:)
+        response = execute_request(
+          request: put_request(
+            path: "/user_management/organization_memberships/#{id}/deactivate",
+            auth: true,
+          ),
+        )
+
+        WorkOS::OrganizationMembership.new(response.body)
+      end
+
+      # Reactivate an Organization Membership
+      #
+      # @param [String] id The unique ID of the Organization Membership.
+      #
+      # @return WorkOS::OrganizationMembership
+      def reactivate_organization_membership(id:)
+        response = execute_request(
+          request: put_request(
+            path: "/user_management/organization_memberships/#{id}/reactivate",
+            auth: true,
+          ),
+        )
+
+        WorkOS::OrganizationMembership.new(response.body)
+      end
+
       # Gets an Invitation
       #
       # @param [String] id The unique ID of the Invitation.
@@ -770,6 +915,22 @@ module WorkOS
         response = execute_request(
           request: get_request(
             path: "/user_management/invitations/#{id}",
+            auth: true,
+          ),
+        )
+
+        WorkOS::Invitation.new(response.body)
+      end
+
+      # Finds an Invitation by Token
+      #
+      # @param [String] token The token of the Invitation.
+      #
+      # @return WorkOS::Invitation
+      def find_invitation_by_token(token:)
+        response = execute_request(
+          request: get_request(
+            path: "/user_management/invitations/by_token/#{token}",
             auth: true,
           ),
         )
@@ -819,9 +980,10 @@ module WorkOS
       # @param [Integer] expires_in_days The number of days the invitations will be valid for.
       # Must be between 1 and 30, defaults to 7 if not specified.
       # @param [String] inviter_user_id The ID of the User sending the invitation.
+      # @param [String] role_slug The slug of the role to assign to the user upon invitation.
       #
       # @return WorkOS::Invitation
-      def send_invitation(email:, organization_id: nil, expires_in_days: nil, inviter_user_id: nil)
+      def send_invitation(email:, organization_id: nil, expires_in_days: nil, inviter_user_id: nil, role_slug: nil)
         response = execute_request(
           request: post_request(
             path: '/user_management/invitations',
@@ -830,6 +992,7 @@ module WorkOS
               organization_id: organization_id,
               expires_in_days: expires_in_days,
               inviter_user_id: inviter_user_id,
+              role_slug: role_slug,
             },
             auth: true,
           ),

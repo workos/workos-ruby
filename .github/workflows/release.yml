@@ -1,0 +1,43 @@
+name: Release
+
+on:
+  # Support manually pushing a new release
+  workflow_dispatch: {}
+  # Trigger when a release is published
+  release:
+    types: [released]
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  test:
+    name: Publish to RubyGems
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+
+      - name: Spec
+        run: |
+          bundle exec rspec
+
+      - name: Publish
+        env:
+          RUBYGEMS_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
+        run: |
+          mkdir -p ~/.gem
+
+          cat << EOF > ~/.gem/credentials
+          ---
+          :rubygems_api_key: ${RUBYGEMS_API_KEY}
+          EOF
+
+          chmod 0600 ~/.gem/credentials
+
+          bundle exec gem build workos --output=release.gem
+          bundle exec gem push release.gem

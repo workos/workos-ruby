@@ -1,11 +1,11 @@
 ---
 http_interactions:
 - request:
-    method: post
-    uri: https://api.workos.com/user_management/invitations
+    method: get
+    uri: https://api.workos.com/user_management/password_reset/invalid
     body:
-      encoding: UTF-8
-      string: '{"email":"test@workos.com"}'
+      encoding: US-ASCII
+      string: ''
     headers:
       Content-Type:
       - application/json
@@ -14,34 +14,32 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/3.0.2; arm64-darwin22; v2.16.0
+      - WorkOS; ruby/3.0.2; x86_64-darwin19; v4.6.0
       Authorization:
       - Bearer <API_KEY>
   response:
     status:
-      code: 201
-      message: Created
+      code: 404
+      message: Not Found
     headers:
       Date:
-      - Tue, 22 Aug 2023 15:17:54 GMT
+      - Thu, 23 May 2024 18:04:34 GMT
       Content-Type:
       - application/json; charset=utf-8
-      Content-Length:
-      - '372'
+      Transfer-Encoding:
+      - chunked
       Connection:
       - keep-alive
       Cf-Ray:
-      - 7fac15d95b344307-EWR
+      - 8886f81cb89c7b00-DEN
       Cf-Cache-Status:
       - DYNAMIC
       Etag:
-      - W/"174-DVzVYOTqyX3q/AyatAXKdpEIXt0"
+      - W/"62-MwEIS86+oNNsmjVX0JyWZTcjZ9s"
       Strict-Transport-Security:
       - max-age=15552000; includeSubDomains
       Vary:
       - Origin, Accept-Encoding
-      Via:
-      - 1.1 spaces-router (devel)
       Access-Control-Allow-Credentials:
       - 'true'
       Content-Security-Policy:
@@ -63,20 +61,20 @@ http_interactions:
       X-Permitted-Cross-Domain-Policies:
       - none
       X-Request-Id:
-      - 81a9837a-98c2-4672-b676-c0373801bee7
+      - 5b33aeae-7a47-4893-8fef-f014e6692866
       X-Xss-Protection:
       - '0'
       Set-Cookie:
-      - __cf_bm=umdTRtFxoQN.4ktEcYtcbX1s8jKssJoHPtyhIn6WTks-1692717474-0-AdDIQx1e2bzuszzeXKtvCNRha0v3k93d1P8K+nwBMI2ZwMwU28jXRrsrZibk4tPRFo9wk5sXm2BSyKn+cb8wH+o=;
-        path=/; expires=Tue, 22-Aug-23 15:47:54 GMT; domain=.workos.com; HttpOnly;
+      - __cf_bm=nkAinUzRPwshxLJMd18TIu20ff0fkGCILsc2NGkWLcs-1716487474-1.0.1.1-Ci9e5PwUuKRRSCrdjfPf3hLETEBr8qGDcVdllyCDW39my5OtwL58BZDu0vB0kuC_6vsPe4UrLSzfoz6XMyjmmw;
+        path=/; expires=Thu, 23-May-24 18:34:34 GMT; domain=.workos.com; HttpOnly;
         Secure; SameSite=None
-      - __cfruid=18d4d766679a0d25305751659ba8551c12a6ab44-1692717474; path=/; domain=.workos.com;
+      - __cfruid=387f8a46c39c44e43af2f39cd9fd8aea810da563-1716487474; path=/; domain=.workos.com;
         HttpOnly; Secure; SameSite=None
       Server:
       - cloudflare
     body:
-      encoding: UTF-8
-      string: '{"object":"invitation","id":"invitation_01H5JQDV7R7ATEYZDEG0W5PRYS","email":"test@workos.com","state":"pending","accepted_at":"2023-07-18T02:07:19.911Z","revoked_at":"2023-07-18T02:07:19.911Z","expires_at":"2023-07-18T02:07:19.911Z","organization_id":"org_01H5JQDV7R7ATEYZDEG0W5PRYS","token":"Z1uX3RbwcIl5fIGJJJCXXisdI","accept_invitation_url":"https://myauthkit.com/invite?invitation_token=Z1uX3RbwcIl5fIGJJJCXXisdI","created_at":"2023-07-18T02:07:19.911Z","updated_at":"2023-07-18T02:07:19.911Z"}'
+      encoding: ASCII-8BIT
+      string: '{"message":"Password Reset not found: ''invalid''.","code":"entity_not_found","entity_id":"invalid"}'
     http_version:
-  recorded_at: Tue, 22 Aug 2023 15:17:54 GMT
+  recorded_at: Thu, 23 May 2024 18:04:34 GMT
 recorded_with: VCR 5.0.0

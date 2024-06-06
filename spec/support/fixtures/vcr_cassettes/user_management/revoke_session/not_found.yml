@@ -2,10 +2,10 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.workos.com/user_management/invitations
+    uri: https://api.workos.com/user_management/sessions/revoke
     body:
       encoding: UTF-8
-      string: '{"email":"test@workos.com"}'
+      string: '{"session_id":"session_01H5JQDV7R7ATEYZDEG0W5PRYS"}'
     headers:
       Content-Type:
       - application/json
@@ -14,34 +14,32 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/3.0.2; arm64-darwin22; v2.16.0
+      - WorkOS; ruby/3.1.4; arm64-darwin22; v4.2.0
       Authorization:
       - Bearer <API_KEY>
   response:
     status:
-      code: 201
-      message: Created
+      code: 404
+      message: Not Found
     headers:
       Date:
-      - Tue, 22 Aug 2023 15:17:54 GMT
+      - Thu, 11 Apr 2024 22:36:42 GMT
       Content-Type:
       - application/json; charset=utf-8
-      Content-Length:
-      - '372'
+      Transfer-Encoding:
+      - chunked
       Connection:
       - keep-alive
       Cf-Ray:
-      - 7fac15d95b344307-EWR
+      - 872e74fd9ed6db9e-LAX
       Cf-Cache-Status:
       - DYNAMIC
       Etag:
-      - W/"174-DVzVYOTqyX3q/AyatAXKdpEIXt0"
+      - W/"91-9u3slgvENRDVFp/62vKalhPzVuw"
       Strict-Transport-Security:
       - max-age=15552000; includeSubDomains
       Vary:
       - Origin, Accept-Encoding
-      Via:
-      - 1.1 spaces-router (devel)
       Access-Control-Allow-Credentials:
       - 'true'
       Content-Security-Policy:
@@ -63,20 +61,20 @@ http_interactions:
       X-Permitted-Cross-Domain-Policies:
       - none
       X-Request-Id:
-      - 81a9837a-98c2-4672-b676-c0373801bee7
+      - bc0771a4-8d66-4b34-809c-d3d8976af390
       X-Xss-Protection:
       - '0'
       Set-Cookie:
-      - __cf_bm=umdTRtFxoQN.4ktEcYtcbX1s8jKssJoHPtyhIn6WTks-1692717474-0-AdDIQx1e2bzuszzeXKtvCNRha0v3k93d1P8K+nwBMI2ZwMwU28jXRrsrZibk4tPRFo9wk5sXm2BSyKn+cb8wH+o=;
-        path=/; expires=Tue, 22-Aug-23 15:47:54 GMT; domain=.workos.com; HttpOnly;
+      - __cf_bm=iJMFbMBT_gDvh2ZbVYwAWHii9wrMPSJJeFQ3sXKSNNw-1712875002-1.0.1.1-d0033NtW0ShwCrgulDZg60Nw0yfEROthaCZQWVIAnWbbmaoa5HDqSkl4DsECxoAaZNdoLWqOxi9YXtZx9FqVSA;
+        path=/; expires=Thu, 11-Apr-24 23:06:42 GMT; domain=.workos.com; HttpOnly;
         Secure; SameSite=None
-      - __cfruid=18d4d766679a0d25305751659ba8551c12a6ab44-1692717474; path=/; domain=.workos.com;
+      - __cfruid=c2a61e4869ba7669d8dd1d11a8e59bba189e21ba-1712875002; path=/; domain=.workos.com;
         HttpOnly; Secure; SameSite=None
       Server:
       - cloudflare
     body:
-      encoding: UTF-8
-      string: '{"object":"invitation","id":"invitation_01H5JQDV7R7ATEYZDEG0W5PRYS","email":"test@workos.com","state":"pending","accepted_at":"2023-07-18T02:07:19.911Z","revoked_at":"2023-07-18T02:07:19.911Z","expires_at":"2023-07-18T02:07:19.911Z","organization_id":"org_01H5JQDV7R7ATEYZDEG0W5PRYS","token":"Z1uX3RbwcIl5fIGJJJCXXisdI","accept_invitation_url":"https://myauthkit.com/invite?invitation_token=Z1uX3RbwcIl5fIGJJJCXXisdI","created_at":"2023-07-18T02:07:19.911Z","updated_at":"2023-07-18T02:07:19.911Z"}'
+      encoding: ASCII-8BIT
+      string: '{"message":"Session not found: ''session_01H5JQDV7R7ATEYZDEG0W5PRYS''.","code":"entity_not_found","entity_id":"session_01H5JQDV7R7ATEYZDEG0W5PRYS"}'
     http_version:
-  recorded_at: Tue, 22 Aug 2023 15:17:54 GMT
+  recorded_at: Thu, 11 Apr 2024 22:36:42 GMT
 recorded_with: VCR 5.0.0
