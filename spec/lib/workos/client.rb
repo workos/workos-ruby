@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Style/MultilineBlockChain
 describe WorkOS::Client do
   describe '.client' do
     it 'returns a 400 error with appropriate fields' do
@@ -63,3 +64,4 @@ describe WorkOS::Client do
     end
   end
 end
+# rubocop:enable Style/MultilineBlockChain
