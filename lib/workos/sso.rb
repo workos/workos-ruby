@@ -28,7 +28,7 @@ module WorkOS
       #  connection, or organization is required.
       #  The domain is deprecated.
       # @param [String] provider A provider name for an Identity Provider
-      #  configured on your WorkOS dashboard. Only 'AppleOAuth', 'GithubOAuth',
+      #  configured on your WorkOS dashboard. Only 'AppleOAuth', 'GitHubOAuth',
       # 'GoogleOAuth', and 'MicrosoftOAuth' are supported.
       # @param [String] connection The ID for a Connection configured on
       #  WorkOS.

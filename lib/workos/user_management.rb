@@ -45,7 +45,7 @@ module WorkOS
       #  configured redirect URI on your WorkOS dashboard.
       # @param [String] client_id This value can be obtained from the API Keys page in the WorkOS dashboard.
       # @param [String] provider A provider name is used to initiate SSO using an
-      # OAuth-compatible provider. Only 'authkit', 'AppleOAuth', 'GithubOAuth', 'GoogleOAuth',
+      # OAuth-compatible provider. Only 'authkit', 'AppleOAuth', 'GitHubOAuth', 'GoogleOAuth',
       # and 'MicrosoftOAuth' are supported.
       # @param [String] connection_id The ID for a Connection configured on
       #  WorkOS.
