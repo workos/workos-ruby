@@ -92,7 +92,7 @@ module WorkOS
         body[:domain_data] = domain_data if domain_data
 
         if domains
-          warn_deprecation '`domains` is deprecated. Use `domain_data` instead.' if domains
+          warn_deprecation '`domains` is deprecated. Use `domain_data` instead.'
           body[:domains] = domains
         end
 
