@@ -74,12 +74,13 @@ module WorkOS
       # @param [Array<Hash>] domain_data List of domain hashes describing an orgnaization domain.
       # @option domain_data [String] domain The domain that belongs to the organization.
       # @option domain_data [String] state The state of the domain. "verified" or "pending"
+      # @param [String] name A unique, descriptive name for the organization
+      # @param [String] idempotency_key An idempotency key
+      # @param [Boolean, nil] allow_profiles_outside_organization Whether Connections
+      #   within the Organization allow profiles that are outside of the Organization's configured User Email Domains.
+      #   Deprecated: If you need to allow sign-ins from any email domain, contact suppport@workos.com.
       # @param [Array<String>] domains List of domains that belong to the organization.
       #   Deprecated: Use domain_data instead.
-      # @param [String] name A unique, descriptive name for the organization
-      # @param [Boolean, nil] allow_profiles_outside_organization Whether Connections
-      #  within the Organization allow profiles that are outside of the Organization's configured User Email Domains.
-      # @param [String] idempotency_key An idempotency key
       def create_organization(
         domain_data: nil,
         domains: nil,
@@ -87,16 +88,23 @@ module WorkOS
         allow_profiles_outside_organization: nil,
         idempotency_key: nil
       )
-        warn_deprecation '`domains` is deprecated. Use `domain_data` instead.' if domains
+        body = { name: name }
+        body[:domain_data] = domain_data if domain_data
+
+        if domains
+          warn_deprecation '`domains` is deprecated. Use `domain_data` instead.'
+          body[:domains] = domains
+        end
+
+        unless allow_profiles_outside_organization.nil?
+          warn_deprecation '`allow_profiles_outside_organization` is deprecated. ' \
+                           'If you need to allow sign-ins from any email domain, contact support@workos.com.'
+          body[:allow_profiles_outside_organization] = allow_profiles_outside_organization
+        end
 
         request = post_request(
           auth: true,
-          body: {
-            domain_data: domain_data,
-            domains: domains,
-            name: name,
-            allow_profiles_outside_organization: allow_profiles_outside_organization,
-          },
+          body: body,
           path: '/organizations',
           idempotency_key: idempotency_key,
         )
@@ -113,21 +121,36 @@ module WorkOS
       # @param [Array<Hash>] domain_data List of domain hashes describing an orgnaization domain.
       # @option domain_data [String] domain The domain that belongs to the organization.
       # @option domain_data [String] state The state of the domain. "verified" or "pending"
-      # @param [Array<String>] domains List of domains that belong to the organization.
-      #   Deprecated: Use domain_data instead.
       # @param [String] name A unique, descriptive name for the organization
       # @param [Boolean, nil] allow_profiles_outside_organization Whether Connections
-      #  within the Organization allow profiles that are outside of the Organization's configured User Email Domains.
-      def update_organization(organization:, domains:, name:, allow_profiles_outside_organization: nil)
-        warn_deprecation '`domains` is deprecated. Use `domain_data` instead.' if domains
+      #   within the Organization allow profiles that are outside of the Organization's configured User Email Domains.
+      #   Deprecated: If you need to allow sign-ins from any email domain, contact suppport@workos.com.
+      # @param [Array<String>] domains List of domains that belong to the organization.
+      #   Deprecated: Use domain_data instead.
+      def update_organization(
+        organization:,
+        domain_data: nil,
+        domains: nil,
+        name:,
+        allow_profiles_outside_organization: nil
+      )
+        body = { name: name }
+        body[:domain_data] = domain_data if domain_data
+
+        if domains
+          warn_deprecation '`domains` is deprecated. Use `domain_data` instead.'
+          body[:domains] = domains
+        end
+
+        unless allow_profiles_outside_organization.nil?
+          warn_deprecation '`allow_profiles_outside_organization` is deprecated. ' \
+                           'If you need to allow sign-ins from any email domain, contact support@workos.com.'
+          body[:allow_profiles_outside_organization] = allow_profiles_outside_organization
+        end
 
         request = put_request(
           auth: true,
-          body: {
-            domains: domains,
-            name: name,
-            allow_profiles_outside_organization: allow_profiles_outside_organization,
-          },
+          body: body,
           path: "/organizations/#{organization}",
         )
 
