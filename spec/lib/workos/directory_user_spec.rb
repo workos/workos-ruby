@@ -35,14 +35,14 @@ describe WorkOS::DirectoryUser do
   describe '.get_role' do
     context 'with no role' do
       it 'returns no role' do
-        user = WorkOS::DirectoryUser.new('{"object":"directory_user","id":"directory_user_01FAZYNPC8M0HRYTKFP2GNX852","directory_id":"directory_01FAZYMST676QMTFN1DDJZZX87","idp_id":"6092c280a3f1e19ef6d8cef8","username":"logan@workos.com","emails":[{"primary":true,"value":"logan@workos.com"}, {"primary":false,"value":"logan@gmail.com"}],"first_name":"Logan","last_name":"Gingerich","job_title":"Developer Success Engineer","state":"active","raw_attributes":{},"custom_attributes":{},"groups":[],"created_at":"2022-05-13T17:45:31.732Z", "updated_at":"2022-07-13T17:45:42.618Z"}')
+        user = WorkOS::DirectoryUser.new('{"object":"directory_user","id":"directory_user_01FAZYNPC8M0HRYTKFP2GNX852","directory_id":"directory_01FAZYMST676QMTFN1DDJZZX87","idp_id":"6092c280a3f1e19ef6d8cef8","username":"bob.fakename@workos.com","emails":[{"primary":true,"value":"bob.fakename@workos.com"}, {"primary":false,"value":"bob.fakename@gmail.com"}],"first_name":"Bob","last_name":"Gingerich","job_title":"Developer Success Engineer","state":"active","raw_attributes":{},"custom_attributes":{},"groups":[],"created_at":"2022-05-13T17:45:31.732Z", "updated_at":"2022-07-13T17:45:42.618Z"}')
         expect(user.role).to eq(nil)
       end
     end
 
     context 'with a role' do
       it 'returns the role slug' do
-        user = WorkOS::DirectoryUser.new('{"object":"directory_user","id":"directory_user_01FAZYNPC8M0HRYTKFP2GNX852","directory_id":"directory_01FAZYMST676QMTFN1DDJZZX87","idp_id":"6092c280a3f1e19ef6d8cef8","username":"logan@workos.com","emails":[{"primary":true,"value":"logan@workos.com"}, {"primary":false,"value":"logan@gmail.com"}],"first_name":"Logan","last_name":"Gingerich","job_title":"Developer Success Engineer","state":"active","raw_attributes":{},"custom_attributes":{},"groups":[],"role":{"slug":"member"},"created_at":"2022-05-13T17:45:31.732Z", "updated_at":"2022-07-13T17:45:42.618Z"}')
+        user = WorkOS::DirectoryUser.new('{"object":"directory_user","id":"directory_user_01FAZYNPC8M0HRYTKFP2GNX852","directory_id":"directory_01FAZYMST676QMTFN1DDJZZX87","idp_id":"6092c280a3f1e19ef6d8cef8","username":"bob.fakename@workos.com","emails":[{"primary":true,"value":"bob.fakename@workos.com"}, {"primary":false,"value":"bob.fakename@gmail.com"}],"first_name":"Bob","last_name":"Gingerich","job_title":"Developer Success Engineer","state":"active","raw_attributes":{},"custom_attributes":{},"groups":[],"role":{"slug":"member"},"created_at":"2022-05-13T17:45:31.732Z", "updated_at":"2022-07-13T17:45:42.618Z"}')
         expect(user.role).to eq({ slug: 'member' })
       end
     end
