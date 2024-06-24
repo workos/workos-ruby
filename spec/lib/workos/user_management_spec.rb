@@ -1039,19 +1039,36 @@ describe WorkOS::UserManagement do
 
           expect(organization_membership.organization_id).to eq('organization_01H5JQDV7R7ATEYZDEG0W5PRYS')
           expect(organization_membership.user_id).to eq('user_01H5JQDV7R7ATEYZDEG0W5PRYS')
+          expect(organization_membership.role).to eq({ slug: 'member' })
         end
       end
+    end
 
-      context 'with an invalid payload' do
-        it 'returns an error' do
-          VCR.use_cassette 'user_management/create_organization_membership/invalid' do
-            expect do
-              described_class.create_organization_membership(user_id: '', organization_id: '')
-            end.to raise_error(
-              WorkOS::UnprocessableEntityError,
-              /user_id_string_required/,
-            )
-          end
+    context 'with an invalid payload' do
+      it 'returns an error' do
+        VCR.use_cassette 'user_management/create_organization_membership/invalid' do
+          expect do
+            described_class.create_organization_membership(user_id: '', organization_id: '')
+          end.to raise_error(
+            WorkOS::UnprocessableEntityError,
+            /user_id_string_required/,
+          )
+        end
+      end
+    end
+
+    context 'with a role slug' do
+      it 'creates an organization with the given role slug ' do
+        VCR.use_cassette 'user_management/create_organization_membership/valid' do
+          organization_membership = described_class.create_organization_membership(
+            user_id: 'user_01H5JQDV7R7ATEYZDEG0W5PRYS',
+            organization_id: 'org_01H5JQDV7R7ATEYZDEG0W5PRYS',
+            role_slug: 'member',
+          )
+
+          expect(organization_membership.organization_id).to eq('organization_01H5JQDV7R7ATEYZDEG0W5PRYS')
+          expect(organization_membership.user_id).to eq('user_01H5JQDV7R7ATEYZDEG0W5PRYS')
+          expect(organization_membership.role).to eq({ slug: 'member' })
         end
       end
     end

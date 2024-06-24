@@ -7,7 +7,7 @@ module WorkOS
   class OrganizationMembership
     include HashProvider
 
-    attr_accessor :id, :user_id, :organization_id, :status, :created_at, :updated_at
+    attr_accessor :id, :user_id, :organization_id, :status, :role, :created_at, :updated_at
 
     def initialize(json)
       hash = JSON.parse(json, symbolize_names: true)
@@ -16,6 +16,7 @@ module WorkOS
       @user_id = hash[:user_id]
       @organization_id = hash[:organization_id]
       @status = hash[:status]
+      @role = hash[:role]
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
     end
@@ -26,6 +27,7 @@ module WorkOS
         user_id: user_id,
         organization_id: organization_id,
         status: status,
+        role: role,
         created_at: created_at,
         updated_at: updated_at,
       }
