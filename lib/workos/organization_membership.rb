@@ -44,7 +44,7 @@ module WorkOS
         user_id: hash[:user_id],
         organization_id: hash[:organization_id],
         status: hash[:status],
-        role: hash[:role],
+        role: WorkOs::Types::RoleStruct.new(hash[:role]),
         created_at: hash[:created_at],
         updated_at: hash[:updated_at],
       )
