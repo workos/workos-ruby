@@ -32,22 +32,5 @@ module WorkOS
         updated_at: updated_at,
       }
     end
-
-    private
-
-    sig { params(json_string: String).returns(WorkOS::Types::OrganizationMembershipStruct) }
-    def parse_json(json_string)
-      hash = JSON.parse(json_string, symbolize_names: true)
-
-      WorkOS::Types::OrganizationMembershipStruct.new(
-        id: hash[:id],
-        user_id: hash[:user_id],
-        organization_id: hash[:organization_id],
-        status: hash[:status],
-        role: WorkOs::Types::RoleStruct.new(hash[:role]),
-        created_at: hash[:created_at],
-        updated_at: hash[:updated_at],
-      )
-    end
   end
 end
