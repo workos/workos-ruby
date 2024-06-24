@@ -841,14 +841,37 @@ module WorkOS
       #
       # @param [String] user_id The ID of the User.
       # @param [String] organization_id The ID of the Organization to which the user belongs to.
+      # @param [String] role_slug The slug of the role to grant to this membership. (Optional)
       #
       # @return [WorkOS::OrganizationMembership]
-      def create_organization_membership(user_id:, organization_id:)
+      def create_organization_membership(user_id:, organization_id:, role_slug: nil)
         request = post_request(
           path: '/user_management/organization_memberships',
           body: {
             user_id: user_id,
             organization_id: organization_id,
+            role_slug: role_slug,
+          },
+          auth: true,
+        )
+
+        response = execute_request(request: request)
+
+        WorkOS::OrganizationMembership.new(response.body)
+      end
+
+      # Update an Organization Membership
+      #
+      # @param [String] organization_membership_id The ID of the Organization Membership.
+      # @param [String] role_slug The slug of the role to grant to this membership.
+      #
+      # @return [WorkOS::OrganizationMembership]
+      def update_organization_membership(organization_membership_id:, role_slug:)
+        request = put_request(
+          path: "/user_management/organization_memberships/#{id}",
+          body: {
+            organization_membership_id: organization_membership_id,
+            role_slug: role_slug,
           },
           auth: true,
         )

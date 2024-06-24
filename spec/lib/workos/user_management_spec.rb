@@ -1039,6 +1039,7 @@ describe WorkOS::UserManagement do
 
           expect(organization_membership.organization_id).to eq('organization_01H5JQDV7R7ATEYZDEG0W5PRYS')
           expect(organization_membership.user_id).to eq('user_01H5JQDV7R7ATEYZDEG0W5PRYS')
+          expect(organization_membership.role).to eq({ slug: 'member' })
         end
       end
 
@@ -1055,6 +1056,19 @@ describe WorkOS::UserManagement do
         end
       end
     end
+
+    context 'with a role slug' do
+      VCR.use_cassette 'user_management/create_organization_membership/valid' do
+        organization_membership = described_class.create_organization_membership(
+          user_id: 'user_01H5JQDV7R7ATEYZDEG0W5PRYS',
+          organization_id: 'org_01H5JQDV7R7ATEYZDEG0W5PRYS',
+          role_slug: 'member',
+        )
+
+        expect(organization_membership.organization_id).to eq('organization_01H5JQDV7R7ATEYZDEG0W5PRYS')
+        expect(organization_membership.user_id).to eq('user_01H5JQDV7R7ATEYZDEG0W5PRYS')
+        expect(organization_membership.role).to eq({ slug: 'member' })
+      end
   end
 
   describe '.delete_organization_membership' do
