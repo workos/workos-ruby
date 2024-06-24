@@ -8,7 +8,7 @@ module WorkOS
     include HashProvider
 
     attr_accessor :id, :idp_id, :emails, :first_name, :last_name, :job_title, :username, :state,
-                  :groups, :custom_attributes, :raw_attributes, :directory_id, :organization_id,
+                  :groups, :role, :custom_attributes, :raw_attributes, :directory_id, :organization_id,
                   :created_at, :updated_at
 
     # rubocop:disable Metrics/AbcSize
@@ -26,6 +26,7 @@ module WorkOS
       @username = hash[:username]
       @state = hash[:state]
       @groups = hash[:groups]
+      @role = hash[:role]
       @custom_attributes = hash[:custom_attributes]
       @raw_attributes = hash[:raw_attributes]
       @created_at = hash[:created_at]
@@ -48,6 +49,7 @@ module WorkOS
         username: username,
         state: state,
         groups: groups,
+        role: role,
         custom_attributes: custom_attributes,
         raw_attributes: raw_attributes,
         created_at: created_at,
