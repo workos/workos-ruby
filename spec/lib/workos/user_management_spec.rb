@@ -1058,6 +1058,7 @@ describe WorkOS::UserManagement do
     end
 
     context 'with a role slug' do
+      it 'creates an organization with the given role slug ' do
       VCR.use_cassette 'user_management/create_organization_membership/valid' do
         organization_membership = described_class.create_organization_membership(
           user_id: 'user_01H5JQDV7R7ATEYZDEG0W5PRYS',
@@ -1069,7 +1070,7 @@ describe WorkOS::UserManagement do
         expect(organization_membership.user_id).to eq('user_01H5JQDV7R7ATEYZDEG0W5PRYS')
         expect(organization_membership.role).to eq({ slug: 'member' })
       end
-  end
+    end
 
   describe '.delete_organization_membership' do
     context 'with a valid id' do
