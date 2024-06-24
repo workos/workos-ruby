@@ -462,10 +462,10 @@ describe WorkOS::DirectorySync do
             'directory_user_01FAZYNPC8M0HRYTKFP2GNX852',
           )
 
-          expect(user['first_name']).to eq('Logan')
+          expect(user['first_name']).to eq('Bob')
           expect(user.directory_id).to eq('directory_01FAZYMST676QMTFN1DDJZZX87')
           expect(user.organization_id).to eq('org_01FAZWCWR03DVWA83NCJYKKD54')
-          expect(user.first_name).to eq('Logan')
+          expect(user.first_name).to eq('Bob')
         end
       end
     end
