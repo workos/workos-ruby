@@ -866,11 +866,11 @@ module WorkOS
       # @param [String] role_slug The slug of the role to grant to this membership.
       #
       # @return [WorkOS::OrganizationMembership]
-      def update_organization_membership(organization_membership_id:, role_slug:)
+      def update_organization_membership(id:, role_slug:)
         request = put_request(
           path: "/user_management/organization_memberships/#{id}",
           body: {
-            organization_membership_id: organization_membership_id,
+            id: id,
             role_slug: role_slug,
           },
           auth: true,
