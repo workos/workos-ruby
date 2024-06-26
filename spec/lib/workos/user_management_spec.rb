@@ -1083,7 +1083,9 @@ describe WorkOS::UserManagement do
             role_slug: 'admin',
           )
 
-          expect(response).to be(true)
+          expect(organization_membership.organization_id).to eq('organization_01H5JQDV7R7ATEYZDEG0W5PRYS')
+          expect(organization_membership.user_id).to eq('user_01H5JQDV7R7ATEYZDEG0W5PRYS')
+          expect(organization_membership.role).to eq({ slug: 'admin' })
         end
       end
     end
