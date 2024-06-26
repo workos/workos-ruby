@@ -1078,7 +1078,7 @@ describe WorkOS::UserManagement do
     context 'with a valid id' do
       it 'returns true' do
         VCR.use_cassette('user_management/update_organization_membership/valid') do
-          response = WorkOS::UserManagement.update_organization_membership(
+          organization_membership = WorkOS::UserManagement.update_organization_membership(
             id: 'om_01H5JQDV7R7ATEYZDEG0W5PRYS',
             role_slug: 'admin',
           )
