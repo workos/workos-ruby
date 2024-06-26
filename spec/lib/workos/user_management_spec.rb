@@ -1074,6 +1074,33 @@ describe WorkOS::UserManagement do
     end
   end
 
+  describe '.update_organization_membership' do
+    context 'with a valid id' do
+      it 'returns true' do
+        VCR.use_cassette('user_management/update_organization_membership/valid') do
+          organization_membership = WorkOS::UserManagement.update_organization_membership(
+            id: 'om_01H5JQDV7R7ATEYZDEG0W5PRYS',
+            role_slug: 'admin',
+          )
+
+          expect(organization_membership.organization_id).to eq('organization_01H5JQDV7R7ATEYZDEG0W5PRYS')
+          expect(organization_membership.user_id).to eq('user_01H5JQDV7R7ATEYZDEG0W5PRYS')
+          expect(organization_membership.role).to eq({ slug: 'admin' })
+        end
+      end
+    end
+
+    context 'with an invalid id' do
+      it 'raises an error' do
+        VCR.use_cassette('user_management/update_organization_membership/invalid') do
+          expect do
+            WorkOS::UserManagement.update_organization_membership(id: 'invalid', role_slug: 'admin')
+          end.to raise_error(WorkOS::NotFoundError, /Organization Membership not found/)
+        end
+      end
+    end
+  end
+
   describe '.delete_organization_membership' do
     context 'with a valid id' do
       it 'returns true' do
