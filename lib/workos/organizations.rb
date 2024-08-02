@@ -131,7 +131,7 @@ module WorkOS
         organization:,
         domain_data: nil,
         domains: nil,
-        name:,
+        name: nil,
         allow_profiles_outside_organization: nil
       )
         body = { name: name }
