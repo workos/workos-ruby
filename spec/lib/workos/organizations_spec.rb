@@ -288,7 +288,7 @@ describe WorkOS::Organizations do
             organization: 'org_01F6Q6TFP7RD2PF6J03ANNWDKV',
             domains: ['example.me'],
           )
-        
+
           expect(organization.id).to eq('org_01F6Q6TFP7RD2PF6J03ANNWDKV')
           expect(organization.name).to eq('Test Organization')
           expect(organization.domains.first[:domain]).to eq('example.me')
