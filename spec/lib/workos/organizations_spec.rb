@@ -267,12 +267,26 @@ describe WorkOS::Organizations do
 
   describe '.update_organization' do
     context 'with valid payload' do
-      it 'creates an organization' do
+      it 'updates the organization' do
         VCR.use_cassette 'organization/update' do
           organization = described_class.update_organization(
             organization: 'org_01F6Q6TFP7RD2PF6J03ANNWDKV',
             domains: ['example.me'],
             name: 'Test Organization',
+          )
+
+          expect(organization.id).to eq('org_01F6Q6TFP7RD2PF6J03ANNWDKV')
+          expect(organization.name).to eq('Test Organization')
+          expect(organization.domains.first[:domain]).to eq('example.me')
+        end
+      end
+    end
+    context 'without a name' do
+      it 'updates the organization' do
+        VCR.use_cassette 'organization/update_without_name' do
+          organization = described_class.update_organization(
+            organization: 'org_01F6Q6TFP7RD2PF6J03ANNWDKV',
+            domains: ['example.me'],
           )
 
           expect(organization.id).to eq('org_01F6Q6TFP7RD2PF6J03ANNWDKV')
