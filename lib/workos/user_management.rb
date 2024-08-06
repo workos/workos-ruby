@@ -318,6 +318,7 @@ module WorkOS
       #
       # @param [String] refresh_token The refresh token previously obtained from a successful authentication call
       # @param [String] client_id The WorkOS client ID for the environment
+      # @param [String] organization_id The organization to issue the new access token for. (Optional)
       # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
       #
@@ -325,6 +326,7 @@ module WorkOS
       def authenticate_with_refresh_token(
         refresh_token:,
         client_id:,
+        organization_id: nil,
         ip_address: nil,
         user_agent: nil
       )
@@ -338,6 +340,7 @@ module WorkOS
               ip_address: ip_address,
               user_agent: user_agent,
               grant_type: 'refresh_token',
+              organization_id: organization_id,
             },
           ),
         )
