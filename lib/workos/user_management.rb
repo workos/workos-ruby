@@ -19,7 +19,7 @@ module WorkOS
         Microsoft = 'MicrosoftOAuth'
         AuthKit = 'authkit'
 
-        ALL = [GitHub, Google, Microsoft, AuthKit].freeze
+        ALL = [Apple, GitHub, Google, Microsoft, AuthKit].freeze
       end
 
       # The AuthFactorType is a declaration of a

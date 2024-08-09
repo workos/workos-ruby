@@ -213,7 +213,7 @@ describe WorkOS::UserManagement do
         end.to raise_error(
           ArgumentError,
           'Okta is not a valid value. `provider` must be in ' \
-          '["GitHubOAuth", "GoogleOAuth", "MicrosoftOAuth", "authkit"]',
+          '["AppleOAuth", "GitHubOAuth", "GoogleOAuth", "MicrosoftOAuth", "authkit"]',
         )
       end
     end
