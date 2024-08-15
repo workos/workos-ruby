@@ -9,8 +9,9 @@ module WorkOS
       DSYNC = 'dsync'
       LOG_STREAMS = 'log_streams'
       SSO = 'sso'
+      CERTIFICATE_RENEWAL = 'certificate_renewal'
 
-      ALL = [AUDIT_LOGS, DSYNC, LOG_STREAMS, SSO].freeze
+      ALL = [AUDIT_LOGS, DSYNC, LOG_STREAMS, SSO, CERTIFICATE_RENEWAL].freeze
     end
   end
 end
