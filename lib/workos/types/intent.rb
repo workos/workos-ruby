@@ -6,12 +6,12 @@ module WorkOS
     # intents while generating an Admin Portal link.
     module Intent
       AUDIT_LOGS = 'audit_logs'
+      CERTIFICATE_RENEWAL = 'certificate_renewal'
       DSYNC = 'dsync'
       LOG_STREAMS = 'log_streams'
       SSO = 'sso'
-      CERTIFICATE_RENEWAL = 'certificate_renewal'
 
-      ALL = [AUDIT_LOGS, DSYNC, LOG_STREAMS, SSO, CERTIFICATE_RENEWAL].freeze
+      ALL = [AUDIT_LOGS, CERTIFICATE_RENEWAL, DSYNC, LOG_STREAMS, SSO].freeze
     end
   end
 end
