@@ -6,18 +6,39 @@ module WorkOS
   class RefreshAuthenticationResponse
     include HashProvider
 
-    attr_accessor :access_token, :refresh_token
+    attr_accessor :user, :organization_id, :impersonator, :access_token, :refresh_token, :sealed_session
 
-    def initialize(authentication_response_json)
+    def initialize(authentication_response_json, session = nil)
       json = JSON.parse(authentication_response_json, symbolize_names: true)
       @access_token = json[:access_token]
       @refresh_token = json[:refresh_token]
+      @user = WorkOS::User.new(json[:user].to_json)
+      @organization_id = json[:organization_id]
+      @impersonator =
+        if (impersonator_json = json[:impersonator])
+          Impersonator.new(email: impersonator_json[:email],
+                           reason: impersonator_json[:reason],)
+        end
+      @sealed_session =
+        if (session[:seal_session])
+          WorkOS::Session.seal_data({
+            access_token: access_token,
+            refresh_token: refresh_token,
+            user: user.to_json,
+            organization_id: organization_id,
+            impersonator: impersonator.to_json,
+          }, session[:cookie_password])
+        end
     end
 
     def to_json(*)
       {
+        user: user.to_json,
+        organization_id: organization_id,
+        impersonator: impersonator.to_json,
         access_token: access_token,
         refresh_token: refresh_token,
+        sealed_session: sealed_session,
       }
     end
   end
