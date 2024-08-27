@@ -20,7 +20,7 @@ module WorkOS
                            reason: impersonator_json[:reason],)
         end
       @sealed_session =
-        if (session[:seal_session])
+        if session and session[:seal_session]
           WorkOS::Session.seal_data({
             access_token: access_token,
             refresh_token: refresh_token,

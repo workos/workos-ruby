@@ -315,7 +315,7 @@ module WorkOS
         user_agent: nil,
         session: nil
       )
-        if session[:seal_session] == true and session[:cookie_password].nil?
+        if session and session[:seal_session] == true and session[:cookie_password].nil?
           raise ArgumentError, 'cookie_password is required when sealing session'
         end
 
@@ -354,7 +354,7 @@ module WorkOS
         user_agent: nil,
         session: nil
       )
-        if session[:seal_session] == true and session[:cookie_password].nil?
+        if session and session[:seal_session] == true and session[:cookie_password].nil?
           raise ArgumentError, 'cookie_password is required when sealing session'
         end
 

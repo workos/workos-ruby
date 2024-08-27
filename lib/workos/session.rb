@@ -1,4 +1,3 @@
-require_relative './user_management'
 require 'jwt'
 require 'uri'
 require 'net/http'
@@ -62,7 +61,11 @@ module WorkOS
     def refresh(options = nil)
       cookie_password = options.nil? || options[:cookie_password].nil? ? @cookie_password : options[:cookie_password]
 
-      session = Session::unseal_data(@session_data, cookie_password)
+      begin
+        session = Session::unseal_data(@session_data, cookie_password)
+      rescue StandardError => e
+        return { authenticated: false, reason: 'INVALID_SESSION_COOKIE' }
+      end
 
       return { authenticated: false, reason: 'INVALID_SESSION_COOKIE' } unless session[:refresh_token] && session[:user]
 

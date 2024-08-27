@@ -9,12 +9,16 @@ GEM
     addressable (2.8.6)
       public_suffix (>= 2.0.2, < 6.0)
     ast (2.4.2)
+    base64 (0.2.0)
     bigdecimal (3.1.7)
     crack (1.0.0)
       bigdecimal
       rexml
     diff-lcs (1.5.1)
+    encryptor (3.0.0)
     hashdiff (1.1.0)
+    jwt (2.8.2)
+      base64
     parallel (1.24.0)
     parser (3.3.0.5)
       ast (~> 2.4.1)
@@ -61,6 +65,8 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (>= 2.0.1)
+  encryptor
+  jwt
   rspec (~> 3.9.0)
   rubocop (~> 0.77)
   vcr (~> 5.0.0)

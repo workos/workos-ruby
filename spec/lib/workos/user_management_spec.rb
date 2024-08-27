@@ -467,6 +467,7 @@ describe WorkOS::UserManagement do
           )
           expect(authentication_response.access_token).to eq('<ACCESS_TOKEN>')
           expect(authentication_response.refresh_token).to eq('<REFRESH_TOKEN>')
+          expect(authentication_response.user.id).to eq('user_01H93WD0R0KWF8Q7BK02C0RPYJ')
         end
       end
     end
