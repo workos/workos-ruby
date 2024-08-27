@@ -2,6 +2,8 @@ PATH
   remote: .
   specs:
     workos (5.6.0)
+      encryptor (~> 3.0)
+      jwt (~> 2.8)
 
 GEM
   remote: https://rubygems.org/
@@ -65,8 +67,6 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (>= 2.0.1)
-  encryptor
-  jwt
   rspec (~> 3.9.0)
   rubocop (~> 0.77)
   vcr (~> 5.0.0)
