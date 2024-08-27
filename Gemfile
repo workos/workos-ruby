@@ -3,5 +3,5 @@
 source 'https://rubygems.org'
 
 gemspec
-gem 'jwt'
 gem 'encryptor'
+gem 'jwt'

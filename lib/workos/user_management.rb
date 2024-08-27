@@ -49,7 +49,7 @@ module WorkOS
           user_management: self,
           client_id: client_id,
           session_data: session_data,
-          cookie_password: cookie_password
+          cookie_password: cookie_password,
         )
       end
 
@@ -305,7 +305,8 @@ module WorkOS
       # @param [String] client_id The WorkOS client ID for the environment
       # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
-      # @param [Hash] session An optional hash that determines whether the session should be sealed and the cookie password.
+      # @param [Hash] session An optional hash that determines whether the session should be sealed and
+      # the optional cookie password.
       #
       # @return WorkOS::AuthenticationResponse
       def authenticate_with_code(
@@ -315,7 +316,7 @@ module WorkOS
         user_agent: nil,
         session: nil
       )
-        if session and session[:seal_session] == true and session[:cookie_password].nil?
+        if session && (session[:seal_session] == true) && session[:cookie_password].nil?
           raise ArgumentError, 'cookie_password is required when sealing session'
         end
 
@@ -343,7 +344,8 @@ module WorkOS
       # @param [String] organization_id The organization to issue the new access token for. (Optional)
       # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
-      # @param [Hash] session An optional hash that determines whether the session should be sealed and the cookie password.
+      # @param [Hash] session An optional hash that determines whether the session should be sealed and
+      # the optional cookie password.
       #
       # @return WorkOS::RefreshAuthenticationResponse
       def authenticate_with_refresh_token(
@@ -354,7 +356,7 @@ module WorkOS
         user_agent: nil,
         session: nil
       )
-        if session and session[:seal_session] == true and session[:cookie_password].nil?
+        if session && (session[:seal_session] == true) && session[:cookie_password].nil?
           raise ArgumentError, 'cookie_password is required when sealing session'
         end
 

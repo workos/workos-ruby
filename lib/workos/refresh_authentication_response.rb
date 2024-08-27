@@ -8,6 +8,7 @@ module WorkOS
 
     attr_accessor :user, :organization_id, :impersonator, :access_token, :refresh_token, :sealed_session
 
+    # rubocop:disable Metrics/AbcSize
     def initialize(authentication_response_json, session = nil)
       json = JSON.parse(authentication_response_json, symbolize_names: true)
       @access_token = json[:access_token]
@@ -20,16 +21,17 @@ module WorkOS
                            reason: impersonator_json[:reason],)
         end
       @sealed_session =
-        if session and session[:seal_session]
+        if session && session[:seal_session]
           WorkOS::Session.seal_data({
-            access_token: access_token,
-            refresh_token: refresh_token,
-            user: user.to_json,
-            organization_id: organization_id,
-            impersonator: impersonator.to_json,
-          }, session[:cookie_password])
+                                      access_token: access_token,
+                                      refresh_token: refresh_token,
+                                      user: user.to_json,
+                                      organization_id: organization_id,
+                                      impersonator: impersonator.to_json,
+                                    }, session[:cookie_password],)
         end
     end
+    # rubocop:enable Metrics/AbcSize
 
     def to_json(*)
       {
