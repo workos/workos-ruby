@@ -37,6 +37,22 @@ module WorkOS
       PROVIDERS = WorkOS::UserManagement::Types::Provider::ALL
       AUTH_FACTOR_TYPES = WorkOS::UserManagement::Types::AuthFactorType::ALL
 
+      # Load a sealed session
+      #
+      # @param [String] client_id The WorkOS client ID for the environment
+      # @param [String] session_data The sealed session data
+      # @param [String] cookie_password The password used to seal the session
+      #
+      # @return WorkOS::Session
+      def load_sealed_session(client_id:, session_data:, cookie_password:)
+        WorkOS::Session.new(
+          user_management: self,
+          client_id: client_id,
+          session_data: session_data,
+          cookie_password: cookie_password,
+        )
+      end
+
       # Generate an OAuth 2.0 authorization URL that automatically directs a user
       # to their Identity Provider.
       #
@@ -289,14 +305,21 @@ module WorkOS
       # @param [String] client_id The WorkOS client ID for the environment
       # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
+      # @param [Hash] session An optional hash that determines whether the session should be sealed and
+      # the optional cookie password.
       #
       # @return WorkOS::AuthenticationResponse
       def authenticate_with_code(
         code:,
         client_id:,
         ip_address: nil,
-        user_agent: nil
+        user_agent: nil,
+        session: nil
       )
+        if session && (session[:seal_session] == true) && session[:cookie_password].nil?
+          raise ArgumentError, 'cookie_password is required when sealing session'
+        end
+
         response = execute_request(
           request: post_request(
             path: '/user_management/authenticate',
@@ -311,7 +334,7 @@ module WorkOS
           ),
         )
 
-        WorkOS::AuthenticationResponse.new(response.body)
+        WorkOS::AuthenticationResponse.new(response.body, session)
       end
 
       # Authenticate a user using a refresh token.
@@ -321,6 +344,8 @@ module WorkOS
       # @param [String] organization_id The organization to issue the new access token for. (Optional)
       # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
+      # @param [Hash] session An optional hash that determines whether the session should be sealed and
+      # the optional cookie password.
       #
       # @return WorkOS::RefreshAuthenticationResponse
       def authenticate_with_refresh_token(
@@ -328,8 +353,13 @@ module WorkOS
         client_id:,
         organization_id: nil,
         ip_address: nil,
-        user_agent: nil
+        user_agent: nil,
+        session: nil
       )
+        if session && (session[:seal_session] == true) && session[:cookie_password].nil?
+          raise ArgumentError, 'cookie_password is required when sealing session'
+        end
+
         response = execute_request(
           request: post_request(
             path: '/user_management/authenticate',
@@ -345,7 +375,7 @@ module WorkOS
           ),
         )
 
-        WorkOS::RefreshAuthenticationResponse.new(response.body)
+        WorkOS::RefreshAuthenticationResponse.new(response.body, session)
       end
 
       # Authenticate user by Magic Auth Code.

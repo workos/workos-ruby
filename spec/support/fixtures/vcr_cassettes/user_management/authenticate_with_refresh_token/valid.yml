@@ -1,81 +1,82 @@
 ---
 http_interactions:
-- request:
-    method: post
-    uri: https://api.workos.com/user_management/authenticate
-    body:
-      encoding: UTF-8
-      string: '{"refresh_token":"some_refresh_token","client_id":"client_123","client_secret":"<API_KEY>","ip_address":"200.240.210.16","user_agent":"Mozilla/5.0
-        (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36","grant_type":"refresh_token"}'
-    headers:
-      Content-Type:
-      - application/json
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - WorkOS; ruby/3.2.2; arm64-darwin22; v4.0.0
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Mon, 18 Mar 2024 19:00:53 GMT
-      Content-Type:
-      - application/json; charset=utf-8
-      Transfer-Encoding:
-      - chunked
-      Connection:
-      - keep-alive
-      Cf-Ray:
-      - 866777d63b4627e8-SLC
-      Cf-Cache-Status:
-      - DYNAMIC
-      Etag:
-      - W/"335-M3MDQYhs5724SayBHHCwnBDn3qA"
-      Strict-Transport-Security:
-      - max-age=15552000; includeSubDomains
-      Vary:
-      - Origin, Accept-Encoding
-      Via:
-      - 1.1 spaces-router (devel)
-      Access-Control-Allow-Credentials:
-      - 'true'
-      Content-Security-Policy:
-      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
-        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
-        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
-      Expect-Ct:
-      - max-age=0
-      Referrer-Policy:
-      - no-referrer
-      X-Content-Type-Options:
-      - nosniff
-      X-Dns-Prefetch-Control:
-      - 'off'
-      X-Download-Options:
-      - noopen
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-Permitted-Cross-Domain-Policies:
-      - none
-      X-Request-Id:
-      - 995ed1ed-e892-4049-86c9-0e07baa6cc4b
-      X-Xss-Protection:
-      - '0'
-      Set-Cookie:
-      - __cf_bm=2NHqv1cd1BisOc8KKcQ0oNzFxZZT4OHQd6c2QDuGnUU-1710788453-1.0.1.1-4BxBRzVrhL7rCH895PcfORXr_6Rnj3Oh5w1YG4xi7X1st62LMzb5dHZO7u7P.V1P8nBDAAt3Wbz7xsDTWrfWJg;
-        path=/; expires=Mon, 18-Mar-24 19:30:53 GMT; domain=.workos.com; HttpOnly;
-        Secure; SameSite=None
-      - __cfruid=06035c17e9b60a1d7a42a5b568146a0bb71a06dc-1710788453; path=/; domain=.workos.com;
-        HttpOnly; Secure; SameSite=None
-      Server:
-      - cloudflare
-    body:
-      encoding: UTF-8
-      string: '{"access_token":"<ACCESS_TOKEN>","refresh_token":"<REFRESH_TOKEN>"}'
-    http_version:
-  recorded_at: Mon, 18 Mar 2024 19:00:53 GMT
+  - request:
+      method: post
+      uri: https://api.workos.com/user_management/authenticate
+      body:
+        encoding: UTF-8
+        string:
+          '{"refresh_token":"some_refresh_token","client_id":"client_123","client_secret":"<API_KEY>","ip_address":"200.240.210.16","user_agent":"Mozilla/5.0
+          (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36","grant_type":"refresh_token"}'
+      headers:
+        Content-Type:
+          - application/json
+        Accept-Encoding:
+          - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+        Accept:
+          - '*/*'
+        User-Agent:
+          - WorkOS; ruby/3.2.2; arm64-darwin22; v4.0.0
+    response:
+      status:
+        code: 200
+        message: OK
+      headers:
+        Date:
+          - Mon, 18 Mar 2024 19:00:53 GMT
+        Content-Type:
+          - application/json; charset=utf-8
+        Transfer-Encoding:
+          - chunked
+        Connection:
+          - keep-alive
+        Cf-Ray:
+          - 866777d63b4627e8-SLC
+        Cf-Cache-Status:
+          - DYNAMIC
+        Etag:
+          - W/"335-M3MDQYhs5724SayBHHCwnBDn3qA"
+        Strict-Transport-Security:
+          - max-age=15552000; includeSubDomains
+        Vary:
+          - Origin, Accept-Encoding
+        Via:
+          - 1.1 spaces-router (devel)
+        Access-Control-Allow-Credentials:
+          - 'true'
+        Content-Security-Policy:
+          - "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self'
+            https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src
+            'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+        Expect-Ct:
+          - max-age=0
+        Referrer-Policy:
+          - no-referrer
+        X-Content-Type-Options:
+          - nosniff
+        X-Dns-Prefetch-Control:
+          - 'off'
+        X-Download-Options:
+          - noopen
+        X-Frame-Options:
+          - SAMEORIGIN
+        X-Permitted-Cross-Domain-Policies:
+          - none
+        X-Request-Id:
+          - 995ed1ed-e892-4049-86c9-0e07baa6cc4b
+        X-Xss-Protection:
+          - '0'
+        Set-Cookie:
+          - __cf_bm=2NHqv1cd1BisOc8KKcQ0oNzFxZZT4OHQd6c2QDuGnUU-1710788453-1.0.1.1-4BxBRzVrhL7rCH895PcfORXr_6Rnj3Oh5w1YG4xi7X1st62LMzb5dHZO7u7P.V1P8nBDAAt3Wbz7xsDTWrfWJg;
+            path=/; expires=Mon, 18-Mar-24 19:30:53 GMT; domain=.workos.com; HttpOnly;
+            Secure; SameSite=None
+          - __cfruid=06035c17e9b60a1d7a42a5b568146a0bb71a06dc-1710788453; path=/; domain=.workos.com;
+            HttpOnly; Secure; SameSite=None
+        Server:
+          - cloudflare
+      body:
+        encoding: UTF-8
+        string: '{"user":{"object":"user","id":"user_01H93WD0R0KWF8Q7BK02C0RPYJ","email":"test@workos.app","email_verified":true,"first_name":"Lucille","last_name":"Bluth","created_at":"2023-08-30T18:48:26.517Z","updated_at":"2023-08-30T18:58:00.821Z","user_type":"unmanaged","email_verified_at":"2023-08-30T18:58:00.915Z","google_oauth_profile_id":null,"microsoft_oauth_profile_id":null},"access_token":"<ACCESS_TOKEN>","refresh_token":"<REFRESH_TOKEN>"}'
+      http_version:
+    recorded_at: Mon, 18 Mar 2024 19:00:53 GMT
 recorded_with: VCR 5.0.0

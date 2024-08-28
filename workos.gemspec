@@ -21,6 +21,9 @@ Gem::Specification.new do |spec|
   spec.test_files = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
+  spec.add_dependency 'encryptor', '~> 3.0'
+  spec.add_dependency 'jwt', '~> 2.8'
+
   spec.add_development_dependency 'bundler', '>= 2.0.1'
   spec.add_development_dependency 'rspec', '~> 3.9.0'
   spec.add_development_dependency 'rubocop', '~> 0.77'
