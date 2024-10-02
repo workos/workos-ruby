@@ -9,7 +9,7 @@ module WorkOS
   class Profile
     include HashProvider
 
-    attr_accessor :id, :email, :first_name, :last_name, :groups, :organization_id,
+    attr_accessor :id, :email, :first_name, :last_name, :role, :groups, :organization_id,
                   :connection_id, :connection_type, :idp_id, :raw_attributes
 
     def initialize(profile_json)
@@ -19,6 +19,7 @@ module WorkOS
       @email = hash[:email]
       @first_name = hash[:first_name]
       @last_name = hash[:last_name]
+      @role = hash[:role]
       @groups = hash[:groups]
       @organization_id = hash[:organization_id]
       @connection_id = hash[:connection_id]
@@ -37,6 +38,7 @@ module WorkOS
         email: email,
         first_name: first_name,
         last_name: last_name,
+        role: role,
         groups: groups,
         organization_id: organization_id,
         connection_id: connection_id,
