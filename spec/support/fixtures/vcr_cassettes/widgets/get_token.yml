@@ -1,0 +1,82 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.workos.com/widgets/token
+    body:
+      encoding: UTF-8
+      string: '{"organization_id":"org_01JCP9G67MNAH0KC4B72XZ67M7","user_id":"user_01JCP9H4SHS4N3J6XTKDT7JNPE","scopes":["widgets:users-table:manage"]}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/3.3.6; arm64-darwin23; v5.8.0
+      Authorization:
+      - Bearer <API_KEY>
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Thu, 14 Nov 2024 21:51:34 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '791'
+      Connection:
+      - keep-alive
+      Cf-Ray:
+      - 8e2a394198f8c9b8-IAD
+      Cf-Cache-Status:
+      - DYNAMIC
+      Etag:
+      - W/"317-Nylo8f8lWbsA0UUWqqV59mFy5jo"
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Vary:
+      - Origin, Accept-Encoding
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      Expect-Ct:
+      - max-age=0
+      Referrer-Policy:
+      - no-referrer
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - bf98d35e-d9ca-437f-b937-150e937af0f1
+      X-Xss-Protection:
+      - '0'
+      Set-Cookie:
+      - __cf_bm=GsR9Veicl9ZRIR1pUSamJ5m95HmklSbWNwtyp_fSpB4-1731621094-1.0.1.1-VW09qjPlT4T.AGwnsHxe7p_A.Onr9Oe7YnxumCz7B9XmzqYbLz9fx7cF6Qtw3KW0PIshpAVkluIsGWSCJQ5AjQ;
+        path=/; expires=Thu, 14-Nov-24 22:21:34 GMT; domain=.workos.com; HttpOnly;
+        Secure; SameSite=None
+      - __cfruid=022c638e9216cb6be687ace27cb356d48cbd4256-1731621094; path=/; domain=.workos.com;
+        HttpOnly; Secure; SameSite=None
+      - _cfuvid=kczJ.JXlRroyPs5B7UjNUynSmsUjYTWP_jcLNj2iiuM-1731621094755-0.0.1.1-604800000;
+        path=/; domain=.workos.com; HttpOnly; Secure; SameSite=None
+      Server:
+      - cloudflare
+    body:
+      encoding: UTF-8
+      string: '{"token":"eyJhbGciOiJSUzI1NiIsImtpZCI6InNzb19vaWRjX2tleV9wYWlyXzAxSFY3SlpGWEtQOVhCQjc2NjY0TkdUQlpYIn0.eyJhdWQiOiJodHRwczovL2FwaS53b3Jrb3MuY29tIiwiaXNzIjoiaHR0cHM6Ly9hcGkud29ya29zLmNvbSIsInN1YiI6InVzZXJfMDFKQ1A5SDRTSFM0TjNKNlhUS0RUN0pOUEUiLCJqdGkiOiIwMUpDUEFKMUFHWDVESzFNM0hDQTk5MFM1SiIsIm9yZ19pZCI6Im9yZ18wMUpDUDlHNjdNTkFIMEtDNEI3MlhaNjdNNyIsInBlcm1pc3Npb25zIjpbInVzZXJzOm1hbmFnZSIsInVzZXJzOnZpZXciXSwiZXhwIjoxNzMxNjI0Njk0LCJpYXQiOjE3MzE2MjEwOTR9.CTYliFAGFjw-_Lyla-yVBOUAn1ZqU-J7aOdWhAW8fiEsNMz73Fb5nRACa0PFWBE3HK1a8waV-S5lBCGHyxgYOaew5URNnlYXVwlgpKwujHDrW47FrYpxkyxVovY9z9SqDDNRHWBqJM3mH_4Fn9jaHwAVT0SPJrJ7Q4-jxfTc0_sZMR7RVJaBIXPEU8og6Zwc84Gx-9A-mBUA3PPUXfaa8JrCr5OGc482vbD1rF5sjk0jx_FovHrlI3qRo5nkQ3_5WEi7LzdxSPviITxY1-dtm0HbeULz8IL7Ic5O4Ok4lB2c8s8XoZT1JqUMmEHfugkWyQ4juN5aHpmf6ux8cJSJWg"}'
+    http_version:
+  recorded_at: Thu, 14 Nov 2024 21:51:34 GMT
+recorded_with: VCR 5.0.0

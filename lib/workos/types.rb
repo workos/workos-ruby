@@ -7,5 +7,6 @@ module WorkOS
     autoload :Intent, 'workos/types/intent'
     autoload :ListStruct, 'workos/types/list_struct'
     autoload :PasswordlessSessionStruct, 'workos/types/passwordless_session_struct'
+    autoload :WidgetScope, 'workos/types/widget_scope'
   end
 end
