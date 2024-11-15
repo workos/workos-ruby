@@ -81,6 +81,7 @@ module WorkOS
   autoload :VerifyChallenge, 'workos/verify_challenge'
   autoload :Webhook, 'workos/webhook'
   autoload :Webhooks, 'workos/webhooks'
+  autoload :Widgets, 'workos/widgets'
 
   # Errors
   autoload :APIError, 'workos/errors'

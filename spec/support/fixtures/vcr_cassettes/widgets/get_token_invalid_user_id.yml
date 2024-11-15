@@ -1,0 +1,74 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.workos.com/widgets/token
+    body:
+      encoding: UTF-8
+      string: '{"organization_id":"org_01JCP9G67MNAH0KC4B72XZ67M7","user_id":"bogus-id","scopes":["widgets:users-table:manage"]}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/3.3.6; arm64-darwin23; v5.8.0
+      Authorization:
+      - Bearer <API_KEY>
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Date:
+      - Thu, 14 Nov 2024 22:02:46 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Cf-Ray:
+      - 8e2a49a82b31c54f-IAD
+      Cf-Cache-Status:
+      - DYNAMIC
+      Etag:
+      - W/"5a-TOigA+IvFyAtHvUdIXFXZWRdn8I"
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Vary:
+      - Origin, Accept-Encoding
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      Expect-Ct:
+      - max-age=0
+      Referrer-Policy:
+      - no-referrer
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - 0aeb3b90-0fd7-4de9-8d76-3d0e340ed583
+      X-Xss-Protection:
+      - '0'
+      Server:
+      - cloudflare
+    body:
+      encoding: ASCII-8BIT
+      string: '{"message":"User not found: ''bogus-id''.","code":"entity_not_found","entity_id":"bogus-id"}'
+    http_version:
+  recorded_at: Thu, 14 Nov 2024 22:02:46 GMT
+recorded_with: VCR 5.0.0
