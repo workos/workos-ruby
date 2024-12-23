@@ -323,4 +323,22 @@ describe WorkOS::Organizations do
       end
     end
   end
+
+  describe '.list_organization_roles' do
+    context 'with no options' do
+      it 'returns roles for organization' do
+        expected_metadata = {
+          after: nil,
+          before: nil,
+        }
+
+        VCR.use_cassette 'organization/list_organization_roles' do
+          roles = described_class.list_organization_roles(organization_id: 'org_01JEXP6Z3X7HE4CB6WQSH9ZAFE')
+
+          expect(roles.data.size).to eq(7)
+          expect(roles.list_metadata).to eq(expected_metadata)
+        end
+      end
+    end
+  end
 end
