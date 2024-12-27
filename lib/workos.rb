@@ -87,6 +87,7 @@ module WorkOS
   autoload :APIError, 'workos/errors'
   autoload :AuthenticationError, 'workos/errors'
   autoload :InvalidRequestError, 'workos/errors'
+  autoload :ForbiddenRequestError, 'workos/errors'
   autoload :SignatureVerificationError, 'workos/errors'
   autoload :TimeoutError, 'workos/errors'
   autoload :NotFoundError, 'workos/errors'

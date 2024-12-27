@@ -64,6 +64,10 @@ module WorkOS
   # parameters.
   class InvalidRequestError < WorkOSError; end
 
+  # ForbiddenError is raised when a request is forbidden, likely due to missing a step
+  # (i.e. verifying email ownership before authenticating).
+  class ForbiddenRequestError < WorkOSError; end
+
   # SignatureVerificationError is raised when the signature verification for a
   # webhook fails
   class SignatureVerificationError < WorkOSError; end
