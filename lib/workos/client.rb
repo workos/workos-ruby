@@ -109,6 +109,14 @@ module WorkOS
           http_status: http_status,
           request_id: response['x-request-id'],
         )
+      when 403
+        raise ForbiddenRequestError.new(
+          message: json['message'],
+          http_status: http_status,
+          request_id: response['x-request-id'],
+          code: json['code'],
+          data: json,
+        )
       when 404
         raise NotFoundError.new(
           message: json['message'],
