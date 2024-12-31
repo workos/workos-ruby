@@ -180,6 +180,32 @@ module WorkOS
         response.is_a? Net::HTTPSuccess
       end
 
+      # Retrieve a list of roles for the given organization.
+      #
+      # @param [String] organizationId The ID of the organization to fetch roles for.
+      def list_organization_roles(organization_id:)
+        response = execute_request(
+          request: get_request(
+            path: "/organizations/#{organization_id}/roles",
+            auth: true,
+          ),
+        )
+
+        parsed_response = JSON.parse(response.body)
+
+        roles = parsed_response['data'].map do |role|
+          WorkOS::Role.new(role.to_json)
+        end
+
+        WorkOS::Types::ListStruct.new(
+          data: roles,
+          list_metadata: {
+            after: nil,
+            before: nil,
+          },
+        )
+      end
+
       private
 
       def check_and_raise_organization_error(response:)
