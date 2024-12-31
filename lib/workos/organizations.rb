@@ -194,7 +194,7 @@ module WorkOS
         parsed_response = JSON.parse(response.body)
 
         roles = parsed_response['data'].map do |role|
-          ::WorkOS::Role.new(role.to_json)
+          WorkOS::Role.new(role.to_json)
         end
 
         WorkOS::Types::ListStruct.new(
