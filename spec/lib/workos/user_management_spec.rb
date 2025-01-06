@@ -404,6 +404,20 @@ describe WorkOS::UserManagement do
         end
       end
     end
+
+    context 'with an unverified user' do
+      it 'raises a ForbiddenRequestError' do
+        VCR.use_cassette('user_management/authenticate_with_password/unverified') do
+          expect do
+            WorkOS::UserManagement.authenticate_with_password(
+              email: 'unverified@workos.app',
+              password: '7YtYic00VWcXatPb',
+              client_id: 'client_123',
+            )
+          end.to raise_error(WorkOS::ForbiddenRequestError, /Email ownership must be verified before authentication/)
+        end
+      end
+    end
   end
 
   describe '.authenticate_with_code' do
