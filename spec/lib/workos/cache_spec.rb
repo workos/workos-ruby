@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe WorkOS::Cache do
   before { described_class.clear }
 
