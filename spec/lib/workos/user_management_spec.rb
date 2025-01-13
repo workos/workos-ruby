@@ -1441,4 +1441,14 @@ describe WorkOS::UserManagement do
       end
     end
   end
+
+  describe '.get_logout_url' do
+    it 'returns a logout url for the given session ID' do
+      result = described_class.get_logout_url(
+        session_id: 'session_01HRX85ATNADY1GQ053AHRFFN6',
+      )
+
+      expect(result).to eq 'https://api.workos.com/user_management/sessions/logout?session_id=session_01HRX85ATNADY1GQ053AHRFFN6'
+    end
+  end
 end
