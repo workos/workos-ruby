@@ -530,13 +530,17 @@ module WorkOS
       #
       # @param [String] session_id The session ID can be found in the `sid`
       #   claim of the access token
+      # @param [String] return_to The URL to redirect the user to after logging out
       #
       # @return String
-      def get_logout_url(session_id:)
+      def get_logout_url(session_id:, return_to: nil)
+        params = { session_id: session_id }
+        params[:return_to] = return_to if return_to
+
         URI::HTTPS.build(
           host: WorkOS.config.api_hostname,
           path: '/user_management/sessions/logout',
-          query: "session_id=#{session_id}",
+          query: URI.encode_www_form(params),
         ).to_s
       end
 

@@ -1450,5 +1450,16 @@ describe WorkOS::UserManagement do
 
       expect(result).to eq 'https://api.workos.com/user_management/sessions/logout?session_id=session_01HRX85ATNADY1GQ053AHRFFN6'
     end
+
+    context 'when a `return_to` is given' do
+      it 'returns a logout url with the `return_to` query parameter' do
+        result = described_class.get_logout_url(
+          session_id: 'session_01HRX85ATNADY1GQ053AHRFFN6',
+          return_to: 'https://example.com/signed-out',
+        )
+
+        expect(result).to eq 'https://api.workos.com/user_management/sessions/logout?session_id=session_01HRX85ATNADY1GQ053AHRFFN6&return_to=https%3A%2F%2Fexample.com%2Fsigned-out'
+      end
+    end
   end
 end
