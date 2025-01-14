@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 describe WorkOS::Session do
-  let(:user_management) { instance_double('UserManagement') }
   let(:client_id) { 'test_client_id' }
   let(:cookie_password) { 'test_very_long_cookie_password__' }
   let(:session_data) { 'test_session_data' }
@@ -10,11 +9,16 @@ describe WorkOS::Session do
   let(:jwk) { JWT::JWK.new(OpenSSL::PKey::RSA.new(2048), { kid: 'sso_oidc_key_pair_123', use: 'sig', alg: 'RS256' }) }
 
   before do
-    allow(user_management).to receive(:get_jwks_url).with(client_id).and_return(jwks_url)
     allow(Net::HTTP).to receive(:get).and_return(jwks_hash)
   end
 
   describe 'initialize' do
+    let(:user_management) { instance_double('UserManagement') }
+
+    before do
+      allow(user_management).to receive(:get_jwks_url).with(client_id).and_return(jwks_url)
+    end
+
     it 'raises an error if cookie_password is nil or empty' do
       expect do
         WorkOS::Session.new(
@@ -52,6 +56,7 @@ describe WorkOS::Session do
   end
 
   describe '.authenticate' do
+    let(:user_management) { instance_double('UserManagement') }
     let(:valid_access_token) do
       payload = {
         sid: 'session_id',
@@ -70,6 +75,10 @@ describe WorkOS::Session do
                               impersonator: 'impersonator',
                             }, cookie_password,)
 end
+
+    before do
+      allow(user_management).to receive(:get_jwks_url).with(client_id).and_return(jwks_url)
+    end
 
     it 'returns NO_SESSION_COOKIE_PROVIDED if session_data is nil' do
       session = WorkOS::Session.new(
@@ -135,11 +144,13 @@ end
   end
 
   describe '.refresh' do
+    let(:user_management) { instance_double('UserManagement') }
     let(:refresh_token) { 'test_refresh_token' }
     let(:session_data) { WorkOS::Session.seal_data({ refresh_token: refresh_token, user: 'user' }, cookie_password) }
     let(:auth_response) { double('AuthResponse', sealed_session: 'new_sealed_session') }
 
     before do
+      allow(user_management).to receive(:get_jwks_url).with(client_id).and_return(jwks_url)
       allow(user_management).to receive(:authenticate_with_refresh_token).and_return(auth_response)
     end
 
@@ -173,26 +184,33 @@ end
 
   describe '.get_logout_url' do
     let(:session) do
-    WorkOS::Session.new(
-      user_management: user_management,
-      client_id: client_id,
-      session_data: session_data,
-      cookie_password: cookie_password,
-    )
-  end
+      WorkOS::Session.new(
+        user_management: WorkOS::UserManagement,
+        client_id: client_id,
+        session_data: session_data,
+        cookie_password: cookie_password,
+      )
+    end
 
     context 'when authentication is successful' do
       before do
         allow(session).to receive(:authenticate).and_return({
                                                               authenticated: true,
-                                                              session_id: 'session_id',
+                                                              session_id: 'session_123abc',
                                                               reason: nil,
                                                             })
-        allow(user_management).to receive(:get_logout_url).with(session_id: 'session_id').and_return('https://example.com/logout')
       end
 
       it 'returns the logout URL' do
-        expect(session.get_logout_url).to eq('https://example.com/logout')
+        expect(session.get_logout_url).to eq('https://api.workos.com/user_management/sessions/logout?session_id=session_123abc')
+      end
+
+      context 'when given a return_to URL' do
+        it 'returns the logout URL with the return_to parameter' do
+          expect(session.get_logout_url(return_to: 'https://example.com/signed-out')).to eq(
+            'https://api.workos.com/user_management/sessions/logout?session_id=session_123abc&return_to=https%3A%2F%2Fexample.com%2Fsigned-out',
+          )
+        end
       end
     end
 
