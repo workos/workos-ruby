@@ -101,18 +101,17 @@ module WorkOS
     # rubocop:enable Metrics/PerceivedComplexity
 
     # Returns a URL to redirect the user to for logging out
+    # @param return_to [String] The URL to redirect the user to after logging out
     # @return [String] The URL to redirect the user to for logging out
-    # rubocop:disable Naming/AccessorMethodName
-    def get_logout_url
+    def get_logout_url(return_to: nil)
       auth_response = authenticate
 
       unless auth_response[:authenticated]
         raise "Failed to extract session ID for logout URL: #{auth_response[:reason]}"
       end
 
-      @user_management.get_logout_url(session_id: auth_response[:session_id])
+      @user_management.get_logout_url(session_id: auth_response[:session_id], return_to: return_to)
     end
-    # rubocop:enable Naming/AccessorMethodName
 
     # Encrypts and seals data using AES-256-GCM
     # @param data [Hash] The data to seal
