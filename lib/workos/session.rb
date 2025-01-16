@@ -23,7 +23,9 @@ module WorkOS
       @session_data = session_data
       @client_id = client_id
 
-      @jwks = create_remote_jwk_set(URI(@user_management.get_jwks_url(client_id)))
+      @jwks = Cache.fetch("jwks_#{client_id}", expires_in: 5 * 60) do
+        create_remote_jwk_set(URI(@user_management.get_jwks_url(client_id)))
+      end
       @jwks_algorithms = @jwks.map { |key| key[:alg] }.compact.uniq
     end
 

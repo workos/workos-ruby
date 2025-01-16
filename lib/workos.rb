@@ -45,6 +45,7 @@ module WorkOS
   autoload :AuthenticationFactorAndChallenge, 'workos/authentication_factor_and_challenge'
   autoload :AuthenticationResponse, 'workos/authentication_response'
   autoload :AuditLogs, 'workos/audit_logs'
+  autoload :Cache, 'workos/cache'
   autoload :Challenge, 'workos/challenge'
   autoload :Client, 'workos/client'
   autoload :Connection, 'workos/connection'

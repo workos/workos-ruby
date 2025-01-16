@@ -19,6 +19,52 @@ describe WorkOS::Session do
       allow(user_management).to receive(:get_jwks_url).with(client_id).and_return(jwks_url)
     end
 
+    describe 'JWKS caching' do
+      before do
+        WorkOS::Cache.clear
+      end
+
+      it 'caches and returns JWKS' do
+        expect(Net::HTTP).to receive(:get).once
+        session1 = WorkOS::Session.new(
+          user_management: user_management,
+          client_id: client_id,
+          session_data: session_data,
+          cookie_password: cookie_password,
+        )
+
+        session2 = WorkOS::Session.new(
+          user_management: user_management,
+          client_id: client_id,
+          session_data: session_data,
+          cookie_password: cookie_password,
+        )
+
+        expect(session1.jwks.map(&:export)).to eq(session2.jwks.map(&:export))
+      end
+
+      it 'fetches JWKS from remote when cache is expired' do
+        expect(Net::HTTP).to receive(:get).twice
+        session1 = WorkOS::Session.new(
+          user_management: user_management,
+          client_id: client_id,
+          session_data: session_data,
+          cookie_password: cookie_password,
+        )
+
+        allow(Time).to receive(:now).and_return(Time.now + 301)
+
+        session2 = WorkOS::Session.new(
+          user_management: user_management,
+          client_id: client_id,
+          session_data: session_data,
+          cookie_password: cookie_password,
+        )
+
+        expect(session1.jwks.map(&:export)).to eq(session2.jwks.map(&:export))
+      end
+    end
+
     it 'raises an error if cookie_password is nil or empty' do
       expect do
         WorkOS::Session.new(
