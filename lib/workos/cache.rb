@@ -8,6 +8,9 @@ module WorkOS
     class Entry
       attr_reader :value, :expires_at
 
+      # Initializes a new cache entry
+      # @param value [Object] The value to store in the cache
+      # @param expires_in [Integer, nil] The expiration time for the value in seconds, or nil for no expiration
       def initialize(value, expires_in)
         @value = value
         @expires_at = expires_in ? Time.now + expires_in : nil
