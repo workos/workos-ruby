@@ -10,10 +10,10 @@ module WorkOS
 
       # Initializes a new cache entry
       # @param value [Object] The value to store in the cache
-      # @param expires_in [Integer, nil] The expiration time for the value in seconds, or nil for no expiration
-      def initialize(value, expires_in)
+      # @param expires_in_seconds [Integer, nil] The expiration time for the value in seconds, or nil for no expiration
+      def initialize(value, expires_in_seconds)
         @value = value
-        @expires_at = expires_in ? Time.now + expires_in : nil
+        @expires_at = expires_in_seconds ? Time.now + expires_in_seconds : nil
       end
 
       # Checks if the entry has expired
