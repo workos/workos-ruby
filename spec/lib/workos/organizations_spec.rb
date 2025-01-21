@@ -295,6 +295,21 @@ describe WorkOS::Organizations do
         end
       end
     end
+    context 'with a stripe_customer_id' do
+      it 'updates the organization' do
+        VCR.use_cassette 'organization/update_with_stripe_customer_id' do
+          organization = described_class.update_organization(
+            organization: 'org_01JJ5H14CAA2SQ5G9HNN6TBZ05',
+            name: 'Test Organization',
+            stripe_customer_id: 'cus_123',
+          )
+
+          expect(organization.id).to eq('org_01JJ5H14CAA2SQ5G9HNN6TBZ05')
+          expect(organization.name).to eq('Test Organization')
+          expect(organization.stripe_customer_id).to eq('cus_123')
+        end
+      end
+    end
   end
 
   describe '.delete_organization' do
