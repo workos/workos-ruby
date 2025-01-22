@@ -28,4 +28,4 @@ Style/TrailingCommaInArguments:
 Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: 'consistent_comma'
 AllCops:
-  TargetRubyVersion: 2.7
+  TargetRubyVersion: 3.1
