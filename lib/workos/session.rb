@@ -11,7 +11,6 @@ require 'uri'
 module WorkOS
   # The Session class provides helper methods for working with WorkOS sessions
   # This class is not meant to be instantiated in a user space, and is instantiated internally but exposed.
-  # rubocop:disable Metrics/ClassLength
   class Session
     attr_accessor :jwks, :jwks_algorithms, :user_management, :cookie_password, :session_data, :client_id
 
@@ -180,5 +179,4 @@ module WorkOS
     end
     # rubocop:enable Naming/PredicateName
   end
-  # rubocop:enable Metrics/ClassLength
 end
