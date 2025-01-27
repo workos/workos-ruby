@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    workos (5.12.0)
+    workos (5.13.0)
       encryptor (~> 3.0)
       jwt (~> 2.8)
 
