@@ -103,24 +103,23 @@ describe WorkOS::Session do
 
   describe '.authenticate' do
     let(:user_management) { instance_double('UserManagement') }
-    let(:valid_access_token) do
-      payload = {
+    let(:payload) do
+      {
         sid: 'session_id',
         org_id: 'org_id',
         role: 'role',
         permissions: ['read'],
         exp: Time.now.to_i + 3600,
       }
-      headers = { kid: jwk[:kid] }
-      JWT.encode(payload, jwk.signing_key, jwk[:alg], headers)
     end
+    let(:valid_access_token) { JWT.encode(payload, jwk.signing_key, jwk[:alg], { kid: jwk[:kid] }) }
     let(:session_data) do
-  WorkOS::Session.seal_data({
-                              access_token: valid_access_token,
-                              user: 'user',
-                              impersonator: 'impersonator',
-                            }, cookie_password,)
-end
+      WorkOS::Session.seal_data({
+                                  access_token: valid_access_token,
+                                  user: 'user',
+                                  impersonator: 'impersonator',
+                                }, cookie_password,)
+    end
 
     before do
       allow(user_management).to receive(:get_jwks_url).with(client_id).and_return(jwks_url)
@@ -167,14 +166,7 @@ end
         session_data: session_data,
         cookie_password: cookie_password,
       )
-      allow(session).to receive(:is_valid_jwt).and_return(true)
-      allow(JWT).to receive(:decode).and_return([{
-                                                  'sid' => 'session_id',
-                                                  'org_id' => 'org_id',
-                                                  'role' => 'role',
-                                                  'permissions' => ['read'],
-                                                }])
-
+      allow_any_instance_of(JWT::Decode).to receive(:verify_signature).and_return(true)
       result = session.authenticate
       expect(result).to eq({
                              authenticated: true,
@@ -182,10 +174,46 @@ end
                              organization_id: 'org_id',
                              role: 'role',
                              permissions: ['read'],
+                             entitlements: nil,
                              user: 'user',
                              impersonator: 'impersonator',
                              reason: nil,
                            })
+    end
+
+    describe 'with entitlements' do
+      let(:payload) do
+        {
+          sid: 'session_id',
+          org_id: 'org_id',
+          role: 'role',
+          permissions: ['read'],
+          entitlements: ['billing'],
+          exp: Time.now.to_i + 3600,
+        }
+      end
+
+      it 'includes entitlements in the result' do
+        session = WorkOS::Session.new(
+          user_management: user_management,
+          client_id: client_id,
+          session_data: session_data,
+          cookie_password: cookie_password,
+        )
+        allow_any_instance_of(JWT::Decode).to receive(:verify_signature).and_return(true)
+        result = session.authenticate
+        expect(result).to eq({
+                               authenticated: true,
+                               session_id: 'session_id',
+                               organization_id: 'org_id',
+                               role: 'role',
+                               permissions: ['read'],
+                               entitlements: ['billing'],
+                               user: 'user',
+                               impersonator: 'impersonator',
+                               reason: nil,
+                             })
+      end
     end
   end
 

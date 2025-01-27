@@ -50,6 +50,7 @@ module WorkOS
         organization_id: decoded['org_id'],
         role: decoded['role'],
         permissions: decoded['permissions'],
+        entitlements: decoded['entitlements'],
         user: session[:user],
         impersonator: session[:impersonator],
         reason: nil,
