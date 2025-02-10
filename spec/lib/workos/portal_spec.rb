@@ -81,6 +81,7 @@ describe WorkOS::Portal do
           )
         end
       end
+    end  
 
     describe 'with an invalid organization' do
       it 'raises an error' do
