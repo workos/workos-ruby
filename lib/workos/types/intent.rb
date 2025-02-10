@@ -7,12 +7,12 @@ module WorkOS
     module Intent
       AUDIT_LOGS = 'audit_logs'
       CERTIFICATE_RENEWAL = 'certificate_renewal'
+      DOMAIN_VERIFICATION = 'domain_verification'
       DSYNC = 'dsync'
       LOG_STREAMS = 'log_streams'
       SSO = 'sso'
-      DOMAIN_VERIFICATION = 'domain_verification'
 
-      ALL = [AUDIT_LOGS, CERTIFICATE_RENEWAL, DSYNC, LOG_STREAMS, SSO, DOMAIN_VERIFICATION].freeze
+      ALL = [AUDIT_LOGS, CERTIFICATE_RENEWAL, DOMAIN_VERIFICATION, DSYNC, LOG_STREAMS, SSO].freeze
     end
   end
 end
