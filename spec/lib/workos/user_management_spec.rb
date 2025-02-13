@@ -229,6 +229,12 @@ describe WorkOS::UserManagement do
 
           expect(user.id.instance_of?(String))
           expect(user.instance_of?(WorkOS::User))
+          expect(user.first_name).to eq('Bob')
+          expect(user.last_name).to eq('Loblaw')
+          expect(user.email).to eq('bob@example.com')
+          expect(user.email_verified).to eq(false)
+          expect(user.profile_picture_url).to eq(nil)
+          expect(user.last_sign_in_at).to eq('2024-02-06T23:13:18.137Z')
         end
       end
     end
