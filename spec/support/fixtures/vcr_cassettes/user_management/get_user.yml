@@ -76,7 +76,7 @@ http_interactions:
       - cloudflare
     body:
       encoding: ASCII-8BIT
-      string: '{"object":"user","id":"user_01HP0B4ZV2FWWVY0BF16GFDAER","email":"bob@example.com","email_verified":false,"first_name":"Bob","last_name":"Loblaw","profile_picture_url":null,"created_at":"2024-02-06T23:13:18.137Z","updated_at":"2024-02-06T23:13:36.946Z"}'
+      string: '{"object":"user","id":"user_01HP0B4ZV2FWWVY0BF16GFDAER","email":"bob@example.com","email_verified":false,"first_name":"Bob","last_name":"Loblaw","profile_picture_url":null,"last_sign_in_at":"2024-02-06T23:13:18.137Z","created_at":"2024-02-06T23:13:18.137Z","updated_at":"2024-02-06T23:13:36.946Z"}'
     http_version:
   recorded_at: Tue, 06 Feb 2024 23:16:59 GMT
 recorded_with: VCR 5.0.0
