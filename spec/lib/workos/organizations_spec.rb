@@ -267,7 +267,7 @@ describe WorkOS::Organizations do
 
   describe '.update_organization' do
     context 'with valid payload' do
-      it 'creates an organization' do
+      it 'updates the organization' do
         VCR.use_cassette 'organization/update' do
           organization = described_class.update_organization(
             organization: 'org_01F6Q6TFP7RD2PF6J03ANNWDKV',
@@ -278,6 +278,35 @@ describe WorkOS::Organizations do
           expect(organization.id).to eq('org_01F6Q6TFP7RD2PF6J03ANNWDKV')
           expect(organization.name).to eq('Test Organization')
           expect(organization.domains.first[:domain]).to eq('example.me')
+        end
+      end
+    end
+    context 'without a name' do
+      it 'updates the organization' do
+        VCR.use_cassette 'organization/update_without_name' do
+          organization = described_class.update_organization(
+            organization: 'org_01F6Q6TFP7RD2PF6J03ANNWDKV',
+            domains: ['example.me'],
+          )
+
+          expect(organization.id).to eq('org_01F6Q6TFP7RD2PF6J03ANNWDKV')
+          expect(organization.name).to eq('Test Organization')
+          expect(organization.domains.first[:domain]).to eq('example.me')
+        end
+      end
+    end
+    context 'with a stripe_customer_id' do
+      it 'updates the organization' do
+        VCR.use_cassette 'organization/update_with_stripe_customer_id' do
+          organization = described_class.update_organization(
+            organization: 'org_01JJ5H14CAA2SQ5G9HNN6TBZ05',
+            name: 'Test Organization',
+            stripe_customer_id: 'cus_123',
+          )
+
+          expect(organization.id).to eq('org_01JJ5H14CAA2SQ5G9HNN6TBZ05')
+          expect(organization.name).to eq('Test Organization')
+          expect(organization.stripe_customer_id).to eq('cus_123')
         end
       end
     end
@@ -305,6 +334,24 @@ describe WorkOS::Organizations do
             WorkOS::NotFoundError,
             'Status 404, Not Found - request ID: ',
           )
+        end
+      end
+    end
+  end
+
+  describe '.list_organization_roles' do
+    context 'with no options' do
+      it 'returns roles for organization' do
+        expected_metadata = {
+          after: nil,
+          before: nil,
+        }
+
+        VCR.use_cassette 'organization/list_organization_roles' do
+          roles = described_class.list_organization_roles(organization_id: 'org_01JEXP6Z3X7HE4CB6WQSH9ZAFE')
+
+          expect(roles.data.size).to eq(7)
+          expect(roles.list_metadata).to eq(expected_metadata)
         end
       end
     end

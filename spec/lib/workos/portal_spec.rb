@@ -51,6 +51,36 @@ describe WorkOS::Portal do
           end
         end
       end
+
+      describe 'with the certificate_renewal intent' do
+        it 'returns an Admin Portal link' do
+          VCR.use_cassette 'portal/generate_link_certificate_renewal', match_requests_on: %i[path body] do
+            portal_link = described_class.generate_link(
+              intent: 'certificate_renewal',
+              organization: organization,
+            )
+
+            expect(portal_link).to eq(
+              'https://id.workos.com/portal/launch?secret=secret',
+            )
+          end
+        end
+      end
+    end
+
+    describe 'with the domain_verification intent' do
+      it 'returns an Admin Portal link' do
+        VCR.use_cassette 'portal/generate_link_domain_verification', match_requests_on: %i[path body] do
+          portal_link = described_class.generate_link(
+            intent: 'domain_verification',
+            organization: organization,
+          )
+
+          expect(portal_link).to eq(
+            'https://id.workos.com/portal/launch?secret=secret',
+          )
+        end
+      end
     end
 
     describe 'with an invalid organization' do

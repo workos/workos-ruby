@@ -10,7 +10,7 @@ module WorkOS
       Google = 'GoogleOAuth'
       Microsoft = 'MicrosoftOAuth'
 
-      ALL = [GitHub, Google, Microsoft].freeze
+      ALL = [Apple, GitHub, Google, Microsoft].freeze
     end
   end
 end

@@ -21,11 +21,14 @@ Gem::Specification.new do |spec|
   spec.test_files = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
+  spec.add_dependency 'encryptor', '~> 3.0'
+  spec.add_dependency 'jwt', '~> 2.8'
+
   spec.add_development_dependency 'bundler', '>= 2.0.1'
   spec.add_development_dependency 'rspec', '~> 3.9.0'
-  spec.add_development_dependency 'rubocop', '~> 0.77'
+  spec.add_development_dependency 'rubocop', '~> 1.71'
   spec.add_development_dependency 'vcr', '~> 5.0.0'
   spec.add_development_dependency 'webmock'
 
-  spec.required_ruby_version = '>= 2.7'
+  spec.required_ruby_version = '>= 3.1'
 end

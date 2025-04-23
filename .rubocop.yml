@@ -1,6 +1,5 @@
-# Disabling due to conflict with Ruby 2.7/3.1
-Layout/BlockAlignment:
-  Enabled: false
+inherit_from: .rubocop_todo.yml
+
 Layout/DotPosition:
   EnforcedStyle: trailing
 Layout/EmptyLineAfterMagicComment:
@@ -8,11 +7,11 @@ Layout/EmptyLineAfterMagicComment:
 Layout/EmptyLines:
   Enabled: false
 Layout/LineLength:
-  IgnoredPatterns:
+  AllowedPatterns:
     - 'VCR\.use_cassette'
     - '(\A|\s)/.*?/'
 Metrics/BlockLength:
-  ExcludedMethods: ['describe', 'context', 'before']
+  AllowedMethods: ['describe', 'context', 'before', 'it']
 Metrics/MethodLength:
   Max: 30
 Metrics/ModuleLength:
@@ -28,4 +27,4 @@ Style/TrailingCommaInArguments:
 Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: 'consistent_comma'
 AllCops:
-  TargetRubyVersion: 2.7
+  TargetRubyVersion: 3.1

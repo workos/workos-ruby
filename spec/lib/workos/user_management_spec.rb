@@ -213,7 +213,7 @@ describe WorkOS::UserManagement do
         end.to raise_error(
           ArgumentError,
           'Okta is not a valid value. `provider` must be in ' \
-          '["GitHubOAuth", "GoogleOAuth", "MicrosoftOAuth", "authkit"]',
+          '["AppleOAuth", "GitHubOAuth", "GoogleOAuth", "MicrosoftOAuth", "authkit"]',
         )
       end
     end
@@ -229,6 +229,12 @@ describe WorkOS::UserManagement do
 
           expect(user.id.instance_of?(String))
           expect(user.instance_of?(WorkOS::User))
+          expect(user.first_name).to eq('Bob')
+          expect(user.last_name).to eq('Loblaw')
+          expect(user.email).to eq('bob@example.com')
+          expect(user.email_verified).to eq(false)
+          expect(user.profile_picture_url).to eq(nil)
+          expect(user.last_sign_in_at).to eq('2024-02-06T23:13:18.137Z')
         end
       end
     end
@@ -404,6 +410,20 @@ describe WorkOS::UserManagement do
         end
       end
     end
+
+    context 'with an unverified user' do
+      it 'raises a ForbiddenRequestError' do
+        VCR.use_cassette('user_management/authenticate_with_password/unverified') do
+          expect do
+            WorkOS::UserManagement.authenticate_with_password(
+              email: 'unverified@workos.app',
+              password: '7YtYic00VWcXatPb',
+              client_id: 'client_123',
+            )
+          end.to raise_error(WorkOS::ForbiddenRequestError, /Email ownership must be verified before authentication/)
+        end
+      end
+    end
   end
 
   describe '.authenticate_with_code' do
@@ -467,6 +487,7 @@ describe WorkOS::UserManagement do
           )
           expect(authentication_response.access_token).to eq('<ACCESS_TOKEN>')
           expect(authentication_response.refresh_token).to eq('<REFRESH_TOKEN>')
+          expect(authentication_response.user.id).to eq('user_01H93WD0R0KWF8Q7BK02C0RPYJ')
         end
       end
     end
@@ -1423,6 +1444,27 @@ describe WorkOS::UserManagement do
             /Session not found/,
           )
         end
+      end
+    end
+  end
+
+  describe '.get_logout_url' do
+    it 'returns a logout url for the given session ID' do
+      result = described_class.get_logout_url(
+        session_id: 'session_01HRX85ATNADY1GQ053AHRFFN6',
+      )
+
+      expect(result).to eq 'https://api.workos.com/user_management/sessions/logout?session_id=session_01HRX85ATNADY1GQ053AHRFFN6'
+    end
+
+    context 'when a `return_to` is given' do
+      it 'returns a logout url with the `return_to` query parameter' do
+        result = described_class.get_logout_url(
+          session_id: 'session_01HRX85ATNADY1GQ053AHRFFN6',
+          return_to: 'https://example.com/signed-out',
+        )
+
+        expect(result).to eq 'https://api.workos.com/user_management/sessions/logout?session_id=session_01HRX85ATNADY1GQ053AHRFFN6&return_to=https%3A%2F%2Fexample.com%2Fsigned-out'
       end
     end
   end

@@ -71,7 +71,7 @@ module WorkOS
 
       # Create an organization
       #
-      # @param [Array<Hash>] domain_data List of domain hashes describing an orgnaization domain.
+      # @param [Array<Hash>] domain_data List of domain hashes describing an organization domain.
       # @option domain_data [String] domain The domain that belongs to the organization.
       # @option domain_data [String] state The state of the domain. "verified" or "pending"
       # @param [String] name A unique, descriptive name for the organization
@@ -118,9 +118,10 @@ module WorkOS
       # Update an organization
       #
       # @param [String] organization Organization unique identifier
-      # @param [Array<Hash>] domain_data List of domain hashes describing an orgnaization domain.
+      # @param [Array<Hash>] domain_data List of domain hashes describing an organization domain.
       # @option domain_data [String] domain The domain that belongs to the organization.
       # @option domain_data [String] state The state of the domain. "verified" or "pending"
+      # @param [String] stripe_customer_id The Stripe customer ID associated with this organization.
       # @param [String] name A unique, descriptive name for the organization
       # @param [Boolean, nil] allow_profiles_outside_organization Whether Connections
       #   within the Organization allow profiles that are outside of the Organization's configured User Email Domains.
@@ -129,13 +130,15 @@ module WorkOS
       #   Deprecated: Use domain_data instead.
       def update_organization(
         organization:,
+        stripe_customer_id: nil,
         domain_data: nil,
         domains: nil,
-        name:,
+        name: nil,
         allow_profiles_outside_organization: nil
       )
         body = { name: name }
         body[:domain_data] = domain_data if domain_data
+        body[:stripe_customer_id] = stripe_customer_id if stripe_customer_id
 
         if domains
           warn_deprecation '`domains` is deprecated. Use `domain_data` instead.'
@@ -178,6 +181,32 @@ module WorkOS
         response = execute_request(request: request)
 
         response.is_a? Net::HTTPSuccess
+      end
+
+      # Retrieve a list of roles for the given organization.
+      #
+      # @param [String] organizationId The ID of the organization to fetch roles for.
+      def list_organization_roles(organization_id:)
+        response = execute_request(
+          request: get_request(
+            path: "/organizations/#{organization_id}/roles",
+            auth: true,
+          ),
+        )
+
+        parsed_response = JSON.parse(response.body)
+
+        roles = parsed_response['data'].map do |role|
+          WorkOS::Role.new(role.to_json)
+        end
+
+        WorkOS::Types::ListStruct.new(
+          data: roles,
+          list_metadata: {
+            after: nil,
+            before: nil,
+          },
+        )
       end
 
       private

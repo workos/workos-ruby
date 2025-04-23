@@ -1,0 +1,72 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.workos.com/portal/generate_link
+    body:
+      encoding: UTF-8
+      string: '{"intent":"domain_verification","organization":"org_01EHQMYV6MBK39QC5PZXHY59C3","return_url":null,"success_url":null}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/2.7.1; x86_64-darwin19; v0.5.0
+      Authorization:
+      - Bearer <API_KEY>
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Server:
+      - Cowboy
+      Connection:
+      - keep-alive
+      Vary:
+      - Origin, Accept-Encoding
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      X-Dns-Prefetch-Control:
+      - 'off'
+      Expect-Ct:
+      - max-age=0
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Download-Options:
+      - noopen
+      X-Content-Type-Options:
+      - nosniff
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - no-referrer
+      X-Xss-Protection:
+      - '0'
+      X-Request-Id:
+      - cb9ad5cf-243a-4084-a4f6-2d7d2b097b8b
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '79'
+      Etag:
+      - W/"4f-NN86NUZRu/GQgPAYTexTS6/9DnM"
+      Date:
+      - Wed, 09 Sep 2020 23:43:07 GMT
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"link":"https://id.workos.com/portal/launch?secret=secret"}'
+    http_version:
+  recorded_at: Wed, 09 Sep 2020 23:43:07 GMT
+recorded_with: VCR 5.0.0

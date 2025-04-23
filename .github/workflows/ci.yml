@@ -17,13 +17,11 @@ jobs:
     strategy:
       matrix:
         ruby:
-          - '2.7'
-          - '3.0'
           - '3.1'
           - '3.2'
     steps:
       - uses: actions/checkout@v4
-      - uses: ruby/setup-ruby@v1
+      - uses: ruby/setup-ruby@1a615958ad9d422dd932dc1d5823942ee002799f # v1.227.0
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
