@@ -307,6 +307,7 @@ describe WorkOS::SSO do
           },
           groups: nil,
           organization_id: 'org_01FG53X8636WSNW2WEKB2C31ZB',
+          custom_attributes: {},
           raw_attributes: {
             email: 'bob.loblaw@workos.com',
             family_name: 'Loblaw',
@@ -381,6 +382,9 @@ describe WorkOS::SSO do
           },
           groups: %w[Admins Developers],
           organization_id: 'org_01FG53X8636WSNW2WEKB2C31ZB',
+          custom_attributes: {
+            license: 'professional',
+          },
           raw_attributes: {
             email: 'demo@workos-okta.com',
             first_name: 'WorkOS',
@@ -388,6 +392,7 @@ describe WorkOS::SSO do
             idp_id: '00u1klkowm8EGah2H357',
             last_name: 'Demo',
             groups: %w[Admins Developers],
+            license: 'professional',
           },
         }
 

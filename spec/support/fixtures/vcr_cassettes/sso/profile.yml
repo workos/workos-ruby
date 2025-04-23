@@ -67,7 +67,7 @@ http_interactions:
       body:
         encoding: UTF-8
         string:
-          '{"object":"profile","id":"prof_01EEJTY9SZ1R350RB7B73SNBKF","organization_id":"org_01FG53X8636WSNW2WEKB2C31ZB","connection_id":"conn_01E83FVYZHY7DM4S9503JHV0R5","connection_type":"GoogleOAuth","idp_id":"116485463307139932699","email":"bob.loblaw@workos.com","first_name":"Bob","last_name":"Loblaw","role":{"slug":"member"},"raw_attributes":{"hd":"workos.com","id":"116485463307139932699","name":"Bob
+          '{"object":"profile","id":"prof_01EEJTY9SZ1R350RB7B73SNBKF","organization_id":"org_01FG53X8636WSNW2WEKB2C31ZB","connection_id":"conn_01E83FVYZHY7DM4S9503JHV0R5","connection_type":"GoogleOAuth","idp_id":"116485463307139932699","email":"bob.loblaw@workos.com","first_name":"Bob","last_name":"Loblaw","role":{"slug":"member"},"custom_attributes":{},"raw_attributes":{"hd":"workos.com","id":"116485463307139932699","name":"Bob
           Loblaw","email":"bob.loblaw@workos.com","locale":"en","picture":"https://lh3.googleusercontent.com/a-/AOh14GyO2hLlgZvteDQ3Ldi3_-RteZLya0hWH7247Cam=s96-c","given_name":"Bob","family_name":"Loblaw","verified_email":true}}'
       http_version:
     recorded_at: Tue, 18 May 2021 22:55:21 GMT
