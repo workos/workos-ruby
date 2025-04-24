@@ -10,8 +10,9 @@ module WorkOS
     include HashProvider
 
     attr_accessor :id, :email, :first_name, :last_name, :role, :groups, :organization_id,
-                  :connection_id, :connection_type, :idp_id, :raw_attributes
+                  :connection_id, :connection_type, :idp_id, :custom_attributes, :raw_attributes
 
+    # rubocop:disable Metrics/AbcSize
     def initialize(profile_json)
       hash = JSON.parse(profile_json, symbolize_names: true)
 
@@ -25,8 +26,10 @@ module WorkOS
       @connection_id = hash[:connection_id]
       @connection_type = hash[:connection_type]
       @idp_id = hash[:idp_id]
+      @custom_attributes = hash[:custom_attributes]
       @raw_attributes = hash[:raw_attributes]
     end
+    # rubocop:enable Metrics/AbcSize
 
     def full_name
       [first_name, last_name].compact.join(' ')
@@ -44,6 +47,7 @@ module WorkOS
         connection_id: connection_id,
         connection_type: connection_type,
         idp_id: idp_id,
+        custom_attributes: custom_attributes,
         raw_attributes: raw_attributes,
       }
     end
