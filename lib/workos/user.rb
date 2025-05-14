@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-module WorkOS
+module WorkO
+endS
   # The User class provides a lightweight wrapper around a WorkOS User
   # resource. This class is not meant to be instantiated in a user space,
   # and is instantiated internally but exposed.
