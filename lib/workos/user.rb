@@ -7,7 +7,7 @@ module WorkOS
   class User
     include HashProvider
 
-    attr_accessor :id, :email, :first_name, :last_name, :email_verified,
+    attr_accessor :id, :email, :first_name, :last_name, :email_verified, :email_optional
                   :profile_picture_url, :last_sign_in_at, :created_at, :updated_at
 
     def initialize(json)
@@ -15,6 +15,7 @@ module WorkOS
 
       @id = hash[:id]
       @email = hash[:email]
+      @email_optional = hash[:email_optional]
       @first_name = hash[:first_name]
       @last_name = hash[:last_name]
       @email_verified = hash[:email_verified]
@@ -28,6 +29,7 @@ module WorkOS
       {
         id: id,
         email: email,
+        email_optional: email_optional,
         first_name: first_name,
         last_name: last_name,
         email_verified: email_verified,
