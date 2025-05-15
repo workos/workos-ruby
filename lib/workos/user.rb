@@ -20,6 +20,7 @@ module WorkOS
       @email_verified = hash[:email_verified]
       @profile_picture_url = hash[:profile_picture_url]
       @last_sign_in_at = hash[:last_sign_in_at]
+      @email = hash[:email]
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
     end
@@ -27,6 +28,7 @@ module WorkOS
     def to_json(*)
       {
         id: id,
+        email: email,
         email: email,
         first_name: first_name,
         last_name: last_name,
