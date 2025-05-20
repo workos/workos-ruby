@@ -32,7 +32,6 @@ module WorkOS
         WorkOS::Factor.new(response.body)
       end
 
-      # rubocop:disable Metrics/CyclomaticComplexity
       # rubocop:disable Metrics/PerceivedComplexity
       def validate_args(
         type:,

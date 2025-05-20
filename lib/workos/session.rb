@@ -64,7 +64,6 @@ module WorkOS
     # @return [Hash] A hash containing a new sealed session, the authentication response,
     # and a reason if the refresh failed
     # rubocop:disable Metrics/AbcSize
-    # rubocop:disable Metrics/CyclomaticComplexity
     # rubocop:disable Metrics/PerceivedComplexity
     def refresh(options = nil)
       cookie_password = options.nil? || options[:cookie_password].nil? ? @cookie_password : options[:cookie_password]

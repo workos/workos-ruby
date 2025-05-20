@@ -352,7 +352,6 @@ describe WorkOS::UserManagement do
           expect(user.email).to eq('jane@example.com')
           expect(user.email_verified).to eq(false)
         end
-
       end
 
       context 'with an invalid payload' do

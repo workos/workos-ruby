@@ -6,8 +6,6 @@ require 'uri'
 module WorkOS
   # The UserManagement module provides convenience methods for working with the
   # WorkOS User platform. You'll need a valid API key.
-
-  # rubocop:disable Metrics/ModuleLength
   module UserManagement
     module Types
       # The ProviderEnum is a declaration of a
