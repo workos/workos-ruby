@@ -343,6 +343,17 @@ describe WorkOS::UserManagement do
         end
       end
 
+      it 'can update email addresses' do
+        VCR.use_cassette 'user_management/update_user/email' do
+          user = described_class.update_user(
+            id: 'user_01H7TVSKS45SDHN5V9XPSM6H44',
+            email: 'jane@example.com',
+          )
+          expect(user.email).to eq('jane@example.com')
+          expect(user.email_verified).to eq(false)
+        end
+      end
+
       context 'with an invalid payload' do
         it 'returns an error' do
           VCR.use_cassette 'user_management/update_user/invalid' do

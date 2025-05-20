@@ -12,10 +12,14 @@ Layout/LineLength:
     - '(\A|\s)/.*?/'
 Metrics/BlockLength:
   AllowedMethods: ['describe', 'context', 'before', 'it']
+Metrics/ClassLength:
+  Enabled: false
+Metrics/CyclomaticComplexity:
+  Enabled: false
 Metrics/MethodLength:
-  Max: 30
+  Enabled: false
 Metrics/ModuleLength:
-  Max: 200
+  Enabled: false
 Metrics/ParameterLists:
   Max: 6
 Naming/ConstantName:

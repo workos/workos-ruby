@@ -6,8 +6,6 @@ require 'uri'
 module WorkOS
   # The UserManagement module provides convenience methods for working with the
   # WorkOS User platform. You'll need a valid API key.
-
-  # rubocop:disable Metrics/ModuleLength
   module UserManagement
     module Types
       # The ProviderEnum is a declaration of a
@@ -217,6 +215,7 @@ module WorkOS
       # Update a user
       #
       # @param [String] id of the user.
+      # @param [String] email of the user.
       # @param [String] first_name The user's first name.
       # @param [String] last_name The user's last name.
       # @param [Boolean] email_verified Whether the user's email address was previously verified.
@@ -228,6 +227,7 @@ module WorkOS
       # @return [WorkOS::User]
       def update_user(
         id:,
+        email: nil,
         first_name: nil,
         last_name: nil,
         email_verified: nil,
@@ -238,6 +238,7 @@ module WorkOS
         request = put_request(
           path: "/user_management/users/#{id}",
           body: {
+            email: email,
             first_name: first_name,
             last_name: last_name,
             email_verified: email_verified,
