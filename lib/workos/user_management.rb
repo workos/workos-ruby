@@ -290,10 +290,7 @@ module WorkOS
         user_agent: nil,
         session: nil
       )
-
-        if session && (session[:seal_session] == true) && session[:cookie_password].nil?
-          raise ArgumentError, 'cookie_password is required when sealing session'
-        end
+        validate_session(session)
 
         response = execute_request(
           request: post_request(
@@ -331,9 +328,7 @@ module WorkOS
         user_agent: nil,
         session: nil
       )
-        if session && (session[:seal_session] == true) && session[:cookie_password].nil?
-          raise ArgumentError, 'cookie_password is required when sealing session'
-        end
+        validate_session(session)
 
         response = execute_request(
           request: post_request(
@@ -371,9 +366,7 @@ module WorkOS
         user_agent: nil,
         session: nil
       )
-        if session && (session[:seal_session] == true) && session[:cookie_password].nil?
-          raise ArgumentError, 'cookie_password is required when sealing session'
-        end
+        validate_session(session)
 
         response = execute_request(
           request: post_request(
@@ -415,9 +408,7 @@ module WorkOS
         link_authorization_code: nil,
         session: nil
       )
-        if session && (session[:seal_session] == true) && session[:cookie_password].nil?
-          raise ArgumentError, 'cookie_password is required when sealing session'
-        end
+        validate_session(session)
 
         response = execute_request(
           request: post_request(
@@ -457,9 +448,7 @@ module WorkOS
         user_agent: nil,
         session: nil
       )
-        if session && (session[:seal_session] == true) && session[:cookie_password].nil?
-          raise ArgumentError, 'cookie_password is required when sealing session'
-        end
+        validate_session(session)
 
         response = execute_request(
           request: post_request(
@@ -502,9 +491,7 @@ module WorkOS
         user_agent: nil,
         session: nil
       )
-        if session && (session[:seal_session] == true) && session[:cookie_password].nil?
-          raise ArgumentError, 'cookie_password is required when sealing session'
-        end
+        validate_session(session)
 
         response = execute_request(
           request: post_request(
@@ -545,9 +532,7 @@ module WorkOS
         user_agent: nil,
         session: nil
       )
-        if session && (session[:seal_session] == true) && session[:cookie_password].nil?
-          raise ArgumentError, 'cookie_password is required when sealing session'
-        end
+        validate_session(session)
 
         response = execute_request(
           request: post_request(
@@ -1123,6 +1108,12 @@ module WorkOS
       end
 
       private
+
+      def validate_session(session)
+        if session && (session[:seal_session] == true) && session[:cookie_password].nil?
+          raise ArgumentError, 'cookie_password is required when sealing session'
+        end
+      end
 
       def validate_authorization_url_arguments(
         provider:,
