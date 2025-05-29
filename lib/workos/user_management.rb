@@ -399,6 +399,7 @@ module WorkOS
       # the optional cookie password.
       #
       # @return WorkOS::AuthenticationResponse
+      # rubocop:disable Metrics/ParameterLists
       def authenticate_with_magic_auth(
         code:,
         email:,
@@ -428,6 +429,7 @@ module WorkOS
 
         WorkOS::AuthenticationResponse.new(response.body, session)
       end
+      # rubocop:enable Metrics/ParameterLists
 
       # Authenticate a user into an organization they are a member of.
       #
@@ -482,6 +484,7 @@ module WorkOS
       # the optional cookie password.
       #
       # @return WorkOS::AuthenticationResponse
+      # rubocop:disable Metrics/ParameterLists
       def authenticate_with_totp(
         code:,
         client_id:,
@@ -511,6 +514,7 @@ module WorkOS
 
         WorkOS::AuthenticationResponse.new(response.body, session)
       end
+      # rubocop:enable Metrics/ParameterLists
 
       # Authenticate a user using Email Verification Code.
       #
@@ -1110,9 +1114,9 @@ module WorkOS
       private
 
       def validate_session(session)
-        if session && (session[:seal_session] == true) && session[:cookie_password].nil?
-          raise ArgumentError, 'cookie_password is required when sealing session'
-        end
+        return unless session && (session[:seal_session] == true) && session[:cookie_password].nil?
+
+        raise ArgumentError, 'cookie_password is required when sealing session'
       end
 
       def validate_authorization_url_arguments(
