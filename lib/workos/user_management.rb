@@ -278,9 +278,20 @@ module WorkOS
       # @param [String] client_id The WorkOS client ID for the environment
       # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
+      # @param [Hash] session An optional hash that determines whether the session should be sealed and
+      # the optional cookie password.
       #
       # @return WorkOS::AuthenticationResponse
-      def authenticate_with_password(email:, password:, client_id:, ip_address: nil, user_agent: nil)
+      def authenticate_with_password(
+        email:,
+        password:,
+        client_id:,
+        ip_address: nil,
+        user_agent: nil,
+        session: nil
+      )
+        validate_session(session)
+
         response = execute_request(
           request: post_request(
             path: '/user_management/authenticate',
@@ -296,7 +307,7 @@ module WorkOS
           ),
         )
 
-        WorkOS::AuthenticationResponse.new(response.body)
+        WorkOS::AuthenticationResponse.new(response.body, session)
       end
 
       # Authenticate a user using OAuth or an organization's SSO connection.
@@ -317,9 +328,7 @@ module WorkOS
         user_agent: nil,
         session: nil
       )
-        if session && (session[:seal_session] == true) && session[:cookie_password].nil?
-          raise ArgumentError, 'cookie_password is required when sealing session'
-        end
+        validate_session(session)
 
         response = execute_request(
           request: post_request(
@@ -357,9 +366,7 @@ module WorkOS
         user_agent: nil,
         session: nil
       )
-        if session && (session[:seal_session] == true) && session[:cookie_password].nil?
-          raise ArgumentError, 'cookie_password is required when sealing session'
-        end
+        validate_session(session)
 
         response = execute_request(
           request: post_request(
@@ -388,16 +395,22 @@ module WorkOS
       # @param [String] link_authorization_code Used to link an OAuth profile to an existing user,
       # after having completed a Magic Code challenge.
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
+      # @param [Hash] session An optional hash that determines whether the session should be sealed and
+      # the optional cookie password.
       #
       # @return WorkOS::AuthenticationResponse
+      # rubocop:disable Metrics/ParameterLists
       def authenticate_with_magic_auth(
         code:,
         email:,
         client_id:,
         ip_address: nil,
         user_agent: nil,
-        link_authorization_code: nil
+        link_authorization_code: nil,
+        session: nil
       )
+        validate_session(session)
+
         response = execute_request(
           request: post_request(
             path: '/user_management/authenticate',
@@ -414,8 +427,9 @@ module WorkOS
           ),
         )
 
-        WorkOS::AuthenticationResponse.new(response.body)
+        WorkOS::AuthenticationResponse.new(response.body, session)
       end
+      # rubocop:enable Metrics/ParameterLists
 
       # Authenticate a user into an organization they are a member of.
       #
@@ -424,6 +438,8 @@ module WorkOS
       # @param [String] pending_authentication_token The pending authentication token
       # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
+      # @param [Hash] session An optional hash that determines whether the session should be sealed and
+      # the optional cookie password.
       #
       # @return WorkOS::AuthenticationResponse
       def authenticate_with_organization_selection(
@@ -431,8 +447,11 @@ module WorkOS
         organization_id:,
         pending_authentication_token:,
         ip_address: nil,
-        user_agent: nil
+        user_agent: nil,
+        session: nil
       )
+        validate_session(session)
+
         response = execute_request(
           request: post_request(
             path: '/user_management/authenticate',
@@ -448,7 +467,7 @@ module WorkOS
           ),
         )
 
-        WorkOS::AuthenticationResponse.new(response.body)
+        WorkOS::AuthenticationResponse.new(response.body, session)
       end
 
       # Authenticate a user using TOTP.
@@ -461,16 +480,22 @@ module WorkOS
       # authentication request.
       # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
+      # @param [Hash] session An optional hash that determines whether the session should be sealed and
+      # the optional cookie password.
       #
       # @return WorkOS::AuthenticationResponse
+      # rubocop:disable Metrics/ParameterLists
       def authenticate_with_totp(
         code:,
         client_id:,
         pending_authentication_token:,
         authentication_challenge_id:,
         ip_address: nil,
-        user_agent: nil
+        user_agent: nil,
+        session: nil
       )
+        validate_session(session)
+
         response = execute_request(
           request: post_request(
             path: '/user_management/authenticate',
@@ -487,8 +512,9 @@ module WorkOS
           ),
         )
 
-        WorkOS::AuthenticationResponse.new(response.body)
+        WorkOS::AuthenticationResponse.new(response.body, session)
       end
+      # rubocop:enable Metrics/ParameterLists
 
       # Authenticate a user using Email Verification Code.
       #
@@ -498,6 +524,8 @@ module WorkOS
       # authentication attempt due to an unverified email address.
       # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
+      # @param [Hash] session An optional hash that determines whether the session should be sealed and
+      # the optional cookie password.
       #
       # @return WorkOS::AuthenticationResponse
       def authenticate_with_email_verification(
@@ -505,8 +533,11 @@ module WorkOS
         client_id:,
         pending_authentication_token:,
         ip_address: nil,
-        user_agent: nil
+        user_agent: nil,
+        session: nil
       )
+        validate_session(session)
+
         response = execute_request(
           request: post_request(
             path: '/user_management/authenticate',
@@ -522,7 +553,7 @@ module WorkOS
           ),
         )
 
-        WorkOS::AuthenticationResponse.new(response.body)
+        WorkOS::AuthenticationResponse.new(response.body, session)
       end
 
       # Get the logout URL for a session
@@ -1081,6 +1112,12 @@ module WorkOS
       end
 
       private
+
+      def validate_session(session)
+        return unless session && (session[:seal_session] == true) && session[:cookie_password].nil?
+
+        raise ArgumentError, 'cookie_password is required when sealing session'
+      end
 
       def validate_authorization_url_arguments(
         provider:,
