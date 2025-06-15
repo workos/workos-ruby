@@ -8,7 +8,7 @@ module WorkOS
     include HashProvider
 
     attr_accessor :id, :email, :first_name, :last_name, :email_verified,
-                  :profile_picture_url, :last_sign_in_at, :created_at, :updated_at
+                  :profile_picture_url, :external_id, :last_sign_in_at, :created_at, :updated_at
 
     def initialize(json)
       hash = JSON.parse(json, symbolize_names: true)
@@ -19,6 +19,7 @@ module WorkOS
       @last_name = hash[:last_name]
       @email_verified = hash[:email_verified]
       @profile_picture_url = hash[:profile_picture_url]
+      @external_id = hash[:external_id]
       @last_sign_in_at = hash[:last_sign_in_at]
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
@@ -32,6 +33,7 @@ module WorkOS
         last_name: last_name,
         email_verified: email_verified,
         profile_picture_url: profile_picture_url,
+        external_id: external_id,
         last_sign_in_at: last_sign_in_at,
         created_at: created_at,
         updated_at: updated_at,

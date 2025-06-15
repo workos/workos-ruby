@@ -336,10 +336,12 @@ describe WorkOS::UserManagement do
             first_name: 'Jane',
             last_name: 'Doe',
             email_verified: false,
+            external_id: '123',
           )
           expect(user.first_name).to eq('Jane')
           expect(user.last_name).to eq('Doe')
           expect(user.email_verified).to eq(false)
+          expect(user.external_id).to eq('123')
         end
       end
 
