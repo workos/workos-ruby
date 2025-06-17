@@ -36,6 +36,32 @@ describe WorkOS::UserManagement do
           'edit%22%7D&provider=authkit',
         )
       end
+
+      context 'with provider_scopes' do
+        it 'returns a valid authorization URL that includes provider_scopes' do
+          url = WorkOS::UserManagement.authorization_url(
+            provider: 'GoogleOAuth',
+            provider_scopes: ['custom-scope-1', 'custom-scope-2'],
+            client_id: 'workos-proj-123',
+            redirect_uri: 'foo.com/auth/callback',
+            state: {
+            next_page: '/dashboard/edit',
+          }.to_s,
+          )
+
+          expect(url).to eq(
+            'https://api.workos.com/user_management/authorize?' \
+            'client_id=workos-proj-123' \
+            '&redirect_uri=foo.com%2Fauth%2Fcallback' \
+            '&response_type=code' \
+            '&state=%7B%3Anext_page%3D%3E%22%2Fdashboard%2F' \
+          'edit%22%7D' \
+            '&provider=GoogleOAuth' \
+            '&provider_scopes=custom-scope-1' \
+            '&provider_scopes=custom-scope-2',
+          )
+        end
+      end
     end
 
     context 'with a connection selector' do

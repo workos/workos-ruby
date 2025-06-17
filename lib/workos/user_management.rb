@@ -71,6 +71,7 @@ module WorkOS
       # field of the IdP sign-in page for the user, if you know their username ahead of time.
       # @param [String] domain_hint Can be used to pre-fill the domain field when
       # initiating authentication with Microsoft OAuth, or with a GoogleSAML connection type.
+      # @param [Array<String>] provider_scopes An array of additional OAuth scopes to request from the provider.
       # @example
       #   WorkOS::UserManagement.authorization_url(
       #     connection_id: 'conn_123',
@@ -96,7 +97,8 @@ module WorkOS
         provider: nil,
         connection_id: nil,
         organization_id: nil,
-        state: ''
+        state: '',
+        provider_scopes: nil
       )
 
         validate_authorization_url_arguments(
@@ -115,6 +117,7 @@ module WorkOS
           provider: provider,
           connection_id: connection_id,
           organization_id: organization_id,
+          provider_scopes: provider_scopes,
         }.compact)
 
         "https://#{WorkOS.config.api_hostname}/user_management/authorize?#{query}"
