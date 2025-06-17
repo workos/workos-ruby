@@ -41,12 +41,12 @@ describe WorkOS::UserManagement do
         it 'returns a valid authorization URL that includes provider_scopes' do
           url = WorkOS::UserManagement.authorization_url(
             provider: 'GoogleOAuth',
-            provider_scopes: ['custom-scope-1', 'custom-scope-2'],
+            provider_scopes: %w[custom-scope-1 custom-scope-2],
             client_id: 'workos-proj-123',
             redirect_uri: 'foo.com/auth/callback',
             state: {
-            next_page: '/dashboard/edit',
-          }.to_s,
+              next_page: '/dashboard/edit',
+            }.to_s,
           )
 
           expect(url).to eq(
@@ -55,7 +55,7 @@ describe WorkOS::UserManagement do
             '&redirect_uri=foo.com%2Fauth%2Fcallback' \
             '&response_type=code' \
             '&state=%7B%3Anext_page%3D%3E%22%2Fdashboard%2F' \
-          'edit%22%7D' \
+            'edit%22%7D' \
             '&provider=GoogleOAuth' \
             '&provider_scopes=custom-scope-1' \
             '&provider_scopes=custom-scope-2',
@@ -492,8 +492,8 @@ describe WorkOS::UserManagement do
             expect(authentication_response.oauth_tokens).to be_a(WorkOS::OAuthTokens)
             expect(authentication_response.oauth_tokens.access_token).to eq('oauth_access_token')
             expect(authentication_response.oauth_tokens.refresh_token).to eq('oauth_refresh_token')
-            expect(authentication_response.oauth_tokens.scopes).to eq(['read', 'write'])
-            expect(authentication_response.oauth_tokens.expires_at).to eq(1234567890)
+            expect(authentication_response.oauth_tokens.scopes).to eq(%w[read write])
+            expect(authentication_response.oauth_tokens.expires_at).to eq(1_234_567_890)
           end
         end
       end

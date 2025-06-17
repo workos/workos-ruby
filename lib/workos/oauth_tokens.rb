@@ -26,4 +26,4 @@ module WorkOS
       }
     end
   end
-end 
+end
