@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module WorkOS
-  # The OAuthTokens class represents the third party providerOAuth tokens returned in the authentication response.
+  # The OAuthTokens class represents the third party provider OAuth tokens returned in the authentication response.
   # This class is not meant to be instantiated in user space, and is instantiated internally but exposed.
   class OAuthTokens
     include HashProvider
