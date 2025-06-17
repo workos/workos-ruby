@@ -453,6 +453,40 @@ describe WorkOS::UserManagement do
         end
       end
 
+      context 'when oauth_tokens is present in the api response' do
+        it 'returns an oauth_tokens object' do
+          VCR.use_cassette('user_management/authenticate_with_code/valid_with_oauth_tokens') do
+            authentication_response = WorkOS::UserManagement.authenticate_with_code(
+              code: '01H93ZZHA0JBHFJH9RR11S83YN',
+              client_id: 'client_123',
+              ip_address: '200.240.210.16',
+              user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36',
+            )
+
+            expect(authentication_response.oauth_tokens).to be_a(WorkOS::OAuthTokens)
+            expect(authentication_response.oauth_tokens.access_token).to eq('oauth_access_token')
+            expect(authentication_response.oauth_tokens.refresh_token).to eq('oauth_refresh_token')
+            expect(authentication_response.oauth_tokens.scopes).to eq(['read', 'write'])
+            expect(authentication_response.oauth_tokens.expires_at).to eq(1234567890)
+          end
+        end
+      end
+
+      context 'when oauth_tokens is not present in the api response' do
+        it 'returns nil oauth_tokens' do
+          VCR.use_cassette('user_management/authenticate_with_code/valid') do
+            authentication_response = WorkOS::UserManagement.authenticate_with_code(
+              code: '01H93ZZHA0JBHFJH9RR11S83YN',
+              client_id: 'client_123',
+              ip_address: '200.240.210.16',
+              user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36',
+            )
+
+            expect(authentication_response.oauth_tokens).to be_nil
+          end
+        end
+      end
+
       context 'when the user is being impersonated' do
         it 'contains the impersonator metadata' do
           VCR.use_cassette('user_management/authenticate_with_code/valid_with_impersonator') do

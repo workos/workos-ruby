@@ -63,6 +63,7 @@ module WorkOS
   autoload :Invitation, 'workos/invitation'
   autoload :MagicAuth, 'workos/magic_auth'
   autoload :MFA, 'workos/mfa'
+  autoload :OAuthTokens, 'workos/oauth_tokens'
   autoload :Organization, 'workos/organization'
   autoload :Organizations, 'workos/organizations'
   autoload :OrganizationMembership, 'workos/organization_membership'

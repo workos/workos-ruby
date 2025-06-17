@@ -12,7 +12,8 @@ module WorkOS
                   :access_token,
                   :refresh_token,
                   :authentication_method,
-                  :sealed_session
+                  :sealed_session,
+                  :oauth_tokens
 
     # rubocop:disable Metrics/AbcSize
     def initialize(authentication_response_json, session = nil)
@@ -27,6 +28,7 @@ module WorkOS
                            reason: impersonator_json[:reason],)
         end
       @authentication_method = json[:authentication_method]
+      @oauth_tokens = json[:oauth_tokens] ? WorkOS::OAuthTokens.new(json[:oauth_tokens].to_json) : nil
       @sealed_session =
         if session && session[:seal_session]
           WorkOS::Session.seal_data({
@@ -49,6 +51,7 @@ module WorkOS
         refresh_token: refresh_token,
         authentication_method: authentication_method,
         sealed_session: sealed_session,
+        oauth_tokens: oauth_tokens&.to_json,
       }
     end
   end
