@@ -36,6 +36,32 @@ describe WorkOS::UserManagement do
           'edit%22%7D&provider=authkit',
         )
       end
+
+      context 'with provider_scopes' do
+        it 'returns a valid authorization URL that includes provider_scopes' do
+          url = WorkOS::UserManagement.authorization_url(
+            provider: 'GoogleOAuth',
+            provider_scopes: %w[custom-scope-1 custom-scope-2],
+            client_id: 'workos-proj-123',
+            redirect_uri: 'foo.com/auth/callback',
+            state: {
+              next_page: '/dashboard/edit',
+            }.to_s,
+          )
+
+          expect(url).to eq(
+            'https://api.workos.com/user_management/authorize?' \
+            'client_id=workos-proj-123' \
+            '&redirect_uri=foo.com%2Fauth%2Fcallback' \
+            '&response_type=code' \
+            '&state=%7B%3Anext_page%3D%3E%22%2Fdashboard%2F' \
+            'edit%22%7D' \
+            '&provider=GoogleOAuth' \
+            '&provider_scopes=custom-scope-1' \
+            '&provider_scopes=custom-scope-2',
+          )
+        end
+      end
     end
 
     context 'with a connection selector' do
@@ -450,6 +476,40 @@ describe WorkOS::UserManagement do
           expect(authentication_response.user.id).to eq('user_01H93ZY4F80YZRRS6N59Z2HFVS')
           expect(authentication_response.access_token).to eq('<ACCESS_TOKEN>')
           expect(authentication_response.refresh_token).to eq('<REFRESH_TOKEN>')
+        end
+      end
+
+      context 'when oauth_tokens is present in the api response' do
+        it 'returns an oauth_tokens object' do
+          VCR.use_cassette('user_management/authenticate_with_code/valid_with_oauth_tokens') do
+            authentication_response = WorkOS::UserManagement.authenticate_with_code(
+              code: '01H93ZZHA0JBHFJH9RR11S83YN',
+              client_id: 'client_123',
+              ip_address: '200.240.210.16',
+              user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36',
+            )
+
+            expect(authentication_response.oauth_tokens).to be_a(WorkOS::OAuthTokens)
+            expect(authentication_response.oauth_tokens.access_token).to eq('oauth_access_token')
+            expect(authentication_response.oauth_tokens.refresh_token).to eq('oauth_refresh_token')
+            expect(authentication_response.oauth_tokens.scopes).to eq(%w[read write])
+            expect(authentication_response.oauth_tokens.expires_at).to eq(1_234_567_890)
+          end
+        end
+      end
+
+      context 'when oauth_tokens is not present in the api response' do
+        it 'returns nil oauth_tokens' do
+          VCR.use_cassette('user_management/authenticate_with_code/valid') do
+            authentication_response = WorkOS::UserManagement.authenticate_with_code(
+              code: '01H93ZZHA0JBHFJH9RR11S83YN',
+              client_id: 'client_123',
+              ip_address: '200.240.210.16',
+              user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/108.0.0.0 Safari/537.36',
+            )
+
+            expect(authentication_response.oauth_tokens).to be_nil
+          end
         end
       end
 
