@@ -358,6 +358,22 @@ describe WorkOS::UserManagement do
         )
       end
 
+      it 'creates a user with external_id' do
+        VCR.use_cassette 'user_management/create_user_with_external_id' do
+          user = described_class.create_user(
+            email: 'external@example.com',
+            first_name: 'External',
+            last_name: 'User',
+            external_id: 'ext_user_123',
+          )
+
+          expect(user.first_name).to eq('External')
+          expect(user.last_name).to eq('User')
+          expect(user.email).to eq('external@example.com')
+          expect(user.external_id).to eq('ext_user_123')
+        end
+      end
+
       context 'with an invalid payload' do
         it 'returns an error' do
           VCR.use_cassette 'user_management/create_user_invalid' do

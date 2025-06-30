@@ -182,6 +182,7 @@ module WorkOS
       # @param [String] first_name The user's first name.
       # @param [String] last_name The user's last name.
       # @param [Boolean] email_verified Whether the user's email address was previously verified.
+      # @param [String] external_id The user's external ID.
       # @param [String] password_hash The user's hashed password.
       # @option [String] password_hash_type The algorithm originally used to hash the password.
       #
@@ -193,6 +194,7 @@ module WorkOS
         first_name: nil,
         last_name: nil,
         email_verified: nil,
+        external_id: nil,
         password_hash: nil,
         password_hash_type: nil
       )
@@ -204,6 +206,7 @@ module WorkOS
             first_name: first_name,
             last_name: last_name,
             email_verified: email_verified,
+            external_id: external_id,
             password_hash: password_hash,
             password_hash_type: password_hash_type,
           }.compact,
