@@ -7,7 +7,7 @@ module WorkOS
   class Role
     include HashProvider
 
-    attr_accessor :id, :name, :slug, :description, :type, :created_at, :updated_at
+    attr_accessor :id, :name, :slug, :description, :permissions, :type, :created_at, :updated_at
 
     def initialize(json)
       hash = JSON.parse(json, symbolize_names: true)
@@ -16,6 +16,7 @@ module WorkOS
       @name = hash[:name]
       @slug = hash[:slug]
       @description = hash[:description]
+      @permissions = hash[:permissions] || []
       @type = hash[:type]
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
@@ -27,6 +28,7 @@ module WorkOS
         name: name,
         slug: slug,
         description: description,
+        permissions: permissions,
         type: type,
         created_at: created_at,
         updated_at: updated_at,

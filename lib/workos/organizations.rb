@@ -185,7 +185,14 @@ module WorkOS
 
       # Retrieve a list of roles for the given organization.
       #
-      # @param [String] organizationId The ID of the organization to fetch roles for.
+      # @param [String] organization_id The ID of the organization to fetch roles for.
+      #
+      # @example
+      #   WorkOS::Organizations.list_organization_roles(organization_id: 'org_01EHZNVPK3SFK441A1RGBFSHRT')
+      #   => #<WorkOS::Types::ListStruct data=[#<WorkOS::Role id="role_123" name="Admin" slug="admin"
+      #                                         permissions=["admin:all"] ...>] ...>
+      #
+      # @return [WorkOS::Types::ListStruct] - Collection of Role objects, each including permissions array
       def list_organization_roles(organization_id:)
         response = execute_request(
           request: get_request(

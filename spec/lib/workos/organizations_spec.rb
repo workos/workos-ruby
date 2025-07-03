@@ -354,6 +354,48 @@ describe WorkOS::Organizations do
           expect(roles.list_metadata).to eq(expected_metadata)
         end
       end
+
+      it 'returns properly initialized Role objects with all attributes' do
+        VCR.use_cassette 'organization/list_organization_roles' do
+          roles = described_class.list_organization_roles(organization_id: 'org_01JEXP6Z3X7HE4CB6WQSH9ZAFE')
+
+          first_role = roles.data.first
+          expect(first_role).to be_a(WorkOS::Role)
+          expect(first_role.id).to eq('role_01HS1C7GRJE08PBR3M6Y0ZYGDZ')
+          expect(first_role.name).to eq('Admin')
+          expect(first_role.slug).to eq('admin')
+          expect(first_role.description).to eq('Write access to every resource available')
+          expect(first_role.permissions).to eq(['admin:all', 'read:users', 'write:users', 'manage:roles'])
+          expect(first_role.type).to eq('EnvironmentRole')
+          expect(first_role.created_at).to eq('2024-03-15T15:38:29.521Z')
+          expect(first_role.updated_at).to eq('2024-11-14T17:08:00.556Z')
+        end
+      end
+
+      it 'handles roles with empty permissions arrays' do
+        VCR.use_cassette 'organization/list_organization_roles' do
+          roles = described_class.list_organization_roles(organization_id: 'org_01JEXP6Z3X7HE4CB6WQSH9ZAFE')
+
+          platform_manager_role = roles.data.find { |role| role.slug == 'org-platform-manager' }
+          expect(platform_manager_role).to be_a(WorkOS::Role)
+          expect(platform_manager_role.permissions).to eq([])
+        end
+      end
+
+      it 'properly serializes Role objects including permissions' do
+        VCR.use_cassette 'organization/list_organization_roles' do
+          roles = described_class.list_organization_roles(organization_id: 'org_01JEXP6Z3X7HE4CB6WQSH9ZAFE')
+
+          billing_role = roles.data.find { |role| role.slug == 'billing' }
+          serialized = billing_role.to_json
+
+          expect(serialized[:id]).to eq('role_01JA8GJZRDSZEB9289DQXJ3N9Z')
+          expect(serialized[:name]).to eq('Billing Manager')
+          expect(serialized[:slug]).to eq('billing')
+          expect(serialized[:permissions]).to eq(['read:billing', 'write:billing'])
+          expect(serialized[:type]).to eq('EnvironmentRole')
+        end
+      end
     end
   end
 end
