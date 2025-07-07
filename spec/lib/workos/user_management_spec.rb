@@ -344,17 +344,17 @@ describe WorkOS::UserManagement do
           expect(body).to eq({ email: 'test@example.com', first_name: 'John' })
           expect(body).not_to have_key(:last_name)
           expect(body).not_to have_key(:email_verified)
-          
+
           double('request')
         end.and_return(double('request'))
-        
+
         expect(described_class).to receive(:execute_request).and_return(
-          double('response', body: '{"id": "test_user", "email": "test@example.com"}')
+          double('response', body: '{"id": "test_user", "email": "test@example.com"}'),
         )
-        
+
         described_class.create_user(
           email: 'test@example.com',
-          first_name: 'John'
+          first_name: 'John',
         )
       end
 
@@ -411,18 +411,18 @@ describe WorkOS::UserManagement do
           expect(body).not_to have_key(:first_name)
           expect(body).not_to have_key(:last_name)
           expect(body).not_to have_key(:email)
-          
+
           # Return a mock request object
           double('request')
         end.and_return(double('request'))
-        
+
         expect(described_class).to receive(:execute_request).and_return(
-          double('response', body: '{"id": "test_user", "email_verified": true}')
+          double('response', body: '{"id": "test_user", "email_verified": true}'),
         )
-        
+
         described_class.update_user(
           id: 'user_01H7TVSKS45SDHN5V9XPSM6H44',
-          email_verified: true
+          email_verified: true,
         )
       end
 
@@ -829,18 +829,19 @@ describe WorkOS::UserManagement do
           expect(body).to eq({ type: 'totp', totp_issuer: 'Test App' })
           expect(body).not_to have_key(:totp_user)
           expect(body).not_to have_key(:totp_secret)
-          
+
           double('request')
         end.and_return(double('request'))
-        
+
         expect(described_class).to receive(:execute_request).and_return(
-          double('response', body: '{"authentication_factor": {"id": "test"}, "authentication_challenge": {"id": "test"}}')
+          double('response',
+                 body: '{"authentication_factor": {"id": "test"}, "authentication_challenge": {"id": "test"}}',),
         )
-        
+
         described_class.enroll_auth_factor(
           user_id: 'user_123',
           type: 'totp',
-          totp_issuer: 'Test App'
+          totp_issuer: 'Test App',
         )
       end
     end
@@ -1517,17 +1518,17 @@ describe WorkOS::UserManagement do
           expect(body).not_to have_key(:expires_in_days)
           expect(body).not_to have_key(:inviter_user_id)
           expect(body).not_to have_key(:role_slug)
-          
+
           double('request')
         end.and_return(double('request'))
-        
+
         expect(described_class).to receive(:execute_request).and_return(
-          double('response', body: '{"id": "test_invitation"}')
+          double('response', body: '{"id": "test_invitation"}'),
         )
 
         described_class.send_invitation(
           email: 'test@workos.com',
-          organization_id: 'org_123'
+          organization_id: 'org_123',
         )
       end
     end
