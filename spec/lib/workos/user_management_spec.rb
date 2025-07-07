@@ -338,6 +338,26 @@ describe WorkOS::UserManagement do
         end
       end
 
+      it 'only sends non-nil values in request body' do
+        expect(described_class).to receive(:post_request) do |options|
+          body = options[:body]
+          expect(body).to eq({ email: 'test@example.com', first_name: 'John' })
+          expect(body).not_to have_key(:last_name)
+          expect(body).not_to have_key(:email_verified)
+          
+          double('request')
+        end.and_return(double('request'))
+        
+        expect(described_class).to receive(:execute_request).and_return(
+          double('response', body: '{"id": "test_user", "email": "test@example.com"}')
+        )
+        
+        described_class.create_user(
+          email: 'test@example.com',
+          first_name: 'John'
+        )
+      end
+
       context 'with an invalid payload' do
         it 'returns an error' do
           VCR.use_cassette 'user_management/create_user_invalid' do
@@ -801,6 +821,27 @@ describe WorkOS::UserManagement do
           expect(authentication_response.authentication_factor.id).to eq('auth_factor_01H96FETXENNY99ARX0GRC804C')
           expect(authentication_response.authentication_challenge.id).to eq('auth_challenge_01H96FETXGTW1QMBSBT2T36PW0')
         end
+      end
+
+      it 'only sends non-nil values in request body' do
+        expect(described_class).to receive(:post_request) do |options|
+          body = options[:body]
+          expect(body).to eq({ type: 'totp', totp_issuer: 'Test App' })
+          expect(body).not_to have_key(:totp_user)
+          expect(body).not_to have_key(:totp_secret)
+          
+          double('request')
+        end.and_return(double('request'))
+        
+        expect(described_class).to receive(:execute_request).and_return(
+          double('response', body: '{"authentication_factor": {"id": "test"}, "authentication_challenge": {"id": "test"}}')
+        )
+        
+        described_class.enroll_auth_factor(
+          user_id: 'user_123',
+          type: 'totp',
+          totp_issuer: 'Test App'
+        )
       end
     end
 
@@ -1467,6 +1508,27 @@ describe WorkOS::UserManagement do
           expect(invitation.id).to eq('invitation_01H5JQDV7R7ATEYZDEG0W5PRYS')
           expect(invitation.email).to eq('test@workos.com')
         end
+      end
+
+      it 'only sends non-nil values in request body' do
+        expect(described_class).to receive(:post_request) do |options|
+          body = options[:body]
+          expect(body).to eq({ email: 'test@workos.com', organization_id: 'org_123' })
+          expect(body).not_to have_key(:expires_in_days)
+          expect(body).not_to have_key(:inviter_user_id)
+          expect(body).not_to have_key(:role_slug)
+          
+          double('request')
+        end.and_return(double('request'))
+        
+        expect(described_class).to receive(:execute_request).and_return(
+          double('response', body: '{"id": "test_invitation"}')
+        )
+
+        described_class.send_invitation(
+          email: 'test@workos.com',
+          organization_id: 'org_123'
+        )
       end
     end
 
