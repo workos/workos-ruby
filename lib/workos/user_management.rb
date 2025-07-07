@@ -206,7 +206,7 @@ module WorkOS
             email_verified: email_verified,
             password_hash: password_hash,
             password_hash_type: password_hash_type,
-          },
+          }.compact,
           auth: true,
         )
 
@@ -643,7 +643,7 @@ module WorkOS
             body: {
               email: email,
               invitation_token: invitation_token,
-            },
+            }.compact,
             auth: true,
           ),
         )
@@ -697,7 +697,7 @@ module WorkOS
               totp_issuer: totp_issuer,
               totp_user: totp_user,
               totp_secret: totp_secret,
-            },
+            }.compact,
             auth: true,
           ),
         )
@@ -928,7 +928,7 @@ module WorkOS
             user_id: user_id,
             organization_id: organization_id,
             role_slug: role_slug,
-          },
+          }.compact,
           auth: true,
         )
 
@@ -1093,7 +1093,7 @@ module WorkOS
               expires_in_days: expires_in_days,
               inviter_user_id: inviter_user_id,
               role_slug: role_slug,
-            },
+            }.compact,
             auth: true,
           ),
         )
