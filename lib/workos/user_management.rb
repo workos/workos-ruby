@@ -251,7 +251,7 @@ module WorkOS
             password: password,
             password_hash: password_hash,
             password_hash_type: password_hash_type,
-          },
+          }.compact,
           auth: true,
         )
 

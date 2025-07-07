@@ -382,6 +382,30 @@ describe WorkOS::UserManagement do
         end
       end
 
+      it 'only sends non-nil values in request body' do
+        # Mock the request to inspect what's being sent
+        expect(described_class).to receive(:put_request) do |options|
+          # Verify that the body only contains non-nil values
+          body = options[:body]
+          expect(body).to eq({ email_verified: true })
+          expect(body).not_to have_key(:first_name)
+          expect(body).not_to have_key(:last_name)
+          expect(body).not_to have_key(:email)
+          
+          # Return a mock request object
+          double('request')
+        end.and_return(double('request'))
+        
+        expect(described_class).to receive(:execute_request).and_return(
+          double('response', body: '{"id": "test_user", "email_verified": true}')
+        )
+        
+        described_class.update_user(
+          id: 'user_01H7TVSKS45SDHN5V9XPSM6H44',
+          email_verified: true
+        )
+      end
+
       context 'with an invalid payload' do
         it 'returns an error' do
           VCR.use_cassette 'user_management/update_user/invalid' do
