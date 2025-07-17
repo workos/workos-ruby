@@ -424,12 +424,20 @@ describe WorkOS::SSO do
       it 'raises an exception with proper error object attributes' do
         expect do
           described_class.profile_and_token(**args)
-        end.to raise_error(WorkOS::UnprocessableEntityError) do |error|
-          expect(error.http_status).to eq(422)
-          expect(error.request_id).to eq('request-id')
-          expect(error.error).to eq('some error')
-          expect(error.message).to include('some error')
+        end.to raise_error(WorkOS::UnprocessableEntityError)
+      end
+
+      it 'includes proper error attributes' do
+        error = begin
+          described_class.profile_and_token(**args)
+        rescue WorkOS::UnprocessableEntityError => e
+          e
         end
+
+        expect(error.http_status).to eq(422)
+        expect(error.request_id).to eq('request-id')
+        expect(error.error).to eq('some error')
+        expect(error.message).to include('some error')
       end
     end
 
@@ -457,15 +465,23 @@ describe WorkOS::SSO do
       it 'raises an exception with detailed field errors' do
         expect do
           described_class.profile_and_token(**args)
-        end.to raise_error(WorkOS::UnprocessableEntityError) do |error|
-          expect(error.http_status).to eq(422)
-          expect(error.request_id).to eq('request-id')
-          expect(error.code).to eq('invalid_request_parameters')
-          expect(error.errors).not_to be_nil
-          expect(error.errors).to include('code: missing_required_parameter')
-          expect(error.message).to include('Validation failed')
-          expect(error.message).to include('(code: missing_required_parameter)')
+        end.to raise_error(WorkOS::UnprocessableEntityError)
+      end
+
+      it 'includes detailed field error attributes' do
+        error = begin
+          described_class.profile_and_token(**args)
+        rescue WorkOS::UnprocessableEntityError => e
+          e
         end
+
+        expect(error.http_status).to eq(422)
+        expect(error.request_id).to eq('request-id')
+        expect(error.code).to eq('invalid_request_parameters')
+        expect(error.errors).not_to be_nil
+        expect(error.errors).to include('code: missing_required_parameter')
+        expect(error.message).to include('Validation failed')
+        expect(error.message).to include('(code: missing_required_parameter)')
       end
     end
 
@@ -496,13 +512,21 @@ describe WorkOS::SSO do
       it 'raises an exception with proper error object attributes' do
         expect do
           described_class.profile_and_token(**args)
-        end.to raise_error(WorkOS::InvalidRequestError) do |error|
-          expect(error.http_status).to eq(400)
-          expect(error.request_id).to eq('request-id')
-          expect(error.error).to eq('invalid_grant')
-          expect(error.error_description).to eq("The code '01DVX3C5Z367SFHR8QNDMK7V24' has expired or is invalid.")
-          expect(error.message).to include('invalid_grant')
+        end.to raise_error(WorkOS::InvalidRequestError)
+      end
+
+      it 'includes proper error attributes' do
+        error = begin
+          described_class.profile_and_token(**args)
+        rescue WorkOS::InvalidRequestError => e
+          e
         end
+
+        expect(error.http_status).to eq(400)
+        expect(error.request_id).to eq('request-id')
+        expect(error.error).to eq('invalid_grant')
+        expect(error.error_description).to eq("The code '01DVX3C5Z367SFHR8QNDMK7V24' has expired or is invalid.")
+        expect(error.message).to include('invalid_grant')
       end
     end
   end
