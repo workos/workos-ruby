@@ -51,6 +51,7 @@ module WorkOS
         role: decoded['role'],
         permissions: decoded['permissions'],
         entitlements: decoded['entitlements'],
+        feature_flags: decoded['feature_flags'],
         user: session[:user],
         impersonator: session[:impersonator],
         reason: nil,
