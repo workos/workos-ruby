@@ -174,6 +174,7 @@ describe WorkOS::Session do
                              organization_id: 'org_id',
                              role: 'role',
                              permissions: ['read'],
+                             feature_flags: nil,
                              entitlements: nil,
                              user: 'user',
                              impersonator: 'impersonator',
@@ -209,6 +210,43 @@ describe WorkOS::Session do
                                role: 'role',
                                permissions: ['read'],
                                entitlements: ['billing'],
+                               feature_flags: nil,
+                               user: 'user',
+                               impersonator: 'impersonator',
+                               reason: nil,
+                             })
+      end
+    end
+
+    describe 'with feature flags' do
+      let(:payload) do
+        {
+          sid: 'session_id',
+          org_id: 'org_id',
+          role: 'role',
+          permissions: ['read'],
+          feature_flags: ['new_feature_enabled'],
+          exp: Time.now.to_i + 3600,
+        }
+      end
+
+      it 'includes feature flags in the result' do
+        session = WorkOS::Session.new(
+          user_management: user_management,
+          client_id: client_id,
+          session_data: session_data,
+          cookie_password: cookie_password,
+        )
+        allow_any_instance_of(JWT::Decode).to receive(:verify_signature).and_return(true)
+        result = session.authenticate
+        expect(result).to eq({
+                               authenticated: true,
+                               session_id: 'session_id',
+                               organization_id: 'org_id',
+                               role: 'role',
+                               permissions: ['read'],
+                               entitlements: nil,
+                               feature_flags: ['new_feature_enabled'],
                                user: 'user',
                                impersonator: 'impersonator',
                                reason: nil,
