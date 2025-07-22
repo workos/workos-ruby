@@ -234,14 +234,14 @@ module WorkOS
       # @return [WorkOS::User]
       def update_user(
         id:,
-        email: nil,
-        first_name: nil,
-        last_name: nil,
-        email_verified: nil,
-        external_id: nil,
-        password: nil,
-        password_hash: nil,
-        password_hash_type: nil
+        email: :not_set,
+        first_name: :not_set,
+        last_name: :not_set,
+        email_verified: :not_set,
+        external_id: :not_set,
+        password: :not_set,
+        password_hash: :not_set,
+        password_hash_type: :not_set
       )
         request = put_request(
           path: "/user_management/users/#{id}",
@@ -254,7 +254,7 @@ module WorkOS
             password: password,
             password_hash: password_hash,
             password_hash_type: password_hash_type,
-          }.compact,
+          }.reject { |_, v| v == :not_set },
           auth: true,
         )
 

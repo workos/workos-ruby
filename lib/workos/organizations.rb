@@ -139,15 +139,13 @@ module WorkOS
         domain_data: nil,
         domains: nil,
         name: nil,
-        external_id: nil,
+        external_id: :not_set,
         allow_profiles_outside_organization: nil
       )
-        body = {
-          name: name,
-          external_id: external_id,
-        }
+        body = { name: name }
         body[:domain_data] = domain_data if domain_data
         body[:stripe_customer_id] = stripe_customer_id if stripe_customer_id
+        body[:external_id] = external_id if external_id != :not_set
 
         if domains
           warn_deprecation '`domains` is deprecated. Use `domain_data` instead.'
