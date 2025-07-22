@@ -120,8 +120,9 @@ module WorkOS
           code: code,
         }
 
-        response = client.request(post_request(path: '/sso/token', body: body))
-        check_and_raise_profile_and_token_error(response: response)
+        response = execute_request(
+          request: post_request(path: '/sso/token', body: body),
+        )
 
         WorkOS::ProfileAndToken.new(response.body)
       end
@@ -228,28 +229,6 @@ module WorkOS
 
         raise ArgumentError, "#{provider} is not a valid value." \
           " `provider` must be in #{PROVIDERS}"
-      end
-
-      def check_and_raise_profile_and_token_error(response:)
-        begin
-          body = JSON.parse(response.body)
-          return if body['access_token'] && body['profile']
-
-          message = body['message']
-          error = body['error']
-          error_description = body['error_description']
-          request_id = response['x-request-id']
-        rescue StandardError
-          message = 'Something went wrong'
-        end
-
-        raise APIError.new(
-          message: message,
-          error: error,
-          error_description: error_description,
-          http_status: nil,
-          request_id: request_id,
-        )
       end
     end
   end
