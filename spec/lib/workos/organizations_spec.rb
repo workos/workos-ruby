@@ -340,6 +340,28 @@ describe WorkOS::Organizations do
         end
       end
     end
+
+    context 'can set external_id to null explicitly' do
+      it 'includes external_id null in request body' do
+        original_method = described_class.method(:put_request)
+        allow(described_class).to receive(:put_request) do |kwargs|
+          original_method.call(**kwargs)
+        end
+
+        VCR.use_cassette 'organization/update_with_external_id_null' do
+          described_class.update_organization(
+            organization: 'org_01K0SQV0S6EPWK2ZDEFD1CP1JC',
+            name: 'Test Organization',
+            external_id: nil,
+          )
+        end
+
+        # Verify the spy captured the right call
+        expect(described_class).to have_received(:put_request).with(
+          hash_including(body: hash_including(external_id: nil)),
+        )
+      end
+    end
   end
 
   describe '.delete_organization' do

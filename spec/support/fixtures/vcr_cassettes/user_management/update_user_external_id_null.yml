@@ -1,0 +1,77 @@
+---
+http_interactions:
+- request:
+    method: put
+    uri: https://api.workos.com/user_management/users/user_01K0SR53HJ58M957MYAB6TDZ9X
+    body:
+      encoding: UTF-8
+      string: '{"first_name":"John","external_id":null}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/3.1.4; arm64-darwin24; v5.22.0
+      Authorization:
+      - Bearer <API_KEY>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 23 Jul 2025 14:19:37 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Cf-Ray:
+      - 963bd0578b723987-YYZ
+      Cf-Cache-Status:
+      - DYNAMIC
+      Etag:
+      - W/"138-cAQWhb1gyLa/WXSej+rjaxcQD5k"
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Vary:
+      - Origin, Accept-Encoding
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      Expect-Ct:
+      - max-age=0
+      Referrer-Policy:
+      - no-referrer
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - e32c5c22-9dba-480d-9b70-cb985f8de386
+      X-Xss-Protection:
+      - '0'
+      Set-Cookie:
+      - _cfuvid=0ljO.TFpHbzOeVWd7XzlanO5UxaeU_RBUAsoWNtWaF0-1753280377738-0.0.1.1-604800000;
+        path=/; domain=.workos.com; HttpOnly; Secure; SameSite=None
+      Server:
+      - cloudflare
+    body:
+      encoding: ASCII-8BIT
+      string: '{"object":"user","id":"user_01K0SR53HJ58M957MYAB6TDZ9X","email":"external@example.com","email_verified":false,"first_name":"John","last_name":"User","profile_picture_url":null,"metadata":{},"last_sign_in_at":null,"created_at":"2025-07-22T19:00:50.852Z","updated_at":"2025-07-23T14:19:37.660Z","external_id":null}'
+    http_version:
+  recorded_at: Wed, 23 Jul 2025 14:19:37 GMT
+recorded_with: VCR 5.0.0

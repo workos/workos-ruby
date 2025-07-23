@@ -442,6 +442,25 @@ describe WorkOS::UserManagement do
         )
       end
 
+      it 'can set external_id to null explicitly' do
+        original_method = described_class.method(:put_request)
+        allow(described_class).to receive(:put_request) do |kwargs|
+          original_method.call(**kwargs)
+        end
+
+        VCR.use_cassette 'user_management/update_user_external_id_null' do
+          described_class.update_user(
+            id: 'user_01K0SR53HJ58M957MYAB6TDZ9X',
+            first_name: 'John',
+            external_id: nil,
+          )
+        end
+
+        expect(described_class).to have_received(:put_request).with(
+          hash_including(body: hash_including(external_id: nil)),
+        )
+      end
+
       context 'with an invalid payload' do
         it 'returns an error' do
           VCR.use_cassette 'user_management/update_user/invalid' do
