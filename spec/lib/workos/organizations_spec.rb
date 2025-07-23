@@ -33,6 +33,21 @@ describe WorkOS::Organizations do
           end
         end
 
+        context 'with external_id' do
+          it 'creates an organization with external_id' do
+            VCR.use_cassette 'organization/create_with_external_id' do
+              organization = described_class.create_organization(
+                name: 'Test Organization with External ID',
+                external_id: 'ext_org_123',
+              )
+
+              expect(organization.id).to start_with('org_')
+              expect(organization.name).to eq('Test Organization with External ID')
+              expect(organization.external_id).to eq('ext_org_123')
+            end
+          end
+        end
+
         context 'with domains' do
           it 'creates an organization and warns' do
             VCR.use_cassette 'organization/create_with_domains' do
@@ -308,6 +323,43 @@ describe WorkOS::Organizations do
           expect(organization.name).to eq('Test Organization')
           expect(organization.stripe_customer_id).to eq('cus_123')
         end
+      end
+    end
+    context 'with an external_id' do
+      it 'updates the organization' do
+        VCR.use_cassette 'organization/update_with_external_id' do
+          organization = described_class.update_organization(
+            organization: 'org_01K0SQV0S6EPWK2ZDEFD1CP1JC',
+            name: 'Test Organization',
+            external_id: 'ext_org_456',
+          )
+
+          expect(organization.id).to eq('org_01K0SQV0S6EPWK2ZDEFD1CP1JC')
+          expect(organization.name).to eq('Test Organization')
+          expect(organization.external_id).to eq('ext_org_456')
+        end
+      end
+    end
+
+    context 'can set external_id to null explicitly' do
+      it 'includes external_id null in request body' do
+        original_method = described_class.method(:put_request)
+        allow(described_class).to receive(:put_request) do |kwargs|
+          original_method.call(**kwargs)
+        end
+
+        VCR.use_cassette 'organization/update_with_external_id_null' do
+          described_class.update_organization(
+            organization: 'org_01K0SQV0S6EPWK2ZDEFD1CP1JC',
+            name: 'Test Organization',
+            external_id: nil,
+          )
+        end
+
+        # Verify the spy captured the right call
+        expect(described_class).to have_received(:put_request).with(
+          hash_including(body: hash_including(external_id: nil)),
+        )
       end
     end
   end

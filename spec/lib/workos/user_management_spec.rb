@@ -358,6 +358,22 @@ describe WorkOS::UserManagement do
         )
       end
 
+      it 'creates a user with external_id' do
+        VCR.use_cassette 'user_management/create_user_with_external_id' do
+          user = described_class.create_user(
+            email: 'external@example.com',
+            first_name: 'External',
+            last_name: 'User',
+            external_id: 'ext_user_123',
+          )
+
+          expect(user.first_name).to eq('External')
+          expect(user.last_name).to eq('User')
+          expect(user.email).to eq('external@example.com')
+          expect(user.external_id).to eq('ext_user_123')
+        end
+      end
+
       context 'with an invalid payload' do
         it 'returns an error' do
           VCR.use_cassette 'user_management/create_user_invalid' do
@@ -423,6 +439,25 @@ describe WorkOS::UserManagement do
         described_class.update_user(
           id: 'user_01H7TVSKS45SDHN5V9XPSM6H44',
           email_verified: true,
+        )
+      end
+
+      it 'can set external_id to null explicitly' do
+        original_method = described_class.method(:put_request)
+        allow(described_class).to receive(:put_request) do |kwargs|
+          original_method.call(**kwargs)
+        end
+
+        VCR.use_cassette 'user_management/update_user_external_id_null' do
+          described_class.update_user(
+            id: 'user_01K0SR53HJ58M957MYAB6TDZ9X',
+            first_name: 'John',
+            external_id: nil,
+          )
+        end
+
+        expect(described_class).to have_received(:put_request).with(
+          hash_including(body: hash_including(external_id: nil)),
         )
       end
 

@@ -75,6 +75,7 @@ module WorkOS
       # @option domain_data [String] domain The domain that belongs to the organization.
       # @option domain_data [String] state The state of the domain. "verified" or "pending"
       # @param [String] name A unique, descriptive name for the organization
+      # @param [String] external_id The organization's external ID.
       # @param [String] idempotency_key An idempotency key
       # @param [Boolean, nil] allow_profiles_outside_organization Whether Connections
       #   within the Organization allow profiles that are outside of the Organization's configured User Email Domains.
@@ -85,11 +86,13 @@ module WorkOS
         domain_data: nil,
         domains: nil,
         name:,
+        external_id: nil,
         allow_profiles_outside_organization: nil,
         idempotency_key: nil
       )
         body = { name: name }
         body[:domain_data] = domain_data if domain_data
+        body[:external_id] = external_id if external_id
 
         if domains
           warn_deprecation '`domains` is deprecated. Use `domain_data` instead.'
@@ -123,22 +126,26 @@ module WorkOS
       # @option domain_data [String] state The state of the domain. "verified" or "pending"
       # @param [String] stripe_customer_id The Stripe customer ID associated with this organization.
       # @param [String] name A unique, descriptive name for the organization
+      # @param [String] external_id The organization's external ID.
       # @param [Boolean, nil] allow_profiles_outside_organization Whether Connections
       #   within the Organization allow profiles that are outside of the Organization's configured User Email Domains.
       #   Deprecated: If you need to allow sign-ins from any email domain, contact suppport@workos.com.
       # @param [Array<String>] domains List of domains that belong to the organization.
       #   Deprecated: Use domain_data instead.
+      # rubocop:disable Metrics/ParameterLists
       def update_organization(
         organization:,
         stripe_customer_id: nil,
         domain_data: nil,
         domains: nil,
         name: nil,
+        external_id: :not_set,
         allow_profiles_outside_organization: nil
       )
         body = { name: name }
         body[:domain_data] = domain_data if domain_data
         body[:stripe_customer_id] = stripe_customer_id if stripe_customer_id
+        body[:external_id] = external_id if external_id != :not_set
 
         if domains
           warn_deprecation '`domains` is deprecated. Use `domain_data` instead.'
@@ -162,6 +169,7 @@ module WorkOS
 
         WorkOS::Organization.new(response.body)
       end
+      # rubocop:enable Metrics/ParameterLists
 
       # Delete an Organization
       #

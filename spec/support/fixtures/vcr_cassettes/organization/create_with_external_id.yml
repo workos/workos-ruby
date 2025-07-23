@@ -1,0 +1,83 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.workos.com/organizations
+    body:
+      encoding: UTF-8
+      string: '{"name":"Test Organization with External ID","external_id":"ext_org_123"}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/3.1.4; arm64-darwin24; v5.20.0
+      Authorization:
+      - Bearer <API_KEY>
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Tue, 22 Jul 2025 18:55:20 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '286'
+      Connection:
+      - keep-alive
+      Cf-Ray:
+      - 963526d76e29aafd-YYZ
+      Cf-Cache-Status:
+      - DYNAMIC
+      Etag:
+      - W/"11e-Op9TWXVRjSmUm44yQl7F4OmXvVQ"
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Vary:
+      - Origin, Accept-Encoding
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      Expect-Ct:
+      - max-age=0
+      Referrer-Policy:
+      - no-referrer
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - 56c9630e-4889-4c81-989b-5a0399cdfcc2
+      X-Xss-Protection:
+      - '0'
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/csp-reporting.cloudflare.com\/cdn-cgi\/script_monitor\/report?m=RvRh6EQA2egPx6JdFhsw.m.1RATK00LOdPev9hq3f8A-1753210520-1.0.1.1-Uchst_eeyl0_BAQRRODtUIhYDUBNZKYADoELB62ZrhleV2Q.J_Wdk59lUFdfwSqAAX2vWrW_nejregFofyr3sox0aNmZolb8G_7Nzpy2RD9uyKH4l3OgsDbo.LRttnqfDPXocdCCB9G61E4QJ8Q1ug"}],"group":"cf-csp-endpoint","max_age":86400}'
+      Content-Security-Policy-Report-Only:
+      - script-src 'none'; connect-src 'none'; report-uri https://csp-reporting.cloudflare.com/cdn-cgi/script_monitor/report?m=RvRh6EQA2egPx6JdFhsw.m.1RATK00LOdPev9hq3f8A-1753210520-1.0.1.1-Uchst_eeyl0_BAQRRODtUIhYDUBNZKYADoELB62ZrhleV2Q.J_Wdk59lUFdfwSqAAX2vWrW_nejregFofyr3sox0aNmZolb8G_7Nzpy2RD9uyKH4l3OgsDbo.LRttnqfDPXocdCCB9G61E4QJ8Q1ug;
+        report-to cf-csp-endpoint
+      Set-Cookie:
+      - _cfuvid=PQ8Lx7_xKyiAL1Mx.Ib3Gjf0xXL4n9.aJfbpov473xY-1753210520423-0.0.1.1-604800000;
+        path=/; domain=.workos.com; HttpOnly; Secure; SameSite=None
+      Server:
+      - cloudflare
+    body:
+      encoding: UTF-8
+      string: '{"object":"organization","id":"org_01K0SQV0S6EPWK2ZDEFD1CP1JC","name":"Test
+        Organization with External ID","allow_profiles_outside_organization":false,"created_at":"2025-07-22T18:55:20.355Z","updated_at":"2025-07-22T18:55:20.355Z","domains":[],"metadata":{},"external_id":"ext_org_123"}'
+    http_version:
+  recorded_at: Tue, 22 Jul 2025 18:55:20 GMT
+recorded_with: VCR 5.0.0

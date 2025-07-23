@@ -1,0 +1,78 @@
+---
+http_interactions:
+- request:
+    method: put
+    uri: https://api.workos.com/organizations/org_01K0SQV0S6EPWK2ZDEFD1CP1JC
+    body:
+      encoding: UTF-8
+      string: '{"name":"Test Organization","external_id":null}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - WorkOS; ruby/3.1.4; arm64-darwin24; v5.22.0
+      Authorization:
+      - Bearer <API_KEY>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 23 Jul 2025 14:19:40 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Cf-Ray:
+      - 963bd06b7d9fac70-YYZ
+      Cf-Cache-Status:
+      - DYNAMIC
+      Etag:
+      - W/"104-iVnG8ziU2vR/dhIQFse9HLEGA6c"
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      Vary:
+      - Origin, Accept-Encoding
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Content-Security-Policy:
+      - 'default-src ''self'';base-uri ''self'';block-all-mixed-content;font-src ''self''
+        https: data:;frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      Expect-Ct:
+      - max-age=0
+      Referrer-Policy:
+      - no-referrer
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - f38969a5-158e-4ed5-b165-a7789d1b0a07
+      X-Xss-Protection:
+      - '0'
+      Set-Cookie:
+      - _cfuvid=7pLWC5qh1CKmolFiECCkKsRg3QAx7aM07F6bX4r6VMU-1753280380885-0.0.1.1-604800000;
+        path=/; domain=.workos.com; HttpOnly; Secure; SameSite=None
+      Server:
+      - cloudflare
+    body:
+      encoding: ASCII-8BIT
+      string: '{"object":"organization","id":"org_01K0SQV0S6EPWK2ZDEFD1CP1JC","name":"Test
+        Organization","allow_profiles_outside_organization":false,"created_at":"2025-07-22T18:55:20.355Z","updated_at":"2025-07-23T14:19:40.831Z","domains":[],"metadata":{},"external_id":null}'
+    http_version:
+  recorded_at: Wed, 23 Jul 2025 14:19:40 GMT
+recorded_with: VCR 5.0.0
