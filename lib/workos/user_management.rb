@@ -69,6 +69,8 @@ module WorkOS
       #  that is preserved and available to the client in the response.
       # @param [String] login_hint Can be used to pre-fill the username/email address
       # field of the IdP sign-in page for the user, if you know their username ahead of time.
+      # @param [String] screen_hint Specify which AuthKit screen users should land on upon redirection
+      # (Only applicable when provider is 'authkit').
       # @param [String] domain_hint Can be used to pre-fill the domain field when
       # initiating authentication with Microsoft OAuth, or with a GoogleSAML connection type.
       # @param [Array<String>] provider_scopes An array of additional OAuth scopes to request from the provider.
@@ -94,6 +96,7 @@ module WorkOS
         client_id: nil,
         domain_hint: nil,
         login_hint: nil,
+        screen_hint: nil,
         provider: nil,
         connection_id: nil,
         organization_id: nil,
@@ -114,6 +117,7 @@ module WorkOS
           state: state,
           domain_hint: domain_hint,
           login_hint: login_hint,
+          screen_hint: screen_hint,
           provider: provider,
           connection_id: connection_id,
           organization_id: organization_id,
