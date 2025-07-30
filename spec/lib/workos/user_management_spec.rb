@@ -202,6 +202,41 @@ describe WorkOS::UserManagement do
       end
     end
 
+    context 'with a screen hint' do
+      let(:args) do
+        {
+          provider: 'authkit',
+          screen_hint: 'sign_up',
+          client_id: 'workos-proj-123',
+          redirect_uri: 'foo.com/auth/callback',
+          state: {
+            next_page: '/dashboard/edit',
+          }.to_s,
+        }
+      end
+      it 'returns a valid URL' do
+        authorization_url = described_class.authorization_url(**args)
+
+        expect(URI.parse(authorization_url)).to be_a URI
+      end
+
+      it 'returns the expected hostname' do
+        authorization_url = described_class.authorization_url(**args)
+
+        expect(URI.parse(authorization_url).host).to eq(WorkOS.config.api_hostname)
+      end
+
+      it 'returns the expected query string' do
+        authorization_url = described_class.authorization_url(**args)
+
+        expect(URI.parse(authorization_url).query).to eq(
+          'client_id=workos-proj-123&redirect_uri=foo.com%2Fauth%2Fcallback' \
+          '&response_type=code&state=%7B%3Anext_page%3D%3E%22%2Fdashboard%2F' \
+          'edit%22%7D&screen_hint=sign_up&provider=authkit',
+        )
+      end
+    end
+
     context 'with neither connection_id, organization_id or provider' do
       let(:args) do
         {
