@@ -32,7 +32,6 @@ GEM
     rainbow (3.1.1)
     regexp_parser (2.10.0)
     rexml (3.4.1)
-      strscan
     rspec (3.9.0)
       rspec-core (~> 3.9.0)
       rspec-expectations (~> 3.9.0)
@@ -59,11 +58,11 @@ GEM
     rubocop-ast (1.37.0)
       parser (>= 3.3.1.0)
     ruby-progressbar (1.13.0)
-    strscan (3.1.0)
     unicode-display_width (3.1.4)
       unicode-emoji (~> 4.0, >= 4.0.4)
     unicode-emoji (4.0.4)
-    vcr (5.0.0)
+    vcr (6.3.1)
+      base64
     webmock (3.23.0)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
@@ -76,7 +75,7 @@ DEPENDENCIES
   bundler (>= 2.0.1)
   rspec (~> 3.9.0)
   rubocop (~> 1.71)
-  vcr (~> 5.0.0)
+  vcr (~> 6.0)
   webmock
   workos!
 
