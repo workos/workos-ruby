@@ -59,6 +59,7 @@ module WorkOS
   autoload :Event, 'workos/event'
   autoload :Events, 'workos/events'
   autoload :Factor, 'workos/factor'
+  autoload :FeatureFlag, 'workos/feature_flag'
   autoload :Impersonator, 'workos/impersonator'
   autoload :Invitation, 'workos/invitation'
   autoload :MagicAuth, 'workos/magic_auth'

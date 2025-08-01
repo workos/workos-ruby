@@ -450,4 +450,24 @@ describe WorkOS::Organizations do
       end
     end
   end
+
+  describe '.list_organization_feature_flags' do
+    context 'with no options' do
+      it 'returns feature flags for organization' do
+        expected_metadata = {
+          after: nil,
+          before: nil,
+        }
+
+        VCR.use_cassette 'organization/list_organization_feature_flags' do
+          feature_flags = described_class.list_organization_feature_flags(
+            organization_id: 'org_01JEXP6Z3X7HE4CB6WQSH9ZAFE',
+          )
+
+          expect(feature_flags.data.size).to eq(2)
+          expect(feature_flags.list_metadata).to eq(expected_metadata)
+        end
+      end
+    end
+  end
 end
