@@ -224,6 +224,46 @@ module WorkOS
         )
       end
 
+      # Retrieve a list of feature flags for the given organization.
+      #
+      # @param [String] organization_id The ID of the organization to fetch feature flags for.
+      # @param [Hash] options
+      # @option options [String] before A pagination argument used to request
+      #  feature flags before the provided FeatureFlag ID.
+      # @option options [String] after A pagination argument used to request
+      #  feature flags after the provided FeatureFlag ID.
+      # @option options [Integer] limit A pagination argument used to limit the number
+      #  of listed FeatureFlags that are returned.
+      # @option options [String] order The order in which to paginate records
+      #
+      # @example
+      #   WorkOS::Organizations.list_organization_feature_flags(organization_id: 'org_01EHZNVPK3SFK441A1RGBFSHRT')
+      #   => #<WorkOS::Types::ListStruct data=[#<WorkOS::FeatureFlag id="flag_123" slug="new-feature"
+      #                                         enabled=true ...>] ...>
+      #
+      # @return [WorkOS::Types::ListStruct] - Collection of FeatureFlag objects
+      def list_organization_feature_flags(organization_id:, options: {})
+        options[:order] ||= 'desc'
+        response = execute_request(
+          request: get_request(
+            path: "/organizations/#{organization_id}/feature-flags",
+            auth: true,
+            params: options,
+          ),
+        )
+
+        parsed_response = JSON.parse(response.body)
+
+        feature_flags = parsed_response['data'].map do |feature_flag|
+          WorkOS::FeatureFlag.new(feature_flag.to_json)
+        end
+
+        WorkOS::Types::ListStruct.new(
+          data: feature_flags,
+          list_metadata: parsed_response['list_metadata']&.transform_keys(&:to_sym),
+        )
+      end
+
       private
 
       def check_and_raise_organization_error(response:)
