@@ -450,4 +450,120 @@ describe WorkOS::Organizations do
       end
     end
   end
+
+  describe '.list_organization_feature_flags' do
+    context 'with no options' do
+      it 'returns feature flags for organization' do
+        expected_metadata = {
+          after: nil,
+          before: nil,
+        }
+
+        VCR.use_cassette 'organization/list_organization_feature_flags' do
+          feature_flags = described_class.list_organization_feature_flags(
+            organization_id: 'org_01HX7Q7R12H1JMAKN75SH2G529',
+          )
+
+          expect(feature_flags.data.size).to eq(2)
+          expect(feature_flags.list_metadata).to eq(expected_metadata)
+        end
+      end
+    end
+
+    context 'with the before option' do
+      it 'forms the proper request to the API' do
+        request_args = [
+          '/organizations/org_01HX7Q7R12H1JMAKN75SH2G529/feature-flags?before=before-id&'\
+          'order=desc',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'organization/list_organization_feature_flags', match_requests_on: [:path] do
+          feature_flags = described_class.list_organization_feature_flags(
+            organization_id: 'org_01HX7Q7R12H1JMAKN75SH2G529',
+            options: { before: 'before-id' },
+          )
+
+          expect(feature_flags.data.size).to eq(2)
+        end
+      end
+    end
+
+    context 'with the after option' do
+      it 'forms the proper request to the API' do
+        request_args = [
+          '/organizations/org_01HX7Q7R12H1JMAKN75SH2G529/feature-flags?after=after-id&'\
+          'order=desc',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'organization/list_organization_feature_flags', match_requests_on: [:path] do
+          feature_flags = described_class.list_organization_feature_flags(
+            organization_id: 'org_01HX7Q7R12H1JMAKN75SH2G529',
+            options: { after: 'after-id' },
+          )
+
+          expect(feature_flags.data.size).to eq(2)
+        end
+      end
+    end
+
+    context 'with the limit option' do
+      it 'forms the proper request to the API' do
+        request_args = [
+          '/organizations/org_01HX7Q7R12H1JMAKN75SH2G529/feature-flags?limit=10&'\
+          'order=desc',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'organization/list_organization_feature_flags', match_requests_on: [:path] do
+          feature_flags = described_class.list_organization_feature_flags(
+            organization_id: 'org_01HX7Q7R12H1JMAKN75SH2G529',
+            options: { limit: 10 },
+          )
+
+          expect(feature_flags.data.size).to eq(2)
+        end
+      end
+    end
+
+    context 'with multiple pagination options' do
+      it 'forms the proper request to the API' do
+        request_args = [
+          '/organizations/org_01HX7Q7R12H1JMAKN75SH2G529/feature-flags?after=after-id&'\
+          'limit=5&order=asc',
+          'Content-Type' => 'application/json'
+        ]
+
+        expected_request = Net::HTTP::Get.new(*request_args)
+
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
+          and_return(expected_request)
+
+        VCR.use_cassette 'organization/list_organization_feature_flags', match_requests_on: [:path] do
+          feature_flags = described_class.list_organization_feature_flags(
+            organization_id: 'org_01HX7Q7R12H1JMAKN75SH2G529',
+            options: { after: 'after-id', limit: 5, order: 'asc' },
+          )
+
+          expect(feature_flags.data.size).to eq(2)
+        end
+      end
+    end
+  end
 end
