@@ -108,6 +108,7 @@ describe WorkOS::Session do
         sid: 'session_id',
         org_id: 'org_id',
         role: 'role',
+        roles: ['role'],
         permissions: ['read'],
         exp: Time.now.to_i + 3600,
       }
@@ -173,6 +174,7 @@ describe WorkOS::Session do
                              session_id: 'session_id',
                              organization_id: 'org_id',
                              role: 'role',
+                             roles: ['role'],
                              permissions: ['read'],
                              feature_flags: nil,
                              entitlements: nil,

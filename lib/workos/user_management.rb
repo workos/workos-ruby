@@ -926,16 +926,21 @@ module WorkOS
       # @param [String] user_id The ID of the User.
       # @param [String] organization_id The ID of the Organization to which the user belongs to.
       # @param [String] role_slug The slug of the role to grant to this membership. (Optional)
+      # @param [Array<String>] role_slugs Array of role slugs to assign to this membership. (Optional)
       #
       # @return [WorkOS::OrganizationMembership]
-      def create_organization_membership(user_id:, organization_id:, role_slug: nil)
+      def create_organization_membership(user_id:, organization_id:, role_slug: nil, role_slugs: nil)
+        body = {
+          user_id: user_id,
+          organization_id: organization_id,
+        }
+        
+        body[:role_slugs] = role_slugs if role_slugs
+        body[:role_slug] = role_slug if role_slug
+        
         request = post_request(
           path: '/user_management/organization_memberships',
-          body: {
-            user_id: user_id,
-            organization_id: organization_id,
-            role_slug: role_slug,
-          }.compact,
+          body: body.compact,
           auth: true,
         )
 
@@ -946,17 +951,20 @@ module WorkOS
 
       # Update an Organization Membership
       #
-      # @param [String] organization_membership_id The ID of the Organization Membership.
-      # @param [String] role_slug The slug of the role to grant to this membership.
+      # @param [String] id The ID of the Organization Membership.
+      # @param [String] role_slug The slug of the role to grant to this membership. (Optional)
+      # @param [Array<String>] role_slugs Array of role slugs to assign to this membership. (Optional)
       #
       # @return [WorkOS::OrganizationMembership]
-      def update_organization_membership(id:, role_slug:)
+      def update_organization_membership(id:, role_slug: nil, role_slugs: nil)
+        body = { id: id }
+        
+        body[:role_slugs] = role_slugs if role_slugs
+        body[:role_slug] = role_slug if role_slug
+        
         request = put_request(
           path: "/user_management/organization_memberships/#{id}",
-          body: {
-            id: id,
-            role_slug: role_slug,
-          },
+          body: body.compact,
           auth: true,
         )
 

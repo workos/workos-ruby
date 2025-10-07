@@ -49,6 +49,7 @@ module WorkOS
         session_id: decoded['sid'],
         organization_id: decoded['org_id'],
         role: decoded['role'],
+        roles: decoded['roles'] || [],
         permissions: decoded['permissions'],
         entitlements: decoded['entitlements'],
         feature_flags: decoded['feature_flags'],
