@@ -30,6 +30,7 @@ module WorkOS
 
     # Authenticates the user based on the session data
     # @return [Hash] A hash containing the authentication response and a reason if the authentication failed
+    # rubocop:disable Metrics/AbcSize
     def authenticate
       return { authenticated: false, reason: 'NO_SESSION_COOKIE_PROVIDED' } if @session_data.nil?
 
@@ -65,7 +66,6 @@ module WorkOS
     # @option options [String] :organization_id The organization ID to use for refreshing the session
     # @return [Hash] A hash containing a new sealed session, the authentication response,
     # and a reason if the refresh failed
-    # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/PerceivedComplexity
     def refresh(options = nil)
       cookie_password = options.nil? || options[:cookie_password].nil? ? @cookie_password : options[:cookie_password]
