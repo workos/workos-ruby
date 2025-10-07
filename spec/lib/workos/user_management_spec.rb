@@ -1309,7 +1309,7 @@ describe WorkOS::UserManagement do
           organization_membership = described_class.create_organization_membership(
             user_id: 'user_01H5JQDV7R7ATEYZDEG0W5PRYS',
             organization_id: 'org_01H5JQDV7R7ATEYZDEG0W5PRYS',
-            role_slugs: ['admin', 'member'],
+            role_slugs: %w[admin member],
           )
 
           expect(organization_membership.organization_id).to eq('organization_01H5JQDV7R7ATEYZDEG0W5PRYS')
@@ -1352,7 +1352,7 @@ describe WorkOS::UserManagement do
         VCR.use_cassette('user_management/update_organization_membership/valid_multiple_roles') do
           organization_membership = WorkOS::UserManagement.update_organization_membership(
             id: 'om_01H5JQDV7R7ATEYZDEG0W5PRYS',
-            role_slugs: ['admin', 'editor'],
+            role_slugs: %w[admin editor],
           )
 
           expect(organization_membership.organization_id).to eq('organization_01H5JQDV7R7ATEYZDEG0W5PRYS')

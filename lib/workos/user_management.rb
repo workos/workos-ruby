@@ -934,10 +934,10 @@ module WorkOS
           user_id: user_id,
           organization_id: organization_id,
         }
-        
+
         body[:role_slugs] = role_slugs if role_slugs
         body[:role_slug] = role_slug if role_slug
-        
+
         request = post_request(
           path: '/user_management/organization_memberships',
           body: body.compact,
@@ -958,10 +958,10 @@ module WorkOS
       # @return [WorkOS::OrganizationMembership]
       def update_organization_membership(id:, role_slug: nil, role_slugs: nil)
         body = { id: id }
-        
+
         body[:role_slugs] = role_slugs if role_slugs
         body[:role_slug] = role_slug if role_slug
-        
+
         request = put_request(
           path: "/user_management/organization_memberships/#{id}",
           body: body.compact,
