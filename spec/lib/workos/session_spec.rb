@@ -167,7 +167,7 @@ describe WorkOS::Session do
         cookie_password: cookie_password,
       )
       allow_any_instance_of(JWT::Decode).to receive(:verify_signature).and_return(true)
-      allow_any_instance_of(JWT::Claims::Expiration).to receive(:verify!).and_raise(JWT::ExpiredSignature, 'Signature has expired')
+      allow_any_instance_of(JWT::Claims::Expiration).to receive(:verify!).and_raise(JWT::ExpiredSignature, 'Signature has expired') # rubocop:disable all
       result = session.authenticate
       expect(result).to eq({
                              authenticated: false,
