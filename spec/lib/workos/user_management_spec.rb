@@ -442,6 +442,16 @@ describe WorkOS::UserManagement do
         end
       end
 
+      it 'can update user locale' do
+        VCR.use_cassette 'user_management/update_user/locale' do
+          user = described_class.update_user(
+            id: 'user_01H7TVSKS45SDHN5V9XPSM6H44',
+            locale: 'en-US',
+          )
+          expect(user.locale).to eq('en-US')
+        end
+      end
+
       it 'can update email addresses' do
         VCR.use_cassette 'user_management/update_user/email' do
           user = described_class.update_user(
@@ -462,6 +472,7 @@ describe WorkOS::UserManagement do
           expect(body).not_to have_key(:first_name)
           expect(body).not_to have_key(:last_name)
           expect(body).not_to have_key(:email)
+          expect(body).not_to have_key(:locale)
 
           # Return a mock request object
           double('request')
