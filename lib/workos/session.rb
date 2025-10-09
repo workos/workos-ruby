@@ -68,7 +68,7 @@ module WorkOS
       rescue JWT::ExpiredSignature
         verify_expiration = false
         retry
-      rescue JWT::DecodeError => e
+      rescue JWT::DecodeError
         { authenticated: false, reason: 'INVALID_JWT' }
       rescue StandardError => e
         { authenticated: false, reason: e.message }
