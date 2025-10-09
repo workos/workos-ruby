@@ -930,6 +930,10 @@ module WorkOS
       #
       # @return [WorkOS::OrganizationMembership]
       def create_organization_membership(user_id:, organization_id:, role_slug: nil, role_slugs: nil)
+        if role_slug && role_slugs
+          raise ArgumentError, 'Cannot specify both role_slug and role_slugs'
+        end
+
         body = {
           user_id: user_id,
           organization_id: organization_id,
@@ -957,6 +961,10 @@ module WorkOS
       #
       # @return [WorkOS::OrganizationMembership]
       def update_organization_membership(id:, role_slug: nil, role_slugs: nil)
+        if role_slug && role_slugs
+          raise ArgumentError, 'Cannot specify both role_slug and role_slugs'
+        end
+
         body = { id: id }
 
         body[:role_slugs] = role_slugs if role_slugs
