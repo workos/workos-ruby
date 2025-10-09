@@ -159,6 +159,30 @@ describe WorkOS::Session do
       expect(result).to eq({ authenticated: false, reason: 'INVALID_JWT' })
     end
 
+    it 'returns INVALID_JWT with expired session_data' do
+      session = WorkOS::Session.new(
+        user_management: user_management,
+        client_id: client_id,
+        session_data: session_data,
+        cookie_password: cookie_password,
+      )
+      allow_any_instance_of(JWT::Decode).to receive(:verify_signature).and_return(true)
+      allow_any_instance_of(JWT::Claims::Expiration).to receive(:verify!).and_raise(JWT::ExpiredSignature, 'Signature has expired')
+      result = session.authenticate
+      expect(result).to eq({
+                             authenticated: false,
+                             session_id: 'session_id',
+                             organization_id: 'org_id',
+                             role: 'role',
+                             permissions: ['read'],
+                             feature_flags: nil,
+                             entitlements: nil,
+                             user: 'user',
+                             impersonator: 'impersonator',
+                             reason: 'INVALID_JWT',
+                           })
+    end
+
     it 'authenticates successfully with valid session_data' do
       session = WorkOS::Session.new(
         user_management: user_management,

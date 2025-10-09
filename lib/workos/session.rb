@@ -40,22 +40,39 @@ module WorkOS
       end
 
       return { authenticated: false, reason: 'INVALID_SESSION_COOKIE' } unless session[:access_token]
-      return { authenticated: false, reason: 'INVALID_JWT' } unless is_valid_jwt(session[:access_token])
 
-      decoded = JWT.decode(session[:access_token], nil, true, algorithms: @jwks_algorithms, jwks: @jwks).first
+      verify_expiration = true
 
-      {
-        authenticated: true,
-        session_id: decoded['sid'],
-        organization_id: decoded['org_id'],
-        role: decoded['role'],
-        permissions: decoded['permissions'],
-        entitlements: decoded['entitlements'],
-        feature_flags: decoded['feature_flags'],
-        user: session[:user],
-        impersonator: session[:impersonator],
-        reason: nil,
-      }
+      begin
+        decoded = JWT.decode(
+          session[:access_token],
+          nil,
+          true,
+          algorithms: @jwks_algorithms,
+          jwks: @jwks,
+          verify_expiration: verify_expiration,
+        ).first
+
+        {
+          authenticated: verify_expiration,
+          session_id: decoded['sid'],
+          organization_id: decoded['org_id'],
+          role: decoded['role'],
+          permissions: decoded['permissions'],
+          entitlements: decoded['entitlements'],
+          feature_flags: decoded['feature_flags'],
+          user: session[:user],
+          impersonator: session[:impersonator],
+          reason: ('INVALID_JWT' unless verify_expiration),
+        }
+      rescue JWT::ExpiredSignature
+        verify_expiration = false
+        retry
+      rescue JWT::DecodeError => e
+        { authenticated: false, reason: 'INVALID_JWT' }
+      rescue StandardError => e
+        { authenticated: false, reason: e.message }
+      end
     end
 
     # Refreshes the session data using the refresh token stored in the session data
@@ -167,17 +184,5 @@ module WorkOS
 
       jwks
     end
-
-    # Validates a JWT token using the JWKS set
-    # @param token [String] The JWT token to validate
-    # @return [Boolean] True if the token is valid, false otherwise
-    # rubocop:disable Naming/PredicateName
-    def is_valid_jwt(token)
-      JWT.decode(token, nil, true, algorithms: @jwks_algorithms, jwks: @jwks)
-      true
-    rescue StandardError
-      false
-    end
-    # rubocop:enable Naming/PredicateName
   end
 end
