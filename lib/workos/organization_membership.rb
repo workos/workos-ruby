@@ -17,7 +17,7 @@ module WorkOS
       @organization_id = hash[:organization_id]
       @status = hash[:status]
       @role = hash[:role]
-      @roles = hash[:roles] || []
+      @roles = hash[:roles]
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
     end
