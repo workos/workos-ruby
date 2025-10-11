@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: put
-    uri: https://api.workos.com/user_management/users/user_01H7TVSKS45SDHN5V9XPSM6H44
+    uri: https://api.workos.com/user_management/users/user_01K78B3ZB5B7119MYEXTQE5KNE
     body:
       encoding: UTF-8
       string: '{"locale":"en-US"}'
@@ -14,7 +14,7 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - WorkOS; ruby/3.0.2; arm64-darwin21; v2.16.0
+      - WorkOS; ruby/3.1.4; arm64-darwin23; v5.25.0
       Authorization:
       - Bearer <API_KEY>
   response:
@@ -23,7 +23,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Fri, 25 Aug 2023 23:37:04 GMT
+      - Sat, 11 Oct 2025 00:40:19 GMT
       Content-Type:
       - application/json; charset=utf-8
       Transfer-Encoding:
@@ -31,17 +31,15 @@ http_interactions:
       Connection:
       - keep-alive
       Cf-Ray:
-      - 7fc7a9287d0330ba-SEA
+      - 98ca4e2ece4df13a-ORD
       Cf-Cache-Status:
       - DYNAMIC
       Etag:
-      - W/"153-w5d8Z7u7b9Obt9NziECtNSAY9Ac"
+      - W/"14b-avtqVpGgr9LY49Al2c3gzw62Mbc"
       Strict-Transport-Security:
       - max-age=15552000; includeSubDomains
       Vary:
       - Origin, Accept-Encoding
-      Via:
-      - 1.1 spaces-router (devel)
       Access-Control-Allow-Credentials:
       - 'true'
       Content-Security-Policy:
@@ -63,20 +61,16 @@ http_interactions:
       X-Permitted-Cross-Domain-Policies:
       - none
       X-Request-Id:
-      - b333b9e1-c9ec-4e99-ae4f-17a854859cf1
+      - e9a5015e-44f0-4321-990a-66d2ba4a3e15
       X-Xss-Protection:
       - '0'
       Set-Cookie:
-      - __cf_bm=adC6w3NUNGTpdZDzNn39guANJ9wi798uCuqc_EI8190-1693006624-0-AcpsuyzFE/KdM7ev5pSVTt2vnGqCSZBOuQYZ0iKFiJT0mBlAuNITn3hICEKvcZ4LH7JUIyjnEOWfq2w7JyRmrJ4=;
-        path=/; expires=Sat, 26-Aug-23 00:07:04 GMT; domain=.workos.com; HttpOnly;
-        Secure; SameSite=None
-      - __cfruid=1d0cc3edf886cc7b90bd0c9c3226f5611a385c1a-1693006624; path=/; domain=.workos.com;
-        HttpOnly; Secure; SameSite=None
+      - _cfuvid=IZBV12JrFjDy0rHr.O3LoIyI0iKnOHdGa_R3uam5bZI-1760143219077-0.0.1.1-604800000;
+        path=/; domain=.workos.com; HttpOnly; Secure; SameSite=None
       Server:
       - cloudflare
     body:
       encoding: ASCII-8BIT
-      string: '{"object":"user","id":"user_01H7TVSKS45SDHN5V9XPSM6H44","email":"willman@blips.app","email_verified":false,"first_name":"Jane","last_name":"Doe","external_id":"123","locale":"en-US","created_at":"2023-08-14T20:28:58.929Z","updated_at":"2023-08-25T22:57:44.262Z","user_type":"unmanaged","email_verified_at":null,"google_oauth_profile_id":null,"microsoft_oauth_profile_id":null}'
-    http_version:
-  recorded_at: Fri, 25 Aug 2023 23:37:04 GMT
-recorded_with: VCR 5.0.0
+      string: '{"object":"user","id":"user_01K78B3ZB5B7119MYEXTQE5KNE","email":"test-locale@example.com","email_verified":false,"first_name":"Jane","last_name":"Doe","profile_picture_url":null,"metadata":{},"last_sign_in_at":null,"locale":"en-US","created_at":"2025-10-11T00:35:49.727Z","updated_at":"2025-10-11T00:40:19.051Z","external_id":null}'
+  recorded_at: Sat, 11 Oct 2025 00:40:19 GMT
+recorded_with: VCR 6.3.1

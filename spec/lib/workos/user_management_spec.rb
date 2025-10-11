@@ -445,7 +445,7 @@ describe WorkOS::UserManagement do
       it 'can update user locale' do
         VCR.use_cassette 'user_management/update_user/locale' do
           user = described_class.update_user(
-            id: 'user_01H7TVSKS45SDHN5V9XPSM6H44',
+            id: 'user_01K78B3ZB5B7119MYEXTQE5KNE',
             locale: 'en-US',
           )
           expect(user.locale).to eq('en-US')
