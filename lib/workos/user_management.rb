@@ -230,6 +230,7 @@ module WorkOS
       # @param [String] last_name The user's last name.
       # @param [Boolean] email_verified Whether the user's email address was previously verified.
       # @param [String] external_id The users's external ID
+      # @param [String] locale The user's locale.
       # @param [String] password The user's password.
       # @param [String] password_hash The user's hashed password.
       # @option [String] password_hash_type The algorithm originally used to hash the password.
@@ -243,6 +244,7 @@ module WorkOS
         last_name: :not_set,
         email_verified: :not_set,
         external_id: :not_set,
+        locale: :not_set,
         password: :not_set,
         password_hash: :not_set,
         password_hash_type: :not_set
@@ -255,6 +257,7 @@ module WorkOS
             last_name: last_name,
             email_verified: email_verified,
             external_id: external_id,
+            locale: locale,
             password: password,
             password_hash: password_hash,
             password_hash_type: password_hash_type,
