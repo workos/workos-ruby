@@ -230,6 +230,7 @@ module WorkOS
       # @param [String] last_name The user's last name.
       # @param [Boolean] email_verified Whether the user's email address was previously verified.
       # @param [String] external_id The users's external ID
+      # @param [String] locale The user's locale.
       # @param [String] password The user's password.
       # @param [String] password_hash The user's hashed password.
       # @option [String] password_hash_type The algorithm originally used to hash the password.
@@ -243,6 +244,7 @@ module WorkOS
         last_name: :not_set,
         email_verified: :not_set,
         external_id: :not_set,
+        locale: :not_set,
         password: :not_set,
         password_hash: :not_set,
         password_hash_type: :not_set
@@ -255,6 +257,7 @@ module WorkOS
             last_name: last_name,
             email_verified: email_verified,
             external_id: external_id,
+            locale: locale,
             password: password,
             password_hash: password_hash,
             password_hash_type: password_hash_type,
@@ -926,16 +929,23 @@ module WorkOS
       # @param [String] user_id The ID of the User.
       # @param [String] organization_id The ID of the Organization to which the user belongs to.
       # @param [String] role_slug The slug of the role to grant to this membership. (Optional)
+      # @param [Array<String>] role_slugs Array of role slugs to assign to this membership. (Optional)
       #
       # @return [WorkOS::OrganizationMembership]
-      def create_organization_membership(user_id:, organization_id:, role_slug: nil)
+      def create_organization_membership(user_id:, organization_id:, role_slug: nil, role_slugs: nil)
+        raise ArgumentError, 'Cannot specify both role_slug and role_slugs' if role_slug && role_slugs
+
+        body = {
+          user_id: user_id,
+          organization_id: organization_id,
+        }
+
+        body[:role_slugs] = role_slugs if role_slugs
+        body[:role_slug] = role_slug if role_slug
+
         request = post_request(
           path: '/user_management/organization_memberships',
-          body: {
-            user_id: user_id,
-            organization_id: organization_id,
-            role_slug: role_slug,
-          }.compact,
+          body: body.compact,
           auth: true,
         )
 
@@ -946,17 +956,22 @@ module WorkOS
 
       # Update an Organization Membership
       #
-      # @param [String] organization_membership_id The ID of the Organization Membership.
-      # @param [String] role_slug The slug of the role to grant to this membership.
+      # @param [String] id The ID of the Organization Membership.
+      # @param [String] role_slug The slug of the role to grant to this membership. (Optional)
+      # @param [Array<String>] role_slugs Array of role slugs to assign to this membership. (Optional)
       #
       # @return [WorkOS::OrganizationMembership]
-      def update_organization_membership(id:, role_slug:)
+      def update_organization_membership(id:, role_slug: nil, role_slugs: nil)
+        raise ArgumentError, 'Cannot specify both role_slug and role_slugs' if role_slug && role_slugs
+
+        body = { id: id }
+
+        body[:role_slugs] = role_slugs if role_slugs
+        body[:role_slug] = role_slug if role_slug
+
         request = put_request(
           path: "/user_management/organization_memberships/#{id}",
-          body: {
-            id: id,
-            role_slug: role_slug,
-          },
+          body: body.compact,
           auth: true,
         )
 

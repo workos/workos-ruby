@@ -442,6 +442,16 @@ describe WorkOS::UserManagement do
         end
       end
 
+      it 'can update user locale' do
+        VCR.use_cassette 'user_management/update_user/locale' do
+          user = described_class.update_user(
+            id: 'user_01K78B3ZB5B7119MYEXTQE5KNE',
+            locale: 'en-US',
+          )
+          expect(user.locale).to eq('en-US')
+        end
+      end
+
       it 'can update email addresses' do
         VCR.use_cassette 'user_management/update_user/email' do
           user = described_class.update_user(
@@ -462,6 +472,7 @@ describe WorkOS::UserManagement do
           expect(body).not_to have_key(:first_name)
           expect(body).not_to have_key(:last_name)
           expect(body).not_to have_key(:email)
+          expect(body).not_to have_key(:locale)
 
           # Return a mock request object
           double('request')
@@ -1302,6 +1313,23 @@ describe WorkOS::UserManagement do
         end
       end
     end
+
+    context 'with role slugs' do
+      it 'creates an organization membership with multiple roles' do
+        VCR.use_cassette 'user_management/create_organization_membership/valid_multiple_roles' do
+          organization_membership = described_class.create_organization_membership(
+            user_id: 'user_01H5JQDV7R7ATEYZDEG0W5PRYS',
+            organization_id: 'org_01H5JQDV7R7ATEYZDEG0W5PRYS',
+            role_slugs: %w[admin member],
+          )
+
+          expect(organization_membership.organization_id).to eq('organization_01H5JQDV7R7ATEYZDEG0W5PRYS')
+          expect(organization_membership.user_id).to eq('user_01H5JQDV7R7ATEYZDEG0W5PRYS')
+          expect(organization_membership.roles).to be_an(Array)
+          expect(organization_membership.roles.length).to eq(2)
+        end
+      end
+    end
   end
 
   describe '.update_organization_membership' do
@@ -1326,6 +1354,22 @@ describe WorkOS::UserManagement do
           expect do
             WorkOS::UserManagement.update_organization_membership(id: 'invalid', role_slug: 'admin')
           end.to raise_error(WorkOS::NotFoundError, /Organization Membership not found/)
+        end
+      end
+    end
+
+    context 'with role slugs' do
+      it 'updates an organization membership with multiple roles' do
+        VCR.use_cassette('user_management/update_organization_membership/valid_multiple_roles') do
+          organization_membership = WorkOS::UserManagement.update_organization_membership(
+            id: 'om_01H5JQDV7R7ATEYZDEG0W5PRYS',
+            role_slugs: %w[admin editor],
+          )
+
+          expect(organization_membership.organization_id).to eq('organization_01H5JQDV7R7ATEYZDEG0W5PRYS')
+          expect(organization_membership.user_id).to eq('user_01H5JQDV7R7ATEYZDEG0W5PRYS')
+          expect(organization_membership.roles).to be_an(Array)
+          expect(organization_membership.roles.length).to eq(2)
         end
       end
     end
