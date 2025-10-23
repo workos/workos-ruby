@@ -4,6 +4,7 @@ PATH
     workos (5.26.0)
       encryptor (~> 3.0)
       jwt (~> 2.8)
+      openssl (>= 3.0, != 3.6.0)
 
 GEM
   remote: https://rubygems.org/
@@ -23,6 +24,7 @@ GEM
     jwt (2.10.1)
       base64
     language_server-protocol (3.17.0.3)
+    openssl (3.3.1)
     parallel (1.26.3)
     parser (3.3.7.0)
       ast (~> 2.4.1)
