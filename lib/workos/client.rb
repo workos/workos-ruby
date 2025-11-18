@@ -18,14 +18,15 @@ module WorkOS
     def execute_request(request:, retries: nil)
       retries = retries.nil? ? WorkOS.config.max_retries : retries
       attempt = 0
+      http_client = client
 
       begin
-        response = client.request(request)
+        response = http_client.request(request)
         http_status = response.code.to_i
 
         if http_status >= 400
-          if retryable_error?(http_status) && attempt < retries
-            attempt += 1
+          attempt += 1
+          if retryable_error?(http_status) && attempt <= retries
             delay = calculate_retry_delay(attempt, response)
             sleep(delay)
             raise RetryableError.new(http_status: http_status)

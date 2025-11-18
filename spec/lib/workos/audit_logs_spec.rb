@@ -53,7 +53,7 @@ describe WorkOS::AuditLogs do
       end
 
       context 'without idempotency key' do
-        it 'creates an even with auto-generated idempotency_key' do
+        it 'creates an event with auto-generated idempotency_key' do
           allow(SecureRandom).to receive(:uuid).and_return('test-uuid-1234')
 
           request = double('request')
