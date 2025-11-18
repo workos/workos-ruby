@@ -6,6 +6,7 @@ describe WorkOS::AuditLogs do
   before do
     WorkOS.configure do |config|
       config.key = 'example_api_key'
+      config.audit_log_max_retries = 3
     end
   end
 
