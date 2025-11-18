@@ -89,4 +89,14 @@ module WorkOS
 
   # UnprocessableEntityError is raised when a request is made that cannot be processed
   class UnprocessableEntityError < WorkOSError; end
+
+  # RetryableError is raised internally to trigger retry logic for retryable HTTP errors
+  class RetryableError < StandardError
+    attr_reader :http_status
+
+    def initialize(http_status:)
+      @http_status = http_status
+      super()
+    end
+  end
 end

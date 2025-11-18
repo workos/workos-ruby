@@ -14,6 +14,7 @@ module WorkOS
       end
     end
 
+    # rubocop:disable Metrics/AbcSize
     def execute_request(request:)
       retries = WorkOS.config.max_retries
       attempt = 0
@@ -27,14 +28,14 @@ module WorkOS
             attempt += 1
             delay = calculate_retry_delay(attempt, response)
             sleep(delay)
-            retry
+            raise RetryableError.new(http_status: http_status)
           else
             handle_error_response(response: response)
           end
         end
 
         response
-      rescue Net::OpenTimeout, Net::ReadTimeout, Net::WriteTimeout => e
+      rescue Net::OpenTimeout, Net::ReadTimeout, Net::WriteTimeout
         if attempt < retries
           attempt += 1
           delay = calculate_backoff(attempt)
@@ -45,8 +46,11 @@ module WorkOS
             message: 'API Timeout Error',
           )
         end
+      rescue RetryableError
+        retry
       end
     end
+    # rubocop:enable Metrics/AbcSize
 
     def get_request(path:, auth: false, params: {}, access_token: nil)
       uri = URI(path)

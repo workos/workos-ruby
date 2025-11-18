@@ -23,7 +23,7 @@ describe WorkOS::Client do
       it 'retries up to max_retries times' do
         allow(test_module).to receive(:client).and_return(double('client'))
         allow(test_module.client).to receive(:request) do
-          double('response', code: '500', body: '{"message": "Internal Server Error"}')
+          double('response', code: '500', body: '{"message": "Internal Server Error"}', '[]': nil)
         end
 
         expect(test_module.client).to receive(:request).exactly(4).times
@@ -39,7 +39,7 @@ describe WorkOS::Client do
       it 'retries on service unavailable' do
         allow(test_module).to receive(:client).and_return(double('client'))
         allow(test_module.client).to receive(:request) do
-          double('response', code: '503', body: '{"message": "Service Unavailable"}')
+          double('response', code: '503', body: '{"message": "Service Unavailable"}', '[]': nil)
         end
 
         expect(test_module.client).to receive(:request).exactly(4).times
@@ -195,27 +195,27 @@ describe WorkOS::Client do
         # Allow rand to return a consistent value for testing
         allow_any_instance_of(Object).to receive(:rand).and_return(0.5)
 
-        backoff_1 = test_module.send(:calculate_backoff, 1)
-        backoff_2 = test_module.send(:calculate_backoff, 2)
-        backoff_3 = test_module.send(:calculate_backoff, 3)
+        backoff_attempt_1 = test_module.send(:calculate_backoff, 1)
+        backoff_attempt_2 = test_module.send(:calculate_backoff, 2)
+        backoff_attempt_3 = test_module.send(:calculate_backoff, 3)
 
         # Attempt 1: base_delay * 2^0 = 1.0, jitter = 0.125
-        expect(backoff_1).to eq(1.125)
+        expect(backoff_attempt_1).to eq(1.125)
 
         # Attempt 2: base_delay * 2^1 = 2.0, jitter = 0.25
-        expect(backoff_2).to eq(2.25)
+        expect(backoff_attempt_2).to eq(2.25)
 
         # Attempt 3: base_delay * 2^2 = 4.0, jitter = 0.5
-        expect(backoff_3).to eq(4.5)
+        expect(backoff_attempt_3).to eq(4.5)
       end
 
       it 'respects max_delay' do
         allow_any_instance_of(Object).to receive(:rand).and_return(0.5)
 
-        backoff_10 = test_module.send(:calculate_backoff, 10)
+        backoff_attempt_10 = test_module.send(:calculate_backoff, 10)
 
         # Should cap at 30.0 + jitter (30.0 * 0.25 * 0.5 = 3.75)
-        expect(backoff_10).to eq(33.75)
+        expect(backoff_attempt_10).to eq(33.75)
       end
     end
 
@@ -225,7 +225,7 @@ describe WorkOS::Client do
 
         allow(test_module).to receive(:client).and_return(double('client'))
         allow(test_module.client).to receive(:request) do
-          double('response', code: '500', body: '{"message": "Internal Server Error"}')
+          double('response', code: '500', body: '{"message": "Internal Server Error"}', '[]': nil)
         end
 
         expect(test_module.client).to receive(:request).exactly(3).times
@@ -243,7 +243,7 @@ describe WorkOS::Client do
 
         allow(test_module).to receive(:client).and_return(double('client'))
         allow(test_module.client).to receive(:request) do
-          double('response', code: '500', body: '{"message": "Internal Server Error"}')
+          double('response', code: '500', body: '{"message": "Internal Server Error"}', '[]': nil)
         end
 
         expect(test_module.client).to receive(:request).once
@@ -277,4 +277,3 @@ describe WorkOS::Client do
     end
   end
 end
-

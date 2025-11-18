@@ -20,9 +20,7 @@ module WorkOS
       # @return [nil]
       def create_event(organization:, event:, idempotency_key: nil)
         # Auto-generate idempotency key if not provided
-        if idempotency_key.nil?
-          idempotency_key = SecureRandom.uuid
-        end
+        idempotency_key = SecureRandom.uuid if idempotency_key.nil?
 
         request = post_request(
           path: '/audit_logs/events',
