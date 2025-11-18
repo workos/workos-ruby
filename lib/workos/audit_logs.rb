@@ -32,7 +32,7 @@ module WorkOS
           },
         )
 
-        # Explicitely setting to 3 retries for the audit log event creation request
+        # Explicitly setting to 3 retries for the audit log event creation request
         execute_request(request: request, retries: WorkOS.config.audit_log_max_retries)
       end
 

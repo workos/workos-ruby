@@ -50,7 +50,7 @@ module WorkOS
     end
 
     def retryable?
-      return true if http_status && (http_status >= 500 || http_status == 408)
+      return true if http_status && (http_status >= 500 || http_status == 408 || http_status == 429)
 
       false
     end
