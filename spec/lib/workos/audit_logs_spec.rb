@@ -142,14 +142,12 @@ describe WorkOS::AuditLogs do
             call_count += 1
             expect(request['Idempotency-Key']).to eq('test-idempotency-key')
 
-            # Always return 503 to simulate persistent failure
             response = double('response', code: '503', body: '{"message": "Service Unavailable"}')
             allow(response).to receive(:[]).with('x-request-id').and_return('test-request-id')
             allow(response).to receive(:[]).with('Retry-After').and_return(nil)
             response
           end
 
-          # create_event uses retries: 3, so should sleep 3 times (for 3 retries)
           expect(described_class).to receive(:sleep).exactly(3).times
 
           expect do
