@@ -1693,6 +1693,81 @@ describe WorkOS::UserManagement do
     end
   end
 
+  describe '.resend_invitation' do
+    context 'with valid payload' do
+      it 'resends invitation' do
+        VCR.use_cassette 'user_management/resend_invitation/valid' do
+          invitation = described_class.resend_invitation(
+            id: 'invitation_01H5JQDV7R7ATEYZDEG0W5PRYS',
+          )
+
+          expect(invitation.id).to eq('invitation_01H5JQDV7R7ATEYZDEG0W5PRYS')
+          expect(invitation.email).to eq('test@workos.com')
+        end
+      end
+    end
+
+    context 'with an invalid id' do
+      it 'returns an error' do
+        VCR.use_cassette 'user_management/resend_invitation/invalid' do
+          expect do
+            described_class.resend_invitation(
+              id: 'invalid_id',
+            )
+          end.to raise_error(
+            WorkOS::NotFoundError,
+            /Invitation not found/,
+          )
+        end
+      end
+    end
+
+    context 'when invitation has expired' do
+      it 'returns an error' do
+        VCR.use_cassette 'user_management/resend_invitation/expired' do
+          expect do
+            described_class.resend_invitation(
+              id: 'invitation_01H5JQDV7R7ATEYZDEG0W5PRYS',
+            )
+          end.to raise_error(
+            WorkOS::InvalidRequestError,
+            /Invite has expired/,
+          )
+        end
+      end
+    end
+
+    context 'when invitation has been revoked' do
+      it 'returns an error' do
+        VCR.use_cassette 'user_management/resend_invitation/revoked' do
+          expect do
+            described_class.resend_invitation(
+              id: 'invitation_01H5JQDV7R7ATEYZDEG0W5PRYS',
+            )
+          end.to raise_error(
+            WorkOS::InvalidRequestError,
+            /Invite has been revoked/,
+          )
+        end
+      end
+    end
+
+    context 'when invitation has already been accepted' do
+      it 'returns an error' do
+        VCR.use_cassette 'user_management/resend_invitation/accepted' do
+          expect do
+            described_class.resend_invitation(
+              id: 'invitation_01H5JQDV7R7ATEYZDEG0W5PRYS',
+            )
+          end.to raise_error(
+            WorkOS::InvalidRequestError,
+            /Invite has already been accepted/,
+          )
+        end
+      end
+    end
+  end
+
   describe '.revoke_session' do
     context 'with valid payload' do
       it 'revokes session' do
