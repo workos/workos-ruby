@@ -57,11 +57,11 @@ describe WorkOS::Client do
       end
     end
 
-    context 'with 429 errors' do
+    context 'with 408 errors' do
       it 'retries with exponential backoff' do
         allow(test_module).to receive(:client).and_return(double('client'))
         allow(test_module.client).to receive(:request) do
-          double('response', code: '429', body: '{"message": "Rate Limit Exceeded"}', '[]': nil)
+          double('response', code: '408', body: '{"message": "Request Timeout"}', '[]': nil)
         end
 
         expect(test_module.client).to receive(:request).exactly(4).times
@@ -69,7 +69,7 @@ describe WorkOS::Client do
 
         expect do
           test_module.test_request
-        end.to raise_error(WorkOS::RateLimitExceededError)
+        end.to raise_error(WorkOS::TimeoutError)
       end
 
       it 'respects Retry-After header' do
@@ -77,8 +77,8 @@ describe WorkOS::Client do
 
         response_with_retry_after = double(
           'response',
-          code: '429',
-          body: '{"message": "Rate Limit Exceeded"}',
+          code: '408',
+          body: '{"message": "Request Timeout"}',
           '[]': nil,
         )
         allow(response_with_retry_after).to receive(:[]).with('Retry-After').and_return('5')
@@ -89,7 +89,7 @@ describe WorkOS::Client do
 
         expect do
           test_module.test_request
-        end.to raise_error(WorkOS::RateLimitExceededError)
+        end.to raise_error(WorkOS::TimeoutError)
       end
     end
 
@@ -270,11 +270,15 @@ describe WorkOS::Client do
       expect(test_module.send(:retryable_error?, 599)).to eq(true)
     end
 
+    it 'returns true for 408 errors' do
+      expect(test_module.send(:retryable_error?, 408)).to eq(true)
+    end
+
     it 'returns true for 429 errors' do
       expect(test_module.send(:retryable_error?, 429)).to eq(true)
     end
 
-    it 'returns false for 4xx errors (except 429)' do
+    it 'returns false for 4xx errors (except 408 and 429)' do
       expect(test_module.send(:retryable_error?, 400)).to eq(false)
       expect(test_module.send(:retryable_error?, 401)).to eq(false)
       expect(test_module.send(:retryable_error?, 404)).to eq(false)

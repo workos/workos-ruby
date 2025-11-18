@@ -146,6 +146,13 @@ module WorkOS
           http_status: http_status,
           request_id: response['x-request-id'],
         )
+      when 408
+        raise TimeoutError.new(
+          message: json['message'],
+          http_status: http_status,
+          request_id: response['x-request-id'],
+          retry_after: response['Retry-After'],
+        )
       when 422
         message = json['message']
         code = json['code']
@@ -180,7 +187,7 @@ module WorkOS
     private
 
     def retryable_error?(http_status)
-      http_status >= 500 || http_status == 429
+      http_status >= 500 || http_status == 408 || http_status == 429
     end
 
     def calculate_backoff(attempt)
@@ -194,8 +201,9 @@ module WorkOS
     end
 
     def calculate_retry_delay(attempt, response)
-      # If it's a 429 with Retry-After header, use that
-      if response.code.to_i == 429 && response['Retry-After']
+      # If it's a 408 or 429 with Retry-After header, use that
+      http_status = response.code.to_i
+      if (http_status == 408 || http_status == 429) && response['Retry-After']
         retry_after = response['Retry-After'].to_i
         return retry_after if retry_after.positive?
       end
