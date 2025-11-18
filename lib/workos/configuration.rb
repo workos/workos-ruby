@@ -3,12 +3,11 @@
 module WorkOS
   # Configuration class sets config initializer
   class Configuration
-    attr_accessor :api_hostname, :timeout, :key, :max_retries, :auto_idempotency_keys
+    attr_accessor :api_hostname, :timeout, :key, :max_retries
 
     def initialize
       @timeout = 60
       @max_retries = 3
-      @auto_idempotency_keys = true
     end
 
     def key!

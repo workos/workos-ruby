@@ -19,8 +19,8 @@ module WorkOS
       #
       # @return [nil]
       def create_event(organization:, event:, idempotency_key: nil)
-        # Auto-generate idempotency key if not provided and enabled
-        if idempotency_key.nil? && WorkOS.config.auto_idempotency_keys
+        # Auto-generate idempotency key if not provided
+        if idempotency_key.nil?
           idempotency_key = SecureRandom.uuid
         end
 
