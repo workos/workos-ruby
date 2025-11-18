@@ -203,7 +203,7 @@ module WorkOS
     def calculate_retry_delay(attempt, response)
       # If it's a 408 or 429 with Retry-After header, use that
       http_status = response.code.to_i
-      if (http_status == 408 || http_status == 429) && response['Retry-After']
+      if [408, 429].include?(http_status) && response['Retry-After']
         retry_after = response['Retry-After'].to_i
         return retry_after if retry_after.positive?
       end
