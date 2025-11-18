@@ -65,6 +65,54 @@ describe WorkOS::AuditLogs do
         end
       end
 
+      context 'with auto-generated idempotency key' do
+        it 'generates UUID v4 idempotency key' do
+          allow(SecureRandom).to receive(:uuid).and_return('test-uuid-1234')
+
+          request = double('request')
+          expect(described_class).to receive(:post_request).with(
+            path: '/audit_logs/events',
+            auth: true,
+            idempotency_key: 'test-uuid-1234',
+            body: hash_including(organization_id: 'org_123'),
+          ).and_return(request)
+
+          allow(described_class).to receive(:execute_request).and_return(double(code: '201'))
+
+          described_class.create_event(
+            organization: 'org_123',
+            event: valid_event,
+          )
+        end
+      end
+
+      context 'with auto_idempotency_keys disabled' do
+        before do
+          WorkOS.config.auto_idempotency_keys = false
+        end
+
+        after do
+          WorkOS.config.auto_idempotency_keys = true
+        end
+
+        it 'does not generate idempotency key' do
+          request = double('request')
+          expect(described_class).to receive(:post_request).with(
+            path: '/audit_logs/events',
+            auth: true,
+            idempotency_key: nil,
+            body: hash_including(organization_id: 'org_123'),
+          ).and_return(request)
+
+          allow(described_class).to receive(:execute_request).and_return(double(code: '201'))
+
+          described_class.create_event(
+            organization: 'org_123',
+            event: valid_event,
+          )
+        end
+      end
+
       context 'with invalid event' do
         it 'returns error' do
           VCR.use_cassette 'audit_logs/create_event_invalid', match_requests_on: %i[path body] do

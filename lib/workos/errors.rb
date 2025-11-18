@@ -48,6 +48,12 @@ module WorkOS
         "#{status_string}#{@message}#{id_string}"
       end
     end
+
+    def retryable?
+      return true if http_status && (http_status >= 500 || http_status == 429)
+
+      false
+    end
   end
 
   # APIError is a generic error that may be raised in cases where none of the

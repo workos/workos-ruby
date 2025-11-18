@@ -2,6 +2,7 @@
 
 require 'net/http'
 require 'uri'
+require 'securerandom'
 
 module WorkOS
   # The Audit Logs module provides convenience methods for working with the
@@ -18,6 +19,11 @@ module WorkOS
       #
       # @return [nil]
       def create_event(organization:, event:, idempotency_key: nil)
+        # Auto-generate idempotency key if not provided and enabled
+        if idempotency_key.nil? && WorkOS.config.auto_idempotency_keys
+          idempotency_key = SecureRandom.uuid
+        end
+
         request = post_request(
           path: '/audit_logs/events',
           auth: true,

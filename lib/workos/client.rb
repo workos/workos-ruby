@@ -15,18 +15,37 @@ module WorkOS
     end
 
     def execute_request(request:)
+      retries = WorkOS.config.max_retries
+      attempt = 0
+
       begin
         response = client.request(request)
-      rescue Net::OpenTimeout, Net::ReadTimeout, Net::WriteTimeout
-        raise TimeoutError.new(
-          message: 'API Timeout Error',
-        )
+        http_status = response.code.to_i
+
+        if http_status >= 400
+          if retryable_error?(http_status) && attempt < retries
+            attempt += 1
+            delay = calculate_retry_delay(attempt, response)
+            sleep(delay)
+            retry
+          else
+            handle_error_response(response: response)
+          end
+        end
+
+        response
+      rescue Net::OpenTimeout, Net::ReadTimeout, Net::WriteTimeout => e
+        if attempt < retries
+          attempt += 1
+          delay = calculate_backoff(attempt)
+          sleep(delay)
+          retry
+        else
+          raise TimeoutError.new(
+            message: 'API Timeout Error',
+          )
+        end
       end
-
-      http_status = response.code.to_i
-      handle_error_response(response: response) if http_status >= 400
-
-      response
     end
 
     def get_request(path:, auth: false, params: {}, access_token: nil)
@@ -155,6 +174,31 @@ module WorkOS
     # rubocop:enable Metrics/MethodLength, Metrics/AbcSize, Metrics/CyclomaticComplexity:
 
     private
+
+    def retryable_error?(http_status)
+      http_status >= 500 || http_status == 429
+    end
+
+    def calculate_backoff(attempt)
+      base_delay = 1.0
+      max_delay = 30.0
+      jitter_percentage = 0.25
+
+      delay = [base_delay * (2**(attempt - 1)), max_delay].min
+      jitter = delay * jitter_percentage * rand
+      delay + jitter
+    end
+
+    def calculate_retry_delay(attempt, response)
+      # If it's a 429 with Retry-After header, use that
+      if response.code.to_i == 429 && response['Retry-After']
+        retry_after = response['Retry-After'].to_i
+        return retry_after if retry_after.positive?
+      end
+
+      # Otherwise use exponential backoff
+      calculate_backoff(attempt)
+    end
 
     def extract_error(errors)
       errors.map do |error|
