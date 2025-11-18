@@ -4,7 +4,13 @@ describe WorkOS::Client do
   before do
     WorkOS.configure do |config|
       config.key = 'test_api_key'
+      config.max_retries = 3
     end
+  end
+  
+  after do
+    # Reset to default after each test
+    WorkOS.config.max_retries = 0
   end
 
   let(:test_module) do
@@ -177,7 +183,10 @@ describe WorkOS::Client do
         allow(test_module.client).to receive(:request) do
           call_count += 1
           if call_count < 3
-            double('response', code: '500', body: '{"message": "Internal Server Error"}')
+            response = double('response', code: '500', body: '{"message": "Internal Server Error"}')
+            allow(response).to receive(:[]).with('x-request-id').and_return('test-request-id')
+            allow(response).to receive(:[]).with('Retry-After').and_return(nil)
+            response
           else
             double('response', code: '200', body: '{"success": true}')
           end
@@ -234,8 +243,6 @@ describe WorkOS::Client do
         expect do
           test_module.test_request
         end.to raise_error(WorkOS::APIError)
-
-        WorkOS.config.max_retries = 3
       end
 
       it 'does not retry when max_retries is 0' do
@@ -252,8 +259,6 @@ describe WorkOS::Client do
         expect do
           test_module.test_request
         end.to raise_error(WorkOS::APIError)
-
-        WorkOS.config.max_retries = 3
       end
     end
   end
