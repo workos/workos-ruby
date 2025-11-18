@@ -91,14 +91,6 @@ describe WorkOS::AuditLogs do
       end
 
       context 'with retry logic using same idempotency key' do
-        before do
-          WorkOS.config.max_retries = 3
-        end
-
-        after do
-          WorkOS.config.max_retries = 0
-        end
-
         it 'retries with the same idempotency key on retryable errors' do
           allow(described_class).to receive(:client).and_return(double('client'))
 

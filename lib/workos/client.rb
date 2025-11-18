@@ -25,8 +25,8 @@ module WorkOS
         http_status = response.code.to_i
 
         if http_status >= 400
-          attempt += 1
-          if retryable_error?(http_status) && attempt <= retries
+          if retryable_error?(http_status) && attempt < retries
+            attempt += 1
             delay = calculate_retry_delay(attempt, response)
             sleep(delay)
             raise RetryableError.new(http_status: http_status)
