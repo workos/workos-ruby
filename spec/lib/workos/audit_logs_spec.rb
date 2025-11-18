@@ -102,6 +102,81 @@ describe WorkOS::AuditLogs do
           end
         end
       end
+
+      context 'with retry logic using same idempotency key' do
+        before do
+          WorkOS.config.max_retries = 3
+        end
+
+        after do
+          WorkOS.config.max_retries = 0
+        end
+
+        it 'retries with the same idempotency key on retryable errors' do
+          allow(described_class).to receive(:client).and_return(double('client'))
+
+          call_count = 0
+          allow(described_class.client).to receive(:request) do |request|
+            call_count += 1
+            # Verify the same idempotency key is used on every retry
+            expect(request['Idempotency-Key']).to eq('test-idempotency-key')
+
+            if call_count < 3
+              # Return 500 error for first 2 attempts
+              response = double('response', code: '500', body: '{"message": "Internal Server Error"}')
+              allow(response).to receive(:[]).with('x-request-id').and_return('test-request-id')
+              allow(response).to receive(:[]).with('Retry-After').and_return(nil)
+              response
+            else
+              # Success on 3rd attempt
+              double('response', code: '201', body: '{}')
+            end
+          end
+
+          expect(described_class).to receive(:sleep).exactly(2).times
+
+          response = described_class.create_event(
+            organization: 'org_123',
+            event: valid_event,
+            idempotency_key: 'test-idempotency-key',
+          )
+
+          expect(response.code).to eq('201')
+          expect(call_count).to eq(3)
+        end
+      end
+
+      context 'with retry limit exceeded' do
+        it 'stops retrying after hitting retry limit' do
+          allow(described_class).to receive(:client).and_return(double('client'))
+
+          call_count = 0
+          allow(described_class.client).to receive(:request) do |request|
+            call_count += 1
+            expect(request['Idempotency-Key']).to eq('test-idempotency-key')
+
+            # Always return 503 to simulate persistent failure
+            response = double('response', code: '503', body: '{"message": "Service Unavailable"}')
+            allow(response).to receive(:[]).with('x-request-id').and_return('test-request-id')
+            allow(response).to receive(:[]).with('Retry-After').and_return(nil)
+            response
+          end
+
+          # create_event uses retries: 3, so should sleep 3 times (for 3 retries)
+          expect(described_class).to receive(:sleep).exactly(3).times
+
+          expect do
+            described_class.create_event(
+              organization: 'org_123',
+              event: valid_event,
+              idempotency_key: 'test-idempotency-key',
+            )
+          end.to raise_error(WorkOS::APIError)
+
+          # Should make 4 total attempts: 1 initial + 3 retries
+          expect(call_count).to eq(4)
+        end
+      end
     end
   end
 
