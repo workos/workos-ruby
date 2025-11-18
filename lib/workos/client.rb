@@ -14,7 +14,7 @@ module WorkOS
       end
     end
 
-    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
     def execute_request(request:, retries: nil)
       retries = retries.nil? ? WorkOS.config.max_retries : retries
       attempt = 0
@@ -50,7 +50,7 @@ module WorkOS
         retry
       end
     end
-    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity
 
     def get_request(path:, auth: false, params: {}, access_token: nil)
       uri = URI(path)
