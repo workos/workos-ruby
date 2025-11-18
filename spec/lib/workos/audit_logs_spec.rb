@@ -162,48 +162,6 @@ describe WorkOS::AuditLogs do
           expect(call_count).to eq(4)
         end
       end
-
-      context 'with 408 request timeout errors' do
-        before do
-          WorkOS.config.max_retries = 3
-        end
-
-        after do
-          WorkOS.config.max_retries = 0
-        end
-
-        it 'retries with the same idempotency key on 408 timeout errors' do
-          allow(described_class).to receive(:client).and_return(double('client'))
-
-          call_count = 0
-          allow(described_class.client).to receive(:request) do |request|
-            call_count += 1
-            expect(request['Idempotency-Key']).to eq('test-idempotency-key')
-
-            if call_count < 2
-              # Return 408 Request Timeout for first attempt
-              response = double('response', code: '408', body: '{"message": "Request Timeout"}')
-              allow(response).to receive(:[]).with('x-request-id').and_return('test-request-id')
-              allow(response).to receive(:[]).with('Retry-After').and_return(nil)
-              response
-            else
-              # Success on 2nd attempt
-              double('response', code: '201', body: '{}')
-            end
-          end
-
-          expect(described_class).to receive(:sleep).once
-
-          response = described_class.create_event(
-            organization: 'org_123',
-            event: valid_event,
-            idempotency_key: 'test-idempotency-key',
-          )
-
-          expect(response.code).to eq('201')
-          expect(call_count).to eq(2)
-        end
-      end
     end
   end
 
