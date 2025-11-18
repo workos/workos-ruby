@@ -7,7 +7,7 @@ describe WorkOS::Client do
       config.max_retries = 3
     end
   end
-  
+
   after do
     # Reset to default after each test
     WorkOS.config.max_retries = 0
