@@ -15,8 +15,8 @@ module WorkOS
     end
 
     # rubocop:disable Metrics/AbcSize
-    def execute_request(request:)
-      retries = WorkOS.config.max_retries
+    def execute_request(request:, retries: nil)
+      retries = retries.nil? ? WorkOS.config.max_retries : retries
       attempt = 0
 
       begin

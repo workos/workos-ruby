@@ -7,7 +7,7 @@ module WorkOS
 
     def initialize
       @timeout = 60
-      @max_retries = 3
+      @max_retries = 0
     end
 
     def key!

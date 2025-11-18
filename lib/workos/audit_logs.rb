@@ -32,7 +32,7 @@ module WorkOS
           },
         )
 
-        execute_request(request: request)
+        execute_request(request: request, retries: 3)
       end
 
       # Create an Export of Audit Log Events.
