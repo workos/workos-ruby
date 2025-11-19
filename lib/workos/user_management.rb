@@ -869,7 +869,7 @@ module WorkOS
           ),
         )
 
-        WorkOS::User.new(response.body)
+        WorkOS::UserResponse.new(response.body).user
       end
 
       # Get an Organization Membership
