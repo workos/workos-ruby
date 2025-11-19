@@ -1139,6 +1139,22 @@ module WorkOS
         WorkOS::Invitation.new(response.body)
       end
 
+      # Resends an existing Invitation.
+      #
+      # @param [String] id The unique ID of the Invitation.
+      #
+      # @return WorkOS::Invitation
+      def resend_invitation(id:)
+        request = post_request(
+          path: "/user_management/invitations/#{id}/resend",
+          auth: true,
+        )
+
+        response = execute_request(request: request)
+
+        WorkOS::Invitation.new(response.body)
+      end
+
       private
 
       def validate_session(session)
