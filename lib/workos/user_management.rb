@@ -869,9 +869,7 @@ module WorkOS
           ),
         )
 
-        parsed_response = JSON.parse(response.body)
-        user_data = parsed_response['user']
-        WorkOS::User.new(user_data.to_json)
+        WorkOS::UserResponse.new(response.body).user
       end
 
       # Get an Organization Membership
