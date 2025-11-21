@@ -160,6 +160,44 @@ describe WorkOS::Session do
       expect(result).to eq({ authenticated: false, reason: 'INVALID_JWT' })
     end
 
+    it 'returns INVALID_JWT without token data when session is expired' do
+      session = WorkOS::Session.new(
+        user_management: user_management,
+        client_id: client_id,
+        session_data: session_data,
+        cookie_password: cookie_password,
+      )
+      allow_any_instance_of(JWT::Decode).to receive(:verify_signature).and_return(true)
+      allow(Time).to receive(:now).and_return(Time.at(9_999_999_999))
+      result = session.authenticate
+      expect(result).to eq({ authenticated: false, reason: 'INVALID_JWT' })
+    end
+
+    it 'returns INVALID_JWT with full token data when session is expired and include_expired is true' do
+      session = WorkOS::Session.new(
+        user_management: user_management,
+        client_id: client_id,
+        session_data: session_data,
+        cookie_password: cookie_password,
+      )
+      allow_any_instance_of(JWT::Decode).to receive(:verify_signature).and_return(true)
+      allow(Time).to receive(:now).and_return(Time.at(9_999_999_999))
+      result = session.authenticate(include_expired: true)
+      expect(result).to eq({
+                             authenticated: false,
+                             session_id: 'session_id',
+                             organization_id: 'org_id',
+                             role: 'role',
+                             roles: ['role'],
+                             permissions: ['read'],
+                             feature_flags: nil,
+                             entitlements: nil,
+                             user: 'user',
+                             impersonator: 'impersonator',
+                             reason: 'INVALID_JWT',
+                           })
+    end
+
     it 'authenticates successfully with valid session_data' do
       session = WorkOS::Session.new(
         user_management: user_management,

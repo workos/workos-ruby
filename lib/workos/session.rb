@@ -29,9 +29,10 @@ module WorkOS
     end
 
     # Authenticates the user based on the session data
+    # @param include_expired [Boolean] If true, returns decoded token data even when expired (default: false)
     # @return [Hash] A hash containing the authentication response and a reason if the authentication failed
-    # rubocop:disable Metrics/AbcSize
-    def authenticate
+    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
+    def authenticate(include_expired: false)
       return { authenticated: false, reason: 'NO_SESSION_COOKIE_PROVIDED' } if @session_data.nil?
 
       begin
@@ -41,23 +42,41 @@ module WorkOS
       end
 
       return { authenticated: false, reason: 'INVALID_SESSION_COOKIE' } unless session[:access_token]
-      return { authenticated: false, reason: 'INVALID_JWT' } unless is_valid_jwt(session[:access_token])
 
-      decoded = JWT.decode(session[:access_token], nil, true, algorithms: @jwks_algorithms, jwks: @jwks).first
+      begin
+        decoded = JWT.decode(
+          session[:access_token],
+          nil,
+          true,
+          algorithms: @jwks_algorithms,
+          jwks: @jwks,
+          verify_expiration: false,
+        ).first
 
-      {
-        authenticated: true,
-        session_id: decoded['sid'],
-        organization_id: decoded['org_id'],
-        role: decoded['role'],
-        roles: decoded['roles'],
-        permissions: decoded['permissions'],
-        entitlements: decoded['entitlements'],
-        feature_flags: decoded['feature_flags'],
-        user: session[:user],
-        impersonator: session[:impersonator],
-        reason: nil,
-      }
+        expired = decoded['exp'] && decoded['exp'] < Time.now.to_i
+
+        # Early return for expired tokens when not including expired data (backward compatible)
+        return { authenticated: false, reason: 'INVALID_JWT' } if expired && !include_expired
+
+        # Return full data for valid tokens or when include_expired is true
+        {
+          authenticated: !expired,
+          session_id: decoded['sid'],
+          organization_id: decoded['org_id'],
+          role: decoded['role'],
+          roles: decoded['roles'],
+          permissions: decoded['permissions'],
+          entitlements: decoded['entitlements'],
+          feature_flags: decoded['feature_flags'],
+          user: session[:user],
+          impersonator: session[:impersonator],
+          reason: expired ? 'INVALID_JWT' : nil,
+        }
+      rescue JWT::DecodeError
+        { authenticated: false, reason: 'INVALID_JWT' }
+      rescue StandardError => e
+        { authenticated: false, reason: e.message }
+      end
     end
 
     # Refreshes the session data using the refresh token stored in the session data
@@ -66,7 +85,6 @@ module WorkOS
     # @option options [String] :organization_id The organization ID to use for refreshing the session
     # @return [Hash] A hash containing a new sealed session, the authentication response,
     # and a reason if the refresh failed
-    # rubocop:disable Metrics/PerceivedComplexity
     def refresh(options = nil)
       cookie_password = options.nil? || options[:cookie_password].nil? ? @cookie_password : options[:cookie_password]
 
@@ -168,17 +186,5 @@ module WorkOS
 
       jwks
     end
-
-    # Validates a JWT token using the JWKS set
-    # @param token [String] The JWT token to validate
-    # @return [Boolean] True if the token is valid, false otherwise
-    # rubocop:disable Naming/PredicateName
-    def is_valid_jwt(token)
-      JWT.decode(token, nil, true, algorithms: @jwks_algorithms, jwks: @jwks)
-      true
-    rescue StandardError
-      false
-    end
-    # rubocop:enable Naming/PredicateName
   end
 end
