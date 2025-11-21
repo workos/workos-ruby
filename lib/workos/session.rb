@@ -29,9 +29,10 @@ module WorkOS
     end
 
     # Authenticates the user based on the session data
+    # @param include_expired [Boolean] If true, returns decoded token data even when expired (default: false)
     # @return [Hash] A hash containing the authentication response and a reason if the authentication failed
     # rubocop:disable Metrics/AbcSize
-    def authenticate
+    def authenticate(include_expired: false)
       return { authenticated: false, reason: 'NO_SESSION_COOKIE_PROVIDED' } if @session_data.nil?
 
       begin
@@ -42,8 +43,6 @@ module WorkOS
 
       return { authenticated: false, reason: 'INVALID_SESSION_COOKIE' } unless session[:access_token]
 
-      verify_expiration = true
-
       begin
         decoded = JWT.decode(
           session[:access_token],
@@ -51,11 +50,17 @@ module WorkOS
           true,
           algorithms: @jwks_algorithms,
           jwks: @jwks,
-          verify_expiration: verify_expiration,
+          verify_expiration: false,
         ).first
 
+        expired = decoded['exp'] && decoded['exp'] < Time.now.to_i
+
+        # Early return for expired tokens when not including expired data (backward compatible)
+        return { authenticated: false, reason: 'INVALID_JWT' } if expired && !include_expired
+
+        # Return full data for valid tokens or when include_expired is true
         {
-          authenticated: verify_expiration,
+          authenticated: !expired,
           session_id: decoded['sid'],
           organization_id: decoded['org_id'],
           role: decoded['role'],
@@ -65,11 +70,8 @@ module WorkOS
           feature_flags: decoded['feature_flags'],
           user: session[:user],
           impersonator: session[:impersonator],
-          reason: ('INVALID_JWT' unless verify_expiration),
+          reason: expired ? 'INVALID_JWT' : nil,
         }
-      rescue JWT::ExpiredSignature
-        verify_expiration = false
-        retry
       rescue JWT::DecodeError
         { authenticated: false, reason: 'INVALID_JWT' }
       rescue StandardError => e
