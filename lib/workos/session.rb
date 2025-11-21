@@ -31,7 +31,7 @@ module WorkOS
     # Authenticates the user based on the session data
     # @param include_expired [Boolean] If true, returns decoded token data even when expired (default: false)
     # @return [Hash] A hash containing the authentication response and a reason if the authentication failed
-    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
     def authenticate(include_expired: false)
       return { authenticated: false, reason: 'NO_SESSION_COOKIE_PROVIDED' } if @session_data.nil?
 
@@ -85,7 +85,6 @@ module WorkOS
     # @option options [String] :organization_id The organization ID to use for refreshing the session
     # @return [Hash] A hash containing a new sealed session, the authentication response,
     # and a reason if the refresh failed
-    # rubocop:disable Metrics/PerceivedComplexity
     def refresh(options = nil)
       cookie_password = options.nil? || options[:cookie_password].nil? ? @cookie_password : options[:cookie_password]
 
