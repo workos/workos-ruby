@@ -14,20 +14,44 @@ module WorkOS
       end
     end
 
-    def execute_request(request:)
+    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
+    def execute_request(request:, retries: nil)
+      retries = retries.nil? ? WorkOS.config.max_retries : retries
+      attempt = 0
+      http_client = client
+
       begin
-        response = client.request(request)
+        response = http_client.request(request)
+        http_status = response.code.to_i
+
+        if http_status >= 400
+          if retryable_error?(http_status) && attempt < retries
+            attempt += 1
+            delay = calculate_retry_delay(attempt, response)
+            sleep(delay)
+            raise RetryableError.new(http_status: http_status)
+          else
+            handle_error_response(response: response)
+          end
+        end
+
+        response
       rescue Net::OpenTimeout, Net::ReadTimeout, Net::WriteTimeout
-        raise TimeoutError.new(
-          message: 'API Timeout Error',
-        )
+        if attempt < retries
+          attempt += 1
+          delay = calculate_backoff(attempt)
+          sleep(delay)
+          retry
+        else
+          raise TimeoutError.new(
+            message: 'API Timeout Error',
+          )
+        end
+      rescue RetryableError
+        retry
       end
-
-      http_status = response.code.to_i
-      handle_error_response(response: response) if http_status >= 400
-
-      response
     end
+    # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity
 
     def get_request(path:, auth: false, params: {}, access_token: nil)
       uri = URI(path)
@@ -123,6 +147,13 @@ module WorkOS
           http_status: http_status,
           request_id: response['x-request-id'],
         )
+      when 408
+        raise TimeoutError.new(
+          message: json['message'],
+          http_status: http_status,
+          request_id: response['x-request-id'],
+          retry_after: response['Retry-After'],
+        )
       when 422
         message = json['message']
         code = json['code']
@@ -155,6 +186,32 @@ module WorkOS
     # rubocop:enable Metrics/MethodLength, Metrics/AbcSize, Metrics/CyclomaticComplexity:
 
     private
+
+    def retryable_error?(http_status)
+      http_status >= 500 || http_status == 408 || http_status == 429
+    end
+
+    def calculate_backoff(attempt)
+      base_delay = 1.0
+      max_delay = 30.0
+      jitter_percentage = 0.25
+
+      delay = [base_delay * (2**(attempt - 1)), max_delay].min
+      jitter = delay * jitter_percentage * rand
+      delay + jitter
+    end
+
+    def calculate_retry_delay(attempt, response)
+      # If it's a 408 or 429 with Retry-After header, use that
+      http_status = response.code.to_i
+      if [408, 429].include?(http_status) && response['Retry-After']
+        retry_after = response['Retry-After'].to_i
+        return retry_after if retry_after.positive?
+      end
+
+      # Otherwise use exponential backoff
+      calculate_backoff(attempt)
+    end
 
     def extract_error(errors)
       errors.map do |error|
