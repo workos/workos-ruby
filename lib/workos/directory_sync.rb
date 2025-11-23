@@ -115,7 +115,7 @@ module WorkOS
       # @param [Hash] options An options hash
       # @option options [String] directory The ID of the directory whose
       #  directory users will be retrieved.
-      # @option options [String] user The ID of the directory group whose
+      # @option options [String] group The ID of the directory group whose
       #  directory users will be retrieved.
       # @option options [String] limit Maximum number of records to return.
       # @option options [String] order The order in which to paginate records
