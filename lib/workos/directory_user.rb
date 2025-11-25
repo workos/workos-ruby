@@ -52,6 +52,12 @@ module WorkOS
         merge(authorization_attributes)
     end
 
+    # @deprecated Will be removed in a future major version. Use {#email} instead.
+    def primary_email
+      primary_email = (emails || []).find { |email| email[:primary] }
+      return primary_email[:value] if primary_email
+    end
+
     private
 
     def base_attributes
@@ -80,14 +86,6 @@ module WorkOS
         role: role,
         roles: roles,
       }
-    end
-
-    public
-
-    # @deprecated Will be removed in a future major version. Use {#email} instead.
-    def primary_email
-      primary_email = (emails || []).find { |email| email[:primary] }
-      return primary_email[:value] if primary_email
     end
   end
 end
