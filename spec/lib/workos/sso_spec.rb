@@ -305,6 +305,9 @@ describe WorkOS::SSO do
           role: {
             slug: 'member',
           },
+          roles: [{
+            slug: 'member',
+          }],
           groups: nil,
           organization_id: 'org_01FG53X8636WSNW2WEKB2C31ZB',
           custom_attributes: {},
@@ -380,6 +383,9 @@ describe WorkOS::SSO do
           role: {
             slug: 'admin',
           },
+          roles: [{
+            slug: 'admin',
+          }],
           groups: %w[Admins Developers],
           organization_id: 'org_01FG53X8636WSNW2WEKB2C31ZB',
           custom_attributes: {
