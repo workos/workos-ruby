@@ -48,6 +48,13 @@ module WorkOS
     # rubocop:enable Metrics/AbcSize
 
     def to_json(*)
+      base_attributes.
+        merge(authorization_attributes)
+    end
+
+    private
+
+    def base_attributes
       {
         id: id,
         directory_id: directory_id,
@@ -61,14 +68,21 @@ module WorkOS
         username: username,
         state: state,
         groups: groups,
-        role: role,
-        roles: roles,
         custom_attributes: custom_attributes,
         raw_attributes: raw_attributes,
         created_at: created_at,
         updated_at: updated_at,
       }
     end
+
+    def authorization_attributes
+      {
+        role: role,
+        roles: roles,
+      }
+    end
+
+    public
 
     # @deprecated Will be removed in a future major version. Use {#email} instead.
     def primary_email
