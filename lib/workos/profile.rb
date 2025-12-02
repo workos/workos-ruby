@@ -9,7 +9,7 @@ module WorkOS
   class Profile
     include HashProvider
 
-    attr_accessor :id, :email, :first_name, :last_name, :role, :groups, :organization_id,
+    attr_accessor :id, :email, :first_name, :last_name, :role, :roles, :groups, :organization_id,
                   :connection_id, :connection_type, :idp_id, :custom_attributes, :raw_attributes
 
     # rubocop:disable Metrics/AbcSize
@@ -21,6 +21,7 @@ module WorkOS
       @first_name = hash[:first_name]
       @last_name = hash[:last_name]
       @role = hash[:role]
+      @roles = hash[:roles]
       @groups = hash[:groups]
       @organization_id = hash[:organization_id]
       @connection_id = hash[:connection_id]
@@ -42,6 +43,7 @@ module WorkOS
         first_name: first_name,
         last_name: last_name,
         role: role,
+        roles: roles,
         groups: groups,
         organization_id: organization_id,
         connection_id: connection_id,
