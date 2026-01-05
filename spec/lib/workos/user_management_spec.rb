@@ -1797,6 +1797,45 @@ describe WorkOS::UserManagement do
     end
   end
 
+  describe '.list_sessions' do
+    context 'with a valid user_id' do
+      it 'returns a list of sessions' do
+        VCR.use_cassette('user_management/list_sessions/valid') do
+          result = described_class.list_sessions(
+            user_id: 'user_01H7TVSKS45SDHN5V9XPSM6H44',
+          )
+
+          expect(result.data).to be_an(Array)
+          expect(result.data.first).to be_a(WorkOS::UserManagement::Session)
+          expect(result.data.first.id).to eq('session_01H96FETXGTW2S0V5V9XPSM6H44')
+          expect(result.data.first.status).to eq('active')
+          expect(result.data.first.auth_method).to eq('password')
+        end
+      end
+
+      it 'returns sessions that can be revoked' do
+        VCR.use_cassette('user_management/list_sessions/valid') do
+          result = described_class.list_sessions(
+            user_id: 'user_01H7TVSKS45SDHN5V9XPSM6H44',
+          )
+          session = result.data.first
+
+          expect(described_class).to receive(:post_request) do |options|
+            expect(options[:path]).to eq('/user_management/sessions/revoke')
+            expect(options[:body]).to eq({ session_id: 'session_01H96FETXGTW2S0V5V9XPSM6H44' })
+            expect(options[:auth]).to be true
+          end.and_return(double('request'))
+
+          expect(described_class).to receive(:execute_request).and_return(
+            double('response', is_a?: true),
+          )
+
+          expect(session.revoke).to be true
+        end
+      end
+    end
+  end
+
   describe '.get_logout_url' do
     it 'returns a logout url for the given session ID' do
       result = described_class.get_logout_url(

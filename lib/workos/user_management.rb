@@ -7,6 +7,8 @@ module WorkOS
   # The UserManagement module provides convenience methods for working with the
   # WorkOS User platform. You'll need a valid API key.
   module UserManagement
+    autoload :Session, 'workos/user_management/session'
+
     module Types
       # The ProviderEnum is a declaration of a
       # fixed set of values for User Management Providers.
@@ -736,6 +738,40 @@ module WorkOS
 
         WorkOS::Types::ListStruct.new(
           data: auth_factors,
+          list_metadata: parsed_response['list_metadata'],
+        )
+      end
+
+      # Get all sessions for a user
+      #
+      # @param [String] user_id The id for the user.
+      # @param [Hash] options
+      # @option options [String] limit Maximum number of records to return.
+      # @option options [String] order The order in which to paginate records
+      # @option options [String] before Pagination cursor to receive records
+      #  before a provided Session ID.
+      # @option options [String] after Pagination cursor to receive records
+      #  after a provided Session ID.
+      #
+      # @return [WorkOS::Types::ListStruct<WorkOS::UserManagement::Session>]
+      def list_sessions(user_id:, options: {})
+        options[:order] ||= 'desc'
+        response = execute_request(
+          request: get_request(
+            path: "/user_management/users/#{user_id}/sessions",
+            auth: true,
+            params: options,
+          ),
+        )
+
+        parsed_response = JSON.parse(response.body)
+
+        sessions = parsed_response['data'].map do |session|
+          ::WorkOS::UserManagement::Session.new(session.to_json)
+        end
+
+        WorkOS::Types::ListStruct.new(
+          data: sessions,
           list_metadata: parsed_response['list_metadata'],
         )
       end
