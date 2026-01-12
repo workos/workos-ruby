@@ -21,7 +21,7 @@ jobs:
           - '3.2'
     steps:
       - uses: actions/checkout@v4
-      - uses: ruby/setup-ruby@1a615958ad9d422dd932dc1d5823942ee002799f # v1.227.0
+      - uses: ruby/setup-ruby@675dd7ba1b06c8786a1480d89c384f5620a42647 # v1.281.0
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
