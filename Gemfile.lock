@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    workos (5.30.1)
+    workos (5.31.0)
       encryptor (~> 3.0)
       jwt (~> 2.8)
 
@@ -20,7 +20,7 @@ GEM
     encryptor (3.0.0)
     hashdiff (1.1.0)
     json (2.9.1)
-    jwt (2.10.1)
+    jwt (2.10.2)
       base64
     language_server-protocol (3.17.0.3)
     parallel (1.26.3)

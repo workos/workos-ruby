@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 module WorkOS
-  VERSION = '5.30.1'
+  VERSION = '5.31.0'
 end
