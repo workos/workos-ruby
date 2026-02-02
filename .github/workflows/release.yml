@@ -1,43 +1,70 @@
 name: Release
 
 on:
-  # Support manually pushing a new release
-  workflow_dispatch: {}
-  # Trigger when a release is published
-  release:
-    types: [released]
+  pull_request:
+    types: [closed]
+    branches: [main]
 
 defaults:
   run:
     shell: bash
 
 jobs:
-  test:
-    name: Publish to RubyGems
+  create-release:
+    name: Create GitHub Release
+    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'version-bump')
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - uses: actions/checkout@v6
-      - uses: ruby/setup-ruby@v1
+      - name: Generate token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
         with:
-          ruby-version: '3.2'
+          app-id: ${{ vars.SDK_BOT_APP_ID }}
+          private-key: ${{ secrets.SDK_BOT_PRIVATE_KEY }}
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
+
+      - name: Get version from version.rb
+        id: get-version
+        run: |
+          VERSION=$(grep "VERSION = " lib/workos/version.rb | sed "s/.*VERSION = '\(.*\)'/\1/")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.get-version.outputs.version }}
+          name: v${{ steps.get-version.outputs.version }}
+          generate_release_notes: true
+          token: ${{ steps.generate-token.outputs.token }}
+
+  publish:
+    name: Publish to RubyGems
+    needs: create-release
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2"
           bundler-cache: true
 
-      - name: Spec
-        run: |
-          bundle exec rspec
+      - name: Run tests
+        run: bundle exec rspec
 
-      - name: Publish
-        env:
-          RUBYGEMS_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
-        run: |
-          mkdir -p ~/.gem
+      - name: Build gem
+        run: gem build workos.gemspec
 
-          cat << EOF > ~/.gem/credentials
-          ---
-          :rubygems_api_key: ${RUBYGEMS_API_KEY}
-          EOF
-
-          chmod 0600 ~/.gem/credentials
-
-          bundle exec gem build workos --output=release.gem
-          bundle exec gem push release.gem
+      - name: Publish to RubyGems
+        uses: rubygems/release-gem@v1
