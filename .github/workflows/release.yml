@@ -65,3 +65,5 @@ jobs:
 
       - name: Publish to RubyGems
         uses: rubygems/release-gem@v1
+        with:
+          gem-push-command: bundle exec rake build release:rubygem_push
