@@ -16,6 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    outputs:
+      version: ${{ steps.get-version.outputs.version }}
     steps:
       - name: Generate token
         id: generate-token
@@ -51,6 +53,11 @@ jobs:
       id-token: write
       contents: read
     steps:
+      - name: Configure RubyGems credentials
+        uses: rubygems/configure-rubygems-credentials@main
+        with:
+          role-to-assume: rg_oidc_akr_fn8dx45asckvmsnd2kka
+
       - name: Checkout
         uses: actions/checkout@v6
 
@@ -64,6 +71,6 @@ jobs:
         run: bundle exec rspec
 
       - name: Publish to RubyGems
-        uses: rubygems/release-gem@v1
-        with:
-          gem-push-command: bundle exec rake build release:rubygem_push
+        run: |
+          bundle exec rake build
+          gem push pkg/workos-${{ needs.create-release.outputs.version }}.gem --host https://rubygems.org
