@@ -63,8 +63,5 @@ jobs:
       - name: Run tests
         run: bundle exec rspec
 
-      - name: Build gem
-        run: gem build workos.gemspec
-
       - name: Publish to RubyGems
         uses: rubygems/release-gem@v1
