@@ -30,6 +30,7 @@ GEM
     public_suffix (5.0.4)
     racc (1.8.1)
     rainbow (3.1.1)
+    rake (13.3.1)
     regexp_parser (2.10.0)
     rexml (3.4.2)
     rspec (3.9.0)
@@ -73,6 +74,7 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (>= 2.0.1)
+  rake
   rspec (~> 3.9.0)
   rubocop (~> 1.71)
   vcr (~> 6.0)
