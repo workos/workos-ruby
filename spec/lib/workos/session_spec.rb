@@ -222,6 +222,29 @@ describe WorkOS::Session do
                            })
     end
 
+    it 'merges custom claims from claim_extractor block' do
+      custom_payload = payload.merge(custom_claim: 'custom_value', another_claim: 123)
+      custom_access_token = JWT.encode(custom_payload, jwk.signing_key, jwk[:alg], { kid: jwk[:kid] })
+      custom_session_data = WorkOS::Session.seal_data({
+                                                        access_token: custom_access_token,
+                                                        user: 'user',
+                                                        impersonator: 'impersonator',
+                                                      }, cookie_password,)
+      session = WorkOS::Session.new(
+        user_management: user_management,
+        client_id: client_id,
+        session_data: custom_session_data,
+        cookie_password: cookie_password,
+      )
+      allow_any_instance_of(JWT::Decode).to receive(:verify_signature).and_return(true)
+      result = session.authenticate do |jwt|
+        { my_custom_claim: jwt['custom_claim'], my_other_claim: jwt['another_claim'] }
+      end
+      expect(result[:authenticated]).to be true
+      expect(result[:my_custom_claim]).to eq('custom_value')
+      expect(result[:my_other_claim]).to eq(123)
+    end
+
     describe 'with entitlements' do
       let(:payload) do
         {
