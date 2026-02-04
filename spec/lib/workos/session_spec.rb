@@ -5,8 +5,8 @@ describe WorkOS::Session do
   let(:cookie_password) { 'test_very_long_cookie_password__' }
   let(:session_data) { 'test_session_data' }
   let(:jwks_url) { 'https://api.workos.com/sso/jwks/client_123' }
-  let(:jwks_hash) { '{"keys":[{"alg":"RS256","kty":"RSA","use":"sig","n":"test_n","e":"AQAB","kid":"sso_oidc_key_pair_123","x5c":["test"],"x5t#S256":"test"}]}' } # rubocop:disable all
   let(:jwk) { JWT::JWK.new(OpenSSL::PKey::RSA.new(2048), { kid: 'sso_oidc_key_pair_123', use: 'sig', alg: 'RS256' }) }
+  let(:jwks_hash) { { keys: [jwk.export] }.to_json }
 
   before do
     allow(Net::HTTP).to receive(:get).and_return(jwks_hash)
