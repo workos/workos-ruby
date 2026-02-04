@@ -22,13 +22,17 @@ module WorkOS
         end
       @sealed_session =
         if session && session[:seal_session]
-          WorkOS::Session.seal_data({
-                                      access_token: access_token,
-                                      refresh_token: refresh_token,
-                                      user: user.to_json,
-                                      organization_id: organization_id,
-                                      impersonator: impersonator.to_json,
-                                    }, session[:cookie_password],)
+          WorkOS::Session.seal_data(
+            {
+              access_token: access_token,
+              refresh_token: refresh_token,
+              user: user.to_json,
+              organization_id: organization_id,
+              impersonator: impersonator.to_json,
+            },
+            session[:cookie_password],
+            encryptor: session[:encryptor],
+          )
         end
     end
     # rubocop:enable Metrics/AbcSize

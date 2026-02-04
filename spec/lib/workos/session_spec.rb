@@ -408,4 +408,68 @@ describe WorkOS::Session do
       end
     end
   end
+
+  describe 'custom encryptor' do
+    let(:user_management) { instance_double('UserManagement') }
+    let(:custom_encryptor) do
+      Class.new do
+        def seal(data, _key)
+          "CUSTOM:#{JSON.generate(data)}"
+        end
+
+        def unseal(sealed_data, _key)
+          json = sealed_data.sub('CUSTOM:', '')
+          JSON.parse(json, symbolize_names: true)
+        end
+      end.new
+    end
+
+    before do
+      allow(user_management).to receive(:get_jwks_url).with(client_id).and_return(jwks_url)
+    end
+
+    it 'uses custom encryptor for seal_data' do
+      sealed = WorkOS::Session.seal_data({ foo: 'bar' }, 'key', encryptor: custom_encryptor)
+      expect(sealed).to start_with('CUSTOM:')
+    end
+
+    it 'uses custom encryptor for unseal_data' do
+      sealed = 'CUSTOM:{"foo":"bar"}'
+      unsealed = WorkOS::Session.unseal_data(sealed, 'key', encryptor: custom_encryptor)
+      expect(unsealed).to eq({ foo: 'bar' })
+    end
+
+    it 'accepts custom encryptor in initialize' do
+      session = WorkOS::Session.new(
+        user_management: user_management,
+        client_id: client_id,
+        session_data: session_data,
+        cookie_password: cookie_password,
+        encryptor: custom_encryptor,
+      )
+      expect(session.encryptor).to eq(custom_encryptor)
+    end
+
+    it 'defaults to AesGcm encryptor when none provided' do
+      session = WorkOS::Session.new(
+        user_management: user_management,
+        client_id: client_id,
+        session_data: session_data,
+        cookie_password: cookie_password,
+      )
+      expect(session.encryptor).to be_a(WorkOS::Encryptors::AesGcm)
+    end
+
+    it 'raises ArgumentError for invalid encryptor' do
+      expect do
+        WorkOS::Session.new(
+          user_management: user_management,
+          client_id: client_id,
+          session_data: session_data,
+          cookie_password: cookie_password,
+          encryptor: Object.new,
+        )
+      end.to raise_error(ArgumentError, /must respond to/)
+    end
+  end
 end

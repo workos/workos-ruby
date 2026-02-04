@@ -56,6 +56,7 @@ module WorkOS
   autoload :DirectorySync, 'workos/directory_sync'
   autoload :DirectoryUser, 'workos/directory_user'
   autoload :EmailVerification, 'workos/email_verification'
+  autoload :Encryptors, 'workos/encryptors'
   autoload :Event, 'workos/event'
   autoload :Events, 'workos/events'
   autoload :Factor, 'workos/factor'

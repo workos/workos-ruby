@@ -12,10 +12,13 @@ module WorkOS
   # The Session class provides helper methods for working with WorkOS sessions
   # This class is not meant to be instantiated in a user space, and is instantiated internally but exposed.
   class Session
-    attr_accessor :jwks, :jwks_algorithms, :user_management, :cookie_password, :session_data, :client_id
+    attr_accessor :jwks, :jwks_algorithms, :user_management, :cookie_password, :session_data, :client_id, :encryptor
 
-    def initialize(user_management:, client_id:, session_data:, cookie_password:)
+    def initialize(user_management:, client_id:, session_data:, cookie_password:, encryptor: nil)
       raise ArgumentError, 'cookiePassword is required' if cookie_password.nil? || cookie_password.empty?
+
+      @encryptor = encryptor || WorkOS::Encryptors::AesGcm.new
+      validate_encryptor!(@encryptor)
 
       @user_management = user_management
       @cookie_password = cookie_password
@@ -37,7 +40,7 @@ module WorkOS
       return { authenticated: false, reason: 'NO_SESSION_COOKIE_PROVIDED' } if @session_data.nil?
 
       begin
-        session = Session.unseal_data(@session_data, @cookie_password)
+        session = Session.unseal_data(@session_data, @cookie_password, encryptor: @encryptor)
       rescue StandardError
         return { authenticated: false, reason: 'INVALID_SESSION_COOKIE' }
       end
@@ -92,7 +95,7 @@ module WorkOS
       cookie_password = options.nil? || options[:cookie_password].nil? ? @cookie_password : options[:cookie_password]
 
       begin
-        session = Session.unseal_data(@session_data, cookie_password)
+        session = Session.unseal_data(@session_data, cookie_password, encryptor: @encryptor)
       rescue StandardError
         return { authenticated: false, reason: 'INVALID_SESSION_COOKIE' }
       end
@@ -104,7 +107,7 @@ module WorkOS
           client_id: @client_id,
           refresh_token: session[:refresh_token],
           organization_id: options.nil? || options[:organization_id].nil? ? nil : options[:organization_id],
-          session: { seal_session: true, cookie_password: cookie_password },
+          session: { seal_session: true, cookie_password: cookie_password, encryptor: @encryptor },
         )
 
         @session_data = auth_response.sealed_session
@@ -137,42 +140,33 @@ module WorkOS
       @user_management.get_logout_url(session_id: auth_response[:session_id], return_to: return_to)
     end
 
-    # Encrypts and seals data using AES-256-GCM
+    # Encrypts and seals data using the provided encryptor (defaults to AES-256-GCM)
     # @param data [Hash] The data to seal
     # @param key [String] The key to use for encryption
+    # @param encryptor [Object] Optional encryptor that responds to #seal(data, key)
     # @return [String] The sealed data
-    def self.seal_data(data, key)
-      iv = SecureRandom.random_bytes(12)
-
-      encrypted_data = Encryptor.encrypt(
-        value: JSON.generate(data),
-        key: key,
-        iv: iv,
-        algorithm: 'aes-256-gcm',
-      )
-      Base64.encode64(iv + encrypted_data) # Combine IV with encrypted data and encode as base64
+    def self.seal_data(data, key, encryptor: nil)
+      enc = encryptor || WorkOS::Encryptors::AesGcm.new
+      enc.seal(data, key)
     end
 
-    # Decrypts and unseals data using AES-256-GCM
+    # Decrypts and unseals data using the provided encryptor (defaults to AES-256-GCM)
     # @param sealed_data [String] The sealed data to unseal
     # @param key [String] The key to use for decryption
+    # @param encryptor [Object] Optional encryptor that responds to #unseal(sealed_data, key)
     # @return [Hash] The unsealed data
-    def self.unseal_data(sealed_data, key)
-      decoded_data = Base64.decode64(sealed_data)
-      iv = decoded_data[0..11] # Extract the IV (first 12 bytes)
-      encrypted_data = decoded_data[12..-1] # Extract the encrypted data
-
-      decrypted_data = Encryptor.decrypt(
-        value: encrypted_data,
-        key: key,
-        iv: iv,
-        algorithm: 'aes-256-gcm',
-      )
-
-      JSON.parse(decrypted_data, symbolize_names: true) # Parse the decrypted JSON string back to original data
+    def self.unseal_data(sealed_data, key, encryptor: nil)
+      enc = encryptor || WorkOS::Encryptors::AesGcm.new
+      enc.unseal(sealed_data, key)
     end
 
     private
+
+    def validate_encryptor!(enc)
+      return if enc.respond_to?(:seal) && enc.respond_to?(:unseal)
+
+      raise ArgumentError, 'encryptor must respond to #seal(data, key) and #unseal(sealed_data, key)'
+    end
 
     # Creates a JWKS set from a remote JWKS URL
     # @param uri [URI] The URI of the JWKS
