@@ -60,6 +60,7 @@ module WorkOS
   autoload :Events, 'workos/events'
   autoload :Factor, 'workos/factor'
   autoload :FeatureFlag, 'workos/feature_flag'
+  autoload :IronSealUnseal, 'workos/iron_seal_unseal'
   autoload :Impersonator, 'workos/impersonator'
   autoload :Invitation, 'workos/invitation'
   autoload :MagicAuth, 'workos/magic_auth'

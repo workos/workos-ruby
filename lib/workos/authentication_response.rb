@@ -31,13 +31,18 @@ module WorkOS
       @oauth_tokens = json[:oauth_tokens] ? WorkOS::OAuthTokens.new(json[:oauth_tokens].to_json) : nil
       @sealed_session =
         if session && session[:seal_session]
-          WorkOS::Session.seal_data({
-                                      access_token: access_token,
-                                      refresh_token: refresh_token,
-                                      user: user.to_json,
-                                      organization_id: organization_id,
-                                      impersonator: impersonator.to_json,
-                                    }, session[:cookie_password],)
+          algorithm = session[:seal_algorithm] || :aes_gcm
+          WorkOS::Session.seal_data(
+            {
+              access_token: access_token,
+              refresh_token: refresh_token,
+              user: user.to_json,
+              organization_id: organization_id,
+              impersonator: impersonator.to_json,
+            },
+            session[:cookie_password],
+            algorithm: algorithm,
+          )
         end
     end
     # rubocop:enable Metrics/AbcSize

@@ -198,6 +198,29 @@ describe WorkOS::Session do
                            })
     end
 
+    it 'authenticates when session is sealed with algorithm: :iron' do
+      iron_session_data = WorkOS::Session.seal_data(
+        {
+          access_token: valid_access_token,
+          user: 'user',
+          impersonator: 'impersonator',
+        },
+        cookie_password,
+        algorithm: :iron,
+      )
+      session = WorkOS::Session.new(
+        user_management: user_management,
+        client_id: client_id,
+        session_data: iron_session_data,
+        cookie_password: cookie_password,
+        seal_algorithm: :iron,
+      )
+      allow_any_instance_of(JWT::Decode).to receive(:verify_signature).and_return(true)
+      result = session.authenticate
+      expect(result[:authenticated]).to eq(true)
+      expect(result[:session_id]).to eq('session_id')
+    end
+
     it 'authenticates successfully with valid session_data' do
       session = WorkOS::Session.new(
         user_management: user_management,
@@ -296,6 +319,24 @@ describe WorkOS::Session do
                                reason: nil,
                              })
       end
+    end
+  end
+
+  describe '.seal_data and .unseal_data' do
+    it 'round-trips with default algorithm (aes_gcm)' do
+      data = { access_token: 'tok', user: 'u1' }
+      sealed = WorkOS::Session.seal_data(data, cookie_password)
+      expect(sealed).not_to eq(data)
+      unsealed = WorkOS::Session.unseal_data(sealed, cookie_password)
+      expect(unsealed).to eq(data)
+    end
+
+    it 'round-trips with algorithm: :iron' do
+      data = { access_token: 'tok', user: 'u1' }
+      sealed = WorkOS::Session.seal_data(data, cookie_password, algorithm: :iron)
+      expect(sealed).to start_with(WorkOS::IronSealUnseal::MAC_PREFIX)
+      unsealed = WorkOS::Session.unseal_data(sealed, cookie_password, algorithm: :iron)
+      expect(unsealed).to eq(data)
     end
   end
 

@@ -42,14 +42,16 @@ module WorkOS
       # @param [String] client_id The WorkOS client ID for the environment
       # @param [String] session_data The sealed session data
       # @param [String] cookie_password The password used to seal the session
+      # @param [Symbol] seal_algorithm Optional. :aes_gcm (default) or :iron for Iron Fe26.2 format
       #
       # @return WorkOS::Session
-      def load_sealed_session(client_id:, session_data:, cookie_password:)
+      def load_sealed_session(client_id:, session_data:, cookie_password:, seal_algorithm: :aes_gcm)
         WorkOS::Session.new(
           user_management: self,
           client_id: client_id,
           session_data: session_data,
           cookie_password: cookie_password,
+          seal_algorithm: seal_algorithm,
         )
       end
 
