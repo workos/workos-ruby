@@ -30,9 +30,10 @@ module WorkOS
 
     # Authenticates the user based on the session data
     # @param include_expired [Boolean] If true, returns decoded token data even when expired (default: false)
+    # @param block [Proc] Optional block to call to extract additional claims from the decoded JWT
     # @return [Hash] A hash containing the authentication response and a reason if the authentication failed
     # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
-    def authenticate(include_expired: false)
+    def authenticate(include_expired: false, &claim_extractor)
       return { authenticated: false, reason: 'NO_SESSION_COOKIE_PROVIDED' } if @session_data.nil?
 
       begin
@@ -59,7 +60,7 @@ module WorkOS
         return { authenticated: false, reason: 'INVALID_JWT' } if expired && !include_expired
 
         # Return full data for valid tokens or when include_expired is true
-        {
+        result = {
           authenticated: !expired,
           session_id: decoded['sid'],
           organization_id: decoded['org_id'],
@@ -72,6 +73,8 @@ module WorkOS
           impersonator: session[:impersonator],
           reason: expired ? 'INVALID_JWT' : nil,
         }
+        result.merge!(claim_extractor.call(decoded)) if block_given?
+        result
       rescue JWT::DecodeError
         { authenticated: false, reason: 'INVALID_JWT' }
       rescue StandardError => e
