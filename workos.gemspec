@@ -22,7 +22,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'encryptor', '~> 3.0'
-  spec.add_dependency 'jwt', '~> 2.8'
+  spec.add_dependency 'jwt', '~> 3.1'
 
   spec.add_development_dependency 'bundler', '>= 2.0.1'
   spec.add_development_dependency 'rake'
