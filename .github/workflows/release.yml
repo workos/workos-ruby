@@ -35,6 +35,6 @@ jobs:
 
       - name: Publish to RubyGems
         run: |
-          VERSION="${GITHUB_REF_NAME##*/v}"
+          VERSION="${GITHUB_REF_NAME#v}"
           bundle exec rake build
           gem push pkg/workos-${VERSION}.gem --host https://rubygems.org
