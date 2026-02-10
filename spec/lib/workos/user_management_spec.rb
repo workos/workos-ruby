@@ -588,6 +588,28 @@ describe WorkOS::UserManagement do
         end
       end
     end
+
+    context 'with an invitation_token' do
+      it 'includes invitation_token in the request body' do
+        expect(described_class).to receive(:post_request) do |options|
+          body = options[:body]
+          expect(body[:invitation_token]).to eq('invitation_token_123')
+
+          double('request')
+        end.and_return(double('request'))
+
+        expect(described_class).to receive(:execute_request).and_return(
+          double('response', body: '{"user": {"id": "user_123"}, "access_token": "token", "refresh_token": "refresh"}'),
+        )
+
+        described_class.authenticate_with_password(
+          email: 'test@workos.app',
+          password: 'password123',
+          client_id: 'client_123',
+          invitation_token: 'invitation_token_123',
+        )
+      end
+    end
   end
 
   describe '.authenticate_with_code' do
@@ -671,6 +693,27 @@ describe WorkOS::UserManagement do
         end
       end
     end
+
+    context 'with an invitation_token' do
+      it 'includes invitation_token in the request body' do
+        expect(described_class).to receive(:post_request) do |options|
+          body = options[:body]
+          expect(body[:invitation_token]).to eq('invitation_token_123')
+
+          double('request')
+        end.and_return(double('request'))
+
+        expect(described_class).to receive(:execute_request).and_return(
+          double('response', body: '{"user": {"id": "user_123"}, "access_token": "token", "refresh_token": "refresh"}'),
+        )
+
+        described_class.authenticate_with_code(
+          code: '01H93ZZHA0JBHFJH9RR11S83YN',
+          client_id: 'client_123',
+          invitation_token: 'invitation_token_123',
+        )
+      end
+    end
   end
 
   describe '.authenticate_with_refresh_token' do
@@ -733,6 +776,28 @@ describe WorkOS::UserManagement do
             )
           end.to raise_error(WorkOS::NotFoundError, /User not found/)
         end
+      end
+    end
+
+    context 'with an invitation_token' do
+      it 'includes invitation_token in the request body' do
+        expect(described_class).to receive(:post_request) do |options|
+          body = options[:body]
+          expect(body[:invitation_token]).to eq('invitation_token_123')
+
+          double('request')
+        end.and_return(double('request'))
+
+        expect(described_class).to receive(:execute_request).and_return(
+          double('response', body: '{"user": {"id": "user_123"}, "access_token": "token", "refresh_token": "refresh"}'),
+        )
+
+        described_class.authenticate_with_magic_auth(
+          code: '452079',
+          client_id: 'client_123',
+          email: 'test@workos.com',
+          invitation_token: 'invitation_token_123',
+        )
       end
     end
   end

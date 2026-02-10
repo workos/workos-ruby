@@ -298,16 +298,19 @@ module WorkOS
       # @param [String] client_id The WorkOS client ID for the environment
       # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
+      # @param [String] invitation_token The token of an Invitation, if required.
       # @param [Hash] session An optional hash that determines whether the session should be sealed and
       # the optional cookie password.
       #
       # @return WorkOS::AuthenticationResponse
+      # rubocop:disable Metrics/ParameterLists
       def authenticate_with_password(
         email:,
         password:,
         client_id:,
         ip_address: nil,
         user_agent: nil,
+        invitation_token: nil,
         session: nil
       )
         validate_session(session)
@@ -322,6 +325,7 @@ module WorkOS
               password: password,
               ip_address: ip_address,
               user_agent: user_agent,
+              invitation_token: invitation_token,
               grant_type: 'password',
             },
           ),
@@ -329,6 +333,7 @@ module WorkOS
 
         WorkOS::AuthenticationResponse.new(response.body, session)
       end
+      # rubocop:enable Metrics/ParameterLists
 
       # Authenticate a user using OAuth or an organization's SSO connection.
       #
@@ -337,6 +342,7 @@ module WorkOS
       # @param [String] client_id The WorkOS client ID for the environment
       # @param [String] ip_address The IP address of the request from the user who is attempting to authenticate.
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
+      # @param [String] invitation_token The token of an Invitation, if required.
       # @param [Hash] session An optional hash that determines whether the session should be sealed and
       # the optional cookie password.
       #
@@ -346,6 +352,7 @@ module WorkOS
         client_id:,
         ip_address: nil,
         user_agent: nil,
+        invitation_token: nil,
         session: nil
       )
         validate_session(session)
@@ -359,6 +366,7 @@ module WorkOS
               client_secret: WorkOS.config.key!,
               ip_address: ip_address,
               user_agent: user_agent,
+              invitation_token: invitation_token,
               grant_type: 'authorization_code',
             },
           ),
@@ -415,6 +423,7 @@ module WorkOS
       # @param [String] link_authorization_code Used to link an OAuth profile to an existing user,
       # after having completed a Magic Code challenge.
       # @param [String] user_agent The user agent of the request from the user who is attempting to authenticate.
+      # @param [String] invitation_token The token of an Invitation, if required.
       # @param [Hash] session An optional hash that determines whether the session should be sealed and
       # the optional cookie password.
       #
@@ -427,6 +436,7 @@ module WorkOS
         ip_address: nil,
         user_agent: nil,
         link_authorization_code: nil,
+        invitation_token: nil,
         session: nil
       )
         validate_session(session)
@@ -443,6 +453,7 @@ module WorkOS
               user_agent: user_agent,
               grant_type: 'urn:workos:oauth:grant-type:magic-auth:code',
               link_authorization_code: link_authorization_code,
+              invitation_token: invitation_token,
             },
           ),
         )
