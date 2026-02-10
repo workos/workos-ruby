@@ -1,53 +1,16 @@
 name: Release
 
 on:
-  pull_request:
-    types: [closed]
-    branches: [main]
+  release:
+    types: [published]
 
 defaults:
   run:
     shell: bash
 
 jobs:
-  create-release:
-    name: Create GitHub Release
-    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'version-bump')
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    outputs:
-      version: ${{ steps.get-version.outputs.version }}
-    steps:
-      - name: Generate token
-        id: generate-token
-        uses: actions/create-github-app-token@v2
-        with:
-          app-id: ${{ vars.SDK_BOT_APP_ID }}
-          private-key: ${{ secrets.SDK_BOT_PRIVATE_KEY }}
-
-      - name: Checkout
-        uses: actions/checkout@v6
-        with:
-          token: ${{ steps.generate-token.outputs.token }}
-
-      - name: Get version from version.rb
-        id: get-version
-        run: |
-          VERSION=$(grep "VERSION = " lib/workos/version.rb | sed "s/.*VERSION = '\(.*\)'/\1/")
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-
-      - name: Create Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: v${{ steps.get-version.outputs.version }}
-          name: v${{ steps.get-version.outputs.version }}
-          generate_release_notes: true
-          token: ${{ steps.generate-token.outputs.token }}
-
   publish:
     name: Publish to RubyGems
-    needs: create-release
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -72,5 +35,6 @@ jobs:
 
       - name: Publish to RubyGems
         run: |
+          VERSION="${GITHUB_REF_NAME#v}"
           bundle exec rake build
-          gem push pkg/workos-${{ needs.create-release.outputs.version }}.gem --host https://rubygems.org
+          gem push pkg/workos-${VERSION}.gem --host https://rubygems.org
