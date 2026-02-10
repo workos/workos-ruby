@@ -5,7 +5,8 @@
       "release-type": "ruby",
       "package-name": "workos",
       "version-file": "lib/workos/version.rb",
-      "changelog-path": "CHANGELOG.md"
+      "changelog-path": "CHANGELOG.md",
+      "include-component-in-tag": false
     }
   }
 }
