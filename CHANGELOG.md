@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.1.1](https://github.com/workos/workos-ruby/compare/v6.1.0...v6.1.1) (2026-02-23)
+
+
+### Bug Fixes
+
+* update renovate rules ([#443](https://github.com/workos/workos-ruby/issues/443)) ([f156c79](https://github.com/workos/workos-ruby/commit/f156c799e88269493104628760f94b8abaebf542))
+
 ## [6.1.0](https://github.com/workos/workos-ruby/compare/workos-v6.0.0...workos/v6.1.0) (2026-02-10)
 
 
