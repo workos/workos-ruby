@@ -2,6 +2,7 @@
 
 require 'net/http'
 require 'uri'
+require 'securerandom'
 
 module WorkOS
   # The Audit Logs module provides convenience methods for working with the
@@ -18,6 +19,9 @@ module WorkOS
       #
       # @return [nil]
       def create_event(organization:, event:, idempotency_key: nil)
+        # Auto-generate idempotency key if not provided
+        idempotency_key = SecureRandom.uuid if idempotency_key.nil?
+
         request = post_request(
           path: '/audit_logs/events',
           auth: true,
@@ -28,7 +32,8 @@ module WorkOS
           },
         )
 
-        execute_request(request: request)
+        # Explicitly setting to 3 retries for the audit log event creation request
+        execute_request(request: request, retries: WorkOS.config.audit_log_max_retries)
       end
 
       # Create an Export of Audit Log Events.

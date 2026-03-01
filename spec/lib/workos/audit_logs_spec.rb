@@ -6,6 +6,7 @@ describe WorkOS::AuditLogs do
   before do
     WorkOS.configure do |config|
       config.key = 'example_api_key'
+      config.audit_log_max_retries = 3
     end
   end
 
@@ -53,15 +54,23 @@ describe WorkOS::AuditLogs do
       end
 
       context 'without idempotency key' do
-        it 'creates an event' do
-          VCR.use_cassette 'audit_logs/create_event', match_requests_on: %i[path body] do
-            response = described_class.create_event(
-              organization: 'org_123',
-              event: valid_event,
-            )
+        it 'creates an event with auto-generated idempotency_key' do
+          allow(SecureRandom).to receive(:uuid).and_return('test-uuid-1234')
 
-            expect(response.code).to eq '201'
-          end
+          request = double('request')
+          expect(described_class).to receive(:post_request).with(
+            path: '/audit_logs/events',
+            auth: true,
+            idempotency_key: 'test-uuid-1234',
+            body: hash_including(organization_id: 'org_123'),
+          ).and_return(request)
+
+          allow(described_class).to receive(:execute_request).and_return(double(code: '201'))
+
+          described_class.create_event(
+            organization: 'org_123',
+            event: valid_event,
+          )
         end
       end
 
@@ -79,6 +88,71 @@ describe WorkOS::AuditLogs do
             expect(e.code).to eq 'invalid_audit_log'
             expect(e.errors.count).to eq 1
           end
+        end
+      end
+
+      context 'with retry logic using same idempotency key' do
+        it 'retries with the same idempotency key on retryable errors' do
+          allow(described_class).to receive(:client).and_return(double('client'))
+
+          call_count = 0
+          allow(described_class.client).to receive(:request) do |request|
+            call_count += 1
+            # Verify the same idempotency key is used on every retry
+            expect(request['Idempotency-Key']).to eq('test-idempotency-key')
+
+            if call_count < 3
+              # Return 500 error for first 2 attempts
+              response = double('response', code: '500', body: '{"message": "Internal Server Error"}')
+              allow(response).to receive(:[]).with('x-request-id').and_return('test-request-id')
+              allow(response).to receive(:[]).with('Retry-After').and_return(nil)
+              response
+            else
+              # Success on 3rd attempt
+              double('response', code: '201', body: '{}')
+            end
+          end
+
+          expect(described_class).to receive(:sleep).exactly(2).times
+
+          response = described_class.create_event(
+            organization: 'org_123',
+            event: valid_event,
+            idempotency_key: 'test-idempotency-key',
+          )
+
+          expect(response.code).to eq('201')
+          expect(call_count).to eq(3)
+        end
+      end
+
+      context 'with retry limit exceeded' do
+        it 'stops retrying after hitting retry limit' do
+          allow(described_class).to receive(:client).and_return(double('client'))
+
+          call_count = 0
+          allow(described_class.client).to receive(:request) do |request|
+            call_count += 1
+            expect(request['Idempotency-Key']).to eq('test-idempotency-key')
+
+            response = double('response', code: '503', body: '{"message": "Service Unavailable"}')
+            allow(response).to receive(:[]).with('x-request-id').and_return('test-request-id')
+            allow(response).to receive(:[]).with('Retry-After').and_return(nil)
+            response
+          end
+
+          expect(described_class).to receive(:sleep).exactly(3).times
+
+          expect do
+            described_class.create_event(
+              organization: 'org_123',
+              event: valid_event,
+              idempotency_key: 'test-idempotency-key',
+            )
+          end.to raise_error(WorkOS::APIError)
+
+          # Should make 4 total attempts: 1 initial + 3 retries
+          expect(call_count).to eq(4)
         end
       end
     end
