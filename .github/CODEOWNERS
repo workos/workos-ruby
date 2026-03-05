@@ -1,5 +1,5 @@
 # See GitHub's docs for more details:
 # https://help.github.com/en/github/creating-cloning-and-archiving-repositories/about-code-owners
 
-# Rubyist Team
-* @workos/ruby
+# Rubyist and DX Teams
+* @workos/ruby @workos/dx
