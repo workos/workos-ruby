@@ -1172,6 +1172,22 @@ module WorkOS
         WorkOS::Invitation.new(response.body)
       end
 
+      # Accepts an existing Invitation.
+      #
+      # @param [String] id The unique ID of the Invitation.
+      #
+      # @return WorkOS::Invitation
+      def accept_invitation(id:)
+        request = post_request(
+          path: "/user_management/invitations/#{id}/accept",
+          auth: true,
+        )
+
+        response = execute_request(request: request)
+
+        WorkOS::Invitation.new(response.body)
+      end
+
       # Revokes an existing Invitation.
       #
       # @param [String] id The unique ID of the Invitation.

@@ -1728,6 +1728,81 @@ describe WorkOS::UserManagement do
     end
   end
 
+  describe '.accept_invitation' do
+    context 'with a valid id' do
+      it 'accepts invitation' do
+        expect(described_class).to receive(:post_request) do |options|
+          expect(options[:path]).to eq('/user_management/invitations/invitation_123/accept')
+          expect(options[:auth]).to be true
+
+          double('request')
+        end.and_return(double('request'))
+
+        response_body = {
+          id: 'invitation_123',
+          email: 'test@workos.com',
+          state: 'accepted',
+        }.to_json
+
+        expect(described_class).to receive(:execute_request).and_return(
+          double('response', body: response_body),
+        )
+
+        invitation = described_class.accept_invitation(
+          id: 'invitation_123',
+        )
+
+        expect(invitation.id).to eq('invitation_123')
+        expect(invitation.email).to eq('test@workos.com')
+        expect(invitation.state).to eq('accepted')
+      end
+    end
+
+    context 'with an invalid id' do
+      it 'returns an error' do
+        expect(described_class).to receive(:post_request) do |options|
+          expect(options[:path]).to eq('/user_management/invitations/invalid_id/accept')
+          expect(options[:auth]).to be true
+
+          double('request')
+        end.and_return(double('request'))
+
+        expect(described_class).to receive(:execute_request).and_raise(
+          WorkOS::NotFoundError.new(message: 'Invitation not found'),
+        )
+
+        expect do
+          described_class.accept_invitation(id: 'invalid_id')
+        end.to raise_error(
+          WorkOS::NotFoundError,
+          /Invitation not found/,
+        )
+      end
+    end
+
+    context 'when invitation has already been accepted' do
+      it 'returns an error' do
+        expect(described_class).to receive(:post_request) do |options|
+          expect(options[:path]).to eq('/user_management/invitations/invitation_123/accept')
+          expect(options[:auth]).to be true
+
+          double('request')
+        end.and_return(double('request'))
+
+        expect(described_class).to receive(:execute_request).and_raise(
+          WorkOS::InvalidRequestError.new(message: 'Invite has already been accepted'),
+        )
+
+        expect do
+          described_class.accept_invitation(id: 'invitation_123')
+        end.to raise_error(
+          WorkOS::InvalidRequestError,
+          /Invite has already been accepted/,
+        )
+      end
+    end
+  end
+
   describe '.revoke_invitation' do
     context 'with valid payload' do
       it 'revokes invitation' do
