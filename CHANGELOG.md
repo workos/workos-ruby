@@ -1,5 +1,18 @@
 # Changelog
 
+## [6.2.0](https://github.com/workos/workos-ruby/compare/v6.1.0...v6.2.0) (2026-03-06)
+
+
+### Features
+
+* **user-management:** add directory_managed to OrganizationMembership ([#446](https://github.com/workos/workos-ruby/issues/446)) ([914d824](https://github.com/workos/workos-ruby/commit/914d824668b70950905d5db666978e9609c9f706))
+* **user-management:** add invitation accept endpoint ([#448](https://github.com/workos/workos-ruby/issues/448)) ([b5b4da1](https://github.com/workos/workos-ruby/commit/b5b4da1c031bc5f688562fdc33506e03b769f650))
+
+
+### Bug Fixes
+
+* update renovate rules ([#443](https://github.com/workos/workos-ruby/issues/443)) ([f156c79](https://github.com/workos/workos-ruby/commit/f156c799e88269493104628760f94b8abaebf542))
+
 ## [6.1.0](https://github.com/workos/workos-ruby/compare/workos-v6.0.0...workos/v6.1.0) (2026-02-10)
 
 
