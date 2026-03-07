@@ -48,6 +48,12 @@ module WorkOS
         "#{status_string}#{@message}#{id_string}"
       end
     end
+
+    def retryable?
+      return true if http_status && (http_status >= 500 || http_status == 408 || http_status == 429)
+
+      false
+    end
   end
 
   # APIError is a generic error that may be raised in cases where none of the
@@ -83,4 +89,14 @@ module WorkOS
 
   # UnprocessableEntityError is raised when a request is made that cannot be processed
   class UnprocessableEntityError < WorkOSError; end
+
+  # RetryableError is raised internally to trigger retry logic for retryable HTTP errors
+  class RetryableError < StandardError
+    attr_reader :http_status
+
+    def initialize(http_status:)
+      @http_status = http_status
+      super()
+    end
+  end
 end
