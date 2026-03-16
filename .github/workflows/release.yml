@@ -17,7 +17,7 @@ jobs:
       contents: read
     steps:
       - name: Configure RubyGems credentials
-        uses: rubygems/configure-rubygems-credentials@88679b3ac821ffda0116bf098443db9ac7822e40
+        uses: rubygems/configure-rubygems-credentials@a251ea8ec8e94203b26acddd2010f89b187a44b7
         with:
           role-to-assume: rg_oidc_akr_fn8dx45asckvmsnd2kka
 
