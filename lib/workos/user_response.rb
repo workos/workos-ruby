@@ -15,7 +15,7 @@ module WorkOS
 
     def to_json(*)
       {
-        user: user.to_json,
+        user: user.to_json
       }
     end
   end

@@ -6,6 +6,7 @@ module WorkOS
   # in DirectoryUser space, and is instantiated internally but exposed.
   class Factor
     include HashProvider
+
     attr_accessor :id, :object, :type, :sms, :totp, :updated_at, :created_at
 
     def initialize(json)
@@ -28,7 +29,7 @@ module WorkOS
         totp: totp,
         sms: sms,
         created_at: created_at,
-        updated_at: updated_at,
+        updated_at: updated_at
       }
     end
   end

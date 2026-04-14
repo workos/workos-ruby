@@ -10,7 +10,7 @@ module WorkOS
     include HashProvider
 
     attr_accessor :id, :email, :first_name, :last_name, :role, :roles, :groups, :organization_id,
-                  :connection_id, :connection_type, :idp_id, :custom_attributes, :raw_attributes
+      :connection_id, :connection_type, :idp_id, :custom_attributes, :raw_attributes
 
     # rubocop:disable Metrics/AbcSize
     def initialize(profile_json)
@@ -33,7 +33,7 @@ module WorkOS
     # rubocop:enable Metrics/AbcSize
 
     def full_name
-      [first_name, last_name].compact.join(' ')
+      [first_name, last_name].compact.join(" ")
     end
 
     def to_json(*)
@@ -50,7 +50,7 @@ module WorkOS
         connection_type: connection_type,
         idp_id: idp_id,
         custom_attributes: custom_attributes,
-        raw_attributes: raw_attributes,
+        raw_attributes: raw_attributes
       }
     end
   end

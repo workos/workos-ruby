@@ -19,7 +19,7 @@ module WorkOS
     def to_json(*)
       {
         access_token: access_token,
-        profile: profile.to_json,
+        profile: profile.to_json
       }
     end
   end

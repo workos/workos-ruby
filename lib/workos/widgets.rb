@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'net/http'
+require "net/http"
 
 module WorkOS
   # The Widgets module provides resource methods for working with the Widgets APIs
@@ -23,14 +23,14 @@ module WorkOS
           body: {
             organization_id: organization_id,
             user_id: user_id,
-            scopes: scopes,
+            scopes: scopes
           },
-          path: '/widgets/token',
+          path: "/widgets/token"
         )
 
         response = execute_request(request: request)
 
-        JSON.parse(response.body)['token']
+        JSON.parse(response.body)["token"]
       end
 
       private
@@ -38,7 +38,7 @@ module WorkOS
       def validate_scopes(scopes)
         return if scopes.all? { |scope| WIDGET_SCOPES.include?(scope) }
 
-        raise ArgumentError, 'scopes contains an invalid value.' \
+        raise ArgumentError, "scopes contains an invalid value." \
         " Every item in `scopes` must be in #{WIDGET_SCOPES}"
       end
     end

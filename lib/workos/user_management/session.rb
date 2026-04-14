@@ -7,8 +7,9 @@ module WorkOS
     # in user space, and is instantiated internally but exposed.
     class Session
       include HashProvider
+
       attr_accessor :id, :object, :user_id, :organization_id, :status, :auth_method,
-                    :ip_address, :user_agent, :expires_at, :ended_at, :created_at, :updated_at
+        :ip_address, :user_agent, :expires_at, :ended_at, :created_at, :updated_at
 
       # rubocop:disable Metrics/AbcSize
       def initialize(json)
@@ -42,7 +43,7 @@ module WorkOS
           expires_at: expires_at,
           ended_at: ended_at,
           created_at: created_at,
-          updated_at: updated_at,
+          updated_at: updated_at
         }
       end
 

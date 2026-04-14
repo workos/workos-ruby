@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'encryptor'
-require 'securerandom'
-require 'json'
-require 'base64'
+require "encryptor"
+require "securerandom"
+require "json"
+require "base64"
 
 module WorkOS
   module Encryptors
@@ -21,7 +21,7 @@ module WorkOS
           value: JSON.generate(data),
           key: key,
           iv: iv,
-          algorithm: 'aes-256-gcm',
+          algorithm: "aes-256-gcm"
         )
         Base64.encode64(iv + encrypted_data)
       end
@@ -39,7 +39,7 @@ module WorkOS
           value: encrypted_data,
           key: key,
           iv: iv,
-          algorithm: 'aes-256-gcm',
+          algorithm: "aes-256-gcm"
         )
 
         JSON.parse(decrypted_data, symbolize_names: true)

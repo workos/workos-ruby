@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'net/http'
-require 'uri'
+require "net/http"
+require "uri"
 
 module WorkOS
   # The Audit Logs module provides convenience methods for working with the
@@ -19,13 +19,13 @@ module WorkOS
       # @return [nil]
       def create_event(organization:, event:, idempotency_key: nil)
         request = post_request(
-          path: '/audit_logs/events',
+          path: "/audit_logs/events",
           auth: true,
           idempotency_key: idempotency_key,
           body: {
             organization_id: organization,
-            event: event,
-          },
+            event: event
+          }
         )
 
         execute_request(request: request)
@@ -44,23 +44,23 @@ module WorkOS
       #
       # @return [WorkOS::AuditLogExport]
       def create_export(organization:, range_start:, range_end:, actions: nil, # rubocop:disable Metrics/ParameterLists
-                        actors: nil, targets: nil, actor_names: nil, actor_ids: nil)
+        actors: nil, targets: nil, actor_names: nil, actor_ids: nil)
         body = {
           organization_id: organization,
           range_start: range_start,
-          range_end: range_end,
+          range_end: range_end
         }
 
-        body['actions'] = actions unless actions.nil?
-        body['actors'] = actors unless actors.nil?
-        body['actor_names'] = actor_names unless actor_names.nil?
-        body['actor_ids'] = actor_ids unless actor_ids.nil?
-        body['targets'] = targets unless targets.nil?
+        body["actions"] = actions unless actions.nil?
+        body["actors"] = actors unless actors.nil?
+        body["actor_names"] = actor_names unless actor_names.nil?
+        body["actor_ids"] = actor_ids unless actor_ids.nil?
+        body["targets"] = targets unless targets.nil?
 
         request = post_request(
-          path: '/audit_logs/exports',
+          path: "/audit_logs/exports",
           auth: true,
-          body: body,
+          body: body
         )
 
         response = execute_request(request: request)
@@ -76,7 +76,7 @@ module WorkOS
       def get_export(id:)
         request = get_request(
           auth: true,
-          path: "/audit_logs/exports/#{id}",
+          path: "/audit_logs/exports/#{id}"
         )
 
         response = execute_request(request: request)

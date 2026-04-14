@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'net/http'
+require "net/http"
 
 module WorkOS
   # The Directory Sync module provides convenience methods for working with the
@@ -26,23 +26,23 @@ module WorkOS
       #
       # @return [Hash]
       def list_directories(options = {})
-        options[:order] ||= 'desc'
+        options[:order] ||= "desc"
         response = execute_request(
           request: get_request(
-            path: '/directories',
+            path: "/directories",
             auth: true,
-            params: options,
-          ),
+            params: options
+          )
         )
 
         parsed_response = JSON.parse(response.body)
-        directories = parsed_response['data'].map do |directory|
+        directories = parsed_response["data"].map do |directory|
           ::WorkOS::Directory.new(directory.to_json)
         end
 
         WorkOS::Types::ListStruct.new(
           data: directories,
-          list_metadata: parsed_response['listMetadata'],
+          list_metadata: parsed_response["listMetadata"]
         )
       end
 
@@ -66,7 +66,7 @@ module WorkOS
       def get_directory(id:)
         request = get_request(
           auth: true,
-          path: "/directories/#{id}",
+          path: "/directories/#{id}"
         )
 
         response = execute_request(request: request)
@@ -90,23 +90,23 @@ module WorkOS
       #
       # @return [WorkOS::DirectoryGroup]
       def list_groups(options = {})
-        options[:order] ||= 'desc'
+        options[:order] ||= "desc"
         response = execute_request(
           request: get_request(
-            path: '/directory_groups',
+            path: "/directory_groups",
             auth: true,
-            params: options,
-          ),
+            params: options
+          )
         )
 
         parsed_response = JSON.parse(response.body)
-        groups = parsed_response['data'].map do |group|
+        groups = parsed_response["data"].map do |group|
           ::WorkOS::DirectoryGroup.new(group.to_json)
         end
 
         WorkOS::Types::ListStruct.new(
           data: groups,
-          list_metadata: parsed_response['listMetadata'],
+          list_metadata: parsed_response["listMetadata"]
         )
       end
 
@@ -126,23 +126,23 @@ module WorkOS
       #
       # @return [WorkOS::DirectoryUser]
       def list_users(options = {})
-        options[:order] ||= 'desc'
+        options[:order] ||= "desc"
         response = execute_request(
           request: get_request(
-            path: '/directory_users',
+            path: "/directory_users",
             auth: true,
-            params: options,
-          ),
+            params: options
+          )
         )
 
         parsed_response = JSON.parse(response.body)
-        users = parsed_response['data'].map do |user|
+        users = parsed_response["data"].map do |user|
           ::WorkOS::DirectoryUser.new(user.to_json)
         end
 
         WorkOS::Types::ListStruct.new(
           data: users,
-          list_metadata: parsed_response['listMetadata'],
+          list_metadata: parsed_response["listMetadata"]
         )
       end
 
@@ -155,8 +155,8 @@ module WorkOS
         response = execute_request(
           request: get_request(
             path: "/directory_groups/#{id}",
-            auth: true,
-          ),
+            auth: true
+          )
         )
 
         ::WorkOS::DirectoryGroup.new(response.body)
@@ -171,8 +171,8 @@ module WorkOS
         response = execute_request(
           request: get_request(
             path: "/directory_users/#{id}",
-            auth: true,
-          ),
+            auth: true
+          )
         )
 
         ::WorkOS::DirectoryUser.new(response.body)
@@ -186,7 +186,7 @@ module WorkOS
       def delete_directory(id)
         request = delete_request(
           auth: true,
-          path: "/directories/#{id}",
+          path: "/directories/#{id}"
         )
 
         response = execute_request(request: request)

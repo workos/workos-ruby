@@ -19,7 +19,7 @@ module WorkOS
     def to_json(*)
       {
         token: token,
-        user: user.to_json,
+        user: user.to_json
       }
     end
   end

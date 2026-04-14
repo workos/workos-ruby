@@ -15,7 +15,7 @@ module WorkOS
       :external_id,
       :allow_profiles_outside_organization,
       :created_at,
-      :updated_at,
+      :updated_at
     )
 
     def initialize(json)
@@ -40,7 +40,7 @@ module WorkOS
         domains: domains,
         stripe_customer_id: stripe_customer_id,
         created_at: created_at,
-        updated_at: updated_at,
+        updated_at: updated_at
       }
     end
   end

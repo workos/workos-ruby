@@ -37,8 +37,8 @@ module WorkOS
     # rubocop:enable Metrics/ParameterLists
 
     def to_s
-      status_string = @http_status.nil? ? '' : "Status #{@http_status}, "
-      id_string = @request_id.nil? ? '' : " - request ID: #{@request_id}"
+      status_string = @http_status.nil? ? "" : "Status #{@http_status}, "
+      id_string = @request_id.nil? ? "" : " - request ID: #{@request_id}"
       if @error && @error_description
         error_string = "error: #{@error}, error_description: #{@error_description}"
         "#{status_string}#{error_string}#{id_string}"

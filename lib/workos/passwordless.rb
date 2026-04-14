@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'net/http'
+require "net/http"
 
 module WorkOS
   # The Passwordless module provides convenience methods for working with
@@ -34,19 +34,19 @@ module WorkOS
       def create_session(options)
         response = execute_request(
           request: post_request(
-            path: '/passwordless/sessions',
+            path: "/passwordless/sessions",
             auth: true,
-            body: options,
-          ),
+            body: options
+          )
         )
 
         hash = JSON.parse(response.body)
 
         WorkOS::Types::PasswordlessSessionStruct.new(
-          id: hash['id'],
-          email: hash['email'],
-          expires_at: Date.parse(hash['expires_at']),
-          link: hash['link'],
+          id: hash["id"],
+          email: hash["email"],
+          expires_at: Date.parse(hash["expires_at"]),
+          link: hash["link"]
         )
       end
 
@@ -60,8 +60,8 @@ module WorkOS
         response = execute_request(
           request: post_request(
             path: "/passwordless/sessions/#{session_id}/send",
-            auth: true,
-          ),
+            auth: true
+          )
         )
 
         JSON.parse(response.body)

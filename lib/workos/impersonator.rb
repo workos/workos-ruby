@@ -16,7 +16,7 @@ module WorkOS
     def to_json(*)
       {
         email: email,
-        reason: reason,
+        reason: reason
       }
     end
   end

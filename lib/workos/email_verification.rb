@@ -8,7 +8,7 @@ module WorkOS
     include HashProvider
 
     attr_accessor :id, :user_id, :email,
-                  :expires_at, :code, :created_at, :updated_at
+      :expires_at, :code, :created_at, :updated_at
 
     def initialize(json)
       hash = JSON.parse(json, symbolize_names: true)
@@ -30,7 +30,7 @@ module WorkOS
         code: code,
         expires_at: expires_at,
         created_at: created_at,
-        updated_at: updated_at,
+        updated_at: updated_at
       }
     end
   end

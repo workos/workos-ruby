@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'net/http'
+require "net/http"
 
 module WorkOS
   # The Events module provides convenience methods for working with the
@@ -22,24 +22,24 @@ module WorkOS
       #
       # @return [Hash]
       def list_events(options = {})
-        raise ArgumentError, 'Events parameter is required.' if options[:events].nil?
+        raise ArgumentError, "Events parameter is required." if options[:events].nil?
 
         response = execute_request(
           request: get_request(
-            path: '/events',
+            path: "/events",
             auth: true,
-            params: options,
-          ),
+            params: options
+          )
         )
 
         parsed_response = JSON.parse(response.body)
-        events = parsed_response['data'].map do |event|
+        events = parsed_response["data"].map do |event|
           ::WorkOS::Event.new(event.to_json)
         end
 
         WorkOS::Types::ListStruct.new(
           data: events,
-          list_metadata: parsed_response['list_metadata'],
+          list_metadata: parsed_response["list_metadata"]
         )
       end
     end

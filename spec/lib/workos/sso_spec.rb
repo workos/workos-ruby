@@ -1,327 +1,327 @@
 # frozen_string_literal: true
 
-require 'securerandom'
+require "securerandom"
 
 describe WorkOS::SSO do
-  it_behaves_like 'client'
+  it_behaves_like "client"
 
-  describe '.authorization_url' do
-    context 'with a domain' do
+  describe ".authorization_url" do
+    context "with a domain" do
       let(:args) do
         {
-          domain: 'foo.com',
-          client_id: 'workos-proj-123',
-          redirect_uri: 'foo.com/auth/callback',
+          domain: "foo.com",
+          client_id: "workos-proj-123",
+          redirect_uri: "foo.com/auth/callback",
           state: {
-            next_page: '/dashboard/edit',
-          }.to_s,
+            next_page: "/dashboard/edit"
+          }.to_s
         }
       end
-      it 'returns a valid URL' do
+      it "returns a valid URL" do
         authorization_url = described_class.authorization_url(**args)
         expect(URI.parse(authorization_url)).to be_a URI
       end
 
-      it 'returns the expected hostname' do
+      it "returns the expected hostname" do
         authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url).host).to eq(WorkOS.config.api_hostname)
       end
 
-      it 'returns the expected query string' do
+      it "returns the expected query string" do
         authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url).query).to eq(
-          'client_id=workos-proj-123&redirect_uri=foo.com%2Fauth%2Fcallback' \
-          '&response_type=code&state=%7B%3Anext_page%3D%3E%22%2Fdashboard%2F' \
-          'edit%22%7D&domain=foo.com',
+          "client_id=workos-proj-123&redirect_uri=foo.com%2Fauth%2Fcallback" \
+          "&response_type=code&state=%7B%3Anext_page%3D%3E%22%2Fdashboard%2F" \
+          "edit%22%7D&domain=foo.com"
         )
       end
     end
 
-    context 'with a provider' do
+    context "with a provider" do
       let(:args) do
         {
-          provider: 'GoogleOAuth',
-          client_id: 'workos-proj-123',
-          redirect_uri: 'foo.com/auth/callback',
+          provider: "GoogleOAuth",
+          client_id: "workos-proj-123",
+          redirect_uri: "foo.com/auth/callback",
           state: {
-            next_page: '/dashboard/edit',
-          }.to_s,
+            next_page: "/dashboard/edit"
+          }.to_s
         }
       end
-      it 'returns a valid URL' do
+      it "returns a valid URL" do
         authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url)).to be_a URI
       end
 
-      it 'returns the expected hostname' do
+      it "returns the expected hostname" do
         authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url).host).to eq(WorkOS.config.api_hostname)
       end
 
-      it 'returns the expected query string' do
+      it "returns the expected query string" do
         authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url).query).to eq(
-          'client_id=workos-proj-123&redirect_uri=foo.com%2Fauth%2Fcallback' \
-          '&response_type=code&state=%7B%3Anext_page%3D%3E%22%2Fdashboard%2F' \
-          'edit%22%7D&provider=GoogleOAuth',
+          "client_id=workos-proj-123&redirect_uri=foo.com%2Fauth%2Fcallback" \
+          "&response_type=code&state=%7B%3Anext_page%3D%3E%22%2Fdashboard%2F" \
+          "edit%22%7D&provider=GoogleOAuth"
         )
       end
     end
 
-    context 'with a connection' do
+    context "with a connection" do
       let(:args) do
         {
-          connection: 'connection_123',
-          client_id: 'workos-proj-123',
-          redirect_uri: 'foo.com/auth/callback',
+          connection: "connection_123",
+          client_id: "workos-proj-123",
+          redirect_uri: "foo.com/auth/callback",
           state: {
-            next_page: '/dashboard/edit',
-          }.to_s,
+            next_page: "/dashboard/edit"
+          }.to_s
         }
       end
-      it 'returns a valid URL' do
+      it "returns a valid URL" do
         authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url)).to be_a URI
       end
 
-      it 'returns the expected hostname' do
+      it "returns the expected hostname" do
         authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url).host).to eq(WorkOS.config.api_hostname)
       end
 
-      it 'returns the expected query string' do
+      it "returns the expected query string" do
         authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url).query).to eq(
-          'client_id=workos-proj-123&redirect_uri=foo.com%2Fauth%2Fcallback' \
-          '&response_type=code&state=%7B%3Anext_page%3D%3E%22%2Fdashboard%2F' \
-          'edit%22%7D&connection=connection_123',
+          "client_id=workos-proj-123&redirect_uri=foo.com%2Fauth%2Fcallback" \
+          "&response_type=code&state=%7B%3Anext_page%3D%3E%22%2Fdashboard%2F" \
+          "edit%22%7D&connection=connection_123"
         )
       end
     end
 
-    context 'with a domain' do
+    context "with a domain" do
       let(:args) do
         {
-          domain: 'foo.com',
-          client_id: 'workos-proj-123',
-          redirect_uri: 'foo.com/auth/callback',
+          domain: "foo.com",
+          client_id: "workos-proj-123",
+          redirect_uri: "foo.com/auth/callback",
           state: {
-            next_page: '/dashboard/edit',
-          }.to_s,
+            next_page: "/dashboard/edit"
+          }.to_s
         }
       end
-      it 'returns a valid URL' do
+      it "returns a valid URL" do
         authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url)).to be_a URI
       end
 
-      it 'returns the expected hostname' do
+      it "returns the expected hostname" do
         authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url).host).to eq(WorkOS.config.api_hostname)
       end
 
-      it 'returns the expected query string' do
+      it "returns the expected query string" do
         authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url).query).to eq(
-          'client_id=workos-proj-123&redirect_uri=foo.com%2Fauth%2Fcallback' \
-          '&response_type=code&state=%7B%3Anext_page%3D%3E%22%2Fdashboard%2F' \
-          'edit%22%7D&domain=foo.com',
+          "client_id=workos-proj-123&redirect_uri=foo.com%2Fauth%2Fcallback" \
+          "&response_type=code&state=%7B%3Anext_page%3D%3E%22%2Fdashboard%2F" \
+          "edit%22%7D&domain=foo.com"
         )
       end
     end
 
-    context 'with a domain_hint' do
+    context "with a domain_hint" do
       let(:args) do
         {
-          connection: 'connection_123',
-          domain_hint: 'foo.com',
-          client_id: 'workos-proj-123',
-          redirect_uri: 'foo.com/auth/callback',
+          connection: "connection_123",
+          domain_hint: "foo.com",
+          client_id: "workos-proj-123",
+          redirect_uri: "foo.com/auth/callback",
           state: {
-            next_page: '/dashboard/edit',
-          }.to_s,
+            next_page: "/dashboard/edit"
+          }.to_s
         }
       end
-      it 'returns a valid URL' do
+      it "returns a valid URL" do
         authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url)).to be_a URI
       end
 
-      it 'returns the expected hostname' do
+      it "returns the expected hostname" do
         authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url).host).to eq(WorkOS.config.api_hostname)
       end
 
-      it 'returns the expected query string' do
+      it "returns the expected query string" do
         authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url).query).to eq(
-          'client_id=workos-proj-123&redirect_uri=foo.com%2Fauth%2Fcallback' \
-          '&response_type=code&state=%7B%3Anext_page%3D%3E%22%2Fdashboard%2' \
-          'Fedit%22%7D&domain_hint=foo.com&connection=connection_123',
+          "client_id=workos-proj-123&redirect_uri=foo.com%2Fauth%2Fcallback" \
+          "&response_type=code&state=%7B%3Anext_page%3D%3E%22%2Fdashboard%2" \
+          "Fedit%22%7D&domain_hint=foo.com&connection=connection_123"
         )
       end
     end
 
-    context 'with a login_hint' do
+    context "with a login_hint" do
       let(:args) do
         {
-          connection: 'connection_123',
-          login_hint: 'foo@workos.com',
-          client_id: 'workos-proj-123',
-          redirect_uri: 'foo.com/auth/callback',
+          connection: "connection_123",
+          login_hint: "foo@workos.com",
+          client_id: "workos-proj-123",
+          redirect_uri: "foo.com/auth/callback",
           state: {
-            next_page: '/dashboard/edit',
-          }.to_s,
+            next_page: "/dashboard/edit"
+          }.to_s
         }
       end
-      it 'returns a valid URL' do
+      it "returns a valid URL" do
         authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url)).to be_a URI
       end
 
-      it 'returns the expected hostname' do
+      it "returns the expected hostname" do
         authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url).host).to eq(WorkOS.config.api_hostname)
       end
 
-      it 'returns the expected query string' do
+      it "returns the expected query string" do
         authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url).query).to eq(
-          'client_id=workos-proj-123&redirect_uri=foo.com%2Fauth%2Fcallback' \
-          '&response_type=code&state=%7B%3Anext_page%3D%3E%22%2Fdashboard%2' \
-          'Fedit%22%7D&login_hint=foo%40workos.com&connection=connection_123',
+          "client_id=workos-proj-123&redirect_uri=foo.com%2Fauth%2Fcallback" \
+          "&response_type=code&state=%7B%3Anext_page%3D%3E%22%2Fdashboard%2" \
+          "Fedit%22%7D&login_hint=foo%40workos.com&connection=connection_123"
         )
       end
     end
 
-    context 'with an organization' do
+    context "with an organization" do
       let(:args) do
         {
-          organization: 'org_123',
-          client_id: 'workos-proj-123',
-          redirect_uri: 'foo.com/auth/callback',
+          organization: "org_123",
+          client_id: "workos-proj-123",
+          redirect_uri: "foo.com/auth/callback",
           state: {
-            next_page: '/dashboard/edit',
-          }.to_s,
+            next_page: "/dashboard/edit"
+          }.to_s
         }
       end
-      it 'returns a valid URL' do
+      it "returns a valid URL" do
         authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url)).to be_a URI
       end
 
-      it 'returns the expected hostname' do
+      it "returns the expected hostname" do
         authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url).host).to eq(WorkOS.config.api_hostname)
       end
 
-      it 'returns the expected query string' do
+      it "returns the expected query string" do
         authorization_url = described_class.authorization_url(**args)
 
         expect(URI.parse(authorization_url).query).to eq(
-          'client_id=workos-proj-123&redirect_uri=foo.com%2Fauth%2Fcallback' \
-          '&response_type=code&state=%7B%3Anext_page%3D%3E%22%2Fdashboard%2F' \
-          'edit%22%7D&organization=org_123',
+          "client_id=workos-proj-123&redirect_uri=foo.com%2Fauth%2Fcallback" \
+          "&response_type=code&state=%7B%3Anext_page%3D%3E%22%2Fdashboard%2F" \
+          "edit%22%7D&organization=org_123"
         )
       end
     end
 
-    context 'with neither connection, domain, provider, or organization' do
+    context "with neither connection, domain, provider, or organization" do
       let(:args) do
         {
-          client_id: 'workos-proj-123',
-          redirect_uri: 'foo.com/auth/callback',
+          client_id: "workos-proj-123",
+          redirect_uri: "foo.com/auth/callback",
           state: {
-            next_page: '/dashboard/edit',
-          }.to_s,
+            next_page: "/dashboard/edit"
+          }.to_s
         }
       end
-      it 'raises an error' do
+      it "raises an error" do
         expect do
           described_class.authorization_url(**args)
         end.to raise_error(
           ArgumentError,
-          'Either connection, domain, provider, or organization is required.',
+          "Either connection, domain, provider, or organization is required."
         )
       end
     end
 
-    context 'with an invalid provider' do
+    context "with an invalid provider" do
       let(:args) do
         {
-          provider: 'Okta',
-          client_id: 'workos-proj-123',
-          redirect_uri: 'foo.com/auth/callback',
+          provider: "Okta",
+          client_id: "workos-proj-123",
+          redirect_uri: "foo.com/auth/callback",
           state: {
-            next_page: '/dashboard/edit',
-          }.to_s,
+            next_page: "/dashboard/edit"
+          }.to_s
         }
       end
-      it 'raises an error' do
+      it "raises an error" do
         expect do
           described_class.authorization_url(**args)
         end.to raise_error(
           ArgumentError,
-          'Okta is not a valid value. `provider` must be in ' \
-          '["AppleOAuth", "GitHubOAuth", "GoogleOAuth", "MicrosoftOAuth"]',
+          "Okta is not a valid value. `provider` must be in " \
+          '["AppleOAuth", "GitHubOAuth", "GoogleOAuth", "MicrosoftOAuth"]'
         )
       end
     end
   end
 
-  describe '.get_profile' do
+  describe ".get_profile" do
     # rubocop:disable Metrics/BlockLength
-    it 'returns a profile' do
-      VCR.use_cassette 'sso/profile' do
-        profile = described_class.get_profile(access_token: 'access_token')
+    it "returns a profile" do
+      VCR.use_cassette "sso/profile" do
+        profile = described_class.get_profile(access_token: "access_token")
 
         expectation = {
-          connection_id: 'conn_01E83FVYZHY7DM4S9503JHV0R5',
-          connection_type: 'GoogleOAuth',
-          email: 'bob.loblaw@workos.com',
-          first_name: 'Bob',
-          id: 'prof_01EEJTY9SZ1R350RB7B73SNBKF',
-          idp_id: '116485463307139932699',
-          last_name: 'Loblaw',
+          connection_id: "conn_01E83FVYZHY7DM4S9503JHV0R5",
+          connection_type: "GoogleOAuth",
+          email: "bob.loblaw@workos.com",
+          first_name: "Bob",
+          id: "prof_01EEJTY9SZ1R350RB7B73SNBKF",
+          idp_id: "116485463307139932699",
+          last_name: "Loblaw",
           role: {
-            slug: 'member',
+            slug: "member"
           },
           roles: [{
-            slug: 'member',
+            slug: "member"
           }],
           groups: nil,
-          organization_id: 'org_01FG53X8636WSNW2WEKB2C31ZB',
+          organization_id: "org_01FG53X8636WSNW2WEKB2C31ZB",
           custom_attributes: {},
           raw_attributes: {
-            email: 'bob.loblaw@workos.com',
-            family_name: 'Loblaw',
-            given_name: 'Bob',
-            hd: 'workos.com',
-            id: '116485463307139932699',
-            locale: 'en',
-            name: 'Bob Loblaw',
-            picture: 'https://lh3.googleusercontent.com/a-/AOh14GyO2hLlgZvteDQ3Ldi3_-RteZLya0hWH7247Cam=s96-c',
-            verified_email: true,
-          },
+            email: "bob.loblaw@workos.com",
+            family_name: "Loblaw",
+            given_name: "Bob",
+            hd: "workos.com",
+            id: "116485463307139932699",
+            locale: "en",
+            name: "Bob Loblaw",
+            picture: "https://lh3.googleusercontent.com/a-/AOh14GyO2hLlgZvteDQ3Ldi3_-RteZLya0hWH7247Cam=s96-c",
+            verified_email: true
+          }
         }
         expect(profile.to_json).to eq(expectation)
       end
@@ -329,11 +329,11 @@ describe WorkOS::SSO do
     # rubocop:enable Metrics/BlockLength
   end
 
-  describe '.profile_and_token' do
+  describe ".profile_and_token" do
     let(:args) do
       {
         code: SecureRandom.hex(10),
-        client_id: 'workos-proj-123',
+        client_id: "workos-proj-123"
       }
     end
 
@@ -342,98 +342,98 @@ describe WorkOS::SSO do
         client_id: args[:client_id],
         client_secret: WorkOS.config.key,
         code: args[:code],
-        grant_type: 'authorization_code',
+        grant_type: "authorization_code"
       }
     end
-    let(:user_agent) { 'user-agent-string' }
-    let(:headers) { { 'User-Agent' => user_agent } }
+    let(:user_agent) { "user-agent-string" }
+    let(:headers) { {"User-Agent" => user_agent} }
 
     before do
       allow(described_class).to receive(:user_agent).and_return(user_agent)
     end
 
-    context 'with a successful response' do
+    context "with a successful response" do
       let(:response_body) { File.read("#{SPEC_ROOT}/support/profile.txt") }
 
       before do
-        stub_request(:post, 'https://api.workos.com/sso/token').
-          with(headers: headers, body: request_body).
-          to_return(status: 200, body: response_body)
+        stub_request(:post, "https://api.workos.com/sso/token")
+          .with(headers: headers, body: request_body)
+          .to_return(status: 200, body: response_body)
       end
 
-      it 'includes the SDK Version header' do
+      it "includes the SDK Version header" do
         described_class.profile_and_token(**args)
 
-        expect(a_request(:post, 'https://api.workos.com/sso/token').
-          with(headers: headers, body: request_body)).to have_been_made
+        expect(a_request(:post, "https://api.workos.com/sso/token")
+          .with(headers: headers, body: request_body)).to have_been_made
       end
 
-      it 'returns a WorkOS::ProfileAndToken' do
+      it "returns a WorkOS::ProfileAndToken" do
         profile_and_token = described_class.profile_and_token(**args)
         expect(profile_and_token).to be_a(WorkOS::ProfileAndToken)
 
         expectation = {
-          connection_id: 'conn_01EMH8WAK20T42N2NBMNBCYHAG',
-          connection_type: 'OktaSAML',
-          email: 'demo@workos-okta.com',
-          first_name: 'WorkOS',
-          id: 'prof_01DRA1XNSJDZ19A31F183ECQW5',
-          idp_id: '00u1klkowm8EGah2H357',
-          last_name: 'Demo',
+          connection_id: "conn_01EMH8WAK20T42N2NBMNBCYHAG",
+          connection_type: "OktaSAML",
+          email: "demo@workos-okta.com",
+          first_name: "WorkOS",
+          id: "prof_01DRA1XNSJDZ19A31F183ECQW5",
+          idp_id: "00u1klkowm8EGah2H357",
+          last_name: "Demo",
           role: {
-            slug: 'admin',
+            slug: "admin"
           },
           roles: [{
-            slug: 'admin',
+            slug: "admin"
           }],
           groups: %w[Admins Developers],
-          organization_id: 'org_01FG53X8636WSNW2WEKB2C31ZB',
+          organization_id: "org_01FG53X8636WSNW2WEKB2C31ZB",
           custom_attributes: {
-            license: 'professional',
+            license: "professional"
           },
           raw_attributes: {
-            email: 'demo@workos-okta.com',
-            first_name: 'WorkOS',
-            id: 'prof_01DRA1XNSJDZ19A31F183ECQW5',
-            idp_id: '00u1klkowm8EGah2H357',
-            last_name: 'Demo',
+            email: "demo@workos-okta.com",
+            first_name: "WorkOS",
+            id: "prof_01DRA1XNSJDZ19A31F183ECQW5",
+            idp_id: "00u1klkowm8EGah2H357",
+            last_name: "Demo",
             groups: %w[Admins Developers],
-            license: 'professional',
-          },
+            license: "professional"
+          }
         }
 
-        expect(profile_and_token.access_token).to eq('01DVX6QBS3EG6FHY2ESAA5Q65X')
+        expect(profile_and_token.access_token).to eq("01DVX6QBS3EG6FHY2ESAA5Q65X")
         expect(profile_and_token.profile.to_json).to eq(expectation)
       end
     end
 
-    context 'with an unprocessable request' do
+    context "with an unprocessable request" do
       before do
-        stub_request(:post, 'https://api.workos.com/sso/token').
-          with(headers: headers, body: request_body).
-          to_return(
-            headers: { 'X-Request-ID' => 'request-id' },
+        stub_request(:post, "https://api.workos.com/sso/token")
+          .with(headers: headers, body: request_body)
+          .to_return(
+            headers: {"X-Request-ID" => "request-id"},
             status: 422,
-            body: { "error": 'some error', "error_description": 'some error description' }.to_json,
+            body: {error: "some error", error_description: "some error description"}.to_json
           )
       end
 
-      it 'raises an exception with request ID' do
+      it "raises an exception with request ID" do
         expect do
           described_class.profile_and_token(**args)
         end.to raise_error(
           WorkOS::UnprocessableEntityError,
-          'Status 422, some error - request ID: request-id',
+          "Status 422, some error - request ID: request-id"
         )
       end
 
-      it 'raises an exception with proper error object attributes' do
+      it "raises an exception with proper error object attributes" do
         expect do
           described_class.profile_and_token(**args)
         end.to raise_error(WorkOS::UnprocessableEntityError)
       end
 
-      it 'includes proper error attributes' do
+      it "includes proper error attributes" do
         error = begin
           described_class.profile_and_token(**args)
         rescue WorkOS::UnprocessableEntityError => e
@@ -441,40 +441,40 @@ describe WorkOS::SSO do
         end
 
         expect(error.http_status).to eq(422)
-        expect(error.request_id).to eq('request-id')
-        expect(error.error).to eq('some error')
-        expect(error.message).to include('some error')
+        expect(error.request_id).to eq("request-id")
+        expect(error.error).to eq("some error")
+        expect(error.message).to include("some error")
       end
     end
 
-    context 'with detailed field validation errors' do
+    context "with detailed field validation errors" do
       before do
-        stub_request(:post, 'https://api.workos.com/sso/token').
-          with(headers: headers, body: request_body).
-          to_return(
-            headers: { 'X-Request-ID' => 'request-id' },
+        stub_request(:post, "https://api.workos.com/sso/token")
+          .with(headers: headers, body: request_body)
+          .to_return(
+            headers: {"X-Request-ID" => "request-id"},
             status: 422,
             body: {
-              "message": 'Validation failed',
-              "code": 'invalid_request_parameters',
-              "errors": [
+              message: "Validation failed",
+              code: "invalid_request_parameters",
+              errors: [
                 {
-                  "field": 'code',
-                  "code": 'missing_required_parameter',
-                  "message": 'The code parameter is required',
+                  field: "code",
+                  code: "missing_required_parameter",
+                  message: "The code parameter is required"
                 }
-              ],
-            }.to_json,
+              ]
+            }.to_json
           )
       end
 
-      it 'raises an exception with detailed field errors' do
+      it "raises an exception with detailed field errors" do
         expect do
           described_class.profile_and_token(**args)
         end.to raise_error(WorkOS::UnprocessableEntityError)
       end
 
-      it 'includes detailed field error attributes' do
+      it "includes detailed field error attributes" do
         error = begin
           described_class.profile_and_token(**args)
         rescue WorkOS::UnprocessableEntityError => e
@@ -482,46 +482,46 @@ describe WorkOS::SSO do
         end
 
         expect(error.http_status).to eq(422)
-        expect(error.request_id).to eq('request-id')
-        expect(error.code).to eq('invalid_request_parameters')
+        expect(error.request_id).to eq("request-id")
+        expect(error.code).to eq("invalid_request_parameters")
         expect(error.errors).not_to be_nil
-        expect(error.errors).to include('code: missing_required_parameter')
-        expect(error.message).to include('Validation failed')
-        expect(error.message).to include('(code: missing_required_parameter)')
+        expect(error.errors).to include("code: missing_required_parameter")
+        expect(error.message).to include("Validation failed")
+        expect(error.message).to include("(code: missing_required_parameter)")
       end
     end
 
-    context 'with an expired code' do
+    context "with an expired code" do
       before do
-        stub_request(:post, 'https://api.workos.com/sso/token').
-          with(body: request_body).
-          to_return(
+        stub_request(:post, "https://api.workos.com/sso/token")
+          .with(body: request_body)
+          .to_return(
             status: 400,
-            headers: { 'X-Request-ID' => 'request-id' },
+            headers: {"X-Request-ID" => "request-id"},
             body: {
-              "error": 'invalid_grant',
-              "error_description": "The code '01DVX3C5Z367SFHR8QNDMK7V24' has expired or is invalid.",
-            }.to_json,
+              error: "invalid_grant",
+              error_description: "The code '01DVX3C5Z367SFHR8QNDMK7V24' has expired or is invalid."
+            }.to_json
           )
       end
 
-      it 'raises an exception' do
+      it "raises an exception" do
         expect do
           described_class.profile_and_token(**args)
         end.to raise_error(
           WorkOS::InvalidRequestError,
           "Status 400, error: invalid_grant, error_description: The code '01DVX3C5Z367SFHR8QNDMK7V24'" \
-          ' has expired or is invalid. - request ID: request-id',
+          " has expired or is invalid. - request ID: request-id"
         )
       end
 
-      it 'raises an exception with proper error object attributes' do
+      it "raises an exception with proper error object attributes" do
         expect do
           described_class.profile_and_token(**args)
         end.to raise_error(WorkOS::InvalidRequestError)
       end
 
-      it 'includes proper error attributes' do
+      it "includes proper error attributes" do
         error = begin
           described_class.profile_and_token(**args)
         rescue WorkOS::InvalidRequestError => e
@@ -529,23 +529,23 @@ describe WorkOS::SSO do
         end
 
         expect(error.http_status).to eq(400)
-        expect(error.request_id).to eq('request-id')
-        expect(error.error).to eq('invalid_grant')
+        expect(error.request_id).to eq("request-id")
+        expect(error.error).to eq("invalid_grant")
         expect(error.error_description).to eq("The code '01DVX3C5Z367SFHR8QNDMK7V24' has expired or is invalid.")
-        expect(error.message).to include('invalid_grant')
+        expect(error.message).to include("invalid_grant")
       end
     end
   end
 
-  describe '.list_connections' do
-    context 'with no options' do
-      it 'returns connections and metadata' do
+  describe ".list_connections" do
+    context "with no options" do
+      it "returns connections and metadata" do
         expected_metadata = {
-          'after' => nil,
-          'before' => 'before_id',
+          "after" => nil,
+          "before" => "before_id"
         }
 
-        VCR.use_cassette 'sso/list_connections/with_no_options' do
+        VCR.use_cassette "sso/list_connections/with_no_options" do
           connections = described_class.list_connections
 
           expect(connections.data.size).to eq(6)
@@ -554,46 +554,46 @@ describe WorkOS::SSO do
       end
     end
 
-    context 'with connection_type option' do
-      it 'forms the proper request to the API' do
+    context "with connection_type option" do
+      it "forms the proper request to the API" do
         request_args = [
-          '/connections?connection_type=OktaSAML&'\
-          'order=desc',
-          'Content-Type' => 'application/json'
+          "/connections?connection_type=OktaSAML&" \
+          "order=desc",
+          "Content-Type" => "application/json"
         ]
 
         expected_request = Net::HTTP::Get.new(*request_args)
 
-        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
-          and_return(expected_request)
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args)
+          .and_return(expected_request)
 
-        VCR.use_cassette 'sso/list_connections/with_connection_type' do
+        VCR.use_cassette "sso/list_connections/with_connection_type" do
           connections = described_class.list_connections(
-            connection_type: 'OktaSAML',
+            connection_type: "OktaSAML"
           )
 
           expect(connections.data.size).to eq(10)
-          expect(connections.data.first.connection_type).to eq('OktaSAML')
+          expect(connections.data.first.connection_type).to eq("OktaSAML")
         end
       end
     end
 
-    context 'with domain option' do
-      it 'forms the proper request to the API' do
+    context "with domain option" do
+      it "forms the proper request to the API" do
         request_args = [
-          '/connections?domain=foo-corp.com&'\
-          'order=desc',
-          'Content-Type' => 'application/json'
+          "/connections?domain=foo-corp.com&" \
+          "order=desc",
+          "Content-Type" => "application/json"
         ]
 
         expected_request = Net::HTTP::Get.new(*request_args)
 
-        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
-          and_return(expected_request)
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args)
+          .and_return(expected_request)
 
-        VCR.use_cassette 'sso/list_connections/with_domain' do
+        VCR.use_cassette "sso/list_connections/with_domain" do
           connections = described_class.list_connections(
-            domain: 'foo-corp.com',
+            domain: "foo-corp.com"
           )
 
           expect(connections.data.size).to eq(1)
@@ -601,48 +601,48 @@ describe WorkOS::SSO do
       end
     end
 
-    context 'with organization_id option' do
-      it 'forms the proper request to the API' do
+    context "with organization_id option" do
+      it "forms the proper request to the API" do
         request_args = [
-          '/connections?organization_id=org_01F9293WD2PDEEV4Y625XPZVG7&'\
-          'order=desc',
-          'Content-Type' => 'application/json'
+          "/connections?organization_id=org_01F9293WD2PDEEV4Y625XPZVG7&" \
+          "order=desc",
+          "Content-Type" => "application/json"
         ]
 
         expected_request = Net::HTTP::Get.new(*request_args)
 
-        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
-          and_return(expected_request)
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args)
+          .and_return(expected_request)
 
-        VCR.use_cassette 'sso/list_connections/with_organization_id' do
+        VCR.use_cassette "sso/list_connections/with_organization_id" do
           connections = described_class.list_connections(
-            organization_id: 'org_01F9293WD2PDEEV4Y625XPZVG7',
+            organization_id: "org_01F9293WD2PDEEV4Y625XPZVG7"
           )
 
           expect(connections.data.size).to eq(1)
           expect(connections.data.first.organization_id).to eq(
-            'org_01F9293WD2PDEEV4Y625XPZVG7',
+            "org_01F9293WD2PDEEV4Y625XPZVG7"
           )
         end
       end
     end
 
-    context 'with limit option' do
-      it 'forms the proper request to the API' do
+    context "with limit option" do
+      it "forms the proper request to the API" do
         request_args = [
-          '/connections?limit=2&'\
-          'order=desc',
-          'Content-Type' => 'application/json'
+          "/connections?limit=2&" \
+          "order=desc",
+          "Content-Type" => "application/json"
         ]
 
         expected_request = Net::HTTP::Get.new(*request_args)
 
-        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
-          and_return(expected_request)
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args)
+          .and_return(expected_request)
 
-        VCR.use_cassette 'sso/list_connections/with_limit' do
+        VCR.use_cassette "sso/list_connections/with_limit" do
           connections = described_class.list_connections(
-            limit: 2,
+            limit: 2
           )
 
           expect(connections.data.size).to eq(2)
@@ -650,22 +650,22 @@ describe WorkOS::SSO do
       end
     end
 
-    context 'with before option' do
-      it 'forms the proper request to the API' do
+    context "with before option" do
+      it "forms the proper request to the API" do
         request_args = [
-          '/connections?before=conn_01FA3WGCWPCCY1V2FGES2FDNP7&'\
-          'order=desc',
-          'Content-Type' => 'application/json'
+          "/connections?before=conn_01FA3WGCWPCCY1V2FGES2FDNP7&" \
+          "order=desc",
+          "Content-Type" => "application/json"
         ]
 
         expected_request = Net::HTTP::Get.new(*request_args)
 
-        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
-          and_return(expected_request)
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args)
+          .and_return(expected_request)
 
-        VCR.use_cassette 'sso/list_connections/with_before' do
+        VCR.use_cassette "sso/list_connections/with_before" do
           connections = described_class.list_connections(
-            before: 'conn_01FA3WGCWPCCY1V2FGES2FDNP7',
+            before: "conn_01FA3WGCWPCCY1V2FGES2FDNP7"
           )
 
           expect(connections.data.size).to eq(3)
@@ -673,22 +673,22 @@ describe WorkOS::SSO do
       end
     end
 
-    context 'with after option' do
-      it 'forms the proper request to the API' do
+    context "with after option" do
+      it "forms the proper request to the API" do
         request_args = [
-          '/connections?after=conn_01FA3WGCWPCCY1V2FGES2FDNP7&'\
-          'order=desc',
-          'Content-Type' => 'application/json'
+          "/connections?after=conn_01FA3WGCWPCCY1V2FGES2FDNP7&" \
+          "order=desc",
+          "Content-Type" => "application/json"
         ]
 
         expected_request = Net::HTTP::Get.new(*request_args)
 
-        expect(Net::HTTP::Get).to receive(:new).with(*request_args).
-          and_return(expected_request)
+        expect(Net::HTTP::Get).to receive(:new).with(*request_args)
+          .and_return(expected_request)
 
-        VCR.use_cassette 'sso/list_connections/with_after' do
+        VCR.use_cassette "sso/list_connections/with_after" do
           connections = described_class.list_connections(
-            after: 'conn_01FA3WGCWPCCY1V2FGES2FDNP7',
+            after: "conn_01FA3WGCWPCCY1V2FGES2FDNP7"
           )
 
           expect(connections.data.size).to eq(2)
@@ -697,42 +697,42 @@ describe WorkOS::SSO do
     end
   end
 
-  describe '.get_connection' do
-    context 'with a valid id' do
-      it 'gets the connection details' do
-        VCR.use_cassette('sso/get_connection_with_valid_id') do
+  describe ".get_connection" do
+    context "with a valid id" do
+      it "gets the connection details" do
+        VCR.use_cassette("sso/get_connection_with_valid_id") do
           connection = WorkOS::SSO.get_connection(
-            id: 'conn_01FA3WGCWPCCY1V2FGES2FDNP7',
+            id: "conn_01FA3WGCWPCCY1V2FGES2FDNP7"
           )
 
-          expect(connection.id).to eq('conn_01FA3WGCWPCCY1V2FGES2FDNP7')
-          expect(connection.connection_type).to eq('OktaSAML')
-          expect(connection.name).to eq('Foo Corp')
-          expect(connection.domains.first[:domain]).to eq('foo-corp.com')
+          expect(connection.id).to eq("conn_01FA3WGCWPCCY1V2FGES2FDNP7")
+          expect(connection.connection_type).to eq("OktaSAML")
+          expect(connection.name).to eq("Foo Corp")
+          expect(connection.domains.first[:domain]).to eq("foo-corp.com")
         end
       end
     end
 
-    context 'with an invalid id' do
-      it 'raises an error' do
-        VCR.use_cassette('sso/get_connection_with_invalid_id') do
+    context "with an invalid id" do
+      it "raises an error" do
+        VCR.use_cassette("sso/get_connection_with_invalid_id") do
           expect do
-            WorkOS::SSO.get_connection(id: 'invalid')
+            WorkOS::SSO.get_connection(id: "invalid")
           end.to raise_error(
             WorkOS::NotFoundError,
-            'Status 404, Not Found - request ID: ',
+            "Status 404, Not Found - request ID: "
           )
         end
       end
     end
   end
 
-  describe '.delete_connection' do
-    context 'with a valid id' do
-      it 'returns true' do
-        VCR.use_cassette('sso/delete_connection_with_valid_id') do
+  describe ".delete_connection" do
+    context "with a valid id" do
+      it "returns true" do
+        VCR.use_cassette("sso/delete_connection_with_valid_id") do
           response = WorkOS::SSO.delete_connection(
-            id: 'conn_01EX55FRVN1V2PCA9YWTMZQMMQ',
+            id: "conn_01EX55FRVN1V2PCA9YWTMZQMMQ"
           )
 
           expect(response).to be(true)
@@ -740,14 +740,14 @@ describe WorkOS::SSO do
       end
     end
 
-    context 'with an invalid id' do
-      it 'returns false' do
-        VCR.use_cassette('sso/delete_connection_with_invalid_id') do
+    context "with an invalid id" do
+      it "returns false" do
+        VCR.use_cassette("sso/delete_connection_with_invalid_id") do
           expect do
-            WorkOS::SSO.delete_connection(id: 'invalid')
+            WorkOS::SSO.delete_connection(id: "invalid")
           end.to raise_error(
             WorkOS::NotFoundError,
-            'Status 404, Not Found - request ID: ',
+            "Status 404, Not Found - request ID: "
           )
         end
       end

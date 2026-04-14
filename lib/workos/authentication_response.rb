@@ -7,13 +7,13 @@ module WorkOS
     include HashProvider
 
     attr_accessor :user,
-                  :organization_id,
-                  :impersonator,
-                  :access_token,
-                  :refresh_token,
-                  :authentication_method,
-                  :sealed_session,
-                  :oauth_tokens
+      :organization_id,
+      :impersonator,
+      :access_token,
+      :refresh_token,
+      :authentication_method,
+      :sealed_session,
+      :oauth_tokens
 
     # rubocop:disable Metrics/AbcSize
     def initialize(authentication_response_json, session = nil)
@@ -25,7 +25,7 @@ module WorkOS
       @impersonator =
         if (impersonator_json = json[:impersonator])
           Impersonator.new(email: impersonator_json[:email],
-                           reason: impersonator_json[:reason],)
+            reason: impersonator_json[:reason])
         end
       @authentication_method = json[:authentication_method]
       @oauth_tokens = json[:oauth_tokens] ? WorkOS::OAuthTokens.new(json[:oauth_tokens].to_json) : nil
@@ -37,10 +37,10 @@ module WorkOS
               refresh_token: refresh_token,
               user: user.to_json,
               organization_id: organization_id,
-              impersonator: impersonator.to_json,
+              impersonator: impersonator.to_json
             },
             session[:cookie_password],
-            encryptor: session[:encryptor],
+            encryptor: session[:encryptor]
           )
         end
     end
@@ -55,7 +55,7 @@ module WorkOS
         refresh_token: refresh_token,
         authentication_method: authentication_method,
         sealed_session: sealed_session,
-        oauth_tokens: oauth_tokens&.to_json,
+        oauth_tokens: oauth_tokens&.to_json
       }
     end
   end

@@ -27,7 +27,7 @@ module WorkOS
         slug: slug,
         description: description,
         created_at: created_at,
-        updated_at: updated_at,
+        updated_at: updated_at
       }
     end
   end

@@ -10,7 +10,7 @@ module WorkOS
         http_client.use_ssl = true
         http_client.open_timeout = WorkOS.config.timeout
         http_client.read_timeout = WorkOS.config.timeout
-        http_client.write_timeout = WorkOS.config.timeout if RUBY_VERSION >= '2.6.0'
+        http_client.write_timeout = WorkOS.config.timeout if RUBY_VERSION >= "2.6.0"
       end
     end
 
@@ -19,7 +19,7 @@ module WorkOS
         response = client.request(request)
       rescue Net::OpenTimeout, Net::ReadTimeout, Net::WriteTimeout
         raise TimeoutError.new(
-          message: 'API Timeout Error',
+          message: "API Timeout Error"
         )
       end
 
@@ -35,20 +35,20 @@ module WorkOS
 
       request = Net::HTTP::Get.new(
         uri.to_s,
-        'Content-Type' => 'application/json',
+        "Content-Type" => "application/json"
       )
 
-      request['Authorization'] = "Bearer #{access_token || WorkOS.config.key!}" if auth
-      request['User-Agent'] = user_agent
+      request["Authorization"] = "Bearer #{access_token || WorkOS.config.key!}" if auth
+      request["User-Agent"] = user_agent
       request
     end
 
     def post_request(path:, auth: false, idempotency_key: nil, body: nil)
-      request = Net::HTTP::Post.new(path, 'Content-Type' => 'application/json')
+      request = Net::HTTP::Post.new(path, "Content-Type" => "application/json")
       request.body = body.to_json if body
-      request['Authorization'] = "Bearer #{WorkOS.config.key!}" if auth
-      request['Idempotency-Key'] = idempotency_key if idempotency_key
-      request['User-Agent'] = user_agent
+      request["Authorization"] = "Bearer #{WorkOS.config.key!}" if auth
+      request["Idempotency-Key"] = idempotency_key if idempotency_key
+      request["User-Agent"] = user_agent
       request
     end
 
@@ -58,35 +58,35 @@ module WorkOS
 
       request = Net::HTTP::Delete.new(
         uri.to_s,
-        'Content-Type' => 'application/json',
+        "Content-Type" => "application/json"
       )
 
-      request['Authorization'] = "Bearer #{WorkOS.config.key!}" if auth
-      request['User-Agent'] = user_agent
+      request["Authorization"] = "Bearer #{WorkOS.config.key!}" if auth
+      request["User-Agent"] = user_agent
       request
     end
 
     def put_request(path:, auth: false, idempotency_key: nil, body: nil)
-      request = Net::HTTP::Put.new(path, 'Content-Type' => 'application/json')
+      request = Net::HTTP::Put.new(path, "Content-Type" => "application/json")
       request.body = body.to_json if body
-      request['Authorization'] = "Bearer #{WorkOS.config.key!}" if auth
-      request['Idempotency-Key'] = idempotency_key if idempotency_key
-      request['User-Agent'] = user_agent
+      request["Authorization"] = "Bearer #{WorkOS.config.key!}" if auth
+      request["Idempotency-Key"] = idempotency_key if idempotency_key
+      request["User-Agent"] = user_agent
       request
     end
 
     def user_agent
-      engine = defined?(::RUBY_ENGINE) ? ::RUBY_ENGINE : 'Ruby'
+      engine = defined?(::RUBY_ENGINE) ? ::RUBY_ENGINE : "Ruby"
 
       [
-        'WorkOS',
+        "WorkOS",
         "#{engine}/#{RUBY_VERSION}",
         RUBY_PLATFORM,
         "v#{WorkOS::VERSION}"
-      ].join('; ')
+      ].join("; ")
     end
 
-    # rubocop:disable Metrics/AbcSize:
+    # rubocop:disable Metrics/AbcSize
     def handle_error_response(response:)
       http_status = response.code.to_i
       json = JSON.parse(response.body)
@@ -94,72 +94,72 @@ module WorkOS
       case http_status
       when 400
         raise InvalidRequestError.new(
-          message: json['message'],
+          message: json["message"],
           http_status: http_status,
-          request_id: response['x-request-id'],
-          code: json['code'],
-          errors: json['errors'],
-          error: json['error'],
-          error_description: json['error_description'],
-          data: json,
+          request_id: response["x-request-id"],
+          code: json["code"],
+          errors: json["errors"],
+          error: json["error"],
+          error_description: json["error_description"],
+          data: json
         )
       when 401
         raise AuthenticationError.new(
-          message: json['message'],
+          message: json["message"],
           http_status: http_status,
-          request_id: response['x-request-id'],
+          request_id: response["x-request-id"]
         )
       when 403
         raise ForbiddenRequestError.new(
-          message: json['message'],
+          message: json["message"],
           http_status: http_status,
-          request_id: response['x-request-id'],
-          code: json['code'],
-          data: json,
+          request_id: response["x-request-id"],
+          code: json["code"],
+          data: json
         )
       when 404
         raise NotFoundError.new(
-          message: json['message'],
+          message: json["message"],
           http_status: http_status,
-          request_id: response['x-request-id'],
+          request_id: response["x-request-id"]
         )
       when 422
-        message = json['message']
-        code = json['code']
-        errors = extract_error(json['errors']) if json['errors']
+        message = json["message"]
+        code = json["code"]
+        errors = extract_error(json["errors"]) if json["errors"]
         message += " (#{errors})" if errors
 
         raise UnprocessableEntityError.new(
           message: message,
           http_status: http_status,
-          request_id: response['x-request-id'],
-          error: json['error'],
+          request_id: response["x-request-id"],
+          error: json["error"],
           errors: errors,
-          code: code,
+          code: code
         )
       when 429
         raise RateLimitExceededError.new(
-          message: json['message'],
+          message: json["message"],
           http_status: http_status,
-          request_id: response['x-request-id'],
-          retry_after: response['Retry-After'],
+          request_id: response["x-request-id"],
+          retry_after: response["Retry-After"]
         )
       else
         raise APIError.new(
-          message: json['message'],
+          message: json["message"],
           http_status: http_status,
-          request_id: response['x-request-id'],
+          request_id: response["x-request-id"]
         )
       end
     end
-    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize, Metrics/CyclomaticComplexity:
+    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize, Metrics/CyclomaticComplexity
 
     private
 
     def extract_error(errors)
       errors.map do |error|
-        "#{error['field']}: #{error['code']}"
-      end.join('; ')
+        "#{error["field"]}: #{error["code"]}"
+      end.join("; ")
     end
   end
 end

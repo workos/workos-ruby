@@ -1,0 +1,10 @@
+ruby_version: 3.3
+
+ignore:
+  - "lib/workos/types/provider.rb":
+      - Naming/ConstantName
+  - "lib/workos/user_management.rb":
+      - Naming/ConstantName
+      - Metrics/ParameterLists
+  - "spec/**/*_spec.rb":
+      - Metrics/BlockLength

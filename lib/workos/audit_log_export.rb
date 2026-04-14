@@ -25,7 +25,7 @@ module WorkOS
         state: state,
         url: url,
         created_at: created_at,
-        updated_at: updated_at,
+        updated_at: updated_at
       }
     end
   end

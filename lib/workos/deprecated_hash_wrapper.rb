@@ -26,7 +26,7 @@ module WorkOS
       warning_message = "WARNING: The Hash style access for #{class_name} attributes is deprecated
 and will be removed in a future version. Please use `#{usage}` or equivalent accessor.\n"
 
-      print_deprecation_warning('[]', warning_message)
+      print_deprecation_warning("[]", warning_message)
 
       super(attribute_name.to_sym)
     end
@@ -41,7 +41,7 @@ in a future version. Please use `#{usage}` to access methods on the attribute Ha
     end
 
     def print_deprecation_warning(method_name, warning_message = deprecation_warning(method_name))
-      if RUBY_VERSION > '3'
+      if RUBY_VERSION > "3"
         warn warning_message, category: :deprecated
       else
         warn warning_message
@@ -55,20 +55,20 @@ in a future version. Please use `#{usage}` to access methods on the attribute Ha
     # We want to do class_name.demodulize.underscore here, but that's not available in Ruby 1.9, so
     # implementing the demodulize and underscore methods here.
     def object_name
-      i = class_name.rindex('::')
-      object_name = i ? class_name[(i + 2)..-1] : class_name
+      i = class_name.rindex("::")
+      object_name = i ? class_name[(i + 2)..] : class_name
       underscore(object_name)
     end
 
     def underscore(camel_cased_word)
       return camel_cased_word.to_s unless /[A-Z-]|::/.match?(camel_cased_word)
 
-      word = camel_cased_word.to_s.gsub('::', '/')
+      word = camel_cased_word.to_s.gsub("::", "/")
       word.gsub!(/(?:(?<=([A-Za-z\d]))|\b)((?=a)b)(?=\b|[^a-z])/) do
-        "#{Regexp.last_match(1) && '_'}#{Regexp.last_match(2).downcase}"
+        "#{Regexp.last_match(1) && "_"}#{Regexp.last_match(2).downcase}"
       end
-      word.gsub!(/([A-Z]+)(?=[A-Z][a-z])|([a-z\d])(?=[A-Z])/) { (Regexp.last_match(1) || Regexp.last_match(2)) << '_' }
-      word.tr!('-', '_')
+      word.gsub!(/([A-Z]+)(?=[A-Z][a-z])|([a-z\d])(?=[A-Z])/) { (Regexp.last_match(1) || Regexp.last_match(2)) << "_" }
+      word.tr!("-", "_")
       word.downcase!
       word
     end

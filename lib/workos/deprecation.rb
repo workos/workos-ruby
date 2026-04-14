@@ -6,7 +6,7 @@ module WorkOS
     def warn_deprecation(message)
       full_message = "[DEPRECATION] #{message}"
 
-      if RUBY_VERSION > '3'
+      if RUBY_VERSION > "3"
         warn full_message, category: :deprecated
       else
         warn full_message

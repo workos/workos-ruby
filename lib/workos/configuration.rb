@@ -10,7 +10,7 @@ module WorkOS
     end
 
     def key!
-      key or raise '`WorkOS.config.key` not set'
+      key or raise "`WorkOS.config.key` not set"
     end
   end
 end

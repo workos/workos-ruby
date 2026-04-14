@@ -8,7 +8,7 @@ module WorkOS
     include HashProvider
 
     attr_accessor :id, :email, :state, :accepted_at, :revoked_at, :accept_invitation_url,
-                  :expires_at, :token, :organization_id, :inviter_user_id, :created_at, :updated_at
+      :expires_at, :token, :organization_id, :inviter_user_id, :created_at, :updated_at
 
     # rubocop:disable Metrics/AbcSize
     def initialize(json)
@@ -42,7 +42,7 @@ module WorkOS
         revoked_at: revoked_at,
         expires_at: expires_at,
         created_at: created_at,
-        updated_at: updated_at,
+        updated_at: updated_at
       }
     end
   end

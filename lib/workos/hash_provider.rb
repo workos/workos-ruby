@@ -8,7 +8,7 @@ module WorkOS
     include Kernel
 
     def to_json(*)
-      raise 'Must be implemented by including class.'
+      raise "Must be implemented by including class."
     end
 
     def to_h

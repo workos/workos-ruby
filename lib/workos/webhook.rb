@@ -23,7 +23,7 @@ module WorkOS
         id: id,
         event: event,
         data: data,
-        created_at: created_at,
+        created_at: created_at
       }
     end
   end

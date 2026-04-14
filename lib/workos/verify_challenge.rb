@@ -18,7 +18,7 @@ module WorkOS
     def to_json(*)
       {
         challenge: challenge,
-        valid: valid,
+        valid: valid
       }
     end
   end

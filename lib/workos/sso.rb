@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'net/http'
-require 'uri'
+require "net/http"
+require "uri"
 
 module WorkOS
   # The SSO module provides convenience methods for working with the WorkOS
@@ -62,7 +62,7 @@ module WorkOS
         provider: nil,
         connection: nil,
         organization: nil,
-        state: ''
+        state: ""
       )
         if domain
           warn_deprecation '[DEPRECATION] `domain` is deprecated.
@@ -73,20 +73,20 @@ module WorkOS
           provider: provider,
           domain: domain,
           connection: connection,
-          organization: organization,
+          organization: organization
         )
 
         query = URI.encode_www_form({
           client_id: client_id,
           redirect_uri: redirect_uri,
-          response_type: 'code',
+          response_type: "code",
           state: state,
           domain: domain,
           domain_hint: domain_hint,
           login_hint: login_hint,
           provider: provider,
           connection: connection,
-          organization: organization,
+          organization: organization
         }.compact)
 
         "https://#{WorkOS.config.api_hostname}/sso/authorize?#{query}"
@@ -96,10 +96,10 @@ module WorkOS
       def get_profile(access_token:)
         response = execute_request(
           request: get_request(
-            path: '/sso/profile',
+            path: "/sso/profile",
             auth: true,
-            access_token: access_token,
-          ),
+            access_token: access_token
+          )
         )
 
         WorkOS::Profile.new(response.body)
@@ -116,12 +116,12 @@ module WorkOS
         body = {
           client_id: client_id,
           client_secret: WorkOS.config.key!,
-          grant_type: 'authorization_code',
-          code: code,
+          grant_type: "authorization_code",
+          code: code
         }
 
         response = execute_request(
-          request: post_request(path: '/sso/token', body: body),
+          request: post_request(path: "/sso/token", body: body)
         )
 
         WorkOS::ProfileAndToken.new(response.body)
@@ -145,23 +145,23 @@ module WorkOS
       #
       # @return [Hash]
       def list_connections(options = {})
-        options[:order] ||= 'desc'
+        options[:order] ||= "desc"
         response = execute_request(
           request: get_request(
-            path: '/connections',
+            path: "/connections",
             auth: true,
-            params: options,
-          ),
+            params: options
+          )
         )
 
         parsed_response = JSON.parse(response.body)
-        connections = parsed_response['data'].map do |connection|
+        connections = parsed_response["data"].map do |connection|
           ::WorkOS::Connection.new(connection.to_json)
         end
 
         WorkOS::Types::ListStruct.new(
           data: connections,
-          list_metadata: parsed_response['listMetadata'],
+          list_metadata: parsed_response["listMetadata"]
         )
       end
 
@@ -184,7 +184,7 @@ module WorkOS
       def get_connection(id:)
         request = get_request(
           auth: true,
-          path: "/connections/#{id}",
+          path: "/connections/#{id}"
         )
 
         response = execute_request(request: request)
@@ -204,7 +204,7 @@ module WorkOS
       def delete_connection(id:)
         request = delete_request(
           auth: true,
-          path: "/connections/#{id}",
+          path: "/connections/#{id}"
         )
 
         response = execute_request(request: request)
@@ -221,8 +221,8 @@ module WorkOS
         organization:
       )
         if [domain, provider, connection, organization].all?(&:nil?)
-          raise ArgumentError, 'Either connection, domain, ' \
-            'provider, or organization is required.'
+          raise ArgumentError, "Either connection, domain, " \
+            "provider, or organization is required."
         end
 
         return unless provider && !PROVIDERS.include?(provider)

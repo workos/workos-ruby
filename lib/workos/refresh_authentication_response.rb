@@ -18,7 +18,7 @@ module WorkOS
       @impersonator =
         if (impersonator_json = json[:impersonator])
           Impersonator.new(email: impersonator_json[:email],
-                           reason: impersonator_json[:reason],)
+            reason: impersonator_json[:reason])
         end
       @sealed_session =
         if session && session[:seal_session]
@@ -28,10 +28,10 @@ module WorkOS
               refresh_token: refresh_token,
               user: user.to_json,
               organization_id: organization_id,
-              impersonator: impersonator.to_json,
+              impersonator: impersonator.to_json
             },
             session[:cookie_password],
-            encryptor: session[:encryptor],
+            encryptor: session[:encryptor]
           )
         end
     end
@@ -44,7 +44,7 @@ module WorkOS
         impersonator: impersonator.to_json,
         access_token: access_token,
         refresh_token: refresh_token,
-        sealed_session: sealed_session,
+        sealed_session: sealed_session
       }
     end
   end

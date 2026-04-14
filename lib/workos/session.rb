@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
-require 'jwt'
-require 'uri'
-require 'net/http'
-require 'encryptor'
-require 'securerandom'
-require 'json'
-require 'uri'
+require "jwt"
+require "uri"
+require "net/http"
+require "encryptor"
+require "securerandom"
+require "json"
 
 module WorkOS
   # The Session class provides helper methods for working with WorkOS sessions
@@ -15,7 +14,7 @@ module WorkOS
     attr_accessor :jwks, :jwks_algorithms, :user_management, :cookie_password, :session_data, :client_id, :encryptor
 
     def initialize(user_management:, client_id:, session_data:, cookie_password:, encryptor: nil)
-      raise ArgumentError, 'cookiePassword is required' if cookie_password.nil? || cookie_password.empty?
+      raise ArgumentError, "cookiePassword is required" if cookie_password.nil? || cookie_password.empty?
 
       @encryptor = encryptor || WorkOS::Encryptors::AesGcm.new
       validate_encryptor!(@encryptor)
@@ -37,15 +36,15 @@ module WorkOS
     # @return [Hash] A hash containing the authentication response and a reason if the authentication failed
     # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
     def authenticate(include_expired: false, &claim_extractor)
-      return { authenticated: false, reason: 'NO_SESSION_COOKIE_PROVIDED' } if @session_data.nil?
+      return {authenticated: false, reason: "NO_SESSION_COOKIE_PROVIDED"} if @session_data.nil?
 
       begin
         session = Session.unseal_data(@session_data, @cookie_password, encryptor: @encryptor)
-      rescue StandardError
-        return { authenticated: false, reason: 'INVALID_SESSION_COOKIE' }
+      rescue
+        return {authenticated: false, reason: "INVALID_SESSION_COOKIE"}
       end
 
-      return { authenticated: false, reason: 'INVALID_SESSION_COOKIE' } unless session[:access_token]
+      return {authenticated: false, reason: "INVALID_SESSION_COOKIE"} unless session[:access_token]
 
       begin
         decoded = JWT.decode(
@@ -54,34 +53,34 @@ module WorkOS
           true,
           algorithms: @jwks_algorithms,
           jwks: @jwks,
-          verify_expiration: false,
+          verify_expiration: false
         ).first
 
-        expired = decoded['exp'] && decoded['exp'] < Time.now.to_i
+        expired = decoded["exp"] && decoded["exp"] < Time.now.to_i
 
         # Early return for expired tokens when not including expired data (backward compatible)
-        return { authenticated: false, reason: 'INVALID_JWT' } if expired && !include_expired
+        return {authenticated: false, reason: "INVALID_JWT"} if expired && !include_expired
 
         # Return full data for valid tokens or when include_expired is true
         result = {
           authenticated: !expired,
-          session_id: decoded['sid'],
-          organization_id: decoded['org_id'],
-          role: decoded['role'],
-          roles: decoded['roles'],
-          permissions: decoded['permissions'],
-          entitlements: decoded['entitlements'],
-          feature_flags: decoded['feature_flags'],
+          session_id: decoded["sid"],
+          organization_id: decoded["org_id"],
+          role: decoded["role"],
+          roles: decoded["roles"],
+          permissions: decoded["permissions"],
+          entitlements: decoded["entitlements"],
+          feature_flags: decoded["feature_flags"],
           user: session[:user],
           impersonator: session[:impersonator],
-          reason: expired ? 'INVALID_JWT' : nil,
+          reason: expired ? "INVALID_JWT" : nil
         }
         result.merge!(claim_extractor.call(decoded)) if block_given?
         result
       rescue JWT::DecodeError
-        { authenticated: false, reason: 'INVALID_JWT' }
-      rescue StandardError => e
-        { authenticated: false, reason: e.message }
+        {authenticated: false, reason: "INVALID_JWT"}
+      rescue => e
+        {authenticated: false, reason: e.message}
       end
     end
 
@@ -92,22 +91,22 @@ module WorkOS
     # @return [Hash] A hash containing a new sealed session, the authentication response,
     # and a reason if the refresh failed
     def refresh(options = nil)
-      cookie_password = options.nil? || options[:cookie_password].nil? ? @cookie_password : options[:cookie_password]
+      cookie_password = (options.nil? || options[:cookie_password].nil?) ? @cookie_password : options[:cookie_password]
 
       begin
         session = Session.unseal_data(@session_data, cookie_password, encryptor: @encryptor)
-      rescue StandardError
-        return { authenticated: false, reason: 'INVALID_SESSION_COOKIE' }
+      rescue
+        return {authenticated: false, reason: "INVALID_SESSION_COOKIE"}
       end
 
-      return { authenticated: false, reason: 'INVALID_SESSION_COOKIE' } unless session[:refresh_token] && session[:user]
+      return {authenticated: false, reason: "INVALID_SESSION_COOKIE"} unless session[:refresh_token] && session[:user]
 
       begin
         auth_response = @user_management.authenticate_with_refresh_token(
           client_id: @client_id,
           refresh_token: session[:refresh_token],
-          organization_id: options.nil? || options[:organization_id].nil? ? nil : options[:organization_id],
-          session: { seal_session: true, cookie_password: cookie_password, encryptor: @encryptor },
+          organization_id: (options.nil? || options[:organization_id].nil?) ? nil : options[:organization_id],
+          session: {seal_session: true, cookie_password: cookie_password, encryptor: @encryptor}
         )
 
         @session_data = auth_response.sealed_session
@@ -117,10 +116,10 @@ module WorkOS
           authenticated: true,
           sealed_session: auth_response.sealed_session,
           session: auth_response,
-          reason: nil,
+          reason: nil
         }
-      rescue StandardError => e
-        { authenticated: false, reason: e.message }
+      rescue => e
+        {authenticated: false, reason: e.message}
       end
     end
     # rubocop:enable Metrics/AbcSize
@@ -165,7 +164,7 @@ module WorkOS
     def validate_encryptor!(enc)
       return if enc.respond_to?(:seal) && enc.respond_to?(:unseal)
 
-      raise ArgumentError, 'encryptor must respond to #seal(data, key) and #unseal(sealed_data, key)'
+      raise ArgumentError, "encryptor must respond to #seal(data, key) and #unseal(sealed_data, key)"
     end
 
     # Creates a JWKS set from a remote JWKS URL
@@ -179,7 +178,7 @@ module WorkOS
       jwks = JWT::JWK::Set.new(jwks_hash)
 
       # filter jwks so it only returns the keys where 'use' is equal to 'sig'
-      jwks.keys.select! { |key| key[:use] == 'sig' }
+      jwks.keys.select! { |key| key[:use] == "sig" }
 
       jwks
     end

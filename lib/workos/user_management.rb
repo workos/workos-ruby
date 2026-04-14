@@ -1,23 +1,23 @@
 # frozen_string_literal: true
 
-require 'net/http'
-require 'uri'
+require "net/http"
+require "uri"
 
 module WorkOS
   # The UserManagement module provides convenience methods for working with the
   # WorkOS User platform. You'll need a valid API key.
   module UserManagement
-    autoload :Session, 'workos/user_management/session'
+    autoload :Session, "workos/user_management/session"
 
     module Types
       # The ProviderEnum is a declaration of a
       # fixed set of values for User Management Providers.
       class Provider
-        Apple = 'AppleOAuth'
-        GitHub = 'GitHubOAuth'
-        Google = 'GoogleOAuth'
-        Microsoft = 'MicrosoftOAuth'
-        AuthKit = 'authkit'
+        Apple = "AppleOAuth"
+        GitHub = "GitHubOAuth"
+        Google = "GoogleOAuth"
+        Microsoft = "MicrosoftOAuth"
+        AuthKit = "authkit"
 
         ALL = [Apple, GitHub, Google, Microsoft, AuthKit].freeze
       end
@@ -25,7 +25,7 @@ module WorkOS
       # The AuthFactorType is a declaration of a
       # fixed set of factor values to enroll
       class AuthFactorType
-        Totp = 'totp'
+        Totp = "totp"
 
         ALL = [Totp].freeze
       end
@@ -51,7 +51,7 @@ module WorkOS
           client_id: client_id,
           session_data: session_data,
           cookie_password: cookie_password,
-          encryptor: encryptor,
+          encryptor: encryptor
         )
       end
 
@@ -104,20 +104,19 @@ module WorkOS
         provider: nil,
         connection_id: nil,
         organization_id: nil,
-        state: '',
+        state: "",
         provider_scopes: nil
       )
-
         validate_authorization_url_arguments(
           provider: provider,
           connection_id: connection_id,
-          organization_id: organization_id,
+          organization_id: organization_id
         )
 
         query = URI.encode_www_form({
           client_id: client_id,
           redirect_uri: redirect_uri,
-          response_type: 'code',
+          response_type: "code",
           state: state,
           domain_hint: domain_hint,
           login_hint: login_hint,
@@ -125,7 +124,7 @@ module WorkOS
           provider: provider,
           connection_id: connection_id,
           organization_id: organization_id,
-          provider_scopes: provider_scopes,
+          provider_scopes: provider_scopes
         }.compact)
 
         "https://#{WorkOS.config.api_hostname}/user_management/authorize?#{query}"
@@ -141,8 +140,8 @@ module WorkOS
         response = execute_request(
           request: get_request(
             path: "/user_management/users/#{id}",
-            auth: true,
-          ),
+            auth: true
+          )
         )
 
         WorkOS::User.new(response.body)
@@ -162,24 +161,24 @@ module WorkOS
       #
       # @return [WorkOS::User]
       def list_users(options = {})
-        options[:order] ||= 'desc'
+        options[:order] ||= "desc"
         response = execute_request(
           request: get_request(
-            path: '/user_management/users',
+            path: "/user_management/users",
             auth: true,
-            params: options,
-          ),
+            params: options
+          )
         )
 
         parsed_response = JSON.parse(response.body)
 
-        users = parsed_response['data'].map do |user|
+        users = parsed_response["data"].map do |user|
           ::WorkOS::User.new(user.to_json)
         end
 
         WorkOS::Types::ListStruct.new(
           data: users,
-          list_metadata: parsed_response['list_metadata'],
+          list_metadata: parsed_response["list_metadata"]
         )
       end
 
@@ -207,7 +206,7 @@ module WorkOS
         password_hash_type: nil
       )
         request = post_request(
-          path: '/user_management/users',
+          path: "/user_management/users",
           body: {
             email: email,
             password: password,
@@ -216,9 +215,9 @@ module WorkOS
             email_verified: email_verified,
             external_id: external_id,
             password_hash: password_hash,
-            password_hash_type: password_hash_type,
+            password_hash_type: password_hash_type
           }.compact,
-          auth: true,
+          auth: true
         )
 
         response = execute_request(request: request)
@@ -264,9 +263,9 @@ module WorkOS
             locale: locale,
             password: password,
             password_hash: password_hash,
-            password_hash_type: password_hash_type,
+            password_hash_type: password_hash_type
           }.reject { |_, v| v == :not_set },
-          auth: true,
+          auth: true
         )
 
         response = execute_request(request: request)
@@ -284,8 +283,8 @@ module WorkOS
         response = execute_request(
           request: delete_request(
             path: "/user_management/users/#{id}",
-            auth: true,
-          ),
+            auth: true
+          )
         )
 
         response.is_a? Net::HTTPSuccess
@@ -317,7 +316,7 @@ module WorkOS
 
         response = execute_request(
           request: post_request(
-            path: '/user_management/authenticate',
+            path: "/user_management/authenticate",
             body: {
               client_id: client_id,
               client_secret: WorkOS.config.key!,
@@ -326,9 +325,9 @@ module WorkOS
               ip_address: ip_address,
               user_agent: user_agent,
               invitation_token: invitation_token,
-              grant_type: 'password',
-            },
-          ),
+              grant_type: "password"
+            }
+          )
         )
 
         WorkOS::AuthenticationResponse.new(response.body, session)
@@ -359,7 +358,7 @@ module WorkOS
 
         response = execute_request(
           request: post_request(
-            path: '/user_management/authenticate',
+            path: "/user_management/authenticate",
             body: {
               code: code,
               client_id: client_id,
@@ -367,9 +366,9 @@ module WorkOS
               ip_address: ip_address,
               user_agent: user_agent,
               invitation_token: invitation_token,
-              grant_type: 'authorization_code',
-            },
-          ),
+              grant_type: "authorization_code"
+            }
+          )
         )
 
         WorkOS::AuthenticationResponse.new(response.body, session)
@@ -398,17 +397,17 @@ module WorkOS
 
         response = execute_request(
           request: post_request(
-            path: '/user_management/authenticate',
+            path: "/user_management/authenticate",
             body: {
               refresh_token: refresh_token,
               client_id: client_id,
               client_secret: WorkOS.config.key!,
               ip_address: ip_address,
               user_agent: user_agent,
-              grant_type: 'refresh_token',
-              organization_id: organization_id,
-            },
-          ),
+              grant_type: "refresh_token",
+              organization_id: organization_id
+            }
+          )
         )
 
         WorkOS::RefreshAuthenticationResponse.new(response.body, session)
@@ -443,7 +442,7 @@ module WorkOS
 
         response = execute_request(
           request: post_request(
-            path: '/user_management/authenticate',
+            path: "/user_management/authenticate",
             body: {
               code: code,
               email: email,
@@ -451,11 +450,11 @@ module WorkOS
               client_secret: WorkOS.config.key!,
               ip_address: ip_address,
               user_agent: user_agent,
-              grant_type: 'urn:workos:oauth:grant-type:magic-auth:code',
+              grant_type: "urn:workos:oauth:grant-type:magic-auth:code",
               link_authorization_code: link_authorization_code,
-              invitation_token: invitation_token,
-            },
-          ),
+              invitation_token: invitation_token
+            }
+          )
         )
 
         WorkOS::AuthenticationResponse.new(response.body, session)
@@ -485,17 +484,17 @@ module WorkOS
 
         response = execute_request(
           request: post_request(
-            path: '/user_management/authenticate',
+            path: "/user_management/authenticate",
             body: {
               client_id: client_id,
               client_secret: WorkOS.config.key!,
               ip_address: ip_address,
               user_agent: user_agent,
-              grant_type: 'urn:workos:oauth:grant-type:organization-selection',
+              grant_type: "urn:workos:oauth:grant-type:organization-selection",
               organization_id: organization_id,
-              pending_authentication_token: pending_authentication_token,
-            },
-          ),
+              pending_authentication_token: pending_authentication_token
+            }
+          )
         )
 
         WorkOS::AuthenticationResponse.new(response.body, session)
@@ -529,18 +528,18 @@ module WorkOS
 
         response = execute_request(
           request: post_request(
-            path: '/user_management/authenticate',
+            path: "/user_management/authenticate",
             body: {
               code: code,
               client_id: client_id,
               client_secret: WorkOS.config.key!,
               pending_authentication_token: pending_authentication_token,
-              grant_type: 'urn:workos:oauth:grant-type:mfa-totp',
+              grant_type: "urn:workos:oauth:grant-type:mfa-totp",
               authentication_challenge_id: authentication_challenge_id,
               ip_address: ip_address,
-              user_agent: user_agent,
-            },
-          ),
+              user_agent: user_agent
+            }
+          )
         )
 
         WorkOS::AuthenticationResponse.new(response.body, session)
@@ -571,17 +570,17 @@ module WorkOS
 
         response = execute_request(
           request: post_request(
-            path: '/user_management/authenticate',
+            path: "/user_management/authenticate",
             body: {
               code: code,
               client_id: client_id,
               pending_authentication_token: pending_authentication_token,
               client_secret: WorkOS.config.key!,
-              grant_type: 'urn:workos:oauth:grant-type:email-verification:code',
+              grant_type: "urn:workos:oauth:grant-type:email-verification:code",
               ip_address: ip_address,
-              user_agent: user_agent,
-            },
-          ),
+              user_agent: user_agent
+            }
+          )
         )
 
         WorkOS::AuthenticationResponse.new(response.body, session)
@@ -597,13 +596,13 @@ module WorkOS
       #
       # @return String
       def get_logout_url(session_id:, return_to: nil)
-        params = { session_id: session_id }
+        params = {session_id: session_id}
         params[:return_to] = return_to if return_to
 
         URI::HTTPS.build(
           host: WorkOS.config.api_hostname,
-          path: '/user_management/sessions/logout',
-          query: URI.encode_www_form(params),
+          path: "/user_management/sessions/logout",
+          query: URI.encode_www_form(params)
         ).to_s
       end
 
@@ -614,12 +613,12 @@ module WorkOS
       def revoke_session(session_id:)
         response = execute_request(
           request: post_request(
-            path: '/user_management/sessions/revoke',
+            path: "/user_management/sessions/revoke",
             body: {
-              session_id: session_id,
+              session_id: session_id
             },
-            auth: true,
-          ),
+            auth: true
+          )
         )
 
         response.is_a? Net::HTTPSuccess
@@ -635,7 +634,7 @@ module WorkOS
       def get_jwks_url(client_id)
         URI::HTTPS.build(
           host: WorkOS.config.api_hostname,
-          path: "/sso/jwks/#{client_id}",
+          path: "/sso/jwks/#{client_id}"
         ).to_s
       end
 
@@ -648,8 +647,8 @@ module WorkOS
         response = execute_request(
           request: get_request(
             path: "/user_management/magic_auth/#{id}",
-            auth: true,
-          ),
+            auth: true
+          )
         )
 
         WorkOS::MagicAuth.new(response.body)
@@ -664,13 +663,13 @@ module WorkOS
       def create_magic_auth(email:, invitation_token: nil)
         response = execute_request(
           request: post_request(
-            path: '/user_management/magic_auth',
+            path: "/user_management/magic_auth",
             body: {
               email: email,
-              invitation_token: invitation_token,
+              invitation_token: invitation_token
             }.compact,
-            auth: true,
-          ),
+            auth: true
+          )
         )
 
         WorkOS::MagicAuth.new(response.body)
@@ -687,12 +686,12 @@ module WorkOS
 
         response = execute_request(
           request: post_request(
-            path: '/user_management/magic_auth/send',
+            path: "/user_management/magic_auth/send",
             body: {
-              email: email,
+              email: email
             },
-            auth: true,
-          ),
+            auth: true
+          )
         )
 
         response.is_a? Net::HTTPSuccess
@@ -711,7 +710,7 @@ module WorkOS
       # @return WorkOS::AuthenticationFactorAndChallenge
       def enroll_auth_factor(user_id:, type:, totp_issuer: nil, totp_user: nil, totp_secret: nil)
         validate_auth_factor_type(
-          type: type,
+          type: type
         )
 
         response = execute_request(
@@ -721,10 +720,10 @@ module WorkOS
               type: type,
               totp_issuer: totp_issuer,
               totp_user: totp_user,
-              totp_secret: totp_secret,
+              totp_secret: totp_secret
             }.compact,
-            auth: true,
-          ),
+            auth: true
+          )
         )
 
         WorkOS::AuthenticationFactorAndChallenge.new(response.body)
@@ -739,19 +738,19 @@ module WorkOS
         response = execute_request(
           request: get_request(
             path: "/user_management/users/#{user_id}/auth_factors",
-            auth: true,
-          ),
+            auth: true
+          )
         )
 
         parsed_response = JSON.parse(response.body)
 
-        auth_factors = parsed_response['data'].map do |auth_factor|
+        auth_factors = parsed_response["data"].map do |auth_factor|
           ::WorkOS::Factor.new(auth_factor.to_json)
         end
 
         WorkOS::Types::ListStruct.new(
           data: auth_factors,
-          list_metadata: parsed_response['list_metadata'],
+          list_metadata: parsed_response["list_metadata"]
         )
       end
 
@@ -768,24 +767,24 @@ module WorkOS
       #
       # @return [WorkOS::Types::ListStruct<WorkOS::UserManagement::Session>]
       def list_sessions(user_id:, options: {})
-        options[:order] ||= 'desc'
+        options[:order] ||= "desc"
         response = execute_request(
           request: get_request(
             path: "/user_management/users/#{user_id}/sessions",
             auth: true,
-            params: options,
-          ),
+            params: options
+          )
         )
 
         parsed_response = JSON.parse(response.body)
 
-        sessions = parsed_response['data'].map do |session|
+        sessions = parsed_response["data"].map do |session|
           ::WorkOS::UserManagement::Session.new(session.to_json)
         end
 
         WorkOS::Types::ListStruct.new(
           data: sessions,
-          list_metadata: parsed_response['list_metadata'],
+          list_metadata: parsed_response["list_metadata"]
         )
       end
 
@@ -798,8 +797,8 @@ module WorkOS
         response = execute_request(
           request: get_request(
             path: "/user_management/email_verification/#{id}",
-            auth: true,
-          ),
+            auth: true
+          )
         )
 
         WorkOS::EmailVerification.new(response.body)
@@ -814,8 +813,8 @@ module WorkOS
         response = execute_request(
           request: post_request(
             path: "/user_management/users/#{user_id}/email_verification/send",
-            auth: true,
-          ),
+            auth: true
+          )
         )
 
         WorkOS::UserResponse.new(response.body)
@@ -832,10 +831,10 @@ module WorkOS
           request: post_request(
             path: "/user_management/users/#{user_id}/email_verification/confirm",
             body: {
-              code: code,
+              code: code
             },
-            auth: true,
-          ),
+            auth: true
+          )
         )
 
         WorkOS::UserResponse.new(response.body)
@@ -850,8 +849,8 @@ module WorkOS
         response = execute_request(
           request: get_request(
             path: "/user_management/password_reset/#{id}",
-            auth: true,
-          ),
+            auth: true
+          )
         )
 
         WorkOS::PasswordReset.new(response.body)
@@ -865,12 +864,12 @@ module WorkOS
       def create_password_reset(email:)
         response = execute_request(
           request: post_request(
-            path: '/user_management/password_reset',
+            path: "/user_management/password_reset",
             body: {
-              email: email,
+              email: email
             },
-            auth: true,
-          ),
+            auth: true
+          )
         )
 
         WorkOS::PasswordReset.new(response.body)
@@ -887,12 +886,12 @@ module WorkOS
         Please use `create_password_reset` instead. This method will be removed in a future major version.'
 
         request = post_request(
-          path: '/user_management/password_reset/send',
+          path: "/user_management/password_reset/send",
           body: {
             email: email,
-            password_reset_url: password_reset_url,
+            password_reset_url: password_reset_url
           },
-          auth: true,
+          auth: true
         )
 
         response = execute_request(request: request)
@@ -909,13 +908,13 @@ module WorkOS
       def reset_password(token:, new_password:)
         response = execute_request(
           request: post_request(
-            path: '/user_management/password_reset/confirm',
+            path: "/user_management/password_reset/confirm",
             body: {
               token: token,
-              new_password: new_password,
+              new_password: new_password
             },
-            auth: true,
-          ),
+            auth: true
+          )
         )
 
         WorkOS::UserResponse.new(response.body).user
@@ -930,8 +929,8 @@ module WorkOS
         response = execute_request(
           request: get_request(
             path: "/user_management/organization_memberships/#{id}",
-            auth: true,
-          ),
+            auth: true
+          )
         )
 
         WorkOS::OrganizationMembership.new(response.body)
@@ -952,24 +951,24 @@ module WorkOS
       #
       # @return [WorkOS::OrganizationMembership]
       def list_organization_memberships(options = {})
-        options[:order] ||= 'desc'
+        options[:order] ||= "desc"
         response = execute_request(
           request: get_request(
-            path: '/user_management/organization_memberships',
+            path: "/user_management/organization_memberships",
             auth: true,
-            params: options,
-          ),
+            params: options
+          )
         )
 
         parsed_response = JSON.parse(response.body)
 
-        organization_memberships = parsed_response['data'].map do |organization_membership|
+        organization_memberships = parsed_response["data"].map do |organization_membership|
           ::WorkOS::OrganizationMembership.new(organization_membership.to_json)
         end
 
         WorkOS::Types::ListStruct.new(
           data: organization_memberships,
-          list_metadata: parsed_response['list_metadata'],
+          list_metadata: parsed_response["list_metadata"]
         )
       end
 
@@ -982,20 +981,20 @@ module WorkOS
       #
       # @return [WorkOS::OrganizationMembership]
       def create_organization_membership(user_id:, organization_id:, role_slug: nil, role_slugs: nil)
-        raise ArgumentError, 'Cannot specify both role_slug and role_slugs' if role_slug && role_slugs
+        raise ArgumentError, "Cannot specify both role_slug and role_slugs" if role_slug && role_slugs
 
         body = {
           user_id: user_id,
-          organization_id: organization_id,
+          organization_id: organization_id
         }
 
         body[:role_slugs] = role_slugs if role_slugs
         body[:role_slug] = role_slug if role_slug
 
         request = post_request(
-          path: '/user_management/organization_memberships',
+          path: "/user_management/organization_memberships",
           body: body.compact,
-          auth: true,
+          auth: true
         )
 
         response = execute_request(request: request)
@@ -1011,9 +1010,9 @@ module WorkOS
       #
       # @return [WorkOS::OrganizationMembership]
       def update_organization_membership(id:, role_slug: nil, role_slugs: nil)
-        raise ArgumentError, 'Cannot specify both role_slug and role_slugs' if role_slug && role_slugs
+        raise ArgumentError, "Cannot specify both role_slug and role_slugs" if role_slug && role_slugs
 
-        body = { id: id }
+        body = {id: id}
 
         body[:role_slugs] = role_slugs if role_slugs
         body[:role_slug] = role_slug if role_slug
@@ -1021,7 +1020,7 @@ module WorkOS
         request = put_request(
           path: "/user_management/organization_memberships/#{id}",
           body: body.compact,
-          auth: true,
+          auth: true
         )
 
         response = execute_request(request: request)
@@ -1038,8 +1037,8 @@ module WorkOS
         response = execute_request(
           request: delete_request(
             path: "/user_management/organization_memberships/#{id}",
-            auth: true,
-          ),
+            auth: true
+          )
         )
 
         response.is_a? Net::HTTPSuccess
@@ -1054,8 +1053,8 @@ module WorkOS
         response = execute_request(
           request: put_request(
             path: "/user_management/organization_memberships/#{id}/deactivate",
-            auth: true,
-          ),
+            auth: true
+          )
         )
 
         WorkOS::OrganizationMembership.new(response.body)
@@ -1070,8 +1069,8 @@ module WorkOS
         response = execute_request(
           request: put_request(
             path: "/user_management/organization_memberships/#{id}/reactivate",
-            auth: true,
-          ),
+            auth: true
+          )
         )
 
         WorkOS::OrganizationMembership.new(response.body)
@@ -1086,8 +1085,8 @@ module WorkOS
         response = execute_request(
           request: get_request(
             path: "/user_management/invitations/#{id}",
-            auth: true,
-          ),
+            auth: true
+          )
         )
 
         WorkOS::Invitation.new(response.body)
@@ -1102,8 +1101,8 @@ module WorkOS
         response = execute_request(
           request: get_request(
             path: "/user_management/invitations/by_token/#{token}",
-            auth: true,
-          ),
+            auth: true
+          )
         )
 
         WorkOS::Invitation.new(response.body)
@@ -1123,24 +1122,24 @@ module WorkOS
       #
       # @return [WorkOS::Invitation]
       def list_invitations(options = {})
-        options[:order] ||= 'desc'
+        options[:order] ||= "desc"
         response = execute_request(
           request: get_request(
-            path: '/user_management/invitations',
+            path: "/user_management/invitations",
             auth: true,
-            params: options,
-          ),
+            params: options
+          )
         )
 
         parsed_response = JSON.parse(response.body)
 
-        invitations = parsed_response['data'].map do |invitation|
+        invitations = parsed_response["data"].map do |invitation|
           ::WorkOS::Invitation.new(invitation.to_json)
         end
 
         WorkOS::Types::ListStruct.new(
           data: invitations,
-          list_metadata: parsed_response['list_metadata'],
+          list_metadata: parsed_response["list_metadata"]
         )
       end
 
@@ -1157,16 +1156,16 @@ module WorkOS
       def send_invitation(email:, organization_id: nil, expires_in_days: nil, inviter_user_id: nil, role_slug: nil)
         response = execute_request(
           request: post_request(
-            path: '/user_management/invitations',
+            path: "/user_management/invitations",
             body: {
               email: email,
               organization_id: organization_id,
               expires_in_days: expires_in_days,
               inviter_user_id: inviter_user_id,
-              role_slug: role_slug,
+              role_slug: role_slug
             }.compact,
-            auth: true,
-          ),
+            auth: true
+          )
         )
 
         WorkOS::Invitation.new(response.body)
@@ -1180,7 +1179,7 @@ module WorkOS
       def accept_invitation(id:)
         request = post_request(
           path: "/user_management/invitations/#{id}/accept",
-          auth: true,
+          auth: true
         )
 
         response = execute_request(request: request)
@@ -1196,7 +1195,7 @@ module WorkOS
       def revoke_invitation(id:)
         request = post_request(
           path: "/user_management/invitations/#{id}/revoke",
-          auth: true,
+          auth: true
         )
 
         response = execute_request(request: request)
@@ -1212,7 +1211,7 @@ module WorkOS
       def resend_invitation(id:)
         request = post_request(
           path: "/user_management/invitations/#{id}/resend",
-          auth: true,
+          auth: true
         )
 
         response = execute_request(request: request)
@@ -1225,7 +1224,7 @@ module WorkOS
       def validate_session(session)
         return unless session && (session[:seal_session] == true) && session[:cookie_password].nil?
 
-        raise ArgumentError, 'cookie_password is required when sealing session'
+        raise ArgumentError, "cookie_password is required when sealing session"
       end
 
       def validate_authorization_url_arguments(
@@ -1234,8 +1233,8 @@ module WorkOS
         organization_id:
       )
         if [provider, connection_id, organization_id].all?(&:nil?)
-          raise ArgumentError, 'Either connection ID, organization ID,' \
-            ' or provider is required.'
+          raise ArgumentError, "Either connection ID, organization ID," \
+            " or provider is required."
         end
 
         return unless provider && !PROVIDERS.include?(provider)

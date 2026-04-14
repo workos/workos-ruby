@@ -14,11 +14,10 @@ Gem::Specification.new do |spec|
   spec.homepage = 'https://github.com/workos-inc/workos-ruby'
   spec.license = 'MIT'
   spec.metadata = {
-    'documentation_uri' => 'https://docs.workos.com/sdk/ruby',
+    'documentation_uri' => 'https://docs.workos.com/sdk/ruby'
   }
 
   spec.files = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
-  spec.test_files = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
   spec.add_dependency 'encryptor', '~> 3.0'
@@ -27,7 +26,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'bundler', '>= 2.0.1'
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rspec', '~> 3.9.0'
-  spec.add_development_dependency 'rubocop', '~> 1.71'
+  spec.add_development_dependency 'standard', '~> 1.49'
   spec.add_development_dependency 'vcr', '~> 6.0'
   spec.add_development_dependency 'webmock'
 

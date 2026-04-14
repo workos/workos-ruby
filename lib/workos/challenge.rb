@@ -29,7 +29,7 @@ module WorkOS
         code: code,
         authentication_factor_id: authentication_factor_id,
         created_at: created_at,
-        updated_at: updated_at,
+        updated_at: updated_at
       }
     end
   end

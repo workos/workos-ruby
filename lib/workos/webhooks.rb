@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'openssl'
+require "openssl"
 
 module WorkOS
   # The Webhooks module provides convenience methods for working with the WorkOS webhooks.
@@ -72,15 +72,15 @@ module WorkOS
       )
         begin
           timestamp, signature_hash = get_timestamp_and_signature_hash(sig_header: sig_header)
-        rescue StandardError
+        rescue
           raise WorkOS::SignatureVerificationError.new(
-            message: 'Unable to extract timestamp and signature hash from header',
+            message: "Unable to extract timestamp and signature hash from header"
           )
         end
 
         if signature_hash.empty?
           raise WorkOS::SignatureVerificationError.new(
-            message: 'No signature hash found with expected scheme v1',
+            message: "No signature hash found with expected scheme v1"
           )
         end
 
@@ -88,14 +88,14 @@ module WorkOS
 
         if timestamp_to_time < Time.now - tolerance
           raise WorkOS::SignatureVerificationError.new(
-            message: 'Timestamp outside the tolerance zone',
+            message: "Timestamp outside the tolerance zone"
           )
         end
 
         expected_sig = compute_signature(timestamp: timestamp, payload: payload, secret: secret)
         unless secure_compare(str_a: expected_sig, str_b: signature_hash)
           raise WorkOS::SignatureVerificationError.new(
-            message: 'Signature hash does not match the expected signature hash for payload',
+            message: "Signature hash does not match the expected signature hash for payload"
           )
         end
 
@@ -118,16 +118,16 @@ module WorkOS
       def get_timestamp_and_signature_hash(
         sig_header:
       )
-        timestamp, signature_hash = sig_header.split(', ')
+        timestamp, signature_hash = sig_header.split(", ")
 
         if timestamp.nil? || signature_hash.nil?
           raise WorkOS::SignatureVerificationError.new(
-            message: 'Unable to extract timestamp and signature hash from header',
+            message: "Unable to extract timestamp and signature hash from header"
           )
         end
 
-        timestamp = timestamp.sub('t=', '')
-        signature_hash = signature_hash.sub('v1=', '')
+        timestamp = timestamp.sub("t=", "")
+        signature_hash = signature_hash.sub("v1=", "")
 
         [timestamp, signature_hash]
       end
@@ -156,7 +156,7 @@ module WorkOS
         secret:
       )
         unhashed_string = "#{timestamp}.#{payload}"
-        digest = OpenSSL::Digest.new('sha256')
+        digest = OpenSSL::Digest.new("sha256")
         OpenSSL::HMAC.hexdigest(digest, secret, unhashed_string)
       end
 

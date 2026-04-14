@@ -8,8 +8,8 @@ module WorkOS
     include HashProvider
 
     attr_accessor :id, :idp_id, :email, :emails, :first_name, :last_name, :job_title, :username, :state,
-                  :groups, :role, :roles, :custom_attributes, :raw_attributes, :directory_id, :organization_id,
-                  :created_at, :updated_at
+      :groups, :role, :roles, :custom_attributes, :raw_attributes, :directory_id, :organization_id,
+      :created_at, :updated_at
 
     # rubocop:disable Metrics/AbcSize
     def initialize(json)
@@ -48,8 +48,8 @@ module WorkOS
     # rubocop:enable Metrics/AbcSize
 
     def to_json(*)
-      base_attributes.
-        merge(authorization_attributes)
+      base_attributes
+        .merge(authorization_attributes)
     end
 
     private
@@ -71,14 +71,14 @@ module WorkOS
         custom_attributes: custom_attributes,
         raw_attributes: raw_attributes,
         created_at: created_at,
-        updated_at: updated_at,
+        updated_at: updated_at
       }
     end
 
     def authorization_attributes
       {
         role: role,
-        roles: roles,
+        roles: roles
       }
     end
 
@@ -87,7 +87,7 @@ module WorkOS
     # @deprecated Will be removed in a future major version. Use {#email} instead.
     def primary_email
       primary_email = (emails || []).find { |email| email[:primary] }
-      return primary_email[:value] if primary_email
+      primary_email[:value] if primary_email
     end
   end
 end

@@ -8,7 +8,7 @@ module WorkOS
     include HashProvider
 
     attr_accessor :id, :directory_id, :idp_id, :name, :created_at, :updated_at,
-                  :raw_attributes, :organization_id
+      :raw_attributes, :organization_id
 
     def initialize(json)
       hash = JSON.parse(json, symbolize_names: true)
@@ -34,7 +34,7 @@ module WorkOS
         name: name,
         created_at: created_at,
         updated_at: updated_at,
-        raw_attributes: raw_attributes,
+        raw_attributes: raw_attributes
       }
     end
   end

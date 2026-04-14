@@ -11,17 +11,17 @@ module WorkOS
     def initialize(authentication_response_json)
       json = JSON.parse(authentication_response_json, symbolize_names: true)
       @authentication_factor = WorkOS::Factor.new(
-        json[:authentication_factor].to_json,
+        json[:authentication_factor].to_json
       )
       @authentication_challenge = WorkOS::Challenge.new(
-        json[:authentication_challenge].to_json,
+        json[:authentication_challenge].to_json
       )
     end
 
     def to_json(*)
       {
         authentication_factor: authentication_factor.to_json,
-        authentication_challenge: authentication_challenge.to_json,
+        authentication_challenge: authentication_challenge.to_json
       }
     end
   end

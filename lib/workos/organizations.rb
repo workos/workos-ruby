@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'net/http'
+require "net/http"
 
 module WorkOS
   # The Organizations module provides resource methods for working with Organizations
@@ -22,24 +22,24 @@ module WorkOS
       # @param [String] order The order in which to paginate records
       #  of listed Organizations that are returned.
       def list_organizations(options = {})
-        options[:order] ||= 'desc'
+        options[:order] ||= "desc"
         response = execute_request(
           request: get_request(
-            path: '/organizations',
+            path: "/organizations",
             auth: true,
-            params: options,
-          ),
+            params: options
+          )
         )
 
         parsed_response = JSON.parse(response.body)
 
-        organizations = parsed_response['data'].map do |organization|
+        organizations = parsed_response["data"].map do |organization|
           ::WorkOS::Organization.new(organization.to_json)
         end
 
         WorkOS::Types::ListStruct.new(
           data: organizations,
-          list_metadata: parsed_response['listMetadata'],
+          list_metadata: parsed_response["listMetadata"]
         )
       end
 
@@ -61,7 +61,7 @@ module WorkOS
       def get_organization(id:)
         request = get_request(
           auth: true,
-          path: "/organizations/#{id}",
+          path: "/organizations/#{id}"
         )
 
         response = execute_request(request: request)
@@ -83,33 +83,32 @@ module WorkOS
       # @param [Array<String>] domains List of domains that belong to the organization.
       #   Deprecated: Use domain_data instead.
       def create_organization(
-        domain_data: nil,
+        name:, domain_data: nil,
         domains: nil,
-        name:,
         external_id: nil,
         allow_profiles_outside_organization: nil,
         idempotency_key: nil
       )
-        body = { name: name }
+        body = {name: name}
         body[:domain_data] = domain_data if domain_data
         body[:external_id] = external_id if external_id
 
         if domains
-          warn_deprecation '`domains` is deprecated. Use `domain_data` instead.'
+          warn_deprecation "`domains` is deprecated. Use `domain_data` instead."
           body[:domains] = domains
         end
 
         unless allow_profiles_outside_organization.nil?
-          warn_deprecation '`allow_profiles_outside_organization` is deprecated. ' \
-                           'If you need to allow sign-ins from any email domain, contact support@workos.com.'
+          warn_deprecation "`allow_profiles_outside_organization` is deprecated. " \
+                           "If you need to allow sign-ins from any email domain, contact support@workos.com."
           body[:allow_profiles_outside_organization] = allow_profiles_outside_organization
         end
 
         request = post_request(
           auth: true,
           body: body,
-          path: '/organizations',
-          idempotency_key: idempotency_key,
+          path: "/organizations",
+          idempotency_key: idempotency_key
         )
 
         response = execute_request(request: request)
@@ -142,26 +141,26 @@ module WorkOS
         external_id: :not_set,
         allow_profiles_outside_organization: nil
       )
-        body = { name: name }
+        body = {name: name}
         body[:domain_data] = domain_data if domain_data
         body[:stripe_customer_id] = stripe_customer_id if stripe_customer_id
         body[:external_id] = external_id if external_id != :not_set
 
         if domains
-          warn_deprecation '`domains` is deprecated. Use `domain_data` instead.'
+          warn_deprecation "`domains` is deprecated. Use `domain_data` instead."
           body[:domains] = domains
         end
 
         unless allow_profiles_outside_organization.nil?
-          warn_deprecation '`allow_profiles_outside_organization` is deprecated. ' \
-                           'If you need to allow sign-ins from any email domain, contact support@workos.com.'
+          warn_deprecation "`allow_profiles_outside_organization` is deprecated. " \
+                           "If you need to allow sign-ins from any email domain, contact support@workos.com."
           body[:allow_profiles_outside_organization] = allow_profiles_outside_organization
         end
 
         request = put_request(
           auth: true,
           body: body,
-          path: "/organizations/#{organization}",
+          path: "/organizations/#{organization}"
         )
 
         response = execute_request(request: request)
@@ -183,7 +182,7 @@ module WorkOS
       def delete_organization(id:)
         request = delete_request(
           auth: true,
-          path: "/organizations/#{id}",
+          path: "/organizations/#{id}"
         )
 
         response = execute_request(request: request)
@@ -205,13 +204,13 @@ module WorkOS
         response = execute_request(
           request: get_request(
             path: "/organizations/#{organization_id}/roles",
-            auth: true,
-          ),
+            auth: true
+          )
         )
 
         parsed_response = JSON.parse(response.body)
 
-        roles = parsed_response['data'].map do |role|
+        roles = parsed_response["data"].map do |role|
           WorkOS::Role.new(role.to_json)
         end
 
@@ -219,8 +218,8 @@ module WorkOS
           data: roles,
           list_metadata: {
             after: nil,
-            before: nil,
-          },
+            before: nil
+          }
         )
       end
 
@@ -243,24 +242,24 @@ module WorkOS
       #
       # @return [WorkOS::Types::ListStruct] - Collection of FeatureFlag objects
       def list_organization_feature_flags(organization_id:, options: {})
-        options[:order] ||= 'desc'
+        options[:order] ||= "desc"
         response = execute_request(
           request: get_request(
             path: "/organizations/#{organization_id}/feature-flags",
             auth: true,
-            params: options,
-          ),
+            params: options
+          )
         )
 
         parsed_response = JSON.parse(response.body)
 
-        feature_flags = parsed_response['data'].map do |feature_flag|
+        feature_flags = parsed_response["data"].map do |feature_flag|
           WorkOS::FeatureFlag.new(feature_flag.to_json)
         end
 
         WorkOS::Types::ListStruct.new(
           data: feature_flags,
-          list_metadata: parsed_response['list_metadata']&.transform_keys(&:to_sym),
+          list_metadata: parsed_response["list_metadata"]&.transform_keys(&:to_sym)
         )
       end
 
@@ -269,18 +268,18 @@ module WorkOS
       def check_and_raise_organization_error(response:)
         begin
           body = JSON.parse(response.body)
-          return unless body['message']
+          return unless body["message"]
 
-          message = body['message']
-          request_id = response['x-request-id']
-        rescue StandardError
-          message = 'Something went wrong'
+          message = body["message"]
+          request_id = response["x-request-id"]
+        rescue
+          message = "Something went wrong"
         end
 
         raise APIError.new(
           message: message,
           http_status: nil,
-          request_id: request_id,
+          request_id: request_id
         )
       end
     end

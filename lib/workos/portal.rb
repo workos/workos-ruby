@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'net/http'
+require "net/http"
 
 module WorkOS
   # The Portal module provides resource methods for working with the Admin
@@ -31,14 +31,14 @@ module WorkOS
             intent: intent,
             organization: organization,
             return_url: return_url,
-            success_url: success_url,
+            success_url: success_url
           },
-          path: '/portal/generate_link',
+          path: "/portal/generate_link"
         )
 
         response = execute_request(request: request)
 
-        JSON.parse(response.body)['link']
+        JSON.parse(response.body)["link"]
       end
 
       private
