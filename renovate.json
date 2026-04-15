@@ -10,6 +10,13 @@
   "rebaseWhen": "conflicted",
   "packageRules": [
     {
+      "matchManagers": [
+        "github-actions"
+      ],
+      "pinDigests": true,
+      "extractVersion": "^v(?<version>\\d+\\.\\d+\\.\\d+)$"
+    },
+    {
       "matchUpdateTypes": [
         "minor",
         "patch"
@@ -27,6 +34,28 @@
       "matchUpdateTypes": [
         "digest"
       ],
+      "automerge": false
+    },
+    {
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest"
+      ],
+      "groupName": "github-actions",
+      "automerge": true
+    },
+    {
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "groupName": "github-actions (major)",
       "automerge": false
     }
   ]
