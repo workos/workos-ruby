@@ -17,6 +17,7 @@ GEM
     crack (1.0.1)
       bigdecimal
       rexml
+    drb (2.2.3)
     encryptor (3.0.0)
     hashdiff (1.2.1)
     json (2.19.3)
@@ -24,7 +25,9 @@ GEM
       base64
     language_server-protocol (3.17.0.5)
     lint_roller (1.1.0)
-    minitest (5.27.0)
+    minitest (6.0.4)
+      drb (~> 2.0)
+      prism (~> 1.5)
     parallel (1.28.0)
     parser (3.3.11.1)
       ast (~> 2.4.1)
@@ -82,7 +85,7 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (>= 2.0.1)
-  minitest (~> 5.25)
+  minitest (~> 6.0)
   rake
   standard (~> 1.49)
   webmock (~> 3.26)
@@ -94,13 +97,14 @@ CHECKSUMS
   base64 (0.3.0) sha256=27337aeabad6ffae05c265c450490628ef3ebd4b67be58257393227588f5a97b
   bigdecimal (4.1.1) sha256=1c09efab961da45203c8316b0cdaec0ff391dfadb952dd459584b63ebf8054ca
   crack (1.0.1) sha256=ff4a10390cd31d66440b7524eb1841874db86201d5b70032028553130b6d4c7e
+  drb (2.2.3) sha256=0b00d6fdb50995fe4a45dea13663493c841112e4068656854646f418fda13373
   encryptor (3.0.0) sha256=abf23f94ab4d864b8cea85b43f3432044a60001982cda7c33c1cd90da8db1969
   hashdiff (1.2.1) sha256=9c079dbc513dfc8833ab59c0c2d8f230fa28499cc5efb4b8dd276cf931457cd1
   json (2.19.3) sha256=289b0bb53052a1fa8c34ab33cc750b659ba14a5c45f3fcf4b18762dc67c78646
   jwt (3.1.2) sha256=af6991f19a6bb4060d618d9add7a66f0eeb005ac0bc017cd01f63b42e122d535
   language_server-protocol (3.17.0.5) sha256=fd1e39a51a28bf3eec959379985a72e296e9f9acfce46f6a79d31ca8760803cc
   lint_roller (1.1.0) sha256=2c0c845b632a7d172cb849cc90c1bce937a28c5c8ccccb50dfd46a485003cc87
-  minitest (5.27.0) sha256=2d3b17f8a36fe7801c1adcffdbc38233b938eb0b4966e97a6739055a45fa77d5
+  minitest (6.0.4) sha256=df1304664589d40f46089247fdc451f866b0ce0d7cae1457a15fc1eb7d48dca1
   parallel (1.28.0) sha256=33e6de1484baf2524792d178b0913fc8eb94c628d6cfe45599ad4458c638c970
   parser (3.3.11.1) sha256=d17ace7aabe3e72c3cc94043714be27cc6f852f104d81aa284c2281aecc65d54
   prism (1.9.0) sha256=7b530c6a9f92c24300014919c9dcbc055bf4cdf51ec30aed099b06cd6674ef85

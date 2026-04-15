@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "zeitwerk", "~> 2.6"
 
   spec.add_development_dependency "bundler", ">= 2.0.1"
-  spec.add_development_dependency "minitest", "~> 5.25"
+  spec.add_development_dependency "minitest", "~> 6.0"
   spec.add_development_dependency "rake"
   spec.add_development_dependency "standard", "~> 1.49"
   spec.add_development_dependency "webmock", "~> 3.26"
