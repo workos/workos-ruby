@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+echo "==> standardrb (lint)"
+bundle exec standardrb
+
+# Ruby has no separate type-check step here: this gem doesn't ship Sorbet
+# (.rbi) or RBS signatures. If we add either later, run `srb tc` or
+# `rbs validate` here.
+
+echo "==> rake test"
+bundle exec rake test
+
+echo "==> All checks passed."

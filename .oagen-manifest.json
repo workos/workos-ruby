@@ -1,7 +1,7 @@
 {
   "version": 1,
   "language": "ruby",
-  "generatedAt": "2026-04-15T19:38:58.427Z",
+  "generatedAt": "2026-04-15T20:18:45.947Z",
   "files": [
     "lib/workos.rb",
     "lib/workos/admin_portal.rb",
@@ -564,6 +564,7 @@
     "lib/workos/widgets.rb",
     "lib/workos/widgets/widget_session_token.rb",
     "lib/workos/widgets/widget_session_token_response.rb",
+    "smoke-manifest.json",
     "test/test_helper.rb",
     "test/workos/test_admin_portal.rb",
     "test/workos/test_api_keys.rb",

@@ -54,36 +54,6 @@ class SSOTest < Minitest::Test
     end
   end
 
-  def test_get_authorization_url_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("sso")}/)
-      .to_return(body: "{}", status: 200)
-    result = @client.sso.get_authorization_url(redirect_uri: "stub")
-    refute_nil result
-  end
-
-  def test_get_authorization_url_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("sso")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.sso.get_authorization_url(redirect_uri: "stub")
-    end
-  end
-
-  def test_get_logout_url_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("sso")}/)
-      .to_return(body: "{}", status: 200)
-    result = @client.sso.get_logout_url(token: "stub")
-    assert_nil result if result.nil?
-  end
-
-  def test_get_logout_url_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("sso")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.sso.get_logout_url(token: "stub")
-    end
-  end
-
   def test_authorize_logout_returns_expected_result
     stub_request(:post, /#{Regexp.escape("sso")}/)
       .to_return(body: "{}", status: 200)

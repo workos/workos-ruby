@@ -69,5 +69,28 @@ module WorkOS
     def audit_logs
       @audit_logs ||= WorkOS::AuditLogs.new(self)
     end
+
+    # @oagen-ignore-start — non-spec service accessors (hand-maintained)
+
+    def passwordless
+      @passwordless ||= WorkOS::Passwordless.new(self)
+    end
+
+    def vault
+      @vault ||= WorkOS::Vault.new(self)
+    end
+
+    def actions
+      @actions ||= WorkOS::Actions.new(self)
+    end
+
+    def session_manager
+      @session_manager ||= WorkOS::SessionManager.new(self)
+    end
+
+    def pkce
+      @pkce ||= WorkOS::PKCE
+    end
+    # @oagen-ignore-end
   end
 end

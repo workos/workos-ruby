@@ -49,6 +49,7 @@ loader.inflector.inflect(
   "jwt_template_response" => "JWTTemplateResponse",
   "m2m" => "M2M",
   "mfa_totp_session_authenticate_request" => "MFATotpSessionAuthenticateRequest",
+  "pkce" => "PKCE",
   "sso" => "SSO",
   "sso_authorize_url_response" => "SSOAuthorizeUrlResponse",
   "sso_device_authorization_request" => "SSODeviceAuthorizationRequest",

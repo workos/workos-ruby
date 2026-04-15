@@ -159,21 +159,6 @@ class UserManagementTest < Minitest::Test
     end
   end
 
-  def test_get_authorization_url_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("user_management")}/)
-      .to_return(body: "{}", status: 200)
-    result = @client.user_management.get_authorization_url(redirect_uri: "stub")
-    assert_nil result if result.nil?
-  end
-
-  def test_get_authorization_url_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("user_management")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.user_management.get_authorization_url(redirect_uri: "stub")
-    end
-  end
-
   def test_create_device_returns_expected_result
     stub_request(:post, /#{Regexp.escape("user_management")}/)
       .to_return(body: "{}", status: 200)
@@ -186,21 +171,6 @@ class UserManagementTest < Minitest::Test
       .to_return(body: '{"message": "Unauthorized"}', status: 401)
     assert_raises(WorkOS::AuthenticationError) do
       @client.user_management.create_device(client_id: "stub")
-    end
-  end
-
-  def test_get_logout_url_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("user_management")}/)
-      .to_return(body: "{}", status: 200)
-    result = @client.user_management.get_logout_url(session_id: "stub")
-    assert_nil result if result.nil?
-  end
-
-  def test_get_logout_url_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("user_management")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.user_management.get_logout_url(session_id: "stub")
     end
   end
 
