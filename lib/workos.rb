@@ -62,6 +62,24 @@ loader.inflector.inflect(
   "update_oauth_application" => "UpdateOAuthApplication",
   "workos" => "WorkOS"
 )
+loader.collapse("#{__dir__}/workos/admin_portal")
+loader.collapse("#{__dir__}/workos/api_keys")
+loader.collapse("#{__dir__}/workos/audit_logs")
+loader.collapse("#{__dir__}/workos/authorization")
+loader.collapse("#{__dir__}/workos/connect")
+loader.collapse("#{__dir__}/workos/directory_sync")
+loader.collapse("#{__dir__}/workos/events")
+loader.collapse("#{__dir__}/workos/feature_flags")
+loader.collapse("#{__dir__}/workos/multi_factor_auth")
+loader.collapse("#{__dir__}/workos/organization_domains")
+loader.collapse("#{__dir__}/workos/organizations")
+loader.collapse("#{__dir__}/workos/pipes")
+loader.collapse("#{__dir__}/workos/radar")
+loader.collapse("#{__dir__}/workos/shared")
+loader.collapse("#{__dir__}/workos/sso")
+loader.collapse("#{__dir__}/workos/user_management")
+loader.collapse("#{__dir__}/workos/webhooks")
+loader.collapse("#{__dir__}/workos/widgets")
 loader.ignore("#{__dir__}/workos/errors.rb")
 loader.setup
 
