@@ -1,4 +1,5 @@
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended"
   ],
@@ -43,9 +44,12 @@
       "matchUpdateTypes": [
         "minor",
         "patch",
-        "digest"
+        "digest",
+        "pinDigest"
       ],
-      "groupName": "github-actions",
+      "extractVersion": "^v(?<version>\\d+\\.\\d+\\.\\d+)$",
+      "groupName": "github actions non-major",
+      "groupSlug": "github-actions-non-major",
       "automerge": true
     },
     {
@@ -55,7 +59,9 @@
       "matchUpdateTypes": [
         "major"
       ],
-      "groupName": "github-actions (major)",
+      "extractVersion": "^v(?<version>\\d+\\.\\d+\\.\\d+)$",
+      "groupName": "github actions major",
+      "groupSlug": "github-actions-major",
       "automerge": false
     }
   ]
