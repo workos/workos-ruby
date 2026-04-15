@@ -23,4 +23,5 @@ module WorkOS
   class NotFoundError < Error; end
   class RateLimitExceededError < Error; end
   class UnprocessableEntityError < Error; end
+  class SignatureVerificationError < Error; end
 end

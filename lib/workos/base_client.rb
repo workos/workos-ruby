@@ -20,7 +20,7 @@ module WorkOS
 
     attr_reader :api_key, :base_url, :client_id, :timeout, :max_retries, :user_agent
 
-    def initialize(api_key:, base_url: DEFAULT_BASE_URL, client_id: nil,
+    def initialize(api_key: nil, base_url: DEFAULT_BASE_URL, client_id: nil,
       timeout: DEFAULT_TIMEOUT, max_retries: DEFAULT_MAX_RETRIES,
       user_agent: "workos-ruby/0.0.0")
       @api_key = api_key
@@ -110,7 +110,7 @@ module WorkOS
 
     def build_request(klass, path, auth:, request_options:)
       request = klass.new(path)
-      request["Authorization"] = "Bearer #{@api_key}" if auth
+      request["Authorization"] = "Bearer #{@api_key}" if auth && @api_key && !@api_key.empty?
       request["User-Agent"] = @user_agent
       apply_extra_headers(request, request_options)
       request
