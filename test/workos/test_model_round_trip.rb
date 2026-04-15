@@ -789,7 +789,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["name"], json[:name]
     assert_equal fixture["obfuscated_value"], json[:obfuscated_value]
-    assert_equal fixture["last_used_at"], json[:last_used_at]
+    assert_nil json[:last_used_at]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
   end
@@ -819,7 +819,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["client_id"], json[:client_id]
-    assert_equal fixture["description"], json[:description]
+    assert_nil json[:description]
     assert_equal fixture["name"], json[:name]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
@@ -840,7 +840,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["secret_hint"], json[:secret_hint]
-    assert_equal fixture["last_used_at"], json[:last_used_at]
+    assert_nil json[:last_used_at]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
     assert_equal fixture["secret"], json[:secret]
@@ -880,7 +880,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::AuditLogsRetentionJson.new(fixture.to_json)
     json = model.to_json
     assert_kind_of Hash, json
-    assert_equal fixture["retention_period_in_days"], json[:retention_period_in_days]
+    assert_nil json[:retention_period_in_days]
   end
 
   def test_audit_log_schema_json_round_trip
@@ -1010,9 +1010,9 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_json
     assert_kind_of Hash, json
     assert_equal fixture["name"], json[:name]
-    assert_equal fixture["description"], json[:description]
+    assert_nil json[:description]
     assert_equal fixture["organization_id"], json[:organization_id]
-    assert_equal fixture["parent_resource_id"], json[:parent_resource_id]
+    assert_nil json[:parent_resource_id]
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["external_id"], json[:external_id]
     assert_equal fixture["resource_type_slug"], json[:resource_type_slug]
@@ -1066,7 +1066,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["slug"], json[:slug]
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["name"], json[:name]
-    assert_equal fixture["description"], json[:description]
+    assert_nil json[:description]
     assert_equal fixture["resource_type_slug"], json[:resource_type_slug]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
@@ -1100,7 +1100,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["slug"], json[:slug]
     assert_equal fixture["name"], json[:name]
-    assert_equal fixture["description"], json[:description]
+    assert_nil json[:description]
     assert_equal fixture["system"], json[:system]
     assert_equal fixture["resource_type_slug"], json[:resource_type_slug]
     assert_equal fixture["created_at"], json[:created_at]
@@ -1225,7 +1225,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["directory_id"], json[:directory_id]
     assert_equal fixture["organization_id"], json[:organization_id]
     assert_equal fixture["idp_id"], json[:idp_id]
-    assert_equal fixture["email"], json[:email]
+    assert_nil json[:email]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
   end
@@ -1240,7 +1240,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_json
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
-    assert_equal fixture["name"], json[:name]
+    assert_nil json[:name]
   end
 
   def test_event_context_round_trip
@@ -1285,7 +1285,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["directory_id"], json[:directory_id]
     assert_equal fixture["organization_id"], json[:organization_id]
     assert_equal fixture["idp_id"], json[:idp_id]
-    assert_equal fixture["email"], json[:email]
+    assert_nil json[:email]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
   end
@@ -1310,13 +1310,13 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_json
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
-    assert_equal fixture["first_name"], json[:first_name]
-    assert_equal fixture["last_name"], json[:last_name]
-    assert_equal fixture["profile_picture_url"], json[:profile_picture_url]
+    assert_nil json[:first_name]
+    assert_nil json[:last_name]
+    assert_nil json[:profile_picture_url]
     assert_equal fixture["email"], json[:email]
     assert_equal fixture["email_verified"], json[:email_verified]
-    assert_equal fixture["external_id"], json[:external_id]
-    assert_equal fixture["last_sign_in_at"], json[:last_sign_in_at]
+    assert_nil json[:external_id]
+    assert_nil json[:last_sign_in_at]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
   end
@@ -1372,10 +1372,10 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["action_endpoint_id"], json[:action_endpoint_id]
     assert_equal fixture["action_execution_id"], json[:action_execution_id]
     assert_equal fixture["user_id"], json[:user_id]
-    assert_equal fixture["organization_id"], json[:organization_id]
+    assert_nil json[:organization_id]
     assert_equal fixture["email"], json[:email]
-    assert_equal fixture["ip_address"], json[:ip_address]
-    assert_equal fixture["user_agent"], json[:user_agent]
+    assert_nil json[:ip_address]
+    assert_nil json[:user_agent]
   end
 
   def test_action_user_registration_denied_round_trip
@@ -1410,10 +1410,10 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["action_endpoint_id"], json[:action_endpoint_id]
     assert_equal fixture["action_execution_id"], json[:action_execution_id]
-    assert_equal fixture["organization_id"], json[:organization_id]
+    assert_nil json[:organization_id]
     assert_equal fixture["email"], json[:email]
-    assert_equal fixture["ip_address"], json[:ip_address]
-    assert_equal fixture["user_agent"], json[:user_agent]
+    assert_nil json[:ip_address]
+    assert_nil json[:user_agent]
   end
 
   def test_api_key_created_round_trip
@@ -1450,7 +1450,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["name"], json[:name]
     assert_equal fixture["obfuscated_value"], json[:obfuscated_value]
-    assert_equal fixture["last_used_at"], json[:last_used_at]
+    assert_nil json[:last_used_at]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
   end
@@ -1500,7 +1500,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["name"], json[:name]
     assert_equal fixture["obfuscated_value"], json[:obfuscated_value]
-    assert_equal fixture["last_used_at"], json[:last_used_at]
+    assert_nil json[:last_used_at]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
   end
@@ -1545,10 +1545,10 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::AuthenticationEmailVerificationFailedData.new(fixture.to_json)
     json = model.to_json
     assert_kind_of Hash, json
-    assert_equal fixture["ip_address"], json[:ip_address]
-    assert_equal fixture["user_agent"], json[:user_agent]
-    assert_equal fixture["user_id"], json[:user_id]
-    assert_equal fixture["email"], json[:email]
+    assert_nil json[:ip_address]
+    assert_nil json[:user_agent]
+    assert_nil json[:user_id]
+    assert_nil json[:email]
   end
 
   def test_authentication_email_verification_failed_data_error_round_trip
@@ -1591,8 +1591,8 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::AuthenticationEmailVerificationSucceededData.new(fixture.to_json)
     json = model.to_json
     assert_kind_of Hash, json
-    assert_equal fixture["ip_address"], json[:ip_address]
-    assert_equal fixture["user_agent"], json[:user_agent]
+    assert_nil json[:ip_address]
+    assert_nil json[:user_agent]
     assert_equal fixture["user_id"], json[:user_id]
     assert_equal fixture["email"], json[:email]
   end
@@ -1626,10 +1626,10 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::AuthenticationMagicAuthFailedData.new(fixture.to_json)
     json = model.to_json
     assert_kind_of Hash, json
-    assert_equal fixture["ip_address"], json[:ip_address]
-    assert_equal fixture["user_agent"], json[:user_agent]
-    assert_equal fixture["user_id"], json[:user_id]
-    assert_equal fixture["email"], json[:email]
+    assert_nil json[:ip_address]
+    assert_nil json[:user_agent]
+    assert_nil json[:user_id]
+    assert_nil json[:email]
   end
 
   def test_authentication_magic_auth_failed_data_error_round_trip
@@ -1672,8 +1672,8 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::AuthenticationMagicAuthSucceededData.new(fixture.to_json)
     json = model.to_json
     assert_kind_of Hash, json
-    assert_equal fixture["ip_address"], json[:ip_address]
-    assert_equal fixture["user_agent"], json[:user_agent]
+    assert_nil json[:ip_address]
+    assert_nil json[:user_agent]
     assert_equal fixture["user_id"], json[:user_id]
     assert_equal fixture["email"], json[:email]
   end
@@ -1707,10 +1707,10 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::AuthenticationMFAFailedData.new(fixture.to_json)
     json = model.to_json
     assert_kind_of Hash, json
-    assert_equal fixture["ip_address"], json[:ip_address]
-    assert_equal fixture["user_agent"], json[:user_agent]
-    assert_equal fixture["user_id"], json[:user_id]
-    assert_equal fixture["email"], json[:email]
+    assert_nil json[:ip_address]
+    assert_nil json[:user_agent]
+    assert_nil json[:user_id]
+    assert_nil json[:email]
   end
 
   def test_authentication_mfa_failed_data_error_round_trip
@@ -1753,8 +1753,8 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::AuthenticationMFASucceededData.new(fixture.to_json)
     json = model.to_json
     assert_kind_of Hash, json
-    assert_equal fixture["ip_address"], json[:ip_address]
-    assert_equal fixture["user_agent"], json[:user_agent]
+    assert_nil json[:ip_address]
+    assert_nil json[:user_agent]
     assert_equal fixture["user_id"], json[:user_id]
     assert_equal fixture["email"], json[:email]
   end
@@ -1788,10 +1788,10 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::AuthenticationOAuthFailedData.new(fixture.to_json)
     json = model.to_json
     assert_kind_of Hash, json
-    assert_equal fixture["ip_address"], json[:ip_address]
-    assert_equal fixture["user_agent"], json[:user_agent]
-    assert_equal fixture["user_id"], json[:user_id]
-    assert_equal fixture["email"], json[:email]
+    assert_nil json[:ip_address]
+    assert_nil json[:user_agent]
+    assert_nil json[:user_id]
+    assert_nil json[:email]
   end
 
   def test_authentication_oauth_failed_data_error_round_trip
@@ -1834,9 +1834,9 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::AuthenticationOAuthSucceededData.new(fixture.to_json)
     json = model.to_json
     assert_kind_of Hash, json
-    assert_equal fixture["ip_address"], json[:ip_address]
-    assert_equal fixture["user_agent"], json[:user_agent]
-    assert_equal fixture["user_id"], json[:user_id]
+    assert_nil json[:ip_address]
+    assert_nil json[:user_agent]
+    assert_nil json[:user_id]
     assert_equal fixture["email"], json[:email]
   end
 
@@ -1869,10 +1869,10 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::AuthenticationPasskeyFailedData.new(fixture.to_json)
     json = model.to_json
     assert_kind_of Hash, json
-    assert_equal fixture["ip_address"], json[:ip_address]
-    assert_equal fixture["user_agent"], json[:user_agent]
-    assert_equal fixture["user_id"], json[:user_id]
-    assert_equal fixture["email"], json[:email]
+    assert_nil json[:ip_address]
+    assert_nil json[:user_agent]
+    assert_nil json[:user_id]
+    assert_nil json[:email]
   end
 
   def test_authentication_passkey_failed_data_error_round_trip
@@ -1915,8 +1915,8 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::AuthenticationPasskeySucceededData.new(fixture.to_json)
     json = model.to_json
     assert_kind_of Hash, json
-    assert_equal fixture["ip_address"], json[:ip_address]
-    assert_equal fixture["user_agent"], json[:user_agent]
+    assert_nil json[:ip_address]
+    assert_nil json[:user_agent]
     assert_equal fixture["user_id"], json[:user_id]
     assert_equal fixture["email"], json[:email]
   end
@@ -1950,10 +1950,10 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::AuthenticationPasswordFailedData.new(fixture.to_json)
     json = model.to_json
     assert_kind_of Hash, json
-    assert_equal fixture["ip_address"], json[:ip_address]
-    assert_equal fixture["user_agent"], json[:user_agent]
-    assert_equal fixture["user_id"], json[:user_id]
-    assert_equal fixture["email"], json[:email]
+    assert_nil json[:ip_address]
+    assert_nil json[:user_agent]
+    assert_nil json[:user_id]
+    assert_nil json[:email]
   end
 
   def test_authentication_password_failed_data_error_round_trip
@@ -1996,8 +1996,8 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::AuthenticationPasswordSucceededData.new(fixture.to_json)
     json = model.to_json
     assert_kind_of Hash, json
-    assert_equal fixture["ip_address"], json[:ip_address]
-    assert_equal fixture["user_agent"], json[:user_agent]
+    assert_nil json[:ip_address]
+    assert_nil json[:user_agent]
     assert_equal fixture["user_id"], json[:user_id]
     assert_equal fixture["email"], json[:email]
   end
@@ -2033,10 +2033,10 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_json
     assert_kind_of Hash, json
     assert_equal fixture["auth_method"], json[:auth_method]
-    assert_equal fixture["control"], json[:control]
-    assert_equal fixture["blocklist_type"], json[:blocklist_type]
-    assert_equal fixture["ip_address"], json[:ip_address]
-    assert_equal fixture["user_agent"], json[:user_agent]
+    assert_nil json[:control]
+    assert_nil json[:blocklist_type]
+    assert_nil json[:ip_address]
+    assert_nil json[:user_agent]
     assert_equal fixture["user_id"], json[:user_id]
     assert_equal fixture["email"], json[:email]
   end
@@ -2071,10 +2071,10 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::AuthenticationSSOFailedData.new(fixture.to_json)
     json = model.to_json
     assert_kind_of Hash, json
-    assert_equal fixture["ip_address"], json[:ip_address]
-    assert_equal fixture["user_agent"], json[:user_agent]
-    assert_equal fixture["user_id"], json[:user_id]
-    assert_equal fixture["email"], json[:email]
+    assert_nil json[:ip_address]
+    assert_nil json[:user_agent]
+    assert_nil json[:user_id]
+    assert_nil json[:email]
   end
 
   def test_authentication_sso_failed_data_sso_round_trip
@@ -2086,9 +2086,9 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::AuthenticationSSOFailedDataSSO.new(fixture.to_json)
     json = model.to_json
     assert_kind_of Hash, json
-    assert_equal fixture["organization_id"], json[:organization_id]
-    assert_equal fixture["connection_id"], json[:connection_id]
-    assert_equal fixture["session_id"], json[:session_id]
+    assert_nil json[:organization_id]
+    assert_nil json[:connection_id]
+    assert_nil json[:session_id]
   end
 
   def test_authentication_sso_failed_data_error_round_trip
@@ -2132,10 +2132,10 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::AuthenticationSSOStartedData.new(fixture.to_json)
     json = model.to_json
     assert_kind_of Hash, json
-    assert_equal fixture["ip_address"], json[:ip_address]
-    assert_equal fixture["user_agent"], json[:user_agent]
-    assert_equal fixture["user_id"], json[:user_id]
-    assert_equal fixture["email"], json[:email]
+    assert_nil json[:ip_address]
+    assert_nil json[:user_agent]
+    assert_nil json[:user_id]
+    assert_nil json[:email]
   end
 
   def test_authentication_sso_started_data_sso_round_trip
@@ -2147,9 +2147,9 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::AuthenticationSSOStartedDataSSO.new(fixture.to_json)
     json = model.to_json
     assert_kind_of Hash, json
-    assert_equal fixture["organization_id"], json[:organization_id]
-    assert_equal fixture["connection_id"], json[:connection_id]
-    assert_equal fixture["session_id"], json[:session_id]
+    assert_nil json[:organization_id]
+    assert_nil json[:connection_id]
+    assert_nil json[:session_id]
   end
 
   def test_authentication_sso_succeeded_round_trip
@@ -2181,9 +2181,9 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::AuthenticationSSOSucceededData.new(fixture.to_json)
     json = model.to_json
     assert_kind_of Hash, json
-    assert_equal fixture["ip_address"], json[:ip_address]
-    assert_equal fixture["user_agent"], json[:user_agent]
-    assert_equal fixture["user_id"], json[:user_id]
+    assert_nil json[:ip_address]
+    assert_nil json[:user_agent]
+    assert_nil json[:user_id]
     assert_equal fixture["email"], json[:email]
   end
 
@@ -2196,9 +2196,9 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::AuthenticationSSOSucceededDataSSO.new(fixture.to_json)
     json = model.to_json
     assert_kind_of Hash, json
-    assert_equal fixture["organization_id"], json[:organization_id]
-    assert_equal fixture["connection_id"], json[:connection_id]
-    assert_equal fixture["session_id"], json[:session_id]
+    assert_nil json[:organization_id]
+    assert_nil json[:connection_id]
+    assert_nil json[:session_id]
   end
 
   def test_authentication_sso_timed_out_round_trip
@@ -2231,10 +2231,10 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::AuthenticationSSOTimedOutData.new(fixture.to_json)
     json = model.to_json
     assert_kind_of Hash, json
-    assert_equal fixture["ip_address"], json[:ip_address]
-    assert_equal fixture["user_agent"], json[:user_agent]
-    assert_equal fixture["user_id"], json[:user_id]
-    assert_equal fixture["email"], json[:email]
+    assert_nil json[:ip_address]
+    assert_nil json[:user_agent]
+    assert_nil json[:user_id]
+    assert_nil json[:email]
   end
 
   def test_authentication_sso_timed_out_data_sso_round_trip
@@ -2246,9 +2246,9 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::AuthenticationSSOTimedOutDataSSO.new(fixture.to_json)
     json = model.to_json
     assert_kind_of Hash, json
-    assert_equal fixture["organization_id"], json[:organization_id]
-    assert_equal fixture["connection_id"], json[:connection_id]
-    assert_equal fixture["session_id"], json[:session_id]
+    assert_nil json[:organization_id]
+    assert_nil json[:connection_id]
+    assert_nil json[:session_id]
   end
 
   def test_authentication_sso_timed_out_data_error_round_trip
@@ -2853,7 +2853,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["directory_id"], json[:directory_id]
     assert_equal fixture["organization_id"], json[:organization_id]
     assert_equal fixture["idp_id"], json[:idp_id]
-    assert_equal fixture["email"], json[:email]
+    assert_nil json[:email]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
   end
@@ -2944,7 +2944,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["environment_id"], json[:environment_id]
     assert_equal fixture["slug"], json[:slug]
     assert_equal fixture["name"], json[:name]
-    assert_equal fixture["description"], json[:description]
+    assert_nil json[:description]
     assert_equal fixture["enabled"], json[:enabled]
     assert_equal fixture["default_value"], json[:default_value]
     assert_equal fixture["created_at"], json[:created_at]
@@ -2961,8 +2961,8 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_json
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
-    assert_equal fixture["first_name"], json[:first_name]
-    assert_equal fixture["last_name"], json[:last_name]
+    assert_nil json[:first_name]
+    assert_nil json[:last_name]
   end
 
   def test_flag_created_context_round_trip
@@ -2986,7 +2986,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_json
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
-    assert_equal fixture["name"], json[:name]
+    assert_nil json[:name]
   end
 
   def test_flag_deleted_round_trip
@@ -3027,7 +3027,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["environment_id"], json[:environment_id]
     assert_equal fixture["slug"], json[:slug]
     assert_equal fixture["name"], json[:name]
-    assert_equal fixture["description"], json[:description]
+    assert_nil json[:description]
     assert_equal fixture["enabled"], json[:enabled]
     assert_equal fixture["default_value"], json[:default_value]
     assert_equal fixture["created_at"], json[:created_at]
@@ -3044,8 +3044,8 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_json
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
-    assert_equal fixture["first_name"], json[:first_name]
-    assert_equal fixture["last_name"], json[:last_name]
+    assert_nil json[:first_name]
+    assert_nil json[:last_name]
   end
 
   def test_flag_deleted_context_round_trip
@@ -3069,7 +3069,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_json
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
-    assert_equal fixture["name"], json[:name]
+    assert_nil json[:name]
   end
 
   def test_flag_rule_updated_round_trip
@@ -3110,7 +3110,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["environment_id"], json[:environment_id]
     assert_equal fixture["slug"], json[:slug]
     assert_equal fixture["name"], json[:name]
-    assert_equal fixture["description"], json[:description]
+    assert_nil json[:description]
     assert_equal fixture["enabled"], json[:enabled]
     assert_equal fixture["default_value"], json[:default_value]
     assert_equal fixture["created_at"], json[:created_at]
@@ -3127,8 +3127,8 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_json
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
-    assert_equal fixture["first_name"], json[:first_name]
-    assert_equal fixture["last_name"], json[:last_name]
+    assert_nil json[:first_name]
+    assert_nil json[:last_name]
   end
 
   def test_flag_rule_updated_context_round_trip
@@ -3155,7 +3155,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_json
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
-    assert_equal fixture["name"], json[:name]
+    assert_nil json[:name]
   end
 
   def test_flag_rule_updated_context_configured_target_round_trip
@@ -3294,7 +3294,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["environment_id"], json[:environment_id]
     assert_equal fixture["slug"], json[:slug]
     assert_equal fixture["name"], json[:name]
-    assert_equal fixture["description"], json[:description]
+    assert_nil json[:description]
     assert_equal fixture["enabled"], json[:enabled]
     assert_equal fixture["default_value"], json[:default_value]
     assert_equal fixture["created_at"], json[:created_at]
@@ -3311,8 +3311,8 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_json
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
-    assert_equal fixture["first_name"], json[:first_name]
-    assert_equal fixture["last_name"], json[:last_name]
+    assert_nil json[:first_name]
+    assert_nil json[:last_name]
   end
 
   def test_flag_updated_context_round_trip
@@ -3337,7 +3337,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_json
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
-    assert_equal fixture["name"], json[:name]
+    assert_nil json[:name]
   end
 
   def test_flag_updated_context_previous_attribute_round_trip
@@ -3398,12 +3398,12 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["email"], json[:email]
-    assert_equal fixture["accepted_at"], json[:accepted_at]
-    assert_equal fixture["revoked_at"], json[:revoked_at]
+    assert_nil json[:accepted_at]
+    assert_nil json[:revoked_at]
     assert_equal fixture["expires_at"], json[:expires_at]
-    assert_equal fixture["organization_id"], json[:organization_id]
-    assert_equal fixture["inviter_user_id"], json[:inviter_user_id]
-    assert_equal fixture["accepted_user_id"], json[:accepted_user_id]
+    assert_nil json[:organization_id]
+    assert_nil json[:inviter_user_id]
+    assert_nil json[:accepted_user_id]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
   end
@@ -3444,12 +3444,12 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["email"], json[:email]
-    assert_equal fixture["accepted_at"], json[:accepted_at]
-    assert_equal fixture["revoked_at"], json[:revoked_at]
+    assert_nil json[:accepted_at]
+    assert_nil json[:revoked_at]
     assert_equal fixture["expires_at"], json[:expires_at]
-    assert_equal fixture["organization_id"], json[:organization_id]
-    assert_equal fixture["inviter_user_id"], json[:inviter_user_id]
-    assert_equal fixture["accepted_user_id"], json[:accepted_user_id]
+    assert_nil json[:organization_id]
+    assert_nil json[:inviter_user_id]
+    assert_nil json[:accepted_user_id]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
   end
@@ -3490,12 +3490,12 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["email"], json[:email]
-    assert_equal fixture["accepted_at"], json[:accepted_at]
-    assert_equal fixture["revoked_at"], json[:revoked_at]
+    assert_nil json[:accepted_at]
+    assert_nil json[:revoked_at]
     assert_equal fixture["expires_at"], json[:expires_at]
-    assert_equal fixture["organization_id"], json[:organization_id]
-    assert_equal fixture["inviter_user_id"], json[:inviter_user_id]
-    assert_equal fixture["accepted_user_id"], json[:accepted_user_id]
+    assert_nil json[:organization_id]
+    assert_nil json[:inviter_user_id]
+    assert_nil json[:accepted_user_id]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
   end
@@ -3536,12 +3536,12 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["email"], json[:email]
-    assert_equal fixture["accepted_at"], json[:accepted_at]
-    assert_equal fixture["revoked_at"], json[:revoked_at]
+    assert_nil json[:accepted_at]
+    assert_nil json[:revoked_at]
     assert_equal fixture["expires_at"], json[:expires_at]
-    assert_equal fixture["organization_id"], json[:organization_id]
-    assert_equal fixture["inviter_user_id"], json[:inviter_user_id]
-    assert_equal fixture["accepted_user_id"], json[:accepted_user_id]
+    assert_nil json[:organization_id]
+    assert_nil json[:inviter_user_id]
+    assert_nil json[:accepted_user_id]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
   end
@@ -3616,7 +3616,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["name"], json[:name]
-    assert_equal fixture["external_id"], json[:external_id]
+    assert_nil json[:external_id]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
   end
@@ -3677,7 +3677,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["name"], json[:name]
-    assert_equal fixture["external_id"], json[:external_id]
+    assert_nil json[:external_id]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
   end
@@ -4067,7 +4067,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["organization_id"], json[:organization_id]
     assert_equal fixture["slug"], json[:slug]
     assert_equal fixture["name"], json[:name]
-    assert_equal fixture["description"], json[:description]
+    assert_nil json[:description]
     assert_equal fixture["resource_type_slug"], json[:resource_type_slug]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
@@ -4107,7 +4107,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["organization_id"], json[:organization_id]
     assert_equal fixture["slug"], json[:slug]
     assert_equal fixture["name"], json[:name]
-    assert_equal fixture["description"], json[:description]
+    assert_nil json[:description]
     assert_equal fixture["resource_type_slug"], json[:resource_type_slug]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
@@ -4147,7 +4147,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["organization_id"], json[:organization_id]
     assert_equal fixture["slug"], json[:slug]
     assert_equal fixture["name"], json[:name]
-    assert_equal fixture["description"], json[:description]
+    assert_nil json[:description]
     assert_equal fixture["resource_type_slug"], json[:resource_type_slug]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
@@ -4186,7 +4186,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["name"], json[:name]
-    assert_equal fixture["external_id"], json[:external_id]
+    assert_nil json[:external_id]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
   end
@@ -4317,7 +4317,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["slug"], json[:slug]
     assert_equal fixture["name"], json[:name]
-    assert_equal fixture["description"], json[:description]
+    assert_nil json[:description]
     assert_equal fixture["system"], json[:system]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
@@ -4356,7 +4356,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["slug"], json[:slug]
     assert_equal fixture["name"], json[:name]
-    assert_equal fixture["description"], json[:description]
+    assert_nil json[:description]
     assert_equal fixture["system"], json[:system]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
@@ -4395,7 +4395,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["slug"], json[:slug]
     assert_equal fixture["name"], json[:name]
-    assert_equal fixture["description"], json[:description]
+    assert_nil json[:description]
     assert_equal fixture["system"], json[:system]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
@@ -4539,11 +4539,11 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_json
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
-    assert_equal fixture["ip_address"], json[:ip_address]
-    assert_equal fixture["user_agent"], json[:user_agent]
+    assert_nil json[:ip_address]
+    assert_nil json[:user_agent]
     assert_equal fixture["user_id"], json[:user_id]
     assert_equal fixture["expires_at"], json[:expires_at]
-    assert_equal fixture["ended_at"], json[:ended_at]
+    assert_nil json[:ended_at]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
   end
@@ -4557,7 +4557,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_json
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
-    assert_equal fixture["reason"], json[:reason]
+    assert_nil json[:reason]
   end
 
   def test_session_revoked_round_trip
@@ -4596,11 +4596,11 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_json
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
-    assert_equal fixture["ip_address"], json[:ip_address]
-    assert_equal fixture["user_agent"], json[:user_agent]
+    assert_nil json[:ip_address]
+    assert_nil json[:user_agent]
     assert_equal fixture["user_id"], json[:user_id]
     assert_equal fixture["expires_at"], json[:expires_at]
-    assert_equal fixture["ended_at"], json[:ended_at]
+    assert_nil json[:ended_at]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
   end
@@ -4614,7 +4614,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_json
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
-    assert_equal fixture["reason"], json[:reason]
+    assert_nil json[:reason]
   end
 
   def test_user_created_round_trip
@@ -5039,7 +5039,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["slug"], json[:slug]
     assert_equal fixture["name"], json[:name]
-    assert_equal fixture["description"], json[:description]
+    assert_nil json[:description]
     assert_equal fixture["enabled"], json[:enabled]
     assert_equal fixture["default_value"], json[:default_value]
     assert_equal fixture["created_at"], json[:created_at]
@@ -5065,7 +5065,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["name"], json[:name]
     assert_equal fixture["obfuscated_value"], json[:obfuscated_value]
-    assert_equal fixture["last_used_at"], json[:last_used_at]
+    assert_nil json[:last_used_at]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
     assert_equal fixture["value"], json[:value]
@@ -5089,7 +5089,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["name"], json[:name]
-    assert_equal fixture["external_id"], json[:external_id]
+    assert_nil json[:external_id]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
   end
@@ -5139,8 +5139,8 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_json
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
-    assert_equal fixture["user_id"], json[:user_id]
-    assert_equal fixture["organization_id"], json[:organization_id]
+    assert_nil json[:user_id]
+    assert_nil json[:organization_id]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
   end
@@ -5264,12 +5264,12 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["email"], json[:email]
-    assert_equal fixture["accepted_at"], json[:accepted_at]
-    assert_equal fixture["revoked_at"], json[:revoked_at]
+    assert_nil json[:accepted_at]
+    assert_nil json[:revoked_at]
     assert_equal fixture["expires_at"], json[:expires_at]
-    assert_equal fixture["organization_id"], json[:organization_id]
-    assert_equal fixture["inviter_user_id"], json[:inviter_user_id]
-    assert_equal fixture["accepted_user_id"], json[:accepted_user_id]
+    assert_nil json[:organization_id]
+    assert_nil json[:inviter_user_id]
+    assert_nil json[:accepted_user_id]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
     assert_equal fixture["token"], json[:token]
@@ -5488,12 +5488,12 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_json
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
-    assert_equal fixture["organization_id"], json[:organization_id]
+    assert_nil json[:organization_id]
     assert_equal fixture["connection_id"], json[:connection_id]
     assert_equal fixture["idp_id"], json[:idp_id]
     assert_equal fixture["email"], json[:email]
-    assert_equal fixture["first_name"], json[:first_name]
-    assert_equal fixture["last_name"], json[:last_name]
+    assert_nil json[:first_name]
+    assert_nil json[:last_name]
   end
 
   def test_sso_token_response_round_trip
@@ -5578,7 +5578,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_json
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
-    assert_equal fixture["reason"], json[:reason]
+    assert_nil json[:reason]
   end
 
   def test_authenticate_response_oauth_token_round_trip
@@ -5618,7 +5618,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["name"], json[:name]
-    assert_equal fixture["description"], json[:description]
+    assert_nil json[:description]
     assert_equal fixture["slug"], json[:slug]
     assert_equal fixture["integration_type"], json[:integration_type]
     assert_equal fixture["credentials_type"], json[:credentials_type]
@@ -5638,7 +5638,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_json
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
-    assert_equal fixture["last_synced_at"], json[:last_synced_at]
+    assert_nil json[:last_synced_at]
     assert_equal fixture["created_at"], json[:created_at]
   end
 
@@ -5686,8 +5686,8 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_json
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
-    assert_equal fixture["first_name"], json[:first_name]
-    assert_equal fixture["last_name"], json[:last_name]
+    assert_nil json[:first_name]
+    assert_nil json[:last_name]
   end
 
   def test_event_list_list_metadata_round_trip
@@ -5697,7 +5697,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::EventListListMetadata.new(fixture.to_json)
     json = model.to_json
     assert_kind_of Hash, json
-    assert_equal fixture["after"], json[:after]
+    assert_nil json[:after]
   end
 
   def test_directory_user_email_round_trip
@@ -5765,7 +5765,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::ConnectionOption.new(fixture.to_json)
     json = model.to_json
     assert_kind_of Hash, json
-    assert_equal fixture["signing_cert"], json[:signing_cert]
+    assert_nil json[:signing_cert]
   end
 
   def test_user_organization_membership_base_list_data_round_trip
@@ -5951,7 +5951,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["slug"], json[:slug]
     assert_equal fixture["name"], json[:name]
-    assert_equal fixture["description"], json[:description]
+    assert_nil json[:description]
     assert_equal fixture["system"], json[:system]
     assert_equal fixture["resource_type_slug"], json[:resource_type_slug]
     assert_equal fixture["created_at"], json[:created_at]
@@ -5972,7 +5972,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["secret_hint"], json[:secret_hint]
-    assert_equal fixture["last_used_at"], json[:last_used_at]
+    assert_nil json[:last_used_at]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
   end
@@ -6020,7 +6020,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["slug"], json[:slug]
     assert_equal fixture["name"], json[:name]
-    assert_equal fixture["description"], json[:description]
+    assert_nil json[:description]
     assert_equal fixture["enabled"], json[:enabled]
     assert_equal fixture["default_value"], json[:default_value]
     assert_equal fixture["created_at"], json[:created_at]
@@ -6037,8 +6037,8 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_json
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
-    assert_equal fixture["first_name"], json[:first_name]
-    assert_equal fixture["last_name"], json[:last_name]
+    assert_nil json[:first_name]
+    assert_nil json[:last_name]
   end
 
   def test_radar_standalone_assess_request_round_trip
@@ -6288,12 +6288,12 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["email"], json[:email]
-    assert_equal fixture["accepted_at"], json[:accepted_at]
-    assert_equal fixture["revoked_at"], json[:revoked_at]
+    assert_nil json[:accepted_at]
+    assert_nil json[:revoked_at]
     assert_equal fixture["expires_at"], json[:expires_at]
-    assert_equal fixture["organization_id"], json[:organization_id]
-    assert_equal fixture["inviter_user_id"], json[:inviter_user_id]
-    assert_equal fixture["accepted_user_id"], json[:accepted_user_id]
+    assert_nil json[:organization_id]
+    assert_nil json[:inviter_user_id]
+    assert_nil json[:accepted_user_id]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
     assert_equal fixture["token"], json[:token]
@@ -6355,13 +6355,13 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_json
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
-    assert_equal fixture["first_name"], json[:first_name]
-    assert_equal fixture["last_name"], json[:last_name]
-    assert_equal fixture["profile_picture_url"], json[:profile_picture_url]
+    assert_nil json[:first_name]
+    assert_nil json[:last_name]
+    assert_nil json[:profile_picture_url]
     assert_equal fixture["email"], json[:email]
     assert_equal fixture["email_verified"], json[:email_verified]
-    assert_equal fixture["external_id"], json[:external_id]
-    assert_equal fixture["last_sign_in_at"], json[:last_sign_in_at]
+    assert_nil json[:external_id]
+    assert_nil json[:last_sign_in_at]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
   end
@@ -6398,11 +6398,11 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_json
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
-    assert_equal fixture["ip_address"], json[:ip_address]
-    assert_equal fixture["user_agent"], json[:user_agent]
+    assert_nil json[:ip_address]
+    assert_nil json[:user_agent]
     assert_equal fixture["user_id"], json[:user_id]
     assert_equal fixture["expires_at"], json[:expires_at]
-    assert_equal fixture["ended_at"], json[:ended_at]
+    assert_nil json[:ended_at]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
   end
@@ -6416,7 +6416,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_json
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
-    assert_equal fixture["reason"], json[:reason]
+    assert_nil json[:reason]
   end
 
   def test_directory_metadata_user_round_trip
@@ -6447,10 +6447,10 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_json
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
-    assert_equal fixture["user_id"], json[:user_id]
-    assert_equal fixture["organization_id"], json[:organization_id]
+    assert_nil json[:user_id]
+    assert_nil json[:organization_id]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
-    assert_equal fixture["userlandUserId"], json[:userlandUserId]
+    assert_nil json[:userlandUserId]
   end
 end
