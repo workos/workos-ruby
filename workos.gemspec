@@ -28,7 +28,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "minitest", "~> 5.25"
   spec.add_development_dependency "rake"
   spec.add_development_dependency "standard", "~> 1.49"
-  spec.add_development_dependency "vcr", "~> 6.0"
   spec.add_development_dependency "webmock", "~> 3.26"
 
   spec.required_ruby_version = ">= 3.3"
