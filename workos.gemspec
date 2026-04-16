@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.email = ["support@workos.com"]
   spec.description = "API client for WorkOS"
   spec.summary = "API client for WorkOS"
-  spec.homepage = "https://github.com/workos-inc/workos-ruby"
+  spec.homepage = "https://github.com/workos/workos-ruby"
   spec.license = "MIT"
   spec.metadata = {
     "documentation_uri" => "https://docs.workos.com/sdk/ruby"
