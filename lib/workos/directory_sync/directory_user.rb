@@ -6,6 +6,15 @@ module WorkOS
   class DirectoryUser
     include HashProvider
 
+    # @!attribute emails
+    #   @deprecated A list of email addresses for the user.
+    # @!attribute job_title
+    #   @deprecated The job title of the user.
+    # @!attribute username
+    #   @deprecated The username of the user.
+    # @!attribute raw_attributes
+    #   @deprecated The raw attributes received from the directory provider.
+
     attr_accessor \
       :object,
       :id,

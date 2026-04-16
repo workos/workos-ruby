@@ -439,7 +439,7 @@ module WorkOS
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::UserManagementUsersOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
-    # @param organization [String, nil] Filter users by the organization they are a member of. Deprecated in favor of `organization_id`.
+    # @param organization [String, nil] (deprecated) Filter users by the organization they are a member of. Deprecated in favor of `organization_id`.
     # @param organization_id [String, nil] Filter users by the organization they are a member of.
     # @param email [String, nil] Filter users by their email address.
     # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
@@ -1223,6 +1223,16 @@ module WorkOS
     # H12 device-code → token exchange is provided by the generated
     # `authenticate_with_device_code` method (wraps /user_management/authenticate);
     # no hand-maintained override is needed here.
+
+    # Build the AuthKit logout redirect URL (client-side, no HTTP call).
+    # @param session_id [String] The session ID (from the `sid` claim of the access token).
+    # @param return_to [String, nil] URL to redirect the user to after session revocation.
+    # @return [String]
+    def get_logout_url(session_id:, return_to: nil)
+      params = {"session_id" => session_id}
+      params["return_to"] = return_to if return_to
+      build_url("/user_management/sessions/logout", params)
+    end
 
     private
 

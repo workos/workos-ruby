@@ -6,6 +6,9 @@ module WorkOS
   class DataIntegrationsListResponseDataConnectedAccount
     include HashProvider
 
+    # @!attribute userland_user_id
+    #   @deprecated Use `user_id` instead.
+
     attr_accessor \
       :object,
       :id,

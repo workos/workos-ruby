@@ -15,7 +15,7 @@ module WorkOS
     # @param order [WorkOS::Types::DirectoriesOrder, nil] Order the results by the creation time.
     # @param organization_id [String, nil] Filter Directories by their associated organization.
     # @param search [String, nil] Searchable text to match against Directory names.
-    # @param domain [String, nil] Filter Directories by their associated domain.
+    # @param domain [String, nil] (deprecated) Filter Directories by their associated domain.
     # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
     # @return [WorkOS::DirectoryList]
     def list_directories(

@@ -147,7 +147,7 @@ module WorkOS
     # @param range_start [String] ISO-8601 value for start of the export range.
     # @param range_end [String] ISO-8601 value for end of the export range.
     # @param actions [Array<String>, nil] List of actions to filter against.
-    # @param actors [Array<String>, nil] Deprecated. Use `actor_names` instead.
+    # @param actors [Array<String>, nil] (deprecated) Deprecated. Use `actor_names` instead.
     # @param actor_names [Array<String>, nil] List of actor names to filter against.
     # @param actor_ids [Array<String>, nil] List of actor IDs to filter against.
     # @param targets [Array<String>, nil] List of target types to filter against.

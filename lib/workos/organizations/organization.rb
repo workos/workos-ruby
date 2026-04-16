@@ -6,6 +6,9 @@ module WorkOS
   class Organization
     include HashProvider
 
+    # @!attribute allow_profiles_outside_organization
+    #   @deprecated Whether the Organization allows profiles outside of its managed domains.
+
     attr_accessor \
       :object,
       :id,

@@ -119,7 +119,7 @@ module WorkOS
     # @param id [String] Unique identifier of the Organization.
     # @param name [String, nil] The name of the organization.
     # @param allow_profiles_outside_organization [Boolean, nil] Whether the organization allows profiles from outside the organization to sign in.
-    # @param domains [Array<String>, nil] The domains associated with the organization. Deprecated in favor of `domain_data`.
+    # @param domains [Array<String>, nil] (deprecated) The domains associated with the organization. Deprecated in favor of `domain_data`.
     # @param domain_data [Array<WorkOS::OrganizationDomainData>, nil] The domains associated with the organization, including verification state.
     # @param stripe_customer_id [String, nil] The Stripe customer ID associated with the organization.
     # @param metadata [Hash{String => String}, nil, nil] Object containing [metadata](https://workos.com/docs/authkit/metadata) key/value pairs associated with the Organization.

@@ -6,6 +6,9 @@ module WorkOS
   class AuditLogExportCreation
     include HashProvider
 
+    # @!attribute actors
+    #   @deprecated Deprecated. Use `actor_names` instead.
+
     attr_accessor \
       :organization_id,
       :range_start,

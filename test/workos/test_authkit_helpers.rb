@@ -89,4 +89,20 @@ class AuthKitHelpersTest < Minitest::Test
   def test_get_jwks_url_accepts_explicit_client_id
     assert_equal "https://api.workos.com/sso/jwks/abc", @um.get_jwks_url(client_id: "abc")
   end
+
+  # get_logout_url
+  def test_get_logout_url_builds_url
+    url = @um.get_logout_url(session_id: "session_01H93ZY4F80QPBEZ1R5B2SHQG8")
+    parsed = URI.parse(url)
+    params = CGI.parse(parsed.query)
+    assert_equal "/user_management/sessions/logout", parsed.path
+    assert_equal "session_01H93ZY4F80QPBEZ1R5B2SHQG8", params["session_id"].first
+  end
+
+  def test_get_logout_url_includes_return_to
+    url = @um.get_logout_url(session_id: "sid_1", return_to: "https://example.com")
+    parsed = URI.parse(url)
+    params = CGI.parse(parsed.query)
+    assert_equal "https://example.com", params["return_to"].first
+  end
 end

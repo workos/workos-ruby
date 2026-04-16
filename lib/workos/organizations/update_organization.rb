@@ -6,6 +6,9 @@ module WorkOS
   class UpdateOrganization
     include HashProvider
 
+    # @!attribute domains
+    #   @deprecated The domains associated with the organization. Deprecated in favor of `domain_data`.
+
     attr_accessor \
       :name,
       :allow_profiles_outside_organization,

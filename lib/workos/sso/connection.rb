@@ -6,6 +6,9 @@ module WorkOS
   class Connection
     include HashProvider
 
+    # @!attribute status
+    #   @deprecated Deprecated. Use `state` instead.
+
     attr_accessor \
       :object,
       :id,
