@@ -20,7 +20,8 @@ module WorkOS
         "value" => value
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/api_keys/validations", auth: true, body: body)
+        request: @client.post_request(path: "/api_keys/validations", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::ApiKeyValidationResponse.new(response.body)
     end
@@ -34,7 +35,8 @@ module WorkOS
       request_options: {}
     )
       @client.execute_request(
-        request: @client.delete_request(path: "/api_keys/#{id}", auth: true)
+        request: @client.delete_request(path: "/api_keys/#{id}", auth: true, request_options: request_options),
+        request_options: request_options
       )
       nil
     end
@@ -62,17 +64,18 @@ module WorkOS
         "order" => order
       }.compact
       response = @client.execute_request(
-        request: @client.get_request(path: "/organizations/#{organization_id}/api_keys", auth: true, params: params)
+        request: @client.get_request(path: "/organizations/#{organization_id}/api_keys", auth: true, params: params, request_options: request_options),
+        request_options: request_options
       )
       parsed = JSON.parse(response.body)
       items = (parsed["data"] || []).map { |item| WorkOS::ApiKey.new(item.to_json) }
       fetch_next = lambda do |metadata|
-        cursor = metadata.is_a?(Hash) ? (metadata["before"] || metadata[:before]) : nil
+        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
         list_organization_api_keys(
           organization_id: organization_id,
-          before: cursor,
-          after: after,
+          before: before,
+          after: cursor,
           limit: limit,
           order: order,
           request_options: request_options
@@ -98,7 +101,8 @@ module WorkOS
         "permissions" => permissions
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/organizations/#{organization_id}/api_keys", auth: true, body: body)
+        request: @client.post_request(path: "/organizations/#{organization_id}/api_keys", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::ApiKeyWithValue.new(response.body)
     end

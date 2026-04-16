@@ -3,33 +3,39 @@
 require "json"
 
 module WorkOS
-  class AuthorizedConnectApplicationListData
+  class Group
     include HashProvider
 
     attr_accessor \
       :object,
       :id,
-      :granted_scopes,
-      :oauth_resource,
-      :application
+      :organization_id,
+      :name,
+      :description,
+      :created_at,
+      :updated_at
 
     def initialize(json)
       hash = json.is_a?(Hash) ? json : JSON.parse(json, symbolize_names: true)
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @object = hash[:object]
       @id = hash[:id]
-      @granted_scopes = hash[:granted_scopes] || []
-      @oauth_resource = hash[:oauth_resource]
-      @application = hash[:application] ? WorkOS::ConnectApplication.new(hash[:application].to_json) : nil
+      @organization_id = hash[:organization_id]
+      @name = hash[:name]
+      @description = hash[:description]
+      @created_at = hash[:created_at]
+      @updated_at = hash[:updated_at]
     end
 
     def to_json(*)
       {
         object: object,
         id: id,
-        granted_scopes: granted_scopes,
-        oauth_resource: oauth_resource,
-        application: application&.to_json
+        organization_id: organization_id,
+        name: name,
+        description: description,
+        created_at: created_at,
+        updated_at: updated_at
       }
     end
   end

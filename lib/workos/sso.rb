@@ -41,16 +41,17 @@ module WorkOS
         "search" => search
       }.compact
       response = @client.execute_request(
-        request: @client.get_request(path: "/connections", auth: true, params: params)
+        request: @client.get_request(path: "/connections", auth: true, params: params, request_options: request_options),
+        request_options: request_options
       )
       parsed = JSON.parse(response.body)
       items = (parsed["data"] || []).map { |item| WorkOS::Connection.new(item.to_json) }
       fetch_next = lambda do |metadata|
-        cursor = metadata.is_a?(Hash) ? (metadata["before"] || metadata[:before]) : nil
+        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
         list_connections(
-          before: cursor,
-          after: after,
+          before: before,
+          after: cursor,
           limit: limit,
           order: order,
           connection_type: connection_type,
@@ -72,7 +73,8 @@ module WorkOS
       request_options: {}
     )
       response = @client.execute_request(
-        request: @client.get_request(path: "/connections/#{id}", auth: true)
+        request: @client.get_request(path: "/connections/#{id}", auth: true, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::Connection.new(response.body)
     end
@@ -86,7 +88,8 @@ module WorkOS
       request_options: {}
     )
       @client.execute_request(
-        request: @client.delete_request(path: "/connections/#{id}", auth: true)
+        request: @client.delete_request(path: "/connections/#{id}", auth: true, request_options: request_options),
+        request_options: request_options
       )
       nil
     end
@@ -103,7 +106,8 @@ module WorkOS
         "profile_id" => profile_id
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/sso/logout/authorize", auth: true, body: body)
+        request: @client.post_request(path: "/sso/logout/authorize", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::SSOLogoutAuthorizeResponse.new(response.body)
     end
@@ -113,7 +117,8 @@ module WorkOS
     # @return [WorkOS::Profile]
     def get_profile(request_options: {})
       response = @client.execute_request(
-        request: @client.get_request(path: "/sso/profile", auth: true)
+        request: @client.get_request(path: "/sso/profile", auth: true, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::Profile.new(response.body)
     end
@@ -137,7 +142,8 @@ module WorkOS
         "code" => code
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/sso/token", auth: true, params: params, body: body)
+        request: @client.post_request(path: "/sso/token", auth: true, params: params, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::SSOTokenResponse.new(response.body)
     end

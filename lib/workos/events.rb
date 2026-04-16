@@ -41,16 +41,17 @@ module WorkOS
         "organization_id" => organization_id
       }.compact
       response = @client.execute_request(
-        request: @client.get_request(path: "/events", auth: true, params: params)
+        request: @client.get_request(path: "/events", auth: true, params: params, request_options: request_options),
+        request_options: request_options
       )
       parsed = JSON.parse(response.body)
       items = (parsed["data"] || []).map { |item| WorkOS::EventSchema.new(item.to_json) }
       fetch_next = lambda do |metadata|
-        cursor = metadata.is_a?(Hash) ? (metadata["before"] || metadata[:before]) : nil
+        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
         list_events(
-          before: cursor,
-          after: after,
+          before: before,
+          after: cursor,
           limit: limit,
           order: order,
           events: events,

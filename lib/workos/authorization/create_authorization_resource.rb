@@ -11,10 +11,7 @@ module WorkOS
       :name,
       :description,
       :resource_type_slug,
-      :organization_id,
-      :parent_resource_id,
-      :parent_resource_external_id,
-      :parent_resource_type_slug
+      :organization_id
 
     def initialize(json)
       hash = json.is_a?(Hash) ? json : JSON.parse(json, symbolize_names: true)
@@ -24,9 +21,6 @@ module WorkOS
       @description = hash[:description]
       @resource_type_slug = hash[:resource_type_slug]
       @organization_id = hash[:organization_id]
-      @parent_resource_id = hash[:parent_resource_id]
-      @parent_resource_external_id = hash[:parent_resource_external_id]
-      @parent_resource_type_slug = hash[:parent_resource_type_slug]
     end
 
     def to_json(*)
@@ -35,10 +29,7 @@ module WorkOS
         name: name,
         description: description,
         resource_type_slug: resource_type_slug,
-        organization_id: organization_id,
-        parent_resource_id: parent_resource_id,
-        parent_resource_external_id: parent_resource_external_id,
-        parent_resource_type_slug: parent_resource_type_slug
+        organization_id: organization_id
       }
     end
   end

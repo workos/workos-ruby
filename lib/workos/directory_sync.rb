@@ -38,16 +38,17 @@ module WorkOS
         "domain" => domain
       }.compact
       response = @client.execute_request(
-        request: @client.get_request(path: "/directories", auth: true, params: params)
+        request: @client.get_request(path: "/directories", auth: true, params: params, request_options: request_options),
+        request_options: request_options
       )
       parsed = JSON.parse(response.body)
       items = (parsed["data"] || []).map { |item| WorkOS::Directory.new(item.to_json) }
       fetch_next = lambda do |metadata|
-        cursor = metadata.is_a?(Hash) ? (metadata["before"] || metadata[:before]) : nil
+        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
         list_directories(
-          before: cursor,
-          after: after,
+          before: before,
+          after: cursor,
           limit: limit,
           order: order,
           organization_id: organization_id,
@@ -68,7 +69,8 @@ module WorkOS
       request_options: {}
     )
       response = @client.execute_request(
-        request: @client.get_request(path: "/directories/#{id}", auth: true)
+        request: @client.get_request(path: "/directories/#{id}", auth: true, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::Directory.new(response.body)
     end
@@ -82,7 +84,8 @@ module WorkOS
       request_options: {}
     )
       @client.execute_request(
-        request: @client.delete_request(path: "/directories/#{id}", auth: true)
+        request: @client.delete_request(path: "/directories/#{id}", auth: true, request_options: request_options),
+        request_options: request_options
       )
       nil
     end
@@ -114,16 +117,17 @@ module WorkOS
         "user" => user
       }.compact
       response = @client.execute_request(
-        request: @client.get_request(path: "/directory_groups", auth: true, params: params)
+        request: @client.get_request(path: "/directory_groups", auth: true, params: params, request_options: request_options),
+        request_options: request_options
       )
       parsed = JSON.parse(response.body)
       items = (parsed["data"] || []).map { |item| WorkOS::DirectoryGroup.new(item.to_json) }
       fetch_next = lambda do |metadata|
-        cursor = metadata.is_a?(Hash) ? (metadata["before"] || metadata[:before]) : nil
+        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
         list_groups(
-          before: cursor,
-          after: after,
+          before: before,
+          after: cursor,
           limit: limit,
           order: order,
           directory: directory,
@@ -143,7 +147,8 @@ module WorkOS
       request_options: {}
     )
       response = @client.execute_request(
-        request: @client.get_request(path: "/directory_groups/#{id}", auth: true)
+        request: @client.get_request(path: "/directory_groups/#{id}", auth: true, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::DirectoryGroup.new(response.body)
     end
@@ -175,16 +180,17 @@ module WorkOS
         "group" => group
       }.compact
       response = @client.execute_request(
-        request: @client.get_request(path: "/directory_users", auth: true, params: params)
+        request: @client.get_request(path: "/directory_users", auth: true, params: params, request_options: request_options),
+        request_options: request_options
       )
       parsed = JSON.parse(response.body)
       items = (parsed["data"] || []).map { |item| WorkOS::DirectoryUserWithGroups.new(item.to_json) }
       fetch_next = lambda do |metadata|
-        cursor = metadata.is_a?(Hash) ? (metadata["before"] || metadata[:before]) : nil
+        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
         list_users(
-          before: cursor,
-          after: after,
+          before: before,
+          after: cursor,
           limit: limit,
           order: order,
           directory: directory,
@@ -204,7 +210,8 @@ module WorkOS
       request_options: {}
     )
       response = @client.execute_request(
-        request: @client.get_request(path: "/directory_users/#{id}", auth: true)
+        request: @client.get_request(path: "/directory_users/#{id}", auth: true, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::DirectoryUserWithGroups.new(response.body)
     end

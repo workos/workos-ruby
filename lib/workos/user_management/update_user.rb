@@ -11,9 +11,6 @@ module WorkOS
       :first_name,
       :last_name,
       :email_verified,
-      :password,
-      :password_hash,
-      :password_hash_type,
       :metadata,
       :external_id,
       :locale
@@ -25,9 +22,6 @@ module WorkOS
       @first_name = hash[:first_name]
       @last_name = hash[:last_name]
       @email_verified = hash[:email_verified]
-      @password = hash[:password]
-      @password_hash = hash[:password_hash]
-      @password_hash_type = hash[:password_hash_type]
       @metadata = hash[:metadata] || {}
       @external_id = hash[:external_id]
       @locale = hash[:locale]
@@ -39,9 +33,6 @@ module WorkOS
         first_name: first_name,
         last_name: last_name,
         email_verified: email_verified,
-        password: password,
-        password_hash: password_hash,
-        password_hash_type: password_hash_type,
         metadata: metadata,
         external_id: external_id,
         locale: locale

@@ -38,7 +38,8 @@ module WorkOS
         "bot_score" => bot_score
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/radar/attempts", auth: true, body: body)
+        request: @client.post_request(path: "/radar/attempts", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::RadarStandaloneResponse.new(response.body)
     end
@@ -60,7 +61,8 @@ module WorkOS
         "attempt_status" => attempt_status
       }.compact
       @client.execute_request(
-        request: @client.put_request(path: "/radar/attempts/#{id}", auth: true, body: body)
+        request: @client.put_request(path: "/radar/attempts/#{id}", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       nil
     end
@@ -81,7 +83,8 @@ module WorkOS
         "entry" => entry
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/radar/lists/#{type}/#{action}", auth: true, body: body)
+        request: @client.post_request(path: "/radar/lists/#{type}/#{action}", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::RadarListEntryAlreadyPresentResponse.new(response.body)
     end
@@ -98,8 +101,12 @@ module WorkOS
       entry:,
       request_options: {}
     )
+      body = {
+        "entry" => entry
+      }.compact
       @client.execute_request(
-        request: @client.delete_request(path: "/radar/lists/#{type}/#{action}", auth: true)
+        request: @client.delete_request(path: "/radar/lists/#{type}/#{action}", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       nil
     end

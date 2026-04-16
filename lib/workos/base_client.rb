@@ -63,9 +63,14 @@ module WorkOS
       req
     end
 
-    def delete_request(path:, auth: false, params: {}, request_options: nil)
-      build_request(Net::HTTP::Delete, append_query(path, params),
+    def delete_request(path:, auth: false, body: nil, params: {}, request_options: nil)
+      req = build_request(Net::HTTP::Delete, append_query(path, params),
         auth: auth, request_options: request_options)
+      if body
+        req.body = body.compact.to_json
+        req["Content-Type"] = "application/json"
+      end
+      req
     end
 
     # -- Execution --------------------------------------------------------

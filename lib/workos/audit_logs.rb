@@ -17,7 +17,8 @@ module WorkOS
       request_options: {}
     )
       response = @client.execute_request(
-        request: @client.get_request(path: "/organizations/#{id}/audit_logs_retention", auth: true)
+        request: @client.get_request(path: "/organizations/#{id}/audit_logs_retention", auth: true, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::AuditLogsRetentionJson.new(response.body)
     end
@@ -36,7 +37,8 @@ module WorkOS
         "retention_period_in_days" => retention_period_in_days
       }.compact
       response = @client.execute_request(
-        request: @client.put_request(path: "/organizations/#{id}/audit_logs_retention", auth: true, body: body)
+        request: @client.put_request(path: "/organizations/#{id}/audit_logs_retention", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::AuditLogsRetentionJson.new(response.body)
     end
@@ -62,10 +64,23 @@ module WorkOS
         "order" => order
       }.compact
       response = @client.execute_request(
-        request: @client.get_request(path: "/audit_logs/actions", auth: true, params: params)
+        request: @client.get_request(path: "/audit_logs/actions", auth: true, params: params, request_options: request_options),
+        request_options: request_options
       )
       parsed = JSON.parse(response.body)
-      (parsed || []).map { |item| WorkOS::AuditLogActionJson.new(item.to_json) }
+      items = (parsed["data"] || []).map { |item| WorkOS::AuditLogActionJson.new(item.to_json) }
+      fetch_next = lambda do |metadata|
+        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
+        return nil if cursor.nil? || cursor.to_s.empty?
+        list_actions(
+          before: before,
+          after: cursor,
+          limit: limit,
+          order: order,
+          request_options: request_options
+        )
+      end
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next)
     end
 
     # List Schemas
@@ -91,10 +106,24 @@ module WorkOS
         "order" => order
       }.compact
       response = @client.execute_request(
-        request: @client.get_request(path: "/audit_logs/actions/#{action_name}/schemas", auth: true, params: params)
+        request: @client.get_request(path: "/audit_logs/actions/#{action_name}/schemas", auth: true, params: params, request_options: request_options),
+        request_options: request_options
       )
       parsed = JSON.parse(response.body)
-      (parsed || []).map { |item| WorkOS::AuditLogSchemaJson.new(item.to_json) }
+      items = (parsed["data"] || []).map { |item| WorkOS::AuditLogSchemaJson.new(item.to_json) }
+      fetch_next = lambda do |metadata|
+        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
+        return nil if cursor.nil? || cursor.to_s.empty?
+        list_action_schemas(
+          action_name: action_name,
+          before: before,
+          after: cursor,
+          limit: limit,
+          order: order,
+          request_options: request_options
+        )
+      end
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next)
     end
 
     # Create Schema
@@ -117,7 +146,8 @@ module WorkOS
         "metadata" => metadata
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/audit_logs/actions/#{action_name}/schemas", auth: true, body: body)
+        request: @client.post_request(path: "/audit_logs/actions/#{action_name}/schemas", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::AuditLogSchemaJson.new(response.body)
     end
@@ -137,7 +167,8 @@ module WorkOS
         "event" => event
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/audit_logs/events", auth: true, body: body)
+        request: @client.post_request(path: "/audit_logs/events", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::AuditLogEventCreateResponse.new(response.body)
     end
@@ -175,7 +206,8 @@ module WorkOS
         "targets" => targets
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/audit_logs/exports", auth: true, body: body)
+        request: @client.post_request(path: "/audit_logs/exports", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::AuditLogExportJson.new(response.body)
     end
@@ -189,7 +221,8 @@ module WorkOS
       request_options: {}
     )
       response = @client.execute_request(
-        request: @client.get_request(path: "/audit_logs/exports/#{audit_log_export_id}", auth: true)
+        request: @client.get_request(path: "/audit_logs/exports/#{audit_log_export_id}", auth: true, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::AuditLogExportJson.new(response.body)
     end

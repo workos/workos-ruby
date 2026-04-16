@@ -22,7 +22,8 @@ module WorkOS
         "code" => code
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/auth/challenges/#{id}/verify", auth: true, body: body)
+        request: @client.post_request(path: "/auth/challenges/#{id}/verify", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::AuthenticationChallengeVerifyResponse.new(response.body)
     end
@@ -51,7 +52,8 @@ module WorkOS
         "user_id" => user_id
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/auth/factors/enroll", auth: true, body: body)
+        request: @client.post_request(path: "/auth/factors/enroll", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::AuthenticationFactorEnrolled.new(response.body)
     end
@@ -65,7 +67,8 @@ module WorkOS
       request_options: {}
     )
       response = @client.execute_request(
-        request: @client.get_request(path: "/auth/factors/#{id}", auth: true)
+        request: @client.get_request(path: "/auth/factors/#{id}", auth: true, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::AuthenticationFactor.new(response.body)
     end
@@ -79,7 +82,8 @@ module WorkOS
       request_options: {}
     )
       @client.execute_request(
-        request: @client.delete_request(path: "/auth/factors/#{id}", auth: true)
+        request: @client.delete_request(path: "/auth/factors/#{id}", auth: true, request_options: request_options),
+        request_options: request_options
       )
       nil
     end
@@ -98,7 +102,8 @@ module WorkOS
         "sms_template" => sms_template
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/auth/factors/#{id}/challenge", auth: true, body: body)
+        request: @client.post_request(path: "/auth/factors/#{id}/challenge", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::AuthenticationChallenge.new(response.body)
     end
@@ -126,17 +131,18 @@ module WorkOS
         "order" => order
       }.compact
       response = @client.execute_request(
-        request: @client.get_request(path: "/user_management/users/#{userland_user_id}/auth_factors", auth: true, params: params)
+        request: @client.get_request(path: "/user_management/users/#{userland_user_id}/auth_factors", auth: true, params: params, request_options: request_options),
+        request_options: request_options
       )
       parsed = JSON.parse(response.body)
       items = (parsed["data"] || []).map { |item| WorkOS::AuthenticationFactor.new(item.to_json) }
       fetch_next = lambda do |metadata|
-        cursor = metadata.is_a?(Hash) ? (metadata["before"] || metadata[:before]) : nil
+        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
         list_user_auth_factors(
           userland_user_id: userland_user_id,
-          before: cursor,
-          after: after,
+          before: before,
+          after: cursor,
           limit: limit,
           order: order,
           request_options: request_options
@@ -168,7 +174,8 @@ module WorkOS
         "totp_secret" => totp_secret
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/user_management/users/#{userland_user_id}/auth_factors", auth: true, body: body)
+        request: @client.post_request(path: "/user_management/users/#{userland_user_id}/auth_factors", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::UserAuthenticationFactorEnrollResponse.new(response.body)
     end

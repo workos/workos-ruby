@@ -29,16 +29,17 @@ module WorkOS
         "order" => order
       }.compact
       response = @client.execute_request(
-        request: @client.get_request(path: "/webhook_endpoints", auth: true, params: params)
+        request: @client.get_request(path: "/webhook_endpoints", auth: true, params: params, request_options: request_options),
+        request_options: request_options
       )
       parsed = JSON.parse(response.body)
       items = (parsed["data"] || []).map { |item| WorkOS::WebhookEndpointJson.new(item.to_json) }
       fetch_next = lambda do |metadata|
-        cursor = metadata.is_a?(Hash) ? (metadata["before"] || metadata[:before]) : nil
+        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
         list_webhook_endpoints(
-          before: cursor,
-          after: after,
+          before: before,
+          after: cursor,
           limit: limit,
           order: order,
           request_options: request_options
@@ -62,7 +63,8 @@ module WorkOS
         "events" => events
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/webhook_endpoints", auth: true, body: body)
+        request: @client.post_request(path: "/webhook_endpoints", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::WebhookEndpointJson.new(response.body)
     end
@@ -87,7 +89,8 @@ module WorkOS
         "events" => events
       }.compact
       response = @client.execute_request(
-        request: @client.patch_request(path: "/webhook_endpoints/#{id}", auth: true, body: body)
+        request: @client.patch_request(path: "/webhook_endpoints/#{id}", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::WebhookEndpointJson.new(response.body)
     end
@@ -101,7 +104,8 @@ module WorkOS
       request_options: {}
     )
       @client.execute_request(
-        request: @client.delete_request(path: "/webhook_endpoints/#{id}", auth: true)
+        request: @client.delete_request(path: "/webhook_endpoints/#{id}", auth: true, request_options: request_options),
+        request_options: request_options
       )
       nil
     end

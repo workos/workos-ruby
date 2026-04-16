@@ -6,27 +6,17 @@ module WorkOS
   class CheckAuthorization
     include HashProvider
 
-    attr_accessor \
-      :permission_slug,
-      :resource_id,
-      :resource_external_id,
-      :resource_type_slug
+    attr_accessor :permission_slug
 
     def initialize(json)
       hash = json.is_a?(Hash) ? json : JSON.parse(json, symbolize_names: true)
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @permission_slug = hash[:permission_slug]
-      @resource_id = hash[:resource_id]
-      @resource_external_id = hash[:resource_external_id]
-      @resource_type_slug = hash[:resource_type_slug]
     end
 
     def to_json(*)
       {
-        permission_slug: permission_slug,
-        resource_id: resource_id,
-        resource_external_id: resource_external_id,
-        resource_type_slug: resource_type_slug
+        permission_slug: permission_slug
       }
     end
   end

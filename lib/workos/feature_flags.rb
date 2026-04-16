@@ -29,16 +29,17 @@ module WorkOS
         "order" => order
       }.compact
       response = @client.execute_request(
-        request: @client.get_request(path: "/feature-flags", auth: true, params: params)
+        request: @client.get_request(path: "/feature-flags", auth: true, params: params, request_options: request_options),
+        request_options: request_options
       )
       parsed = JSON.parse(response.body)
       items = (parsed["data"] || []).map { |item| WorkOS::Flag.new(item.to_json) }
       fetch_next = lambda do |metadata|
-        cursor = metadata.is_a?(Hash) ? (metadata["before"] || metadata[:before]) : nil
+        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
         list_feature_flags(
-          before: cursor,
-          after: after,
+          before: before,
+          after: cursor,
           limit: limit,
           order: order,
           request_options: request_options
@@ -56,7 +57,8 @@ module WorkOS
       request_options: {}
     )
       response = @client.execute_request(
-        request: @client.get_request(path: "/feature-flags/#{slug}", auth: true)
+        request: @client.get_request(path: "/feature-flags/#{slug}", auth: true, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::Flag.new(response.body)
     end
@@ -70,7 +72,8 @@ module WorkOS
       request_options: {}
     )
       response = @client.execute_request(
-        request: @client.put_request(path: "/feature-flags/#{slug}/disable", auth: true)
+        request: @client.put_request(path: "/feature-flags/#{slug}/disable", auth: true, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::FeatureFlag.new(response.body)
     end
@@ -84,7 +87,8 @@ module WorkOS
       request_options: {}
     )
       response = @client.execute_request(
-        request: @client.put_request(path: "/feature-flags/#{slug}/enable", auth: true)
+        request: @client.put_request(path: "/feature-flags/#{slug}/enable", auth: true, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::FeatureFlag.new(response.body)
     end
@@ -100,7 +104,8 @@ module WorkOS
       request_options: {}
     )
       @client.execute_request(
-        request: @client.post_request(path: "/feature-flags/#{slug}/targets/#{resource_id}", auth: true)
+        request: @client.post_request(path: "/feature-flags/#{slug}/targets/#{resource_id}", auth: true, request_options: request_options),
+        request_options: request_options
       )
       nil
     end
@@ -116,7 +121,8 @@ module WorkOS
       request_options: {}
     )
       @client.execute_request(
-        request: @client.delete_request(path: "/feature-flags/#{slug}/targets/#{resource_id}", auth: true)
+        request: @client.delete_request(path: "/feature-flags/#{slug}/targets/#{resource_id}", auth: true, request_options: request_options),
+        request_options: request_options
       )
       nil
     end
@@ -144,17 +150,18 @@ module WorkOS
         "order" => order
       }.compact
       response = @client.execute_request(
-        request: @client.get_request(path: "/organizations/#{organization_id}/feature-flags", auth: true, params: params)
+        request: @client.get_request(path: "/organizations/#{organization_id}/feature-flags", auth: true, params: params, request_options: request_options),
+        request_options: request_options
       )
       parsed = JSON.parse(response.body)
       items = (parsed["data"] || []).map { |item| WorkOS::Flag.new(item.to_json) }
       fetch_next = lambda do |metadata|
-        cursor = metadata.is_a?(Hash) ? (metadata["before"] || metadata[:before]) : nil
+        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
         list_organization_feature_flags(
           organization_id: organization_id,
-          before: cursor,
-          after: after,
+          before: before,
+          after: cursor,
           limit: limit,
           order: order,
           request_options: request_options
@@ -186,17 +193,18 @@ module WorkOS
         "order" => order
       }.compact
       response = @client.execute_request(
-        request: @client.get_request(path: "/user_management/users/#{user_id}/feature-flags", auth: true, params: params)
+        request: @client.get_request(path: "/user_management/users/#{user_id}/feature-flags", auth: true, params: params, request_options: request_options),
+        request_options: request_options
       )
       parsed = JSON.parse(response.body)
       items = (parsed["data"] || []).map { |item| WorkOS::Flag.new(item.to_json) }
       fetch_next = lambda do |metadata|
-        cursor = metadata.is_a?(Hash) ? (metadata["before"] || metadata[:before]) : nil
+        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
         list_user_feature_flags(
           user_id: user_id,
-          before: cursor,
-          after: after,
+          before: before,
+          after: cursor,
           limit: limit,
           order: order,
           request_options: request_options

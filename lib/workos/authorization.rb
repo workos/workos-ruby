@@ -11,27 +11,19 @@ module WorkOS
     # Check authorization
     # @param organization_membership_id [String] The ID of the organization membership to check.
     # @param permission_slug [String] The slug of the permission to check.
-    # @param resource_id [String, nil] The ID of the resource.
-    # @param resource_external_id [String, nil] The external ID of the resource.
-    # @param resource_type_slug [String, nil] The slug of the resource type.
     # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
     # @return [WorkOS::AuthorizationCheck]
     def check(
       organization_membership_id:,
       permission_slug:,
-      resource_id: nil,
-      resource_external_id: nil,
-      resource_type_slug: nil,
       request_options: {}
     )
       body = {
-        "permission_slug" => permission_slug,
-        "resource_id" => resource_id,
-        "resource_external_id" => resource_external_id,
-        "resource_type_slug" => resource_type_slug
+        "permission_slug" => permission_slug
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/authorization/organization_memberships/#{organization_membership_id}/check", auth: true, body: body)
+        request: @client.post_request(path: "/authorization/organization_memberships/#{organization_membership_id}/check", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::AuthorizationCheck.new(response.body)
     end
@@ -43,9 +35,9 @@ module WorkOS
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::AuthorizationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
     # @param permission_slug [String] The permission slug to filter by. Only child resources where the organization membership has this permission are returned.
-    # @param parent_resource_id [String, nil] The WorkOS ID of the parent resource. Provide this or both `parent_resource_external_id` and `parent_resource_type_slug`, but not both.
-    # @param parent_resource_type_slug [String, nil] The slug of the parent resource type. Must be provided together with `parent_resource_external_id`.
-    # @param parent_resource_external_id [String, nil] The application-specific external identifier of the parent resource. Must be provided together with `parent_resource_type_slug`.
+    # @param parent_resource_id [String, nil] The WorkOS ID of the parent resource. Provide this or both `parent_resource_external_id` and `parent_resource_type_slug`, but not both. Mutually exclusive with `parent_resource_type_slug` and `parent_resource_external_id`.
+    # @param parent_resource_type_slug [String, nil] The slug of the parent resource type. Must be provided together with `parent_resource_external_id`. Required with `parent_resource_external_id`. Mutually exclusive with `parent_resource_id`.
+    # @param parent_resource_external_id [String, nil] The application-specific external identifier of the parent resource. Must be provided together with `parent_resource_type_slug`. Required with `parent_resource_type_slug`. Mutually exclusive with `parent_resource_id`.
     # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
     # @return [WorkOS::AuthorizationResourceList]
     def list_organization_membership_resources(
@@ -71,23 +63,70 @@ module WorkOS
         "parent_resource_external_id" => parent_resource_external_id
       }.compact
       response = @client.execute_request(
-        request: @client.get_request(path: "/authorization/organization_memberships/#{organization_membership_id}/resources", auth: true, params: params)
+        request: @client.get_request(path: "/authorization/organization_memberships/#{organization_membership_id}/resources", auth: true, params: params, request_options: request_options),
+        request_options: request_options
       )
       parsed = JSON.parse(response.body)
       items = (parsed["data"] || []).map { |item| WorkOS::AuthorizationResource.new(item.to_json) }
       fetch_next = lambda do |metadata|
-        cursor = metadata.is_a?(Hash) ? (metadata["before"] || metadata[:before]) : nil
+        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
         list_organization_membership_resources(
           organization_membership_id: organization_membership_id,
-          before: cursor,
-          after: after,
+          before: before,
+          after: cursor,
           limit: limit,
           order: order,
           permission_slug: permission_slug,
           parent_resource_id: parent_resource_id,
           parent_resource_type_slug: parent_resource_type_slug,
           parent_resource_external_id: parent_resource_external_id,
+          request_options: request_options
+        )
+      end
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next)
+    end
+
+    # List effective permissions for an organization membership on a resource
+    # @param organization_membership_id [String] The ID of the organization membership.
+    # @param resource_id [String] The ID of the authorization resource.
+    # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`.
+    # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
+    # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
+    # @param order [WorkOS::Types::AuthorizationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
+    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @return [WorkOS::AuthorizationPermissionList]
+    def list_resource_permissions(
+      organization_membership_id:,
+      resource_id:,
+      before: nil,
+      after: nil,
+      limit: nil,
+      order: nil,
+      request_options: {}
+    )
+      params = {
+        "before" => before,
+        "after" => after,
+        "limit" => limit,
+        "order" => order
+      }.compact
+      response = @client.execute_request(
+        request: @client.get_request(path: "/authorization/organization_memberships/#{organization_membership_id}/resources/#{resource_id}/permissions", auth: true, params: params, request_options: request_options),
+        request_options: request_options
+      )
+      parsed = JSON.parse(response.body)
+      items = (parsed["data"] || []).map { |item| WorkOS::AuthorizationPermission.new(item.to_json) }
+      fetch_next = lambda do |metadata|
+        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
+        return nil if cursor.nil? || cursor.to_s.empty?
+        list_resource_permissions(
+          organization_membership_id: organization_membership_id,
+          resource_id: resource_id,
+          before: before,
+          after: cursor,
+          limit: limit,
+          order: order,
           request_options: request_options
         )
       end
@@ -117,17 +156,18 @@ module WorkOS
         "order" => order
       }.compact
       response = @client.execute_request(
-        request: @client.get_request(path: "/authorization/organization_memberships/#{organization_membership_id}/role_assignments", auth: true, params: params)
+        request: @client.get_request(path: "/authorization/organization_memberships/#{organization_membership_id}/role_assignments", auth: true, params: params, request_options: request_options),
+        request_options: request_options
       )
       parsed = JSON.parse(response.body)
       items = (parsed["data"] || []).map { |item| WorkOS::RoleAssignment.new(item.to_json) }
       fetch_next = lambda do |metadata|
-        cursor = metadata.is_a?(Hash) ? (metadata["before"] || metadata[:before]) : nil
+        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
         list_organization_membership_role_assignments(
           organization_membership_id: organization_membership_id,
-          before: cursor,
-          after: after,
+          before: before,
+          after: cursor,
           limit: limit,
           order: order,
           request_options: request_options
@@ -139,27 +179,19 @@ module WorkOS
     # Assign a role
     # @param organization_membership_id [String] The ID of the organization membership.
     # @param role_slug [String] The slug of the role to assign.
-    # @param resource_id [String, nil] The ID of the resource. Use either this or `resource_external_id` and `resource_type_slug`.
-    # @param resource_external_id [String, nil] The external ID of the resource. Requires `resource_type_slug`.
-    # @param resource_type_slug [String, nil] The resource type slug. Required with `resource_external_id`.
     # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
     # @return [WorkOS::RoleAssignment]
     def assign_role(
       organization_membership_id:,
       role_slug:,
-      resource_id: nil,
-      resource_external_id: nil,
-      resource_type_slug: nil,
       request_options: {}
     )
       body = {
-        "role_slug" => role_slug,
-        "resource_id" => resource_id,
-        "resource_external_id" => resource_external_id,
-        "resource_type_slug" => resource_type_slug
+        "role_slug" => role_slug
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/authorization/organization_memberships/#{organization_membership_id}/role_assignments", auth: true, body: body)
+        request: @client.post_request(path: "/authorization/organization_memberships/#{organization_membership_id}/role_assignments", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::RoleAssignment.new(response.body)
     end
@@ -167,21 +199,19 @@ module WorkOS
     # Remove a role assignment
     # @param organization_membership_id [String] The ID of the organization membership.
     # @param role_slug [String] The slug of the role to remove.
-    # @param resource_id [String, nil] The ID of the resource. Use either this or `resource_external_id` and `resource_type_slug`.
-    # @param resource_external_id [String, nil] The external ID of the resource. Requires `resource_type_slug`.
-    # @param resource_type_slug [String, nil] The resource type slug. Required with `resource_external_id`.
     # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
     # @return [Object]
     def remove_role(
       organization_membership_id:,
       role_slug:,
-      resource_id: nil,
-      resource_external_id: nil,
-      resource_type_slug: nil,
       request_options: {}
     )
+      body = {
+        "role_slug" => role_slug
+      }.compact
       @client.execute_request(
-        request: @client.delete_request(path: "/authorization/organization_memberships/#{organization_membership_id}/role_assignments", auth: true)
+        request: @client.delete_request(path: "/authorization/organization_memberships/#{organization_membership_id}/role_assignments", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       nil
     end
@@ -197,12 +227,13 @@ module WorkOS
       request_options: {}
     )
       @client.execute_request(
-        request: @client.delete_request(path: "/authorization/organization_memberships/#{organization_membership_id}/role_assignments/#{role_assignment_id}", auth: true)
+        request: @client.delete_request(path: "/authorization/organization_memberships/#{organization_membership_id}/role_assignments/#{role_assignment_id}", auth: true, request_options: request_options),
+        request_options: request_options
       )
       nil
     end
 
-    # List organization roles
+    # List custom roles
     # @param organization_id [String] The ID of the organization.
     # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
     # @return [WorkOS::RoleList]
@@ -211,12 +242,13 @@ module WorkOS
       request_options: {}
     )
       response = @client.execute_request(
-        request: @client.get_request(path: "/authorization/organizations/#{organization_id}/roles", auth: true)
+        request: @client.get_request(path: "/authorization/organizations/#{organization_id}/roles", auth: true, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::RoleList.new(response.body)
     end
 
-    # Create a custom organization role
+    # Create a custom role
     # @param organization_id [String] The ID of the organization.
     # @param slug [String, nil] A unique identifier for the role within the organization. When provided, must begin with 'org-' and contain only lowercase letters, numbers, hyphens, and underscores. When omitted, a slug is auto-generated from the role name and a random suffix.
     # @param name [String] A descriptive name for the role.
@@ -239,12 +271,13 @@ module WorkOS
         "resource_type_slug" => resource_type_slug
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/authorization/organizations/#{organization_id}/roles", auth: true, body: body)
+        request: @client.post_request(path: "/authorization/organizations/#{organization_id}/roles", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::Role.new(response.body)
     end
 
-    # Get an organization role
+    # Get a custom role
     # @param organization_id [String] The ID of the organization.
     # @param slug [String] The slug of the role.
     # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
@@ -255,12 +288,13 @@ module WorkOS
       request_options: {}
     )
       response = @client.execute_request(
-        request: @client.get_request(path: "/authorization/organizations/#{organization_id}/roles/#{slug}", auth: true)
+        request: @client.get_request(path: "/authorization/organizations/#{organization_id}/roles/#{slug}", auth: true, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::Role.new(response.body)
     end
 
-    # Update an organization role
+    # Update a custom role
     # @param organization_id [String] The ID of the organization.
     # @param slug [String] The slug of the role.
     # @param name [String, nil] A descriptive name for the role.
@@ -279,12 +313,13 @@ module WorkOS
         "description" => description
       }.compact
       response = @client.execute_request(
-        request: @client.patch_request(path: "/authorization/organizations/#{organization_id}/roles/#{slug}", auth: true, body: body)
+        request: @client.patch_request(path: "/authorization/organizations/#{organization_id}/roles/#{slug}", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::Role.new(response.body)
     end
 
-    # Delete a custom organization role
+    # Delete a custom role
     # @param organization_id [String] The ID of the organization.
     # @param slug [String] The slug of the role.
     # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
@@ -295,32 +330,35 @@ module WorkOS
       request_options: {}
     )
       @client.execute_request(
-        request: @client.delete_request(path: "/authorization/organizations/#{organization_id}/roles/#{slug}", auth: true)
+        request: @client.delete_request(path: "/authorization/organizations/#{organization_id}/roles/#{slug}", auth: true, request_options: request_options),
+        request_options: request_options
       )
       nil
     end
 
-    # Add a permission to an organization role
+    # Add a permission to a custom role
     # @param organization_id [String] The ID of the organization.
     # @param slug [String] The slug of the role.
-    # @param slug [String] The slug of the permission to add to the role.
+    # @param body_slug [String] The slug of the permission to add to the role.
     # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
     # @return [WorkOS::Role]
     def create_role_permission(
       organization_id:,
       slug:,
+      body_slug:,
       request_options: {}
     )
       body = {
-        "slug" => slug
+        "slug" => body_slug
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/authorization/organizations/#{organization_id}/roles/#{slug}/permissions", auth: true, body: body)
+        request: @client.post_request(path: "/authorization/organizations/#{organization_id}/roles/#{slug}/permissions", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::Role.new(response.body)
     end
 
-    # Set permissions for a role
+    # Set permissions for a custom role
     # @param organization_id [String] The ID of the organization.
     # @param slug [String] The slug of the role.
     # @param permissions [Array<String>] The permission slugs to assign to the role.
@@ -336,12 +374,13 @@ module WorkOS
         "permissions" => permissions
       }.compact
       response = @client.execute_request(
-        request: @client.put_request(path: "/authorization/organizations/#{organization_id}/roles/#{slug}/permissions", auth: true, body: body)
+        request: @client.put_request(path: "/authorization/organizations/#{organization_id}/roles/#{slug}/permissions", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::Role.new(response.body)
     end
 
-    # Remove a permission from an organization role
+    # Remove a permission from a custom role
     # @param organization_id [String] The ID of the organization.
     # @param slug [String] The slug of the role.
     # @param permission_slug [String] The slug of the permission to remove.
@@ -354,7 +393,8 @@ module WorkOS
       request_options: {}
     )
       response = @client.execute_request(
-        request: @client.delete_request(path: "/authorization/organizations/#{organization_id}/roles/#{slug}/permissions/#{permission_slug}", auth: true)
+        request: @client.delete_request(path: "/authorization/organizations/#{organization_id}/roles/#{slug}/permissions/#{permission_slug}", auth: true, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::Role.new(response.body)
     end
@@ -372,7 +412,8 @@ module WorkOS
       request_options: {}
     )
       response = @client.execute_request(
-        request: @client.get_request(path: "/authorization/organizations/#{organization_id}/resources/#{resource_type_slug}/#{external_id}", auth: true)
+        request: @client.get_request(path: "/authorization/organizations/#{organization_id}/resources/#{resource_type_slug}/#{external_id}", auth: true, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::AuthorizationResource.new(response.body)
     end
@@ -383,9 +424,6 @@ module WorkOS
     # @param external_id [String] An identifier you provide to reference the resource in your system.
     # @param name [String, nil] A display name for the resource.
     # @param description [String, nil, nil] An optional description of the resource.
-    # @param parent_resource_id [String, nil] The ID of the parent resource.
-    # @param parent_resource_external_id [String, nil] The external ID of the parent resource.
-    # @param parent_resource_type_slug [String, nil] The resource type slug of the parent resource.
     # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
     # @return [WorkOS::AuthorizationResource]
     def update_organization_resource(
@@ -394,20 +432,15 @@ module WorkOS
       external_id:,
       name: nil,
       description: nil,
-      parent_resource_id: nil,
-      parent_resource_external_id: nil,
-      parent_resource_type_slug: nil,
       request_options: {}
     )
       body = {
         "name" => name,
-        "description" => description,
-        "parent_resource_id" => parent_resource_id,
-        "parent_resource_external_id" => parent_resource_external_id,
-        "parent_resource_type_slug" => parent_resource_type_slug
+        "description" => description
       }.compact
       response = @client.execute_request(
-        request: @client.patch_request(path: "/authorization/organizations/#{organization_id}/resources/#{resource_type_slug}/#{external_id}", auth: true, body: body)
+        request: @client.patch_request(path: "/authorization/organizations/#{organization_id}/resources/#{resource_type_slug}/#{external_id}", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::AuthorizationResource.new(response.body)
     end
@@ -430,7 +463,8 @@ module WorkOS
         "cascade_delete" => cascade_delete
       }.compact
       @client.execute_request(
-        request: @client.delete_request(path: "/authorization/organizations/#{organization_id}/resources/#{resource_type_slug}/#{external_id}", auth: true, params: params)
+        request: @client.delete_request(path: "/authorization/organizations/#{organization_id}/resources/#{resource_type_slug}/#{external_id}", auth: true, params: params, request_options: request_options),
+        request_options: request_options
       )
       nil
     end
@@ -468,19 +502,20 @@ module WorkOS
         "assignment" => assignment
       }.compact
       response = @client.execute_request(
-        request: @client.get_request(path: "/authorization/organizations/#{organization_id}/resources/#{resource_type_slug}/#{external_id}/organization_memberships", auth: true, params: params)
+        request: @client.get_request(path: "/authorization/organizations/#{organization_id}/resources/#{resource_type_slug}/#{external_id}/organization_memberships", auth: true, params: params, request_options: request_options),
+        request_options: request_options
       )
       parsed = JSON.parse(response.body)
       items = (parsed["data"] || []).map { |item| WorkOS::UserOrganizationMembershipBaseListData.new(item.to_json) }
       fetch_next = lambda do |metadata|
-        cursor = metadata.is_a?(Hash) ? (metadata["before"] || metadata[:before]) : nil
+        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
         list_resource_organization_memberships(
           organization_id: organization_id,
           resource_type_slug: resource_type_slug,
           external_id: external_id,
-          before: cursor,
-          after: after,
+          before: before,
+          after: cursor,
           limit: limit,
           order: order,
           permission_slug: permission_slug,
@@ -530,16 +565,17 @@ module WorkOS
         "search" => search
       }.compact
       response = @client.execute_request(
-        request: @client.get_request(path: "/authorization/resources", auth: true, params: params)
+        request: @client.get_request(path: "/authorization/resources", auth: true, params: params, request_options: request_options),
+        request_options: request_options
       )
       parsed = JSON.parse(response.body)
       items = (parsed["data"] || []).map { |item| WorkOS::AuthorizationResource.new(item.to_json) }
       fetch_next = lambda do |metadata|
-        cursor = metadata.is_a?(Hash) ? (metadata["before"] || metadata[:before]) : nil
+        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
         list_resources(
-          before: cursor,
-          after: after,
+          before: before,
+          after: cursor,
           limit: limit,
           order: order,
           organization_id: organization_id,
@@ -560,9 +596,6 @@ module WorkOS
     # @param description [String, nil, nil] An optional description of the resource.
     # @param resource_type_slug [String] The slug of the resource type.
     # @param organization_id [String] The ID of the organization this resource belongs to.
-    # @param parent_resource_id [String, nil, nil] The ID of the parent resource.
-    # @param parent_resource_external_id [String, nil] The external ID of the parent resource.
-    # @param parent_resource_type_slug [String, nil] The resource type slug of the parent resource.
     # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
     # @return [WorkOS::AuthorizationResource]
     def create_resource(
@@ -571,9 +604,6 @@ module WorkOS
       resource_type_slug:,
       organization_id:,
       description: nil,
-      parent_resource_id: nil,
-      parent_resource_external_id: nil,
-      parent_resource_type_slug: nil,
       request_options: {}
     )
       body = {
@@ -581,13 +611,11 @@ module WorkOS
         "name" => name,
         "description" => description,
         "resource_type_slug" => resource_type_slug,
-        "organization_id" => organization_id,
-        "parent_resource_id" => parent_resource_id,
-        "parent_resource_external_id" => parent_resource_external_id,
-        "parent_resource_type_slug" => parent_resource_type_slug
+        "organization_id" => organization_id
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/authorization/resources", auth: true, body: body)
+        request: @client.post_request(path: "/authorization/resources", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::AuthorizationResource.new(response.body)
     end
@@ -601,7 +629,8 @@ module WorkOS
       request_options: {}
     )
       response = @client.execute_request(
-        request: @client.get_request(path: "/authorization/resources/#{resource_id}", auth: true)
+        request: @client.get_request(path: "/authorization/resources/#{resource_id}", auth: true, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::AuthorizationResource.new(response.body)
     end
@@ -610,29 +639,21 @@ module WorkOS
     # @param resource_id [String] The ID of the authorization resource.
     # @param name [String, nil] A display name for the resource.
     # @param description [String, nil, nil] An optional description of the resource.
-    # @param parent_resource_id [String, nil] The ID of the parent resource.
-    # @param parent_resource_external_id [String, nil] The external ID of the parent resource.
-    # @param parent_resource_type_slug [String, nil] The resource type slug of the parent resource.
     # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
     # @return [WorkOS::AuthorizationResource]
     def update_resource(
       resource_id:,
       name: nil,
       description: nil,
-      parent_resource_id: nil,
-      parent_resource_external_id: nil,
-      parent_resource_type_slug: nil,
       request_options: {}
     )
       body = {
         "name" => name,
-        "description" => description,
-        "parent_resource_id" => parent_resource_id,
-        "parent_resource_external_id" => parent_resource_external_id,
-        "parent_resource_type_slug" => parent_resource_type_slug
+        "description" => description
       }.compact
       response = @client.execute_request(
-        request: @client.patch_request(path: "/authorization/resources/#{resource_id}", auth: true, body: body)
+        request: @client.patch_request(path: "/authorization/resources/#{resource_id}", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::AuthorizationResource.new(response.body)
     end
@@ -651,7 +672,8 @@ module WorkOS
         "cascade_delete" => cascade_delete
       }.compact
       @client.execute_request(
-        request: @client.delete_request(path: "/authorization/resources/#{resource_id}", auth: true, params: params)
+        request: @client.delete_request(path: "/authorization/resources/#{resource_id}", auth: true, params: params, request_options: request_options),
+        request_options: request_options
       )
       nil
     end
@@ -685,17 +707,18 @@ module WorkOS
         "assignment" => assignment
       }.compact
       response = @client.execute_request(
-        request: @client.get_request(path: "/authorization/resources/#{resource_id}/organization_memberships", auth: true, params: params)
+        request: @client.get_request(path: "/authorization/resources/#{resource_id}/organization_memberships", auth: true, params: params, request_options: request_options),
+        request_options: request_options
       )
       parsed = JSON.parse(response.body)
       items = (parsed["data"] || []).map { |item| WorkOS::UserOrganizationMembershipBaseListData.new(item.to_json) }
       fetch_next = lambda do |metadata|
-        cursor = metadata.is_a?(Hash) ? (metadata["before"] || metadata[:before]) : nil
+        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
         list_memberships_for_resource(
           resource_id: resource_id,
-          before: cursor,
-          after: after,
+          before: before,
+          after: cursor,
           limit: limit,
           order: order,
           permission_slug: permission_slug,
@@ -711,7 +734,8 @@ module WorkOS
     # @return [WorkOS::RoleList]
     def list_environment_roles(request_options: {})
       response = @client.execute_request(
-        request: @client.get_request(path: "/authorization/roles", auth: true)
+        request: @client.get_request(path: "/authorization/roles", auth: true, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::RoleList.new(response.body)
     end
@@ -737,7 +761,8 @@ module WorkOS
         "resource_type_slug" => resource_type_slug
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/authorization/roles", auth: true, body: body)
+        request: @client.post_request(path: "/authorization/roles", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::Role.new(response.body)
     end
@@ -751,7 +776,8 @@ module WorkOS
       request_options: {}
     )
       response = @client.execute_request(
-        request: @client.get_request(path: "/authorization/roles/#{slug}", auth: true)
+        request: @client.get_request(path: "/authorization/roles/#{slug}", auth: true, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::Role.new(response.body)
     end
@@ -773,25 +799,28 @@ module WorkOS
         "description" => description
       }.compact
       response = @client.execute_request(
-        request: @client.patch_request(path: "/authorization/roles/#{slug}", auth: true, body: body)
+        request: @client.patch_request(path: "/authorization/roles/#{slug}", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::Role.new(response.body)
     end
 
     # Add a permission to an environment role
     # @param slug [String] The slug of the environment role.
-    # @param slug [String] The slug of the permission to add to the role.
+    # @param body_slug [String] The slug of the permission to add to the role.
     # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
     # @return [WorkOS::Role]
     def add_environment_role_permission(
       slug:,
+      body_slug:,
       request_options: {}
     )
       body = {
-        "slug" => slug
+        "slug" => body_slug
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/authorization/roles/#{slug}/permissions", auth: true, body: body)
+        request: @client.post_request(path: "/authorization/roles/#{slug}/permissions", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::Role.new(response.body)
     end
@@ -810,7 +839,8 @@ module WorkOS
         "permissions" => permissions
       }.compact
       response = @client.execute_request(
-        request: @client.put_request(path: "/authorization/roles/#{slug}/permissions", auth: true, body: body)
+        request: @client.put_request(path: "/authorization/roles/#{slug}/permissions", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::Role.new(response.body)
     end
@@ -836,16 +866,17 @@ module WorkOS
         "order" => order
       }.compact
       response = @client.execute_request(
-        request: @client.get_request(path: "/authorization/permissions", auth: true, params: params)
+        request: @client.get_request(path: "/authorization/permissions", auth: true, params: params, request_options: request_options),
+        request_options: request_options
       )
       parsed = JSON.parse(response.body)
       items = (parsed["data"] || []).map { |item| WorkOS::AuthorizationPermission.new(item.to_json) }
       fetch_next = lambda do |metadata|
-        cursor = metadata.is_a?(Hash) ? (metadata["before"] || metadata[:before]) : nil
+        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
         list_permissions(
-          before: cursor,
-          after: after,
+          before: before,
+          after: cursor,
           limit: limit,
           order: order,
           request_options: request_options
@@ -875,7 +906,8 @@ module WorkOS
         "resource_type_slug" => resource_type_slug
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/authorization/permissions", auth: true, body: body)
+        request: @client.post_request(path: "/authorization/permissions", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::Permission.new(response.body)
     end
@@ -889,7 +921,8 @@ module WorkOS
       request_options: {}
     )
       response = @client.execute_request(
-        request: @client.get_request(path: "/authorization/permissions/#{slug}", auth: true)
+        request: @client.get_request(path: "/authorization/permissions/#{slug}", auth: true, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::AuthorizationPermission.new(response.body)
     end
@@ -911,7 +944,8 @@ module WorkOS
         "description" => description
       }.compact
       response = @client.execute_request(
-        request: @client.patch_request(path: "/authorization/permissions/#{slug}", auth: true, body: body)
+        request: @client.patch_request(path: "/authorization/permissions/#{slug}", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::AuthorizationPermission.new(response.body)
     end
@@ -925,7 +959,8 @@ module WorkOS
       request_options: {}
     )
       @client.execute_request(
-        request: @client.delete_request(path: "/authorization/permissions/#{slug}", auth: true)
+        request: @client.delete_request(path: "/authorization/permissions/#{slug}", auth: true, request_options: request_options),
+        request_options: request_options
       )
       nil
     end

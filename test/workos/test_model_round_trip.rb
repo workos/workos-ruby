@@ -254,10 +254,7 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_check_authorization_round_trip
     fixture = {
-      "permission_slug" => "stub",
-      "resource_id" => "stub",
-      "resource_external_id" => "stub",
-      "resource_type_slug" => "stub"
+      "permission_slug" => "stub"
     }
     model = WorkOS::CheckAuthorization.new(fixture.to_json)
     json = model.to_json
@@ -267,10 +264,7 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_assign_role_round_trip
     fixture = {
-      "role_slug" => "stub",
-      "resource_id" => "stub",
-      "resource_external_id" => "stub",
-      "resource_type_slug" => "stub"
+      "role_slug" => "stub"
     }
     model = WorkOS::AssignRole.new(fixture.to_json)
     json = model.to_json
@@ -280,10 +274,7 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_remove_role_round_trip
     fixture = {
-      "role_slug" => "stub",
-      "resource_id" => "stub",
-      "resource_external_id" => "stub",
-      "resource_type_slug" => "stub"
+      "role_slug" => "stub"
     }
     model = WorkOS::RemoveRole.new(fixture.to_json)
     json = model.to_json
@@ -384,10 +375,7 @@ class ModelRoundTripTest < Minitest::Test
   def test_update_authorization_resource_round_trip
     fixture = {
       "name" => "stub",
-      "description" => nil,
-      "parent_resource_id" => "stub",
-      "parent_resource_external_id" => "stub",
-      "parent_resource_type_slug" => "stub"
+      "description" => nil
     }
     model = WorkOS::UpdateAuthorizationResource.new(fixture.to_json)
     json = model.to_json
@@ -400,10 +388,7 @@ class ModelRoundTripTest < Minitest::Test
       "name" => "stub",
       "description" => nil,
       "resource_type_slug" => "stub",
-      "organization_id" => "stub",
-      "parent_resource_id" => nil,
-      "parent_resource_external_id" => "stub",
-      "parent_resource_type_slug" => "stub"
+      "organization_id" => "stub"
     }
     model = WorkOS::CreateAuthorizationResource.new(fixture.to_json)
     json = model.to_json
@@ -592,9 +577,7 @@ class ModelRoundTripTest < Minitest::Test
   def test_create_user_organization_membership_round_trip
     fixture = {
       "user_id" => "stub",
-      "organization_id" => "stub",
-      "role_slug" => "stub",
-      "role_slugs" => []
+      "organization_id" => "stub"
     }
     model = WorkOS::CreateUserOrganizationMembership.new(fixture.to_json)
     json = model.to_json
@@ -604,11 +587,7 @@ class ModelRoundTripTest < Minitest::Test
   end
 
   def test_update_user_organization_membership_round_trip
-    fixture = {
-      "role_slug" => "stub",
-      "role_slugs" => []
-    }
-    model = WorkOS::UpdateUserOrganizationMembership.new(fixture.to_json)
+    model = WorkOS::UpdateUserOrganizationMembership.new("{}")
     json = model.to_json
     assert_kind_of Hash, json
   end
@@ -616,9 +595,6 @@ class ModelRoundTripTest < Minitest::Test
   def test_create_user_round_trip
     fixture = {
       "email" => "stub",
-      "password" => nil,
-      "password_hash" => "stub",
-      "password_hash_type" => "stub",
       "first_name" => nil,
       "last_name" => nil,
       "email_verified" => nil,
@@ -637,9 +613,6 @@ class ModelRoundTripTest < Minitest::Test
       "first_name" => "stub",
       "last_name" => "stub",
       "email_verified" => true,
-      "password" => "stub",
-      "password_hash" => "stub",
-      "password_hash_type" => "stub",
       "metadata" => nil,
       "external_id" => nil,
       "locale" => nil
@@ -1020,6 +993,31 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["updated_at"], json[:updated_at]
   end
 
+  def test_authorization_permission_round_trip
+    fixture = {
+      "object" => "permission",
+      "id" => "stub",
+      "slug" => "stub",
+      "name" => "stub",
+      "description" => nil,
+      "system" => true,
+      "resource_type_slug" => "stub",
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::AuthorizationPermission.new(fixture.to_json)
+    json = model.to_json
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["slug"], json[:slug]
+    assert_equal fixture["name"], json[:name]
+    assert_nil json[:description]
+    assert_equal fixture["system"], json[:system]
+    assert_equal fixture["resource_type_slug"], json[:resource_type_slug]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+  end
+
   def test_slim_role_round_trip
     fixture = {
       "slug" => "stub"
@@ -1080,31 +1078,6 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::RoleList.new(fixture.to_json)
     json = model.to_json
     assert_kind_of Hash, json
-  end
-
-  def test_authorization_permission_round_trip
-    fixture = {
-      "object" => "permission",
-      "id" => "stub",
-      "slug" => "stub",
-      "name" => "stub",
-      "description" => nil,
-      "system" => true,
-      "resource_type_slug" => "stub",
-      "created_at" => "stub",
-      "updated_at" => "stub"
-    }
-    model = WorkOS::AuthorizationPermission.new(fixture.to_json)
-    json = model.to_json
-    assert_kind_of Hash, json
-    assert_equal fixture["id"], json[:id]
-    assert_equal fixture["slug"], json[:slug]
-    assert_equal fixture["name"], json[:name]
-    assert_nil json[:description]
-    assert_equal fixture["system"], json[:system]
-    assert_equal fixture["resource_type_slug"], json[:resource_type_slug]
-    assert_equal fixture["created_at"], json[:created_at]
-    assert_equal fixture["updated_at"], json[:updated_at]
   end
 
   def test_connection_round_trip
@@ -1286,6 +1259,27 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["organization_id"], json[:organization_id]
     assert_equal fixture["idp_id"], json[:idp_id]
     assert_nil json[:email]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+  end
+
+  def test_group_round_trip
+    fixture = {
+      "object" => "group",
+      "id" => "stub",
+      "organization_id" => "stub",
+      "name" => "stub",
+      "description" => nil,
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::Group.new(fixture.to_json)
+    json = model.to_json
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["organization_id"], json[:organization_id]
+    assert_equal fixture["name"], json[:name]
+    assert_nil json[:description]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
   end
@@ -3360,6 +3354,110 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::FlagUpdatedContextPreviousAttributeData.new(fixture.to_json)
     json = model.to_json
     assert_kind_of Hash, json
+  end
+
+  def test_group_created_round_trip
+    fixture = {
+      "id" => "stub",
+      "event" => "group.created",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {},
+      "object" => "event"
+    }
+    model = WorkOS::GroupCreated.new(fixture.to_json)
+    json = model.to_json
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+  end
+
+  def test_group_deleted_round_trip
+    fixture = {
+      "id" => "stub",
+      "event" => "group.deleted",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {},
+      "object" => "event"
+    }
+    model = WorkOS::GroupDeleted.new(fixture.to_json)
+    json = model.to_json
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+  end
+
+  def test_group_member_added_round_trip
+    fixture = {
+      "id" => "stub",
+      "event" => "group.member_added",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {},
+      "object" => "event"
+    }
+    model = WorkOS::GroupMemberAdded.new(fixture.to_json)
+    json = model.to_json
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+  end
+
+  def test_group_member_added_data_round_trip
+    fixture = {
+      "group_id" => "stub",
+      "organization_membership_id" => "stub"
+    }
+    model = WorkOS::GroupMemberAddedData.new(fixture.to_json)
+    json = model.to_json
+    assert_kind_of Hash, json
+    assert_equal fixture["group_id"], json[:group_id]
+    assert_equal fixture["organization_membership_id"], json[:organization_membership_id]
+  end
+
+  def test_group_member_removed_round_trip
+    fixture = {
+      "id" => "stub",
+      "event" => "group.member_removed",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {},
+      "object" => "event"
+    }
+    model = WorkOS::GroupMemberRemoved.new(fixture.to_json)
+    json = model.to_json
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+  end
+
+  def test_group_member_removed_data_round_trip
+    fixture = {
+      "group_id" => "stub",
+      "organization_membership_id" => "stub"
+    }
+    model = WorkOS::GroupMemberRemovedData.new(fixture.to_json)
+    json = model.to_json
+    assert_kind_of Hash, json
+    assert_equal fixture["group_id"], json[:group_id]
+    assert_equal fixture["organization_membership_id"], json[:organization_membership_id]
+  end
+
+  def test_group_updated_round_trip
+    fixture = {
+      "id" => "stub",
+      "event" => "group.updated",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {},
+      "object" => "event"
+    }
+    model = WorkOS::GroupUpdated.new(fixture.to_json)
+    json = model.to_json
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
   end
 
   def test_invitation_accepted_round_trip
@@ -5881,6 +5979,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "authorized_connect_application",
       "id" => "stub",
       "granted_scopes" => [],
+      "oauth_resource" => "stub",
       "application" => {}
     }
     model = WorkOS::AuthorizedConnectApplicationListData.new(fixture.to_json)

@@ -35,16 +35,17 @@ module WorkOS
         "search" => search
       }.compact
       response = @client.execute_request(
-        request: @client.get_request(path: "/organizations", auth: true, params: params)
+        request: @client.get_request(path: "/organizations", auth: true, params: params, request_options: request_options),
+        request_options: request_options
       )
       parsed = JSON.parse(response.body)
       items = (parsed["data"] || []).map { |item| WorkOS::Organization.new(item.to_json) }
       fetch_next = lambda do |metadata|
-        cursor = metadata.is_a?(Hash) ? (metadata["before"] || metadata[:before]) : nil
+        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
         list_organizations(
-          before: cursor,
-          after: after,
+          before: before,
+          after: cursor,
           limit: limit,
           order: order,
           domains: domains,
@@ -82,7 +83,8 @@ module WorkOS
         "external_id" => external_id
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/organizations", auth: true, body: body)
+        request: @client.post_request(path: "/organizations", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::Organization.new(response.body)
     end
@@ -96,7 +98,8 @@ module WorkOS
       request_options: {}
     )
       response = @client.execute_request(
-        request: @client.get_request(path: "/organizations/external_id/#{external_id}", auth: true)
+        request: @client.get_request(path: "/organizations/external_id/#{external_id}", auth: true, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::Organization.new(response.body)
     end
@@ -110,7 +113,8 @@ module WorkOS
       request_options: {}
     )
       response = @client.execute_request(
-        request: @client.get_request(path: "/organizations/#{id}", auth: true)
+        request: @client.get_request(path: "/organizations/#{id}", auth: true, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::Organization.new(response.body)
     end
@@ -147,7 +151,8 @@ module WorkOS
         "external_id" => external_id
       }.compact
       response = @client.execute_request(
-        request: @client.put_request(path: "/organizations/#{id}", auth: true, body: body)
+        request: @client.put_request(path: "/organizations/#{id}", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::Organization.new(response.body)
     end
@@ -161,7 +166,8 @@ module WorkOS
       request_options: {}
     )
       @client.execute_request(
-        request: @client.delete_request(path: "/organizations/#{id}", auth: true)
+        request: @client.delete_request(path: "/organizations/#{id}", auth: true, request_options: request_options),
+        request_options: request_options
       )
       nil
     end
@@ -175,7 +181,8 @@ module WorkOS
       request_options: {}
     )
       response = @client.execute_request(
-        request: @client.get_request(path: "/organizations/#{id}/audit_log_configuration", auth: true)
+        request: @client.get_request(path: "/organizations/#{id}/audit_log_configuration", auth: true, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::AuditLogConfiguration.new(response.body)
     end

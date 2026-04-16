@@ -28,7 +28,8 @@ module WorkOS
         "return_to" => return_to
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/data-integrations/#{slug}/authorize", auth: true, body: body)
+        request: @client.post_request(path: "/data-integrations/#{slug}/authorize", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::DataIntegrationAuthorizeUrlResponse.new(response.body)
     end
@@ -50,7 +51,8 @@ module WorkOS
         "organization_id" => organization_id
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/data-integrations/#{slug}/token", auth: true, body: body)
+        request: @client.post_request(path: "/data-integrations/#{slug}/token", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::DataIntegrationAccessTokenResponse.new(response.body)
     end
@@ -71,7 +73,8 @@ module WorkOS
         "organization_id" => organization_id
       }.compact
       response = @client.execute_request(
-        request: @client.get_request(path: "/user_management/users/#{user_id}/connected_accounts/#{slug}", auth: true, params: params)
+        request: @client.get_request(path: "/user_management/users/#{user_id}/connected_accounts/#{slug}", auth: true, params: params, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::ConnectedAccount.new(response.body)
     end
@@ -92,7 +95,8 @@ module WorkOS
         "organization_id" => organization_id
       }.compact
       @client.execute_request(
-        request: @client.delete_request(path: "/user_management/users/#{user_id}/connected_accounts/#{slug}", auth: true, params: params)
+        request: @client.delete_request(path: "/user_management/users/#{user_id}/connected_accounts/#{slug}", auth: true, params: params, request_options: request_options),
+        request_options: request_options
       )
       nil
     end
@@ -111,7 +115,8 @@ module WorkOS
         "organization_id" => organization_id
       }.compact
       response = @client.execute_request(
-        request: @client.get_request(path: "/user_management/users/#{user_id}/data_providers", auth: true, params: params)
+        request: @client.get_request(path: "/user_management/users/#{user_id}/data_providers", auth: true, params: params, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::DataIntegrationsListResponse.new(response.body)
     end

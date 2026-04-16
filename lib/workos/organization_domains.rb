@@ -23,7 +23,8 @@ module WorkOS
         "organization_id" => organization_id
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/organization_domains", auth: true, body: body)
+        request: @client.post_request(path: "/organization_domains", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::OrganizationDomain.new(response.body)
     end
@@ -37,7 +38,8 @@ module WorkOS
       request_options: {}
     )
       response = @client.execute_request(
-        request: @client.get_request(path: "/organization_domains/#{id}", auth: true)
+        request: @client.get_request(path: "/organization_domains/#{id}", auth: true, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::OrganizationDomainStandAlone.new(response.body)
     end
@@ -51,7 +53,8 @@ module WorkOS
       request_options: {}
     )
       @client.execute_request(
-        request: @client.delete_request(path: "/organization_domains/#{id}", auth: true)
+        request: @client.delete_request(path: "/organization_domains/#{id}", auth: true, request_options: request_options),
+        request_options: request_options
       )
       nil
     end
@@ -65,7 +68,8 @@ module WorkOS
       request_options: {}
     )
       response = @client.execute_request(
-        request: @client.post_request(path: "/organization_domains/#{id}/verify", auth: true)
+        request: @client.post_request(path: "/organization_domains/#{id}/verify", auth: true, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::OrganizationDomainStandAlone.new(response.body)
     end

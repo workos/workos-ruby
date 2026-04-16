@@ -431,9 +431,9 @@ class UserManagementTest < Minitest::Test
 
   def test_list_sessions_returns_expected_result
     stub_request(:get, /#{Regexp.escape("user_management")}/)
-      .to_return(body: "{}", status: 200)
+      .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
     result = @client.user_management.list_sessions(id: "stub")
-    refute_nil result
+    assert_kind_of WorkOS::Types::ListStruct, result
   end
 
   def test_list_sessions_raises_authentication_error_on_401
@@ -446,9 +446,9 @@ class UserManagementTest < Minitest::Test
 
   def test_list_invitations_returns_expected_result
     stub_request(:get, /#{Regexp.escape("user_management")}/)
-      .to_return(body: "{}", status: 200)
+      .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
     result = @client.user_management.list_invitations
-    refute_nil result
+    assert_kind_of WorkOS::Types::ListStruct, result
   end
 
   def test_list_invitations_raises_authentication_error_on_401
@@ -596,9 +596,9 @@ class UserManagementTest < Minitest::Test
 
   def test_list_organization_memberships_returns_expected_result
     stub_request(:get, /#{Regexp.escape("user_management")}/)
-      .to_return(body: "{}", status: 200)
+      .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
     result = @client.user_management.list_organization_memberships
-    refute_nil result
+    assert_kind_of WorkOS::Types::ListStruct, result
   end
 
   def test_list_organization_memberships_raises_authentication_error_on_401

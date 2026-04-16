@@ -26,7 +26,8 @@ module WorkOS
         "user_consent_options" => user_consent_options
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/authkit/oauth2/complete", auth: true, body: body)
+        request: @client.post_request(path: "/authkit/oauth2/complete", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::ExternalAuthCompleteResponse.new(response.body)
     end
@@ -55,16 +56,17 @@ module WorkOS
         "organization_id" => organization_id
       }.compact
       response = @client.execute_request(
-        request: @client.get_request(path: "/connect/applications", auth: true, params: params)
+        request: @client.get_request(path: "/connect/applications", auth: true, params: params, request_options: request_options),
+        request_options: request_options
       )
       parsed = JSON.parse(response.body)
       items = (parsed["data"] || []).map { |item| WorkOS::ConnectApplication.new(item.to_json) }
       fetch_next = lambda do |metadata|
-        cursor = metadata.is_a?(Hash) ? (metadata["before"] || metadata[:before]) : nil
+        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
         list_applications(
-          before: cursor,
-          after: after,
+          before: before,
+          after: cursor,
           limit: limit,
           order: order,
           organization_id: organization_id,
@@ -107,7 +109,8 @@ module WorkOS
         "organization_id" => organization_id
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/connect/applications", auth: true, body: body)
+        request: @client.post_request(path: "/connect/applications", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::ConnectApplication.new(response.body)
     end
@@ -143,7 +146,8 @@ module WorkOS
         "organization_id" => organization_id
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/connect/applications", auth: true, body: body)
+        request: @client.post_request(path: "/connect/applications", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::ConnectApplication.new(response.body)
     end
@@ -170,7 +174,8 @@ module WorkOS
         "scopes" => scopes
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/connect/applications", auth: true, body: body)
+        request: @client.post_request(path: "/connect/applications", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::ConnectApplication.new(response.body)
     end
@@ -184,7 +189,8 @@ module WorkOS
       request_options: {}
     )
       response = @client.execute_request(
-        request: @client.get_request(path: "/connect/applications/#{id}", auth: true)
+        request: @client.get_request(path: "/connect/applications/#{id}", auth: true, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::ConnectApplication.new(response.body)
     end
@@ -212,7 +218,8 @@ module WorkOS
         "redirect_uris" => redirect_uris
       }.compact
       response = @client.execute_request(
-        request: @client.put_request(path: "/connect/applications/#{id}", auth: true, body: body)
+        request: @client.put_request(path: "/connect/applications/#{id}", auth: true, body: body, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::ConnectApplication.new(response.body)
     end
@@ -226,7 +233,8 @@ module WorkOS
       request_options: {}
     )
       @client.execute_request(
-        request: @client.delete_request(path: "/connect/applications/#{id}", auth: true)
+        request: @client.delete_request(path: "/connect/applications/#{id}", auth: true, request_options: request_options),
+        request_options: request_options
       )
       nil
     end
@@ -240,7 +248,8 @@ module WorkOS
       request_options: {}
     )
       response = @client.execute_request(
-        request: @client.get_request(path: "/connect/applications/#{id}/client_secrets", auth: true)
+        request: @client.get_request(path: "/connect/applications/#{id}/client_secrets", auth: true, request_options: request_options),
+        request_options: request_options
       )
       parsed = JSON.parse(response.body)
       (parsed || []).map { |item| WorkOS::ApplicationCredentialsListItem.new(item.to_json) }
@@ -255,7 +264,8 @@ module WorkOS
       request_options: {}
     )
       response = @client.execute_request(
-        request: @client.post_request(path: "/connect/applications/#{id}/client_secrets", auth: true)
+        request: @client.post_request(path: "/connect/applications/#{id}/client_secrets", auth: true, request_options: request_options),
+        request_options: request_options
       )
       WorkOS::NewConnectApplicationSecret.new(response.body)
     end
@@ -269,7 +279,8 @@ module WorkOS
       request_options: {}
     )
       @client.execute_request(
-        request: @client.delete_request(path: "/connect/client_secrets/#{id}", auth: true)
+        request: @client.delete_request(path: "/connect/client_secrets/#{id}", auth: true, request_options: request_options),
+        request_options: request_options
       )
       nil
     end

@@ -39,6 +39,36 @@ class AuthorizationTest < Minitest::Test
     end
   end
 
+  def test_list_resource_permissions_returns_expected_result
+    stub_request(:get, /#{Regexp.escape("authorization")}/)
+      .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
+    result = @client.authorization.list_resource_permissions(organization_membership_id: "stub", resource_id: "stub")
+    assert_kind_of WorkOS::Types::ListStruct, result
+  end
+
+  def test_list_resource_permissions_raises_authentication_error_on_401
+    stub_request(:get, /#{Regexp.escape("authorization")}/)
+      .to_return(body: '{"message": "Unauthorized"}', status: 401)
+    assert_raises(WorkOS::AuthenticationError) do
+      @client.authorization.list_resource_permissions(organization_membership_id: "stub", resource_id: "stub")
+    end
+  end
+
+  def test_list_resource_permissions_returns_expected_result
+    stub_request(:get, /#{Regexp.escape("authorization")}/)
+      .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
+    result = @client.authorization.list_resource_permissions(organization_membership_id: "stub", resource_type_slug: "stub", external_id: "stub")
+    assert_kind_of WorkOS::Types::ListStruct, result
+  end
+
+  def test_list_resource_permissions_raises_authentication_error_on_401
+    stub_request(:get, /#{Regexp.escape("authorization")}/)
+      .to_return(body: '{"message": "Unauthorized"}', status: 401)
+    assert_raises(WorkOS::AuthenticationError) do
+      @client.authorization.list_resource_permissions(organization_membership_id: "stub", resource_type_slug: "stub", external_id: "stub")
+    end
+  end
+
   def test_list_organization_membership_role_assignments_returns_expected_result
     stub_request(:get, /#{Regexp.escape("authorization")}/)
       .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)

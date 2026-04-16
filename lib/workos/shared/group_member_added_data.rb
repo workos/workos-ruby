@@ -3,24 +3,24 @@
 require "json"
 
 module WorkOS
-  class CreateUserOrganizationMembership
+  class GroupMemberAddedData
     include HashProvider
 
     attr_accessor \
-      :user_id,
-      :organization_id
+      :group_id,
+      :organization_membership_id
 
     def initialize(json)
       hash = json.is_a?(Hash) ? json : JSON.parse(json, symbolize_names: true)
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
-      @user_id = hash[:user_id]
-      @organization_id = hash[:organization_id]
+      @group_id = hash[:group_id]
+      @organization_membership_id = hash[:organization_membership_id]
     end
 
     def to_json(*)
       {
-        user_id: user_id,
-        organization_id: organization_id
+        group_id: group_id,
+        organization_membership_id: organization_membership_id
       }
     end
   end

@@ -41,9 +41,9 @@ class AuditLogsTest < Minitest::Test
 
   def test_list_actions_returns_expected_result
     stub_request(:get, /#{Regexp.escape("audit_logs")}/)
-      .to_return(body: "{}", status: 200)
+      .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
     result = @client.audit_logs.list_actions
-    refute_nil result
+    assert_kind_of WorkOS::Types::ListStruct, result
   end
 
   def test_list_actions_raises_authentication_error_on_401
@@ -56,9 +56,9 @@ class AuditLogsTest < Minitest::Test
 
   def test_list_action_schemas_returns_expected_result
     stub_request(:get, /#{Regexp.escape("audit_logs")}/)
-      .to_return(body: "{}", status: 200)
+      .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
     result = @client.audit_logs.list_action_schemas(action_name: "stub")
-    refute_nil result
+    assert_kind_of WorkOS::Types::ListStruct, result
   end
 
   def test_list_action_schemas_raises_authentication_error_on_401
