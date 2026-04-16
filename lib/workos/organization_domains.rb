@@ -11,7 +11,7 @@ module WorkOS
     # Create an Organization Domain
     # @param domain [String] The domain to add to the organization.
     # @param organization_id [String] The ID of the organization to add the domain to.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::OrganizationDomain]
     def create_organization_domain(
       domain:,
@@ -31,7 +31,7 @@ module WorkOS
 
     # Get an Organization Domain
     # @param id [String] Unique identifier of the organization domain.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::OrganizationDomainStandAlone]
     def get_organization_domain(
       id:,
@@ -46,7 +46,7 @@ module WorkOS
 
     # Delete an Organization Domain
     # @param id [String] Unique identifier of the organization domain.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [Object]
     def delete_organization_domain(
       id:,
@@ -61,7 +61,7 @@ module WorkOS
 
     # Verify an Organization Domain
     # @param id [String] Unique identifier of the organization domain.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::OrganizationDomainStandAlone]
     def verify_organization_domain(
       id:,

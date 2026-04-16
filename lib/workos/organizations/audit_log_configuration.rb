@@ -18,16 +18,20 @@ module WorkOS
       @organization_id = hash[:organization_id]
       @retention_period_in_days = hash[:retention_period_in_days]
       @state = hash[:state]
-      @log_stream = hash[:log_stream] ? WorkOS::AuditLogConfigurationLogStream.new(hash[:log_stream].to_json) : nil
+      @log_stream = hash[:log_stream] ? WorkOS::AuditLogConfigurationLogStream.new(hash[:log_stream]) : nil
     end
 
-    def to_json(*)
+    def to_h
       {
         organization_id: organization_id,
         retention_period_in_days: retention_period_in_days,
         state: state,
-        log_stream: log_stream&.to_json
+        log_stream: log_stream&.to_h
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

@@ -84,8 +84,10 @@ module WorkOS
       @actions ||= WorkOS::Actions.new(self)
     end
 
-    def session_manager
-      @session_manager ||= WorkOS::SessionManager.new(self)
+    def session_manager(encryptor: nil)
+      return @session_manager if @session_manager && encryptor.nil?
+
+      @session_manager = WorkOS::SessionManager.new(self, encryptor: encryptor)
     end
 
     def pkce

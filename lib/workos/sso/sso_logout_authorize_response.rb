@@ -17,11 +17,15 @@ module WorkOS
       @logout_token = hash[:logout_token]
     end
 
-    def to_json(*)
+    def to_h
       {
         logout_url: logout_url,
         logout_token: logout_token
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

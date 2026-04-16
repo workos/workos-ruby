@@ -25,7 +25,7 @@ module WorkOS
       @locale = hash[:locale]
     end
 
-    def to_json(*)
+    def to_h
       {
         email: email,
         organization_id: organization_id,
@@ -34,6 +34,10 @@ module WorkOS
         inviter_user_id: inviter_user_id,
         locale: locale
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

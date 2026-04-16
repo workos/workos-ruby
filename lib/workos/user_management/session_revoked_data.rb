@@ -26,7 +26,7 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @object = hash[:object]
       @id = hash[:id]
-      @impersonator = hash[:impersonator] ? WorkOS::SessionRevokedDataImpersonator.new(hash[:impersonator].to_json) : nil
+      @impersonator = hash[:impersonator] ? WorkOS::SessionRevokedDataImpersonator.new(hash[:impersonator]) : nil
       @ip_address = hash[:ip_address]
       @organization_id = hash[:organization_id]
       @user_agent = hash[:user_agent]
@@ -39,11 +39,11 @@ module WorkOS
       @updated_at = hash[:updated_at]
     end
 
-    def to_json(*)
+    def to_h
       {
         object: object,
         id: id,
-        impersonator: impersonator&.to_json,
+        impersonator: impersonator&.to_h,
         ip_address: ip_address,
         organization_id: organization_id,
         user_agent: user_agent,
@@ -55,6 +55,10 @@ module WorkOS
         created_at: created_at,
         updated_at: updated_at
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

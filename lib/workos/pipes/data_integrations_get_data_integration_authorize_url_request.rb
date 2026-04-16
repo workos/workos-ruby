@@ -19,12 +19,16 @@ module WorkOS
       @return_to = hash[:return_to]
     end
 
-    def to_json(*)
+    def to_h
       {
         user_id: user_id,
         organization_id: organization_id,
         return_to: return_to
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

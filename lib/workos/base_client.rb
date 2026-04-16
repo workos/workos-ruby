@@ -78,26 +78,38 @@ module WorkOS
     def execute_request(request:, request_options: nil)
       opts = request_options || {}
       base = opts[:base_url] || @base_url
-      uri = URI(base)
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = (uri.scheme == "https")
-      http.read_timeout = opts[:timeout] || @timeout
-      http.open_timeout = opts[:timeout] || @timeout
-
-      max_retries = opts[:max_retries] || @max_retries
+      timeout = opts[:timeout] || @timeout
+      retries = opts[:max_retries] || @max_retries
       attempt = 0
+
       loop do
+        http = connection_for(base, timeout)
         response = http.request(request)
         return response if response.is_a?(Net::HTTPSuccess)
-        if attempt < max_retries && retryable?(response)
+
+        if attempt < retries && retryable?(response)
           attempt += 1
           sleep(retry_delay(response, attempt))
           next
         end
         handle_error_response(response)
+      rescue Net::OpenTimeout, Net::ReadTimeout,
+        Errno::ECONNRESET, Errno::ECONNREFUSED,
+        IOError, Errno::EPIPE => e
+        evict_connection(base)
+        if attempt < retries
+          attempt += 1
+          sleep(retry_delay(nil, attempt))
+          next
+        end
+        raise WorkOS::APIConnectionError.new(message: e.message)
       end
-    rescue Net::OpenTimeout, Net::ReadTimeout, Errno::ECONNRESET, Errno::ECONNREFUSED => e
-      raise WorkOS::APIConnectionError.new(message: e.message)
+    end
+
+    # Close all persistent connections.
+    def shutdown
+      @connections&.each_value { |c| c.finish if c.started? }
+      @connections = {}
     end
 
     private
@@ -111,9 +123,49 @@ module WorkOS
       path.include?("?") ? "#{path}&#{query}" : "#{path}?#{query}"
     end
 
+    def connection_for(base_url, timeout)
+      uri = URI(base_url)
+      key = "#{uri.host}:#{uri.port}"
+
+      @connections ||= {}
+      conn = @connections[key]
+
+      if conn&.started?
+        conn.read_timeout = timeout
+        conn.open_timeout = timeout
+        return conn
+      end
+
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = (uri.scheme == "https")
+      http.read_timeout = timeout
+      http.open_timeout = timeout
+      http.keep_alive_timeout = 30
+      http.start
+      @connections[key] = http
+      http
+    end
+
+    def evict_connection(base_url)
+      uri = URI(base_url)
+      key = "#{uri.host}:#{uri.port}"
+      conn = @connections&.delete(key)
+      conn&.finish if conn&.started?
+    rescue IOError
+      # Already closed, ignore
+    end
+
+    def resolve_option(opts, key)
+      return nil unless opts.is_a?(Hash)
+      opts[key] || opts[key.to_s]
+    end
+
     def build_request(klass, path, auth:, request_options:)
       request = klass.new(path)
-      request["Authorization"] = "Bearer #{@api_key}" if auth && @api_key && !@api_key.empty?
+      if auth
+        key = resolve_option(request_options, :api_key) || @api_key
+        request["Authorization"] = "Bearer #{key}" if key && !key.empty?
+      end
       request["User-Agent"] = @user_agent
       apply_extra_headers(request, request_options)
       request
@@ -142,8 +194,10 @@ module WorkOS
     end
 
     def retry_delay(response, attempt)
-      retry_after = response["Retry-After"]
-      return retry_after.to_f if retry_after&.to_f&.positive?
+      if response
+        retry_after = response["Retry-After"]
+        return retry_after.to_f if retry_after&.to_f&.positive?
+      end
 
       base = RETRY_BACKOFF_BASE * (2**(attempt - 1))
       jitter = rand * 0.25 * base

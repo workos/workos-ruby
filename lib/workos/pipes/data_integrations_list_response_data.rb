@@ -34,10 +34,10 @@ module WorkOS
       @ownership = hash[:ownership]
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
-      @connected_account = hash[:connected_account] ? WorkOS::DataIntegrationsListResponseDataConnectedAccount.new(hash[:connected_account].to_json) : nil
+      @connected_account = hash[:connected_account] ? WorkOS::DataIntegrationsListResponseDataConnectedAccount.new(hash[:connected_account]) : nil
     end
 
-    def to_json(*)
+    def to_h
       {
         object: object,
         id: id,
@@ -50,8 +50,12 @@ module WorkOS
         ownership: ownership,
         created_at: created_at,
         updated_at: updated_at,
-        connected_account: connected_account&.to_json
+        connected_account: connected_account&.to_h
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

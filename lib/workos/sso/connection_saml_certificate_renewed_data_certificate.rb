@@ -17,11 +17,15 @@ module WorkOS
       @expiry_date = hash[:expiry_date]
     end
 
-    def to_json(*)
+    def to_h
       {
         certificate_type: certificate_type,
         expiry_date: expiry_date
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

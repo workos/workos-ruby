@@ -20,20 +20,24 @@ module WorkOS
       @name = hash[:name]
       @allow_profiles_outside_organization = hash[:allow_profiles_outside_organization]
       @domains = hash[:domains] || []
-      @domain_data = (hash[:domain_data] || []).map { |item| item ? WorkOS::OrganizationDomainData.new(item.to_json) : nil }
+      @domain_data = (hash[:domain_data] || []).map { |item| item ? WorkOS::OrganizationDomainData.new(item) : nil }
       @metadata = hash[:metadata] || {}
       @external_id = hash[:external_id]
     end
 
-    def to_json(*)
+    def to_h
       {
         name: name,
         allow_profiles_outside_organization: allow_profiles_outside_organization,
         domains: domains,
-        domain_data: (domain_data || []).map(&:to_json),
+        domain_data: (domain_data || []).map(&:to_h),
         metadata: metadata,
         external_id: external_id
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

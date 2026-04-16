@@ -23,7 +23,7 @@ module WorkOS
       @object = hash[:object]
       @id = hash[:id]
       @name = hash[:name]
-      @domains = (hash[:domains] || []).map { |item| item ? WorkOS::OrganizationCreatedDataDomain.new(item.to_json) : nil }
+      @domains = (hash[:domains] || []).map { |item| item ? WorkOS::OrganizationCreatedDataDomain.new(item) : nil }
       @metadata = hash[:metadata] || {}
       @external_id = hash[:external_id]
       @stripe_customer_id = hash[:stripe_customer_id]
@@ -31,18 +31,22 @@ module WorkOS
       @updated_at = hash[:updated_at]
     end
 
-    def to_json(*)
+    def to_h
       {
         object: object,
         id: id,
         name: name,
-        domains: (domains || []).map(&:to_json),
+        domains: (domains || []).map(&:to_h),
         metadata: metadata,
         external_id: external_id,
         stripe_customer_id: stripe_customer_id,
         created_at: created_at,
         updated_at: updated_at
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

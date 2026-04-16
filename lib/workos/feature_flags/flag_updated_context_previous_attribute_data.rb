@@ -23,7 +23,7 @@ module WorkOS
       @default_value = hash[:default_value]
     end
 
-    def to_json(*)
+    def to_h
       {
         name: name,
         description: description,
@@ -31,6 +31,10 @@ module WorkOS
         enabled: enabled,
         default_value: default_value
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

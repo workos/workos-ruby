@@ -17,7 +17,7 @@ module WorkOS
     # @param domain [String, nil] Filter Connections by their associated domain.
     # @param organization_id [String, nil] Filter Connections by their associated organization.
     # @param search [String, nil] Searchable text to match against Connection names.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::ConnectionList]
     def list_connections(
       before: nil,
@@ -45,7 +45,7 @@ module WorkOS
         request_options: request_options
       )
       parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::Connection.new(item.to_json) }
+      items = (parsed["data"] || []).map { |item| WorkOS::Connection.new(item) }
       fetch_next = lambda do |metadata|
         cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
@@ -61,12 +61,12 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next)
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {before: before, limit: limit, order: order, connection_type: connection_type, domain: domain, organization_id: organization_id, search: search})
     end
 
     # Get a Connection
     # @param id [String] Unique identifier for the Connection.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::Connection]
     def get_connection(
       id:,
@@ -81,7 +81,7 @@ module WorkOS
 
     # Delete a Connection
     # @param id [String] Unique identifier for the Connection.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [Object]
     def delete_connection(
       id:,
@@ -96,7 +96,7 @@ module WorkOS
 
     # Logout Authorize
     # @param profile_id [String] The unique ID of the profile to log out.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::SSOLogoutAuthorizeResponse]
     def authorize_logout(
       profile_id:,
@@ -113,7 +113,7 @@ module WorkOS
     end
 
     # Get a User Profile
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::Profile]
     def get_profile(request_options: {})
       response = @client.execute_request(
@@ -126,7 +126,7 @@ module WorkOS
     # Get a Profile and Token
     # @param code [String] The authorization code received from the authorization callback.
     # @param code [String] The authorization code received from the authorization callback.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::SSOTokenResponse]
     def get_profile_and_token(
       code:,

@@ -19,27 +19,31 @@ module WorkOS
     def initialize(json)
       hash = json.is_a?(Hash) ? json : JSON.parse(json, symbolize_names: true)
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
-      @user = hash[:user] ? WorkOS::User.new(hash[:user].to_json) : nil
+      @user = hash[:user] ? WorkOS::User.new(hash[:user]) : nil
       @organization_id = hash[:organization_id]
       @authkit_authorization_code = hash[:authkit_authorization_code]
       @access_token = hash[:access_token]
       @refresh_token = hash[:refresh_token]
       @authentication_method = hash[:authentication_method]
-      @impersonator = hash[:impersonator] ? WorkOS::AuthenticateResponseImpersonator.new(hash[:impersonator].to_json) : nil
-      @oauth_tokens = hash[:oauth_tokens] ? WorkOS::AuthenticateResponseOAuthToken.new(hash[:oauth_tokens].to_json) : nil
+      @impersonator = hash[:impersonator] ? WorkOS::AuthenticateResponseImpersonator.new(hash[:impersonator]) : nil
+      @oauth_tokens = hash[:oauth_tokens] ? WorkOS::AuthenticateResponseOAuthToken.new(hash[:oauth_tokens]) : nil
     end
 
-    def to_json(*)
+    def to_h
       {
-        user: user&.to_json,
+        user: user&.to_h,
         organization_id: organization_id,
         authkit_authorization_code: authkit_authorization_code,
         access_token: access_token,
         refresh_token: refresh_token,
         authentication_method: authentication_method,
-        impersonator: impersonator&.to_json,
-        oauth_tokens: oauth_tokens&.to_json
+        impersonator: impersonator&.to_h,
+        oauth_tokens: oauth_tokens&.to_h
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

@@ -17,11 +17,15 @@ module WorkOS
       @label = hash[:label]
     end
 
-    def to_json(*)
+    def to_h
       {
         value: value,
         label: label
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

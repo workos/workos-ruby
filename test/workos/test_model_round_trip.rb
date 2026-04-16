@@ -12,7 +12,7 @@ class ModelRoundTripTest < Minitest::Test
       "metadata" => {}
     }
     model = WorkOS::UserObject.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["email"], json[:email]
@@ -26,7 +26,7 @@ class ModelRoundTripTest < Minitest::Test
       "choices" => []
     }
     model = WorkOS::UserConsentOption.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["claim"], json[:claim]
     assert_equal fixture["label"], json[:label]
@@ -39,7 +39,7 @@ class ModelRoundTripTest < Minitest::Test
       "user_consent_options" => []
     }
     model = WorkOS::UserManagementLoginRequest.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["external_auth_id"], json[:external_auth_id]
   end
@@ -49,7 +49,7 @@ class ModelRoundTripTest < Minitest::Test
       "value" => "stub"
     }
     model = WorkOS::ValidateApiKey.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["value"], json[:value]
   end
@@ -60,7 +60,7 @@ class ModelRoundTripTest < Minitest::Test
       "default" => nil
     }
     model = WorkOS::RedirectUriInput.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["uri"], json[:uri]
   end
@@ -77,7 +77,7 @@ class ModelRoundTripTest < Minitest::Test
       "organization_id" => nil
     }
     model = WorkOS::CreateOAuthApplication.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["name"], json[:name]
     assert_equal fixture["is_first_party"], json[:is_first_party]
@@ -92,7 +92,7 @@ class ModelRoundTripTest < Minitest::Test
       "organization_id" => "stub"
     }
     model = WorkOS::CreateM2MApplication.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["name"], json[:name]
     assert_equal fixture["organization_id"], json[:organization_id]
@@ -106,13 +106,13 @@ class ModelRoundTripTest < Minitest::Test
       "redirect_uris" => nil
     }
     model = WorkOS::UpdateOAuthApplication.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
   def test_create_application_secret_round_trip
     model = WorkOS::CreateApplicationSecret.new("{}")
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -124,7 +124,7 @@ class ModelRoundTripTest < Minitest::Test
       "metadata" => {}
     }
     model = WorkOS::AuditLogEventActor.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["type"], json[:type]
@@ -138,7 +138,7 @@ class ModelRoundTripTest < Minitest::Test
       "metadata" => {}
     }
     model = WorkOS::AuditLogEventTarget.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["type"], json[:type]
@@ -150,7 +150,7 @@ class ModelRoundTripTest < Minitest::Test
       "user_agent" => "stub"
     }
     model = WorkOS::AuditLogEventContext.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["location"], json[:location]
   end
@@ -166,7 +166,7 @@ class ModelRoundTripTest < Minitest::Test
       "version" => 1
     }
     model = WorkOS::AuditLogEvent.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["action"], json[:action]
     assert_equal fixture["occurred_at"], json[:occurred_at]
@@ -178,7 +178,7 @@ class ModelRoundTripTest < Minitest::Test
       "event" => {}
     }
     model = WorkOS::AuditLogEventIngestion.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["organization_id"], json[:organization_id]
   end
@@ -195,7 +195,7 @@ class ModelRoundTripTest < Minitest::Test
       "targets" => []
     }
     model = WorkOS::AuditLogExportCreation.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["organization_id"], json[:organization_id]
     assert_equal fixture["range_start"], json[:range_start]
@@ -207,7 +207,7 @@ class ModelRoundTripTest < Minitest::Test
       "retention_period_in_days" => 1
     }
     model = WorkOS::UpdateAuditLogsRetention.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["retention_period_in_days"], json[:retention_period_in_days]
   end
@@ -217,7 +217,7 @@ class ModelRoundTripTest < Minitest::Test
       "metadata" => {}
     }
     model = WorkOS::AuditLogSchemaActor.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -227,7 +227,7 @@ class ModelRoundTripTest < Minitest::Test
       "metadata" => {}
     }
     model = WorkOS::AuditLogSchemaTarget.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["type"], json[:type]
   end
@@ -239,7 +239,7 @@ class ModelRoundTripTest < Minitest::Test
       "metadata" => {}
     }
     model = WorkOS::AuditLogSchema.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -248,7 +248,7 @@ class ModelRoundTripTest < Minitest::Test
       "sms_template" => "stub"
     }
     model = WorkOS::ChallengeAuthenticationFactor.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -257,7 +257,7 @@ class ModelRoundTripTest < Minitest::Test
       "permission_slug" => "stub"
     }
     model = WorkOS::CheckAuthorization.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["permission_slug"], json[:permission_slug]
   end
@@ -267,7 +267,7 @@ class ModelRoundTripTest < Minitest::Test
       "role_slug" => "stub"
     }
     model = WorkOS::AssignRole.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["role_slug"], json[:role_slug]
   end
@@ -277,7 +277,7 @@ class ModelRoundTripTest < Minitest::Test
       "role_slug" => "stub"
     }
     model = WorkOS::RemoveRole.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["role_slug"], json[:role_slug]
   end
@@ -287,7 +287,7 @@ class ModelRoundTripTest < Minitest::Test
       "permissions" => []
     }
     model = WorkOS::SetRolePermissions.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -296,7 +296,7 @@ class ModelRoundTripTest < Minitest::Test
       "slug" => "stub"
     }
     model = WorkOS::AddRolePermission.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["slug"], json[:slug]
   end
@@ -309,7 +309,7 @@ class ModelRoundTripTest < Minitest::Test
       "resource_type_slug" => "stub"
     }
     model = WorkOS::CreateOrganizationRole.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["name"], json[:name]
   end
@@ -320,7 +320,7 @@ class ModelRoundTripTest < Minitest::Test
       "description" => nil
     }
     model = WorkOS::UpdateOrganizationRole.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -332,7 +332,7 @@ class ModelRoundTripTest < Minitest::Test
       "resource_type_slug" => "stub"
     }
     model = WorkOS::CreateAuthorizationPermission.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["slug"], json[:slug]
     assert_equal fixture["name"], json[:name]
@@ -344,7 +344,7 @@ class ModelRoundTripTest < Minitest::Test
       "description" => nil
     }
     model = WorkOS::UpdateAuthorizationPermission.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -356,7 +356,7 @@ class ModelRoundTripTest < Minitest::Test
       "resource_type_slug" => "stub"
     }
     model = WorkOS::CreateRole.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["slug"], json[:slug]
     assert_equal fixture["name"], json[:name]
@@ -368,7 +368,7 @@ class ModelRoundTripTest < Minitest::Test
       "description" => nil
     }
     model = WorkOS::UpdateRole.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -378,7 +378,7 @@ class ModelRoundTripTest < Minitest::Test
       "description" => nil
     }
     model = WorkOS::UpdateAuthorizationResource.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -391,7 +391,7 @@ class ModelRoundTripTest < Minitest::Test
       "organization_id" => "stub"
     }
     model = WorkOS::CreateAuthorizationResource.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["external_id"], json[:external_id]
     assert_equal fixture["name"], json[:name]
@@ -404,7 +404,7 @@ class ModelRoundTripTest < Minitest::Test
       "origin" => "stub"
     }
     model = WorkOS::CreateCORSOrigin.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["origin"], json[:origin]
   end
@@ -414,7 +414,7 @@ class ModelRoundTripTest < Minitest::Test
       "content" => "stub"
     }
     model = WorkOS::UpdateJWTTemplate.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["content"], json[:content]
   end
@@ -425,7 +425,7 @@ class ModelRoundTripTest < Minitest::Test
       "organization_id" => "stub"
     }
     model = WorkOS::CreateOrganizationDomain.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["domain"], json[:domain]
     assert_equal fixture["organization_id"], json[:organization_id]
@@ -437,7 +437,7 @@ class ModelRoundTripTest < Minitest::Test
       "permissions" => []
     }
     model = WorkOS::CreateOrganizationApiKey.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["name"], json[:name]
   end
@@ -448,7 +448,7 @@ class ModelRoundTripTest < Minitest::Test
       "state" => "stub"
     }
     model = WorkOS::OrganizationDomainData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["domain"], json[:domain]
   end
@@ -463,7 +463,7 @@ class ModelRoundTripTest < Minitest::Test
       "external_id" => nil
     }
     model = WorkOS::OrganizationInput.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["name"], json[:name]
   end
@@ -479,7 +479,7 @@ class ModelRoundTripTest < Minitest::Test
       "external_id" => nil
     }
     model = WorkOS::UpdateOrganization.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -489,7 +489,7 @@ class ModelRoundTripTest < Minitest::Test
       "provider_type" => "GoogleSAML"
     }
     model = WorkOS::SSOIntentOptions.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -498,7 +498,7 @@ class ModelRoundTripTest < Minitest::Test
       "sso" => {}
     }
     model = WorkOS::IntentOptions.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -512,7 +512,7 @@ class ModelRoundTripTest < Minitest::Test
       "admin_emails" => []
     }
     model = WorkOS::GenerateLink.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["organization"], json[:organization]
   end
@@ -522,7 +522,7 @@ class ModelRoundTripTest < Minitest::Test
       "uri" => "stub"
     }
     model = WorkOS::CreateRedirectUri.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["uri"], json[:uri]
   end
@@ -535,7 +535,7 @@ class ModelRoundTripTest < Minitest::Test
       "totp_secret" => "stub"
     }
     model = WorkOS::EnrollUserAuthenticationFactor.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -545,7 +545,7 @@ class ModelRoundTripTest < Minitest::Test
       "invitation_token" => "stub"
     }
     model = WorkOS::CreateMagicCodeAndReturn.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
   end
@@ -560,7 +560,7 @@ class ModelRoundTripTest < Minitest::Test
       "locale" => "stub"
     }
     model = WorkOS::CreateUserInviteOptions.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
   end
@@ -570,7 +570,7 @@ class ModelRoundTripTest < Minitest::Test
       "locale" => "stub"
     }
     model = WorkOS::ResendUserInviteOptions.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -580,7 +580,7 @@ class ModelRoundTripTest < Minitest::Test
       "organization_id" => "stub"
     }
     model = WorkOS::CreateUserOrganizationMembership.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["user_id"], json[:user_id]
     assert_equal fixture["organization_id"], json[:organization_id]
@@ -588,7 +588,7 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_update_user_organization_membership_round_trip
     model = WorkOS::UpdateUserOrganizationMembership.new("{}")
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -602,7 +602,7 @@ class ModelRoundTripTest < Minitest::Test
       "external_id" => nil
     }
     model = WorkOS::CreateUser.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
   end
@@ -618,7 +618,7 @@ class ModelRoundTripTest < Minitest::Test
       "locale" => nil
     }
     model = WorkOS::UpdateUser.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -627,7 +627,7 @@ class ModelRoundTripTest < Minitest::Test
       "code" => "stub"
     }
     model = WorkOS::VerifyEmailAddress.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["code"], json[:code]
   end
@@ -637,7 +637,7 @@ class ModelRoundTripTest < Minitest::Test
       "email" => "stub"
     }
     model = WorkOS::CreatePasswordResetToken.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
   end
@@ -648,7 +648,7 @@ class ModelRoundTripTest < Minitest::Test
       "new_password" => "stub"
     }
     model = WorkOS::CreatePasswordReset.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["token"], json[:token]
     assert_equal fixture["new_password"], json[:new_password]
@@ -659,7 +659,7 @@ class ModelRoundTripTest < Minitest::Test
       "new_email" => "stub"
     }
     model = WorkOS::SendEmailChange.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["new_email"], json[:new_email]
   end
@@ -669,7 +669,7 @@ class ModelRoundTripTest < Minitest::Test
       "code" => "stub"
     }
     model = WorkOS::ConfirmEmailChange.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["code"], json[:code]
   end
@@ -680,7 +680,7 @@ class ModelRoundTripTest < Minitest::Test
       "return_to" => "stub"
     }
     model = WorkOS::RevokeSession.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["session_id"], json[:session_id]
   end
@@ -691,7 +691,7 @@ class ModelRoundTripTest < Minitest::Test
       "events" => []
     }
     model = WorkOS::CreateWebhookEndpoint.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["endpoint_url"], json[:endpoint_url]
   end
@@ -703,7 +703,7 @@ class ModelRoundTripTest < Minitest::Test
       "events" => []
     }
     model = WorkOS::UpdateWebhookEndpoint.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -714,7 +714,7 @@ class ModelRoundTripTest < Minitest::Test
       "scopes" => []
     }
     model = WorkOS::WidgetSessionToken.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["organization_id"], json[:organization_id]
   end
@@ -727,7 +727,7 @@ class ModelRoundTripTest < Minitest::Test
       "grant_type" => "authorization_code"
     }
     model = WorkOS::TokenQuery.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["client_id"], json[:client_id]
     assert_equal fixture["client_secret"], json[:client_secret]
@@ -739,7 +739,7 @@ class ModelRoundTripTest < Minitest::Test
       "redirect_uri" => "stub"
     }
     model = WorkOS::ExternalAuthCompleteResponse.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["redirect_uri"], json[:redirect_uri]
   end
@@ -757,7 +757,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::ApiKey.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["name"], json[:name]
@@ -772,7 +772,7 @@ class ModelRoundTripTest < Minitest::Test
       "api_key" => nil
     }
     model = WorkOS::ApiKeyValidationResponse.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -788,7 +788,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::ConnectApplication.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["client_id"], json[:client_id]
@@ -809,7 +809,7 @@ class ModelRoundTripTest < Minitest::Test
       "secret" => "stub"
     }
     model = WorkOS::NewConnectApplicationSecret.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["secret_hint"], json[:secret_hint]
@@ -824,7 +824,7 @@ class ModelRoundTripTest < Minitest::Test
       "success" => true
     }
     model = WorkOS::AuditLogEventCreateResponse.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["success"], json[:success]
   end
@@ -839,7 +839,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::AuditLogExportJson.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -851,7 +851,7 @@ class ModelRoundTripTest < Minitest::Test
       "retention_period_in_days" => nil
     }
     model = WorkOS::AuditLogsRetentionJson.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_nil json[:retention_period_in_days]
   end
@@ -866,7 +866,7 @@ class ModelRoundTripTest < Minitest::Test
       "created_at" => "stub"
     }
     model = WorkOS::AuditLogSchemaJson.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["version"], json[:version]
     assert_equal fixture["created_at"], json[:created_at]
@@ -881,7 +881,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::AuditLogActionJson.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["name"], json[:name]
     assert_equal fixture["created_at"], json[:created_at]
@@ -899,7 +899,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::AuthenticationChallenge.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["authentication_factor_id"], json[:authentication_factor_id]
@@ -913,7 +913,7 @@ class ModelRoundTripTest < Minitest::Test
       "valid" => true
     }
     model = WorkOS::AuthenticationChallengeVerifyResponse.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["valid"], json[:valid]
   end
@@ -930,7 +930,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::AuthenticationFactorEnrolled.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -949,7 +949,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::AuthenticationFactor.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -961,7 +961,7 @@ class ModelRoundTripTest < Minitest::Test
       "authorized" => true
     }
     model = WorkOS::AuthorizationCheck.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["authorized"], json[:authorized]
   end
@@ -980,7 +980,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::AuthorizationResource.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["name"], json[:name]
     assert_nil json[:description]
@@ -1006,7 +1006,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::AuthorizationPermission.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["slug"], json[:slug]
@@ -1023,7 +1023,7 @@ class ModelRoundTripTest < Minitest::Test
       "slug" => "stub"
     }
     model = WorkOS::SlimRole.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["slug"], json[:slug]
   end
@@ -1038,7 +1038,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::RoleAssignment.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -1059,7 +1059,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::Role.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["slug"], json[:slug]
     assert_equal fixture["id"], json[:id]
@@ -1076,7 +1076,7 @@ class ModelRoundTripTest < Minitest::Test
       "data" => []
     }
     model = WorkOS::RoleList.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -1095,7 +1095,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::Connection.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["name"], json[:name]
@@ -1112,7 +1112,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::CORSOriginResponse.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["origin"], json[:origin]
@@ -1135,7 +1135,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::Directory.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["organization_id"], json[:organization_id]
@@ -1158,7 +1158,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::DirectoryGroup.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["idp_id"], json[:idp_id]
@@ -1192,7 +1192,7 @@ class ModelRoundTripTest < Minitest::Test
       "groups" => []
     }
     model = WorkOS::DirectoryUserWithGroups.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["directory_id"], json[:directory_id]
@@ -1210,7 +1210,7 @@ class ModelRoundTripTest < Minitest::Test
       "name" => nil
     }
     model = WorkOS::EventContextActor.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_nil json[:name]
@@ -1226,7 +1226,7 @@ class ModelRoundTripTest < Minitest::Test
       "previous_attributes" => {}
     }
     model = WorkOS::EventContext.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -1252,7 +1252,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::DirectoryUser.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["directory_id"], json[:directory_id]
@@ -1274,7 +1274,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::Group.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["organization_id"], json[:organization_id]
@@ -1301,7 +1301,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::User.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_nil json[:first_name]
@@ -1325,7 +1325,7 @@ class ModelRoundTripTest < Minitest::Test
       "context" => {}
     }
     model = WorkOS::EventSchema.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["event"], json[:event]
@@ -1342,7 +1342,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::ActionAuthenticationDenied.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -1361,7 +1361,7 @@ class ModelRoundTripTest < Minitest::Test
       "user_agent" => nil
     }
     model = WorkOS::ActionAuthenticationDeniedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["action_endpoint_id"], json[:action_endpoint_id]
     assert_equal fixture["action_execution_id"], json[:action_execution_id]
@@ -1382,7 +1382,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::ActionUserRegistrationDenied.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -1400,7 +1400,7 @@ class ModelRoundTripTest < Minitest::Test
       "user_agent" => nil
     }
     model = WorkOS::ActionUserRegistrationDeniedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["action_endpoint_id"], json[:action_endpoint_id]
     assert_equal fixture["action_execution_id"], json[:action_execution_id]
@@ -1420,7 +1420,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::ApiKeyCreated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -1439,7 +1439,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::ApiKeyCreatedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["name"], json[:name]
@@ -1455,7 +1455,7 @@ class ModelRoundTripTest < Minitest::Test
       "id" => "stub"
     }
     model = WorkOS::ApiKeyCreatedDataOwner.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
   end
@@ -1470,7 +1470,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::ApiKeyRevoked.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -1489,7 +1489,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::ApiKeyRevokedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["name"], json[:name]
@@ -1505,7 +1505,7 @@ class ModelRoundTripTest < Minitest::Test
       "id" => "stub"
     }
     model = WorkOS::ApiKeyRevokedDataOwner.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
   end
@@ -1520,7 +1520,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::AuthenticationEmailVerificationFailed.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -1537,7 +1537,7 @@ class ModelRoundTripTest < Minitest::Test
       "error" => {}
     }
     model = WorkOS::AuthenticationEmailVerificationFailedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_nil json[:ip_address]
     assert_nil json[:user_agent]
@@ -1551,7 +1551,7 @@ class ModelRoundTripTest < Minitest::Test
       "message" => "stub"
     }
     model = WorkOS::AuthenticationEmailVerificationFailedDataError.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["code"], json[:code]
     assert_equal fixture["message"], json[:message]
@@ -1567,7 +1567,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::AuthenticationEmailVerificationSucceeded.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -1583,7 +1583,7 @@ class ModelRoundTripTest < Minitest::Test
       "email" => "stub"
     }
     model = WorkOS::AuthenticationEmailVerificationSucceededData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_nil json[:ip_address]
     assert_nil json[:user_agent]
@@ -1601,7 +1601,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::AuthenticationMagicAuthFailed.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -1618,7 +1618,7 @@ class ModelRoundTripTest < Minitest::Test
       "error" => {}
     }
     model = WorkOS::AuthenticationMagicAuthFailedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_nil json[:ip_address]
     assert_nil json[:user_agent]
@@ -1632,7 +1632,7 @@ class ModelRoundTripTest < Minitest::Test
       "message" => "stub"
     }
     model = WorkOS::AuthenticationMagicAuthFailedDataError.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["code"], json[:code]
     assert_equal fixture["message"], json[:message]
@@ -1648,7 +1648,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::AuthenticationMagicAuthSucceeded.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -1664,7 +1664,7 @@ class ModelRoundTripTest < Minitest::Test
       "email" => "stub"
     }
     model = WorkOS::AuthenticationMagicAuthSucceededData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_nil json[:ip_address]
     assert_nil json[:user_agent]
@@ -1682,7 +1682,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::AuthenticationMFAFailed.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -1699,7 +1699,7 @@ class ModelRoundTripTest < Minitest::Test
       "error" => {}
     }
     model = WorkOS::AuthenticationMFAFailedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_nil json[:ip_address]
     assert_nil json[:user_agent]
@@ -1713,7 +1713,7 @@ class ModelRoundTripTest < Minitest::Test
       "message" => "stub"
     }
     model = WorkOS::AuthenticationMFAFailedDataError.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["code"], json[:code]
     assert_equal fixture["message"], json[:message]
@@ -1729,7 +1729,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::AuthenticationMFASucceeded.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -1745,7 +1745,7 @@ class ModelRoundTripTest < Minitest::Test
       "email" => "stub"
     }
     model = WorkOS::AuthenticationMFASucceededData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_nil json[:ip_address]
     assert_nil json[:user_agent]
@@ -1763,7 +1763,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::AuthenticationOAuthFailed.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -1780,7 +1780,7 @@ class ModelRoundTripTest < Minitest::Test
       "error" => {}
     }
     model = WorkOS::AuthenticationOAuthFailedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_nil json[:ip_address]
     assert_nil json[:user_agent]
@@ -1794,7 +1794,7 @@ class ModelRoundTripTest < Minitest::Test
       "message" => "stub"
     }
     model = WorkOS::AuthenticationOAuthFailedDataError.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["code"], json[:code]
     assert_equal fixture["message"], json[:message]
@@ -1810,7 +1810,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::AuthenticationOAuthSucceeded.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -1826,7 +1826,7 @@ class ModelRoundTripTest < Minitest::Test
       "email" => "stub"
     }
     model = WorkOS::AuthenticationOAuthSucceededData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_nil json[:ip_address]
     assert_nil json[:user_agent]
@@ -1844,7 +1844,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::AuthenticationPasskeyFailed.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -1861,7 +1861,7 @@ class ModelRoundTripTest < Minitest::Test
       "error" => {}
     }
     model = WorkOS::AuthenticationPasskeyFailedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_nil json[:ip_address]
     assert_nil json[:user_agent]
@@ -1875,7 +1875,7 @@ class ModelRoundTripTest < Minitest::Test
       "message" => "stub"
     }
     model = WorkOS::AuthenticationPasskeyFailedDataError.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["code"], json[:code]
     assert_equal fixture["message"], json[:message]
@@ -1891,7 +1891,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::AuthenticationPasskeySucceeded.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -1907,7 +1907,7 @@ class ModelRoundTripTest < Minitest::Test
       "email" => "stub"
     }
     model = WorkOS::AuthenticationPasskeySucceededData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_nil json[:ip_address]
     assert_nil json[:user_agent]
@@ -1925,7 +1925,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::AuthenticationPasswordFailed.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -1942,7 +1942,7 @@ class ModelRoundTripTest < Minitest::Test
       "error" => {}
     }
     model = WorkOS::AuthenticationPasswordFailedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_nil json[:ip_address]
     assert_nil json[:user_agent]
@@ -1956,7 +1956,7 @@ class ModelRoundTripTest < Minitest::Test
       "message" => "stub"
     }
     model = WorkOS::AuthenticationPasswordFailedDataError.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["code"], json[:code]
     assert_equal fixture["message"], json[:message]
@@ -1972,7 +1972,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::AuthenticationPasswordSucceeded.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -1988,7 +1988,7 @@ class ModelRoundTripTest < Minitest::Test
       "email" => "stub"
     }
     model = WorkOS::AuthenticationPasswordSucceededData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_nil json[:ip_address]
     assert_nil json[:user_agent]
@@ -2006,7 +2006,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::AuthenticationRadarRiskDetected.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -2024,7 +2024,7 @@ class ModelRoundTripTest < Minitest::Test
       "email" => "stub"
     }
     model = WorkOS::AuthenticationRadarRiskDetectedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["auth_method"], json[:auth_method]
     assert_nil json[:control]
@@ -2045,7 +2045,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::AuthenticationSSOFailed.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -2063,7 +2063,7 @@ class ModelRoundTripTest < Minitest::Test
       "error" => {}
     }
     model = WorkOS::AuthenticationSSOFailedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_nil json[:ip_address]
     assert_nil json[:user_agent]
@@ -2078,7 +2078,7 @@ class ModelRoundTripTest < Minitest::Test
       "session_id" => nil
     }
     model = WorkOS::AuthenticationSSOFailedDataSSO.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_nil json[:organization_id]
     assert_nil json[:connection_id]
@@ -2091,7 +2091,7 @@ class ModelRoundTripTest < Minitest::Test
       "message" => "stub"
     }
     model = WorkOS::AuthenticationSSOFailedDataError.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["code"], json[:code]
     assert_equal fixture["message"], json[:message]
@@ -2107,7 +2107,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::AuthenticationSSOStarted.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -2124,7 +2124,7 @@ class ModelRoundTripTest < Minitest::Test
       "sso" => {}
     }
     model = WorkOS::AuthenticationSSOStartedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_nil json[:ip_address]
     assert_nil json[:user_agent]
@@ -2139,7 +2139,7 @@ class ModelRoundTripTest < Minitest::Test
       "session_id" => nil
     }
     model = WorkOS::AuthenticationSSOStartedDataSSO.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_nil json[:organization_id]
     assert_nil json[:connection_id]
@@ -2156,7 +2156,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::AuthenticationSSOSucceeded.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -2173,7 +2173,7 @@ class ModelRoundTripTest < Minitest::Test
       "sso" => {}
     }
     model = WorkOS::AuthenticationSSOSucceededData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_nil json[:ip_address]
     assert_nil json[:user_agent]
@@ -2188,7 +2188,7 @@ class ModelRoundTripTest < Minitest::Test
       "session_id" => nil
     }
     model = WorkOS::AuthenticationSSOSucceededDataSSO.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_nil json[:organization_id]
     assert_nil json[:connection_id]
@@ -2205,7 +2205,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::AuthenticationSSOTimedOut.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -2223,7 +2223,7 @@ class ModelRoundTripTest < Minitest::Test
       "error" => {}
     }
     model = WorkOS::AuthenticationSSOTimedOutData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_nil json[:ip_address]
     assert_nil json[:user_agent]
@@ -2238,7 +2238,7 @@ class ModelRoundTripTest < Minitest::Test
       "session_id" => nil
     }
     model = WorkOS::AuthenticationSSOTimedOutDataSSO.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_nil json[:organization_id]
     assert_nil json[:connection_id]
@@ -2251,7 +2251,7 @@ class ModelRoundTripTest < Minitest::Test
       "message" => "stub"
     }
     model = WorkOS::AuthenticationSSOTimedOutDataError.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["code"], json[:code]
     assert_equal fixture["message"], json[:message]
@@ -2267,7 +2267,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::ConnectionActivated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -2288,7 +2288,7 @@ class ModelRoundTripTest < Minitest::Test
       "domains" => []
     }
     model = WorkOS::ConnectionActivatedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["name"], json[:name]
@@ -2304,7 +2304,7 @@ class ModelRoundTripTest < Minitest::Test
       "domain" => "stub"
     }
     model = WorkOS::ConnectionActivatedDataDomain.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["domain"], json[:domain]
@@ -2320,7 +2320,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::ConnectionDeactivated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -2341,7 +2341,7 @@ class ModelRoundTripTest < Minitest::Test
       "domains" => []
     }
     model = WorkOS::ConnectionDeactivatedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["name"], json[:name]
@@ -2357,7 +2357,7 @@ class ModelRoundTripTest < Minitest::Test
       "domain" => "stub"
     }
     model = WorkOS::ConnectionDeactivatedDataDomain.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["domain"], json[:domain]
@@ -2373,7 +2373,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::ConnectionDeleted.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -2391,7 +2391,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::ConnectionDeletedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["name"], json[:name]
@@ -2409,7 +2409,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::ConnectionSAMLCertificateRenewalRequired.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -2422,7 +2422,7 @@ class ModelRoundTripTest < Minitest::Test
       "days_until_expiry" => 1
     }
     model = WorkOS::ConnectionSAMLCertificateRenewalRequiredData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["days_until_expiry"], json[:days_until_expiry]
   end
@@ -2433,7 +2433,7 @@ class ModelRoundTripTest < Minitest::Test
       "organization_id" => "stub"
     }
     model = WorkOS::ConnectionSAMLCertificateRenewalRequiredDataConnection.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
   end
@@ -2445,7 +2445,7 @@ class ModelRoundTripTest < Minitest::Test
       "is_expired" => true
     }
     model = WorkOS::ConnectionSAMLCertificateRenewalRequiredDataCertificate.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["expiry_date"], json[:expiry_date]
     assert_equal fixture["is_expired"], json[:is_expired]
@@ -2461,7 +2461,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::ConnectionSAMLCertificateRenewed.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -2474,7 +2474,7 @@ class ModelRoundTripTest < Minitest::Test
       "renewed_at" => "stub"
     }
     model = WorkOS::ConnectionSAMLCertificateRenewedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["renewed_at"], json[:renewed_at]
   end
@@ -2485,7 +2485,7 @@ class ModelRoundTripTest < Minitest::Test
       "organization_id" => "stub"
     }
     model = WorkOS::ConnectionSAMLCertificateRenewedDataConnection.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
   end
@@ -2496,7 +2496,7 @@ class ModelRoundTripTest < Minitest::Test
       "expiry_date" => "stub"
     }
     model = WorkOS::ConnectionSAMLCertificateRenewedDataCertificate.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["expiry_date"], json[:expiry_date]
   end
@@ -2511,7 +2511,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::DsyncActivated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -2531,7 +2531,7 @@ class ModelRoundTripTest < Minitest::Test
       "domains" => []
     }
     model = WorkOS::DsyncActivatedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["name"], json[:name]
@@ -2547,7 +2547,7 @@ class ModelRoundTripTest < Minitest::Test
       "domain" => "stub"
     }
     model = WorkOS::DsyncActivatedDataDomain.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["domain"], json[:domain]
@@ -2563,7 +2563,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::DsyncDeactivated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -2583,7 +2583,7 @@ class ModelRoundTripTest < Minitest::Test
       "domains" => []
     }
     model = WorkOS::DsyncDeactivatedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["name"], json[:name]
@@ -2599,7 +2599,7 @@ class ModelRoundTripTest < Minitest::Test
       "domain" => "stub"
     }
     model = WorkOS::DsyncDeactivatedDataDomain.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["domain"], json[:domain]
@@ -2615,7 +2615,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::DsyncDeleted.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -2633,7 +2633,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::DsyncDeletedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["name"], json[:name]
@@ -2651,7 +2651,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::DsyncGroupCreated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -2667,7 +2667,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::DsyncGroupDeleted.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -2683,7 +2683,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::DsyncGroupUpdated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -2703,7 +2703,7 @@ class ModelRoundTripTest < Minitest::Test
       "previous_attributes" => {}
     }
     model = WorkOS::DsyncGroupUpdatedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["idp_id"], json[:idp_id]
@@ -2724,7 +2724,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::DsyncGroupUserAdded.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -2737,7 +2737,7 @@ class ModelRoundTripTest < Minitest::Test
       "group" => {}
     }
     model = WorkOS::DsyncGroupUserAddedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["directory_id"], json[:directory_id]
   end
@@ -2752,7 +2752,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::DsyncUserCreated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -2768,7 +2768,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::DsyncUserDeleted.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -2784,7 +2784,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::DsyncGroupUserRemoved.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -2797,7 +2797,7 @@ class ModelRoundTripTest < Minitest::Test
       "group" => {}
     }
     model = WorkOS::DsyncGroupUserRemovedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["directory_id"], json[:directory_id]
   end
@@ -2812,7 +2812,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::DsyncUserUpdated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -2841,7 +2841,7 @@ class ModelRoundTripTest < Minitest::Test
       "previous_attributes" => {}
     }
     model = WorkOS::DsyncUserUpdatedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["directory_id"], json[:directory_id]
@@ -2859,7 +2859,7 @@ class ModelRoundTripTest < Minitest::Test
       "value" => nil
     }
     model = WorkOS::DsyncUserUpdatedDataEmail.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -2873,7 +2873,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::EmailVerificationCreated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -2890,7 +2890,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::EmailVerificationCreatedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["user_id"], json[:user_id]
@@ -2910,7 +2910,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::FlagCreated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -2932,7 +2932,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::FlagCreatedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["environment_id"], json[:environment_id]
@@ -2952,7 +2952,7 @@ class ModelRoundTripTest < Minitest::Test
       "last_name" => nil
     }
     model = WorkOS::FlagCreatedDataOwner.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
     assert_nil json[:first_name]
@@ -2965,7 +2965,7 @@ class ModelRoundTripTest < Minitest::Test
       "actor" => {}
     }
     model = WorkOS::FlagCreatedContext.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["client_id"], json[:client_id]
   end
@@ -2977,7 +2977,7 @@ class ModelRoundTripTest < Minitest::Test
       "name" => nil
     }
     model = WorkOS::FlagCreatedContextActor.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_nil json[:name]
@@ -2993,7 +2993,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::FlagDeleted.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -3015,7 +3015,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::FlagDeletedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["environment_id"], json[:environment_id]
@@ -3035,7 +3035,7 @@ class ModelRoundTripTest < Minitest::Test
       "last_name" => nil
     }
     model = WorkOS::FlagDeletedDataOwner.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
     assert_nil json[:first_name]
@@ -3048,7 +3048,7 @@ class ModelRoundTripTest < Minitest::Test
       "actor" => {}
     }
     model = WorkOS::FlagDeletedContext.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["client_id"], json[:client_id]
   end
@@ -3060,7 +3060,7 @@ class ModelRoundTripTest < Minitest::Test
       "name" => nil
     }
     model = WorkOS::FlagDeletedContextActor.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_nil json[:name]
@@ -3076,7 +3076,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::FlagRuleUpdated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -3098,7 +3098,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::FlagRuleUpdatedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["environment_id"], json[:environment_id]
@@ -3118,7 +3118,7 @@ class ModelRoundTripTest < Minitest::Test
       "last_name" => nil
     }
     model = WorkOS::FlagRuleUpdatedDataOwner.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
     assert_nil json[:first_name]
@@ -3134,7 +3134,7 @@ class ModelRoundTripTest < Minitest::Test
       "previous_attributes" => {}
     }
     model = WorkOS::FlagRuleUpdatedContext.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["client_id"], json[:client_id]
   end
@@ -3146,7 +3146,7 @@ class ModelRoundTripTest < Minitest::Test
       "name" => nil
     }
     model = WorkOS::FlagRuleUpdatedContextActor.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_nil json[:name]
@@ -3158,7 +3158,7 @@ class ModelRoundTripTest < Minitest::Test
       "users" => []
     }
     model = WorkOS::FlagRuleUpdatedContextConfiguredTarget.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -3168,7 +3168,7 @@ class ModelRoundTripTest < Minitest::Test
       "name" => "stub"
     }
     model = WorkOS::FlagRuleUpdatedContextConfiguredTargetOrganization.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["name"], json[:name]
@@ -3180,7 +3180,7 @@ class ModelRoundTripTest < Minitest::Test
       "email" => "stub"
     }
     model = WorkOS::FlagRuleUpdatedContextConfiguredTargetUser.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["email"], json[:email]
@@ -3192,7 +3192,7 @@ class ModelRoundTripTest < Minitest::Test
       "context" => {}
     }
     model = WorkOS::FlagRuleUpdatedContextPreviousAttribute.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -3202,7 +3202,7 @@ class ModelRoundTripTest < Minitest::Test
       "default_value" => true
     }
     model = WorkOS::FlagRuleUpdatedContextPreviousAttributeData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -3212,7 +3212,7 @@ class ModelRoundTripTest < Minitest::Test
       "configured_targets" => {}
     }
     model = WorkOS::FlagRuleUpdatedContextPreviousAttributeContext.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -3222,7 +3222,7 @@ class ModelRoundTripTest < Minitest::Test
       "users" => []
     }
     model = WorkOS::FlagRuleUpdatedContextPreviousAttributeContextConfiguredTarget.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -3232,7 +3232,7 @@ class ModelRoundTripTest < Minitest::Test
       "name" => "stub"
     }
     model = WorkOS::FlagRuleUpdatedContextPreviousAttributeContextConfiguredTargetOrganization.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["name"], json[:name]
@@ -3244,7 +3244,7 @@ class ModelRoundTripTest < Minitest::Test
       "email" => "stub"
     }
     model = WorkOS::FlagRuleUpdatedContextPreviousAttributeContextConfiguredTargetUser.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["email"], json[:email]
@@ -3260,7 +3260,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::FlagUpdated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -3282,7 +3282,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::FlagUpdatedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["environment_id"], json[:environment_id]
@@ -3302,7 +3302,7 @@ class ModelRoundTripTest < Minitest::Test
       "last_name" => nil
     }
     model = WorkOS::FlagUpdatedDataOwner.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
     assert_nil json[:first_name]
@@ -3316,7 +3316,7 @@ class ModelRoundTripTest < Minitest::Test
       "previous_attributes" => {}
     }
     model = WorkOS::FlagUpdatedContext.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["client_id"], json[:client_id]
   end
@@ -3328,7 +3328,7 @@ class ModelRoundTripTest < Minitest::Test
       "name" => nil
     }
     model = WorkOS::FlagUpdatedContextActor.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_nil json[:name]
@@ -3339,7 +3339,7 @@ class ModelRoundTripTest < Minitest::Test
       "data" => {}
     }
     model = WorkOS::FlagUpdatedContextPreviousAttribute.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -3352,7 +3352,7 @@ class ModelRoundTripTest < Minitest::Test
       "default_value" => true
     }
     model = WorkOS::FlagUpdatedContextPreviousAttributeData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -3366,7 +3366,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::GroupCreated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -3382,7 +3382,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::GroupDeleted.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -3398,7 +3398,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::GroupMemberAdded.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -3410,7 +3410,7 @@ class ModelRoundTripTest < Minitest::Test
       "organization_membership_id" => "stub"
     }
     model = WorkOS::GroupMemberAddedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["group_id"], json[:group_id]
     assert_equal fixture["organization_membership_id"], json[:organization_membership_id]
@@ -3426,7 +3426,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::GroupMemberRemoved.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -3438,7 +3438,7 @@ class ModelRoundTripTest < Minitest::Test
       "organization_membership_id" => "stub"
     }
     model = WorkOS::GroupMemberRemovedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["group_id"], json[:group_id]
     assert_equal fixture["organization_membership_id"], json[:organization_membership_id]
@@ -3454,7 +3454,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::GroupUpdated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -3470,7 +3470,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::InvitationAccepted.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -3492,7 +3492,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::InvitationAcceptedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["email"], json[:email]
@@ -3516,7 +3516,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::InvitationCreated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -3538,7 +3538,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::InvitationCreatedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["email"], json[:email]
@@ -3562,7 +3562,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::InvitationResent.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -3584,7 +3584,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::InvitationResentData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["email"], json[:email]
@@ -3608,7 +3608,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::InvitationRevoked.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -3630,7 +3630,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::InvitationRevokedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["email"], json[:email]
@@ -3654,7 +3654,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::MagicAuthCreated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -3671,7 +3671,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::MagicAuthCreatedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["user_id"], json[:user_id]
@@ -3691,7 +3691,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::OrganizationCreated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -3710,7 +3710,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::OrganizationCreatedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["name"], json[:name]
@@ -3733,7 +3733,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::OrganizationCreatedDataDomain.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["organization_id"], json[:organization_id]
@@ -3752,7 +3752,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::OrganizationDeleted.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -3771,7 +3771,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::OrganizationDeletedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["name"], json[:name]
@@ -3794,7 +3794,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::OrganizationDeletedDataDomain.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["organization_id"], json[:organization_id]
@@ -3813,7 +3813,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::OrganizationDomainCreated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -3833,7 +3833,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::OrganizationDomainCreatedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["organization_id"], json[:organization_id]
@@ -3852,7 +3852,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::OrganizationDomainDeleted.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -3872,7 +3872,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::OrganizationDomainDeletedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["organization_id"], json[:organization_id]
@@ -3891,7 +3891,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::OrganizationDomainUpdated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -3911,7 +3911,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::OrganizationDomainUpdatedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["organization_id"], json[:organization_id]
@@ -3930,7 +3930,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::OrganizationDomainVerificationFailed.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -3942,7 +3942,7 @@ class ModelRoundTripTest < Minitest::Test
       "organization_domain" => {}
     }
     model = WorkOS::OrganizationDomainVerificationFailedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -3960,7 +3960,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::OrganizationDomainVerificationFailedDataOrganizationDomain.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["organization_id"], json[:organization_id]
@@ -3979,7 +3979,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::OrganizationDomainVerified.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -3999,7 +3999,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::OrganizationDomainVerifiedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["organization_id"], json[:organization_id]
@@ -4018,7 +4018,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::OrganizationMembershipCreated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -4039,7 +4039,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::OrganizationMembershipCreatedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["user_id"], json[:user_id]
@@ -4059,7 +4059,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::OrganizationMembershipDeleted.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -4080,7 +4080,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::OrganizationMembershipDeletedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["user_id"], json[:user_id]
@@ -4100,7 +4100,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::OrganizationMembershipUpdated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -4121,7 +4121,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::OrganizationMembershipUpdatedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["user_id"], json[:user_id]
@@ -4141,7 +4141,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::OrganizationRoleCreated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -4160,7 +4160,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::OrganizationRoleCreatedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["organization_id"], json[:organization_id]
     assert_equal fixture["slug"], json[:slug]
@@ -4181,7 +4181,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::OrganizationRoleDeleted.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -4200,7 +4200,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::OrganizationRoleDeletedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["organization_id"], json[:organization_id]
     assert_equal fixture["slug"], json[:slug]
@@ -4221,7 +4221,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::OrganizationRoleUpdated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -4240,7 +4240,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::OrganizationRoleUpdatedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["organization_id"], json[:organization_id]
     assert_equal fixture["slug"], json[:slug]
@@ -4261,7 +4261,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::OrganizationUpdated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -4280,7 +4280,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::OrganizationUpdatedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["name"], json[:name]
@@ -4303,7 +4303,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::OrganizationUpdatedDataDomain.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["organization_id"], json[:organization_id]
@@ -4322,7 +4322,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::PasswordResetCreated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -4338,7 +4338,7 @@ class ModelRoundTripTest < Minitest::Test
       "created_at" => "stub"
     }
     model = WorkOS::PasswordResetCreatedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["user_id"], json[:user_id]
@@ -4357,7 +4357,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::PasswordResetSucceeded.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -4373,7 +4373,7 @@ class ModelRoundTripTest < Minitest::Test
       "created_at" => "stub"
     }
     model = WorkOS::PasswordResetSucceededData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["user_id"], json[:user_id]
@@ -4392,7 +4392,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::PermissionCreated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -4410,7 +4410,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::PermissionCreatedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["slug"], json[:slug]
@@ -4431,7 +4431,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::PermissionDeleted.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -4449,7 +4449,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::PermissionDeletedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["slug"], json[:slug]
@@ -4470,7 +4470,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::PermissionUpdated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -4488,7 +4488,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::PermissionUpdatedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["slug"], json[:slug]
@@ -4509,7 +4509,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::RoleCreated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -4525,7 +4525,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::RoleCreatedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["slug"], json[:slug]
     assert_equal fixture["resource_type_slug"], json[:resource_type_slug]
@@ -4543,7 +4543,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::RoleDeleted.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -4559,7 +4559,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::RoleDeletedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["slug"], json[:slug]
     assert_equal fixture["resource_type_slug"], json[:resource_type_slug]
@@ -4577,7 +4577,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::RoleUpdated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -4593,7 +4593,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::RoleUpdatedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["slug"], json[:slug]
     assert_equal fixture["resource_type_slug"], json[:resource_type_slug]
@@ -4611,7 +4611,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::SessionCreated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -4634,7 +4634,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::SessionCreatedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_nil json[:ip_address]
@@ -4652,7 +4652,7 @@ class ModelRoundTripTest < Minitest::Test
       "reason" => nil
     }
     model = WorkOS::SessionCreatedDataImpersonator.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
     assert_nil json[:reason]
@@ -4668,7 +4668,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::SessionRevoked.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -4691,7 +4691,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::SessionRevokedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_nil json[:ip_address]
@@ -4709,7 +4709,7 @@ class ModelRoundTripTest < Minitest::Test
       "reason" => nil
     }
     model = WorkOS::SessionRevokedDataImpersonator.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
     assert_nil json[:reason]
@@ -4725,7 +4725,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::UserCreated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -4741,7 +4741,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::UserDeleted.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -4757,7 +4757,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::UserUpdated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -4773,7 +4773,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::VaultByokKeyVerificationCompleted.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -4786,7 +4786,7 @@ class ModelRoundTripTest < Minitest::Test
       "verified" => true
     }
     model = WorkOS::VaultByokKeyVerificationCompletedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["organization_id"], json[:organization_id]
     assert_equal fixture["verified"], json[:verified]
@@ -4802,7 +4802,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::VaultDataCreated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -4818,7 +4818,7 @@ class ModelRoundTripTest < Minitest::Test
       "key_context" => {}
     }
     model = WorkOS::VaultDataCreatedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["actor_id"], json[:actor_id]
     assert_equal fixture["actor_name"], json[:actor_name]
@@ -4836,7 +4836,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::VaultDataDeleted.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -4850,7 +4850,7 @@ class ModelRoundTripTest < Minitest::Test
       "kv_name" => "stub"
     }
     model = WorkOS::VaultDataDeletedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["actor_id"], json[:actor_id]
     assert_equal fixture["actor_name"], json[:actor_name]
@@ -4867,7 +4867,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::VaultDataRead.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -4882,7 +4882,7 @@ class ModelRoundTripTest < Minitest::Test
       "key_id" => "stub"
     }
     model = WorkOS::VaultDataReadData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["actor_id"], json[:actor_id]
     assert_equal fixture["actor_name"], json[:actor_name]
@@ -4900,7 +4900,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::VaultDataUpdated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -4916,7 +4916,7 @@ class ModelRoundTripTest < Minitest::Test
       "key_context" => {}
     }
     model = WorkOS::VaultDataUpdatedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["actor_id"], json[:actor_id]
     assert_equal fixture["actor_name"], json[:actor_name]
@@ -4934,7 +4934,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::VaultDekDecrypted.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -4948,7 +4948,7 @@ class ModelRoundTripTest < Minitest::Test
       "key_id" => "stub"
     }
     model = WorkOS::VaultDekDecryptedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["actor_id"], json[:actor_id]
     assert_equal fixture["actor_name"], json[:actor_name]
@@ -4965,7 +4965,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::VaultDekRead.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -4980,7 +4980,7 @@ class ModelRoundTripTest < Minitest::Test
       "key_context" => {}
     }
     model = WorkOS::VaultDekReadData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["actor_id"], json[:actor_id]
     assert_equal fixture["actor_name"], json[:actor_name]
@@ -4996,7 +4996,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::VaultKekCreated.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -5011,7 +5011,7 @@ class ModelRoundTripTest < Minitest::Test
       "key_id" => "stub"
     }
     model = WorkOS::VaultKekCreatedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["actor_id"], json[:actor_id]
     assert_equal fixture["actor_name"], json[:actor_name]
@@ -5029,7 +5029,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::VaultMetadataRead.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -5043,7 +5043,7 @@ class ModelRoundTripTest < Minitest::Test
       "kv_name" => "stub"
     }
     model = WorkOS::VaultMetadataReadData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["actor_id"], json[:actor_id]
     assert_equal fixture["actor_name"], json[:actor_name]
@@ -5060,7 +5060,7 @@ class ModelRoundTripTest < Minitest::Test
       "object" => "event"
     }
     model = WorkOS::VaultNamesListed.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
@@ -5073,7 +5073,7 @@ class ModelRoundTripTest < Minitest::Test
       "actor_name" => "stub"
     }
     model = WorkOS::VaultNamesListedData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["actor_id"], json[:actor_id]
     assert_equal fixture["actor_name"], json[:actor_name]
@@ -5087,7 +5087,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::JWTTemplateResponse.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["content"], json[:content]
     assert_equal fixture["created_at"], json[:created_at]
@@ -5108,7 +5108,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::OrganizationDomainStandAlone.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["organization_id"], json[:organization_id]
@@ -5132,7 +5132,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::Flag.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["slug"], json[:slug]
@@ -5158,7 +5158,7 @@ class ModelRoundTripTest < Minitest::Test
       "value" => "stub"
     }
     model = WorkOS::ApiKeyWithValue.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["name"], json[:name]
@@ -5183,7 +5183,7 @@ class ModelRoundTripTest < Minitest::Test
       "allow_profiles_outside_organization" => true
     }
     model = WorkOS::Organization.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["name"], json[:name]
@@ -5200,7 +5200,7 @@ class ModelRoundTripTest < Minitest::Test
       "log_stream" => {}
     }
     model = WorkOS::AuditLogConfiguration.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["organization_id"], json[:organization_id]
     assert_equal fixture["retention_period_in_days"], json[:retention_period_in_days]
@@ -5211,14 +5211,14 @@ class ModelRoundTripTest < Minitest::Test
       "url" => "stub"
     }
     model = WorkOS::DataIntegrationAuthorizeUrlResponse.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["url"], json[:url]
   end
 
   def test_data_integration_access_token_response_round_trip
     model = WorkOS::DataIntegrationAccessTokenResponse.new("{}")
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -5234,7 +5234,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::ConnectedAccount.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_nil json[:user_id]
@@ -5249,7 +5249,7 @@ class ModelRoundTripTest < Minitest::Test
       "data" => []
     }
     model = WorkOS::DataIntegrationsListResponse.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -5258,7 +5258,7 @@ class ModelRoundTripTest < Minitest::Test
       "link" => "stub"
     }
     model = WorkOS::PortalLinkResponse.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["link"], json[:link]
   end
@@ -5272,7 +5272,7 @@ class ModelRoundTripTest < Minitest::Test
       "blocklist_type" => "stub"
     }
     model = WorkOS::RadarStandaloneResponse.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["reason"], json[:reason]
     assert_equal fixture["attempt_id"], json[:attempt_id]
@@ -5283,7 +5283,7 @@ class ModelRoundTripTest < Minitest::Test
       "message" => "stub"
     }
     model = WorkOS::RadarListEntryAlreadyPresentResponse.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["message"], json[:message]
   end
@@ -5298,7 +5298,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::RedirectUri.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["uri"], json[:uri]
@@ -5313,7 +5313,7 @@ class ModelRoundTripTest < Minitest::Test
       "authentication_challenge" => {}
     }
     model = WorkOS::UserAuthenticationFactorEnrollResponse.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -5329,7 +5329,7 @@ class ModelRoundTripTest < Minitest::Test
       "code" => "stub"
     }
     model = WorkOS::MagicAuth.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["user_id"], json[:user_id]
@@ -5358,7 +5358,7 @@ class ModelRoundTripTest < Minitest::Test
       "accept_invitation_url" => "stub"
     }
     model = WorkOS::UserInvite.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["email"], json[:email]
@@ -5389,7 +5389,7 @@ class ModelRoundTripTest < Minitest::Test
       "role" => {}
     }
     model = WorkOS::UserOrganizationMembership.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["user_id"], json[:user_id]
@@ -5411,7 +5411,7 @@ class ModelRoundTripTest < Minitest::Test
       "code" => "stub"
     }
     model = WorkOS::EmailVerification.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["user_id"], json[:user_id]
@@ -5427,7 +5427,7 @@ class ModelRoundTripTest < Minitest::Test
       "user" => {}
     }
     model = WorkOS::SendVerificationEmailResponse.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -5436,7 +5436,7 @@ class ModelRoundTripTest < Minitest::Test
       "user" => {}
     }
     model = WorkOS::VerifyEmailResponse.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -5452,7 +5452,7 @@ class ModelRoundTripTest < Minitest::Test
       "password_reset_url" => "stub"
     }
     model = WorkOS::PasswordReset.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["user_id"], json[:user_id]
@@ -5468,7 +5468,7 @@ class ModelRoundTripTest < Minitest::Test
       "user" => {}
     }
     model = WorkOS::ResetPasswordResponse.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -5481,7 +5481,7 @@ class ModelRoundTripTest < Minitest::Test
       "created_at" => "stub"
     }
     model = WorkOS::EmailChange.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["new_email"], json[:new_email]
     assert_equal fixture["expires_at"], json[:expires_at]
@@ -5500,7 +5500,7 @@ class ModelRoundTripTest < Minitest::Test
       "oauth_tokens" => {}
     }
     model = WorkOS::AuthenticateResponse.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["access_token"], json[:access_token]
     assert_equal fixture["refresh_token"], json[:refresh_token]
@@ -5516,7 +5516,7 @@ class ModelRoundTripTest < Minitest::Test
       "interval" => 1.0
     }
     model = WorkOS::DeviceAuthorizationResponse.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["device_code"], json[:device_code]
     assert_equal fixture["user_code"], json[:user_code]
@@ -5536,7 +5536,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::WebhookEndpointJson.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["endpoint_url"], json[:endpoint_url]
@@ -5550,7 +5550,7 @@ class ModelRoundTripTest < Minitest::Test
       "token" => "stub"
     }
     model = WorkOS::WidgetSessionTokenResponse.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["token"], json[:token]
   end
@@ -5560,7 +5560,7 @@ class ModelRoundTripTest < Minitest::Test
       "url" => "stub"
     }
     model = WorkOS::SSOAuthorizeUrlResponse.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["url"], json[:url]
   end
@@ -5583,7 +5583,7 @@ class ModelRoundTripTest < Minitest::Test
       "raw_attributes" => {}
     }
     model = WorkOS::Profile.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_nil json[:organization_id]
@@ -5603,7 +5603,7 @@ class ModelRoundTripTest < Minitest::Test
       "oauth_tokens" => {}
     }
     model = WorkOS::SSOTokenResponse.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["access_token"], json[:access_token]
     assert_equal fixture["expires_in"], json[:expires_in]
@@ -5615,7 +5615,7 @@ class ModelRoundTripTest < Minitest::Test
       "logout_token" => "stub"
     }
     model = WorkOS::SSOLogoutAuthorizeResponse.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["logout_url"], json[:logout_url]
     assert_equal fixture["logout_token"], json[:logout_token]
@@ -5626,7 +5626,7 @@ class ModelRoundTripTest < Minitest::Test
       "keys" => []
     }
     model = WorkOS::JwksResponse.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -5642,7 +5642,7 @@ class ModelRoundTripTest < Minitest::Test
       "x5t#S256" => "stub"
     }
     model = WorkOS::JwksResponseKeys.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["n"], json[:n]
     assert_equal fixture["e"], json[:e]
@@ -5659,7 +5659,7 @@ class ModelRoundTripTest < Minitest::Test
       "scopes" => []
     }
     model = WorkOS::SSOTokenResponseOAuthToken.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["provider"], json[:provider]
     assert_equal fixture["refresh_token"], json[:refresh_token]
@@ -5673,7 +5673,7 @@ class ModelRoundTripTest < Minitest::Test
       "reason" => nil
     }
     model = WorkOS::AuthenticateResponseImpersonator.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
     assert_nil json[:reason]
@@ -5688,7 +5688,7 @@ class ModelRoundTripTest < Minitest::Test
       "scopes" => []
     }
     model = WorkOS::AuthenticateResponseOAuthToken.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["provider"], json[:provider]
     assert_equal fixture["refresh_token"], json[:refresh_token]
@@ -5712,7 +5712,7 @@ class ModelRoundTripTest < Minitest::Test
       "connected_account" => nil
     }
     model = WorkOS::DataIntegrationsListResponseData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["name"], json[:name]
@@ -5733,7 +5733,7 @@ class ModelRoundTripTest < Minitest::Test
       "created_at" => "stub"
     }
     model = WorkOS::AuditLogConfigurationLogStream.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_nil json[:last_synced_at]
@@ -5754,7 +5754,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::OrganizationDomain.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["organization_id"], json[:organization_id]
@@ -5769,7 +5769,7 @@ class ModelRoundTripTest < Minitest::Test
       "id" => "stub"
     }
     model = WorkOS::ApiKeyWithValueOwner.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
   end
@@ -5781,7 +5781,7 @@ class ModelRoundTripTest < Minitest::Test
       "last_name" => nil
     }
     model = WorkOS::FlagOwner.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
     assert_nil json[:first_name]
@@ -5793,7 +5793,7 @@ class ModelRoundTripTest < Minitest::Test
       "after" => nil
     }
     model = WorkOS::EventListListMetadata.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_nil json[:after]
   end
@@ -5805,7 +5805,7 @@ class ModelRoundTripTest < Minitest::Test
       "value" => nil
     }
     model = WorkOS::DirectoryUserEmail.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -5816,7 +5816,7 @@ class ModelRoundTripTest < Minitest::Test
       "sessionNumber" => "stub"
     }
     model = WorkOS::EventContextGoogleAnalyticsSession.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["containerId"], json[:containerId]
   end
@@ -5828,7 +5828,7 @@ class ModelRoundTripTest < Minitest::Test
       "value" => nil
     }
     model = WorkOS::DirectoryUserWithGroupsEmail.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -5838,7 +5838,7 @@ class ModelRoundTripTest < Minitest::Test
       "groups" => 1
     }
     model = WorkOS::DirectoryMetadata.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["groups"], json[:groups]
   end
@@ -5850,7 +5850,7 @@ class ModelRoundTripTest < Minitest::Test
       "domain" => "stub"
     }
     model = WorkOS::ConnectionDomain.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["domain"], json[:domain]
@@ -5861,7 +5861,7 @@ class ModelRoundTripTest < Minitest::Test
       "signing_cert" => nil
     }
     model = WorkOS::ConnectionOption.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_nil json[:signing_cert]
   end
@@ -5880,7 +5880,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::UserOrganizationMembershipBaseListData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["user_id"], json[:user_id]
@@ -5897,7 +5897,7 @@ class ModelRoundTripTest < Minitest::Test
       "resource_type_slug" => "stub"
     }
     model = WorkOS::RoleAssignmentResource.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["external_id"], json[:external_id]
@@ -5909,7 +5909,7 @@ class ModelRoundTripTest < Minitest::Test
       "phone_number" => "stub"
     }
     model = WorkOS::AuthenticationFactorSms.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["phone_number"], json[:phone_number]
   end
@@ -5920,7 +5920,7 @@ class ModelRoundTripTest < Minitest::Test
       "user" => "stub"
     }
     model = WorkOS::AuthenticationFactorTotp.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["issuer"], json[:issuer]
     assert_equal fixture["user"], json[:user]
@@ -5931,7 +5931,7 @@ class ModelRoundTripTest < Minitest::Test
       "phone_number" => "stub"
     }
     model = WorkOS::AuthenticationFactorEnrolledSms.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["phone_number"], json[:phone_number]
   end
@@ -5945,7 +5945,7 @@ class ModelRoundTripTest < Minitest::Test
       "uri" => "stub"
     }
     model = WorkOS::AuthenticationFactorEnrolledTotp.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["issuer"], json[:issuer]
     assert_equal fixture["user"], json[:user]
@@ -5959,7 +5959,7 @@ class ModelRoundTripTest < Minitest::Test
       "metadata" => {}
     }
     model = WorkOS::AuditLogSchemaJsonActor.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -5969,7 +5969,7 @@ class ModelRoundTripTest < Minitest::Test
       "metadata" => {}
     }
     model = WorkOS::AuditLogSchemaJsonTarget.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["type"], json[:type]
   end
@@ -5983,7 +5983,7 @@ class ModelRoundTripTest < Minitest::Test
       "application" => {}
     }
     model = WorkOS::AuthorizedConnectApplicationListData.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
   end
@@ -5994,7 +5994,7 @@ class ModelRoundTripTest < Minitest::Test
       "id" => "stub"
     }
     model = WorkOS::ApiKeyOwner.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
   end
@@ -6005,7 +6005,7 @@ class ModelRoundTripTest < Minitest::Test
       "label" => "stub"
     }
     model = WorkOS::UserConsentOptionChoice.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -6014,7 +6014,7 @@ class ModelRoundTripTest < Minitest::Test
       "code" => "stub"
     }
     model = WorkOS::AuthenticationChallengesVerifyRequest.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["code"], json[:code]
   end
@@ -6028,7 +6028,7 @@ class ModelRoundTripTest < Minitest::Test
       "user_id" => "stub"
     }
     model = WorkOS::AuthenticationFactorsCreateRequest.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -6045,7 +6045,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::Permission.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["slug"], json[:slug]
@@ -6067,7 +6067,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::ApplicationCredentialsListItem.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["secret_hint"], json[:secret_hint]
@@ -6083,7 +6083,7 @@ class ModelRoundTripTest < Minitest::Test
       "return_to" => "stub"
     }
     model = WorkOS::DataIntegrationsGetDataIntegrationAuthorizeUrlRequest.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["user_id"], json[:user_id]
   end
@@ -6094,7 +6094,7 @@ class ModelRoundTripTest < Minitest::Test
       "organization_id" => "stub"
     }
     model = WorkOS::DataIntegrationsGetUserTokenRequest.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["user_id"], json[:user_id]
   end
@@ -6114,7 +6114,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::FeatureFlag.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["slug"], json[:slug]
@@ -6133,7 +6133,7 @@ class ModelRoundTripTest < Minitest::Test
       "last_name" => nil
     }
     model = WorkOS::FeatureFlagOwner.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
     assert_nil json[:first_name]
@@ -6151,7 +6151,7 @@ class ModelRoundTripTest < Minitest::Test
       "bot_score" => "stub"
     }
     model = WorkOS::RadarStandaloneAssessRequest.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["ip_address"], json[:ip_address]
     assert_equal fixture["user_agent"], json[:user_agent]
@@ -6164,7 +6164,7 @@ class ModelRoundTripTest < Minitest::Test
       "attempt_status" => "success"
     }
     model = WorkOS::RadarStandaloneUpdateRadarAttemptRequest.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -6173,7 +6173,7 @@ class ModelRoundTripTest < Minitest::Test
       "entry" => "stub"
     }
     model = WorkOS::RadarStandaloneUpdateRadarListRequest.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["entry"], json[:entry]
   end
@@ -6183,7 +6183,7 @@ class ModelRoundTripTest < Minitest::Test
       "entry" => "stub"
     }
     model = WorkOS::RadarStandaloneDeleteRadarListEntryRequest.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["entry"], json[:entry]
   end
@@ -6193,7 +6193,7 @@ class ModelRoundTripTest < Minitest::Test
       "profile_id" => "stub"
     }
     model = WorkOS::SSOLogoutAuthorizeRequest.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["profile_id"], json[:profile_id]
   end
@@ -6209,7 +6209,7 @@ class ModelRoundTripTest < Minitest::Test
       "user_agent" => "stub"
     }
     model = WorkOS::AuthorizationCodeSessionAuthenticateRequest.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["client_id"], json[:client_id]
     assert_equal fixture["client_secret"], json[:client_secret]
@@ -6229,7 +6229,7 @@ class ModelRoundTripTest < Minitest::Test
       "user_agent" => "stub"
     }
     model = WorkOS::PasswordSessionAuthenticateRequest.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["client_id"], json[:client_id]
     assert_equal fixture["client_secret"], json[:client_secret]
@@ -6249,7 +6249,7 @@ class ModelRoundTripTest < Minitest::Test
       "user_agent" => "stub"
     }
     model = WorkOS::RefreshTokenSessionAuthenticateRequest.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["client_id"], json[:client_id]
     assert_equal fixture["client_secret"], json[:client_secret]
@@ -6269,7 +6269,7 @@ class ModelRoundTripTest < Minitest::Test
       "user_agent" => "stub"
     }
     model = WorkOS::MagicAuthCodeSessionAuthenticateRequest.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["client_id"], json[:client_id]
     assert_equal fixture["client_secret"], json[:client_secret]
@@ -6289,7 +6289,7 @@ class ModelRoundTripTest < Minitest::Test
       "user_agent" => "stub"
     }
     model = WorkOS::EmailVerificationCodeSessionAuthenticateRequest.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["client_id"], json[:client_id]
     assert_equal fixture["client_secret"], json[:client_secret]
@@ -6310,7 +6310,7 @@ class ModelRoundTripTest < Minitest::Test
       "user_agent" => "stub"
     }
     model = WorkOS::MFATotpSessionAuthenticateRequest.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["client_id"], json[:client_id]
     assert_equal fixture["client_secret"], json[:client_secret]
@@ -6331,7 +6331,7 @@ class ModelRoundTripTest < Minitest::Test
       "user_agent" => "stub"
     }
     model = WorkOS::OrganizationSelectionSessionAuthenticateRequest.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["client_id"], json[:client_id]
     assert_equal fixture["client_secret"], json[:client_secret]
@@ -6349,7 +6349,7 @@ class ModelRoundTripTest < Minitest::Test
       "user_agent" => "stub"
     }
     model = WorkOS::DeviceCodeSessionAuthenticateRequest.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["client_id"], json[:client_id]
     assert_equal fixture["device_code"], json[:device_code]
@@ -6360,7 +6360,7 @@ class ModelRoundTripTest < Minitest::Test
       "client_id" => "stub"
     }
     model = WorkOS::SSODeviceAuthorizationRequest.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["client_id"], json[:client_id]
   end
@@ -6383,7 +6383,7 @@ class ModelRoundTripTest < Minitest::Test
       "accept_invitation_url" => "stub"
     }
     model = WorkOS::Invitation.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["email"], json[:email]
@@ -6414,7 +6414,7 @@ class ModelRoundTripTest < Minitest::Test
       "role" => {}
     }
     model = WorkOS::OrganizationMembership.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["user_id"], json[:user_id]
@@ -6430,7 +6430,7 @@ class ModelRoundTripTest < Minitest::Test
       "user" => {}
     }
     model = WorkOS::EmailChangeConfirmation.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
   end
 
@@ -6451,7 +6451,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::EmailChangeConfirmationUser.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_nil json[:first_name]
@@ -6472,7 +6472,7 @@ class ModelRoundTripTest < Minitest::Test
       "provider" => "stub"
     }
     model = WorkOS::UserIdentitiesGetItem.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["idp_id"], json[:idp_id]
   end
@@ -6494,7 +6494,7 @@ class ModelRoundTripTest < Minitest::Test
       "updated_at" => "stub"
     }
     model = WorkOS::UserSessionsListItem.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_nil json[:ip_address]
@@ -6512,7 +6512,7 @@ class ModelRoundTripTest < Minitest::Test
       "reason" => nil
     }
     model = WorkOS::UserSessionsImpersonator.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
     assert_nil json[:reason]
@@ -6524,7 +6524,7 @@ class ModelRoundTripTest < Minitest::Test
       "inactive" => 1
     }
     model = WorkOS::DirectoryMetadataUser.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["active"], json[:active]
     assert_equal fixture["inactive"], json[:inactive]
@@ -6543,7 +6543,7 @@ class ModelRoundTripTest < Minitest::Test
       "userlandUserId" => nil
     }
     model = WorkOS::DataIntegrationsListResponseDataConnectedAccount.new(fixture.to_json)
-    json = model.to_json
+    json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_nil json[:user_id]

@@ -14,14 +14,18 @@ module WorkOS
       hash = json.is_a?(Hash) ? json : JSON.parse(json, symbolize_names: true)
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @object = hash[:object]
-      @data = (hash[:data] || []).map { |item| item ? WorkOS::Role.new(item.to_json) : nil }
+      @data = (hash[:data] || []).map { |item| item ? WorkOS::Role.new(item) : nil }
     end
 
-    def to_json(*)
+    def to_h
       {
         object: object,
-        data: (data || []).map(&:to_json)
+        data: (data || []).map(&:to_h)
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

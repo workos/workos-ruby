@@ -21,13 +21,17 @@ module WorkOS
       @grant_type = hash[:grant_type]
     end
 
-    def to_json(*)
+    def to_h
       {
         client_id: client_id,
         client_secret: client_secret,
         code: code,
         grant_type: grant_type
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

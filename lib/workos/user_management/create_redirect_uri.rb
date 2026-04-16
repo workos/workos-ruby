@@ -14,10 +14,14 @@ module WorkOS
       @uri = hash[:uri]
     end
 
-    def to_json(*)
+    def to_h
       {
         uri: uri
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

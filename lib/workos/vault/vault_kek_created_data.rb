@@ -23,7 +23,7 @@ module WorkOS
       @key_id = hash[:key_id]
     end
 
-    def to_json(*)
+    def to_h
       {
         actor_id: actor_id,
         actor_source: actor_source,
@@ -31,6 +31,10 @@ module WorkOS
         key_name: key_name,
         key_id: key_id
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

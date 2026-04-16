@@ -14,10 +14,14 @@ module WorkOS
       @origin = hash[:origin]
     end
 
-    def to_json(*)
+    def to_h
       {
         origin: origin
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

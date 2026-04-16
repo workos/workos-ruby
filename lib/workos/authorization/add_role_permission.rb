@@ -14,10 +14,14 @@ module WorkOS
       @slug = hash[:slug]
     end
 
-    def to_json(*)
+    def to_h
       {
         slug: slug
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

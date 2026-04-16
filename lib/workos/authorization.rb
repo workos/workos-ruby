@@ -11,7 +11,7 @@ module WorkOS
     # Check authorization
     # @param organization_membership_id [String] The ID of the organization membership to check.
     # @param permission_slug [String] The slug of the permission to check.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::AuthorizationCheck]
     def check(
       organization_membership_id:,
@@ -35,21 +35,16 @@ module WorkOS
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::AuthorizationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
     # @param permission_slug [String] The permission slug to filter by. Only child resources where the organization membership has this permission are returned.
-    # @param parent_resource_id [String, nil] The WorkOS ID of the parent resource. Provide this or both `parent_resource_external_id` and `parent_resource_type_slug`, but not both. Mutually exclusive with `parent_resource_type_slug` and `parent_resource_external_id`.
-    # @param parent_resource_type_slug [String, nil] The slug of the parent resource type. Must be provided together with `parent_resource_external_id`. Required with `parent_resource_external_id`. Mutually exclusive with `parent_resource_id`.
-    # @param parent_resource_external_id [String, nil] The application-specific external identifier of the parent resource. Must be provided together with `parent_resource_type_slug`. Required with `parent_resource_type_slug`. Mutually exclusive with `parent_resource_id`.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::AuthorizationResourceList]
     def list_organization_membership_resources(
       organization_membership_id:,
       permission_slug:,
+      parent_resource:,
       before: nil,
       after: nil,
       limit: nil,
       order: nil,
-      parent_resource_id: nil,
-      parent_resource_type_slug: nil,
-      parent_resource_external_id: nil,
       request_options: {}
     )
       params = {
@@ -57,17 +52,21 @@ module WorkOS
         "after" => after,
         "limit" => limit,
         "order" => order,
-        "permission_slug" => permission_slug,
-        "parent_resource_id" => parent_resource_id,
-        "parent_resource_type_slug" => parent_resource_type_slug,
-        "parent_resource_external_id" => parent_resource_external_id
+        "permission_slug" => permission_slug
       }.compact
+      case parent_resource[:type]
+      when "by_id"
+        params["parent_resource_id"] = parent_resource["parent_resource_id"]
+      when "by_external_id"
+        params["parent_resource_type_slug"] = parent_resource["parent_resource_type_slug"]
+        params["parent_resource_external_id"] = parent_resource["parent_resource_external_id"]
+      end
       response = @client.execute_request(
         request: @client.get_request(path: "/authorization/organization_memberships/#{organization_membership_id}/resources", auth: true, params: params, request_options: request_options),
         request_options: request_options
       )
       parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::AuthorizationResource.new(item.to_json) }
+      items = (parsed["data"] || []).map { |item| WorkOS::AuthorizationResource.new(item) }
       fetch_next = lambda do |metadata|
         cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
@@ -78,13 +77,10 @@ module WorkOS
           limit: limit,
           order: order,
           permission_slug: permission_slug,
-          parent_resource_id: parent_resource_id,
-          parent_resource_type_slug: parent_resource_type_slug,
-          parent_resource_external_id: parent_resource_external_id,
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next)
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {organization_membership_id: organization_membership_id, before: before, limit: limit, order: order, permission_slug: permission_slug})
     end
 
     # List effective permissions for an organization membership on a resource
@@ -94,7 +90,7 @@ module WorkOS
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::AuthorizationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::AuthorizationPermissionList]
     def list_resource_permissions(
       organization_membership_id:,
@@ -116,7 +112,7 @@ module WorkOS
         request_options: request_options
       )
       parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::AuthorizationPermission.new(item.to_json) }
+      items = (parsed["data"] || []).map { |item| WorkOS::AuthorizationPermission.new(item) }
       fetch_next = lambda do |metadata|
         cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
@@ -130,7 +126,7 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next)
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {organization_membership_id: organization_membership_id, resource_id: resource_id, before: before, limit: limit, order: order})
     end
 
     # List role assignments
@@ -139,7 +135,7 @@ module WorkOS
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::AuthorizationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::RoleAssignmentList]
     def list_organization_membership_role_assignments(
       organization_membership_id:,
@@ -160,7 +156,7 @@ module WorkOS
         request_options: request_options
       )
       parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::RoleAssignment.new(item.to_json) }
+      items = (parsed["data"] || []).map { |item| WorkOS::RoleAssignment.new(item) }
       fetch_next = lambda do |metadata|
         cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
@@ -173,13 +169,13 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next)
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {organization_membership_id: organization_membership_id, before: before, limit: limit, order: order})
     end
 
     # Assign a role
     # @param organization_membership_id [String] The ID of the organization membership.
     # @param role_slug [String] The slug of the role to assign.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::RoleAssignment]
     def assign_role(
       organization_membership_id:,
@@ -199,7 +195,7 @@ module WorkOS
     # Remove a role assignment
     # @param organization_membership_id [String] The ID of the organization membership.
     # @param role_slug [String] The slug of the role to remove.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [Object]
     def remove_role(
       organization_membership_id:,
@@ -219,7 +215,7 @@ module WorkOS
     # Remove a role assignment by ID
     # @param organization_membership_id [String] The ID of the organization membership.
     # @param role_assignment_id [String] The ID of the role assignment to remove.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [Object]
     def delete_organization_membership_role_assignment(
       organization_membership_id:,
@@ -235,7 +231,7 @@ module WorkOS
 
     # List custom roles
     # @param organization_id [String] The ID of the organization.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::RoleList]
     def list_organization_roles(
       organization_id:,
@@ -254,7 +250,7 @@ module WorkOS
     # @param name [String] A descriptive name for the role.
     # @param description [String, nil, nil] An optional description of the role's purpose.
     # @param resource_type_slug [String, nil] The slug of the resource type the role is scoped to.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::Role]
     def create_organization_role(
       organization_id:,
@@ -280,7 +276,7 @@ module WorkOS
     # Get a custom role
     # @param organization_id [String] The ID of the organization.
     # @param slug [String] The slug of the role.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::Role]
     def get_organization_role(
       organization_id:,
@@ -299,7 +295,7 @@ module WorkOS
     # @param slug [String] The slug of the role.
     # @param name [String, nil] A descriptive name for the role.
     # @param description [String, nil, nil] An optional description of the role's purpose.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::Role]
     def update_organization_role(
       organization_id:,
@@ -322,7 +318,7 @@ module WorkOS
     # Delete a custom role
     # @param organization_id [String] The ID of the organization.
     # @param slug [String] The slug of the role.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [Object]
     def delete_organization_role(
       organization_id:,
@@ -340,7 +336,7 @@ module WorkOS
     # @param organization_id [String] The ID of the organization.
     # @param slug [String] The slug of the role.
     # @param body_slug [String] The slug of the permission to add to the role.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::Role]
     def create_role_permission(
       organization_id:,
@@ -362,7 +358,7 @@ module WorkOS
     # @param organization_id [String] The ID of the organization.
     # @param slug [String] The slug of the role.
     # @param permissions [Array<String>] The permission slugs to assign to the role.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::Role]
     def update_role_permissions(
       organization_id:,
@@ -384,7 +380,7 @@ module WorkOS
     # @param organization_id [String] The ID of the organization.
     # @param slug [String] The slug of the role.
     # @param permission_slug [String] The slug of the permission to remove.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::Role]
     def delete_role_permission(
       organization_id:,
@@ -403,7 +399,7 @@ module WorkOS
     # @param organization_id [String] The ID of the organization that owns the resource.
     # @param resource_type_slug [String] The slug of the resource type.
     # @param external_id [String] An identifier you provide to reference the resource in your system.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::AuthorizationResource]
     def get_organization_resource(
       organization_id:,
@@ -424,7 +420,7 @@ module WorkOS
     # @param external_id [String] An identifier you provide to reference the resource in your system.
     # @param name [String, nil] A display name for the resource.
     # @param description [String, nil, nil] An optional description of the resource.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::AuthorizationResource]
     def update_organization_resource(
       organization_id:,
@@ -450,7 +446,7 @@ module WorkOS
     # @param resource_type_slug [String] The slug of the resource type.
     # @param external_id [String] An identifier you provide to reference the resource in your system.
     # @param cascade_delete [Boolean, nil] If true, deletes all descendant resources and role assignments. If not set and the resource has children or assignments, the request will fail.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [Object]
     def delete_organization_resource(
       organization_id:,
@@ -479,7 +475,7 @@ module WorkOS
     # @param order [WorkOS::Types::AuthorizationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
     # @param permission_slug [String] The permission slug to filter by. Only users with this permission on the resource are returned.
     # @param assignment [WorkOS::Types::AuthorizationAssignment, nil] Filter by assignment type. Use "direct" for direct assignments only, or "indirect" to include inherited assignments.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::UserOrganizationMembershipBaseList]
     def list_resource_organization_memberships(
       organization_id:,
@@ -506,7 +502,7 @@ module WorkOS
         request_options: request_options
       )
       parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::UserOrganizationMembershipBaseListData.new(item.to_json) }
+      items = (parsed["data"] || []).map { |item| WorkOS::UserOrganizationMembershipBaseListData.new(item) }
       fetch_next = lambda do |metadata|
         cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
@@ -523,7 +519,7 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next)
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {organization_id: organization_id, resource_type_slug: resource_type_slug, external_id: external_id, before: before, limit: limit, order: order, permission_slug: permission_slug, assignment: assignment})
     end
 
     # List resources
@@ -537,7 +533,7 @@ module WorkOS
     # @param parent_resource_type_slug [String, nil] Filter resources by parent resource type slug.
     # @param parent_external_id [String, nil] Filter resources by parent external ID.
     # @param search [String, nil] Search resources by name.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::AuthorizationResourceList]
     def list_resources(
       before: nil,
@@ -569,7 +565,7 @@ module WorkOS
         request_options: request_options
       )
       parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::AuthorizationResource.new(item.to_json) }
+      items = (parsed["data"] || []).map { |item| WorkOS::AuthorizationResource.new(item) }
       fetch_next = lambda do |metadata|
         cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
@@ -587,7 +583,7 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next)
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {before: before, limit: limit, order: order, organization_id: organization_id, resource_type_slug: resource_type_slug, parent_resource_id: parent_resource_id, parent_resource_type_slug: parent_resource_type_slug, parent_external_id: parent_external_id, search: search})
     end
 
     # Create an authorization resource
@@ -596,7 +592,7 @@ module WorkOS
     # @param description [String, nil, nil] An optional description of the resource.
     # @param resource_type_slug [String] The slug of the resource type.
     # @param organization_id [String] The ID of the organization this resource belongs to.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::AuthorizationResource]
     def create_resource(
       external_id:,
@@ -622,7 +618,7 @@ module WorkOS
 
     # Get a resource
     # @param resource_id [String] The ID of the authorization resource.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::AuthorizationResource]
     def get_resource(
       resource_id:,
@@ -639,7 +635,7 @@ module WorkOS
     # @param resource_id [String] The ID of the authorization resource.
     # @param name [String, nil] A display name for the resource.
     # @param description [String, nil, nil] An optional description of the resource.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::AuthorizationResource]
     def update_resource(
       resource_id:,
@@ -661,7 +657,7 @@ module WorkOS
     # Delete an authorization resource
     # @param resource_id [String] The ID of the authorization resource.
     # @param cascade_delete [Boolean, nil] If true, deletes all descendant resources and role assignments. If not set and the resource has children or assignments, the request will fail.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [Object]
     def delete_resource(
       resource_id:,
@@ -686,7 +682,7 @@ module WorkOS
     # @param order [WorkOS::Types::AuthorizationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
     # @param permission_slug [String] The permission slug to filter by. Only users with this permission on the resource are returned.
     # @param assignment [WorkOS::Types::AuthorizationAssignment, nil] Filter by assignment type. Use `direct` for direct assignments only, or `indirect` to include inherited assignments.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::UserOrganizationMembershipBaseList]
     def list_memberships_for_resource(
       resource_id:,
@@ -711,7 +707,7 @@ module WorkOS
         request_options: request_options
       )
       parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::UserOrganizationMembershipBaseListData.new(item.to_json) }
+      items = (parsed["data"] || []).map { |item| WorkOS::UserOrganizationMembershipBaseListData.new(item) }
       fetch_next = lambda do |metadata|
         cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
@@ -726,11 +722,11 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next)
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {resource_id: resource_id, before: before, limit: limit, order: order, permission_slug: permission_slug, assignment: assignment})
     end
 
     # List environment roles
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::RoleList]
     def list_environment_roles(request_options: {})
       response = @client.execute_request(
@@ -745,7 +741,7 @@ module WorkOS
     # @param name [String] A descriptive name for the role.
     # @param description [String, nil, nil] An optional description of the role.
     # @param resource_type_slug [String, nil] The slug of the resource type the role is scoped to.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::Role]
     def create_environment_role(
       slug:,
@@ -769,7 +765,7 @@ module WorkOS
 
     # Get an environment role
     # @param slug [String] The slug of the environment role.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::Role]
     def get_environment_role(
       slug:,
@@ -786,7 +782,7 @@ module WorkOS
     # @param slug [String] The slug of the environment role.
     # @param name [String, nil] A descriptive name for the role.
     # @param description [String, nil, nil] An optional description of the role.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::Role]
     def update_environment_role(
       slug:,
@@ -808,7 +804,7 @@ module WorkOS
     # Add a permission to an environment role
     # @param slug [String] The slug of the environment role.
     # @param body_slug [String] The slug of the permission to add to the role.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::Role]
     def add_environment_role_permission(
       slug:,
@@ -828,7 +824,7 @@ module WorkOS
     # Set permissions for an environment role
     # @param slug [String] The slug of the environment role.
     # @param permissions [Array<String>] The permission slugs to assign to the role.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::Role]
     def set_environment_role_permissions(
       slug:,
@@ -850,7 +846,7 @@ module WorkOS
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::PermissionsOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::AuthorizationPermissionList]
     def list_permissions(
       before: nil,
@@ -870,7 +866,7 @@ module WorkOS
         request_options: request_options
       )
       parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::AuthorizationPermission.new(item.to_json) }
+      items = (parsed["data"] || []).map { |item| WorkOS::AuthorizationPermission.new(item) }
       fetch_next = lambda do |metadata|
         cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
@@ -882,7 +878,7 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next)
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {before: before, limit: limit, order: order})
     end
 
     # Create a permission
@@ -890,7 +886,7 @@ module WorkOS
     # @param name [String] A descriptive name for the Permission.
     # @param description [String, nil, nil] An optional description of the Permission.
     # @param resource_type_slug [String, nil] The slug of the resource type this permission is scoped to.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::Permission]
     def create_permission(
       slug:,
@@ -914,7 +910,7 @@ module WorkOS
 
     # Get a permission
     # @param slug [String] A unique key to reference the permission. Must be lowercase and contain only letters, numbers, hyphens, underscores, colons, periods, and asterisks.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::AuthorizationPermission]
     def get_permission(
       slug:,
@@ -931,7 +927,7 @@ module WorkOS
     # @param slug [String] A unique key to reference the permission. Must be lowercase and contain only letters, numbers, hyphens, underscores, colons, periods, and asterisks.
     # @param name [String, nil] A descriptive name for the Permission.
     # @param description [String, nil, nil] An optional description of the Permission.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::AuthorizationPermission]
     def update_permission(
       slug:,
@@ -952,7 +948,7 @@ module WorkOS
 
     # Delete a permission
     # @param slug [String] A unique key to reference the permission. Must be lowercase and contain only letters, numbers, hyphens, underscores, colons, periods, and asterisks.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [Object]
     def delete_permission(
       slug:,

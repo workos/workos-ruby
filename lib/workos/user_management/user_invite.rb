@@ -41,7 +41,7 @@ module WorkOS
       @accept_invitation_url = hash[:accept_invitation_url]
     end
 
-    def to_json(*)
+    def to_h
       {
         object: object,
         id: id,
@@ -58,6 +58,10 @@ module WorkOS
         token: token,
         accept_invitation_url: accept_invitation_url
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

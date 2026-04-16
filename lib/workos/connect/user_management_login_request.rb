@@ -15,16 +15,20 @@ module WorkOS
       hash = json.is_a?(Hash) ? json : JSON.parse(json, symbolize_names: true)
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @external_auth_id = hash[:external_auth_id]
-      @user = hash[:user] ? WorkOS::UserObject.new(hash[:user].to_json) : nil
-      @user_consent_options = (hash[:user_consent_options] || []).map { |item| item ? WorkOS::UserConsentOption.new(item.to_json) : nil }
+      @user = hash[:user] ? WorkOS::UserObject.new(hash[:user]) : nil
+      @user_consent_options = (hash[:user_consent_options] || []).map { |item| item ? WorkOS::UserConsentOption.new(item) : nil }
     end
 
-    def to_json(*)
+    def to_h
       {
         external_auth_id: external_auth_id,
-        user: user&.to_json,
-        user_consent_options: (user_consent_options || []).map(&:to_json)
+        user: user&.to_h,
+        user_consent_options: (user_consent_options || []).map(&:to_h)
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

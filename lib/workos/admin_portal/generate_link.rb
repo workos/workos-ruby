@@ -21,19 +21,23 @@ module WorkOS
       @success_url = hash[:success_url]
       @organization = hash[:organization]
       @intent = hash[:intent]
-      @intent_options = hash[:intent_options] ? WorkOS::IntentOptions.new(hash[:intent_options].to_json) : nil
+      @intent_options = hash[:intent_options] ? WorkOS::IntentOptions.new(hash[:intent_options]) : nil
       @admin_emails = hash[:admin_emails] || []
     end
 
-    def to_json(*)
+    def to_h
       {
         return_url: return_url,
         success_url: success_url,
         organization: organization,
         intent: intent,
-        intent_options: intent_options&.to_json,
+        intent_options: intent_options&.to_h,
         admin_emails: admin_emails
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

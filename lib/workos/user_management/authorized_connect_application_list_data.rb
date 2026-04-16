@@ -20,17 +20,21 @@ module WorkOS
       @id = hash[:id]
       @granted_scopes = hash[:granted_scopes] || []
       @oauth_resource = hash[:oauth_resource]
-      @application = hash[:application] ? WorkOS::ConnectApplication.new(hash[:application].to_json) : nil
+      @application = hash[:application] ? WorkOS::ConnectApplication.new(hash[:application]) : nil
     end
 
-    def to_json(*)
+    def to_h
       {
         object: object,
         id: id,
         granted_scopes: granted_scopes,
         oauth_resource: oauth_resource,
-        application: application&.to_json
+        application: application&.to_h
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

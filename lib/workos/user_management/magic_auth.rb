@@ -29,7 +29,7 @@ module WorkOS
       @code = hash[:code]
     end
 
-    def to_json(*)
+    def to_h
       {
         object: object,
         id: id,
@@ -40,6 +40,10 @@ module WorkOS
         updated_at: updated_at,
         code: code
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

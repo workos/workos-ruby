@@ -23,7 +23,7 @@ module WorkOS
       @organization_id = hash[:organization_id]
     end
 
-    def to_json(*)
+    def to_h
       {
         external_id: external_id,
         name: name,
@@ -31,6 +31,10 @@ module WorkOS
         resource_type_slug: resource_type_slug,
         organization_id: organization_id
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

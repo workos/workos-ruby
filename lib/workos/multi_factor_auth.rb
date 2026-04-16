@@ -11,7 +11,7 @@ module WorkOS
     # Verify Challenge
     # @param id [String] The unique ID of the Authentication Challenge.
     # @param code [String] The one-time code to verify.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::AuthenticationChallengeVerifyResponse]
     def verify_challenge(
       id:,
@@ -34,7 +34,7 @@ module WorkOS
     # @param totp_issuer [String, nil] Required when type is 'totp'.
     # @param totp_user [String, nil] Required when type is 'totp'.
     # @param user_id [String, nil] The ID of the user to associate the factor with.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::AuthenticationFactorEnrolled]
     def enroll_factor(
       type:,
@@ -60,7 +60,7 @@ module WorkOS
 
     # Get Factor
     # @param id [String] The unique ID of the Factor.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::AuthenticationFactor]
     def get_factor(
       id:,
@@ -75,7 +75,7 @@ module WorkOS
 
     # Delete Factor
     # @param id [String] The unique ID of the Factor.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [Object]
     def delete_factor(
       id:,
@@ -91,7 +91,7 @@ module WorkOS
     # Challenge Factor
     # @param id [String] The unique ID of the Authentication Factor to be challenged.
     # @param sms_template [String, nil] A custom template for the SMS message. Use the {{code}} placeholder to include the verification code.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::AuthenticationChallenge]
     def challenge_factor(
       id:,
@@ -114,7 +114,7 @@ module WorkOS
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::UserManagementMultiFactorAuthenticationOrder, nil] Order the results by the creation time.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::UserAuthenticationFactorList]
     def list_user_auth_factors(
       userland_user_id:,
@@ -135,7 +135,7 @@ module WorkOS
         request_options: request_options
       )
       parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::AuthenticationFactor.new(item.to_json) }
+      items = (parsed["data"] || []).map { |item| WorkOS::AuthenticationFactor.new(item) }
       fetch_next = lambda do |metadata|
         cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
@@ -148,7 +148,7 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next)
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {userland_user_id: userland_user_id, before: before, limit: limit, order: order})
     end
 
     # Enroll an authentication factor
@@ -157,7 +157,7 @@ module WorkOS
     # @param totp_issuer [String, nil] Your application or company name displayed in the user's authenticator app.
     # @param totp_user [String, nil] The user's account name displayed in their authenticator app.
     # @param totp_secret [String, nil] The Base32-encoded shared secret for TOTP factors. This can be provided when creating the auth factor, otherwise it will be generated. The algorithm used to derive TOTP codes is SHA-1, the code length is 6 digits, and the timestep is 30 seconds – the secret must be compatible with these parameters.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::UserAuthenticationFactorEnrollResponse]
     def create_user_auth_factor(
       userland_user_id:,

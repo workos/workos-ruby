@@ -15,16 +15,20 @@ module WorkOS
       hash = json.is_a?(Hash) ? json : JSON.parse(json, symbolize_names: true)
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @directory_id = hash[:directory_id]
-      @user = hash[:user] ? WorkOS::DirectoryUser.new(hash[:user].to_json) : nil
-      @group = hash[:group] ? WorkOS::DirectoryGroup.new(hash[:group].to_json) : nil
+      @user = hash[:user] ? WorkOS::DirectoryUser.new(hash[:user]) : nil
+      @group = hash[:group] ? WorkOS::DirectoryGroup.new(hash[:group]) : nil
     end
 
-    def to_json(*)
+    def to_h
       {
         directory_id: directory_id,
-        user: user&.to_json,
-        group: group&.to_json
+        user: user&.to_h,
+        group: group&.to_h
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

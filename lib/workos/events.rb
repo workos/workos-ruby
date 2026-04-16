@@ -17,7 +17,7 @@ module WorkOS
     # @param range_start [String, nil] ISO-8601 date string to filter events created after this date.
     # @param range_end [String, nil] ISO-8601 date string to filter events created before this date.
     # @param organization_id [String, nil] Filter events by the [Organization](https://workos.com/docs/reference/organization) that the event is associated with.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::EventList]
     def list_events(
       before: nil,
@@ -45,7 +45,7 @@ module WorkOS
         request_options: request_options
       )
       parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::EventSchema.new(item.to_json) }
+      items = (parsed["data"] || []).map { |item| WorkOS::EventSchema.new(item) }
       fetch_next = lambda do |metadata|
         cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
@@ -61,7 +61,7 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next)
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {before: before, limit: limit, order: order, events: events, range_start: range_start, range_end: range_end, organization_id: organization_id})
     end
   end
 end

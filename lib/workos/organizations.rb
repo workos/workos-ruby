@@ -15,7 +15,7 @@ module WorkOS
     # @param order [WorkOS::Types::OrganizationsOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
     # @param domains [Array<String>, nil] The domains of an Organization. Any Organization with a matching domain will be returned.
     # @param search [String, nil] Searchable text for an Organization. Matches against the organization name.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::OrganizationList]
     def list_organizations(
       before: nil,
@@ -39,7 +39,7 @@ module WorkOS
         request_options: request_options
       )
       parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::Organization.new(item.to_json) }
+      items = (parsed["data"] || []).map { |item| WorkOS::Organization.new(item) }
       fetch_next = lambda do |metadata|
         cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
@@ -53,7 +53,7 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next)
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {before: before, limit: limit, order: order, domains: domains, search: search})
     end
 
     # Create an Organization
@@ -63,7 +63,7 @@ module WorkOS
     # @param domain_data [Array<WorkOS::OrganizationDomainData>, nil] The domains associated with the organization, including verification state.
     # @param metadata [Hash{String => String}, nil, nil] Object containing [metadata](https://workos.com/docs/authkit/metadata) key/value pairs associated with the Organization.
     # @param external_id [String, nil, nil] An external identifier for the Organization.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::Organization]
     def create_organization(
       name:,
@@ -91,7 +91,7 @@ module WorkOS
 
     # Get an Organization by External ID
     # @param external_id [String] The external ID of the Organization.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::Organization]
     def get_organization_by_external_id(
       external_id:,
@@ -106,7 +106,7 @@ module WorkOS
 
     # Get an Organization
     # @param id [String] Unique identifier of the Organization.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::Organization]
     def get_organization(
       id:,
@@ -128,7 +128,7 @@ module WorkOS
     # @param stripe_customer_id [String, nil] The Stripe customer ID associated with the organization.
     # @param metadata [Hash{String => String}, nil, nil] Object containing [metadata](https://workos.com/docs/authkit/metadata) key/value pairs associated with the Organization.
     # @param external_id [String, nil, nil] An external identifier for the Organization.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::Organization]
     def update_organization(
       id:,
@@ -159,7 +159,7 @@ module WorkOS
 
     # Delete an Organization
     # @param id [String] Unique identifier of the Organization.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [Object]
     def delete_organization(
       id:,
@@ -174,7 +174,7 @@ module WorkOS
 
     # Get Audit Log Configuration
     # @param id [String] Unique identifier of the Organization.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::AuditLogConfiguration]
     def get_audit_log_configuration(
       id:,

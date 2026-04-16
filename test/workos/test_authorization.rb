@@ -27,7 +27,7 @@ class AuthorizationTest < Minitest::Test
   def test_list_organization_membership_resources_returns_expected_result
     stub_request(:get, /#{Regexp.escape("authorization")}/)
       .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
-    result = @client.authorization.list_organization_membership_resources(organization_membership_id: "stub", permission_slug: "stub")
+    result = @client.authorization.list_organization_membership_resources(organization_membership_id: "stub", permission_slug: "stub", parent_resource: {type: "by_id"})
     assert_kind_of WorkOS::Types::ListStruct, result
   end
 
@@ -35,7 +35,7 @@ class AuthorizationTest < Minitest::Test
     stub_request(:get, /#{Regexp.escape("authorization")}/)
       .to_return(body: '{"message": "Unauthorized"}', status: 401)
     assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.list_organization_membership_resources(organization_membership_id: "stub", permission_slug: "stub")
+      @client.authorization.list_organization_membership_resources(organization_membership_id: "stub", permission_slug: "stub", parent_resource: {type: "by_id"})
     end
   end
 
@@ -51,21 +51,6 @@ class AuthorizationTest < Minitest::Test
       .to_return(body: '{"message": "Unauthorized"}', status: 401)
     assert_raises(WorkOS::AuthenticationError) do
       @client.authorization.list_resource_permissions(organization_membership_id: "stub", resource_id: "stub")
-    end
-  end
-
-  def test_list_resource_permissions_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
-    result = @client.authorization.list_resource_permissions(organization_membership_id: "stub", resource_type_slug: "stub", external_id: "stub")
-    assert_kind_of WorkOS::Types::ListStruct, result
-  end
-
-  def test_list_resource_permissions_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.list_resource_permissions(organization_membership_id: "stub", resource_type_slug: "stub", external_id: "stub")
     end
   end
 
@@ -207,7 +192,7 @@ class AuthorizationTest < Minitest::Test
   def test_create_role_permission_returns_expected_result
     stub_request(:post, /#{Regexp.escape("authorization")}/)
       .to_return(body: "{}", status: 200)
-    result = @client.authorization.create_role_permission(organization_id: "stub", slug: "stub")
+    result = @client.authorization.create_role_permission(organization_id: "stub", slug: "stub", body_slug: "stub")
     refute_nil result
   end
 
@@ -215,7 +200,7 @@ class AuthorizationTest < Minitest::Test
     stub_request(:post, /#{Regexp.escape("authorization")}/)
       .to_return(body: '{"message": "Unauthorized"}', status: 401)
     assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.create_role_permission(organization_id: "stub", slug: "stub")
+      @client.authorization.create_role_permission(organization_id: "stub", slug: "stub", body_slug: "stub")
     end
   end
 
@@ -462,7 +447,7 @@ class AuthorizationTest < Minitest::Test
   def test_add_environment_role_permission_returns_expected_result
     stub_request(:post, /#{Regexp.escape("authorization")}/)
       .to_return(body: "{}", status: 200)
-    result = @client.authorization.add_environment_role_permission(slug: "stub")
+    result = @client.authorization.add_environment_role_permission(slug: "stub", body_slug: "stub")
     refute_nil result
   end
 
@@ -470,7 +455,7 @@ class AuthorizationTest < Minitest::Test
     stub_request(:post, /#{Regexp.escape("authorization")}/)
       .to_return(body: '{"message": "Unauthorized"}', status: 401)
     assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.add_environment_role_permission(slug: "stub")
+      @client.authorization.add_environment_role_permission(slug: "stub", body_slug: "stub")
     end
   end
 

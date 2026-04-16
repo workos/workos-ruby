@@ -22,7 +22,7 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @object = hash[:object]
       @id = hash[:id]
-      @owner = hash[:owner] ? WorkOS::ApiKeyCreatedDataOwner.new(hash[:owner].to_json) : nil
+      @owner = hash[:owner] ? WorkOS::ApiKeyCreatedDataOwner.new(hash[:owner]) : nil
       @name = hash[:name]
       @obfuscated_value = hash[:obfuscated_value]
       @last_used_at = hash[:last_used_at]
@@ -31,11 +31,11 @@ module WorkOS
       @updated_at = hash[:updated_at]
     end
 
-    def to_json(*)
+    def to_h
       {
         object: object,
         id: id,
-        owner: owner&.to_json,
+        owner: owner&.to_h,
         name: name,
         obfuscated_value: obfuscated_value,
         last_used_at: last_used_at,
@@ -43,6 +43,10 @@ module WorkOS
         created_at: created_at,
         updated_at: updated_at
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

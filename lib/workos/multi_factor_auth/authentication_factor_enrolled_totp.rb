@@ -23,7 +23,7 @@ module WorkOS
       @uri = hash[:uri]
     end
 
-    def to_json(*)
+    def to_h
       {
         issuer: issuer,
         user: user,
@@ -31,6 +31,10 @@ module WorkOS
         qr_code: qr_code,
         uri: uri
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

@@ -14,10 +14,14 @@ module WorkOS
       @sms_template = hash[:sms_template]
     end
 
-    def to_json(*)
+    def to_h
       {
         sms_template: sms_template
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

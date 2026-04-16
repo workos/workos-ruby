@@ -18,19 +18,23 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @object = hash[:object]
       @name = hash[:name]
-      @schema = hash[:schema] ? WorkOS::AuditLogSchemaJson.new(hash[:schema].to_json) : nil
+      @schema = hash[:schema] ? WorkOS::AuditLogSchemaJson.new(hash[:schema]) : nil
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
     end
 
-    def to_json(*)
+    def to_h
       {
         object: object,
         name: name,
-        schema: schema&.to_json,
+        schema: schema&.to_h,
         created_at: created_at,
         updated_at: updated_at
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

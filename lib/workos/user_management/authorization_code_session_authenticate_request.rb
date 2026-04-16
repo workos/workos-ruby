@@ -27,7 +27,7 @@ module WorkOS
       @user_agent = hash[:user_agent]
     end
 
-    def to_json(*)
+    def to_h
       {
         client_id: client_id,
         client_secret: client_secret,
@@ -37,6 +37,10 @@ module WorkOS
         device_id: device_id,
         user_agent: user_agent
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

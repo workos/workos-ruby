@@ -17,11 +17,15 @@ module WorkOS
       @events = hash[:events] || []
     end
 
-    def to_json(*)
+    def to_h
       {
         endpoint_url: endpoint_url,
         events: events
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

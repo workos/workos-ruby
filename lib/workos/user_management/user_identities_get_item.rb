@@ -19,12 +19,16 @@ module WorkOS
       @provider = hash[:provider]
     end
 
-    def to_json(*)
+    def to_h
       {
         idp_id: idp_id,
         type: type,
         provider: provider
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

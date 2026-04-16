@@ -25,7 +25,7 @@ module WorkOS
       @interval = hash[:interval]
     end
 
-    def to_json(*)
+    def to_h
       {
         device_code: device_code,
         user_code: user_code,
@@ -34,6 +34,10 @@ module WorkOS
         expires_in: expires_in,
         interval: interval
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

@@ -10,4 +10,39 @@ module WorkOS
       @max_retries = WorkOS::BaseClient::DEFAULT_MAX_RETRIES
     end
   end
+
+  class << self
+    # Yield the global configuration for modification.
+    #
+    #   WorkOS.configure do |config|
+    #     config.api_key = "sk_..."
+    #     config.client_id = "client_..."
+    #   end
+    def configure
+      yield(configuration)
+    end
+
+    # The global configuration instance.
+    def configuration
+      @configuration ||= Configuration.new
+    end
+
+    # A convenience client built from the global configuration.
+    # Lazy-initialized; reset by calling WorkOS.reset_client.
+    def client
+      @client ||= Client.new(
+        api_key: configuration.api_key,
+        base_url: configuration.base_url,
+        client_id: configuration.client_id,
+        timeout: configuration.timeout,
+        max_retries: configuration.max_retries
+      )
+    end
+
+    # Reset the cached client (e.g., after reconfiguring).
+    def reset_client
+      @client&.shutdown if @client.respond_to?(:shutdown)
+      @client = nil
+    end
+  end
 end

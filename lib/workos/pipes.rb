@@ -13,7 +13,7 @@ module WorkOS
     # @param user_id [String] The ID of the user to authorize.
     # @param organization_id [String, nil] An organization ID to scope the authorization to a specific organization.
     # @param return_to [String, nil] The URL to redirect the user to after authorization.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::DataIntegrationAuthorizeUrlResponse]
     def authorize_data_integration(
       slug:,
@@ -38,7 +38,7 @@ module WorkOS
     # @param slug [String] The identifier of the integration.
     # @param user_id [String] A [User](https://workos.com/docs/reference/authkit/user) identifier.
     # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter to scope the connection to a specific organization.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::DataIntegrationAccessTokenResponse]
     def create_data_integration_token(
       slug:,
@@ -61,7 +61,7 @@ module WorkOS
     # @param user_id [String] A [User](https://workos.com/docs/reference/authkit/user) identifier.
     # @param slug [String] The slug identifier of the provider (e.g., `github`, `slack`, `notion`).
     # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter if the connection is scoped to an organization.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::ConnectedAccount]
     def get_user_connected_account(
       user_id:,
@@ -83,7 +83,7 @@ module WorkOS
     # @param user_id [String] A [User](https://workos.com/docs/reference/authkit/user) identifier.
     # @param slug [String] The slug identifier of the provider (e.g., `github`, `slack`, `notion`).
     # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter if the connection is scoped to an organization.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [Object]
     def delete_user_connected_account(
       user_id:,
@@ -104,7 +104,7 @@ module WorkOS
     # List providers
     # @param user_id [String] A [User](https://workos.com/docs/reference/authkit/user) identifier to list providers and connected accounts for.
     # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter to filter connections for a specific organization.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::DataIntegrationsListResponse]
     def list_user_data_providers(
       user_id:,

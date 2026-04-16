@@ -19,12 +19,16 @@ module WorkOS
       @resource_type_slug = hash[:resource_type_slug]
     end
 
-    def to_json(*)
+    def to_h
       {
         id: id,
         external_id: external_id,
         resource_type_slug: resource_type_slug
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

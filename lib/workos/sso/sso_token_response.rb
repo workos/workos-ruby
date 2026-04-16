@@ -19,18 +19,22 @@ module WorkOS
       @token_type = hash[:token_type]
       @access_token = hash[:access_token]
       @expires_in = hash[:expires_in]
-      @profile = hash[:profile] ? WorkOS::Profile.new(hash[:profile].to_json) : nil
-      @oauth_tokens = hash[:oauth_tokens] ? WorkOS::SSOTokenResponseOAuthToken.new(hash[:oauth_tokens].to_json) : nil
+      @profile = hash[:profile] ? WorkOS::Profile.new(hash[:profile]) : nil
+      @oauth_tokens = hash[:oauth_tokens] ? WorkOS::SSOTokenResponseOAuthToken.new(hash[:oauth_tokens]) : nil
     end
 
-    def to_json(*)
+    def to_h
       {
         token_type: token_type,
         access_token: access_token,
         expires_in: expires_in,
-        profile: profile&.to_json,
-        oauth_tokens: oauth_tokens&.to_json
+        profile: profile&.to_h,
+        oauth_tokens: oauth_tokens&.to_h
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

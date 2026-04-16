@@ -16,11 +16,17 @@ module WorkOS
       :connection_type,
       :name,
       :state,
-      :status,
       :domains,
       :options,
       :created_at,
       :updated_at
+
+    def status
+      warn "[DEPRECATION] `status` is deprecated. Deprecated. Use `state` instead.", uplevel: 1
+      @status
+    end
+
+    attr_writer :status
 
     def initialize(json)
       hash = json.is_a?(Hash) ? json : JSON.parse(json, symbolize_names: true)
@@ -32,13 +38,13 @@ module WorkOS
       @name = hash[:name]
       @state = hash[:state]
       @status = hash[:status]
-      @domains = (hash[:domains] || []).map { |item| item ? WorkOS::ConnectionDomain.new(item.to_json) : nil }
-      @options = hash[:options] ? WorkOS::ConnectionOption.new(hash[:options].to_json) : nil
+      @domains = (hash[:domains] || []).map { |item| item ? WorkOS::ConnectionDomain.new(item) : nil }
+      @options = hash[:options] ? WorkOS::ConnectionOption.new(hash[:options]) : nil
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
     end
 
-    def to_json(*)
+    def to_h
       {
         object: object,
         id: id,
@@ -47,11 +53,15 @@ module WorkOS
         name: name,
         state: state,
         status: status,
-        domains: (domains || []).map(&:to_json),
-        options: options&.to_json,
+        domains: (domains || []).map(&:to_h),
+        options: options&.to_h,
         created_at: created_at,
         updated_at: updated_at
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

@@ -23,23 +23,27 @@ module WorkOS
       @id = hash[:id]
       @type = hash[:type]
       @user_id = hash[:user_id]
-      @sms = hash[:sms] ? WorkOS::AuthenticationFactorSms.new(hash[:sms].to_json) : nil
-      @totp = hash[:totp] ? WorkOS::AuthenticationFactorTotp.new(hash[:totp].to_json) : nil
+      @sms = hash[:sms] ? WorkOS::AuthenticationFactorSms.new(hash[:sms]) : nil
+      @totp = hash[:totp] ? WorkOS::AuthenticationFactorTotp.new(hash[:totp]) : nil
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
     end
 
-    def to_json(*)
+    def to_h
       {
         object: object,
         id: id,
         type: type,
         user_id: user_id,
-        sms: sms&.to_json,
-        totp: totp&.to_json,
+        sms: sms&.to_h,
+        totp: totp&.to_h,
         created_at: created_at,
         updated_at: updated_at
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

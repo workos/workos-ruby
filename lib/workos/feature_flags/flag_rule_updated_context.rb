@@ -17,20 +17,24 @@ module WorkOS
       hash = json.is_a?(Hash) ? json : JSON.parse(json, symbolize_names: true)
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @client_id = hash[:client_id]
-      @actor = hash[:actor] ? WorkOS::FlagRuleUpdatedContextActor.new(hash[:actor].to_json) : nil
+      @actor = hash[:actor] ? WorkOS::FlagRuleUpdatedContextActor.new(hash[:actor]) : nil
       @access_type = hash[:access_type]
-      @configured_targets = hash[:configured_targets] ? WorkOS::FlagRuleUpdatedContextConfiguredTarget.new(hash[:configured_targets].to_json) : nil
-      @previous_attributes = hash[:previous_attributes] ? WorkOS::FlagRuleUpdatedContextPreviousAttribute.new(hash[:previous_attributes].to_json) : nil
+      @configured_targets = hash[:configured_targets] ? WorkOS::FlagRuleUpdatedContextConfiguredTarget.new(hash[:configured_targets]) : nil
+      @previous_attributes = hash[:previous_attributes] ? WorkOS::FlagRuleUpdatedContextPreviousAttribute.new(hash[:previous_attributes]) : nil
     end
 
-    def to_json(*)
+    def to_h
       {
         client_id: client_id,
-        actor: actor&.to_json,
+        actor: actor&.to_h,
         access_type: access_type,
-        configured_targets: configured_targets&.to_json,
-        previous_attributes: previous_attributes&.to_json
+        configured_targets: configured_targets&.to_h,
+        previous_attributes: previous_attributes&.to_h
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

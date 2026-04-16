@@ -132,4 +132,50 @@ class SessionTest < Minitest::Test
     assert_raises(ArgumentError) { @sm.load(seal_data: "x", cookie_password: nil) }
     assert_raises(ArgumentError) { @sm.load(seal_data: "x", cookie_password: "") }
   end
+
+  # --- BYO encryptor ---------------------------------------------------------
+
+  def test_custom_encryptor_is_used_for_seal_and_unseal
+    custom = Object.new
+    def custom.seal(data, _key)
+      Base64.strict_encode64(JSON.generate(data))
+    end
+
+    def custom.unseal(sealed, _key)
+      JSON.parse(Base64.decode64(sealed))
+    end
+
+    sm = WorkOS::Client.new(api_key: "sk_test_enc", client_id: "client_enc")
+      .session_manager(encryptor: custom)
+
+    sealed = sm.seal_data({"a" => 1}, PASSWORD)
+    assert_equal({"a" => 1}, JSON.parse(Base64.decode64(sealed)))
+    assert_equal({"a" => 1}, sm.unseal_data(sealed, PASSWORD))
+  end
+
+  def test_custom_encryptor_authenticate_round_trip
+    custom = Object.new
+
+    def custom.seal(data, _key)
+      Base64.strict_encode64(data.is_a?(String) ? data : JSON.generate(data))
+    end
+
+    def custom.unseal(sealed, _key)
+      JSON.parse(Base64.decode64(sealed))
+    end
+
+    sm = WorkOS::Client.new(api_key: "sk_test_enc2", client_id: "client_enc2")
+      .session_manager(encryptor: custom)
+
+    rsa, pub = signing_key_pair
+    access_token = make_jwt({"sid" => "s_custom", "org_id" => "org_c", "exp" => Time.now.to_i + 60}, rsa)
+    sealed = sm.seal_data({"access_token" => access_token, "user" => {"id" => "u_c"}}, PASSWORD)
+
+    stub_request(:get, "https://api.workos.com/sso/jwks/client_enc2")
+      .to_return(status: 200, body: jwks_payload(pub).to_json)
+
+    result = sm.authenticate(seal_data: sealed, cookie_password: PASSWORD)
+    assert_kind_of WorkOS::SessionManager::AuthSuccess, result
+    assert_equal "s_custom", result.session_id
+  end
 end

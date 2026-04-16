@@ -14,10 +14,14 @@ module WorkOS
       @token = hash[:token]
     end
 
-    def to_json(*)
+    def to_h
       {
         token: token
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

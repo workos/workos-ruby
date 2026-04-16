@@ -29,7 +29,7 @@ module WorkOS
       @password_reset_url = hash[:password_reset_url]
     end
 
-    def to_json(*)
+    def to_h
       {
         object: object,
         id: id,
@@ -40,6 +40,10 @@ module WorkOS
         password_reset_token: password_reset_token,
         password_reset_url: password_reset_url
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

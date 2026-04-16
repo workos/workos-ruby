@@ -19,21 +19,25 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @object = hash[:object]
       @id = hash[:id]
-      @role = hash[:role] ? WorkOS::SlimRole.new(hash[:role].to_json) : nil
-      @resource = hash[:resource] ? WorkOS::RoleAssignmentResource.new(hash[:resource].to_json) : nil
+      @role = hash[:role] ? WorkOS::SlimRole.new(hash[:role]) : nil
+      @resource = hash[:resource] ? WorkOS::RoleAssignmentResource.new(hash[:resource]) : nil
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
     end
 
-    def to_json(*)
+    def to_h
       {
         object: object,
         id: id,
-        role: role&.to_json,
-        resource: resource&.to_json,
+        role: role&.to_h,
+        resource: resource&.to_h,
         created_at: created_at,
         updated_at: updated_at
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

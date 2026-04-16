@@ -25,7 +25,7 @@ module WorkOS
       @created_at = hash[:created_at]
     end
 
-    def to_json(*)
+    def to_h
       {
         object: object,
         id: id,
@@ -34,6 +34,10 @@ module WorkOS
         expires_at: expires_at,
         created_at: created_at
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

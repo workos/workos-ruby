@@ -14,10 +14,14 @@ module WorkOS
       @new_email = hash[:new_email]
     end
 
-    def to_json(*)
+    def to_h
       {
         new_email: new_email
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

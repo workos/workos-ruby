@@ -24,16 +24,40 @@ module WorkOS
       :email,
       :first_name,
       :last_name,
-      :emails,
-      :job_title,
-      :username,
       :state,
-      :raw_attributes,
       :custom_attributes,
       :role,
       :roles,
       :created_at,
       :updated_at
+
+    def emails
+      warn "[DEPRECATION] `emails` is deprecated. A list of email addresses for the user.", uplevel: 1
+      @emails
+    end
+
+    attr_writer :emails
+
+    def job_title
+      warn "[DEPRECATION] `job_title` is deprecated. The job title of the user.", uplevel: 1
+      @job_title
+    end
+
+    attr_writer :job_title
+
+    def username
+      warn "[DEPRECATION] `username` is deprecated. The username of the user.", uplevel: 1
+      @username
+    end
+
+    attr_writer :username
+
+    def raw_attributes
+      warn "[DEPRECATION] `raw_attributes` is deprecated. The raw attributes received from the directory provider.", uplevel: 1
+      @raw_attributes
+    end
+
+    attr_writer :raw_attributes
 
     def initialize(json)
       hash = json.is_a?(Hash) ? json : JSON.parse(json, symbolize_names: true)
@@ -46,19 +70,19 @@ module WorkOS
       @email = hash[:email]
       @first_name = hash[:first_name]
       @last_name = hash[:last_name]
-      @emails = (hash[:emails] || []).map { |item| item ? WorkOS::DirectoryUserEmail.new(item.to_json) : nil }
+      @emails = (hash[:emails] || []).map { |item| item ? WorkOS::DirectoryUserEmail.new(item) : nil }
       @job_title = hash[:job_title]
       @username = hash[:username]
       @state = hash[:state]
       @raw_attributes = hash[:raw_attributes] || {}
       @custom_attributes = hash[:custom_attributes] || {}
-      @role = hash[:role] ? WorkOS::SlimRole.new(hash[:role].to_json) : nil
-      @roles = (hash[:roles] || []).map { |item| item ? WorkOS::SlimRole.new(item.to_json) : nil }
+      @role = hash[:role] ? WorkOS::SlimRole.new(hash[:role]) : nil
+      @roles = (hash[:roles] || []).map { |item| item ? WorkOS::SlimRole.new(item) : nil }
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
     end
 
-    def to_json(*)
+    def to_h
       {
         object: object,
         id: id,
@@ -68,17 +92,21 @@ module WorkOS
         email: email,
         first_name: first_name,
         last_name: last_name,
-        emails: (emails || []).map(&:to_json),
+        emails: (emails || []).map(&:to_h),
         job_title: job_title,
         username: username,
         state: state,
         raw_attributes: raw_attributes,
         custom_attributes: custom_attributes,
-        role: role&.to_json,
-        roles: (roles || []).map(&:to_json),
+        role: role&.to_h,
+        roles: (roles || []).map(&:to_h),
         created_at: created_at,
         updated_at: updated_at
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

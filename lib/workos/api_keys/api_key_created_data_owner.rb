@@ -17,11 +17,15 @@ module WorkOS
       @id = hash[:id]
     end
 
-    def to_json(*)
+    def to_h
       {
         type: type,
         id: id
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

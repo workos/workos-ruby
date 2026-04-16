@@ -14,17 +14,21 @@ module WorkOS
     def initialize(json)
       hash = json.is_a?(Hash) ? json : JSON.parse(json, symbolize_names: true)
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
-      @connection = hash[:connection] ? WorkOS::ConnectionSAMLCertificateRenewalRequiredDataConnection.new(hash[:connection].to_json) : nil
-      @certificate = hash[:certificate] ? WorkOS::ConnectionSAMLCertificateRenewalRequiredDataCertificate.new(hash[:certificate].to_json) : nil
+      @connection = hash[:connection] ? WorkOS::ConnectionSAMLCertificateRenewalRequiredDataConnection.new(hash[:connection]) : nil
+      @certificate = hash[:certificate] ? WorkOS::ConnectionSAMLCertificateRenewalRequiredDataCertificate.new(hash[:certificate]) : nil
       @days_until_expiry = hash[:days_until_expiry]
     end
 
-    def to_json(*)
+    def to_h
       {
-        connection: connection&.to_json,
-        certificate: certificate&.to_json,
+        connection: connection&.to_h,
+        certificate: certificate&.to_h,
         days_until_expiry: days_until_expiry
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

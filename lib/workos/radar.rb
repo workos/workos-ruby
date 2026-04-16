@@ -16,7 +16,7 @@ module WorkOS
     # @param action [WorkOS::Types::RadarStandaloneAssessRequestAction] The action being performed.
     # @param device_fingerprint [String, nil] An optional device fingerprint for the request.
     # @param bot_score [String, nil] An optional bot detection score for the request.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::RadarStandaloneResponse]
     def create_attempt(
       ip_address:,
@@ -48,7 +48,7 @@ module WorkOS
     # @param id [String] The unique identifier of the Radar attempt to update.
     # @param challenge_status [String, nil] Set to `"success"` to mark the challenge as completed.
     # @param attempt_status [String, nil] Set to `"success"` to mark the authentication attempt as successful.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [Object]
     def update_attempt(
       id:,
@@ -71,7 +71,7 @@ module WorkOS
     # @param type [WorkOS::Types::RadarType] The type of the Radar list (e.g. ip_address, domain, email).
     # @param action [WorkOS::Types::RadarAction] The list action indicating whether to add the entry to the allow or block list.
     # @param entry [String] The value to add to the list. Must match the format of the list type (e.g. a valid IP address for `ip_address`, a valid email for `email`).
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::RadarListEntryAlreadyPresentResponse]
     def add_list_entry(
       type:,
@@ -93,7 +93,7 @@ module WorkOS
     # @param type [WorkOS::Types::RadarType] The type of the Radar list (e.g. ip_address, domain, email).
     # @param action [WorkOS::Types::RadarAction] The list action indicating whether to remove the entry from the allow or block list.
     # @param entry [String] The value to remove from the list. Must match an existing entry.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [Object]
     def remove_list_entry(
       type:,

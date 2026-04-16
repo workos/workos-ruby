@@ -11,8 +11,12 @@ module WorkOS
       hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
     end
 
-    def to_json(*)
+    def to_h
       {}
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

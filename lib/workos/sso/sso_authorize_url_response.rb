@@ -14,10 +14,14 @@ module WorkOS
       @url = hash[:url]
     end
 
-    def to_json(*)
+    def to_h
       {
         url: url
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

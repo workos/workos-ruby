@@ -17,11 +17,15 @@ module WorkOS
       @state = hash[:state]
     end
 
-    def to_json(*)
+    def to_h
       {
         domain: domain,
         state: state
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

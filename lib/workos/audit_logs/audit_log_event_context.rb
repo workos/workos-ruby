@@ -17,11 +17,15 @@ module WorkOS
       @user_agent = hash[:user_agent]
     end
 
-    def to_json(*)
+    def to_h
       {
         location: location,
         user_agent: user_agent
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

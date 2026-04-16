@@ -19,12 +19,16 @@ module WorkOS
       @session_id = hash[:session_id]
     end
 
-    def to_json(*)
+    def to_h
       {
         organization_id: organization_id,
         connection_id: connection_id,
         session_id: session_id
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

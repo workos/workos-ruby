@@ -14,10 +14,14 @@ module WorkOS
       @client_id = hash[:client_id]
     end
 
-    def to_json(*)
+    def to_h
       {
         client_id: client_id
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

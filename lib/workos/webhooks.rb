@@ -13,7 +13,7 @@ module WorkOS
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::WebhooksOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::WebhookEndpointList]
     def list_webhook_endpoints(
       before: nil,
@@ -33,7 +33,7 @@ module WorkOS
         request_options: request_options
       )
       parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::WebhookEndpointJson.new(item.to_json) }
+      items = (parsed["data"] || []).map { |item| WorkOS::WebhookEndpointJson.new(item) }
       fetch_next = lambda do |metadata|
         cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
@@ -45,13 +45,13 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next)
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {before: before, limit: limit, order: order})
     end
 
     # Create a Webhook Endpoint
     # @param endpoint_url [String] The HTTPS URL where webhooks will be sent.
     # @param events [Array<WorkOS::Types::CreateWebhookEndpointEvents>] The events that the Webhook Endpoint is subscribed to.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::WebhookEndpointJson]
     def create_webhook_endpoint(
       endpoint_url:,
@@ -74,7 +74,7 @@ module WorkOS
     # @param endpoint_url [String, nil] The HTTPS URL where webhooks will be sent.
     # @param status [WorkOS::Types::UpdateWebhookEndpointStatus, nil] Whether the Webhook Endpoint is enabled or disabled.
     # @param events [Array<WorkOS::Types::UpdateWebhookEndpointEvents>, nil] The events that the Webhook Endpoint is subscribed to.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::WebhookEndpointJson]
     def update_webhook_endpoint(
       id:,
@@ -97,7 +97,7 @@ module WorkOS
 
     # Delete a Webhook Endpoint
     # @param id [String] Unique identifier of the Webhook Endpoint.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [Object]
     def delete_webhook_endpoint(
       id:,
@@ -112,6 +112,19 @@ module WorkOS
 
     # @oagen-ignore-start — non-spec helpers (hand-maintained)
     DEFAULT_TOLERANCE_SECONDS = 180
+
+    # Verify a webhook signature and return a typed event struct.
+    #
+    # @param payload [String] Raw webhook request body.
+    # @param sig_header [String] Value of the WorkOS-Signature header.
+    # @param secret [String] Webhook endpoint secret.
+    # @param tolerance [Integer] Maximum event age in seconds.
+    # @return [WorkOS::WebhookEvent] Typed event with .event, .data, .id, .created_at.
+    # @raise [WorkOS::SignatureVerificationError] if verification fails.
+    def construct_event(payload:, sig_header:, secret:, tolerance: DEFAULT_TOLERANCE_SECONDS)
+      raw = verify_event(payload: payload, sig_header: sig_header, secret: secret, tolerance: tolerance)
+      WebhookEvent.new(raw)
+    end
 
     # Verify a webhook signature and return the deserialized event payload.
     #

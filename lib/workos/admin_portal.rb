@@ -15,7 +15,7 @@ module WorkOS
     # @param intent [WorkOS::Types::GenerateLinkIntent, nil] The intent of the Admin Portal. - `sso` - Launch Admin Portal for creating SSO connections - `dsync` - Launch Admin Portal for creating Directory Sync connections - `audit_logs` - Launch Admin Portal for viewing Audit Logs - `log_streams` - Launch Admin Portal for creating Log Streams - `domain_verification` - Launch Admin Portal for Domain Verification - `certificate_renewal` - Launch Admin Portal for renewing SAML Certificates - `bring_your_own_key` - Launch Admin Portal for configuring Bring Your Own Key
     # @param intent_options [WorkOS::IntentOptions, nil] Options to configure the Admin Portal based on the intent.
     # @param admin_emails [Array<String>, nil] The email addresses of the IT admins to grant access to the Admin Portal for the given organization. Accepts up to 20 emails.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::PortalLinkResponse]
     def generate_link(
       organization:,

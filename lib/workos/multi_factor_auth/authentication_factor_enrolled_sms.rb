@@ -14,10 +14,14 @@ module WorkOS
       @phone_number = hash[:phone_number]
     end
 
-    def to_json(*)
+    def to_h
       {
         phone_number: phone_number
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

@@ -16,7 +16,7 @@ module WorkOS
     # @param organization_id [String, nil] Filter Directories by their associated organization.
     # @param search [String, nil] Searchable text to match against Directory names.
     # @param domain [String, nil] (deprecated) Filter Directories by their associated domain.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::DirectoryList]
     def list_directories(
       before: nil,
@@ -42,7 +42,7 @@ module WorkOS
         request_options: request_options
       )
       parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::Directory.new(item.to_json) }
+      items = (parsed["data"] || []).map { |item| WorkOS::Directory.new(item) }
       fetch_next = lambda do |metadata|
         cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
@@ -57,12 +57,12 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next)
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {before: before, limit: limit, order: order, organization_id: organization_id, search: search, domain: domain})
     end
 
     # Get a Directory
     # @param id [String] Unique identifier for the Directory.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::Directory]
     def get_directory(
       id:,
@@ -77,7 +77,7 @@ module WorkOS
 
     # Delete a Directory
     # @param id [String] Unique identifier for the Directory.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [Object]
     def delete_directory(
       id:,
@@ -97,7 +97,7 @@ module WorkOS
     # @param order [WorkOS::Types::DirectoryGroupsOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
     # @param directory [String, nil] Unique identifier of the WorkOS Directory. This value can be obtained from the WorkOS dashboard or from the WorkOS API.
     # @param user [String, nil] Unique identifier of the WorkOS Directory User. This value can be obtained from the WorkOS API.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::DirectoryGroupList]
     def list_groups(
       before: nil,
@@ -121,7 +121,7 @@ module WorkOS
         request_options: request_options
       )
       parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::DirectoryGroup.new(item.to_json) }
+      items = (parsed["data"] || []).map { |item| WorkOS::DirectoryGroup.new(item) }
       fetch_next = lambda do |metadata|
         cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
@@ -135,12 +135,12 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next)
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {before: before, limit: limit, order: order, directory: directory, user: user})
     end
 
     # Get a Directory Group
     # @param id [String] Unique identifier for the Directory Group.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::DirectoryGroup]
     def get_group(
       id:,
@@ -160,7 +160,7 @@ module WorkOS
     # @param order [WorkOS::Types::DirectoryUsersOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
     # @param directory [String, nil] Unique identifier of the WorkOS Directory. This value can be obtained from the WorkOS dashboard or from the WorkOS API.
     # @param group [String, nil] Unique identifier of the WorkOS Directory Group. This value can be obtained from the WorkOS API.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::DirectoryUserList]
     def list_users(
       before: nil,
@@ -184,7 +184,7 @@ module WorkOS
         request_options: request_options
       )
       parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::DirectoryUserWithGroups.new(item.to_json) }
+      items = (parsed["data"] || []).map { |item| WorkOS::DirectoryUserWithGroups.new(item) }
       fetch_next = lambda do |metadata|
         cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
@@ -198,12 +198,12 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next)
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {before: before, limit: limit, order: order, directory: directory, group: group})
     end
 
     # Get a Directory User
     # @param id [String] Unique identifier for the Directory User.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::DirectoryUserWithGroups]
     def get_user(
       id:,

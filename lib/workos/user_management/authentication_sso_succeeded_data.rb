@@ -24,10 +24,10 @@ module WorkOS
       @user_agent = hash[:user_agent]
       @user_id = hash[:user_id]
       @email = hash[:email]
-      @sso = hash[:sso] ? WorkOS::AuthenticationSSOSucceededDataSSO.new(hash[:sso].to_json) : nil
+      @sso = hash[:sso] ? WorkOS::AuthenticationSSOSucceededDataSSO.new(hash[:sso]) : nil
     end
 
-    def to_json(*)
+    def to_h
       {
         type: type,
         status: status,
@@ -35,8 +35,12 @@ module WorkOS
         user_agent: user_agent,
         user_id: user_id,
         email: email,
-        sso: sso&.to_json
+        sso: sso&.to_h
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

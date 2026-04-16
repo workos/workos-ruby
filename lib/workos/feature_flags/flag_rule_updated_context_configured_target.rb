@@ -13,15 +13,19 @@ module WorkOS
     def initialize(json)
       hash = json.is_a?(Hash) ? json : JSON.parse(json, symbolize_names: true)
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
-      @organizations = (hash[:organizations] || []).map { |item| item ? WorkOS::FlagRuleUpdatedContextConfiguredTargetOrganization.new(item.to_json) : nil }
-      @users = (hash[:users] || []).map { |item| item ? WorkOS::FlagRuleUpdatedContextConfiguredTargetUser.new(item.to_json) : nil }
+      @organizations = (hash[:organizations] || []).map { |item| item ? WorkOS::FlagRuleUpdatedContextConfiguredTargetOrganization.new(item) : nil }
+      @users = (hash[:users] || []).map { |item| item ? WorkOS::FlagRuleUpdatedContextConfiguredTargetUser.new(item) : nil }
     end
 
-    def to_json(*)
+    def to_h
       {
-        organizations: (organizations || []).map(&:to_json),
-        users: (users || []).map(&:to_json)
+        organizations: (organizations || []).map(&:to_h),
+        users: (users || []).map(&:to_h)
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

@@ -14,17 +14,21 @@ module WorkOS
     def initialize(json)
       hash = json.is_a?(Hash) ? json : JSON.parse(json, symbolize_names: true)
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
-      @actor = hash[:actor] ? WorkOS::AuditLogSchemaActor.new(hash[:actor].to_json) : nil
-      @targets = (hash[:targets] || []).map { |item| item ? WorkOS::AuditLogSchemaTarget.new(item.to_json) : nil }
+      @actor = hash[:actor] ? WorkOS::AuditLogSchemaActor.new(hash[:actor]) : nil
+      @targets = (hash[:targets] || []).map { |item| item ? WorkOS::AuditLogSchemaTarget.new(item) : nil }
       @metadata = hash[:metadata] || {}
     end
 
-    def to_json(*)
+    def to_h
       {
-        actor: actor&.to_json,
-        targets: (targets || []).map(&:to_json),
+        actor: actor&.to_h,
+        targets: (targets || []).map(&:to_h),
         metadata: metadata
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

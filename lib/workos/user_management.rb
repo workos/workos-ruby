@@ -10,7 +10,7 @@ module WorkOS
 
     # Get JWKS
     # @param client_id [String] Identifies the application making the request to the WorkOS server. You can obtain your client ID from the [API Keys](https://dashboard.workos.com/api-keys) page in the dashboard.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::JwksResponse]
     def get_jwks(
       client_id:,
@@ -31,7 +31,7 @@ module WorkOS
     # @param ip_address [String, nil] The IP address of the user's request.
     # @param device_id [String, nil] A unique identifier for the device.
     # @param user_agent [String, nil] The user agent string from the user's browser.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::AuthenticateResponse]
     def create_authenticate(
       client_id:,
@@ -327,7 +327,7 @@ module WorkOS
 
     # Get device authorization URL
     # @param client_id [String] The WorkOS client ID for your application.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::DeviceAuthorizationResponse]
     def create_device(
       client_id:,
@@ -346,7 +346,7 @@ module WorkOS
     # Revoke Session
     # @param session_id [String] The ID of the session to revoke. This can be extracted from the `sid` claim of the access token.
     # @param return_to [String, nil] The URL to redirect the user to after session revocation.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [Object]
     def revoke_session(
       session_id:,
@@ -366,7 +366,7 @@ module WorkOS
 
     # Create a CORS origin
     # @param origin [String] The origin URL to allow for CORS requests.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::CORSOriginResponse]
     def create_cors_origin(
       origin:,
@@ -384,7 +384,7 @@ module WorkOS
 
     # Get an email verification code
     # @param id [String] The ID of the email verification code.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::EmailVerification]
     def get_email_verification(
       id:,
@@ -399,7 +399,7 @@ module WorkOS
 
     # Create a password reset token
     # @param email [String] The email address of the user requesting a password reset.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::PasswordReset]
     def reset_password(
       email:,
@@ -418,7 +418,7 @@ module WorkOS
     # Reset the password
     # @param token [String] The password reset token.
     # @param new_password [String] The new password to set for the user.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::ResetPasswordResponse]
     def confirm_password_reset(
       token:,
@@ -438,7 +438,7 @@ module WorkOS
 
     # Get a password reset token
     # @param id [String] The ID of the password reset token.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::PasswordReset]
     def get_password_reset(
       id:,
@@ -459,7 +459,7 @@ module WorkOS
     # @param organization [String, nil] (deprecated) Filter users by the organization they are a member of. Deprecated in favor of `organization_id`.
     # @param organization_id [String, nil] Filter users by the organization they are a member of.
     # @param email [String, nil] Filter users by their email address.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::UserList]
     def list_users(
       before: nil,
@@ -485,7 +485,7 @@ module WorkOS
         request_options: request_options
       )
       parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::User.new(item.to_json) }
+      items = (parsed["data"] || []).map { |item| WorkOS::User.new(item) }
       fetch_next = lambda do |metadata|
         cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
@@ -500,7 +500,7 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next)
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {before: before, limit: limit, order: order, organization: organization, organization_id: organization_id, email: email})
     end
 
     # Create a user
@@ -510,7 +510,7 @@ module WorkOS
     # @param email_verified [Boolean, nil, nil] Whether the user's email has been verified.
     # @param metadata [Hash{String => String}, nil, nil] Object containing metadata key/value pairs associated with the user.
     # @param external_id [String, nil, nil] The external ID of the user.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::User]
     def create_user(
       email:,
@@ -538,7 +538,7 @@ module WorkOS
 
     # Get a user by external ID
     # @param external_id [String] The external ID of the user.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::User]
     def get_user_by_external_id(
       external_id:,
@@ -553,7 +553,7 @@ module WorkOS
 
     # Get a user
     # @param id [String] The unique ID of the user.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::User]
     def get_user(
       id:,
@@ -575,7 +575,7 @@ module WorkOS
     # @param metadata [Hash{String => String}, nil, nil] Object containing metadata key/value pairs associated with the user.
     # @param external_id [String, nil, nil] The external ID of the user.
     # @param locale [String, nil, nil] The user's preferred locale.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::User]
     def update_user(
       id:,
@@ -606,7 +606,7 @@ module WorkOS
 
     # Delete a user
     # @param id [String] The unique ID of the user.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [Object]
     def delete_user(
       id:,
@@ -622,7 +622,7 @@ module WorkOS
     # Confirm email change
     # @param id [String] The unique ID of the user.
     # @param code [String] The one-time code used to confirm the email change.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::EmailChangeConfirmation]
     def confirm_email_change(
       id:,
@@ -642,7 +642,7 @@ module WorkOS
     # Send email change code
     # @param id [String] The unique ID of the user.
     # @param new_email [String] The new email address to change to.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::EmailChange]
     def send_email_change(
       id:,
@@ -662,7 +662,7 @@ module WorkOS
     # Verify email
     # @param id [String] The ID of the user.
     # @param code [String] The one-time email verification code.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::VerifyEmailResponse]
     def verify_email(
       id:,
@@ -681,7 +681,7 @@ module WorkOS
 
     # Send verification email
     # @param id [String] The ID of the user.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::SendVerificationEmailResponse]
     def send_verification_email(
       id:,
@@ -696,7 +696,7 @@ module WorkOS
 
     # Get user identities
     # @param id [String] The unique ID of the user.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [Array<WorkOS::UserIdentitiesGetItem>]
     def get_user_identities(
       id:,
@@ -707,7 +707,7 @@ module WorkOS
         request_options: request_options
       )
       parsed = JSON.parse(response.body)
-      (parsed || []).map { |item| WorkOS::UserIdentitiesGetItem.new(item.to_json) }
+      (parsed || []).map { |item| WorkOS::UserIdentitiesGetItem.new(item) }
     end
 
     # List sessions
@@ -716,7 +716,7 @@ module WorkOS
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::UserManagementUsersOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [Array<WorkOS::UserSessionsListItem>]
     def list_sessions(
       id:,
@@ -737,7 +737,7 @@ module WorkOS
         request_options: request_options
       )
       parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::UserSessionsListItem.new(item.to_json) }
+      items = (parsed["data"] || []).map { |item| WorkOS::UserSessionsListItem.new(item) }
       fetch_next = lambda do |metadata|
         cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
@@ -750,7 +750,7 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next)
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {id: id, before: before, limit: limit, order: order})
     end
 
     # List invitations
@@ -760,7 +760,7 @@ module WorkOS
     # @param order [WorkOS::Types::UserManagementInvitationsOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
     # @param organization_id [String, nil] The ID of the [organization](https://workos.com/docs/reference/organization) that the recipient will join.
     # @param email [String, nil] The email address of the recipient.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [Array<WorkOS::UserInvite>]
     def list_invitations(
       before: nil,
@@ -784,7 +784,7 @@ module WorkOS
         request_options: request_options
       )
       parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::UserInvite.new(item.to_json) }
+      items = (parsed["data"] || []).map { |item| WorkOS::UserInvite.new(item) }
       fetch_next = lambda do |metadata|
         cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
@@ -798,7 +798,7 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next)
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {before: before, limit: limit, order: order, organization_id: organization_id, email: email})
     end
 
     # Send an invitation
@@ -808,7 +808,7 @@ module WorkOS
     # @param expires_in_days [Integer, nil] How many days the invitations will be valid for. Must be between 1 and 30 days. Defaults to 7 days if not specified.
     # @param inviter_user_id [String, nil] The ID of the [user](https://workos.com/docs/reference/authkit/user) who invites the recipient. The invitation email will mention the name of this user.
     # @param locale [WorkOS::Types::CreateUserInviteOptionsLocale, nil] The locale to use when rendering the invitation email. See [supported locales](https://workos.com/docs/authkit/hosted-ui/localization).
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::UserInvite]
     def send_invitation(
       email:,
@@ -836,7 +836,7 @@ module WorkOS
 
     # Find an invitation by token
     # @param token [String] The token used to accept the invitation.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::UserInvite]
     def find_invitation_by_token(
       token:,
@@ -851,7 +851,7 @@ module WorkOS
 
     # Get an invitation
     # @param id [String] The unique ID of the invitation.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::UserInvite]
     def get_invitation(
       id:,
@@ -866,7 +866,7 @@ module WorkOS
 
     # Accept an invitation
     # @param id [String] The unique ID of the invitation.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::Invitation]
     def accept_invitation(
       id:,
@@ -882,7 +882,7 @@ module WorkOS
     # Resend an invitation
     # @param id [String] The unique ID of the invitation.
     # @param locale [WorkOS::Types::ResendUserInviteOptionsLocale, nil] The locale to use when rendering the invitation email. See [supported locales](https://workos.com/docs/authkit/hosted-ui/localization).
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::UserInvite]
     def resend_invitation(
       id:,
@@ -901,7 +901,7 @@ module WorkOS
 
     # Revoke an invitation
     # @param id [String] The unique ID of the invitation.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::Invitation]
     def revoke_invitation(
       id:,
@@ -916,7 +916,7 @@ module WorkOS
 
     # Update JWT template
     # @param content [String] The JWT template content as a Liquid template string.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::JWTTemplateResponse]
     def update_jwt_template(
       content:,
@@ -935,7 +935,7 @@ module WorkOS
     # Create a Magic Auth code
     # @param email [String] The email address to send the magic code to.
     # @param invitation_token [String, nil] The invitation token to associate with this magic code.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::MagicAuth]
     def create_magic_auth(
       email:,
@@ -955,7 +955,7 @@ module WorkOS
 
     # Get Magic Auth code details
     # @param id [String] The unique ID of the Magic Auth code.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::MagicAuth]
     def get_magic_auth(
       id:,
@@ -976,7 +976,7 @@ module WorkOS
     # @param organization_id [String, nil] The ID of the [organization](https://workos.com/docs/reference/organization) which the user belongs to.
     # @param statuses [Array<WorkOS::Types::UserManagementOrganizationMembershipStatuses>, nil] Filter by the status of the organization membership. Array including any of `active`, `inactive`, or `pending`.
     # @param user_id [String, nil] The ID of the [user](https://workos.com/docs/reference/authkit/user).
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [Array<WorkOS::UserOrganizationMembership>]
     def list_organization_memberships(
       before: nil,
@@ -1002,7 +1002,7 @@ module WorkOS
         request_options: request_options
       )
       parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::UserOrganizationMembership.new(item.to_json) }
+      items = (parsed["data"] || []).map { |item| WorkOS::UserOrganizationMembership.new(item) }
       fetch_next = lambda do |metadata|
         cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
@@ -1017,13 +1017,13 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next)
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {before: before, limit: limit, order: order, organization_id: organization_id, statuses: statuses, user_id: user_id})
     end
 
     # Create an organization membership
     # @param user_id [String] The ID of the [user](https://workos.com/docs/reference/authkit/user).
     # @param organization_id [String] The ID of the [organization](https://workos.com/docs/reference/organization) which the user belongs to.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::OrganizationMembership]
     def create_organization_membership(
       user_id:,
@@ -1043,7 +1043,7 @@ module WorkOS
 
     # Get an organization membership
     # @param id [String] The unique ID of the organization membership.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::UserOrganizationMembership]
     def get_organization_membership(
       id:,
@@ -1058,7 +1058,7 @@ module WorkOS
 
     # Update an organization membership
     # @param id [String] The unique ID of the organization membership.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::UserOrganizationMembership]
     def update_organization_membership(
       id:,
@@ -1073,7 +1073,7 @@ module WorkOS
 
     # Delete an organization membership
     # @param id [String] The unique ID of the organization membership.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [Object]
     def delete_organization_membership(
       id:,
@@ -1088,7 +1088,7 @@ module WorkOS
 
     # Deactivate an organization membership
     # @param id [String] The unique ID of the organization membership.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::OrganizationMembership]
     def deactivate_organization_membership(
       id:,
@@ -1103,7 +1103,7 @@ module WorkOS
 
     # Reactivate an organization membership
     # @param id [String] The unique ID of the organization membership.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::UserOrganizationMembership]
     def reactivate_organization_membership(
       id:,
@@ -1118,7 +1118,7 @@ module WorkOS
 
     # Create a redirect URI
     # @param uri [String] The redirect URI to create.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::RedirectUri]
     def create_redirect_uri(
       uri:,
@@ -1140,7 +1140,7 @@ module WorkOS
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::UserManagementUsersAuthorizedApplicationsOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::AuthorizedConnectApplicationList]
     def list_user_authorized_applications(
       user_id:,
@@ -1161,7 +1161,7 @@ module WorkOS
         request_options: request_options
       )
       parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::AuthorizedConnectApplicationListData.new(item.to_json) }
+      items = (parsed["data"] || []).map { |item| WorkOS::AuthorizedConnectApplicationListData.new(item) }
       fetch_next = lambda do |metadata|
         cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
@@ -1174,13 +1174,13 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next)
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {user_id: user_id, before: before, limit: limit, order: order})
     end
 
     # Delete an authorized application
     # @param application_id [String] The ID or client ID of the application.
     # @param user_id [String] The ID of the user.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [Object]
     def delete_user_authorized_application(
       application_id:,

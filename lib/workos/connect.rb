@@ -12,7 +12,7 @@ module WorkOS
     # @param external_auth_id [String] Identifier provided when AuthKit redirected to your login page.
     # @param user [WorkOS::UserObject] The user to create or update in AuthKit.
     # @param user_consent_options [Array<WorkOS::UserConsentOption>, nil] Array of [User Consent Options](https://workos.com/docs/reference/workos-connect/standalone/user-consent-options) to store with the session.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::ExternalAuthCompleteResponse]
     def complete_oauth2(
       external_auth_id:,
@@ -38,7 +38,7 @@ module WorkOS
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::ApplicationsOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
     # @param organization_id [String, nil] Filter Connect Applications by organization ID.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::ConnectApplicationList]
     def list_applications(
       before: nil,
@@ -60,7 +60,7 @@ module WorkOS
         request_options: request_options
       )
       parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::ConnectApplication.new(item.to_json) }
+      items = (parsed["data"] || []).map { |item| WorkOS::ConnectApplication.new(item) }
       fetch_next = lambda do |metadata|
         cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
@@ -73,7 +73,7 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next)
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {before: before, limit: limit, order: order, organization_id: organization_id})
     end
 
     # Create a Connect Application
@@ -85,7 +85,7 @@ module WorkOS
     # @param uses_pkce [Boolean, nil, nil] Whether the application uses PKCE (Proof Key for Code Exchange).
     # @param is_first_party [Boolean] Whether this is a first-party application. Third-party applications require an organization_id.
     # @param organization_id [String, nil, nil] The organization ID this application belongs to. Required when is_first_party is false.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::ConnectApplication]
     def create_application(
       name:,
@@ -182,7 +182,7 @@ module WorkOS
 
     # Get a Connect Application
     # @param id [String] The application ID or client ID of the Connect Application.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::ConnectApplication]
     def get_application(
       id:,
@@ -201,7 +201,7 @@ module WorkOS
     # @param description [String, nil, nil] A description for the application.
     # @param scopes [Array<String>, nil, nil] The OAuth scopes granted to the application.
     # @param redirect_uris [Array<WorkOS::RedirectUriInput>, nil, nil] Updated redirect URIs for the application. OAuth applications only.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::ConnectApplication]
     def update_application(
       id:,
@@ -226,7 +226,7 @@ module WorkOS
 
     # Delete a Connect Application
     # @param id [String] The application ID or client ID of the Connect Application.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [Object]
     def delete_application(
       id:,
@@ -241,7 +241,7 @@ module WorkOS
 
     # List Client Secrets for a Connect Application
     # @param id [String] The application ID or client ID of the Connect Application.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [Array<WorkOS::ApplicationCredentialsListItem>]
     def list_application_client_secrets(
       id:,
@@ -252,12 +252,12 @@ module WorkOS
         request_options: request_options
       )
       parsed = JSON.parse(response.body)
-      (parsed || []).map { |item| WorkOS::ApplicationCredentialsListItem.new(item.to_json) }
+      (parsed || []).map { |item| WorkOS::ApplicationCredentialsListItem.new(item) }
     end
 
     # Create a new client secret for a Connect Application
     # @param id [String] The application ID or client ID of the Connect Application.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::NewConnectApplicationSecret]
     def create_application_client_secret(
       id:,
@@ -272,7 +272,7 @@ module WorkOS
 
     # Delete a Client Secret
     # @param id [String] The unique ID of the client secret.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [Object]
     def delete_client_secret(
       id:,

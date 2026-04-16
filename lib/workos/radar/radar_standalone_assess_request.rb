@@ -27,7 +27,7 @@ module WorkOS
       @bot_score = hash[:bot_score]
     end
 
-    def to_json(*)
+    def to_h
       {
         ip_address: ip_address,
         user_agent: user_agent,
@@ -37,6 +37,10 @@ module WorkOS
         device_fingerprint: device_fingerprint,
         bot_score: bot_score
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

@@ -21,13 +21,17 @@ module WorkOS
       @totp_secret = hash[:totp_secret]
     end
 
-    def to_json(*)
+    def to_h
       {
         type: type,
         totp_issuer: totp_issuer,
         totp_user: totp_user,
         totp_secret: totp_secret
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

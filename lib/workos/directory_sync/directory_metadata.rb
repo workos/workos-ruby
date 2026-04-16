@@ -13,15 +13,19 @@ module WorkOS
     def initialize(json)
       hash = json.is_a?(Hash) ? json : JSON.parse(json, symbolize_names: true)
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
-      @users = hash[:users] ? WorkOS::DirectoryMetadataUser.new(hash[:users].to_json) : nil
+      @users = hash[:users] ? WorkOS::DirectoryMetadataUser.new(hash[:users]) : nil
       @groups = hash[:groups]
     end
 
-    def to_json(*)
+    def to_h
       {
-        users: users&.to_json,
+        users: users&.to_h,
         groups: groups
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

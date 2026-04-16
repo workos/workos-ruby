@@ -14,14 +14,18 @@ module WorkOS
       hash = json.is_a?(Hash) ? json : JSON.parse(json, symbolize_names: true)
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @object = hash[:object]
-      @user = hash[:user] ? WorkOS::EmailChangeConfirmationUser.new(hash[:user].to_json) : nil
+      @user = hash[:user] ? WorkOS::EmailChangeConfirmationUser.new(hash[:user]) : nil
     end
 
-    def to_json(*)
+    def to_h
       {
         object: object,
-        user: user&.to_json
+        user: user&.to_h
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

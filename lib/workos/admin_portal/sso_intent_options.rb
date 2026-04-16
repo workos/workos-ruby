@@ -17,11 +17,15 @@ module WorkOS
       @provider_type = hash[:provider_type]
     end
 
-    def to_json(*)
+    def to_h
       {
         bookmark_slug: bookmark_slug,
         provider_type: provider_type
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

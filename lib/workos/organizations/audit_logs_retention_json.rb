@@ -14,10 +14,14 @@ module WorkOS
       @retention_period_in_days = hash[:retention_period_in_days]
     end
 
-    def to_json(*)
+    def to_h
       {
         retention_period_in_days: retention_period_in_days
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

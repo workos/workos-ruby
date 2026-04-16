@@ -17,11 +17,15 @@ module WorkOS
       @new_password = hash[:new_password]
     end
 
-    def to_json(*)
+    def to_h
       {
         token: token,
         new_password: new_password
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

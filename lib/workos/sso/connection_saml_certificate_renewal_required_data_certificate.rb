@@ -19,12 +19,16 @@ module WorkOS
       @is_expired = hash[:is_expired]
     end
 
-    def to_json(*)
+    def to_h
       {
         certificate_type: certificate_type,
         expiry_date: expiry_date,
         is_expired: is_expired
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

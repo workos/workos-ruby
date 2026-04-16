@@ -10,7 +10,7 @@ module WorkOS
 
     # Get Retention
     # @param id [String] Unique identifier of the Organization.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::AuditLogsRetentionJson]
     def get_organization_audit_logs_retention(
       id:,
@@ -26,7 +26,7 @@ module WorkOS
     # Set Retention
     # @param id [String] Unique identifier of the Organization.
     # @param retention_period_in_days [Integer] The number of days Audit Log events will be retained. Valid values are `30` and `365`.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::AuditLogsRetentionJson]
     def update_organization_audit_logs_retention(
       id:,
@@ -48,7 +48,7 @@ module WorkOS
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::AuditLogsOrder, nil] Order the results by the creation time.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [Array<WorkOS::AuditLogActionJson>]
     def list_actions(
       before: nil,
@@ -68,7 +68,7 @@ module WorkOS
         request_options: request_options
       )
       parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::AuditLogActionJson.new(item.to_json) }
+      items = (parsed["data"] || []).map { |item| WorkOS::AuditLogActionJson.new(item) }
       fetch_next = lambda do |metadata|
         cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
@@ -80,7 +80,7 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next)
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {before: before, limit: limit, order: order})
     end
 
     # List Schemas
@@ -89,7 +89,7 @@ module WorkOS
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::AuditLogsOrder, nil] Order the results by the creation time.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [Array<WorkOS::AuditLogSchemaJson>]
     def list_action_schemas(
       action_name:,
@@ -110,7 +110,7 @@ module WorkOS
         request_options: request_options
       )
       parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::AuditLogSchemaJson.new(item.to_json) }
+      items = (parsed["data"] || []).map { |item| WorkOS::AuditLogSchemaJson.new(item) }
       fetch_next = lambda do |metadata|
         cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
@@ -123,7 +123,7 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next)
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {action_name: action_name, before: before, limit: limit, order: order})
     end
 
     # Create Schema
@@ -131,7 +131,7 @@ module WorkOS
     # @param actor [WorkOS::AuditLogSchemaActor, nil] The metadata schema for the actor.
     # @param targets [Array<WorkOS::AuditLogSchemaTarget>] The list of targets for the schema.
     # @param metadata [Hash{String => Object}, nil] Optional JSON schema for event metadata.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::AuditLogSchemaJson]
     def create_schema(
       action_name:,
@@ -155,7 +155,7 @@ module WorkOS
     # Create Event
     # @param organization_id [String] The unique ID of the Organization.
     # @param event [WorkOS::AuditLogEvent] The audit log event to create.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::AuditLogEventCreateResponse]
     def create_event(
       organization_id:,
@@ -182,7 +182,7 @@ module WorkOS
     # @param actor_names [Array<String>, nil] List of actor names to filter against.
     # @param actor_ids [Array<String>, nil] List of actor IDs to filter against.
     # @param targets [Array<String>, nil] List of target types to filter against.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::AuditLogExportJson]
     def create_export(
       organization_id:,
@@ -214,7 +214,7 @@ module WorkOS
 
     # Get Export
     # @param audit_log_export_id [String] The unique ID of the Audit Log Export.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::AuditLogExportJson]
     def get_export(
       audit_log_export_id:,

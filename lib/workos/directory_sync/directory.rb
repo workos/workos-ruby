@@ -30,12 +30,12 @@ module WorkOS
       @state = hash[:state]
       @name = hash[:name]
       @domain = hash[:domain]
-      @metadata = hash[:metadata] ? WorkOS::DirectoryMetadata.new(hash[:metadata].to_json) : nil
+      @metadata = hash[:metadata] ? WorkOS::DirectoryMetadata.new(hash[:metadata]) : nil
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
     end
 
-    def to_json(*)
+    def to_h
       {
         object: object,
         id: id,
@@ -45,10 +45,14 @@ module WorkOS
         state: state,
         name: name,
         domain: domain,
-        metadata: metadata&.to_json,
+        metadata: metadata&.to_h,
         created_at: created_at,
         updated_at: updated_at
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

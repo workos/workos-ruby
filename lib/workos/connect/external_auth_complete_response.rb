@@ -14,10 +14,14 @@ module WorkOS
       @redirect_uri = hash[:redirect_uri]
     end
 
-    def to_json(*)
+    def to_h
       {
         redirect_uri: redirect_uri
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

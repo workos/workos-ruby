@@ -27,7 +27,7 @@ module WorkOS
       @secret = hash[:secret]
     end
 
-    def to_json(*)
+    def to_h
       {
         object: object,
         id: id,
@@ -37,6 +37,10 @@ module WorkOS
         updated_at: updated_at,
         secret: secret
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

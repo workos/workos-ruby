@@ -19,12 +19,16 @@ module WorkOS
       @scopes = hash[:scopes] || []
     end
 
-    def to_json(*)
+    def to_h
       {
         organization_id: organization_id,
         user_id: user_id,
         scopes: scopes
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

@@ -23,7 +23,7 @@ module WorkOS
       @organization_id = hash[:organization_id]
     end
 
-    def to_json(*)
+    def to_h
       {
         name: name,
         application_type: application_type,
@@ -31,6 +31,10 @@ module WorkOS
         scopes: scopes,
         organization_id: organization_id
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

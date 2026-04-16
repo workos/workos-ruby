@@ -23,23 +23,27 @@ module WorkOS
       @application_type = hash[:application_type]
       @description = hash[:description]
       @scopes = hash[:scopes] || []
-      @redirect_uris = (hash[:redirect_uris] || []).map { |item| item ? WorkOS::RedirectUriInput.new(item.to_json) : nil }
+      @redirect_uris = (hash[:redirect_uris] || []).map { |item| item ? WorkOS::RedirectUriInput.new(item) : nil }
       @uses_pkce = hash[:uses_pkce]
       @is_first_party = hash[:is_first_party]
       @organization_id = hash[:organization_id]
     end
 
-    def to_json(*)
+    def to_h
       {
         name: name,
         application_type: application_type,
         description: description,
         scopes: scopes,
-        redirect_uris: (redirect_uris || []).map(&:to_json),
+        redirect_uris: (redirect_uris || []).map(&:to_h),
         uses_pkce: uses_pkce,
         is_first_party: is_first_party,
         organization_id: organization_id
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

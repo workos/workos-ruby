@@ -21,13 +21,17 @@ module WorkOS
       @kv_name = hash[:kv_name]
     end
 
-    def to_json(*)
+    def to_h
       {
         actor_id: actor_id,
         actor_source: actor_source,
         actor_name: actor_name,
         kv_name: kv_name
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

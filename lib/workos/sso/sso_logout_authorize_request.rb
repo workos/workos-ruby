@@ -14,10 +14,14 @@ module WorkOS
       @profile_id = hash[:profile_id]
     end
 
-    def to_json(*)
+    def to_h
       {
         profile_id: profile_id
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

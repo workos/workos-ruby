@@ -27,7 +27,7 @@ module WorkOS
       @slug = hash[:slug]
       @name = hash[:name]
       @description = hash[:description]
-      @owner = hash[:owner] ? WorkOS::FeatureFlagOwner.new(hash[:owner].to_json) : nil
+      @owner = hash[:owner] ? WorkOS::FeatureFlagOwner.new(hash[:owner]) : nil
       @tags = hash[:tags] || []
       @enabled = hash[:enabled]
       @default_value = hash[:default_value]
@@ -35,20 +35,24 @@ module WorkOS
       @updated_at = hash[:updated_at]
     end
 
-    def to_json(*)
+    def to_h
       {
         object: object,
         id: id,
         slug: slug,
         name: name,
         description: description,
-        owner: owner&.to_json,
+        owner: owner&.to_h,
         tags: tags,
         enabled: enabled,
         default_value: default_value,
         created_at: created_at,
         updated_at: updated_at
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

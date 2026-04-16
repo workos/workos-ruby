@@ -10,7 +10,7 @@ module WorkOS
 
     # Validate API key
     # @param value [String] The value for an API key.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::ApiKeyValidationResponse]
     def create_validation(
       value:,
@@ -28,7 +28,7 @@ module WorkOS
 
     # Delete an API key
     # @param id [String] The unique ID of the API key.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [Object]
     def delete_api_key(
       id:,
@@ -47,7 +47,7 @@ module WorkOS
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::OrganizationsApiKeysOrder, nil] Order the results by the creation time.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::ApiKeyList]
     def list_organization_api_keys(
       organization_id:,
@@ -68,7 +68,7 @@ module WorkOS
         request_options: request_options
       )
       parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::ApiKey.new(item.to_json) }
+      items = (parsed["data"] || []).map { |item| WorkOS::ApiKey.new(item) }
       fetch_next = lambda do |metadata|
         cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
         return nil if cursor.nil? || cursor.to_s.empty?
@@ -81,14 +81,14 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next)
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {organization_id: organization_id, before: before, limit: limit, order: order})
     end
 
     # Create an API key for an organization
     # @param organization_id [String] Unique identifier of the Organization.
     # @param name [String] The name for the API key.
     # @param permissions [Array<String>, nil] The permission slugs to assign to the API key.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::ApiKeyWithValue]
     def create_organization_api_key(
       organization_id:,

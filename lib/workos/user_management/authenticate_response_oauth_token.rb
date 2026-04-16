@@ -23,7 +23,7 @@ module WorkOS
       @scopes = hash[:scopes] || []
     end
 
-    def to_json(*)
+    def to_h
       {
         provider: provider,
         refresh_token: refresh_token,
@@ -31,6 +31,10 @@ module WorkOS
         expires_at: expires_at,
         scopes: scopes
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

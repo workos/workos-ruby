@@ -14,10 +14,14 @@ module WorkOS
       @role_slug = hash[:role_slug]
     end
 
-    def to_json(*)
+    def to_h
       {
         role_slug: role_slug
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

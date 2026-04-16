@@ -10,12 +10,13 @@ module WorkOS
     class ListStruct
       include Enumerable
 
-      attr_accessor :data, :list_metadata, :fetch_next
+      attr_accessor :data, :list_metadata, :fetch_next, :filters
 
-      def initialize(data:, list_metadata:, fetch_next: nil)
+      def initialize(data:, list_metadata:, fetch_next: nil, filters: {})
         @data = data || []
         @list_metadata = list_metadata || {}
         @fetch_next = fetch_next
+        @filters = filters
       end
 
       def each(&block)
@@ -38,6 +39,28 @@ module WorkOS
         page = self
         loop do
           page.data.each { |item| yield item }
+          break unless page.fetch_next
+
+          next_page = page.fetch_next.call(page.list_metadata)
+          break if next_page.nil?
+          break unless next_page.is_a?(ListStruct)
+          break if next_page.data.nil? || next_page.data.empty?
+
+          page = next_page
+        end
+      end
+
+      # Iterate one page at a time across all pages.
+      #
+      #   result.each_page do |page|
+      #     page.data.each { |item| bulk_insert(item) }
+      #   end
+      def each_page
+        return enum_for(:each_page) unless block_given?
+
+        page = self
+        loop do
+          yield page
           break unless page.fetch_next
 
           next_page = page.fetch_next.call(page.list_metadata)

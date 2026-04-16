@@ -34,14 +34,14 @@ module WorkOS
       @email = hash[:email]
       @first_name = hash[:first_name]
       @last_name = hash[:last_name]
-      @role = hash[:role] ? WorkOS::SlimRole.new(hash[:role].to_json) : nil
-      @roles = (hash[:roles] || []).map { |item| item ? WorkOS::SlimRole.new(item.to_json) : nil }
+      @role = hash[:role] ? WorkOS::SlimRole.new(hash[:role]) : nil
+      @roles = (hash[:roles] || []).map { |item| item ? WorkOS::SlimRole.new(item) : nil }
       @groups = hash[:groups] || []
       @custom_attributes = hash[:custom_attributes] || {}
       @raw_attributes = hash[:raw_attributes] || {}
     end
 
-    def to_json(*)
+    def to_h
       {
         object: object,
         id: id,
@@ -52,12 +52,16 @@ module WorkOS
         email: email,
         first_name: first_name,
         last_name: last_name,
-        role: role&.to_json,
-        roles: (roles || []).map(&:to_json),
+        role: role&.to_h,
+        roles: (roles || []).map(&:to_h),
         groups: groups,
         custom_attributes: custom_attributes,
         raw_attributes: raw_attributes
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

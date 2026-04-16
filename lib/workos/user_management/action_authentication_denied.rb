@@ -19,21 +19,25 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @id = hash[:id]
       @event = hash[:event]
-      @data = hash[:data] ? WorkOS::ActionAuthenticationDeniedData.new(hash[:data].to_json) : nil
-      @context = hash[:context] ? WorkOS::EventContext.new(hash[:context].to_json) : nil
+      @data = hash[:data] ? WorkOS::ActionAuthenticationDeniedData.new(hash[:data]) : nil
+      @context = hash[:context] ? WorkOS::EventContext.new(hash[:context]) : nil
       @created_at = hash[:created_at]
       @object = hash[:object]
     end
 
-    def to_json(*)
+    def to_h
       {
         id: id,
         event: event,
-        data: data&.to_json,
-        context: context&.to_json,
+        data: data&.to_h,
+        context: context&.to_h,
         created_at: created_at,
         object: object
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

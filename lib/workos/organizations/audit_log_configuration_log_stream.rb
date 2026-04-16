@@ -23,7 +23,7 @@ module WorkOS
       @created_at = hash[:created_at]
     end
 
-    def to_json(*)
+    def to_h
       {
         id: id,
         type: type,
@@ -31,6 +31,10 @@ module WorkOS
         last_synced_at: last_synced_at,
         created_at: created_at
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

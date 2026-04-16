@@ -19,12 +19,16 @@ module WorkOS
       @value = hash[:value]
     end
 
-    def to_json(*)
+    def to_h
       {
         primary: primary,
         type: type,
         value: value
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

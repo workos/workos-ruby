@@ -1,10 +1,6 @@
 # @oagen-ignore-file — hand-maintained runtime
 module WorkOS
-  # Mixin that provides a #to_h method by delegating to #to_json (which
-  # models implement to return a hash, not a string).
+  # Provided by generated models directly.
   module HashProvider
-    def to_h
-      to_json
-    end
   end
 end

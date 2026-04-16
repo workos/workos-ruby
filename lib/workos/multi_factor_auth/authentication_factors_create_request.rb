@@ -23,7 +23,7 @@ module WorkOS
       @user_id = hash[:user_id]
     end
 
-    def to_json(*)
+    def to_h
       {
         type: type,
         phone_number: phone_number,
@@ -31,6 +31,10 @@ module WorkOS
         totp_user: totp_user,
         user_id: user_id
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

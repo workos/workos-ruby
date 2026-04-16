@@ -30,10 +30,10 @@ module WorkOS
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
       @external_key = hash[:external_key]
-      @domains = (hash[:domains] || []).map { |item| item ? WorkOS::DsyncDeactivatedDataDomain.new(item.to_json) : nil }
+      @domains = (hash[:domains] || []).map { |item| item ? WorkOS::DsyncDeactivatedDataDomain.new(item) : nil }
     end
 
-    def to_json(*)
+    def to_h
       {
         object: object,
         id: id,
@@ -44,8 +44,12 @@ module WorkOS
         created_at: created_at,
         updated_at: updated_at,
         external_key: external_key,
-        domains: (domains || []).map(&:to_json)
+        domains: (domains || []).map(&:to_h)
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

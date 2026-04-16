@@ -17,11 +17,15 @@ module WorkOS
       @invitation_token = hash[:invitation_token]
     end
 
-    def to_json(*)
+    def to_h
       {
         email: email,
         invitation_token: invitation_token
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

@@ -19,12 +19,16 @@ module WorkOS
       @last_name = hash[:last_name]
     end
 
-    def to_json(*)
+    def to_h
       {
         email: email,
         first_name: first_name,
         last_name: last_name
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

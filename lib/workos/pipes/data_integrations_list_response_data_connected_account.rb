@@ -17,8 +17,14 @@ module WorkOS
       :scopes,
       :state,
       :created_at,
-      :updated_at,
-      :userland_user_id
+      :updated_at
+
+    def userland_user_id
+      warn "[DEPRECATION] `userland_user_id` is deprecated. Use `user_id` instead.", uplevel: 1
+      @userland_user_id
+    end
+
+    attr_writer :userland_user_id
 
     def initialize(json)
       hash = json.is_a?(Hash) ? json : JSON.parse(json, symbolize_names: true)
@@ -34,7 +40,7 @@ module WorkOS
       @userland_user_id = hash[:userlandUserId]
     end
 
-    def to_json(*)
+    def to_h
       {
         object: object,
         id: id,
@@ -46,6 +52,10 @@ module WorkOS
         updated_at: updated_at,
         userlandUserId: userland_user_id
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

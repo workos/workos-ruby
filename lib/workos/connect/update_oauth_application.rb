@@ -18,16 +18,20 @@ module WorkOS
       @name = hash[:name]
       @description = hash[:description]
       @scopes = hash[:scopes] || []
-      @redirect_uris = (hash[:redirect_uris] || []).map { |item| item ? WorkOS::RedirectUriInput.new(item.to_json) : nil }
+      @redirect_uris = (hash[:redirect_uris] || []).map { |item| item ? WorkOS::RedirectUriInput.new(item) : nil }
     end
 
-    def to_json(*)
+    def to_h
       {
         name: name,
         description: description,
         scopes: scopes,
-        redirect_uris: (redirect_uris || []).map(&:to_json)
+        redirect_uris: (redirect_uris || []).map(&:to_h)
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

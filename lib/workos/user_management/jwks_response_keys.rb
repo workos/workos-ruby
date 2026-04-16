@@ -29,7 +29,7 @@ module WorkOS
       @x_5_t_s_256 = hash[:"x5t#S256"]
     end
 
-    def to_json(*)
+    def to_h
       {
         :alg => alg,
         :kty => kty,
@@ -40,6 +40,10 @@ module WorkOS
         :kid => kid,
         "x5t#S256" => x_5_t_s_256
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

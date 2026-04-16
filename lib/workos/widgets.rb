@@ -12,7 +12,7 @@ module WorkOS
     # @param organization_id [String] The ID of the organization to scope the widget session to.
     # @param user_id [String, nil] The ID of the user to issue the widget session token for.
     # @param scopes [Array<WorkOS::Types::WidgetSessionTokenScopes>, nil] The scopes to grant the widget session.
-    # @param request_options [Hash] Per-request overrides (headers, timeout, etc.).
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::WidgetSessionTokenResponse]
     def create_token(
       organization_id:,

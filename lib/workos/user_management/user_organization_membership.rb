@@ -32,10 +32,10 @@ module WorkOS
       @custom_attributes = hash[:custom_attributes] || {}
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
-      @role = hash[:role] ? WorkOS::SlimRole.new(hash[:role].to_json) : nil
+      @role = hash[:role] ? WorkOS::SlimRole.new(hash[:role]) : nil
     end
 
-    def to_json(*)
+    def to_h
       {
         object: object,
         id: id,
@@ -47,8 +47,12 @@ module WorkOS
         custom_attributes: custom_attributes,
         created_at: created_at,
         updated_at: updated_at,
-        role: role&.to_json
+        role: role&.to_h
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

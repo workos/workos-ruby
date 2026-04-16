@@ -14,10 +14,16 @@ module WorkOS
       :range_start,
       :range_end,
       :actions,
-      :actors,
       :actor_names,
       :actor_ids,
       :targets
+
+    def actors
+      warn "[DEPRECATION] `actors` is deprecated. Deprecated. Use `actor_names` instead.", uplevel: 1
+      @actors
+    end
+
+    attr_writer :actors
 
     def initialize(json)
       hash = json.is_a?(Hash) ? json : JSON.parse(json, symbolize_names: true)
@@ -32,7 +38,7 @@ module WorkOS
       @targets = hash[:targets] || []
     end
 
-    def to_json(*)
+    def to_h
       {
         organization_id: organization_id,
         range_start: range_start,
@@ -43,6 +49,10 @@ module WorkOS
         actor_ids: actor_ids,
         targets: targets
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

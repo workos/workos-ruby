@@ -21,13 +21,17 @@ module WorkOS
       @metadata = hash[:metadata] || {}
     end
 
-    def to_json(*)
+    def to_h
       {
         id: id,
         type: type,
         name: name,
         metadata: metadata
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

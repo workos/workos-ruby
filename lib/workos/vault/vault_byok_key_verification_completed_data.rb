@@ -19,12 +19,16 @@ module WorkOS
       @verified = hash[:verified]
     end
 
-    def to_json(*)
+    def to_h
       {
         organization_id: organization_id,
         key_provider: key_provider,
         verified: verified
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

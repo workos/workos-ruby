@@ -14,10 +14,14 @@ module WorkOS
       @after = hash[:after]
     end
 
-    def to_json(*)
+    def to_h
       {
         after: after
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

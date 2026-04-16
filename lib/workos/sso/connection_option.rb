@@ -14,10 +14,14 @@ module WorkOS
       @signing_cert = hash[:signing_cert]
     end
 
-    def to_json(*)
+    def to_h
       {
         signing_cert: signing_cert
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

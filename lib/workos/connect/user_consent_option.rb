@@ -18,16 +18,20 @@ module WorkOS
       @claim = hash[:claim]
       @type = hash[:type]
       @label = hash[:label]
-      @choices = (hash[:choices] || []).map { |item| item ? WorkOS::UserConsentOptionChoice.new(item.to_json) : nil }
+      @choices = (hash[:choices] || []).map { |item| item ? WorkOS::UserConsentOptionChoice.new(item) : nil }
     end
 
-    def to_json(*)
+    def to_h
       {
         claim: claim,
         type: type,
         label: label,
-        choices: (choices || []).map(&:to_json)
+        choices: (choices || []).map(&:to_h)
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end

@@ -20,23 +20,27 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @action = hash[:action]
       @occurred_at = hash[:occurred_at]
-      @actor = hash[:actor] ? WorkOS::AuditLogEventActor.new(hash[:actor].to_json) : nil
-      @targets = (hash[:targets] || []).map { |item| item ? WorkOS::AuditLogEventTarget.new(item.to_json) : nil }
-      @context = hash[:context] ? WorkOS::AuditLogEventContext.new(hash[:context].to_json) : nil
+      @actor = hash[:actor] ? WorkOS::AuditLogEventActor.new(hash[:actor]) : nil
+      @targets = (hash[:targets] || []).map { |item| item ? WorkOS::AuditLogEventTarget.new(item) : nil }
+      @context = hash[:context] ? WorkOS::AuditLogEventContext.new(hash[:context]) : nil
       @metadata = hash[:metadata] || {}
       @version = hash[:version]
     end
 
-    def to_json(*)
+    def to_h
       {
         action: action,
         occurred_at: occurred_at,
-        actor: actor&.to_json,
-        targets: (targets || []).map(&:to_json),
-        context: context&.to_json,
+        actor: actor&.to_h,
+        targets: (targets || []).map(&:to_h),
+        context: context&.to_h,
         metadata: metadata,
         version: version
       }
+    end
+
+    def to_json(*args)
+      to_h.to_json(*args)
     end
   end
 end
