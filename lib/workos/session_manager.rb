@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # @oagen-ignore-file
 # Hand-maintained session-cookie helpers (H04-H07, H13):
 #   - SessionManager#load(seal_data:, cookie_password:)  -> Session (H04)
@@ -52,6 +54,8 @@ module WorkOS
       @jwks_cache = nil
       @jwks_cache_at = nil
     end
+
+    attr_reader :client
 
     # H04 — Load a Session object from a sealed cookie.
     def load(seal_data:, cookie_password:)

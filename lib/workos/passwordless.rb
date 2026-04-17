@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 # @oagen-ignore-file
 # Hand-maintained: Passwordless session endpoints are not yet in the OpenAPI
 # spec, so this module wraps them until they are.
 # See https://workos.com/docs/reference/magic-link.
-
+require "cgi"
 require "json"
 
 module WorkOS
@@ -70,7 +72,7 @@ module WorkOS
     def send_session(session_id, request_options: {})
       response = @client.execute_request(
         request: @client.post_request(
-          path: "/passwordless/sessions/#{session_id}/send",
+          path: "/passwordless/sessions/#{CGI.escape(session_id.to_s).gsub("+", "%20")}/send",
           auth: true,
           body: {},
           request_options: request_options

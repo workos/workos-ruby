@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # @oagen-ignore-file
 # Hand-maintained public-client factory (H19).
 # Public clients (browser, mobile, CLI, desktop) cannot store an API key

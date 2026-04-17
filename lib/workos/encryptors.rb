@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # @oagen-ignore-file
 # Namespace for pluggable session encryptors.
 

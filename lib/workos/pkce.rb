@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # @oagen-ignore-file
 # Hand-maintained PKCE utilities (H08).
 # RFC 7636: code_verifier is 43-128 chars (high-entropy); code_challenge is

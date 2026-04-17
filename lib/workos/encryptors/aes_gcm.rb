@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # @oagen-ignore-file
 # Default AES-256-GCM encryptor for sealed session cookies.
 # Implements the seal/unseal interface expected by SessionManager.

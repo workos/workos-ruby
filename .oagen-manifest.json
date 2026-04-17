@@ -1,7 +1,7 @@
 {
   "version": 1,
   "language": "ruby",
-  "generatedAt": "2026-04-17T16:52:08.130Z",
+  "generatedAt": "2026-04-17T23:24:06.050Z",
   "files": [
     "lib/workos.rb",
     "lib/workos/admin_portal.rb",

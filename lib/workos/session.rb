@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 # @oagen-ignore-file
 # Hand-maintained Session object (H04). Constructed by SessionManager#load.
-
 require "json"
 require "jwt"
+require "openssl"
 require "uri"
 
 module WorkOS
@@ -10,7 +12,7 @@ module WorkOS
     def initialize(manager, seal_data:, cookie_password:)
       raise ArgumentError, "cookie_password is required" if cookie_password.nil? || cookie_password.empty?
       @manager = manager
-      @client = manager.instance_variable_get(:@client)
+      @client = manager.client
       @seal_data = seal_data
       @cookie_password = cookie_password
     end
@@ -22,7 +24,7 @@ module WorkOS
 
       session = begin
         @manager.unseal_data(@seal_data, @cookie_password)
-      rescue
+      rescue ArgumentError, OpenSSL::Cipher::CipherError
         return SessionManager::AuthError.new(authenticated: false, reason: SessionManager::INVALID_SESSION_COOKIE)
       end
       return SessionManager::AuthError.new(authenticated: false, reason: SessionManager::INVALID_SESSION_COOKIE) unless session.is_a?(Hash) && session["access_token"]
@@ -52,7 +54,7 @@ module WorkOS
 
       session = begin
         @manager.unseal_data(@seal_data, effective_password)
-      rescue
+      rescue ArgumentError, OpenSSL::Cipher::CipherError
         return SessionManager::RefreshError.new(authenticated: false, reason: SessionManager::INVALID_SESSION_COOKIE)
       end
       return SessionManager::RefreshError.new(authenticated: false, reason: SessionManager::INVALID_SESSION_COOKIE) unless session.is_a?(Hash) && session["refresh_token"]

@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 # @oagen-ignore-file
 # Hand-maintained Vault service: 8 KV endpoints + 2 key endpoints + client-side
 # AES-GCM encrypt/decrypt (H18). The Vault HTTP API is not in the OpenAPI spec
 # and the AES-GCM helpers are inherently client-side, so this stays
 # hand-maintained regardless of spec coverage.
-
 require "base64"
+require "cgi"
 require "json"
 require "openssl"
 require "securerandom"
@@ -90,7 +92,7 @@ module WorkOS
     # Get a Vault object with the value decrypted.
     def read_object(object_id:, request_options: {})
       response = @client.execute_request(
-        request: @client.get_request(path: "/vault/v1/kv/#{object_id}", auth: true, request_options: request_options),
+        request: @client.get_request(path: "/vault/v1/kv/#{CGI.escape(object_id.to_s).gsub("+", "%20")}", auth: true, request_options: request_options),
         request_options: request_options
       )
       VaultObject.from_hash(JSON.parse(response.body))
@@ -99,7 +101,7 @@ module WorkOS
     # Get a Vault object by name with the value decrypted.
     def read_object_by_name(name:, request_options: {})
       response = @client.execute_request(
-        request: @client.get_request(path: "/vault/v1/kv/name/#{name}", auth: true, request_options: request_options),
+        request: @client.get_request(path: "/vault/v1/kv/name/#{CGI.escape(name.to_s).gsub("+", "%20")}", auth: true, request_options: request_options),
         request_options: request_options
       )
       VaultObject.from_hash(JSON.parse(response.body))
@@ -108,7 +110,7 @@ module WorkOS
     # Get a Vault object's metadata without decrypting the value.
     def get_object_metadata(object_id:, request_options: {})
       response = @client.execute_request(
-        request: @client.get_request(path: "/vault/v1/kv/#{object_id}/metadata", auth: true, request_options: request_options),
+        request: @client.get_request(path: "/vault/v1/kv/#{CGI.escape(object_id.to_s).gsub("+", "%20")}/metadata", auth: true, request_options: request_options),
         request_options: request_options
       )
       VaultObject.from_hash(JSON.parse(response.body))
@@ -130,7 +132,7 @@ module WorkOS
     # @return [Array<ObjectVersion>]
     def list_object_versions(object_id:, request_options: {})
       response = @client.execute_request(
-        request: @client.get_request(path: "/vault/v1/kv/#{object_id}/versions", auth: true, request_options: request_options),
+        request: @client.get_request(path: "/vault/v1/kv/#{CGI.escape(object_id.to_s).gsub("+", "%20")}/versions", auth: true, request_options: request_options),
         request_options: request_options
       )
       parsed = JSON.parse(response.body)
@@ -151,7 +153,7 @@ module WorkOS
     def update_object(object_id:, value:, version_check: nil, request_options: {})
       body = {"value" => value, "version_check" => version_check}.compact
       response = @client.execute_request(
-        request: @client.put_request(path: "/vault/v1/kv/#{object_id}", auth: true, body: body, request_options: request_options),
+        request: @client.put_request(path: "/vault/v1/kv/#{CGI.escape(object_id.to_s).gsub("+", "%20")}", auth: true, body: body, request_options: request_options),
         request_options: request_options
       )
       VaultObject.from_hash(JSON.parse(response.body))
@@ -160,7 +162,7 @@ module WorkOS
     # Permanently delete a Vault encrypted object.
     def delete_object(object_id:, request_options: {})
       @client.execute_request(
-        request: @client.delete_request(path: "/vault/v1/kv/#{object_id}", auth: true, request_options: request_options),
+        request: @client.delete_request(path: "/vault/v1/kv/#{CGI.escape(object_id.to_s).gsub("+", "%20")}", auth: true, request_options: request_options),
         request_options: request_options
       )
       nil

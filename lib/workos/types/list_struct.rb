@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # @oagen-ignore-file — hand-maintained runtime
 module WorkOS
   module Types

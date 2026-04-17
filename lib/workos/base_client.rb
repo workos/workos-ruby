@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # @oagen-ignore-file — hand-maintained runtime
 require "json"
 require "net/http"
@@ -27,6 +29,8 @@ module WorkOS
       @timeout = timeout
       @max_retries = max_retries
       @user_agent = user_agent
+      @connections = {}
+      @connections_mutex = Mutex.new
     end
 
     # -- Request builders -------------------------------------------------
@@ -108,8 +112,12 @@ module WorkOS
 
     # Close all persistent connections.
     def shutdown
-      @connections&.each_value { |c| c.finish if c.started? }
-      @connections = {}
+      connections = @connections_mutex.synchronize do
+        current = @connections.values
+        @connections = {}
+        current
+      end
+      connections.each { |connection| connection.finish if connection.started? }
     end
 
     private
@@ -125,10 +133,8 @@ module WorkOS
 
     def connection_for(base_url, timeout)
       uri = URI(base_url)
-      key = "#{uri.host}:#{uri.port}"
-
-      @connections ||= {}
-      conn = @connections[key]
+      key = connection_key(uri)
+      conn = @connections_mutex.synchronize { @connections[key] }
 
       if conn&.started?
         conn.read_timeout = timeout
@@ -142,17 +148,21 @@ module WorkOS
       http.open_timeout = timeout
       http.keep_alive_timeout = 30
       http.start
-      @connections[key] = http
+      @connections_mutex.synchronize { @connections[key] = http }
       http
     end
 
     def evict_connection(base_url)
       uri = URI(base_url)
-      key = "#{uri.host}:#{uri.port}"
-      conn = @connections&.delete(key)
+      key = connection_key(uri)
+      conn = @connections_mutex.synchronize { @connections.delete(key) }
       conn&.finish if conn&.started?
     rescue IOError
       # Already closed, ignore
+    end
+
+    def connection_key(uri)
+      "#{Thread.current.object_id}:#{uri.scheme}:#{uri.host}:#{uri.port}"
     end
 
     def resolve_option(opts, key)
@@ -208,7 +218,7 @@ module WorkOS
       status = response.code.to_i
       body = begin
         JSON.parse(response.body.to_s)
-      rescue
+      rescue JSON::ParserError
         {}
       end
       request_id = response["x-request-id"] || response["X-Request-Id"]

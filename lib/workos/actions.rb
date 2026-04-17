@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # @oagen-ignore-file
 # Hand-maintained AuthKit Actions helpers (H03):
 # - request signature verification (incoming)

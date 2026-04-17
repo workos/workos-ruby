@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # @oagen-ignore-file — hand-maintained runtime
 $LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
 
