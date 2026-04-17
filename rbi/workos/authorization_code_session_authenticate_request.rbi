@@ -32,6 +32,18 @@ module WorkOS
     def code=(value); end
 
     sig { returns(T.nilable(String)) }
+    def code_verifier; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def code_verifier=(value); end
+
+    sig { returns(T.nilable(String)) }
+    def invitation_token; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def invitation_token=(value); end
+
+    sig { returns(T.nilable(String)) }
     def ip_address; end
 
     sig { params(value: T.nilable(String)).returns(T.nilable(String)) }

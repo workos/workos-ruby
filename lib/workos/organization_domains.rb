@@ -47,7 +47,7 @@ module WorkOS
     # Delete an Organization Domain
     # @param id [String] Unique identifier of the organization domain.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [Object]
+    # @return [void]
     def delete_organization_domain(
       id:,
       request_options: {}

@@ -25,22 +25,40 @@ module WorkOS
 
     # Authenticate
     # @param client_id [String] The client ID of the application.
-    # @param client_secret [String] The client secret of the application.
+    # @param client_secret [String, nil] The client secret of the application.
     # @param grant_type [String]
-    # @param code [String] The authorization code received from the redirect.
+    # @param code [String, nil] The authorization code received from the redirect.
+    # @param code_verifier [String, nil] The PKCE code verifier used to derive the code challenge passed to the authorization URL.
+    # @param invitation_token [String, nil] An invitation token to accept during authentication.
     # @param ip_address [String, nil] The IP address of the user's request.
     # @param device_id [String, nil] A unique identifier for the device.
     # @param user_agent [String, nil] The user agent string from the user's browser.
+    # @param email [String, nil] The user's email address.
+    # @param password [String, nil] The user's password.
+    # @param refresh_token [String, nil] The refresh token to exchange for new tokens.
+    # @param organization_id [String, nil] The ID of the organization to scope the session to.
+    # @param pending_authentication_token [String, nil] The pending authentication token from a previous authentication attempt.
+    # @param authentication_challenge_id [String, nil] The ID of the MFA authentication challenge.
+    # @param device_code [String, nil] The device verification code.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::AuthenticateResponse]
     def create_authenticate(
       client_id:,
-      client_secret:,
       grant_type:,
-      code:,
+      client_secret: nil,
+      code: nil,
+      code_verifier: nil,
+      invitation_token: nil,
       ip_address: nil,
       device_id: nil,
       user_agent: nil,
+      email: nil,
+      password: nil,
+      refresh_token: nil,
+      organization_id: nil,
+      pending_authentication_token: nil,
+      authentication_challenge_id: nil,
+      device_code: nil,
       request_options: {}
     )
       body = {
@@ -48,9 +66,18 @@ module WorkOS
         "client_secret" => client_secret,
         "grant_type" => grant_type,
         "code" => code,
+        "code_verifier" => code_verifier,
+        "invitation_token" => invitation_token,
         "ip_address" => ip_address,
         "device_id" => device_id,
-        "user_agent" => user_agent
+        "user_agent" => user_agent,
+        "email" => email,
+        "password" => password,
+        "refresh_token" => refresh_token,
+        "organization_id" => organization_id,
+        "pending_authentication_token" => pending_authentication_token,
+        "authentication_challenge_id" => authentication_challenge_id,
+        "device_code" => device_code
       }.compact
       response = @client.execute_request(
         request: @client.post_request(path: "/user_management/authenticate", auth: true, body: body, request_options: request_options),
@@ -97,6 +124,8 @@ module WorkOS
 
     # Authenticate with code.
     # @param code [String]
+    # @param code_verifier [String, nil]
+    # @param invitation_token [String, nil]
     # @param ip_address [String, nil]
     # @param device_id [String, nil]
     # @param user_agent [String, nil]
@@ -104,6 +133,8 @@ module WorkOS
     # @return [WorkOS::AuthenticateResponse]
     def authenticate_with_code(
       code:,
+      code_verifier: nil,
+      invitation_token: nil,
       ip_address: nil,
       device_id: nil,
       user_agent: nil,
@@ -114,6 +145,8 @@ module WorkOS
         "client_id" => @client.client_id,
         "client_secret" => @client.api_key,
         "code" => code,
+        "code_verifier" => code_verifier,
+        "invitation_token" => invitation_token,
         "ip_address" => ip_address,
         "device_id" => device_id,
         "user_agent" => user_agent
@@ -196,7 +229,7 @@ module WorkOS
 
     # Authenticate with email verification.
     # @param code [String]
-    # @param pending_authentication_token [String, nil]
+    # @param pending_authentication_token [String]
     # @param ip_address [String, nil]
     # @param device_id [String, nil]
     # @param user_agent [String, nil]
@@ -204,7 +237,7 @@ module WorkOS
     # @return [WorkOS::AuthenticateResponse]
     def authenticate_with_email_verification(
       code:,
-      pending_authentication_token: nil,
+      pending_authentication_token:,
       ip_address: nil,
       device_id: nil,
       user_agent: nil,
@@ -347,7 +380,7 @@ module WorkOS
     # @param session_id [String] The ID of the session to revoke. This can be extracted from the `sid` claim of the access token.
     # @param return_to [String, nil] The URL to redirect the user to after session revocation.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [Object]
+    # @return [void]
     def revoke_session(
       session_id:,
       return_to: nil,
@@ -460,7 +493,7 @@ module WorkOS
     # @param organization_id [String, nil] Filter users by the organization they are a member of.
     # @param email [String, nil] Filter users by their email address.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::UserList]
+    # @return [WorkOS::Types::ListStruct]
     def list_users(
       before: nil,
       after: nil,
@@ -505,11 +538,14 @@ module WorkOS
 
     # Create a user
     # @param email [String] The email address of the user.
-    # @param first_name [String, nil, nil] The first name of the user.
-    # @param last_name [String, nil, nil] The last name of the user.
-    # @param email_verified [Boolean, nil, nil] Whether the user's email has been verified.
-    # @param metadata [Hash{String => String}, nil, nil] Object containing metadata key/value pairs associated with the user.
-    # @param external_id [String, nil, nil] The external ID of the user.
+    # @param first_name [String, nil] The first name of the user.
+    # @param last_name [String, nil] The last name of the user.
+    # @param email_verified [Boolean, nil] Whether the user's email has been verified.
+    # @param metadata [Hash{String => String}, nil] Object containing metadata key/value pairs associated with the user.
+    # @param external_id [String, nil] The external ID of the user.
+    # @param password [String, nil] The password to set for the user. Mutually exclusive with `password_hash` and `password_hash_type`.
+    # @param password_hash [String, nil] The hashed password to set for the user. Required with `password_hash_type`. Mutually exclusive with `password`.
+    # @param password_hash_type [WorkOS::Types::CreateUserPasswordHashType, nil] The algorithm originally used to hash the password, used when providing a `password_hash`. Required with `password_hash`. Mutually exclusive with `password`.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::User]
     def create_user(
@@ -519,18 +555,34 @@ module WorkOS
       email_verified: nil,
       metadata: nil,
       external_id: nil,
+      password: nil,
+      password_hash: nil,
+      password_hash_type: nil,
       request_options: {}
     )
+      params = {}.compact
+      if password
+        case password[:type]
+        when "plaintext"
+          params["password"] = password[:password]
+        when "hashed"
+          params["password_hash"] = password[:password_hash]
+          params["password_hash_type"] = password[:password_hash_type]
+        end
+      end
       body = {
         "email" => email,
         "first_name" => first_name,
         "last_name" => last_name,
         "email_verified" => email_verified,
         "metadata" => metadata,
-        "external_id" => external_id
+        "external_id" => external_id,
+        "password" => password,
+        "password_hash" => password_hash,
+        "password_hash_type" => password_hash_type
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/user_management/users", auth: true, body: body, request_options: request_options),
+        request: @client.post_request(path: "/user_management/users", auth: true, params: params, body: body, request_options: request_options),
         request_options: request_options
       )
       WorkOS::User.new(response.body)
@@ -572,9 +624,12 @@ module WorkOS
     # @param first_name [String, nil] The first name of the user.
     # @param last_name [String, nil] The last name of the user.
     # @param email_verified [Boolean, nil] Whether the user's email has been verified.
-    # @param metadata [Hash{String => String}, nil, nil] Object containing metadata key/value pairs associated with the user.
-    # @param external_id [String, nil, nil] The external ID of the user.
-    # @param locale [String, nil, nil] The user's preferred locale.
+    # @param metadata [Hash{String => String}, nil] Object containing metadata key/value pairs associated with the user.
+    # @param external_id [String, nil] The external ID of the user.
+    # @param locale [String, nil] The user's preferred locale.
+    # @param password [String, nil] The password to set for the user. Mutually exclusive with `password_hash` and `password_hash_type`.
+    # @param password_hash [String, nil] The hashed password to set for the user. Required with `password_hash_type`. Mutually exclusive with `password`.
+    # @param password_hash_type [WorkOS::Types::UpdateUserPasswordHashType, nil] The algorithm originally used to hash the password, used when providing a `password_hash`. Required with `password_hash`. Mutually exclusive with `password`.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::User]
     def update_user(
@@ -586,8 +641,21 @@ module WorkOS
       metadata: nil,
       external_id: nil,
       locale: nil,
+      password: nil,
+      password_hash: nil,
+      password_hash_type: nil,
       request_options: {}
     )
+      params = {}.compact
+      if password
+        case password[:type]
+        when "plaintext"
+          params["password"] = password[:password]
+        when "hashed"
+          params["password_hash"] = password[:password_hash]
+          params["password_hash_type"] = password[:password_hash_type]
+        end
+      end
       body = {
         "email" => email,
         "first_name" => first_name,
@@ -595,10 +663,13 @@ module WorkOS
         "email_verified" => email_verified,
         "metadata" => metadata,
         "external_id" => external_id,
-        "locale" => locale
+        "locale" => locale,
+        "password" => password,
+        "password_hash" => password_hash,
+        "password_hash_type" => password_hash_type
       }.compact
       response = @client.execute_request(
-        request: @client.put_request(path: "/user_management/users/#{id}", auth: true, body: body, request_options: request_options),
+        request: @client.put_request(path: "/user_management/users/#{id}", auth: true, params: params, body: body, request_options: request_options),
         request_options: request_options
       )
       WorkOS::User.new(response.body)
@@ -607,7 +678,7 @@ module WorkOS
     # Delete a user
     # @param id [String] The unique ID of the user.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [Object]
+    # @return [void]
     def delete_user(
       id:,
       request_options: {}
@@ -717,7 +788,7 @@ module WorkOS
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::UserManagementUsersOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [Array<WorkOS::UserSessionsListItem>]
+    # @return [WorkOS::Types::ListStruct]
     def list_sessions(
       id:,
       before: nil,
@@ -761,7 +832,7 @@ module WorkOS
     # @param organization_id [String, nil] The ID of the [organization](https://workos.com/docs/reference/organization) that the recipient will join.
     # @param email [String, nil] The email address of the recipient.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [Array<WorkOS::UserInvite>]
+    # @return [WorkOS::Types::ListStruct]
     def list_invitations(
       before: nil,
       after: nil,
@@ -977,7 +1048,7 @@ module WorkOS
     # @param statuses [Array<WorkOS::Types::UserManagementOrganizationMembershipStatuses>, nil] Filter by the status of the organization membership. Array including any of `active`, `inactive`, or `pending`.
     # @param user_id [String, nil] The ID of the [user](https://workos.com/docs/reference/authkit/user).
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [Array<WorkOS::UserOrganizationMembership>]
+    # @return [WorkOS::Types::ListStruct]
     def list_organization_memberships(
       before: nil,
       after: nil,
@@ -1023,19 +1094,35 @@ module WorkOS
     # Create an organization membership
     # @param user_id [String] The ID of the [user](https://workos.com/docs/reference/authkit/user).
     # @param organization_id [String] The ID of the [organization](https://workos.com/docs/reference/organization) which the user belongs to.
+    # @param role_slug [String, nil] A single role identifier. Defaults to `member` or the explicit default role. Mutually exclusive with `role_slugs`.
+    # @param role_slugs [Array<String>, nil] An array of role identifiers. Limited to one role when Multiple Roles is disabled. Mutually exclusive with `role_slug`.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::OrganizationMembership]
     def create_organization_membership(
       user_id:,
       organization_id:,
+      role_slug: nil,
+      role_slugs: nil,
+      role: nil,
       request_options: {}
     )
+      params = {}.compact
+      if role
+        case role[:type]
+        when "single"
+          params["role_slug"] = role[:role_slug]
+        when "multiple"
+          params["role_slugs"] = role[:role_slugs]
+        end
+      end
       body = {
         "user_id" => user_id,
-        "organization_id" => organization_id
+        "organization_id" => organization_id,
+        "role_slug" => role_slug,
+        "role_slugs" => role_slugs
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/user_management/organization_memberships", auth: true, body: body, request_options: request_options),
+        request: @client.post_request(path: "/user_management/organization_memberships", auth: true, params: params, body: body, request_options: request_options),
         request_options: request_options
       )
       WorkOS::OrganizationMembership.new(response.body)
@@ -1058,14 +1145,32 @@ module WorkOS
 
     # Update an organization membership
     # @param id [String] The unique ID of the organization membership.
+    # @param role_slug [String, nil] A single role identifier. Defaults to `member` or the explicit default role. Mutually exclusive with `role_slugs`.
+    # @param role_slugs [Array<String>, nil] An array of role identifiers. Limited to one role when Multiple Roles is disabled. Mutually exclusive with `role_slug`.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::UserOrganizationMembership]
     def update_organization_membership(
       id:,
+      role_slug: nil,
+      role_slugs: nil,
+      role: nil,
       request_options: {}
     )
+      params = {}.compact
+      if role
+        case role[:type]
+        when "single"
+          params["role_slug"] = role[:role_slug]
+        when "multiple"
+          params["role_slugs"] = role[:role_slugs]
+        end
+      end
+      body = {
+        "role_slug" => role_slug,
+        "role_slugs" => role_slugs
+      }.compact
       response = @client.execute_request(
-        request: @client.put_request(path: "/user_management/organization_memberships/#{id}", auth: true, request_options: request_options),
+        request: @client.put_request(path: "/user_management/organization_memberships/#{id}", auth: true, params: params, body: body, request_options: request_options),
         request_options: request_options
       )
       WorkOS::UserOrganizationMembership.new(response.body)
@@ -1074,7 +1179,7 @@ module WorkOS
     # Delete an organization membership
     # @param id [String] The unique ID of the organization membership.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [Object]
+    # @return [void]
     def delete_organization_membership(
       id:,
       request_options: {}
@@ -1141,7 +1246,7 @@ module WorkOS
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::UserManagementUsersAuthorizedApplicationsOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::AuthorizedConnectApplicationList]
+    # @return [WorkOS::Types::ListStruct]
     def list_user_authorized_applications(
       user_id:,
       before: nil,
@@ -1181,7 +1286,7 @@ module WorkOS
     # @param application_id [String] The ID or client ID of the application.
     # @param user_id [String] The ID of the user.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [Object]
+    # @return [void]
     def delete_user_authorized_application(
       application_id:,
       user_id:,

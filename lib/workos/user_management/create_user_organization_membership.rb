@@ -8,19 +8,25 @@ module WorkOS
 
     attr_accessor \
       :user_id,
-      :organization_id
+      :organization_id,
+      :role_slug,
+      :role_slugs
 
     def initialize(json)
       hash = json.is_a?(Hash) ? json : JSON.parse(json, symbolize_names: true)
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @user_id = hash[:user_id]
       @organization_id = hash[:organization_id]
+      @role_slug = hash[:role_slug]
+      @role_slugs = hash[:role_slugs] || []
     end
 
     def to_h
       {
         user_id: user_id,
-        organization_id: organization_id
+        organization_id: organization_id,
+        role_slug: role_slug,
+        role_slugs: role_slugs
       }
     end
 

@@ -3,33 +3,39 @@
 # typed: strong
 
 module WorkOS
-  class CreateUserOrganizationMembership
+  class DataIntegrationAccessTokenResponseAccessToken
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
 
     sig { returns(String) }
-    def user_id; end
+    def object; end
 
     sig { params(value: String).returns(String) }
-    def user_id=(value); end
+    def object=(value); end
 
     sig { returns(String) }
-    def organization_id; end
+    def access_token; end
 
     sig { params(value: String).returns(String) }
-    def organization_id=(value); end
+    def access_token=(value); end
 
     sig { returns(T.nilable(String)) }
-    def role_slug; end
+    def expires_at; end
 
     sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
-    def role_slug=(value); end
+    def expires_at=(value); end
 
-    sig { returns(T.nilable(T::Array[String])) }
-    def role_slugs; end
+    sig { returns(T::Array[String]) }
+    def scopes; end
 
-    sig { params(value: T.nilable(T::Array[String])).returns(T.nilable(T::Array[String])) }
-    def role_slugs=(value); end
+    sig { params(value: T::Array[String]).returns(T::Array[String]) }
+    def scopes=(value); end
+
+    sig { returns(T::Array[String]) }
+    def missing_scopes; end
+
+    sig { params(value: T::Array[String]).returns(T::Array[String]) }
+    def missing_scopes=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end

@@ -43,6 +43,24 @@ module WorkOS
     sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
     def external_id=(value); end
 
+    sig { returns(T.nilable(String)) }
+    def password; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def password=(value); end
+
+    sig { returns(T.nilable(String)) }
+    def password_hash; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def password_hash=(value); end
+
+    sig { returns(T.nilable(String)) }
+    def password_hash_type; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def password_hash_type=(value); end
+
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end
 

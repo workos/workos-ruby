@@ -12,7 +12,10 @@ module WorkOS
       :last_name,
       :email_verified,
       :metadata,
-      :external_id
+      :external_id,
+      :password,
+      :password_hash,
+      :password_hash_type
 
     def initialize(json)
       hash = json.is_a?(Hash) ? json : JSON.parse(json, symbolize_names: true)
@@ -23,6 +26,9 @@ module WorkOS
       @email_verified = hash[:email_verified]
       @metadata = hash[:metadata] || {}
       @external_id = hash[:external_id]
+      @password = hash[:password]
+      @password_hash = hash[:password_hash]
+      @password_hash_type = hash[:password_hash_type]
     end
 
     def to_h
@@ -32,7 +38,10 @@ module WorkOS
         last_name: last_name,
         email_verified: email_verified,
         metadata: metadata,
-        external_id: external_id
+        external_id: external_id,
+        password: password,
+        password_hash: password_hash,
+        password_hash_type: password_hash_type
       }
     end
 

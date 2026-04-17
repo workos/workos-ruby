@@ -18,7 +18,7 @@ module WorkOS
     # @param organization_id [String, nil] Filter Connections by their associated organization.
     # @param search [String, nil] Searchable text to match against Connection names.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::ConnectionList]
+    # @return [WorkOS::Types::ListStruct]
     def list_connections(
       before: nil,
       after: nil,
@@ -82,7 +82,7 @@ module WorkOS
     # Delete a Connection
     # @param id [String] Unique identifier for the Connection.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [Object]
+    # @return [void]
     def delete_connection(
       id:,
       request_options: {}
@@ -124,7 +124,6 @@ module WorkOS
     end
 
     # Get a Profile and Token
-    # @param code [String] The authorization code received from the authorization callback.
     # @param code [String] The authorization code received from the authorization callback.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::SSOTokenResponse]

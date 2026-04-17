@@ -102,7 +102,7 @@ class UserManagementTest < Minitest::Test
   def test_authenticate_with_email_verification_returns_expected_result
     stub_request(:post, /#{Regexp.escape("user_management")}/)
       .to_return(body: "{}", status: 200)
-    result = @client.user_management.authenticate_with_email_verification(code: "stub")
+    result = @client.user_management.authenticate_with_email_verification(code: "stub", pending_authentication_token: "stub")
     refute_nil result
   end
 
@@ -110,7 +110,7 @@ class UserManagementTest < Minitest::Test
     stub_request(:post, /#{Regexp.escape("user_management")}/)
       .to_return(body: '{"message": "Unauthorized"}', status: 401)
     assert_raises(WorkOS::AuthenticationError) do
-      @client.user_management.authenticate_with_email_verification(code: "stub")
+      @client.user_management.authenticate_with_email_verification(code: "stub", pending_authentication_token: "stub")
     end
   end
 

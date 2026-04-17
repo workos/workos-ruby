@@ -39,7 +39,7 @@ module WorkOS
     # @param order [WorkOS::Types::ApplicationsOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
     # @param organization_id [String, nil] Filter Connect Applications by organization ID.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::ConnectApplicationList]
+    # @return [WorkOS::Types::ListStruct]
     def list_applications(
       before: nil,
       after: nil,
@@ -79,22 +79,22 @@ module WorkOS
     # Create a Connect Application
     # @param name [String] The name of the application.
     # @param application_type [String] The type of application to create.
-    # @param description [String, nil, nil] A description for the application.
-    # @param scopes [Array<String>, nil, nil] The OAuth scopes granted to the application.
-    # @param redirect_uris [Array<WorkOS::RedirectUriInput>, nil, nil] Redirect URIs for the application.
-    # @param uses_pkce [Boolean, nil, nil] Whether the application uses PKCE (Proof Key for Code Exchange).
-    # @param is_first_party [Boolean] Whether this is a first-party application. Third-party applications require an organization_id.
-    # @param organization_id [String, nil, nil] The organization ID this application belongs to. Required when is_first_party is false.
+    # @param description [String, nil] A description for the application.
+    # @param scopes [Array<String>, nil] The OAuth scopes granted to the application.
+    # @param redirect_uris [Array<WorkOS::RedirectUriInput>, nil] Redirect URIs for the application.
+    # @param uses_pkce [Boolean, nil] Whether the application uses PKCE (Proof Key for Code Exchange).
+    # @param is_first_party [Boolean, nil] Whether this is a first-party application. Third-party applications require an organization_id.
+    # @param organization_id [String, nil] The organization ID this application belongs to. Required when is_first_party is false.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::ConnectApplication]
     def create_application(
       name:,
       application_type:,
-      is_first_party:,
       description: nil,
       scopes: nil,
       redirect_uris: nil,
       uses_pkce: nil,
+      is_first_party: nil,
       organization_id: nil,
       request_options: {}
     )
@@ -118,11 +118,11 @@ module WorkOS
     # Create oauth application.
     # @param name [String]
     # @param is_first_party [Boolean]
-    # @param description [String, nil, nil]
-    # @param scopes [Array<String>, nil, nil]
-    # @param redirect_uris [Array<WorkOS::RedirectUriInput>, nil, nil]
-    # @param uses_pkce [Boolean, nil, nil]
-    # @param organization_id [String, nil, nil]
+    # @param description [String, nil]
+    # @param scopes [Array<String>, nil]
+    # @param redirect_uris [Array<WorkOS::RedirectUriInput>, nil]
+    # @param uses_pkce [Boolean, nil]
+    # @param organization_id [String, nil]
     # @param request_options [Hash] Per-request overrides.
     # @return [WorkOS::ConnectApplication]
     def create_oauth_application(
@@ -155,8 +155,8 @@ module WorkOS
     # Create m2m application.
     # @param name [String]
     # @param organization_id [String]
-    # @param description [String, nil, nil]
-    # @param scopes [Array<String>, nil, nil]
+    # @param description [String, nil]
+    # @param scopes [Array<String>, nil]
     # @param request_options [Hash] Per-request overrides.
     # @return [WorkOS::ConnectApplication]
     def create_m2m_application(
@@ -198,9 +198,9 @@ module WorkOS
     # Update a Connect Application
     # @param id [String] The application ID or client ID of the Connect Application.
     # @param name [String, nil] The name of the application.
-    # @param description [String, nil, nil] A description for the application.
-    # @param scopes [Array<String>, nil, nil] The OAuth scopes granted to the application.
-    # @param redirect_uris [Array<WorkOS::RedirectUriInput>, nil, nil] Updated redirect URIs for the application. OAuth applications only.
+    # @param description [String, nil] A description for the application.
+    # @param scopes [Array<String>, nil] The OAuth scopes granted to the application.
+    # @param redirect_uris [Array<WorkOS::RedirectUriInput>, nil] Updated redirect URIs for the application. OAuth applications only.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::ConnectApplication]
     def update_application(
@@ -227,7 +227,7 @@ module WorkOS
     # Delete a Connect Application
     # @param id [String] The application ID or client ID of the Connect Application.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [Object]
+    # @return [void]
     def delete_application(
       id:,
       request_options: {}
@@ -273,7 +273,7 @@ module WorkOS
     # Delete a Client Secret
     # @param id [String] The unique ID of the client secret.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [Object]
+    # @return [void]
     def delete_client_secret(
       id:,
       request_options: {}

@@ -16,7 +16,7 @@ module WorkOS
     # @param domains [Array<String>, nil] The domains of an Organization. Any Organization with a matching domain will be returned.
     # @param search [String, nil] Searchable text for an Organization. Matches against the organization name.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::OrganizationList]
+    # @return [WorkOS::Types::ListStruct]
     def list_organizations(
       before: nil,
       after: nil,
@@ -61,8 +61,8 @@ module WorkOS
     # @param allow_profiles_outside_organization [Boolean, nil] Whether the organization allows profiles from outside the organization to sign in.
     # @param domains [Array<String>, nil] The domains associated with the organization. Deprecated in favor of `domain_data`.
     # @param domain_data [Array<WorkOS::OrganizationDomainData>, nil] The domains associated with the organization, including verification state.
-    # @param metadata [Hash{String => String}, nil, nil] Object containing [metadata](https://workos.com/docs/authkit/metadata) key/value pairs associated with the Organization.
-    # @param external_id [String, nil, nil] An external identifier for the Organization.
+    # @param metadata [Hash{String => String}, nil] Object containing [metadata](https://workos.com/docs/authkit/metadata) key/value pairs associated with the Organization.
+    # @param external_id [String, nil] An external identifier for the Organization.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::Organization]
     def create_organization(
@@ -126,8 +126,8 @@ module WorkOS
     # @param domains [Array<String>, nil] (deprecated) The domains associated with the organization. Deprecated in favor of `domain_data`.
     # @param domain_data [Array<WorkOS::OrganizationDomainData>, nil] The domains associated with the organization, including verification state.
     # @param stripe_customer_id [String, nil] The Stripe customer ID associated with the organization.
-    # @param metadata [Hash{String => String}, nil, nil] Object containing [metadata](https://workos.com/docs/authkit/metadata) key/value pairs associated with the Organization.
-    # @param external_id [String, nil, nil] An external identifier for the Organization.
+    # @param metadata [Hash{String => String}, nil] Object containing [metadata](https://workos.com/docs/authkit/metadata) key/value pairs associated with the Organization.
+    # @param external_id [String, nil] An external identifier for the Organization.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::Organization]
     def update_organization(
@@ -160,7 +160,7 @@ module WorkOS
     # Delete an Organization
     # @param id [String] Unique identifier of the Organization.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [Object]
+    # @return [void]
     def delete_organization(
       id:,
       request_options: {}

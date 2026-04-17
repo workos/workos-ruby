@@ -76,7 +76,7 @@ module WorkOS
     # Delete Factor
     # @param id [String] The unique ID of the Factor.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [Object]
+    # @return [void]
     def delete_factor(
       id:,
       request_options: {}
@@ -115,7 +115,7 @@ module WorkOS
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::UserManagementMultiFactorAuthenticationOrder, nil] Order the results by the creation time.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::UserAuthenticationFactorList]
+    # @return [WorkOS::Types::ListStruct]
     def list_user_auth_factors(
       userland_user_id:,
       before: nil,

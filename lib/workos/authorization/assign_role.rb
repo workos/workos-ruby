@@ -6,17 +6,27 @@ module WorkOS
   class AssignRole
     include HashProvider
 
-    attr_accessor :role_slug
+    attr_accessor \
+      :role_slug,
+      :resource_id,
+      :resource_external_id,
+      :resource_type_slug
 
     def initialize(json)
       hash = json.is_a?(Hash) ? json : JSON.parse(json, symbolize_names: true)
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @role_slug = hash[:role_slug]
+      @resource_id = hash[:resource_id]
+      @resource_external_id = hash[:resource_external_id]
+      @resource_type_slug = hash[:resource_type_slug]
     end
 
     def to_h
       {
-        role_slug: role_slug
+        role_slug: role_slug,
+        resource_id: resource_id,
+        resource_external_id: resource_external_id,
+        resource_type_slug: resource_type_slug
       }
     end
 

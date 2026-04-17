@@ -84,7 +84,7 @@ module WorkOS
     # @param slug [String] The slug identifier of the provider (e.g., `github`, `slack`, `notion`).
     # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter if the connection is scoped to an organization.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [Object]
+    # @return [void]
     def delete_user_connected_account(
       user_id:,
       slug:,

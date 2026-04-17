@@ -11,18 +11,36 @@ module WorkOS
     # Check authorization
     # @param organization_membership_id [String] The ID of the organization membership to check.
     # @param permission_slug [String] The slug of the permission to check.
+    # @param resource_id [String, nil] The ID of the resource. Mutually exclusive with `resource_external_id` and `resource_type_slug`.
+    # @param resource_external_id [String, nil] The external ID of the resource. Required with `resource_type_slug`. Mutually exclusive with `resource_id`.
+    # @param resource_type_slug [String, nil] The slug of the resource type. Required with `resource_external_id`. Mutually exclusive with `resource_id`.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::AuthorizationCheck]
     def check(
       organization_membership_id:,
       permission_slug:,
+      resource_target:,
+      resource_id: nil,
+      resource_external_id: nil,
+      resource_type_slug: nil,
       request_options: {}
     )
+      params = {}.compact
+      case resource_target[:type]
+      when "by_id"
+        params["resource_id"] = resource_target[:resource_id]
+      when "by_external_id"
+        params["resource_external_id"] = resource_target[:resource_external_id]
+        params["resource_type_slug"] = resource_target[:resource_type_slug]
+      end
       body = {
-        "permission_slug" => permission_slug
+        "permission_slug" => permission_slug,
+        "resource_id" => resource_id,
+        "resource_external_id" => resource_external_id,
+        "resource_type_slug" => resource_type_slug
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/authorization/organization_memberships/#{organization_membership_id}/check", auth: true, body: body, request_options: request_options),
+        request: @client.post_request(path: "/authorization/organization_memberships/#{organization_membership_id}/check", auth: true, params: params, body: body, request_options: request_options),
         request_options: request_options
       )
       WorkOS::AuthorizationCheck.new(response.body)
@@ -36,7 +54,7 @@ module WorkOS
     # @param order [WorkOS::Types::AuthorizationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
     # @param permission_slug [String] The permission slug to filter by. Only child resources where the organization membership has this permission are returned.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::AuthorizationResourceList]
+    # @return [WorkOS::Types::ListStruct]
     def list_organization_membership_resources(
       organization_membership_id:,
       permission_slug:,
@@ -56,10 +74,10 @@ module WorkOS
       }.compact
       case parent_resource[:type]
       when "by_id"
-        params["parent_resource_id"] = parent_resource["parent_resource_id"]
+        params["parent_resource_id"] = parent_resource[:parent_resource_id]
       when "by_external_id"
-        params["parent_resource_type_slug"] = parent_resource["parent_resource_type_slug"]
-        params["parent_resource_external_id"] = parent_resource["parent_resource_external_id"]
+        params["parent_resource_type_slug"] = parent_resource[:parent_resource_type_slug]
+        params["parent_resource_external_id"] = parent_resource[:parent_resource_external_id]
       end
       response = @client.execute_request(
         request: @client.get_request(path: "/authorization/organization_memberships/#{organization_membership_id}/resources", auth: true, params: params, request_options: request_options),
@@ -77,10 +95,11 @@ module WorkOS
           limit: limit,
           order: order,
           permission_slug: permission_slug,
+          parent_resource: parent_resource,
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {organization_membership_id: organization_membership_id, before: before, limit: limit, order: order, permission_slug: permission_slug})
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {organization_membership_id: organization_membership_id, before: before, limit: limit, order: order, permission_slug: permission_slug, parent_resource: parent_resource})
     end
 
     # List effective permissions for an organization membership on a resource
@@ -91,7 +110,7 @@ module WorkOS
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::AuthorizationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::AuthorizationPermissionList]
+    # @return [WorkOS::Types::ListStruct]
     def list_resource_permissions(
       organization_membership_id:,
       resource_id:,
@@ -129,6 +148,55 @@ module WorkOS
       WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {organization_membership_id: organization_membership_id, resource_id: resource_id, before: before, limit: limit, order: order})
     end
 
+    # List effective permissions for an organization membership on a resource by external ID
+    # @param organization_membership_id [String] The ID of the organization membership.
+    # @param resource_type_slug [String] The slug of the resource type.
+    # @param external_id [String] An identifier you provide to reference the resource in your system.
+    # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`.
+    # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
+    # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
+    # @param order [WorkOS::Types::AuthorizationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
+    # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
+    # @return [WorkOS::Types::ListStruct]
+    def list_effective_permissions_by_external_id(
+      organization_membership_id:,
+      resource_type_slug:,
+      external_id:,
+      before: nil,
+      after: nil,
+      limit: nil,
+      order: nil,
+      request_options: {}
+    )
+      params = {
+        "before" => before,
+        "after" => after,
+        "limit" => limit,
+        "order" => order
+      }.compact
+      response = @client.execute_request(
+        request: @client.get_request(path: "/authorization/organization_memberships/#{organization_membership_id}/resources/#{resource_type_slug}/#{external_id}/permissions", auth: true, params: params, request_options: request_options),
+        request_options: request_options
+      )
+      parsed = JSON.parse(response.body)
+      items = (parsed["data"] || []).map { |item| WorkOS::AuthorizationPermission.new(item) }
+      fetch_next = lambda do |metadata|
+        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
+        return nil if cursor.nil? || cursor.to_s.empty?
+        list_effective_permissions_by_external_id(
+          organization_membership_id: organization_membership_id,
+          resource_type_slug: resource_type_slug,
+          external_id: external_id,
+          before: before,
+          after: cursor,
+          limit: limit,
+          order: order,
+          request_options: request_options
+        )
+      end
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {organization_membership_id: organization_membership_id, resource_type_slug: resource_type_slug, external_id: external_id, before: before, limit: limit, order: order})
+    end
+
     # List role assignments
     # @param organization_membership_id [String] The ID of the organization membership.
     # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`.
@@ -136,7 +204,7 @@ module WorkOS
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::AuthorizationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::RoleAssignmentList]
+    # @return [WorkOS::Types::ListStruct]
     def list_organization_membership_role_assignments(
       organization_membership_id:,
       before: nil,
@@ -175,18 +243,36 @@ module WorkOS
     # Assign a role
     # @param organization_membership_id [String] The ID of the organization membership.
     # @param role_slug [String] The slug of the role to assign.
+    # @param resource_id [String, nil] The ID of the resource. Mutually exclusive with `resource_external_id` and `resource_type_slug`.
+    # @param resource_external_id [String, nil] The external ID of the resource. Required with `resource_type_slug`. Mutually exclusive with `resource_id`.
+    # @param resource_type_slug [String, nil] The resource type slug. Required with `resource_external_id`. Mutually exclusive with `resource_id`.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::RoleAssignment]
     def assign_role(
       organization_membership_id:,
       role_slug:,
+      resource_target:,
+      resource_id: nil,
+      resource_external_id: nil,
+      resource_type_slug: nil,
       request_options: {}
     )
+      params = {}.compact
+      case resource_target[:type]
+      when "by_id"
+        params["resource_id"] = resource_target[:resource_id]
+      when "by_external_id"
+        params["resource_external_id"] = resource_target[:resource_external_id]
+        params["resource_type_slug"] = resource_target[:resource_type_slug]
+      end
       body = {
-        "role_slug" => role_slug
+        "role_slug" => role_slug,
+        "resource_id" => resource_id,
+        "resource_external_id" => resource_external_id,
+        "resource_type_slug" => resource_type_slug
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/authorization/organization_memberships/#{organization_membership_id}/role_assignments", auth: true, body: body, request_options: request_options),
+        request: @client.post_request(path: "/authorization/organization_memberships/#{organization_membership_id}/role_assignments", auth: true, params: params, body: body, request_options: request_options),
         request_options: request_options
       )
       WorkOS::RoleAssignment.new(response.body)
@@ -195,18 +281,36 @@ module WorkOS
     # Remove a role assignment
     # @param organization_membership_id [String] The ID of the organization membership.
     # @param role_slug [String] The slug of the role to remove.
+    # @param resource_id [String, nil] The ID of the resource. Mutually exclusive with `resource_external_id` and `resource_type_slug`.
+    # @param resource_external_id [String, nil] The external ID of the resource. Required with `resource_type_slug`. Mutually exclusive with `resource_id`.
+    # @param resource_type_slug [String, nil] The resource type slug. Required with `resource_external_id`. Mutually exclusive with `resource_id`.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [Object]
+    # @return [void]
     def remove_role(
       organization_membership_id:,
       role_slug:,
+      resource_target:,
+      resource_id: nil,
+      resource_external_id: nil,
+      resource_type_slug: nil,
       request_options: {}
     )
+      params = {}.compact
+      case resource_target[:type]
+      when "by_id"
+        params["resource_id"] = resource_target[:resource_id]
+      when "by_external_id"
+        params["resource_external_id"] = resource_target[:resource_external_id]
+        params["resource_type_slug"] = resource_target[:resource_type_slug]
+      end
       body = {
-        "role_slug" => role_slug
+        "role_slug" => role_slug,
+        "resource_id" => resource_id,
+        "resource_external_id" => resource_external_id,
+        "resource_type_slug" => resource_type_slug
       }.compact
       @client.execute_request(
-        request: @client.delete_request(path: "/authorization/organization_memberships/#{organization_membership_id}/role_assignments", auth: true, body: body, request_options: request_options),
+        request: @client.delete_request(path: "/authorization/organization_memberships/#{organization_membership_id}/role_assignments", auth: true, params: params, body: body, request_options: request_options),
         request_options: request_options
       )
       nil
@@ -216,7 +320,7 @@ module WorkOS
     # @param organization_membership_id [String] The ID of the organization membership.
     # @param role_assignment_id [String] The ID of the role assignment to remove.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [Object]
+    # @return [void]
     def delete_organization_membership_role_assignment(
       organization_membership_id:,
       role_assignment_id:,
@@ -248,7 +352,7 @@ module WorkOS
     # @param organization_id [String] The ID of the organization.
     # @param slug [String, nil] A unique identifier for the role within the organization. When provided, must begin with 'org-' and contain only lowercase letters, numbers, hyphens, and underscores. When omitted, a slug is auto-generated from the role name and a random suffix.
     # @param name [String] A descriptive name for the role.
-    # @param description [String, nil, nil] An optional description of the role's purpose.
+    # @param description [String, nil] An optional description of the role's purpose.
     # @param resource_type_slug [String, nil] The slug of the resource type the role is scoped to.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::Role]
@@ -294,7 +398,7 @@ module WorkOS
     # @param organization_id [String] The ID of the organization.
     # @param slug [String] The slug of the role.
     # @param name [String, nil] A descriptive name for the role.
-    # @param description [String, nil, nil] An optional description of the role's purpose.
+    # @param description [String, nil] An optional description of the role's purpose.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::Role]
     def update_organization_role(
@@ -319,7 +423,7 @@ module WorkOS
     # @param organization_id [String] The ID of the organization.
     # @param slug [String] The slug of the role.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [Object]
+    # @return [void]
     def delete_organization_role(
       organization_id:,
       slug:,
@@ -419,7 +523,10 @@ module WorkOS
     # @param resource_type_slug [String] The slug of the resource type.
     # @param external_id [String] An identifier you provide to reference the resource in your system.
     # @param name [String, nil] A display name for the resource.
-    # @param description [String, nil, nil] An optional description of the resource.
+    # @param description [String, nil] An optional description of the resource.
+    # @param parent_resource_id [String, nil] The ID of the parent resource. Mutually exclusive with `parent_resource_external_id` and `parent_resource_type_slug`.
+    # @param parent_resource_external_id [String, nil] The external ID of the parent resource. Required with `parent_resource_type_slug`. Mutually exclusive with `parent_resource_id`.
+    # @param parent_resource_type_slug [String, nil] The resource type slug of the parent resource. Required with `parent_resource_external_id`. Mutually exclusive with `parent_resource_id`.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::AuthorizationResource]
     def update_organization_resource(
@@ -428,14 +535,31 @@ module WorkOS
       external_id:,
       name: nil,
       description: nil,
+      parent_resource_id: nil,
+      parent_resource_external_id: nil,
+      parent_resource_type_slug: nil,
+      parent_resource: nil,
       request_options: {}
     )
+      params = {}.compact
+      if parent_resource
+        case parent_resource[:type]
+        when "by_id"
+          params["parent_resource_id"] = parent_resource[:parent_resource_id]
+        when "by_external_id"
+          params["parent_resource_external_id"] = parent_resource[:parent_resource_external_id]
+          params["parent_resource_type_slug"] = parent_resource[:parent_resource_type_slug]
+        end
+      end
       body = {
         "name" => name,
-        "description" => description
+        "description" => description,
+        "parent_resource_id" => parent_resource_id,
+        "parent_resource_external_id" => parent_resource_external_id,
+        "parent_resource_type_slug" => parent_resource_type_slug
       }.compact
       response = @client.execute_request(
-        request: @client.patch_request(path: "/authorization/organizations/#{organization_id}/resources/#{resource_type_slug}/#{external_id}", auth: true, body: body, request_options: request_options),
+        request: @client.patch_request(path: "/authorization/organizations/#{organization_id}/resources/#{resource_type_slug}/#{external_id}", auth: true, params: params, body: body, request_options: request_options),
         request_options: request_options
       )
       WorkOS::AuthorizationResource.new(response.body)
@@ -447,7 +571,7 @@ module WorkOS
     # @param external_id [String] An identifier you provide to reference the resource in your system.
     # @param cascade_delete [Boolean, nil] If true, deletes all descendant resources and role assignments. If not set and the resource has children or assignments, the request will fail.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [Object]
+    # @return [void]
     def delete_organization_resource(
       organization_id:,
       resource_type_slug:,
@@ -476,7 +600,7 @@ module WorkOS
     # @param permission_slug [String] The permission slug to filter by. Only users with this permission on the resource are returned.
     # @param assignment [WorkOS::Types::AuthorizationAssignment, nil] Filter by assignment type. Use "direct" for direct assignments only, or "indirect" to include inherited assignments.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::UserOrganizationMembershipBaseList]
+    # @return [WorkOS::Types::ListStruct]
     def list_resource_organization_memberships(
       organization_id:,
       resource_type_slug:,
@@ -529,12 +653,9 @@ module WorkOS
     # @param order [WorkOS::Types::AuthorizationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
     # @param organization_id [String, nil] Filter resources by organization ID.
     # @param resource_type_slug [String, nil] Filter resources by resource type slug.
-    # @param parent_resource_id [String, nil] Filter resources by parent resource ID.
-    # @param parent_resource_type_slug [String, nil] Filter resources by parent resource type slug.
-    # @param parent_external_id [String, nil] Filter resources by parent external ID.
     # @param search [String, nil] Search resources by name.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::AuthorizationResourceList]
+    # @return [WorkOS::Types::ListStruct]
     def list_resources(
       before: nil,
       after: nil,
@@ -542,10 +663,8 @@ module WorkOS
       order: nil,
       organization_id: nil,
       resource_type_slug: nil,
-      parent_resource_id: nil,
-      parent_resource_type_slug: nil,
-      parent_external_id: nil,
       search: nil,
+      parent: nil,
       request_options: {}
     )
       params = {
@@ -555,11 +674,17 @@ module WorkOS
         "order" => order,
         "organization_id" => organization_id,
         "resource_type_slug" => resource_type_slug,
-        "parent_resource_id" => parent_resource_id,
-        "parent_resource_type_slug" => parent_resource_type_slug,
-        "parent_external_id" => parent_external_id,
         "search" => search
       }.compact
+      if parent
+        case parent[:type]
+        when "by_id"
+          params["parent_resource_id"] = parent[:parent_resource_id]
+        when "by_external_id"
+          params["parent_resource_type_slug"] = parent[:parent_resource_type_slug]
+          params["parent_external_id"] = parent[:parent_external_id]
+        end
+      end
       response = @client.execute_request(
         request: @client.get_request(path: "/authorization/resources", auth: true, params: params, request_options: request_options),
         request_options: request_options
@@ -576,22 +701,23 @@ module WorkOS
           order: order,
           organization_id: organization_id,
           resource_type_slug: resource_type_slug,
-          parent_resource_id: parent_resource_id,
-          parent_resource_type_slug: parent_resource_type_slug,
-          parent_external_id: parent_external_id,
           search: search,
+          parent: parent,
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {before: before, limit: limit, order: order, organization_id: organization_id, resource_type_slug: resource_type_slug, parent_resource_id: parent_resource_id, parent_resource_type_slug: parent_resource_type_slug, parent_external_id: parent_external_id, search: search})
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {before: before, limit: limit, order: order, organization_id: organization_id, resource_type_slug: resource_type_slug, search: search, parent: parent})
     end
 
     # Create an authorization resource
     # @param external_id [String] An external identifier for the resource.
     # @param name [String] A display name for the resource.
-    # @param description [String, nil, nil] An optional description of the resource.
+    # @param description [String, nil] An optional description of the resource.
     # @param resource_type_slug [String] The slug of the resource type.
     # @param organization_id [String] The ID of the organization this resource belongs to.
+    # @param parent_resource_id [String, nil] The ID of the parent resource. Mutually exclusive with `parent_resource_external_id` and `parent_resource_type_slug`.
+    # @param parent_resource_external_id [String, nil] The external ID of the parent resource. Required with `parent_resource_type_slug`. Mutually exclusive with `parent_resource_id`.
+    # @param parent_resource_type_slug [String, nil] The resource type slug of the parent resource. Required with `parent_resource_external_id`. Mutually exclusive with `parent_resource_id`.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::AuthorizationResource]
     def create_resource(
@@ -600,17 +726,34 @@ module WorkOS
       resource_type_slug:,
       organization_id:,
       description: nil,
+      parent_resource_id: nil,
+      parent_resource_external_id: nil,
+      parent_resource_type_slug: nil,
+      parent_resource: nil,
       request_options: {}
     )
+      params = {}.compact
+      if parent_resource
+        case parent_resource[:type]
+        when "by_id"
+          params["parent_resource_id"] = parent_resource[:parent_resource_id]
+        when "by_external_id"
+          params["parent_resource_external_id"] = parent_resource[:parent_resource_external_id]
+          params["parent_resource_type_slug"] = parent_resource[:parent_resource_type_slug]
+        end
+      end
       body = {
         "external_id" => external_id,
         "name" => name,
         "description" => description,
         "resource_type_slug" => resource_type_slug,
-        "organization_id" => organization_id
+        "organization_id" => organization_id,
+        "parent_resource_id" => parent_resource_id,
+        "parent_resource_external_id" => parent_resource_external_id,
+        "parent_resource_type_slug" => parent_resource_type_slug
       }.compact
       response = @client.execute_request(
-        request: @client.post_request(path: "/authorization/resources", auth: true, body: body, request_options: request_options),
+        request: @client.post_request(path: "/authorization/resources", auth: true, params: params, body: body, request_options: request_options),
         request_options: request_options
       )
       WorkOS::AuthorizationResource.new(response.body)
@@ -634,21 +777,41 @@ module WorkOS
     # Update a resource
     # @param resource_id [String] The ID of the authorization resource.
     # @param name [String, nil] A display name for the resource.
-    # @param description [String, nil, nil] An optional description of the resource.
+    # @param description [String, nil] An optional description of the resource.
+    # @param parent_resource_id [String, nil] The ID of the parent resource. Mutually exclusive with `parent_resource_external_id` and `parent_resource_type_slug`.
+    # @param parent_resource_external_id [String, nil] The external ID of the parent resource. Required with `parent_resource_type_slug`. Mutually exclusive with `parent_resource_id`.
+    # @param parent_resource_type_slug [String, nil] The resource type slug of the parent resource. Required with `parent_resource_external_id`. Mutually exclusive with `parent_resource_id`.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::AuthorizationResource]
     def update_resource(
       resource_id:,
       name: nil,
       description: nil,
+      parent_resource_id: nil,
+      parent_resource_external_id: nil,
+      parent_resource_type_slug: nil,
+      parent_resource: nil,
       request_options: {}
     )
+      params = {}.compact
+      if parent_resource
+        case parent_resource[:type]
+        when "by_id"
+          params["parent_resource_id"] = parent_resource[:parent_resource_id]
+        when "by_external_id"
+          params["parent_resource_external_id"] = parent_resource[:parent_resource_external_id]
+          params["parent_resource_type_slug"] = parent_resource[:parent_resource_type_slug]
+        end
+      end
       body = {
         "name" => name,
-        "description" => description
+        "description" => description,
+        "parent_resource_id" => parent_resource_id,
+        "parent_resource_external_id" => parent_resource_external_id,
+        "parent_resource_type_slug" => parent_resource_type_slug
       }.compact
       response = @client.execute_request(
-        request: @client.patch_request(path: "/authorization/resources/#{resource_id}", auth: true, body: body, request_options: request_options),
+        request: @client.patch_request(path: "/authorization/resources/#{resource_id}", auth: true, params: params, body: body, request_options: request_options),
         request_options: request_options
       )
       WorkOS::AuthorizationResource.new(response.body)
@@ -658,7 +821,7 @@ module WorkOS
     # @param resource_id [String] The ID of the authorization resource.
     # @param cascade_delete [Boolean, nil] If true, deletes all descendant resources and role assignments. If not set and the resource has children or assignments, the request will fail.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [Object]
+    # @return [void]
     def delete_resource(
       resource_id:,
       cascade_delete: nil,
@@ -683,7 +846,7 @@ module WorkOS
     # @param permission_slug [String] The permission slug to filter by. Only users with this permission on the resource are returned.
     # @param assignment [WorkOS::Types::AuthorizationAssignment, nil] Filter by assignment type. Use `direct` for direct assignments only, or `indirect` to include inherited assignments.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::UserOrganizationMembershipBaseList]
+    # @return [WorkOS::Types::ListStruct]
     def list_memberships_for_resource(
       resource_id:,
       permission_slug:,
@@ -739,7 +902,7 @@ module WorkOS
     # Create an environment role
     # @param slug [String] A unique slug for the role.
     # @param name [String] A descriptive name for the role.
-    # @param description [String, nil, nil] An optional description of the role.
+    # @param description [String, nil] An optional description of the role.
     # @param resource_type_slug [String, nil] The slug of the resource type the role is scoped to.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::Role]
@@ -781,7 +944,7 @@ module WorkOS
     # Update an environment role
     # @param slug [String] The slug of the environment role.
     # @param name [String, nil] A descriptive name for the role.
-    # @param description [String, nil, nil] An optional description of the role.
+    # @param description [String, nil] An optional description of the role.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::Role]
     def update_environment_role(
@@ -847,7 +1010,7 @@ module WorkOS
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::PermissionsOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::AuthorizationPermissionList]
+    # @return [WorkOS::Types::ListStruct]
     def list_permissions(
       before: nil,
       after: nil,
@@ -884,7 +1047,7 @@ module WorkOS
     # Create a permission
     # @param slug [String] A unique key to reference the permission. Must be lowercase and contain only letters, numbers, hyphens, underscores, colons, periods, and asterisks.
     # @param name [String] A descriptive name for the Permission.
-    # @param description [String, nil, nil] An optional description of the Permission.
+    # @param description [String, nil] An optional description of the Permission.
     # @param resource_type_slug [String, nil] The slug of the resource type this permission is scoped to.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::Permission]
@@ -926,7 +1089,7 @@ module WorkOS
     # Update a permission
     # @param slug [String] A unique key to reference the permission. Must be lowercase and contain only letters, numbers, hyphens, underscores, colons, periods, and asterisks.
     # @param name [String, nil] A descriptive name for the Permission.
-    # @param description [String, nil, nil] An optional description of the Permission.
+    # @param description [String, nil] An optional description of the Permission.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::AuthorizationPermission]
     def update_permission(
@@ -949,7 +1112,7 @@ module WorkOS
     # Delete a permission
     # @param slug [String] A unique key to reference the permission. Must be lowercase and contain only letters, numbers, hyphens, underscores, colons, periods, and asterisks.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [Object]
+    # @return [void]
     def delete_permission(
       slug:,
       request_options: {}

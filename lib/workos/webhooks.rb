@@ -14,7 +14,7 @@ module WorkOS
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::WebhooksOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::WebhookEndpointList]
+    # @return [WorkOS::Types::ListStruct]
     def list_webhook_endpoints(
       before: nil,
       after: nil,
@@ -98,7 +98,7 @@ module WorkOS
     # Delete a Webhook Endpoint
     # @param id [String] Unique identifier of the Webhook Endpoint.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [Object]
+    # @return [void]
     def delete_webhook_endpoint(
       id:,
       request_options: {}

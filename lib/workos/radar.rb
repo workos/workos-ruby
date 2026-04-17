@@ -49,7 +49,7 @@ module WorkOS
     # @param challenge_status [String, nil] Set to `"success"` to mark the challenge as completed.
     # @param attempt_status [String, nil] Set to `"success"` to mark the authentication attempt as successful.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [Object]
+    # @return [void]
     def update_attempt(
       id:,
       challenge_status: nil,
@@ -94,7 +94,7 @@ module WorkOS
     # @param action [WorkOS::Types::RadarAction] The list action indicating whether to remove the entry from the allow or block list.
     # @param entry [String] The value to remove from the list. Must match an existing entry.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [Object]
+    # @return [void]
     def remove_list_entry(
       type:,
       action:,

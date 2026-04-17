@@ -49,7 +49,7 @@ module WorkOS
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::AuditLogsOrder, nil] Order the results by the creation time.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [Array<WorkOS::AuditLogActionJson>]
+    # @return [WorkOS::Types::ListStruct]
     def list_actions(
       before: nil,
       after: nil,
@@ -90,7 +90,7 @@ module WorkOS
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::AuditLogsOrder, nil] Order the results by the creation time.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [Array<WorkOS::AuditLogSchemaJson>]
+    # @return [WorkOS::Types::ListStruct]
     def list_action_schemas(
       action_name:,
       before: nil,

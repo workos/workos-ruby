@@ -18,7 +18,7 @@ module WorkOS
     # @param range_end [String, nil] ISO-8601 date string to filter events created before this date.
     # @param organization_id [String, nil] Filter events by the [Organization](https://workos.com/docs/reference/organization) that the event is associated with.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::EventList]
+    # @return [WorkOS::Types::ListStruct]
     def list_events(
       before: nil,
       after: nil,

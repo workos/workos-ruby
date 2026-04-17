@@ -14,7 +14,9 @@ module WorkOS
       :name,
       :scopes,
       :created_at,
-      :updated_at
+      :updated_at,
+      :application_type,
+      :organization_id
 
     def initialize(json)
       hash = json.is_a?(Hash) ? json : JSON.parse(json, symbolize_names: true)
@@ -27,6 +29,8 @@ module WorkOS
       @scopes = hash[:scopes] || []
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
+      @application_type = hash[:application_type]
+      @organization_id = hash[:organization_id]
     end
 
     def to_h
@@ -38,7 +42,9 @@ module WorkOS
         name: name,
         scopes: scopes,
         created_at: created_at,
-        updated_at: updated_at
+        updated_at: updated_at,
+        application_type: application_type,
+        organization_id: organization_id
       }
     end
 

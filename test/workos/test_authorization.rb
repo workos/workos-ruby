@@ -12,7 +12,7 @@ class AuthorizationTest < Minitest::Test
   def test_check_returns_expected_result
     stub_request(:post, /#{Regexp.escape("authorization")}/)
       .to_return(body: "{}", status: 200)
-    result = @client.authorization.check(organization_membership_id: "stub", permission_slug: "stub")
+    result = @client.authorization.check(organization_membership_id: "stub", permission_slug: "stub", resource_target: {type: "by_id"})
     refute_nil result
   end
 
@@ -20,7 +20,7 @@ class AuthorizationTest < Minitest::Test
     stub_request(:post, /#{Regexp.escape("authorization")}/)
       .to_return(body: '{"message": "Unauthorized"}', status: 401)
     assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.check(organization_membership_id: "stub", permission_slug: "stub")
+      @client.authorization.check(organization_membership_id: "stub", permission_slug: "stub", resource_target: {type: "by_id"})
     end
   end
 
@@ -54,6 +54,21 @@ class AuthorizationTest < Minitest::Test
     end
   end
 
+  def test_list_effective_permissions_by_external_id_returns_expected_result
+    stub_request(:get, /#{Regexp.escape("authorization")}/)
+      .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
+    result = @client.authorization.list_effective_permissions_by_external_id(organization_membership_id: "stub", resource_type_slug: "stub", external_id: "stub")
+    assert_kind_of WorkOS::Types::ListStruct, result
+  end
+
+  def test_list_effective_permissions_by_external_id_raises_authentication_error_on_401
+    stub_request(:get, /#{Regexp.escape("authorization")}/)
+      .to_return(body: '{"message": "Unauthorized"}', status: 401)
+    assert_raises(WorkOS::AuthenticationError) do
+      @client.authorization.list_effective_permissions_by_external_id(organization_membership_id: "stub", resource_type_slug: "stub", external_id: "stub")
+    end
+  end
+
   def test_list_organization_membership_role_assignments_returns_expected_result
     stub_request(:get, /#{Regexp.escape("authorization")}/)
       .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
@@ -72,7 +87,7 @@ class AuthorizationTest < Minitest::Test
   def test_assign_role_returns_expected_result
     stub_request(:post, /#{Regexp.escape("authorization")}/)
       .to_return(body: "{}", status: 200)
-    result = @client.authorization.assign_role(organization_membership_id: "stub", role_slug: "stub")
+    result = @client.authorization.assign_role(organization_membership_id: "stub", role_slug: "stub", resource_target: {type: "by_id"})
     refute_nil result
   end
 
@@ -80,14 +95,14 @@ class AuthorizationTest < Minitest::Test
     stub_request(:post, /#{Regexp.escape("authorization")}/)
       .to_return(body: '{"message": "Unauthorized"}', status: 401)
     assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.assign_role(organization_membership_id: "stub", role_slug: "stub")
+      @client.authorization.assign_role(organization_membership_id: "stub", role_slug: "stub", resource_target: {type: "by_id"})
     end
   end
 
   def test_remove_role_returns_expected_result
     stub_request(:delete, /#{Regexp.escape("authorization")}/)
       .to_return(body: "{}", status: 200)
-    result = @client.authorization.remove_role(organization_membership_id: "stub", role_slug: "stub")
+    result = @client.authorization.remove_role(organization_membership_id: "stub", role_slug: "stub", resource_target: {type: "by_id"})
     assert_nil result if result.nil?
   end
 
@@ -95,7 +110,7 @@ class AuthorizationTest < Minitest::Test
     stub_request(:delete, /#{Regexp.escape("authorization")}/)
       .to_return(body: '{"message": "Unauthorized"}', status: 401)
     assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.remove_role(organization_membership_id: "stub", role_slug: "stub")
+      @client.authorization.remove_role(organization_membership_id: "stub", role_slug: "stub", resource_target: {type: "by_id"})
     end
   end
 

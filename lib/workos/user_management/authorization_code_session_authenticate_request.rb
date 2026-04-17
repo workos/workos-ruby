@@ -11,6 +11,8 @@ module WorkOS
       :client_secret,
       :grant_type,
       :code,
+      :code_verifier,
+      :invitation_token,
       :ip_address,
       :device_id,
       :user_agent
@@ -22,6 +24,8 @@ module WorkOS
       @client_secret = hash[:client_secret]
       @grant_type = hash[:grant_type]
       @code = hash[:code]
+      @code_verifier = hash[:code_verifier]
+      @invitation_token = hash[:invitation_token]
       @ip_address = hash[:ip_address]
       @device_id = hash[:device_id]
       @user_agent = hash[:user_agent]
@@ -33,6 +37,8 @@ module WorkOS
         client_secret: client_secret,
         grant_type: grant_type,
         code: code,
+        code_verifier: code_verifier,
+        invitation_token: invitation_token,
         ip_address: ip_address,
         device_id: device_id,
         user_agent: user_agent

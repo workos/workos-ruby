@@ -37,6 +37,24 @@ module WorkOS
     sig { params(value: String).returns(String) }
     def organization_id=(value); end
 
+    sig { returns(T.nilable(String)) }
+    def parent_resource_id; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def parent_resource_id=(value); end
+
+    sig { returns(T.nilable(String)) }
+    def parent_resource_external_id; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def parent_resource_external_id=(value); end
+
+    sig { returns(T.nilable(String)) }
+    def parent_resource_type_slug; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def parent_resource_type_slug=(value); end
+
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end
 

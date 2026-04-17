@@ -17,7 +17,7 @@ module WorkOS
     # @param search [String, nil] Searchable text to match against Directory names.
     # @param domain [String, nil] (deprecated) Filter Directories by their associated domain.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::DirectoryList]
+    # @return [WorkOS::Types::ListStruct]
     def list_directories(
       before: nil,
       after: nil,
@@ -78,7 +78,7 @@ module WorkOS
     # Delete a Directory
     # @param id [String] Unique identifier for the Directory.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [Object]
+    # @return [void]
     def delete_directory(
       id:,
       request_options: {}
@@ -98,7 +98,7 @@ module WorkOS
     # @param directory [String, nil] Unique identifier of the WorkOS Directory. This value can be obtained from the WorkOS dashboard or from the WorkOS API.
     # @param user [String, nil] Unique identifier of the WorkOS Directory User. This value can be obtained from the WorkOS API.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::DirectoryGroupList]
+    # @return [WorkOS::Types::ListStruct]
     def list_groups(
       before: nil,
       after: nil,
@@ -161,7 +161,7 @@ module WorkOS
     # @param directory [String, nil] Unique identifier of the WorkOS Directory. This value can be obtained from the WorkOS dashboard or from the WorkOS API.
     # @param group [String, nil] Unique identifier of the WorkOS Directory Group. This value can be obtained from the WorkOS API.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::DirectoryUserList]
+    # @return [WorkOS::Types::ListStruct]
     def list_users(
       before: nil,
       after: nil,

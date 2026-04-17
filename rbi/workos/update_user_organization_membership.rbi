@@ -7,6 +7,18 @@ module WorkOS
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
 
+    sig { returns(T.nilable(String)) }
+    def role_slug; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def role_slug=(value); end
+
+    sig { returns(T.nilable(T::Array[String])) }
+    def role_slugs; end
+
+    sig { params(value: T.nilable(T::Array[String])).returns(T.nilable(T::Array[String])) }
+    def role_slugs=(value); end
+
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end
 

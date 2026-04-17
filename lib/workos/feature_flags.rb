@@ -14,7 +14,7 @@ module WorkOS
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::FeatureFlagsOrder, nil] Order the results by the creation time.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::FlagList]
+    # @return [WorkOS::Types::ListStruct]
     def list_feature_flags(
       before: nil,
       after: nil,
@@ -97,7 +97,7 @@ module WorkOS
     # @param resource_id [String] The resource ID in format "user_<id>" or "org_<id>".
     # @param slug [String] The unique slug identifier of the feature flag.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [Object]
+    # @return [void]
     def add_flag_target(
       resource_id:,
       slug:,
@@ -114,7 +114,7 @@ module WorkOS
     # @param resource_id [String] The resource ID in format "user_<id>" or "org_<id>".
     # @param slug [String] The unique slug identifier of the feature flag.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [Object]
+    # @return [void]
     def remove_flag_target(
       resource_id:,
       slug:,
@@ -134,7 +134,7 @@ module WorkOS
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::OrganizationsFeatureFlagsOrder, nil] Order the results by the creation time.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::FlagList]
+    # @return [WorkOS::Types::ListStruct]
     def list_organization_feature_flags(
       organization_id:,
       before: nil,
@@ -177,7 +177,7 @@ module WorkOS
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::UserManagementUsersFeatureFlagsOrder, nil] Order the results by the creation time.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::FlagList]
+    # @return [WorkOS::Types::ListStruct]
     def list_user_feature_flags(
       user_id:,
       before: nil,

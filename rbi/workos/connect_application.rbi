@@ -55,6 +55,18 @@ module WorkOS
     sig { params(value: String).returns(String) }
     def updated_at=(value); end
 
+    sig { returns(T.nilable(String)) }
+    def application_type; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def application_type=(value); end
+
+    sig { returns(T.nilable(String)) }
+    def organization_id; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def organization_id=(value); end
+
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end
 

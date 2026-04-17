@@ -11,10 +11,13 @@ module WorkOS
       params(
         organization_membership_id: String,
         permission_slug: String,
+        resource_id: T.nilable(String),
+        resource_external_id: T.nilable(String),
+        resource_type_slug: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AuthorizationCheck)
     end
-    def check(organization_membership_id:, permission_slug:, request_options:); end
+    def check(organization_membership_id:, permission_slug:, resource_id:, resource_external_id:, resource_type_slug:, request_options:); end
 
     sig do
       params(
@@ -45,6 +48,20 @@ module WorkOS
     sig do
       params(
         organization_membership_id: String,
+        resource_type_slug: String,
+        external_id: String,
+        before: T.nilable(String),
+        after: T.nilable(String),
+        limit: T.nilable(Integer),
+        order: T.nilable(String),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::Types::ListStruct)
+    end
+    def list_effective_permissions_by_external_id(organization_membership_id:, resource_type_slug:, external_id:, before:, after:, limit:, order:, request_options:); end
+
+    sig do
+      params(
+        organization_membership_id: String,
         before: T.nilable(String),
         after: T.nilable(String),
         limit: T.nilable(Integer),
@@ -58,19 +75,25 @@ module WorkOS
       params(
         organization_membership_id: String,
         role_slug: String,
+        resource_id: T.nilable(String),
+        resource_external_id: T.nilable(String),
+        resource_type_slug: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::RoleAssignment)
     end
-    def assign_role(organization_membership_id:, role_slug:, request_options:); end
+    def assign_role(organization_membership_id:, role_slug:, resource_id:, resource_external_id:, resource_type_slug:, request_options:); end
 
     sig do
       params(
         organization_membership_id: String,
         role_slug: String,
+        resource_id: T.nilable(String),
+        resource_external_id: T.nilable(String),
+        resource_type_slug: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def remove_role(organization_membership_id:, role_slug:, request_options:); end
+    def remove_role(organization_membership_id:, role_slug:, resource_id:, resource_external_id:, resource_type_slug:, request_options:); end
 
     sig do
       params(
@@ -176,10 +199,13 @@ module WorkOS
         external_id: String,
         name: T.nilable(String),
         description: T.nilable(String),
+        parent_resource_id: T.nilable(String),
+        parent_resource_external_id: T.nilable(String),
+        parent_resource_type_slug: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AuthorizationResource)
     end
-    def update_organization_resource(organization_id:, resource_type_slug:, external_id:, name:, description:, request_options:); end
+    def update_organization_resource(organization_id:, resource_type_slug:, external_id:, name:, description:, parent_resource_id:, parent_resource_external_id:, parent_resource_type_slug:, request_options:); end
 
     sig do
       params(
@@ -216,14 +242,11 @@ module WorkOS
         order: T.nilable(String),
         organization_id: T.nilable(String),
         resource_type_slug: T.nilable(String),
-        parent_resource_id: T.nilable(String),
-        parent_resource_type_slug: T.nilable(String),
-        parent_external_id: T.nilable(String),
         search: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_resources(before:, after:, limit:, order:, organization_id:, resource_type_slug:, parent_resource_id:, parent_resource_type_slug:, parent_external_id:, search:, request_options:); end
+    def list_resources(before:, after:, limit:, order:, organization_id:, resource_type_slug:, search:, request_options:); end
 
     sig do
       params(
@@ -232,10 +255,13 @@ module WorkOS
         resource_type_slug: String,
         organization_id: String,
         description: T.nilable(String),
+        parent_resource_id: T.nilable(String),
+        parent_resource_external_id: T.nilable(String),
+        parent_resource_type_slug: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AuthorizationResource)
     end
-    def create_resource(external_id:, name:, resource_type_slug:, organization_id:, description:, request_options:); end
+    def create_resource(external_id:, name:, resource_type_slug:, organization_id:, description:, parent_resource_id:, parent_resource_external_id:, parent_resource_type_slug:, request_options:); end
 
     sig do
       params(
@@ -250,10 +276,13 @@ module WorkOS
         resource_id: String,
         name: T.nilable(String),
         description: T.nilable(String),
+        parent_resource_id: T.nilable(String),
+        parent_resource_external_id: T.nilable(String),
+        parent_resource_type_slug: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AuthorizationResource)
     end
-    def update_resource(resource_id:, name:, description:, request_options:); end
+    def update_resource(resource_id:, name:, description:, parent_resource_id:, parent_resource_external_id:, parent_resource_type_slug:, request_options:); end
 
     sig do
       params(
