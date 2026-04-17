@@ -32,28 +32,28 @@ module WorkOS
       :updated_at
 
     def emails
-      warn "[DEPRECATION] `emails` is deprecated. A list of email addresses for the user.", uplevel: 1
+      warn "[DEPRECATION] `emails` is deprecated. A list of email addresses for the user.", uplevel: 1, category: :deprecated
       @emails
     end
 
     attr_writer :emails
 
     def job_title
-      warn "[DEPRECATION] `job_title` is deprecated. The job title of the user.", uplevel: 1
+      warn "[DEPRECATION] `job_title` is deprecated. The job title of the user.", uplevel: 1, category: :deprecated
       @job_title
     end
 
     attr_writer :job_title
 
     def username
-      warn "[DEPRECATION] `username` is deprecated. The username of the user.", uplevel: 1
+      warn "[DEPRECATION] `username` is deprecated. The username of the user.", uplevel: 1, category: :deprecated
       @username
     end
 
     attr_writer :username
 
     def raw_attributes
-      warn "[DEPRECATION] `raw_attributes` is deprecated. The raw attributes received from the directory provider.", uplevel: 1
+      warn "[DEPRECATION] `raw_attributes` is deprecated. The raw attributes received from the directory provider.", uplevel: 1, category: :deprecated
       @raw_attributes
     end
 
@@ -92,11 +92,11 @@ module WorkOS
         email: email,
         first_name: first_name,
         last_name: last_name,
-        emails: (emails || []).map(&:to_h),
-        job_title: job_title,
-        username: username,
+        emails: (@emails || []).map(&:to_h),
+        job_title: @job_title,
+        username: @username,
         state: state,
-        raw_attributes: raw_attributes,
+        raw_attributes: @raw_attributes,
         custom_attributes: custom_attributes,
         role: role&.to_h,
         roles: (roles || []).map(&:to_h),

@@ -19,7 +19,7 @@ module WorkOS
       :targets
 
     def actors
-      warn "[DEPRECATION] `actors` is deprecated. Deprecated. Use `actor_names` instead.", uplevel: 1
+      warn "[DEPRECATION] `actors` is deprecated. Deprecated. Use `actor_names` instead.", uplevel: 1, category: :deprecated
       @actors
     end
 
@@ -44,7 +44,7 @@ module WorkOS
         range_start: range_start,
         range_end: range_end,
         actions: actions,
-        actors: actors,
+        actors: @actors,
         actor_names: actor_names,
         actor_ids: actor_ids,
         targets: targets

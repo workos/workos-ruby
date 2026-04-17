@@ -22,7 +22,7 @@ module WorkOS
       :updated_at
 
     def status
-      warn "[DEPRECATION] `status` is deprecated. Deprecated. Use `state` instead.", uplevel: 1
+      warn "[DEPRECATION] `status` is deprecated. Deprecated. Use `state` instead.", uplevel: 1, category: :deprecated
       @status
     end
 
@@ -52,7 +52,7 @@ module WorkOS
         connection_type: connection_type,
         name: name,
         state: state,
-        status: status,
+        status: @status,
         domains: (domains || []).map(&:to_h),
         options: options&.to_h,
         created_at: created_at,

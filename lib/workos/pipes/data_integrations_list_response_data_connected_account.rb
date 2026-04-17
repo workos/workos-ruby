@@ -20,7 +20,7 @@ module WorkOS
       :updated_at
 
     def userland_user_id
-      warn "[DEPRECATION] `userland_user_id` is deprecated. Use `user_id` instead.", uplevel: 1
+      warn "[DEPRECATION] `userland_user_id` is deprecated. Use `user_id` instead.", uplevel: 1, category: :deprecated
       @userland_user_id
     end
 
@@ -50,7 +50,7 @@ module WorkOS
         state: state,
         created_at: created_at,
         updated_at: updated_at,
-        userlandUserId: userland_user_id
+        userlandUserId: @userland_user_id
       }
     end
 

@@ -21,7 +21,7 @@ module WorkOS
       :updated_at
 
     def allow_profiles_outside_organization
-      warn "[DEPRECATION] `allow_profiles_outside_organization` is deprecated. Whether the Organization allows profiles outside of its managed domains.", uplevel: 1
+      warn "[DEPRECATION] `allow_profiles_outside_organization` is deprecated. Whether the Organization allows profiles outside of its managed domains.", uplevel: 1, category: :deprecated
       @allow_profiles_outside_organization
     end
 
@@ -53,7 +53,7 @@ module WorkOS
         stripe_customer_id: stripe_customer_id,
         created_at: created_at,
         updated_at: updated_at,
-        allow_profiles_outside_organization: allow_profiles_outside_organization
+        allow_profiles_outside_organization: @allow_profiles_outside_organization
       }
     end
 

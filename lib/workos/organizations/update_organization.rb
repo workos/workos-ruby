@@ -18,7 +18,7 @@ module WorkOS
       :external_id
 
     def domains
-      warn "[DEPRECATION] `domains` is deprecated. The domains associated with the organization. Deprecated in favor of `domain_data`.", uplevel: 1
+      warn "[DEPRECATION] `domains` is deprecated. The domains associated with the organization. Deprecated in favor of `domain_data`.", uplevel: 1, category: :deprecated
       @domains
     end
 
@@ -40,7 +40,7 @@ module WorkOS
       {
         name: name,
         allow_profiles_outside_organization: allow_profiles_outside_organization,
-        domains: domains,
+        domains: @domains,
         domain_data: (domain_data || []).map(&:to_h),
         stripe_customer_id: stripe_customer_id,
         metadata: metadata,
