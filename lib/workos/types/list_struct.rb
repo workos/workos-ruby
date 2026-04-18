@@ -21,6 +21,33 @@ module WorkOS
         @filters = filters
       end
 
+      # Build a ListStruct from a raw HTTP response, mapping items through
+      # an optional model class and wiring cursor-based auto-pagination.
+      #
+      # @param response [Net::HTTPResponse] Raw HTTP response with JSON body.
+      # @param model [Class, nil] Model class whose `.new` accepts a Hash.
+      #   When nil, items are returned as raw Hashes.
+      # @param filters [Hash] Filter state forwarded to the next page.
+      # @yield [cursor] Block called to fetch the next page given a cursor string.
+      # @return [ListStruct]
+      def self.from_response(response, model: nil, filters: {}, &fetch_page)
+        parsed = JSON.parse(response.body)
+        items = parsed["data"] || []
+        items = items.map { |item| model.new(item) } if model
+        new(
+          data: items,
+          list_metadata: parsed["list_metadata"],
+          filters: filters,
+          fetch_next: if fetch_page
+            ->(md) {
+              cursor = md.is_a?(Hash) ? (md["after"] || md[:after]) : nil
+              return nil if cursor.nil? || cursor.to_s.empty?
+              fetch_page.call(cursor)
+            }
+          end
+        )
+      end
+
       def each(&block)
         @data.each(&block)
       end

@@ -21,10 +21,7 @@ module WorkOS
       body = {
         "value" => value
       }.compact
-      response = @client.execute_request(
-        request: @client.post_request(path: "/api_keys/validations", auth: true, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :post, path: "/api_keys/validations", auth: true, body: body, request_options: request_options)
       WorkOS::ApiKeyValidationResponse.new(response.body)
     end
 
@@ -36,10 +33,7 @@ module WorkOS
       id:,
       request_options: {}
     )
-      @client.execute_request(
-        request: @client.delete_request(path: "/api_keys/#{WorkOS::Util.encode_path(id)}", auth: true, request_options: request_options),
-        request_options: request_options
-      )
+      @client.request(method: :delete, path: "/api_keys/#{WorkOS::Util.encode_path(id)}", auth: true, request_options: request_options)
       nil
     end
 
@@ -65,15 +59,8 @@ module WorkOS
         "limit" => limit,
         "order" => order
       }.compact
-      response = @client.execute_request(
-        request: @client.get_request(path: "/organizations/#{WorkOS::Util.encode_path(organization_id)}/api_keys", auth: true, params: params, request_options: request_options),
-        request_options: request_options
-      )
-      parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::ApiKey.new(item) }
-      fetch_next = lambda do |metadata|
-        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
-        return nil if cursor.nil? || cursor.to_s.empty?
+      response = @client.request(method: :get, path: "/organizations/#{WorkOS::Util.encode_path(organization_id)}/api_keys", auth: true, params: params, request_options: request_options)
+      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::ApiKey, filters: {organization_id: organization_id, before: before, limit: limit, order: order}) do |cursor|
         list_organization_api_keys(
           organization_id: organization_id,
           before: before,
@@ -83,7 +70,6 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {organization_id: organization_id, before: before, limit: limit, order: order})
     end
 
     # Create an API key for an organization
@@ -102,10 +88,7 @@ module WorkOS
         "name" => name,
         "permissions" => permissions
       }.compact
-      response = @client.execute_request(
-        request: @client.post_request(path: "/organizations/#{WorkOS::Util.encode_path(organization_id)}/api_keys", auth: true, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :post, path: "/organizations/#{WorkOS::Util.encode_path(organization_id)}/api_keys", auth: true, body: body, request_options: request_options)
       WorkOS::ApiKeyWithValue.new(response.body)
     end
   end

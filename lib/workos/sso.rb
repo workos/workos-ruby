@@ -42,15 +42,8 @@ module WorkOS
         "organization_id" => organization_id,
         "search" => search
       }.compact
-      response = @client.execute_request(
-        request: @client.get_request(path: "/connections", auth: true, params: params, request_options: request_options),
-        request_options: request_options
-      )
-      parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::Connection.new(item) }
-      fetch_next = lambda do |metadata|
-        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
-        return nil if cursor.nil? || cursor.to_s.empty?
+      response = @client.request(method: :get, path: "/connections", auth: true, params: params, request_options: request_options)
+      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::Connection, filters: {before: before, limit: limit, order: order, connection_type: connection_type, domain: domain, organization_id: organization_id, search: search}) do |cursor|
         list_connections(
           before: before,
           after: cursor,
@@ -63,7 +56,6 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {before: before, limit: limit, order: order, connection_type: connection_type, domain: domain, organization_id: organization_id, search: search})
     end
 
     # Get a Connection
@@ -74,10 +66,7 @@ module WorkOS
       id:,
       request_options: {}
     )
-      response = @client.execute_request(
-        request: @client.get_request(path: "/connections/#{WorkOS::Util.encode_path(id)}", auth: true, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :get, path: "/connections/#{WorkOS::Util.encode_path(id)}", auth: true, request_options: request_options)
       WorkOS::Connection.new(response.body)
     end
 
@@ -89,10 +78,7 @@ module WorkOS
       id:,
       request_options: {}
     )
-      @client.execute_request(
-        request: @client.delete_request(path: "/connections/#{WorkOS::Util.encode_path(id)}", auth: true, request_options: request_options),
-        request_options: request_options
-      )
+      @client.request(method: :delete, path: "/connections/#{WorkOS::Util.encode_path(id)}", auth: true, request_options: request_options)
       nil
     end
 
@@ -107,10 +93,7 @@ module WorkOS
       body = {
         "profile_id" => profile_id
       }.compact
-      response = @client.execute_request(
-        request: @client.post_request(path: "/sso/logout/authorize", auth: true, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :post, path: "/sso/logout/authorize", auth: true, body: body, request_options: request_options)
       WorkOS::SSOLogoutAuthorizeResponse.new(response.body)
     end
 
@@ -118,10 +101,7 @@ module WorkOS
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::Profile]
     def get_profile(request_options: {})
-      response = @client.execute_request(
-        request: @client.get_request(path: "/sso/profile", auth: true, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :get, path: "/sso/profile", auth: true, request_options: request_options)
       WorkOS::Profile.new(response.body)
     end
 
@@ -142,10 +122,7 @@ module WorkOS
         "client_secret" => @client.api_key,
         "code" => code
       }.compact
-      response = @client.execute_request(
-        request: @client.post_request(path: "/sso/token", auth: true, params: params, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :post, path: "/sso/token", auth: true, params: params, body: body, request_options: request_options)
       WorkOS::SSOTokenResponse.new(response.body)
     end
 

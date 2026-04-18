@@ -39,10 +39,7 @@ module WorkOS
         "device_fingerprint" => device_fingerprint,
         "bot_score" => bot_score
       }.compact
-      response = @client.execute_request(
-        request: @client.post_request(path: "/radar/attempts", auth: true, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :post, path: "/radar/attempts", auth: true, body: body, request_options: request_options)
       WorkOS::RadarStandaloneResponse.new(response.body)
     end
 
@@ -62,10 +59,7 @@ module WorkOS
         "challenge_status" => challenge_status,
         "attempt_status" => attempt_status
       }.compact
-      @client.execute_request(
-        request: @client.put_request(path: "/radar/attempts/#{WorkOS::Util.encode_path(id)}", auth: true, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      @client.request(method: :put, path: "/radar/attempts/#{WorkOS::Util.encode_path(id)}", auth: true, body: body, request_options: request_options)
       nil
     end
 
@@ -84,10 +78,7 @@ module WorkOS
       body = {
         "entry" => entry
       }.compact
-      response = @client.execute_request(
-        request: @client.post_request(path: "/radar/lists/#{WorkOS::Util.encode_path(type)}/#{WorkOS::Util.encode_path(action)}", auth: true, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :post, path: "/radar/lists/#{WorkOS::Util.encode_path(type)}/#{WorkOS::Util.encode_path(action)}", auth: true, body: body, request_options: request_options)
       WorkOS::RadarListEntryAlreadyPresentResponse.new(response.body)
     end
 
@@ -106,10 +97,7 @@ module WorkOS
       body = {
         "entry" => entry
       }.compact
-      @client.execute_request(
-        request: @client.delete_request(path: "/radar/lists/#{WorkOS::Util.encode_path(type)}/#{WorkOS::Util.encode_path(action)}", auth: true, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      @client.request(method: :delete, path: "/radar/lists/#{WorkOS::Util.encode_path(type)}/#{WorkOS::Util.encode_path(action)}", auth: true, body: body, request_options: request_options)
       nil
     end
   end

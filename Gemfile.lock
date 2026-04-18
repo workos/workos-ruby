@@ -2,7 +2,6 @@ PATH
   remote: .
   specs:
     workos (6.2.0)
-      encryptor (~> 3.0)
       jwt (~> 3.1)
       zeitwerk (~> 2.6)
 
@@ -18,7 +17,6 @@ GEM
       bigdecimal
       rexml
     drb (2.2.3)
-    encryptor (3.0.0)
     hashdiff (1.2.1)
     json (2.19.3)
     jwt (3.1.2)
@@ -98,7 +96,6 @@ CHECKSUMS
   bigdecimal (4.1.1) sha256=1c09efab961da45203c8316b0cdaec0ff391dfadb952dd459584b63ebf8054ca
   crack (1.0.1) sha256=ff4a10390cd31d66440b7524eb1841874db86201d5b70032028553130b6d4c7e
   drb (2.2.3) sha256=0b00d6fdb50995fe4a45dea13663493c841112e4068656854646f418fda13373
-  encryptor (3.0.0) sha256=abf23f94ab4d864b8cea85b43f3432044a60001982cda7c33c1cd90da8db1969
   hashdiff (1.2.1) sha256=9c079dbc513dfc8833ab59c0c2d8f230fa28499cc5efb4b8dd276cf931457cd1
   json (2.19.3) sha256=289b0bb53052a1fa8c34ab33cc750b659ba14a5c45f3fcf4b18762dc67c78646
   jwt (3.1.2) sha256=af6991f19a6bb4060d618d9add7a66f0eeb005ac0bc017cd01f63b42e122d535

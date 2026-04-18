@@ -30,15 +30,8 @@ module WorkOS
         "limit" => limit,
         "order" => order
       }.compact
-      response = @client.execute_request(
-        request: @client.get_request(path: "/webhook_endpoints", auth: true, params: params, request_options: request_options),
-        request_options: request_options
-      )
-      parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::WebhookEndpointJson.new(item) }
-      fetch_next = lambda do |metadata|
-        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
-        return nil if cursor.nil? || cursor.to_s.empty?
+      response = @client.request(method: :get, path: "/webhook_endpoints", auth: true, params: params, request_options: request_options)
+      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::WebhookEndpointJson, filters: {before: before, limit: limit, order: order}) do |cursor|
         list_webhook_endpoints(
           before: before,
           after: cursor,
@@ -47,7 +40,6 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {before: before, limit: limit, order: order})
     end
 
     # Create a Webhook Endpoint
@@ -64,10 +56,7 @@ module WorkOS
         "endpoint_url" => endpoint_url,
         "events" => events
       }.compact
-      response = @client.execute_request(
-        request: @client.post_request(path: "/webhook_endpoints", auth: true, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :post, path: "/webhook_endpoints", auth: true, body: body, request_options: request_options)
       WorkOS::WebhookEndpointJson.new(response.body)
     end
 
@@ -90,10 +79,7 @@ module WorkOS
         "status" => status,
         "events" => events
       }.compact
-      response = @client.execute_request(
-        request: @client.patch_request(path: "/webhook_endpoints/#{WorkOS::Util.encode_path(id)}", auth: true, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :patch, path: "/webhook_endpoints/#{WorkOS::Util.encode_path(id)}", auth: true, body: body, request_options: request_options)
       WorkOS::WebhookEndpointJson.new(response.body)
     end
 
@@ -105,14 +91,13 @@ module WorkOS
       id:,
       request_options: {}
     )
-      @client.execute_request(
-        request: @client.delete_request(path: "/webhook_endpoints/#{WorkOS::Util.encode_path(id)}", auth: true, request_options: request_options),
-        request_options: request_options
-      )
+      @client.request(method: :delete, path: "/webhook_endpoints/#{WorkOS::Util.encode_path(id)}", auth: true, request_options: request_options)
       nil
     end
 
     # @oagen-ignore-start — non-spec helpers (hand-maintained)
+    require "openssl"
+
     DEFAULT_TOLERANCE_SECONDS = 180
 
     # Verify a webhook signature and return a typed event struct.
@@ -167,7 +152,6 @@ module WorkOS
     # Compute the HMAC-SHA256 hex signature for a (timestamp, payload) pair.
     # Exposed publicly so users can build their own verification flow.
     def compute_signature(payload:, timestamp:, secret:)
-      require "openssl"
       OpenSSL::HMAC.hexdigest("SHA256", secret, "#{timestamp}.#{payload}")
     end
 
@@ -175,11 +159,11 @@ module WorkOS
     # Exposed publicly for advanced use.
     def parse_signature_header(sig_header)
       raise WorkOS::SignatureVerificationError.new(message: "Signature header missing", http_status: nil) if sig_header.nil? || sig_header.empty?
-      parts = sig_header.split(", ")
-      raise WorkOS::SignatureVerificationError.new(message: "Unable to extract timestamp and signature hash from header", http_status: nil) if parts.size < 2
-      timestamp = parts[0].sub(/\At=/, "")
-      signature = parts[1].sub(/\Av1=/, "")
-      [timestamp, signature]
+      parts = sig_header.split(",").map(&:strip)
+      t_part = parts.find { |p| p.match?(/\At=/) }
+      v_part = parts.find { |p| p.match?(/\Av1=/) }
+      raise WorkOS::SignatureVerificationError.new(message: "Unable to extract timestamp and signature hash from header", http_status: nil) unless t_part && v_part
+      [t_part.sub(/\At=/, ""), v_part.sub(/\Av1=/, "")]
     end
 
     private

@@ -30,15 +30,8 @@ module WorkOS
         "limit" => limit,
         "order" => order
       }.compact
-      response = @client.execute_request(
-        request: @client.get_request(path: "/feature-flags", auth: true, params: params, request_options: request_options),
-        request_options: request_options
-      )
-      parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::Flag.new(item) }
-      fetch_next = lambda do |metadata|
-        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
-        return nil if cursor.nil? || cursor.to_s.empty?
+      response = @client.request(method: :get, path: "/feature-flags", auth: true, params: params, request_options: request_options)
+      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::Flag, filters: {before: before, limit: limit, order: order}) do |cursor|
         list_feature_flags(
           before: before,
           after: cursor,
@@ -47,7 +40,6 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {before: before, limit: limit, order: order})
     end
 
     # Get a feature flag
@@ -58,10 +50,7 @@ module WorkOS
       slug:,
       request_options: {}
     )
-      response = @client.execute_request(
-        request: @client.get_request(path: "/feature-flags/#{WorkOS::Util.encode_path(slug)}", auth: true, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :get, path: "/feature-flags/#{WorkOS::Util.encode_path(slug)}", auth: true, request_options: request_options)
       WorkOS::Flag.new(response.body)
     end
 
@@ -73,10 +62,7 @@ module WorkOS
       slug:,
       request_options: {}
     )
-      response = @client.execute_request(
-        request: @client.put_request(path: "/feature-flags/#{WorkOS::Util.encode_path(slug)}/disable", auth: true, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :put, path: "/feature-flags/#{WorkOS::Util.encode_path(slug)}/disable", auth: true, request_options: request_options)
       WorkOS::FeatureFlag.new(response.body)
     end
 
@@ -88,10 +74,7 @@ module WorkOS
       slug:,
       request_options: {}
     )
-      response = @client.execute_request(
-        request: @client.put_request(path: "/feature-flags/#{WorkOS::Util.encode_path(slug)}/enable", auth: true, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :put, path: "/feature-flags/#{WorkOS::Util.encode_path(slug)}/enable", auth: true, request_options: request_options)
       WorkOS::FeatureFlag.new(response.body)
     end
 
@@ -105,10 +88,7 @@ module WorkOS
       slug:,
       request_options: {}
     )
-      @client.execute_request(
-        request: @client.post_request(path: "/feature-flags/#{WorkOS::Util.encode_path(slug)}/targets/#{WorkOS::Util.encode_path(resource_id)}", auth: true, request_options: request_options),
-        request_options: request_options
-      )
+      @client.request(method: :post, path: "/feature-flags/#{WorkOS::Util.encode_path(slug)}/targets/#{WorkOS::Util.encode_path(resource_id)}", auth: true, request_options: request_options)
       nil
     end
 
@@ -122,10 +102,7 @@ module WorkOS
       slug:,
       request_options: {}
     )
-      @client.execute_request(
-        request: @client.delete_request(path: "/feature-flags/#{WorkOS::Util.encode_path(slug)}/targets/#{WorkOS::Util.encode_path(resource_id)}", auth: true, request_options: request_options),
-        request_options: request_options
-      )
+      @client.request(method: :delete, path: "/feature-flags/#{WorkOS::Util.encode_path(slug)}/targets/#{WorkOS::Util.encode_path(resource_id)}", auth: true, request_options: request_options)
       nil
     end
 
@@ -151,15 +128,8 @@ module WorkOS
         "limit" => limit,
         "order" => order
       }.compact
-      response = @client.execute_request(
-        request: @client.get_request(path: "/organizations/#{WorkOS::Util.encode_path(organization_id)}/feature-flags", auth: true, params: params, request_options: request_options),
-        request_options: request_options
-      )
-      parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::Flag.new(item) }
-      fetch_next = lambda do |metadata|
-        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
-        return nil if cursor.nil? || cursor.to_s.empty?
+      response = @client.request(method: :get, path: "/organizations/#{WorkOS::Util.encode_path(organization_id)}/feature-flags", auth: true, params: params, request_options: request_options)
+      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::Flag, filters: {organization_id: organization_id, before: before, limit: limit, order: order}) do |cursor|
         list_organization_feature_flags(
           organization_id: organization_id,
           before: before,
@@ -169,7 +139,6 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {organization_id: organization_id, before: before, limit: limit, order: order})
     end
 
     # List enabled feature flags for a user
@@ -194,15 +163,8 @@ module WorkOS
         "limit" => limit,
         "order" => order
       }.compact
-      response = @client.execute_request(
-        request: @client.get_request(path: "/user_management/users/#{WorkOS::Util.encode_path(user_id)}/feature-flags", auth: true, params: params, request_options: request_options),
-        request_options: request_options
-      )
-      parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::Flag.new(item) }
-      fetch_next = lambda do |metadata|
-        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
-        return nil if cursor.nil? || cursor.to_s.empty?
+      response = @client.request(method: :get, path: "/user_management/users/#{WorkOS::Util.encode_path(user_id)}/feature-flags", auth: true, params: params, request_options: request_options)
+      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::Flag, filters: {user_id: user_id, before: before, limit: limit, order: order}) do |cursor|
         list_user_feature_flags(
           user_id: user_id,
           before: before,
@@ -212,7 +174,6 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {user_id: user_id, before: before, limit: limit, order: order})
     end
   end
 end

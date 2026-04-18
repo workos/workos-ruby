@@ -41,10 +41,7 @@ module WorkOS
         "resource_external_id" => resource_external_id,
         "resource_type_slug" => resource_type_slug
       }.compact
-      response = @client.execute_request(
-        request: @client.post_request(path: "/authorization/organization_memberships/#{WorkOS::Util.encode_path(organization_membership_id)}/check", auth: true, params: params, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :post, path: "/authorization/organization_memberships/#{WorkOS::Util.encode_path(organization_membership_id)}/check", auth: true, params: params, body: body, request_options: request_options)
       WorkOS::AuthorizationCheck.new(response.body)
     end
 
@@ -81,15 +78,8 @@ module WorkOS
         params["parent_resource_type_slug"] = parent_resource[:parent_resource_type_slug]
         params["parent_resource_external_id"] = parent_resource[:parent_resource_external_id]
       end
-      response = @client.execute_request(
-        request: @client.get_request(path: "/authorization/organization_memberships/#{WorkOS::Util.encode_path(organization_membership_id)}/resources", auth: true, params: params, request_options: request_options),
-        request_options: request_options
-      )
-      parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::AuthorizationResource.new(item) }
-      fetch_next = lambda do |metadata|
-        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
-        return nil if cursor.nil? || cursor.to_s.empty?
+      response = @client.request(method: :get, path: "/authorization/organization_memberships/#{WorkOS::Util.encode_path(organization_membership_id)}/resources", auth: true, params: params, request_options: request_options)
+      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::AuthorizationResource, filters: {organization_membership_id: organization_membership_id, before: before, limit: limit, order: order, permission_slug: permission_slug, parent_resource: parent_resource}) do |cursor|
         list_organization_membership_resources(
           organization_membership_id: organization_membership_id,
           before: before,
@@ -101,7 +91,6 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {organization_membership_id: organization_membership_id, before: before, limit: limit, order: order, permission_slug: permission_slug, parent_resource: parent_resource})
     end
 
     # List effective permissions for an organization membership on a resource
@@ -128,15 +117,8 @@ module WorkOS
         "limit" => limit,
         "order" => order
       }.compact
-      response = @client.execute_request(
-        request: @client.get_request(path: "/authorization/organization_memberships/#{WorkOS::Util.encode_path(organization_membership_id)}/resources/#{WorkOS::Util.encode_path(resource_id)}/permissions", auth: true, params: params, request_options: request_options),
-        request_options: request_options
-      )
-      parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::AuthorizationPermission.new(item) }
-      fetch_next = lambda do |metadata|
-        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
-        return nil if cursor.nil? || cursor.to_s.empty?
+      response = @client.request(method: :get, path: "/authorization/organization_memberships/#{WorkOS::Util.encode_path(organization_membership_id)}/resources/#{WorkOS::Util.encode_path(resource_id)}/permissions", auth: true, params: params, request_options: request_options)
+      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::AuthorizationPermission, filters: {organization_membership_id: organization_membership_id, resource_id: resource_id, before: before, limit: limit, order: order}) do |cursor|
         list_resource_permissions(
           organization_membership_id: organization_membership_id,
           resource_id: resource_id,
@@ -147,7 +129,6 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {organization_membership_id: organization_membership_id, resource_id: resource_id, before: before, limit: limit, order: order})
     end
 
     # List effective permissions for an organization membership on a resource by external ID
@@ -176,15 +157,8 @@ module WorkOS
         "limit" => limit,
         "order" => order
       }.compact
-      response = @client.execute_request(
-        request: @client.get_request(path: "/authorization/organization_memberships/#{WorkOS::Util.encode_path(organization_membership_id)}/resources/#{WorkOS::Util.encode_path(resource_type_slug)}/#{WorkOS::Util.encode_path(external_id)}/permissions", auth: true, params: params, request_options: request_options),
-        request_options: request_options
-      )
-      parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::AuthorizationPermission.new(item) }
-      fetch_next = lambda do |metadata|
-        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
-        return nil if cursor.nil? || cursor.to_s.empty?
+      response = @client.request(method: :get, path: "/authorization/organization_memberships/#{WorkOS::Util.encode_path(organization_membership_id)}/resources/#{WorkOS::Util.encode_path(resource_type_slug)}/#{WorkOS::Util.encode_path(external_id)}/permissions", auth: true, params: params, request_options: request_options)
+      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::AuthorizationPermission, filters: {organization_membership_id: organization_membership_id, resource_type_slug: resource_type_slug, external_id: external_id, before: before, limit: limit, order: order}) do |cursor|
         list_effective_permissions_by_external_id(
           organization_membership_id: organization_membership_id,
           resource_type_slug: resource_type_slug,
@@ -196,7 +170,6 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {organization_membership_id: organization_membership_id, resource_type_slug: resource_type_slug, external_id: external_id, before: before, limit: limit, order: order})
     end
 
     # List role assignments
@@ -221,15 +194,8 @@ module WorkOS
         "limit" => limit,
         "order" => order
       }.compact
-      response = @client.execute_request(
-        request: @client.get_request(path: "/authorization/organization_memberships/#{WorkOS::Util.encode_path(organization_membership_id)}/role_assignments", auth: true, params: params, request_options: request_options),
-        request_options: request_options
-      )
-      parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::RoleAssignment.new(item) }
-      fetch_next = lambda do |metadata|
-        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
-        return nil if cursor.nil? || cursor.to_s.empty?
+      response = @client.request(method: :get, path: "/authorization/organization_memberships/#{WorkOS::Util.encode_path(organization_membership_id)}/role_assignments", auth: true, params: params, request_options: request_options)
+      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::RoleAssignment, filters: {organization_membership_id: organization_membership_id, before: before, limit: limit, order: order}) do |cursor|
         list_organization_membership_role_assignments(
           organization_membership_id: organization_membership_id,
           before: before,
@@ -239,7 +205,6 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {organization_membership_id: organization_membership_id, before: before, limit: limit, order: order})
     end
 
     # Assign a role
@@ -273,10 +238,7 @@ module WorkOS
         "resource_external_id" => resource_external_id,
         "resource_type_slug" => resource_type_slug
       }.compact
-      response = @client.execute_request(
-        request: @client.post_request(path: "/authorization/organization_memberships/#{WorkOS::Util.encode_path(organization_membership_id)}/role_assignments", auth: true, params: params, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :post, path: "/authorization/organization_memberships/#{WorkOS::Util.encode_path(organization_membership_id)}/role_assignments", auth: true, params: params, body: body, request_options: request_options)
       WorkOS::RoleAssignment.new(response.body)
     end
 
@@ -311,10 +273,7 @@ module WorkOS
         "resource_external_id" => resource_external_id,
         "resource_type_slug" => resource_type_slug
       }.compact
-      @client.execute_request(
-        request: @client.delete_request(path: "/authorization/organization_memberships/#{WorkOS::Util.encode_path(organization_membership_id)}/role_assignments", auth: true, params: params, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      @client.request(method: :delete, path: "/authorization/organization_memberships/#{WorkOS::Util.encode_path(organization_membership_id)}/role_assignments", auth: true, params: params, body: body, request_options: request_options)
       nil
     end
 
@@ -328,10 +287,7 @@ module WorkOS
       role_assignment_id:,
       request_options: {}
     )
-      @client.execute_request(
-        request: @client.delete_request(path: "/authorization/organization_memberships/#{WorkOS::Util.encode_path(organization_membership_id)}/role_assignments/#{WorkOS::Util.encode_path(role_assignment_id)}", auth: true, request_options: request_options),
-        request_options: request_options
-      )
+      @client.request(method: :delete, path: "/authorization/organization_memberships/#{WorkOS::Util.encode_path(organization_membership_id)}/role_assignments/#{WorkOS::Util.encode_path(role_assignment_id)}", auth: true, request_options: request_options)
       nil
     end
 
@@ -343,10 +299,7 @@ module WorkOS
       organization_id:,
       request_options: {}
     )
-      response = @client.execute_request(
-        request: @client.get_request(path: "/authorization/organizations/#{WorkOS::Util.encode_path(organization_id)}/roles", auth: true, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :get, path: "/authorization/organizations/#{WorkOS::Util.encode_path(organization_id)}/roles", auth: true, request_options: request_options)
       WorkOS::RoleList.new(response.body)
     end
 
@@ -372,10 +325,7 @@ module WorkOS
         "description" => description,
         "resource_type_slug" => resource_type_slug
       }.compact
-      response = @client.execute_request(
-        request: @client.post_request(path: "/authorization/organizations/#{WorkOS::Util.encode_path(organization_id)}/roles", auth: true, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :post, path: "/authorization/organizations/#{WorkOS::Util.encode_path(organization_id)}/roles", auth: true, body: body, request_options: request_options)
       WorkOS::Role.new(response.body)
     end
 
@@ -389,10 +339,7 @@ module WorkOS
       slug:,
       request_options: {}
     )
-      response = @client.execute_request(
-        request: @client.get_request(path: "/authorization/organizations/#{WorkOS::Util.encode_path(organization_id)}/roles/#{WorkOS::Util.encode_path(slug)}", auth: true, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :get, path: "/authorization/organizations/#{WorkOS::Util.encode_path(organization_id)}/roles/#{WorkOS::Util.encode_path(slug)}", auth: true, request_options: request_options)
       WorkOS::Role.new(response.body)
     end
 
@@ -414,10 +361,7 @@ module WorkOS
         "name" => name,
         "description" => description
       }.compact
-      response = @client.execute_request(
-        request: @client.patch_request(path: "/authorization/organizations/#{WorkOS::Util.encode_path(organization_id)}/roles/#{WorkOS::Util.encode_path(slug)}", auth: true, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :patch, path: "/authorization/organizations/#{WorkOS::Util.encode_path(organization_id)}/roles/#{WorkOS::Util.encode_path(slug)}", auth: true, body: body, request_options: request_options)
       WorkOS::Role.new(response.body)
     end
 
@@ -431,10 +375,7 @@ module WorkOS
       slug:,
       request_options: {}
     )
-      @client.execute_request(
-        request: @client.delete_request(path: "/authorization/organizations/#{WorkOS::Util.encode_path(organization_id)}/roles/#{WorkOS::Util.encode_path(slug)}", auth: true, request_options: request_options),
-        request_options: request_options
-      )
+      @client.request(method: :delete, path: "/authorization/organizations/#{WorkOS::Util.encode_path(organization_id)}/roles/#{WorkOS::Util.encode_path(slug)}", auth: true, request_options: request_options)
       nil
     end
 
@@ -453,10 +394,7 @@ module WorkOS
       body = {
         "slug" => body_slug
       }.compact
-      response = @client.execute_request(
-        request: @client.post_request(path: "/authorization/organizations/#{WorkOS::Util.encode_path(organization_id)}/roles/#{WorkOS::Util.encode_path(slug)}/permissions", auth: true, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :post, path: "/authorization/organizations/#{WorkOS::Util.encode_path(organization_id)}/roles/#{WorkOS::Util.encode_path(slug)}/permissions", auth: true, body: body, request_options: request_options)
       WorkOS::Role.new(response.body)
     end
 
@@ -475,10 +413,7 @@ module WorkOS
       body = {
         "permissions" => permissions
       }.compact
-      response = @client.execute_request(
-        request: @client.put_request(path: "/authorization/organizations/#{WorkOS::Util.encode_path(organization_id)}/roles/#{WorkOS::Util.encode_path(slug)}/permissions", auth: true, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :put, path: "/authorization/organizations/#{WorkOS::Util.encode_path(organization_id)}/roles/#{WorkOS::Util.encode_path(slug)}/permissions", auth: true, body: body, request_options: request_options)
       WorkOS::Role.new(response.body)
     end
 
@@ -494,10 +429,7 @@ module WorkOS
       permission_slug:,
       request_options: {}
     )
-      response = @client.execute_request(
-        request: @client.delete_request(path: "/authorization/organizations/#{WorkOS::Util.encode_path(organization_id)}/roles/#{WorkOS::Util.encode_path(slug)}/permissions/#{WorkOS::Util.encode_path(permission_slug)}", auth: true, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :delete, path: "/authorization/organizations/#{WorkOS::Util.encode_path(organization_id)}/roles/#{WorkOS::Util.encode_path(slug)}/permissions/#{WorkOS::Util.encode_path(permission_slug)}", auth: true, request_options: request_options)
       WorkOS::Role.new(response.body)
     end
 
@@ -513,10 +445,7 @@ module WorkOS
       external_id:,
       request_options: {}
     )
-      response = @client.execute_request(
-        request: @client.get_request(path: "/authorization/organizations/#{WorkOS::Util.encode_path(organization_id)}/resources/#{WorkOS::Util.encode_path(resource_type_slug)}/#{WorkOS::Util.encode_path(external_id)}", auth: true, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :get, path: "/authorization/organizations/#{WorkOS::Util.encode_path(organization_id)}/resources/#{WorkOS::Util.encode_path(resource_type_slug)}/#{WorkOS::Util.encode_path(external_id)}", auth: true, request_options: request_options)
       WorkOS::AuthorizationResource.new(response.body)
     end
 
@@ -560,10 +489,7 @@ module WorkOS
         "parent_resource_external_id" => parent_resource_external_id,
         "parent_resource_type_slug" => parent_resource_type_slug
       }.compact
-      response = @client.execute_request(
-        request: @client.patch_request(path: "/authorization/organizations/#{WorkOS::Util.encode_path(organization_id)}/resources/#{WorkOS::Util.encode_path(resource_type_slug)}/#{WorkOS::Util.encode_path(external_id)}", auth: true, params: params, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :patch, path: "/authorization/organizations/#{WorkOS::Util.encode_path(organization_id)}/resources/#{WorkOS::Util.encode_path(resource_type_slug)}/#{WorkOS::Util.encode_path(external_id)}", auth: true, params: params, body: body, request_options: request_options)
       WorkOS::AuthorizationResource.new(response.body)
     end
 
@@ -584,10 +510,7 @@ module WorkOS
       params = {
         "cascade_delete" => cascade_delete
       }.compact
-      @client.execute_request(
-        request: @client.delete_request(path: "/authorization/organizations/#{WorkOS::Util.encode_path(organization_id)}/resources/#{WorkOS::Util.encode_path(resource_type_slug)}/#{WorkOS::Util.encode_path(external_id)}", auth: true, params: params, request_options: request_options),
-        request_options: request_options
-      )
+      @client.request(method: :delete, path: "/authorization/organizations/#{WorkOS::Util.encode_path(organization_id)}/resources/#{WorkOS::Util.encode_path(resource_type_slug)}/#{WorkOS::Util.encode_path(external_id)}", auth: true, params: params, request_options: request_options)
       nil
     end
 
@@ -623,15 +546,8 @@ module WorkOS
         "permission_slug" => permission_slug,
         "assignment" => assignment
       }.compact
-      response = @client.execute_request(
-        request: @client.get_request(path: "/authorization/organizations/#{WorkOS::Util.encode_path(organization_id)}/resources/#{WorkOS::Util.encode_path(resource_type_slug)}/#{WorkOS::Util.encode_path(external_id)}/organization_memberships", auth: true, params: params, request_options: request_options),
-        request_options: request_options
-      )
-      parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::UserOrganizationMembershipBaseListData.new(item) }
-      fetch_next = lambda do |metadata|
-        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
-        return nil if cursor.nil? || cursor.to_s.empty?
+      response = @client.request(method: :get, path: "/authorization/organizations/#{WorkOS::Util.encode_path(organization_id)}/resources/#{WorkOS::Util.encode_path(resource_type_slug)}/#{WorkOS::Util.encode_path(external_id)}/organization_memberships", auth: true, params: params, request_options: request_options)
+      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::UserOrganizationMembershipBaseListData, filters: {organization_id: organization_id, resource_type_slug: resource_type_slug, external_id: external_id, before: before, limit: limit, order: order, permission_slug: permission_slug, assignment: assignment}) do |cursor|
         list_resource_organization_memberships(
           organization_id: organization_id,
           resource_type_slug: resource_type_slug,
@@ -645,7 +561,6 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {organization_id: organization_id, resource_type_slug: resource_type_slug, external_id: external_id, before: before, limit: limit, order: order, permission_slug: permission_slug, assignment: assignment})
     end
 
     # List resources
@@ -687,15 +602,8 @@ module WorkOS
           params["parent_external_id"] = parent[:parent_external_id]
         end
       end
-      response = @client.execute_request(
-        request: @client.get_request(path: "/authorization/resources", auth: true, params: params, request_options: request_options),
-        request_options: request_options
-      )
-      parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::AuthorizationResource.new(item) }
-      fetch_next = lambda do |metadata|
-        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
-        return nil if cursor.nil? || cursor.to_s.empty?
+      response = @client.request(method: :get, path: "/authorization/resources", auth: true, params: params, request_options: request_options)
+      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::AuthorizationResource, filters: {before: before, limit: limit, order: order, organization_id: organization_id, resource_type_slug: resource_type_slug, search: search, parent: parent}) do |cursor|
         list_resources(
           before: before,
           after: cursor,
@@ -708,7 +616,6 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {before: before, limit: limit, order: order, organization_id: organization_id, resource_type_slug: resource_type_slug, search: search, parent: parent})
     end
 
     # Create an authorization resource
@@ -754,10 +661,7 @@ module WorkOS
         "parent_resource_external_id" => parent_resource_external_id,
         "parent_resource_type_slug" => parent_resource_type_slug
       }.compact
-      response = @client.execute_request(
-        request: @client.post_request(path: "/authorization/resources", auth: true, params: params, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :post, path: "/authorization/resources", auth: true, params: params, body: body, request_options: request_options)
       WorkOS::AuthorizationResource.new(response.body)
     end
 
@@ -769,10 +673,7 @@ module WorkOS
       resource_id:,
       request_options: {}
     )
-      response = @client.execute_request(
-        request: @client.get_request(path: "/authorization/resources/#{WorkOS::Util.encode_path(resource_id)}", auth: true, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :get, path: "/authorization/resources/#{WorkOS::Util.encode_path(resource_id)}", auth: true, request_options: request_options)
       WorkOS::AuthorizationResource.new(response.body)
     end
 
@@ -812,10 +713,7 @@ module WorkOS
         "parent_resource_external_id" => parent_resource_external_id,
         "parent_resource_type_slug" => parent_resource_type_slug
       }.compact
-      response = @client.execute_request(
-        request: @client.patch_request(path: "/authorization/resources/#{WorkOS::Util.encode_path(resource_id)}", auth: true, params: params, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :patch, path: "/authorization/resources/#{WorkOS::Util.encode_path(resource_id)}", auth: true, params: params, body: body, request_options: request_options)
       WorkOS::AuthorizationResource.new(response.body)
     end
 
@@ -832,10 +730,7 @@ module WorkOS
       params = {
         "cascade_delete" => cascade_delete
       }.compact
-      @client.execute_request(
-        request: @client.delete_request(path: "/authorization/resources/#{WorkOS::Util.encode_path(resource_id)}", auth: true, params: params, request_options: request_options),
-        request_options: request_options
-      )
+      @client.request(method: :delete, path: "/authorization/resources/#{WorkOS::Util.encode_path(resource_id)}", auth: true, params: params, request_options: request_options)
       nil
     end
 
@@ -867,15 +762,8 @@ module WorkOS
         "permission_slug" => permission_slug,
         "assignment" => assignment
       }.compact
-      response = @client.execute_request(
-        request: @client.get_request(path: "/authorization/resources/#{WorkOS::Util.encode_path(resource_id)}/organization_memberships", auth: true, params: params, request_options: request_options),
-        request_options: request_options
-      )
-      parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::UserOrganizationMembershipBaseListData.new(item) }
-      fetch_next = lambda do |metadata|
-        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
-        return nil if cursor.nil? || cursor.to_s.empty?
+      response = @client.request(method: :get, path: "/authorization/resources/#{WorkOS::Util.encode_path(resource_id)}/organization_memberships", auth: true, params: params, request_options: request_options)
+      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::UserOrganizationMembershipBaseListData, filters: {resource_id: resource_id, before: before, limit: limit, order: order, permission_slug: permission_slug, assignment: assignment}) do |cursor|
         list_memberships_for_resource(
           resource_id: resource_id,
           before: before,
@@ -887,17 +775,13 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {resource_id: resource_id, before: before, limit: limit, order: order, permission_slug: permission_slug, assignment: assignment})
     end
 
     # List environment roles
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
     # @return [WorkOS::RoleList]
     def list_environment_roles(request_options: {})
-      response = @client.execute_request(
-        request: @client.get_request(path: "/authorization/roles", auth: true, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :get, path: "/authorization/roles", auth: true, request_options: request_options)
       WorkOS::RoleList.new(response.body)
     end
 
@@ -921,10 +805,7 @@ module WorkOS
         "description" => description,
         "resource_type_slug" => resource_type_slug
       }.compact
-      response = @client.execute_request(
-        request: @client.post_request(path: "/authorization/roles", auth: true, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :post, path: "/authorization/roles", auth: true, body: body, request_options: request_options)
       WorkOS::Role.new(response.body)
     end
 
@@ -936,10 +817,7 @@ module WorkOS
       slug:,
       request_options: {}
     )
-      response = @client.execute_request(
-        request: @client.get_request(path: "/authorization/roles/#{WorkOS::Util.encode_path(slug)}", auth: true, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :get, path: "/authorization/roles/#{WorkOS::Util.encode_path(slug)}", auth: true, request_options: request_options)
       WorkOS::Role.new(response.body)
     end
 
@@ -959,10 +837,7 @@ module WorkOS
         "name" => name,
         "description" => description
       }.compact
-      response = @client.execute_request(
-        request: @client.patch_request(path: "/authorization/roles/#{WorkOS::Util.encode_path(slug)}", auth: true, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :patch, path: "/authorization/roles/#{WorkOS::Util.encode_path(slug)}", auth: true, body: body, request_options: request_options)
       WorkOS::Role.new(response.body)
     end
 
@@ -979,10 +854,7 @@ module WorkOS
       body = {
         "slug" => body_slug
       }.compact
-      response = @client.execute_request(
-        request: @client.post_request(path: "/authorization/roles/#{WorkOS::Util.encode_path(slug)}/permissions", auth: true, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :post, path: "/authorization/roles/#{WorkOS::Util.encode_path(slug)}/permissions", auth: true, body: body, request_options: request_options)
       WorkOS::Role.new(response.body)
     end
 
@@ -999,10 +871,7 @@ module WorkOS
       body = {
         "permissions" => permissions
       }.compact
-      response = @client.execute_request(
-        request: @client.put_request(path: "/authorization/roles/#{WorkOS::Util.encode_path(slug)}/permissions", auth: true, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :put, path: "/authorization/roles/#{WorkOS::Util.encode_path(slug)}/permissions", auth: true, body: body, request_options: request_options)
       WorkOS::Role.new(response.body)
     end
 
@@ -1026,15 +895,8 @@ module WorkOS
         "limit" => limit,
         "order" => order
       }.compact
-      response = @client.execute_request(
-        request: @client.get_request(path: "/authorization/permissions", auth: true, params: params, request_options: request_options),
-        request_options: request_options
-      )
-      parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::AuthorizationPermission.new(item) }
-      fetch_next = lambda do |metadata|
-        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
-        return nil if cursor.nil? || cursor.to_s.empty?
+      response = @client.request(method: :get, path: "/authorization/permissions", auth: true, params: params, request_options: request_options)
+      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::AuthorizationPermission, filters: {before: before, limit: limit, order: order}) do |cursor|
         list_permissions(
           before: before,
           after: cursor,
@@ -1043,7 +905,6 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {before: before, limit: limit, order: order})
     end
 
     # Create a permission
@@ -1066,10 +927,7 @@ module WorkOS
         "description" => description,
         "resource_type_slug" => resource_type_slug
       }.compact
-      response = @client.execute_request(
-        request: @client.post_request(path: "/authorization/permissions", auth: true, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :post, path: "/authorization/permissions", auth: true, body: body, request_options: request_options)
       WorkOS::Permission.new(response.body)
     end
 
@@ -1081,10 +939,7 @@ module WorkOS
       slug:,
       request_options: {}
     )
-      response = @client.execute_request(
-        request: @client.get_request(path: "/authorization/permissions/#{WorkOS::Util.encode_path(slug)}", auth: true, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :get, path: "/authorization/permissions/#{WorkOS::Util.encode_path(slug)}", auth: true, request_options: request_options)
       WorkOS::AuthorizationPermission.new(response.body)
     end
 
@@ -1104,10 +959,7 @@ module WorkOS
         "name" => name,
         "description" => description
       }.compact
-      response = @client.execute_request(
-        request: @client.patch_request(path: "/authorization/permissions/#{WorkOS::Util.encode_path(slug)}", auth: true, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :patch, path: "/authorization/permissions/#{WorkOS::Util.encode_path(slug)}", auth: true, body: body, request_options: request_options)
       WorkOS::AuthorizationPermission.new(response.body)
     end
 
@@ -1119,10 +971,7 @@ module WorkOS
       slug:,
       request_options: {}
     )
-      @client.execute_request(
-        request: @client.delete_request(path: "/authorization/permissions/#{WorkOS::Util.encode_path(slug)}", auth: true, request_options: request_options),
-        request_options: request_options
-      )
+      @client.request(method: :delete, path: "/authorization/permissions/#{WorkOS::Util.encode_path(slug)}", auth: true, request_options: request_options)
       nil
     end
   end

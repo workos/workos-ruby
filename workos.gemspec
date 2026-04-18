@@ -22,7 +22,6 @@ Gem::Specification.new do |spec|
   spec.files = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "encryptor", "~> 3.0"
   spec.add_dependency "jwt", "~> 3.1"
   spec.add_dependency "zeitwerk", "~> 2.6"
 

@@ -24,10 +24,7 @@ module WorkOS
         "domain" => domain,
         "organization_id" => organization_id
       }.compact
-      response = @client.execute_request(
-        request: @client.post_request(path: "/organization_domains", auth: true, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :post, path: "/organization_domains", auth: true, body: body, request_options: request_options)
       WorkOS::OrganizationDomain.new(response.body)
     end
 
@@ -39,10 +36,7 @@ module WorkOS
       id:,
       request_options: {}
     )
-      response = @client.execute_request(
-        request: @client.get_request(path: "/organization_domains/#{WorkOS::Util.encode_path(id)}", auth: true, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :get, path: "/organization_domains/#{WorkOS::Util.encode_path(id)}", auth: true, request_options: request_options)
       WorkOS::OrganizationDomainStandAlone.new(response.body)
     end
 
@@ -54,10 +48,7 @@ module WorkOS
       id:,
       request_options: {}
     )
-      @client.execute_request(
-        request: @client.delete_request(path: "/organization_domains/#{WorkOS::Util.encode_path(id)}", auth: true, request_options: request_options),
-        request_options: request_options
-      )
+      @client.request(method: :delete, path: "/organization_domains/#{WorkOS::Util.encode_path(id)}", auth: true, request_options: request_options)
       nil
     end
 
@@ -69,10 +60,7 @@ module WorkOS
       id:,
       request_options: {}
     )
-      response = @client.execute_request(
-        request: @client.post_request(path: "/organization_domains/#{WorkOS::Util.encode_path(id)}/verify", auth: true, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :post, path: "/organization_domains/#{WorkOS::Util.encode_path(id)}/verify", auth: true, request_options: request_options)
       WorkOS::OrganizationDomainStandAlone.new(response.body)
     end
   end

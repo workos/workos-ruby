@@ -36,10 +36,7 @@ module WorkOS
         "intent_options" => intent_options,
         "admin_emails" => admin_emails
       }.compact
-      response = @client.execute_request(
-        request: @client.post_request(path: "/portal/generate_link", auth: true, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :post, path: "/portal/generate_link", auth: true, body: body, request_options: request_options)
       WorkOS::PortalLinkResponse.new(response.body)
     end
   end

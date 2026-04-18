@@ -51,6 +51,7 @@ module WorkOS
       @encryptor = encryptor || Encryptors::AesGcm.new
       @jwks_cache = nil
       @jwks_cache_at = nil
+      @jwks_mutex = Mutex.new
     end
 
     attr_reader :client
@@ -105,13 +106,15 @@ module WorkOS
       ).first
     end
 
-    # Cached JWKS fetch (5-minute TTL).
+    # Cached JWKS fetch (5-minute TTL, thread-safe).
     def fetch_jwks(now: Time.now)
-      return @jwks_cache if @jwks_cache && @jwks_cache_at && (now - @jwks_cache_at) < 300
-      response = @client.user_management.get_jwks(client_id: @client.client_id)
-      @jwks_cache = {"keys" => response.keys.map(&:to_h)}
-      @jwks_cache_at = now
-      @jwks_cache
+      @jwks_mutex.synchronize do
+        return @jwks_cache if @jwks_cache && @jwks_cache_at && (now - @jwks_cache_at) < 300
+        response = @client.user_management.get_jwks(client_id: @client.client_id)
+        @jwks_cache = {"keys" => response.keys.map(&:to_h)}
+        @jwks_cache_at = now
+        @jwks_cache
+      end
     end
   end
 end

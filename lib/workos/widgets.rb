@@ -27,10 +27,7 @@ module WorkOS
         "user_id" => user_id,
         "scopes" => scopes
       }.compact
-      response = @client.execute_request(
-        request: @client.post_request(path: "/widgets/token", auth: true, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :post, path: "/widgets/token", auth: true, body: body, request_options: request_options)
       WorkOS::WidgetSessionTokenResponse.new(response.body)
     end
   end

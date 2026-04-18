@@ -22,7 +22,7 @@ module WorkOS
 
     def initialize(api_key: nil, base_url: DEFAULT_BASE_URL, client_id: nil,
       timeout: DEFAULT_TIMEOUT, max_retries: DEFAULT_MAX_RETRIES,
-      user_agent: "workos-ruby/0.0.0")
+      user_agent: "workos-ruby/#{WorkOS::VERSION} ruby/#{RUBY_VERSION} (#{RUBY_PLATFORM})")
       @api_key = api_key
       @base_url = base_url
       @client_id = client_id
@@ -75,6 +75,20 @@ module WorkOS
         req["Content-Type"] = "application/json"
       end
       req
+    end
+
+    # -- Convenience entry point ------------------------------------------
+
+    # Unified request helper: builds the verb-specific request and executes
+    # it in a single call, removing the need for callers to pass
+    # request_options twice.
+    def request(method:, path:, auth: true, params: {}, body: nil, request_options: nil)
+      if method == :get
+        req = get_request(path: path, auth: auth, params: params, request_options: request_options)
+      else
+        req = send("#{method}_request", path: path, auth: auth, body: body, params: params, request_options: request_options)
+      end
+      execute_request(request: req, request_options: request_options)
     end
 
     # -- Execution --------------------------------------------------------

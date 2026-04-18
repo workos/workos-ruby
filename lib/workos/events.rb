@@ -42,15 +42,8 @@ module WorkOS
         "range_end" => range_end,
         "organization_id" => organization_id
       }.compact
-      response = @client.execute_request(
-        request: @client.get_request(path: "/events", auth: true, params: params, request_options: request_options),
-        request_options: request_options
-      )
-      parsed = JSON.parse(response.body)
-      items = (parsed["data"] || []).map { |item| WorkOS::EventSchema.new(item) }
-      fetch_next = lambda do |metadata|
-        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
-        return nil if cursor.nil? || cursor.to_s.empty?
+      response = @client.request(method: :get, path: "/events", auth: true, params: params, request_options: request_options)
+      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::EventSchema, filters: {before: before, limit: limit, order: order, events: events, range_start: range_start, range_end: range_end, organization_id: organization_id}) do |cursor|
         list_events(
           before: before,
           after: cursor,
@@ -63,7 +56,6 @@ module WorkOS
           request_options: request_options
         )
       end
-      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {before: before, limit: limit, order: order, events: events, range_start: range_start, range_end: range_end, organization_id: organization_id})
     end
   end
 end
