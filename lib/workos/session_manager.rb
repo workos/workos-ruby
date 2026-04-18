@@ -14,8 +14,6 @@
 
 require "json"
 require "jwt"
-require "net/http"
-require "uri"
 
 module WorkOS
   class SessionManager
@@ -110,9 +108,8 @@ module WorkOS
     # Cached JWKS fetch (5-minute TTL).
     def fetch_jwks(now: Time.now)
       return @jwks_cache if @jwks_cache && @jwks_cache_at && (now - @jwks_cache_at) < 300
-      uri = URI(@client.user_management.get_jwks_url)
-      raw = Net::HTTP.get(uri)
-      @jwks_cache = JSON.parse(raw)
+      response = @client.user_management.get_jwks(client_id: @client.client_id)
+      @jwks_cache = {"keys" => response.keys.map(&:to_h)}
       @jwks_cache_at = now
       @jwks_cache
     end

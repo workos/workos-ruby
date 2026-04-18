@@ -99,7 +99,7 @@ module WorkOS
     def get_logout_url(return_to: nil)
       result = authenticate
       raise WorkOS::Error.new(message: "Failed to extract session ID for logout URL: #{result.reason}") if result.is_a?(SessionManager::AuthError)
-      base = (@client.respond_to?(:base_url) && @client.base_url) || "https://api.workos.com"
+      base = @client.base_url || "https://api.workos.com"
       params = {"session_id" => result.session_id}
       params["return_to"] = return_to if return_to
       uri = URI.join(base, "/user_management/sessions/logout")

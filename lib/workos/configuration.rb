@@ -43,7 +43,7 @@ module WorkOS
 
     # Reset the cached client (e.g., after reconfiguring).
     def reset_client
-      @client&.shutdown if @client.respond_to?(:shutdown)
+      @client&.shutdown
       @client = nil
     end
   end

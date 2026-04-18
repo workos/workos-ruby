@@ -219,7 +219,7 @@ module WorkOS
     private
 
     def build_url(path, params)
-      base = (@client.respond_to?(:base_url) && @client.base_url) || "https://api.workos.com"
+      base = @client.base_url || "https://api.workos.com"
       uri = URI.join(base, path)
       uri.query = URI.encode_www_form(params)
       uri.to_s

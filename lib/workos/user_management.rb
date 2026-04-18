@@ -1276,7 +1276,7 @@ module WorkOS
     def get_jwks_url(client_id: nil)
       cid = client_id || @client.client_id
       raise ArgumentError, "client_id is required" if cid.nil? || cid.empty?
-      base = (@client.respond_to?(:base_url) && @client.base_url) || "https://api.workos.com"
+      base = @client.base_url || "https://api.workos.com"
       URI.join(base, "/sso/jwks/#{CGI.escape(cid.to_s).gsub("+", "%20")}").to_s
     end
 
@@ -1372,7 +1372,7 @@ module WorkOS
     private
 
     def build_url(path, params)
-      base = (@client.respond_to?(:base_url) && @client.base_url) || "https://api.workos.com"
+      base = @client.base_url || "https://api.workos.com"
       uri = URI.join(base, path)
       uri.query = URI.encode_www_form(params)
       uri.to_s
