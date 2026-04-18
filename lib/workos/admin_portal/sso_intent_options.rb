@@ -8,6 +8,11 @@ module WorkOS
   class SSOIntentOptions
     include HashProvider
 
+    HASH_ATTRS = {
+      bookmark_slug: :bookmark_slug,
+      provider_type: :provider_type
+    }.freeze
+
     attr_accessor \
       :bookmark_slug,
       :provider_type
@@ -17,21 +22,6 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @bookmark_slug = hash[:bookmark_slug]
       @provider_type = hash[:provider_type]
-    end
-
-    def to_h
-      {
-        bookmark_slug: bookmark_slug,
-        provider_type: provider_type
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

@@ -8,6 +8,20 @@ module WorkOS
   class Connection
     include HashProvider
 
+    HASH_ATTRS = {
+      object: :object,
+      id: :id,
+      organization_id: :organization_id,
+      connection_type: :connection_type,
+      name: :name,
+      state: :state,
+      status: :status,
+      domains: :domains,
+      options: :options,
+      created_at: :created_at,
+      updated_at: :updated_at
+    }.freeze
+
     # @!attribute status
     #   @deprecated Deprecated. Use `state` instead.
 
@@ -44,30 +58,6 @@ module WorkOS
       @options = hash[:options] ? WorkOS::ConnectionOption.new(hash[:options]) : nil
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
-    end
-
-    def to_h
-      {
-        object: object,
-        id: id,
-        organization_id: organization_id,
-        connection_type: connection_type,
-        name: name,
-        state: state,
-        status: @status,
-        domains: (domains || []).map(&:to_h),
-        options: options&.to_h,
-        created_at: created_at,
-        updated_at: updated_at
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class} id=#{@id}>"
     end
   end
 end

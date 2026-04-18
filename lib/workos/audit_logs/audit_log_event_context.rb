@@ -8,6 +8,11 @@ module WorkOS
   class AuditLogEventContext
     include HashProvider
 
+    HASH_ATTRS = {
+      location: :location,
+      user_agent: :user_agent
+    }.freeze
+
     attr_accessor \
       :location,
       :user_agent
@@ -17,21 +22,6 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @location = hash[:location]
       @user_agent = hash[:user_agent]
-    end
-
-    def to_h
-      {
-        location: location,
-        user_agent: user_agent
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

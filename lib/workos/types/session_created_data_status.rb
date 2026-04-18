@@ -4,11 +4,6 @@
 
 module WorkOS
   module Types
-    class SessionCreatedDataStatus
-      ACTIVE = "active"
-      EXPIRED = "expired"
-      REVOKED = "revoked"
-      ALL = [ACTIVE, EXPIRED, REVOKED].freeze
-    end
+    SessionCreatedDataStatus = UserSessionsStatus
   end
 end

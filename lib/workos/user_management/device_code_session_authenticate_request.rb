@@ -8,6 +8,15 @@ module WorkOS
   class DeviceCodeSessionAuthenticateRequest
     include HashProvider
 
+    HASH_ATTRS = {
+      client_id: :client_id,
+      grant_type: :grant_type,
+      device_code: :device_code,
+      ip_address: :ip_address,
+      device_id: :device_id,
+      user_agent: :user_agent
+    }.freeze
+
     attr_accessor \
       :client_id,
       :grant_type,
@@ -25,25 +34,6 @@ module WorkOS
       @ip_address = hash[:ip_address]
       @device_id = hash[:device_id]
       @user_agent = hash[:user_agent]
-    end
-
-    def to_h
-      {
-        client_id: client_id,
-        grant_type: grant_type,
-        device_code: device_code,
-        ip_address: ip_address,
-        device_id: device_id,
-        user_agent: user_agent
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

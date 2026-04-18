@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    UserManagementUsersFeatureFlagsOrder = ApplicationsOrder
+    UserManagementUsersFeatureFlagsOrder = EventsOrder
   end
 end

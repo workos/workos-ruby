@@ -4,6 +4,13 @@
 
 module WorkOS
   module Types
-    OrganizationDomainState = OrganizationCreatedDataDomainState
+    class OrganizationDomainState
+      FAILED = "failed"
+      LEGACY_VERIFIED = "legacy_verified"
+      PENDING = "pending"
+      UNVERIFIED = "unverified"
+      VERIFIED = "verified"
+      ALL = [FAILED, LEGACY_VERIFIED, PENDING, UNVERIFIED, VERIFIED].freeze
+    end
   end
 end

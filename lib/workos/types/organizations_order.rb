@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    OrganizationsOrder = ApplicationsOrder
+    OrganizationsOrder = EventsOrder
   end
 end

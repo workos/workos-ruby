@@ -8,26 +8,16 @@ module WorkOS
   class AuthorizationCheck
     include HashProvider
 
+    HASH_ATTRS = {
+      authorized: :authorized
+    }.freeze
+
     attr_accessor :authorized
 
     def initialize(json)
       hash = json.is_a?(Hash) ? json : JSON.parse(json, symbolize_names: true)
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @authorized = hash[:authorized]
-    end
-
-    def to_h
-      {
-        authorized: authorized
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

@@ -4,7 +4,7 @@
 # typed: strong
 
 module WorkOS
-  class AuditLogExportJson
+  class AuditLogExport
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
 

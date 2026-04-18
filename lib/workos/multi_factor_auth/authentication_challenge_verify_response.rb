@@ -8,6 +8,11 @@ module WorkOS
   class AuthenticationChallengeVerifyResponse
     include HashProvider
 
+    HASH_ATTRS = {
+      challenge: :challenge,
+      valid: :valid
+    }.freeze
+
     attr_accessor \
       :challenge,
       :valid
@@ -17,21 +22,6 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @challenge = hash[:challenge] ? WorkOS::AuthenticationChallenge.new(hash[:challenge]) : nil
       @valid = hash[:valid]
-    end
-
-    def to_h
-      {
-        challenge: challenge&.to_h,
-        valid: valid
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

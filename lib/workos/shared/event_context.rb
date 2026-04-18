@@ -8,6 +8,15 @@ module WorkOS
   class EventContext
     include HashProvider
 
+    HASH_ATTRS = {
+      google_analytics_client_id: :google_analytics_client_id,
+      google_analytics_sessions: :google_analytics_sessions,
+      ajs_anonymous_id: :ajs_anonymous_id,
+      client_id: :client_id,
+      actor: :actor,
+      previous_attributes: :previous_attributes
+    }.freeze
+
     attr_accessor \
       :google_analytics_client_id,
       :google_analytics_sessions,
@@ -25,25 +34,6 @@ module WorkOS
       @client_id = hash[:client_id]
       @actor = hash[:actor] ? WorkOS::EventContextActor.new(hash[:actor]) : nil
       @previous_attributes = hash[:previous_attributes] || {}
-    end
-
-    def to_h
-      {
-        google_analytics_client_id: google_analytics_client_id,
-        google_analytics_sessions: (google_analytics_sessions || []).map(&:to_h),
-        ajs_anonymous_id: ajs_anonymous_id,
-        client_id: client_id,
-        actor: actor&.to_h,
-        previous_attributes: previous_attributes
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

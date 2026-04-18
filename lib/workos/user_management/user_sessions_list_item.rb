@@ -8,6 +8,22 @@ module WorkOS
   class UserSessionsListItem
     include HashProvider
 
+    HASH_ATTRS = {
+      object: :object,
+      id: :id,
+      impersonator: :impersonator,
+      ip_address: :ip_address,
+      organization_id: :organization_id,
+      user_agent: :user_agent,
+      user_id: :user_id,
+      auth_method: :auth_method,
+      status: :status,
+      expires_at: :expires_at,
+      ended_at: :ended_at,
+      created_at: :created_at,
+      updated_at: :updated_at
+    }.freeze
+
     attr_accessor \
       :object,
       :id,
@@ -39,32 +55,6 @@ module WorkOS
       @ended_at = hash[:ended_at]
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
-    end
-
-    def to_h
-      {
-        object: object,
-        id: id,
-        impersonator: impersonator&.to_h,
-        ip_address: ip_address,
-        organization_id: organization_id,
-        user_agent: user_agent,
-        user_id: user_id,
-        auth_method: auth_method,
-        status: status,
-        expires_at: expires_at,
-        ended_at: ended_at,
-        created_at: created_at,
-        updated_at: updated_at
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class} id=#{@id}>"
     end
   end
 end

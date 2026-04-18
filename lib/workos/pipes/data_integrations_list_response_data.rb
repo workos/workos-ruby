@@ -8,6 +8,21 @@ module WorkOS
   class DataIntegrationsListResponseData
     include HashProvider
 
+    HASH_ATTRS = {
+      object: :object,
+      id: :id,
+      name: :name,
+      description: :description,
+      slug: :slug,
+      integration_type: :integration_type,
+      credentials_type: :credentials_type,
+      scopes: :scopes,
+      ownership: :ownership,
+      created_at: :created_at,
+      updated_at: :updated_at,
+      connected_account: :connected_account
+    }.freeze
+
     attr_accessor \
       :object,
       :id,
@@ -37,31 +52,6 @@ module WorkOS
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
       @connected_account = hash[:connected_account] ? WorkOS::DataIntegrationsListResponseDataConnectedAccount.new(hash[:connected_account]) : nil
-    end
-
-    def to_h
-      {
-        object: object,
-        id: id,
-        name: name,
-        description: description,
-        slug: slug,
-        integration_type: integration_type,
-        credentials_type: credentials_type,
-        scopes: scopes,
-        ownership: ownership,
-        created_at: created_at,
-        updated_at: updated_at,
-        connected_account: connected_account&.to_h
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class} id=#{@id}>"
     end
   end
 end

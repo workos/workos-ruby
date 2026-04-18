@@ -8,6 +8,21 @@ module WorkOS
   class InvitationAcceptedData
     include HashProvider
 
+    HASH_ATTRS = {
+      object: :object,
+      id: :id,
+      email: :email,
+      state: :state,
+      accepted_at: :accepted_at,
+      revoked_at: :revoked_at,
+      expires_at: :expires_at,
+      organization_id: :organization_id,
+      inviter_user_id: :inviter_user_id,
+      accepted_user_id: :accepted_user_id,
+      created_at: :created_at,
+      updated_at: :updated_at
+    }.freeze
+
     attr_accessor \
       :object,
       :id,
@@ -37,31 +52,6 @@ module WorkOS
       @accepted_user_id = hash[:accepted_user_id]
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
-    end
-
-    def to_h
-      {
-        object: object,
-        id: id,
-        email: email,
-        state: state,
-        accepted_at: accepted_at,
-        revoked_at: revoked_at,
-        expires_at: expires_at,
-        organization_id: organization_id,
-        inviter_user_id: inviter_user_id,
-        accepted_user_id: accepted_user_id,
-        created_at: created_at,
-        updated_at: updated_at
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class} id=#{@id}>"
     end
   end
 end

@@ -8,6 +8,12 @@ module WorkOS
   class FeatureFlagOwner
     include HashProvider
 
+    HASH_ATTRS = {
+      email: :email,
+      first_name: :first_name,
+      last_name: :last_name
+    }.freeze
+
     attr_accessor \
       :email,
       :first_name,
@@ -19,22 +25,6 @@ module WorkOS
       @email = hash[:email]
       @first_name = hash[:first_name]
       @last_name = hash[:last_name]
-    end
-
-    def to_h
-      {
-        email: email,
-        first_name: first_name,
-        last_name: last_name
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

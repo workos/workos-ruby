@@ -8,6 +8,14 @@ module WorkOS
   class EmailChange
     include HashProvider
 
+    HASH_ATTRS = {
+      object: :object,
+      user: :user,
+      new_email: :new_email,
+      expires_at: :expires_at,
+      created_at: :created_at
+    }.freeze
+
     attr_accessor \
       :object,
       :user,
@@ -23,24 +31,6 @@ module WorkOS
       @new_email = hash[:new_email]
       @expires_at = hash[:expires_at]
       @created_at = hash[:created_at]
-    end
-
-    def to_h
-      {
-        object: object,
-        user: user&.to_h,
-        new_email: new_email,
-        expires_at: expires_at,
-        created_at: created_at
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

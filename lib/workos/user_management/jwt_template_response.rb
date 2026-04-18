@@ -8,6 +8,13 @@ module WorkOS
   class JWTTemplateResponse
     include HashProvider
 
+    HASH_ATTRS = {
+      object: :object,
+      content: :content,
+      created_at: :created_at,
+      updated_at: :updated_at
+    }.freeze
+
     attr_accessor \
       :object,
       :content,
@@ -21,23 +28,6 @@ module WorkOS
       @content = hash[:content]
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
-    end
-
-    def to_h
-      {
-        object: object,
-        content: content,
-        created_at: created_at,
-        updated_at: updated_at
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

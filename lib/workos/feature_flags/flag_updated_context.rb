@@ -8,6 +8,12 @@ module WorkOS
   class FlagUpdatedContext
     include HashProvider
 
+    HASH_ATTRS = {
+      client_id: :client_id,
+      actor: :actor,
+      previous_attributes: :previous_attributes
+    }.freeze
+
     attr_accessor \
       :client_id,
       :actor,
@@ -19,22 +25,6 @@ module WorkOS
       @client_id = hash[:client_id]
       @actor = hash[:actor] ? WorkOS::FlagUpdatedContextActor.new(hash[:actor]) : nil
       @previous_attributes = hash[:previous_attributes] ? WorkOS::FlagUpdatedContextPreviousAttribute.new(hash[:previous_attributes]) : nil
-    end
-
-    def to_h
-      {
-        client_id: client_id,
-        actor: actor&.to_h,
-        previous_attributes: previous_attributes&.to_h
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

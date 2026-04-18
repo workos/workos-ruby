@@ -8,6 +8,18 @@ module WorkOS
   class DataIntegrationsListResponseDataConnectedAccount
     include HashProvider
 
+    HASH_ATTRS = {
+      object: :object,
+      id: :id,
+      user_id: :user_id,
+      organization_id: :organization_id,
+      scopes: :scopes,
+      state: :state,
+      created_at: :created_at,
+      updated_at: :updated_at,
+      userlandUserId: :userland_user_id
+    }.freeze
+
     # @!attribute userland_user_id
     #   @deprecated Use `user_id` instead.
 
@@ -40,28 +52,6 @@ module WorkOS
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
       @userland_user_id = hash[:userlandUserId]
-    end
-
-    def to_h
-      {
-        object: object,
-        id: id,
-        user_id: user_id,
-        organization_id: organization_id,
-        scopes: scopes,
-        state: state,
-        created_at: created_at,
-        updated_at: updated_at,
-        userlandUserId: @userland_user_id
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class} id=#{@id}>"
     end
   end
 end

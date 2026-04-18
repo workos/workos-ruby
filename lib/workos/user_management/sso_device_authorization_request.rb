@@ -8,26 +8,16 @@ module WorkOS
   class SSODeviceAuthorizationRequest
     include HashProvider
 
+    HASH_ATTRS = {
+      client_id: :client_id
+    }.freeze
+
     attr_accessor :client_id
 
     def initialize(json)
       hash = json.is_a?(Hash) ? json : JSON.parse(json, symbolize_names: true)
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @client_id = hash[:client_id]
-    end
-
-    def to_h
-      {
-        client_id: client_id
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

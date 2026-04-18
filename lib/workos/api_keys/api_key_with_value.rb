@@ -8,6 +8,19 @@ module WorkOS
   class ApiKeyWithValue
     include HashProvider
 
+    HASH_ATTRS = {
+      object: :object,
+      id: :id,
+      owner: :owner,
+      name: :name,
+      obfuscated_value: :obfuscated_value,
+      last_used_at: :last_used_at,
+      permissions: :permissions,
+      created_at: :created_at,
+      updated_at: :updated_at,
+      value: :value
+    }.freeze
+
     attr_accessor \
       :object,
       :id,
@@ -33,29 +46,6 @@ module WorkOS
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
       @value = hash[:value]
-    end
-
-    def to_h
-      {
-        object: object,
-        id: id,
-        owner: owner&.to_h,
-        name: name,
-        obfuscated_value: obfuscated_value,
-        last_used_at: last_used_at,
-        permissions: permissions,
-        created_at: created_at,
-        updated_at: updated_at,
-        value: value
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class} id=#{@id}>"
     end
   end
 end

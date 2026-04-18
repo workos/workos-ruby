@@ -68,9 +68,7 @@ module WorkOS
       }
       body["organization_id"] = organization_id if organization_id
 
-      response = @client.execute_request(
-        request: @client.post_request(path: "/user_management/authenticate", auth: false, body: body)
-      )
+      response = @client.request(method: :post, path: "/user_management/authenticate", auth: false, body: body)
       auth_response = JSON.parse(response.body)
       sealed = auth_response["sealed_session"].to_s
       @seal_data = sealed

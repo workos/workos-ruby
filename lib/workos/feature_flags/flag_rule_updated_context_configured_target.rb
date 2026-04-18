@@ -8,6 +8,11 @@ module WorkOS
   class FlagRuleUpdatedContextConfiguredTarget
     include HashProvider
 
+    HASH_ATTRS = {
+      organizations: :organizations,
+      users: :users
+    }.freeze
+
     attr_accessor \
       :organizations,
       :users
@@ -17,21 +22,6 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @organizations = (hash[:organizations] || []).map { |item| item ? WorkOS::FlagRuleUpdatedContextConfiguredTargetOrganization.new(item) : nil }
       @users = (hash[:users] || []).map { |item| item ? WorkOS::FlagRuleUpdatedContextConfiguredTargetUser.new(item) : nil }
-    end
-
-    def to_h
-      {
-        organizations: (organizations || []).map(&:to_h),
-        users: (users || []).map(&:to_h)
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

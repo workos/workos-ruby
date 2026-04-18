@@ -8,6 +8,11 @@ module WorkOS
   class AuthenticationEmailVerificationFailedDataError
     include HashProvider
 
+    HASH_ATTRS = {
+      code: :code,
+      message: :message
+    }.freeze
+
     attr_accessor \
       :code,
       :message
@@ -17,21 +22,6 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @code = hash[:code]
       @message = hash[:message]
-    end
-
-    def to_h
-      {
-        code: code,
-        message: message
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

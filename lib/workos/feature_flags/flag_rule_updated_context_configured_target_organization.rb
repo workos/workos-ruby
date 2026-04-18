@@ -8,6 +8,11 @@ module WorkOS
   class FlagRuleUpdatedContextConfiguredTargetOrganization
     include HashProvider
 
+    HASH_ATTRS = {
+      id: :id,
+      name: :name
+    }.freeze
+
     attr_accessor \
       :id,
       :name
@@ -17,21 +22,6 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @id = hash[:id]
       @name = hash[:name]
-    end
-
-    def to_h
-      {
-        id: id,
-        name: name
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class} id=#{@id}>"
     end
   end
 end

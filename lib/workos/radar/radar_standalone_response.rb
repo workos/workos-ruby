@@ -8,6 +8,14 @@ module WorkOS
   class RadarStandaloneResponse
     include HashProvider
 
+    HASH_ATTRS = {
+      verdict: :verdict,
+      reason: :reason,
+      attempt_id: :attempt_id,
+      control: :control,
+      blocklist_type: :blocklist_type
+    }.freeze
+
     attr_accessor \
       :verdict,
       :reason,
@@ -23,24 +31,6 @@ module WorkOS
       @attempt_id = hash[:attempt_id]
       @control = hash[:control]
       @blocklist_type = hash[:blocklist_type]
-    end
-
-    def to_h
-      {
-        verdict: verdict,
-        reason: reason,
-        attempt_id: attempt_id,
-        control: control,
-        blocklist_type: blocklist_type
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

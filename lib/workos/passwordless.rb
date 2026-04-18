@@ -51,15 +51,7 @@ module WorkOS
         "connection" => connection,
         "expires_in" => expires_in
       }.compact
-      response = @client.execute_request(
-        request: @client.post_request(
-          path: "/passwordless/sessions",
-          auth: true,
-          body: body,
-          request_options: request_options
-        ),
-        request_options: request_options
-      )
+      response = @client.request(method: :post, path: "/passwordless/sessions", auth: true, body: body, request_options: request_options)
       PasswordlessSession.from_hash(JSON.parse(response.body))
     end
 
@@ -69,13 +61,11 @@ module WorkOS
     # @param request_options [Hash] Per-request overrides.
     # @return [Hash] Server response payload.
     def send_session(session_id, request_options: {})
-      response = @client.execute_request(
-        request: @client.post_request(
-          path: "/passwordless/sessions/#{WorkOS::Util.encode_path(session_id)}/send",
-          auth: true,
-          body: {},
-          request_options: request_options
-        ),
+      response = @client.request(
+        method: :post,
+        path: "/passwordless/sessions/#{WorkOS::Util.encode_path(session_id)}/send",
+        auth: true,
+        body: {},
         request_options: request_options
       )
       JSON.parse(response.body || "{}")

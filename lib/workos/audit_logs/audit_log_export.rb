@@ -5,13 +5,23 @@
 require "json"
 
 module WorkOS
-  class AuditLogActionJson
+  class AuditLogExport
     include HashProvider
+
+    HASH_ATTRS = {
+      object: :object,
+      id: :id,
+      state: :state,
+      url: :url,
+      created_at: :created_at,
+      updated_at: :updated_at
+    }.freeze
 
     attr_accessor \
       :object,
-      :name,
-      :schema,
+      :id,
+      :state,
+      :url,
       :created_at,
       :updated_at
 
@@ -19,28 +29,11 @@ module WorkOS
       hash = json.is_a?(Hash) ? json : JSON.parse(json, symbolize_names: true)
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @object = hash[:object]
-      @name = hash[:name]
-      @schema = hash[:schema] ? WorkOS::AuditLogSchemaJson.new(hash[:schema]) : nil
+      @id = hash[:id]
+      @state = hash[:state]
+      @url = hash[:url]
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
-    end
-
-    def to_h
-      {
-        object: object,
-        name: name,
-        schema: schema&.to_h,
-        created_at: created_at,
-        updated_at: updated_at
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

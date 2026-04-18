@@ -8,6 +8,12 @@ module WorkOS
   class DataIntegrationAccessTokenResponse
     include HashProvider
 
+    HASH_ATTRS = {
+      active: :active,
+      access_token: :access_token,
+      error: :error
+    }.freeze
+
     attr_accessor \
       :active,
       :access_token,
@@ -19,22 +25,6 @@ module WorkOS
       @active = hash[:active]
       @access_token = hash[:access_token] ? WorkOS::DataIntegrationAccessTokenResponseAccessToken.new(hash[:access_token]) : nil
       @error = hash[:error]
-    end
-
-    def to_h
-      {
-        active: active,
-        access_token: access_token&.to_h,
-        error: error
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

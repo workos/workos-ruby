@@ -8,6 +8,11 @@ module WorkOS
   class SSOLogoutAuthorizeResponse
     include HashProvider
 
+    HASH_ATTRS = {
+      logout_url: :logout_url,
+      logout_token: :logout_token
+    }.freeze
+
     attr_accessor \
       :logout_url,
       :logout_token
@@ -17,21 +22,6 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @logout_url = hash[:logout_url]
       @logout_token = hash[:logout_token]
-    end
-
-    def to_h
-      {
-        logout_url: logout_url,
-        logout_token: logout_token
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

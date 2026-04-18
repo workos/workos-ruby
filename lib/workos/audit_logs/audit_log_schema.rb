@@ -8,33 +8,32 @@ module WorkOS
   class AuditLogSchema
     include HashProvider
 
+    HASH_ATTRS = {
+      object: :object,
+      version: :version,
+      actor: :actor,
+      targets: :targets,
+      metadata: :metadata,
+      created_at: :created_at
+    }.freeze
+
     attr_accessor \
+      :object,
+      :version,
       :actor,
       :targets,
-      :metadata
+      :metadata,
+      :created_at
 
     def initialize(json)
       hash = json.is_a?(Hash) ? json : JSON.parse(json, symbolize_names: true)
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
+      @object = hash[:object]
+      @version = hash[:version]
       @actor = hash[:actor] ? WorkOS::AuditLogSchemaActor.new(hash[:actor]) : nil
       @targets = (hash[:targets] || []).map { |item| item ? WorkOS::AuditLogSchemaTarget.new(item) : nil }
       @metadata = hash[:metadata] || {}
-    end
-
-    def to_h
-      {
-        actor: actor&.to_h,
-        targets: (targets || []).map(&:to_h),
-        metadata: metadata
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
+      @created_at = hash[:created_at]
     end
   end
 end

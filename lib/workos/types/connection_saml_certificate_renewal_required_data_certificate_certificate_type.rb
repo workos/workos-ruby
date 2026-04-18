@@ -4,11 +4,6 @@
 
 module WorkOS
   module Types
-    class ConnectionSAMLCertificateRenewalRequiredDataCertificateCertificateType
-      RESPONSE_SIGNING = "ResponseSigning"
-      REQUEST_SIGNING = "RequestSigning"
-      RESPONSE_ENCRYPTION = "ResponseEncryption"
-      ALL = [RESPONSE_SIGNING, REQUEST_SIGNING, RESPONSE_ENCRYPTION].freeze
-    end
+    ConnectionSAMLCertificateRenewalRequiredDataCertificateCertificateType = ConnectionSAMLCertificateRenewedDataCertificateCertificateType
   end
 end

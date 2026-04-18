@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    UserInviteState = InvitationAcceptedDataState
+    UserInviteState = InvitationState
   end
 end

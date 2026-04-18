@@ -23,7 +23,7 @@ class ActionsTest < Minitest::Test
   end
 
   def test_actions_accessor_exists
-    assert_kind_of WorkOS::Actions, @actions
+    assert_equal WorkOS::Actions, @actions
   end
 
   def test_construct_action_returns_parsed_payload

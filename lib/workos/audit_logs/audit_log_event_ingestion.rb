@@ -8,6 +8,11 @@ module WorkOS
   class AuditLogEventIngestion
     include HashProvider
 
+    HASH_ATTRS = {
+      organization_id: :organization_id,
+      event: :event
+    }.freeze
+
     attr_accessor \
       :organization_id,
       :event
@@ -17,21 +22,6 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @organization_id = hash[:organization_id]
       @event = hash[:event] ? WorkOS::AuditLogEvent.new(hash[:event]) : nil
-    end
-
-    def to_h
-      {
-        organization_id: organization_id,
-        event: event&.to_h
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

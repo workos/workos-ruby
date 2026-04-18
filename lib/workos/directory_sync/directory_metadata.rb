@@ -8,6 +8,11 @@ module WorkOS
   class DirectoryMetadata
     include HashProvider
 
+    HASH_ATTRS = {
+      users: :users,
+      groups: :groups
+    }.freeze
+
     attr_accessor \
       :users,
       :groups
@@ -17,21 +22,6 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @users = hash[:users] ? WorkOS::DirectoryMetadataUser.new(hash[:users]) : nil
       @groups = hash[:groups]
-    end
-
-    def to_h
-      {
-        users: users&.to_h,
-        groups: groups
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

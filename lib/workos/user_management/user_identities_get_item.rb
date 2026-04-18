@@ -8,6 +8,12 @@ module WorkOS
   class UserIdentitiesGetItem
     include HashProvider
 
+    HASH_ATTRS = {
+      idp_id: :idp_id,
+      type: :type,
+      provider: :provider
+    }.freeze
+
     attr_accessor \
       :idp_id,
       :type,
@@ -19,22 +25,6 @@ module WorkOS
       @idp_id = hash[:idp_id]
       @type = hash[:type]
       @provider = hash[:provider]
-    end
-
-    def to_h
-      {
-        idp_id: idp_id,
-        type: type,
-        provider: provider
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

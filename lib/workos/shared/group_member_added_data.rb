@@ -8,6 +8,11 @@ module WorkOS
   class GroupMemberAddedData
     include HashProvider
 
+    HASH_ATTRS = {
+      group_id: :group_id,
+      organization_membership_id: :organization_membership_id
+    }.freeze
+
     attr_accessor \
       :group_id,
       :organization_membership_id
@@ -17,21 +22,6 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @group_id = hash[:group_id]
       @organization_membership_id = hash[:organization_membership_id]
-    end
-
-    def to_h
-      {
-        group_id: group_id,
-        organization_membership_id: organization_membership_id
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

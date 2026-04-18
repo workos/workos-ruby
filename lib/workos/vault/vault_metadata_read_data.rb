@@ -8,6 +8,13 @@ module WorkOS
   class VaultMetadataReadData
     include HashProvider
 
+    HASH_ATTRS = {
+      actor_id: :actor_id,
+      actor_source: :actor_source,
+      actor_name: :actor_name,
+      kv_name: :kv_name
+    }.freeze
+
     attr_accessor \
       :actor_id,
       :actor_source,
@@ -21,23 +28,6 @@ module WorkOS
       @actor_source = hash[:actor_source]
       @actor_name = hash[:actor_name]
       @kv_name = hash[:kv_name]
-    end
-
-    def to_h
-      {
-        actor_id: actor_id,
-        actor_source: actor_source,
-        actor_name: actor_name,
-        kv_name: kv_name
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

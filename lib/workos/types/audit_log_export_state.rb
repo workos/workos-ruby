@@ -4,7 +4,7 @@
 
 module WorkOS
   module Types
-    class AuditLogExportJsonState
+    class AuditLogExportState
       PENDING = "pending"
       READY = "ready"
       ERROR = "error"

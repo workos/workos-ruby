@@ -8,6 +8,13 @@ module WorkOS
   class AuditLogEventActor
     include HashProvider
 
+    HASH_ATTRS = {
+      id: :id,
+      type: :type,
+      name: :name,
+      metadata: :metadata
+    }.freeze
+
     attr_accessor \
       :id,
       :type,
@@ -21,23 +28,6 @@ module WorkOS
       @type = hash[:type]
       @name = hash[:name]
       @metadata = hash[:metadata] || {}
-    end
-
-    def to_h
-      {
-        id: id,
-        type: type,
-        name: name,
-        metadata: metadata
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class} id=#{@id}>"
     end
   end
 end

@@ -8,6 +8,19 @@ module WorkOS
   class AuthorizationResource
     include HashProvider
 
+    HASH_ATTRS = {
+      object: :object,
+      name: :name,
+      description: :description,
+      organization_id: :organization_id,
+      parent_resource_id: :parent_resource_id,
+      id: :id,
+      external_id: :external_id,
+      resource_type_slug: :resource_type_slug,
+      created_at: :created_at,
+      updated_at: :updated_at
+    }.freeze
+
     attr_accessor \
       :object,
       :name,
@@ -33,29 +46,6 @@ module WorkOS
       @resource_type_slug = hash[:resource_type_slug]
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
-    end
-
-    def to_h
-      {
-        object: object,
-        name: name,
-        description: description,
-        organization_id: organization_id,
-        parent_resource_id: parent_resource_id,
-        id: id,
-        external_id: external_id,
-        resource_type_slug: resource_type_slug,
-        created_at: created_at,
-        updated_at: updated_at
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class} id=#{@id}>"
     end
   end
 end

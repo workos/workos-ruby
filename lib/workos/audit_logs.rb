@@ -13,20 +13,20 @@ module WorkOS
     # Get Retention
     # @param id [String] Unique identifier of the Organization.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::AuditLogsRetentionJson]
+    # @return [WorkOS::AuditLogsRetention]
     def get_organization_audit_logs_retention(
       id:,
       request_options: {}
     )
       response = @client.request(method: :get, path: "/organizations/#{WorkOS::Util.encode_path(id)}/audit_logs_retention", auth: true, request_options: request_options)
-      WorkOS::AuditLogsRetentionJson.new(response.body)
+      WorkOS::AuditLogsRetention.new(response.body)
     end
 
     # Set Retention
     # @param id [String] Unique identifier of the Organization.
     # @param retention_period_in_days [Integer] The number of days Audit Log events will be retained. Valid values are `30` and `365`.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::AuditLogsRetentionJson]
+    # @return [WorkOS::AuditLogsRetention]
     def update_organization_audit_logs_retention(
       id:,
       retention_period_in_days:,
@@ -36,7 +36,7 @@ module WorkOS
         "retention_period_in_days" => retention_period_in_days
       }.compact
       response = @client.request(method: :put, path: "/organizations/#{WorkOS::Util.encode_path(id)}/audit_logs_retention", auth: true, body: body, request_options: request_options)
-      WorkOS::AuditLogsRetentionJson.new(response.body)
+      WorkOS::AuditLogsRetention.new(response.body)
     end
 
     # List Actions
@@ -60,7 +60,7 @@ module WorkOS
         "order" => order
       }.compact
       response = @client.request(method: :get, path: "/audit_logs/actions", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::AuditLogActionJson, filters: {before: before, limit: limit, order: order}) do |cursor|
+      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::AuditLogAction, filters: {before: before, limit: limit, order: order}) do |cursor|
         list_actions(
           before: before,
           after: cursor,
@@ -94,7 +94,7 @@ module WorkOS
         "order" => order
       }.compact
       response = @client.request(method: :get, path: "/audit_logs/actions/#{WorkOS::Util.encode_path(action_name)}/schemas", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::AuditLogSchemaJson, filters: {action_name: action_name, before: before, limit: limit, order: order}) do |cursor|
+      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::AuditLogSchema, filters: {action_name: action_name, before: before, limit: limit, order: order}) do |cursor|
         list_action_schemas(
           action_name: action_name,
           before: before,
@@ -112,7 +112,7 @@ module WorkOS
     # @param targets [Array<WorkOS::AuditLogSchemaTarget>] The list of targets for the schema.
     # @param metadata [Hash{String => Object}, nil] Optional JSON schema for event metadata.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::AuditLogSchemaJson]
+    # @return [WorkOS::AuditLogSchema]
     def create_schema(
       action_name:,
       targets:,
@@ -126,7 +126,7 @@ module WorkOS
         "metadata" => metadata
       }.compact
       response = @client.request(method: :post, path: "/audit_logs/actions/#{WorkOS::Util.encode_path(action_name)}/schemas", auth: true, body: body, request_options: request_options)
-      WorkOS::AuditLogSchemaJson.new(response.body)
+      WorkOS::AuditLogSchema.new(response.body)
     end
 
     # Create Event
@@ -157,7 +157,7 @@ module WorkOS
     # @param actor_ids [Array<String>, nil] List of actor IDs to filter against.
     # @param targets [Array<String>, nil] List of target types to filter against.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::AuditLogExportJson]
+    # @return [WorkOS::AuditLogExport]
     def create_export(
       organization_id:,
       range_start:,
@@ -180,19 +180,19 @@ module WorkOS
         "targets" => targets
       }.compact
       response = @client.request(method: :post, path: "/audit_logs/exports", auth: true, body: body, request_options: request_options)
-      WorkOS::AuditLogExportJson.new(response.body)
+      WorkOS::AuditLogExport.new(response.body)
     end
 
     # Get Export
     # @param audit_log_export_id [String] The unique ID of the Audit Log Export.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::AuditLogExportJson]
+    # @return [WorkOS::AuditLogExport]
     def get_export(
       audit_log_export_id:,
       request_options: {}
     )
       response = @client.request(method: :get, path: "/audit_logs/exports/#{WorkOS::Util.encode_path(audit_log_export_id)}", auth: true, request_options: request_options)
-      WorkOS::AuditLogExportJson.new(response.body)
+      WorkOS::AuditLogExport.new(response.body)
     end
   end
 end

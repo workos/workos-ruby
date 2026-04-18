@@ -8,6 +8,18 @@ module WorkOS
   class ActionAuthenticationDeniedData
     include HashProvider
 
+    HASH_ATTRS = {
+      action_endpoint_id: :action_endpoint_id,
+      action_execution_id: :action_execution_id,
+      type: :type,
+      verdict: :verdict,
+      user_id: :user_id,
+      organization_id: :organization_id,
+      email: :email,
+      ip_address: :ip_address,
+      user_agent: :user_agent
+    }.freeze
+
     attr_accessor \
       :action_endpoint_id,
       :action_execution_id,
@@ -31,28 +43,6 @@ module WorkOS
       @email = hash[:email]
       @ip_address = hash[:ip_address]
       @user_agent = hash[:user_agent]
-    end
-
-    def to_h
-      {
-        action_endpoint_id: action_endpoint_id,
-        action_execution_id: action_execution_id,
-        type: type,
-        verdict: verdict,
-        user_id: user_id,
-        organization_id: organization_id,
-        email: email,
-        ip_address: ip_address,
-        user_agent: user_agent
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

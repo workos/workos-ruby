@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    OrganizationMembershipDeletedDataStatus = OrganizationMembershipCreatedDataStatus
+    OrganizationMembershipDeletedDataStatus = OrganizationMembershipStatus
   end
 end

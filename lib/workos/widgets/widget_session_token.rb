@@ -8,6 +8,12 @@ module WorkOS
   class WidgetSessionToken
     include HashProvider
 
+    HASH_ATTRS = {
+      organization_id: :organization_id,
+      user_id: :user_id,
+      scopes: :scopes
+    }.freeze
+
     attr_accessor \
       :organization_id,
       :user_id,
@@ -19,22 +25,6 @@ module WorkOS
       @organization_id = hash[:organization_id]
       @user_id = hash[:user_id]
       @scopes = hash[:scopes] || []
-    end
-
-    def to_h
-      {
-        organization_id: organization_id,
-        user_id: user_id,
-        scopes: scopes
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

@@ -8,6 +8,14 @@ module WorkOS
   class DataIntegrationAccessTokenResponseAccessToken
     include HashProvider
 
+    HASH_ATTRS = {
+      object: :object,
+      access_token: :access_token,
+      expires_at: :expires_at,
+      scopes: :scopes,
+      missing_scopes: :missing_scopes
+    }.freeze
+
     attr_accessor \
       :object,
       :access_token,
@@ -23,24 +31,6 @@ module WorkOS
       @expires_at = hash[:expires_at]
       @scopes = hash[:scopes] || []
       @missing_scopes = hash[:missing_scopes] || []
-    end
-
-    def to_h
-      {
-        object: object,
-        access_token: access_token,
-        expires_at: expires_at,
-        scopes: scopes,
-        missing_scopes: missing_scopes
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

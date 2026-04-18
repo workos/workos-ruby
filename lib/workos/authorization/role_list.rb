@@ -8,6 +8,11 @@ module WorkOS
   class RoleList
     include HashProvider
 
+    HASH_ATTRS = {
+      object: :object,
+      data: :data
+    }.freeze
+
     attr_accessor \
       :object,
       :data
@@ -17,21 +22,6 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @object = hash[:object]
       @data = (hash[:data] || []).map { |item| item ? WorkOS::Role.new(item) : nil }
-    end
-
-    def to_h
-      {
-        object: object,
-        data: (data || []).map(&:to_h)
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

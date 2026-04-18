@@ -8,6 +8,11 @@ module WorkOS
   class UpdateUserOrganizationMembership
     include HashProvider
 
+    HASH_ATTRS = {
+      role_slug: :role_slug,
+      role_slugs: :role_slugs
+    }.freeze
+
     attr_accessor \
       :role_slug,
       :role_slugs
@@ -17,21 +22,6 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @role_slug = hash[:role_slug]
       @role_slugs = hash[:role_slugs] || []
-    end
-
-    def to_h
-      {
-        role_slug: role_slug,
-        role_slugs: role_slugs
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

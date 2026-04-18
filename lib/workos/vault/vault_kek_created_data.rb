@@ -8,6 +8,14 @@ module WorkOS
   class VaultKekCreatedData
     include HashProvider
 
+    HASH_ATTRS = {
+      actor_id: :actor_id,
+      actor_source: :actor_source,
+      actor_name: :actor_name,
+      key_name: :key_name,
+      key_id: :key_id
+    }.freeze
+
     attr_accessor \
       :actor_id,
       :actor_source,
@@ -23,24 +31,6 @@ module WorkOS
       @actor_name = hash[:actor_name]
       @key_name = hash[:key_name]
       @key_id = hash[:key_id]
-    end
-
-    def to_h
-      {
-        actor_id: actor_id,
-        actor_source: actor_source,
-        actor_name: actor_name,
-        key_name: key_name,
-        key_id: key_id
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

@@ -8,6 +8,13 @@ module WorkOS
   class TokenQuery
     include HashProvider
 
+    HASH_ATTRS = {
+      client_id: :client_id,
+      client_secret: :client_secret,
+      code: :code,
+      grant_type: :grant_type
+    }.freeze
+
     attr_accessor \
       :client_id,
       :client_secret,
@@ -21,23 +28,6 @@ module WorkOS
       @client_secret = hash[:client_secret]
       @code = hash[:code]
       @grant_type = hash[:grant_type]
-    end
-
-    def to_h
-      {
-        client_id: client_id,
-        client_secret: client_secret,
-        code: code,
-        grant_type: grant_type
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

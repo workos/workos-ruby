@@ -8,6 +8,11 @@ module WorkOS
   class ConnectionSAMLCertificateRenewalRequiredDataConnection
     include HashProvider
 
+    HASH_ATTRS = {
+      id: :id,
+      organization_id: :organization_id
+    }.freeze
+
     attr_accessor \
       :id,
       :organization_id
@@ -17,21 +22,6 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @id = hash[:id]
       @organization_id = hash[:organization_id]
-    end
-
-    def to_h
-      {
-        id: id,
-        organization_id: organization_id
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class} id=#{@id}>"
     end
   end
 end

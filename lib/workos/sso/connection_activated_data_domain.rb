@@ -8,6 +8,12 @@ module WorkOS
   class ConnectionActivatedDataDomain
     include HashProvider
 
+    HASH_ATTRS = {
+      object: :object,
+      id: :id,
+      domain: :domain
+    }.freeze
+
     attr_accessor \
       :object,
       :id,
@@ -19,22 +25,6 @@ module WorkOS
       @object = hash[:object]
       @id = hash[:id]
       @domain = hash[:domain]
-    end
-
-    def to_h
-      {
-        object: object,
-        id: id,
-        domain: domain
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class} id=#{@id}>"
     end
   end
 end

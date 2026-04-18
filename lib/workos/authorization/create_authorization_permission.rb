@@ -8,6 +8,13 @@ module WorkOS
   class CreateAuthorizationPermission
     include HashProvider
 
+    HASH_ATTRS = {
+      slug: :slug,
+      name: :name,
+      description: :description,
+      resource_type_slug: :resource_type_slug
+    }.freeze
+
     attr_accessor \
       :slug,
       :name,
@@ -21,23 +28,6 @@ module WorkOS
       @name = hash[:name]
       @description = hash[:description]
       @resource_type_slug = hash[:resource_type_slug]
-    end
-
-    def to_h
-      {
-        slug: slug,
-        name: name,
-        description: description,
-        resource_type_slug: resource_type_slug
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

@@ -4,7 +4,7 @@
 # typed: strong
 
 module WorkOS
-  class WebhookEndpointJson
+  class WebhookEndpoint
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
 

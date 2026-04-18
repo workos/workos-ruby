@@ -8,6 +8,12 @@ module WorkOS
   class RoleAssignmentResource
     include HashProvider
 
+    HASH_ATTRS = {
+      id: :id,
+      external_id: :external_id,
+      resource_type_slug: :resource_type_slug
+    }.freeze
+
     attr_accessor \
       :id,
       :external_id,
@@ -19,22 +25,6 @@ module WorkOS
       @id = hash[:id]
       @external_id = hash[:external_id]
       @resource_type_slug = hash[:resource_type_slug]
-    end
-
-    def to_h
-      {
-        id: id,
-        external_id: external_id,
-        resource_type_slug: resource_type_slug
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class} id=#{@id}>"
     end
   end
 end

@@ -8,6 +8,14 @@ module WorkOS
   class AuthenticationFactorEnrolledTotp
     include HashProvider
 
+    HASH_ATTRS = {
+      issuer: :issuer,
+      user: :user,
+      secret: :secret,
+      qr_code: :qr_code,
+      uri: :uri
+    }.freeze
+
     attr_accessor \
       :issuer,
       :user,
@@ -23,24 +31,6 @@ module WorkOS
       @secret = hash[:secret]
       @qr_code = hash[:qr_code]
       @uri = hash[:uri]
-    end
-
-    def to_h
-      {
-        issuer: issuer,
-        user: user,
-        secret: secret,
-        qr_code: qr_code,
-        uri: uri
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

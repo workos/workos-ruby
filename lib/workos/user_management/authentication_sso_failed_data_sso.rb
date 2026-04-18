@@ -8,6 +8,12 @@ module WorkOS
   class AuthenticationSSOFailedDataSSO
     include HashProvider
 
+    HASH_ATTRS = {
+      organization_id: :organization_id,
+      connection_id: :connection_id,
+      session_id: :session_id
+    }.freeze
+
     attr_accessor \
       :organization_id,
       :connection_id,
@@ -19,22 +25,6 @@ module WorkOS
       @organization_id = hash[:organization_id]
       @connection_id = hash[:connection_id]
       @session_id = hash[:session_id]
-    end
-
-    def to_h
-      {
-        organization_id: organization_id,
-        connection_id: connection_id,
-        session_id: session_id
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

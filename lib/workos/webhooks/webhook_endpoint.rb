@@ -5,8 +5,19 @@
 require "json"
 
 module WorkOS
-  class WebhookEndpointJson
+  class WebhookEndpoint
     include HashProvider
+
+    HASH_ATTRS = {
+      object: :object,
+      id: :id,
+      endpoint_url: :endpoint_url,
+      secret: :secret,
+      status: :status,
+      events: :events,
+      created_at: :created_at,
+      updated_at: :updated_at
+    }.freeze
 
     attr_accessor \
       :object,
@@ -29,27 +40,6 @@ module WorkOS
       @events = hash[:events] || []
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
-    end
-
-    def to_h
-      {
-        object: object,
-        id: id,
-        endpoint_url: endpoint_url,
-        secret: secret,
-        status: status,
-        events: events,
-        created_at: created_at,
-        updated_at: updated_at
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class} id=#{@id}>"
     end
   end
 end

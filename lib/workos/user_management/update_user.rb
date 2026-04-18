@@ -8,6 +8,19 @@ module WorkOS
   class UpdateUser
     include HashProvider
 
+    HASH_ATTRS = {
+      email: :email,
+      first_name: :first_name,
+      last_name: :last_name,
+      email_verified: :email_verified,
+      metadata: :metadata,
+      external_id: :external_id,
+      locale: :locale,
+      password: :password,
+      password_hash: :password_hash,
+      password_hash_type: :password_hash_type
+    }.freeze
+
     attr_accessor \
       :email,
       :first_name,
@@ -33,29 +46,6 @@ module WorkOS
       @password = hash[:password]
       @password_hash = hash[:password_hash]
       @password_hash_type = hash[:password_hash_type]
-    end
-
-    def to_h
-      {
-        email: email,
-        first_name: first_name,
-        last_name: last_name,
-        email_verified: email_verified,
-        metadata: metadata,
-        external_id: external_id,
-        locale: locale,
-        password: password,
-        password_hash: password_hash,
-        password_hash_type: password_hash_type
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

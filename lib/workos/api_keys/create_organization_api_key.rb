@@ -8,6 +8,11 @@ module WorkOS
   class CreateOrganizationApiKey
     include HashProvider
 
+    HASH_ATTRS = {
+      name: :name,
+      permissions: :permissions
+    }.freeze
+
     attr_accessor \
       :name,
       :permissions
@@ -17,21 +22,6 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @name = hash[:name]
       @permissions = hash[:permissions] || []
-    end
-
-    def to_h
-      {
-        name: name,
-        permissions: permissions
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

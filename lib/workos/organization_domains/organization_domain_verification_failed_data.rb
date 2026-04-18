@@ -8,6 +8,11 @@ module WorkOS
   class OrganizationDomainVerificationFailedData
     include HashProvider
 
+    HASH_ATTRS = {
+      reason: :reason,
+      organization_domain: :organization_domain
+    }.freeze
+
     attr_accessor \
       :reason,
       :organization_domain
@@ -17,21 +22,6 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @reason = hash[:reason]
       @organization_domain = hash[:organization_domain] ? WorkOS::OrganizationDomainVerificationFailedDataOrganizationDomain.new(hash[:organization_domain]) : nil
-    end
-
-    def to_h
-      {
-        reason: reason,
-        organization_domain: organization_domain&.to_h
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    UserManagementUsersAuthorizedApplicationsOrder = ApplicationsOrder
+    UserManagementUsersAuthorizedApplicationsOrder = EventsOrder
   end
 end

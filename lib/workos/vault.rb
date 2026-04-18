@@ -90,28 +90,19 @@ module WorkOS
 
     # Get a Vault object with the value decrypted.
     def read_object(object_id:, request_options: {})
-      response = @client.execute_request(
-        request: @client.get_request(path: "/vault/v1/kv/#{WorkOS::Util.encode_path(object_id)}", auth: true, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :get, path: "/vault/v1/kv/#{WorkOS::Util.encode_path(object_id)}", auth: true, request_options: request_options)
       VaultObject.from_hash(JSON.parse(response.body))
     end
 
     # Get a Vault object by name with the value decrypted.
     def read_object_by_name(name:, request_options: {})
-      response = @client.execute_request(
-        request: @client.get_request(path: "/vault/v1/kv/name/#{WorkOS::Util.encode_path(name)}", auth: true, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :get, path: "/vault/v1/kv/name/#{WorkOS::Util.encode_path(name)}", auth: true, request_options: request_options)
       VaultObject.from_hash(JSON.parse(response.body))
     end
 
     # Get a Vault object's metadata without decrypting the value.
     def get_object_metadata(object_id:, request_options: {})
-      response = @client.execute_request(
-        request: @client.get_request(path: "/vault/v1/kv/#{WorkOS::Util.encode_path(object_id)}/metadata", auth: true, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :get, path: "/vault/v1/kv/#{WorkOS::Util.encode_path(object_id)}/metadata", auth: true, request_options: request_options)
       VaultObject.from_hash(JSON.parse(response.body))
     end
 
@@ -119,10 +110,7 @@ module WorkOS
     # @return [Array<ObjectDigest>]
     def list_objects(limit: DEFAULT_RESPONSE_LIMIT, before: nil, after: nil, request_options: {})
       params = {"limit" => limit, "before" => before, "after" => after}.compact
-      response = @client.execute_request(
-        request: @client.get_request(path: "/vault/v1/kv", auth: true, params: params, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :get, path: "/vault/v1/kv", auth: true, params: params, request_options: request_options)
       parsed = JSON.parse(response.body)
       (parsed["data"] || []).map { |item| ObjectDigest.from_hash(item) }
     end
@@ -130,10 +118,7 @@ module WorkOS
     # List versions for a specific Vault object.
     # @return [Array<ObjectVersion>]
     def list_object_versions(object_id:, request_options: {})
-      response = @client.execute_request(
-        request: @client.get_request(path: "/vault/v1/kv/#{WorkOS::Util.encode_path(object_id)}/versions", auth: true, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :get, path: "/vault/v1/kv/#{WorkOS::Util.encode_path(object_id)}/versions", auth: true, request_options: request_options)
       parsed = JSON.parse(response.body)
       (parsed["data"] || []).map { |item| ObjectVersion.from_hash(item) }
     end
@@ -141,29 +126,20 @@ module WorkOS
     # Create a new Vault encrypted object.
     def create_object(name:, value:, key_context:, request_options: {})
       body = {"name" => name, "value" => value, "key_context" => key_context}
-      response = @client.execute_request(
-        request: @client.post_request(path: "/vault/v1/kv", auth: true, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :post, path: "/vault/v1/kv", auth: true, body: body, request_options: request_options)
       ObjectMetadata.from_hash(JSON.parse(response.body))
     end
 
     # Update an existing Vault object.
     def update_object(object_id:, value:, version_check: nil, request_options: {})
       body = {"value" => value, "version_check" => version_check}.compact
-      response = @client.execute_request(
-        request: @client.put_request(path: "/vault/v1/kv/#{WorkOS::Util.encode_path(object_id)}", auth: true, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :put, path: "/vault/v1/kv/#{WorkOS::Util.encode_path(object_id)}", auth: true, body: body, request_options: request_options)
       VaultObject.from_hash(JSON.parse(response.body))
     end
 
     # Permanently delete a Vault encrypted object.
     def delete_object(object_id:, request_options: {})
-      @client.execute_request(
-        request: @client.delete_request(path: "/vault/v1/kv/#{WorkOS::Util.encode_path(object_id)}", auth: true, request_options: request_options),
-        request_options: request_options
-      )
+      @client.request(method: :delete, path: "/vault/v1/kv/#{WorkOS::Util.encode_path(object_id)}", auth: true, request_options: request_options)
       nil
     end
 
@@ -173,10 +149,7 @@ module WorkOS
     # @return [DataKeyPair]
     def create_data_key(key_context:, request_options: {})
       body = {"context" => key_context}
-      response = @client.execute_request(
-        request: @client.post_request(path: "/vault/v1/keys/data-key", auth: true, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :post, path: "/vault/v1/keys/data-key", auth: true, body: body, request_options: request_options)
       DataKeyPair.from_response(JSON.parse(response.body))
     end
 
@@ -184,10 +157,7 @@ module WorkOS
     # @return [DataKey]
     def decrypt_data_key(keys:, request_options: {})
       body = {"keys" => keys}
-      response = @client.execute_request(
-        request: @client.post_request(path: "/vault/v1/keys/decrypt", auth: true, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :post, path: "/vault/v1/keys/decrypt", auth: true, body: body, request_options: request_options)
       DataKey.from_response(JSON.parse(response.body))
     end
 

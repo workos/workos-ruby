@@ -8,6 +8,11 @@ module WorkOS
   class FlagRuleUpdatedContextPreviousAttributeContext
     include HashProvider
 
+    HASH_ATTRS = {
+      access_type: :access_type,
+      configured_targets: :configured_targets
+    }.freeze
+
     attr_accessor \
       :access_type,
       :configured_targets
@@ -17,21 +22,6 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @access_type = hash[:access_type]
       @configured_targets = hash[:configured_targets] ? WorkOS::FlagRuleUpdatedContextPreviousAttributeContextConfiguredTarget.new(hash[:configured_targets]) : nil
-    end
-
-    def to_h
-      {
-        access_type: access_type,
-        configured_targets: configured_targets&.to_h
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

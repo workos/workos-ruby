@@ -8,6 +8,11 @@ module WorkOS
   class RedirectUriInput
     include HashProvider
 
+    HASH_ATTRS = {
+      uri: :uri,
+      default: :default
+    }.freeze
+
     attr_accessor \
       :uri,
       :default
@@ -17,21 +22,6 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @uri = hash[:uri]
       @default = hash[:default]
-    end
-
-    def to_h
-      {
-        uri: uri,
-        default: default
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

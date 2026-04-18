@@ -8,6 +8,14 @@ module WorkOS
   class AuthenticationFactorsCreateRequest
     include HashProvider
 
+    HASH_ATTRS = {
+      type: :type,
+      phone_number: :phone_number,
+      totp_issuer: :totp_issuer,
+      totp_user: :totp_user,
+      user_id: :user_id
+    }.freeze
+
     attr_accessor \
       :type,
       :phone_number,
@@ -23,24 +31,6 @@ module WorkOS
       @totp_issuer = hash[:totp_issuer]
       @totp_user = hash[:totp_user]
       @user_id = hash[:user_id]
-    end
-
-    def to_h
-      {
-        type: type,
-        phone_number: phone_number,
-        totp_issuer: totp_issuer,
-        totp_user: totp_user,
-        user_id: user_id
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

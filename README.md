@@ -43,10 +43,29 @@ WorkOS.configure do |config|
   config.api_key = ENV.fetch("WORKOS_API_KEY")
   config.client_id = ENV["WORKOS_CLIENT_ID"]
   config.timeout = 120
+  config.logger = Logger.new($stdout)
+  config.log_level = :info
 end
 
 client = WorkOS.client
 ```
+
+## Per-request options
+
+Every API call accepts `request_options:` for per-call overrides:
+
+```ruby
+organization = WorkOS.client.organizations.get_organization(
+  id: "org_123",
+  request_options: {
+    timeout: 10,
+    extra_headers: {"X-Request-Source" => "admin"},
+    idempotency_key: "org-create-123"
+  }
+)
+```
+
+`Idempotency-Key` is only sent when you provide `request_options[:idempotency_key]`, or when the SDK retries a mutating request after a transient failure.
 
 ## Usage Examples
 

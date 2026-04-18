@@ -8,6 +8,17 @@ module WorkOS
   class PasswordReset
     include HashProvider
 
+    HASH_ATTRS = {
+      object: :object,
+      id: :id,
+      user_id: :user_id,
+      email: :email,
+      expires_at: :expires_at,
+      created_at: :created_at,
+      password_reset_token: :password_reset_token,
+      password_reset_url: :password_reset_url
+    }.freeze
+
     attr_accessor \
       :object,
       :id,
@@ -29,27 +40,6 @@ module WorkOS
       @created_at = hash[:created_at]
       @password_reset_token = hash[:password_reset_token]
       @password_reset_url = hash[:password_reset_url]
-    end
-
-    def to_h
-      {
-        object: object,
-        id: id,
-        user_id: user_id,
-        email: email,
-        expires_at: expires_at,
-        created_at: created_at,
-        password_reset_token: password_reset_token,
-        password_reset_url: password_reset_url
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class} id=#{@id}>"
     end
   end
 end

@@ -8,6 +8,12 @@ module WorkOS
   class UpdateWebhookEndpoint
     include HashProvider
 
+    HASH_ATTRS = {
+      endpoint_url: :endpoint_url,
+      status: :status,
+      events: :events
+    }.freeze
+
     attr_accessor \
       :endpoint_url,
       :status,
@@ -19,22 +25,6 @@ module WorkOS
       @endpoint_url = hash[:endpoint_url]
       @status = hash[:status]
       @events = hash[:events] || []
-    end
-
-    def to_h
-      {
-        endpoint_url: endpoint_url,
-        status: status,
-        events: events
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

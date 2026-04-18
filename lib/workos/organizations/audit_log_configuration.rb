@@ -8,6 +8,13 @@ module WorkOS
   class AuditLogConfiguration
     include HashProvider
 
+    HASH_ATTRS = {
+      organization_id: :organization_id,
+      retention_period_in_days: :retention_period_in_days,
+      state: :state,
+      log_stream: :log_stream
+    }.freeze
+
     attr_accessor \
       :organization_id,
       :retention_period_in_days,
@@ -21,23 +28,6 @@ module WorkOS
       @retention_period_in_days = hash[:retention_period_in_days]
       @state = hash[:state]
       @log_stream = hash[:log_stream] ? WorkOS::AuditLogConfigurationLogStream.new(hash[:log_stream]) : nil
-    end
-
-    def to_h
-      {
-        organization_id: organization_id,
-        retention_period_in_days: retention_period_in_days,
-        state: state,
-        log_stream: log_stream&.to_h
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

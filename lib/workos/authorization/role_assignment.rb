@@ -8,6 +8,15 @@ module WorkOS
   class RoleAssignment
     include HashProvider
 
+    HASH_ATTRS = {
+      object: :object,
+      id: :id,
+      role: :role,
+      resource: :resource,
+      created_at: :created_at,
+      updated_at: :updated_at
+    }.freeze
+
     attr_accessor \
       :object,
       :id,
@@ -25,25 +34,6 @@ module WorkOS
       @resource = hash[:resource] ? WorkOS::RoleAssignmentResource.new(hash[:resource]) : nil
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
-    end
-
-    def to_h
-      {
-        object: object,
-        id: id,
-        role: role&.to_h,
-        resource: resource&.to_h,
-        created_at: created_at,
-        updated_at: updated_at
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class} id=#{@id}>"
     end
   end
 end

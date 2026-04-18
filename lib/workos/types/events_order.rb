@@ -4,6 +4,11 @@
 
 module WorkOS
   module Types
-    EventsOrder = ApplicationsOrder
+    class EventsOrder
+      NORMAL = "normal"
+      DESC = "desc"
+      ASC = "asc"
+      ALL = [NORMAL, DESC, ASC].freeze
+    end
   end
 end

@@ -8,6 +8,20 @@ module WorkOS
   class OrganizationMembershipCreatedData
     include HashProvider
 
+    HASH_ATTRS = {
+      object: :object,
+      id: :id,
+      user_id: :user_id,
+      organization_id: :organization_id,
+      status: :status,
+      role: :role,
+      roles: :roles,
+      custom_attributes: :custom_attributes,
+      directory_managed: :directory_managed,
+      created_at: :created_at,
+      updated_at: :updated_at
+    }.freeze
+
     attr_accessor \
       :object,
       :id,
@@ -35,30 +49,6 @@ module WorkOS
       @directory_managed = hash[:directory_managed]
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
-    end
-
-    def to_h
-      {
-        object: object,
-        id: id,
-        user_id: user_id,
-        organization_id: organization_id,
-        status: status,
-        role: role&.to_h,
-        roles: (roles || []).map(&:to_h),
-        custom_attributes: custom_attributes,
-        directory_managed: directory_managed,
-        created_at: created_at,
-        updated_at: updated_at
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class} id=#{@id}>"
     end
   end
 end

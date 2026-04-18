@@ -8,6 +8,11 @@ module WorkOS
   class ApiKeyCreatedDataOwner
     include HashProvider
 
+    HASH_ATTRS = {
+      type: :type,
+      id: :id
+    }.freeze
+
     attr_accessor \
       :type,
       :id
@@ -17,21 +22,6 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @type = hash[:type]
       @id = hash[:id]
-    end
-
-    def to_h
-      {
-        type: type,
-        id: id
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class} id=#{@id}>"
     end
   end
 end

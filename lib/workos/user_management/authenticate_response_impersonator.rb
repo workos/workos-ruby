@@ -8,6 +8,11 @@ module WorkOS
   class AuthenticateResponseImpersonator
     include HashProvider
 
+    HASH_ATTRS = {
+      email: :email,
+      reason: :reason
+    }.freeze
+
     attr_accessor \
       :email,
       :reason
@@ -17,21 +22,6 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @email = hash[:email]
       @reason = hash[:reason]
-    end
-
-    def to_h
-      {
-        email: email,
-        reason: reason
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

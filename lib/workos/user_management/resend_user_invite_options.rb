@@ -8,26 +8,16 @@ module WorkOS
   class ResendUserInviteOptions
     include HashProvider
 
+    HASH_ATTRS = {
+      locale: :locale
+    }.freeze
+
     attr_accessor :locale
 
     def initialize(json)
       hash = json.is_a?(Hash) ? json : JSON.parse(json, symbolize_names: true)
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @locale = hash[:locale]
-    end
-
-    def to_h
-      {
-        locale: locale
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

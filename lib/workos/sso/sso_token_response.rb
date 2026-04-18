@@ -8,6 +8,14 @@ module WorkOS
   class SSOTokenResponse
     include HashProvider
 
+    HASH_ATTRS = {
+      token_type: :token_type,
+      access_token: :access_token,
+      expires_in: :expires_in,
+      profile: :profile,
+      oauth_tokens: :oauth_tokens
+    }.freeze
+
     attr_accessor \
       :token_type,
       :access_token,
@@ -23,24 +31,6 @@ module WorkOS
       @expires_in = hash[:expires_in]
       @profile = hash[:profile] ? WorkOS::Profile.new(hash[:profile]) : nil
       @oauth_tokens = hash[:oauth_tokens] ? WorkOS::SSOTokenResponseOAuthToken.new(hash[:oauth_tokens]) : nil
-    end
-
-    def to_h
-      {
-        token_type: token_type,
-        access_token: access_token,
-        expires_in: expires_in,
-        profile: profile&.to_h,
-        oauth_tokens: oauth_tokens&.to_h
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

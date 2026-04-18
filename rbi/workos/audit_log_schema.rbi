@@ -8,6 +8,18 @@ module WorkOS
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
 
+    sig { returns(String) }
+    def object; end
+
+    sig { params(value: String).returns(String) }
+    def object=(value); end
+
+    sig { returns(Integer) }
+    def version; end
+
+    sig { params(value: Integer).returns(Integer) }
+    def version=(value); end
+
     sig { returns(T.nilable(WorkOS::AuditLogSchemaActor)) }
     def actor; end
 
@@ -25,6 +37,12 @@ module WorkOS
 
     sig { params(value: T.nilable(T::Hash[String, T.untyped])).returns(T.nilable(T::Hash[String, T.untyped])) }
     def metadata=(value); end
+
+    sig { returns(String) }
+    def created_at; end
+
+    sig { params(value: String).returns(String) }
+    def created_at=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end

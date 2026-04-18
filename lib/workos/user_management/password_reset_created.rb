@@ -8,6 +8,15 @@ module WorkOS
   class PasswordResetCreated
     include HashProvider
 
+    HASH_ATTRS = {
+      id: :id,
+      event: :event,
+      data: :data,
+      created_at: :created_at,
+      context: :context,
+      object: :object
+    }.freeze
+
     attr_accessor \
       :id,
       :event,
@@ -25,25 +34,6 @@ module WorkOS
       @created_at = hash[:created_at]
       @context = hash[:context] ? WorkOS::EventContext.new(hash[:context]) : nil
       @object = hash[:object]
-    end
-
-    def to_h
-      {
-        id: id,
-        event: event,
-        data: data&.to_h,
-        created_at: created_at,
-        context: context&.to_h,
-        object: object
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class} id=#{@id}>"
     end
   end
 end

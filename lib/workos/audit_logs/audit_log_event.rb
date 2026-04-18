@@ -8,6 +8,16 @@ module WorkOS
   class AuditLogEvent
     include HashProvider
 
+    HASH_ATTRS = {
+      action: :action,
+      occurred_at: :occurred_at,
+      actor: :actor,
+      targets: :targets,
+      context: :context,
+      metadata: :metadata,
+      version: :version
+    }.freeze
+
     attr_accessor \
       :action,
       :occurred_at,
@@ -27,26 +37,6 @@ module WorkOS
       @context = hash[:context] ? WorkOS::AuditLogEventContext.new(hash[:context]) : nil
       @metadata = hash[:metadata] || {}
       @version = hash[:version]
-    end
-
-    def to_h
-      {
-        action: action,
-        occurred_at: occurred_at,
-        actor: actor&.to_h,
-        targets: (targets || []).map(&:to_h),
-        context: context&.to_h,
-        metadata: metadata,
-        version: version
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

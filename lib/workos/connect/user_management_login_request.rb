@@ -8,6 +8,12 @@ module WorkOS
   class UserManagementLoginRequest
     include HashProvider
 
+    HASH_ATTRS = {
+      external_auth_id: :external_auth_id,
+      user: :user,
+      user_consent_options: :user_consent_options
+    }.freeze
+
     attr_accessor \
       :external_auth_id,
       :user,
@@ -19,22 +25,6 @@ module WorkOS
       @external_auth_id = hash[:external_auth_id]
       @user = hash[:user] ? WorkOS::UserObject.new(hash[:user]) : nil
       @user_consent_options = (hash[:user_consent_options] || []).map { |item| item ? WorkOS::UserConsentOption.new(item) : nil }
-    end
-
-    def to_h
-      {
-        external_auth_id: external_auth_id,
-        user: user&.to_h,
-        user_consent_options: (user_consent_options || []).map(&:to_h)
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

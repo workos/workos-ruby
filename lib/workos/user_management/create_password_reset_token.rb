@@ -8,26 +8,16 @@ module WorkOS
   class CreatePasswordResetToken
     include HashProvider
 
+    HASH_ATTRS = {
+      email: :email
+    }.freeze
+
     attr_accessor :email
 
     def initialize(json)
       hash = json.is_a?(Hash) ? json : JSON.parse(json, symbolize_names: true)
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @email = hash[:email]
-    end
-
-    def to_h
-      {
-        email: email
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

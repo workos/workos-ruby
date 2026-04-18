@@ -83,7 +83,7 @@ module WorkOS
     end
 
     def actions
-      @actions ||= WorkOS::Actions.new(self)
+      @actions ||= WorkOS::Actions
     end
 
     def session_manager(encryptor: nil)

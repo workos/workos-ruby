@@ -8,6 +8,11 @@ module WorkOS
   class UpdateAuthorizationPermission
     include HashProvider
 
+    HASH_ATTRS = {
+      name: :name,
+      description: :description
+    }.freeze
+
     attr_accessor \
       :name,
       :description
@@ -17,21 +22,6 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @name = hash[:name]
       @description = hash[:description]
-    end
-
-    def to_h
-      {
-        name: name,
-        description: description
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

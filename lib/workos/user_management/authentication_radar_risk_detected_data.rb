@@ -8,6 +8,17 @@ module WorkOS
   class AuthenticationRadarRiskDetectedData
     include HashProvider
 
+    HASH_ATTRS = {
+      auth_method: :auth_method,
+      action: :action,
+      control: :control,
+      blocklist_type: :blocklist_type,
+      ip_address: :ip_address,
+      user_agent: :user_agent,
+      user_id: :user_id,
+      email: :email
+    }.freeze
+
     attr_accessor \
       :auth_method,
       :action,
@@ -29,27 +40,6 @@ module WorkOS
       @user_agent = hash[:user_agent]
       @user_id = hash[:user_id]
       @email = hash[:email]
-    end
-
-    def to_h
-      {
-        auth_method: auth_method,
-        action: action,
-        control: control,
-        blocklist_type: blocklist_type,
-        ip_address: ip_address,
-        user_agent: user_agent,
-        user_id: user_id,
-        email: email
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

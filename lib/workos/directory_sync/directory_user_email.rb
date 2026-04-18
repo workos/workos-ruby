@@ -8,6 +8,12 @@ module WorkOS
   class DirectoryUserEmail
     include HashProvider
 
+    HASH_ATTRS = {
+      primary: :primary,
+      type: :type,
+      value: :value
+    }.freeze
+
     attr_accessor \
       :primary,
       :type,
@@ -19,22 +25,6 @@ module WorkOS
       @primary = hash[:primary]
       @type = hash[:type]
       @value = hash[:value]
-    end
-
-    def to_h
-      {
-        primary: primary,
-        type: type,
-        value: value
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

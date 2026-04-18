@@ -4,7 +4,7 @@
 module WorkOS
   # Simple holder for configuration parameters.
   class Configuration
-    attr_accessor :api_key, :base_url, :client_id, :timeout, :max_retries
+    attr_accessor :api_key, :base_url, :client_id, :timeout, :max_retries, :logger, :log_level
 
     def initialize
       @base_url = WorkOS::BaseClient::DEFAULT_BASE_URL
@@ -37,7 +37,9 @@ module WorkOS
         base_url: configuration.base_url,
         client_id: configuration.client_id,
         timeout: configuration.timeout,
-        max_retries: configuration.max_retries
+        max_retries: configuration.max_retries,
+        logger: configuration.logger,
+        log_level: configuration.log_level
       )
     end
 

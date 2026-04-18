@@ -8,6 +8,11 @@ module WorkOS
   class CreatePasswordReset
     include HashProvider
 
+    HASH_ATTRS = {
+      token: :token,
+      new_password: :new_password
+    }.freeze
+
     attr_accessor \
       :token,
       :new_password
@@ -17,21 +22,6 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @token = hash[:token]
       @new_password = hash[:new_password]
-    end
-
-    def to_h
-      {
-        token: token,
-        new_password: new_password
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

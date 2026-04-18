@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    DirectoryGroupsOrder = ApplicationsOrder
+    DirectoryGroupsOrder = EventsOrder
   end
 end

@@ -180,10 +180,7 @@ module WorkOS
         "code" => code,
         "code_verifier" => code_verifier
       }
-      response = @client.execute_request(
-        request: @client.post_request(path: "/sso/token", auth: false, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :post, path: "/sso/token", auth: false, body: body, request_options: request_options)
       WorkOS::SSOTokenResponse.new(response.body)
     end
 

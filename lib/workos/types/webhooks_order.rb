@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    WebhooksOrder = ApplicationsOrder
+    WebhooksOrder = EventsOrder
   end
 end

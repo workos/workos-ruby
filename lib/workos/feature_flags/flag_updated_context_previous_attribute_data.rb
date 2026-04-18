@@ -8,6 +8,14 @@ module WorkOS
   class FlagUpdatedContextPreviousAttributeData
     include HashProvider
 
+    HASH_ATTRS = {
+      name: :name,
+      description: :description,
+      tags: :tags,
+      enabled: :enabled,
+      default_value: :default_value
+    }.freeze
+
     attr_accessor \
       :name,
       :description,
@@ -23,24 +31,6 @@ module WorkOS
       @tags = hash[:tags] || []
       @enabled = hash[:enabled]
       @default_value = hash[:default_value]
-    end
-
-    def to_h
-      {
-        name: name,
-        description: description,
-        tags: tags,
-        enabled: enabled,
-        default_value: default_value
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

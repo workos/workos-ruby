@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    OrganizationsFeatureFlagsOrder = ApplicationsOrder
+    OrganizationsFeatureFlagsOrder = EventsOrder
   end
 end

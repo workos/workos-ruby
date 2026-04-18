@@ -8,6 +8,11 @@ module WorkOS
   class FlagDeletedContext
     include HashProvider
 
+    HASH_ATTRS = {
+      client_id: :client_id,
+      actor: :actor
+    }.freeze
+
     attr_accessor \
       :client_id,
       :actor
@@ -17,21 +22,6 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @client_id = hash[:client_id]
       @actor = hash[:actor] ? WorkOS::FlagDeletedContextActor.new(hash[:actor]) : nil
-    end
-
-    def to_h
-      {
-        client_id: client_id,
-        actor: actor&.to_h
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

@@ -8,6 +8,13 @@ module WorkOS
   class UpdateOAuthApplication
     include HashProvider
 
+    HASH_ATTRS = {
+      name: :name,
+      description: :description,
+      scopes: :scopes,
+      redirect_uris: :redirect_uris
+    }.freeze
+
     attr_accessor \
       :name,
       :description,
@@ -21,23 +28,6 @@ module WorkOS
       @description = hash[:description]
       @scopes = hash[:scopes] || []
       @redirect_uris = (hash[:redirect_uris] || []).map { |item| item ? WorkOS::RedirectUriInput.new(item) : nil }
-    end
-
-    def to_h
-      {
-        name: name,
-        description: description,
-        scopes: scopes,
-        redirect_uris: (redirect_uris || []).map(&:to_h)
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

@@ -8,6 +8,11 @@ module WorkOS
   class EmailChangeConfirmation
     include HashProvider
 
+    HASH_ATTRS = {
+      object: :object,
+      user: :user
+    }.freeze
+
     attr_accessor \
       :object,
       :user
@@ -17,21 +22,6 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @object = hash[:object]
       @user = hash[:user] ? WorkOS::EmailChangeConfirmationUser.new(hash[:user]) : nil
-    end
-
-    def to_h
-      {
-        object: object,
-        user: user&.to_h
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

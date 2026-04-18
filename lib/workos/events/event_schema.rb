@@ -8,6 +8,15 @@ module WorkOS
   class EventSchema
     include HashProvider
 
+    HASH_ATTRS = {
+      object: :object,
+      id: :id,
+      event: :event,
+      data: :data,
+      created_at: :created_at,
+      context: :context
+    }.freeze
+
     attr_accessor \
       :object,
       :id,
@@ -25,25 +34,6 @@ module WorkOS
       @data = hash[:data] || {}
       @created_at = hash[:created_at]
       @context = hash[:context] || {}
-    end
-
-    def to_h
-      {
-        object: object,
-        id: id,
-        event: event,
-        data: data,
-        created_at: created_at,
-        context: context
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class} id=#{@id}>"
     end
   end
 end

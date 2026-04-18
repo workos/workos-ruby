@@ -8,6 +8,20 @@ module WorkOS
   class UserOrganizationMembership
     include HashProvider
 
+    HASH_ATTRS = {
+      object: :object,
+      id: :id,
+      user_id: :user_id,
+      organization_id: :organization_id,
+      status: :status,
+      directory_managed: :directory_managed,
+      organization_name: :organization_name,
+      custom_attributes: :custom_attributes,
+      created_at: :created_at,
+      updated_at: :updated_at,
+      role: :role
+    }.freeze
+
     attr_accessor \
       :object,
       :id,
@@ -35,30 +49,6 @@ module WorkOS
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
       @role = hash[:role] ? WorkOS::SlimRole.new(hash[:role]) : nil
-    end
-
-    def to_h
-      {
-        object: object,
-        id: id,
-        user_id: user_id,
-        organization_id: organization_id,
-        status: status,
-        directory_managed: directory_managed,
-        organization_name: organization_name,
-        custom_attributes: custom_attributes,
-        created_at: created_at,
-        updated_at: updated_at,
-        role: role&.to_h
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class} id=#{@id}>"
     end
   end
 end

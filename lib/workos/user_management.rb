@@ -1189,10 +1189,7 @@ module WorkOS
         "ip_address" => ip_address,
         "user_agent" => user_agent
       }.compact
-      response = @client.execute_request(
-        request: @client.post_request(path: "/user_management/authenticate", auth: false, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :post, path: "/user_management/authenticate", auth: false, body: body, request_options: request_options)
       WorkOS::AuthenticateResponse.new(response.body)
     end
 
@@ -1202,10 +1199,7 @@ module WorkOS
       cid = client_id || @client.client_id
       raise ArgumentError, "client_id is required" if cid.nil? || cid.empty?
       body = {"client_id" => cid}
-      response = @client.execute_request(
-        request: @client.post_request(path: "/oauth2/device_authorization", auth: false, body: body, request_options: request_options),
-        request_options: request_options
-      )
+      response = @client.request(method: :post, path: "/oauth2/device_authorization", auth: false, body: body, request_options: request_options)
       WorkOS::DeviceAuthorizationResponse.new(response.body)
     end
 

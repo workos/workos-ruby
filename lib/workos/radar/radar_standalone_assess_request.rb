@@ -8,6 +8,16 @@ module WorkOS
   class RadarStandaloneAssessRequest
     include HashProvider
 
+    HASH_ATTRS = {
+      ip_address: :ip_address,
+      user_agent: :user_agent,
+      email: :email,
+      auth_method: :auth_method,
+      action: :action,
+      device_fingerprint: :device_fingerprint,
+      bot_score: :bot_score
+    }.freeze
+
     attr_accessor \
       :ip_address,
       :user_agent,
@@ -27,26 +37,6 @@ module WorkOS
       @action = hash[:action]
       @device_fingerprint = hash[:device_fingerprint]
       @bot_score = hash[:bot_score]
-    end
-
-    def to_h
-      {
-        ip_address: ip_address,
-        user_agent: user_agent,
-        email: email,
-        auth_method: auth_method,
-        action: action,
-        device_fingerprint: device_fingerprint,
-        bot_score: bot_score
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

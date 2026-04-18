@@ -8,6 +8,15 @@ module WorkOS
   class DeviceAuthorizationResponse
     include HashProvider
 
+    HASH_ATTRS = {
+      device_code: :device_code,
+      user_code: :user_code,
+      verification_uri: :verification_uri,
+      verification_uri_complete: :verification_uri_complete,
+      expires_in: :expires_in,
+      interval: :interval
+    }.freeze
+
     attr_accessor \
       :device_code,
       :user_code,
@@ -25,25 +34,6 @@ module WorkOS
       @verification_uri_complete = hash[:verification_uri_complete]
       @expires_in = hash[:expires_in]
       @interval = hash[:interval]
-    end
-
-    def to_h
-      {
-        device_code: device_code,
-        user_code: user_code,
-        verification_uri: verification_uri,
-        verification_uri_complete: verification_uri_complete,
-        expires_in: expires_in,
-        interval: interval
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

@@ -8,6 +8,12 @@ module WorkOS
   class ConnectionSAMLCertificateRenewalRequiredData
     include HashProvider
 
+    HASH_ATTRS = {
+      connection: :connection,
+      certificate: :certificate,
+      days_until_expiry: :days_until_expiry
+    }.freeze
+
     attr_accessor \
       :connection,
       :certificate,
@@ -19,22 +25,6 @@ module WorkOS
       @connection = hash[:connection] ? WorkOS::ConnectionSAMLCertificateRenewalRequiredDataConnection.new(hash[:connection]) : nil
       @certificate = hash[:certificate] ? WorkOS::ConnectionSAMLCertificateRenewalRequiredDataCertificate.new(hash[:certificate]) : nil
       @days_until_expiry = hash[:days_until_expiry]
-    end
-
-    def to_h
-      {
-        connection: connection&.to_h,
-        certificate: certificate&.to_h,
-        days_until_expiry: days_until_expiry
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

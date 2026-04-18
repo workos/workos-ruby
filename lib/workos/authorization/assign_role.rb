@@ -8,6 +8,13 @@ module WorkOS
   class AssignRole
     include HashProvider
 
+    HASH_ATTRS = {
+      role_slug: :role_slug,
+      resource_id: :resource_id,
+      resource_external_id: :resource_external_id,
+      resource_type_slug: :resource_type_slug
+    }.freeze
+
     attr_accessor \
       :role_slug,
       :resource_id,
@@ -21,23 +28,6 @@ module WorkOS
       @resource_id = hash[:resource_id]
       @resource_external_id = hash[:resource_external_id]
       @resource_type_slug = hash[:resource_type_slug]
-    end
-
-    def to_h
-      {
-        role_slug: role_slug,
-        resource_id: resource_id,
-        resource_external_id: resource_external_id,
-        resource_type_slug: resource_type_slug
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

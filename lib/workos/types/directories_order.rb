@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    DirectoriesOrder = ApplicationsOrder
+    DirectoriesOrder = EventsOrder
   end
 end

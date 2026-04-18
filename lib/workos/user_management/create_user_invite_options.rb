@@ -8,6 +8,15 @@ module WorkOS
   class CreateUserInviteOptions
     include HashProvider
 
+    HASH_ATTRS = {
+      email: :email,
+      organization_id: :organization_id,
+      role_slug: :role_slug,
+      expires_in_days: :expires_in_days,
+      inviter_user_id: :inviter_user_id,
+      locale: :locale
+    }.freeze
+
     attr_accessor \
       :email,
       :organization_id,
@@ -25,25 +34,6 @@ module WorkOS
       @expires_in_days = hash[:expires_in_days]
       @inviter_user_id = hash[:inviter_user_id]
       @locale = hash[:locale]
-    end
-
-    def to_h
-      {
-        email: email,
-        organization_id: organization_id,
-        role_slug: role_slug,
-        expires_in_days: expires_in_days,
-        inviter_user_id: inviter_user_id,
-        locale: locale
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

@@ -8,6 +8,28 @@ module WorkOS
   class DsyncUserUpdatedData
     include HashProvider
 
+    HASH_ATTRS = {
+      object: :object,
+      id: :id,
+      directory_id: :directory_id,
+      organization_id: :organization_id,
+      idp_id: :idp_id,
+      email: :email,
+      first_name: :first_name,
+      last_name: :last_name,
+      emails: :emails,
+      job_title: :job_title,
+      username: :username,
+      state: :state,
+      raw_attributes: :raw_attributes,
+      custom_attributes: :custom_attributes,
+      role: :role,
+      roles: :roles,
+      created_at: :created_at,
+      updated_at: :updated_at,
+      previous_attributes: :previous_attributes
+    }.freeze
+
     # @!attribute emails
     #   @deprecated A list of email addresses for the user.
     # @!attribute job_title
@@ -84,38 +106,6 @@ module WorkOS
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
       @previous_attributes = hash[:previous_attributes] || {}
-    end
-
-    def to_h
-      {
-        object: object,
-        id: id,
-        directory_id: directory_id,
-        organization_id: organization_id,
-        idp_id: idp_id,
-        email: email,
-        first_name: first_name,
-        last_name: last_name,
-        emails: (@emails || []).map(&:to_h),
-        job_title: @job_title,
-        username: @username,
-        state: state,
-        raw_attributes: @raw_attributes,
-        custom_attributes: custom_attributes,
-        role: role&.to_h,
-        roles: (roles || []).map(&:to_h),
-        created_at: created_at,
-        updated_at: updated_at,
-        previous_attributes: previous_attributes
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class} id=#{@id}>"
     end
   end
 end

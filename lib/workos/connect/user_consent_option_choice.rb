@@ -8,6 +8,11 @@ module WorkOS
   class UserConsentOptionChoice
     include HashProvider
 
+    HASH_ATTRS = {
+      value: :value,
+      label: :label
+    }.freeze
+
     attr_accessor \
       :value,
       :label
@@ -17,21 +22,6 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @value = hash[:value]
       @label = hash[:label]
-    end
-
-    def to_h
-      {
-        value: value,
-        label: label
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

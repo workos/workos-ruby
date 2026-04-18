@@ -8,6 +8,11 @@ module WorkOS
   class CreateMagicCodeAndReturn
     include HashProvider
 
+    HASH_ATTRS = {
+      email: :email,
+      invitation_token: :invitation_token
+    }.freeze
+
     attr_accessor \
       :email,
       :invitation_token
@@ -17,21 +22,6 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @email = hash[:email]
       @invitation_token = hash[:invitation_token]
-    end
-
-    def to_h
-      {
-        email: email,
-        invitation_token: invitation_token
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

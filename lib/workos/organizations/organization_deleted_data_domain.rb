@@ -8,6 +8,19 @@ module WorkOS
   class OrganizationDeletedDataDomain
     include HashProvider
 
+    HASH_ATTRS = {
+      object: :object,
+      id: :id,
+      organization_id: :organization_id,
+      domain: :domain,
+      state: :state,
+      verification_prefix: :verification_prefix,
+      verification_token: :verification_token,
+      verification_strategy: :verification_strategy,
+      created_at: :created_at,
+      updated_at: :updated_at
+    }.freeze
+
     attr_accessor \
       :object,
       :id,
@@ -33,29 +46,6 @@ module WorkOS
       @verification_strategy = hash[:verification_strategy]
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
-    end
-
-    def to_h
-      {
-        object: object,
-        id: id,
-        organization_id: organization_id,
-        domain: domain,
-        state: state,
-        verification_prefix: verification_prefix,
-        verification_token: verification_token,
-        verification_strategy: verification_strategy,
-        created_at: created_at,
-        updated_at: updated_at
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class} id=#{@id}>"
     end
   end
 end

@@ -8,6 +8,12 @@ module WorkOS
   class DsyncGroupUserAddedData
     include HashProvider
 
+    HASH_ATTRS = {
+      directory_id: :directory_id,
+      user: :user,
+      group: :group
+    }.freeze
+
     attr_accessor \
       :directory_id,
       :user,
@@ -19,22 +25,6 @@ module WorkOS
       @directory_id = hash[:directory_id]
       @user = hash[:user] ? WorkOS::DirectoryUser.new(hash[:user]) : nil
       @group = hash[:group] ? WorkOS::DirectoryGroup.new(hash[:group]) : nil
-    end
-
-    def to_h
-      {
-        directory_id: directory_id,
-        user: user&.to_h,
-        group: group&.to_h
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

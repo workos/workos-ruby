@@ -8,6 +8,16 @@ module WorkOS
   class AuthenticationSSOSucceededData
     include HashProvider
 
+    HASH_ATTRS = {
+      type: :type,
+      status: :status,
+      ip_address: :ip_address,
+      user_agent: :user_agent,
+      user_id: :user_id,
+      email: :email,
+      sso: :sso
+    }.freeze
+
     attr_accessor \
       :type,
       :status,
@@ -27,26 +37,6 @@ module WorkOS
       @user_id = hash[:user_id]
       @email = hash[:email]
       @sso = hash[:sso] ? WorkOS::AuthenticationSSOSucceededDataSSO.new(hash[:sso]) : nil
-    end
-
-    def to_h
-      {
-        type: type,
-        status: status,
-        ip_address: ip_address,
-        user_agent: user_agent,
-        user_id: user_id,
-        email: email,
-        sso: sso&.to_h
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

@@ -8,6 +8,11 @@ module WorkOS
   class AuthenticationFactorTotp
     include HashProvider
 
+    HASH_ATTRS = {
+      issuer: :issuer,
+      user: :user
+    }.freeze
+
     attr_accessor \
       :issuer,
       :user
@@ -17,21 +22,6 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @issuer = hash[:issuer]
       @user = hash[:user]
-    end
-
-    def to_h
-      {
-        issuer: issuer,
-        user: user
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

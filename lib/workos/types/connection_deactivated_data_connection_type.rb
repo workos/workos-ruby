@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    ConnectionDeactivatedDataConnectionType = ConnectionActivatedDataConnectionType
+    ConnectionDeactivatedDataConnectionType = ConnectionDeletedDataConnectionType
   end
 end

@@ -8,6 +8,17 @@ module WorkOS
   class AuthenticationFactorEnrolled
     include HashProvider
 
+    HASH_ATTRS = {
+      object: :object,
+      id: :id,
+      type: :type,
+      user_id: :user_id,
+      sms: :sms,
+      totp: :totp,
+      created_at: :created_at,
+      updated_at: :updated_at
+    }.freeze
+
     attr_accessor \
       :object,
       :id,
@@ -29,27 +40,6 @@ module WorkOS
       @totp = hash[:totp] ? WorkOS::AuthenticationFactorEnrolledTotp.new(hash[:totp]) : nil
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
-    end
-
-    def to_h
-      {
-        object: object,
-        id: id,
-        type: type,
-        user_id: user_id,
-        sms: sms&.to_h,
-        totp: totp&.to_h,
-        created_at: created_at,
-        updated_at: updated_at
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class} id=#{@id}>"
     end
   end
 end

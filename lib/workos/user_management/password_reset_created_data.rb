@@ -8,6 +8,15 @@ module WorkOS
   class PasswordResetCreatedData
     include HashProvider
 
+    HASH_ATTRS = {
+      object: :object,
+      id: :id,
+      user_id: :user_id,
+      email: :email,
+      expires_at: :expires_at,
+      created_at: :created_at
+    }.freeze
+
     attr_accessor \
       :object,
       :id,
@@ -25,25 +34,6 @@ module WorkOS
       @email = hash[:email]
       @expires_at = hash[:expires_at]
       @created_at = hash[:created_at]
-    end
-
-    def to_h
-      {
-        object: object,
-        id: id,
-        user_id: user_id,
-        email: email,
-        expires_at: expires_at,
-        created_at: created_at
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class} id=#{@id}>"
     end
   end
 end

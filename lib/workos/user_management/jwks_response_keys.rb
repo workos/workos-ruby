@@ -8,6 +8,17 @@ module WorkOS
   class JwksResponseKeys
     include HashProvider
 
+    HASH_ATTRS = {
+      :alg => :alg,
+      :kty => :kty,
+      :use => :use,
+      :x5c => :x_5_c,
+      :n => :n,
+      :e => :e,
+      :kid => :kid,
+      "x5t#S256" => :x_5_t_s_256
+    }.freeze
+
     attr_accessor \
       :alg,
       :kty,
@@ -29,27 +40,6 @@ module WorkOS
       @e = hash[:e]
       @kid = hash[:kid]
       @x_5_t_s_256 = hash[:"x5t#S256"]
-    end
-
-    def to_h
-      {
-        :alg => alg,
-        :kty => kty,
-        :use => use,
-        :x5c => x_5_c,
-        :n => n,
-        :e => e,
-        :kid => kid,
-        "x5t#S256" => x_5_t_s_256
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

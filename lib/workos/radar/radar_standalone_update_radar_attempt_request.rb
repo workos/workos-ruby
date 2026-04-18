@@ -8,6 +8,11 @@ module WorkOS
   class RadarStandaloneUpdateRadarAttemptRequest
     include HashProvider
 
+    HASH_ATTRS = {
+      challenge_status: :challenge_status,
+      attempt_status: :attempt_status
+    }.freeze
+
     attr_accessor \
       :challenge_status,
       :attempt_status
@@ -17,21 +22,6 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @challenge_status = hash[:challenge_status]
       @attempt_status = hash[:attempt_status]
-    end
-
-    def to_h
-      {
-        challenge_status: challenge_status,
-        attempt_status: attempt_status
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

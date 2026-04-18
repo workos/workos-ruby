@@ -8,6 +8,14 @@ module WorkOS
   class AuditLogConfigurationLogStream
     include HashProvider
 
+    HASH_ATTRS = {
+      id: :id,
+      type: :type,
+      state: :state,
+      last_synced_at: :last_synced_at,
+      created_at: :created_at
+    }.freeze
+
     attr_accessor \
       :id,
       :type,
@@ -23,24 +31,6 @@ module WorkOS
       @state = hash[:state]
       @last_synced_at = hash[:last_synced_at]
       @created_at = hash[:created_at]
-    end
-
-    def to_h
-      {
-        id: id,
-        type: type,
-        state: state,
-        last_synced_at: last_synced_at,
-        created_at: created_at
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class} id=#{@id}>"
     end
   end
 end

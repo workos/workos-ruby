@@ -8,6 +8,11 @@ module WorkOS
   class DirectoryMetadataUser
     include HashProvider
 
+    HASH_ATTRS = {
+      active: :active,
+      inactive: :inactive
+    }.freeze
+
     attr_accessor \
       :active,
       :inactive
@@ -17,21 +22,6 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @active = hash[:active]
       @inactive = hash[:inactive]
-    end
-
-    def to_h
-      {
-        active: active,
-        inactive: inactive
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

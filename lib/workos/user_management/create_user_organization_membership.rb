@@ -8,6 +8,13 @@ module WorkOS
   class CreateUserOrganizationMembership
     include HashProvider
 
+    HASH_ATTRS = {
+      user_id: :user_id,
+      organization_id: :organization_id,
+      role_slug: :role_slug,
+      role_slugs: :role_slugs
+    }.freeze
+
     attr_accessor \
       :user_id,
       :organization_id,
@@ -21,23 +28,6 @@ module WorkOS
       @organization_id = hash[:organization_id]
       @role_slug = hash[:role_slug]
       @role_slugs = hash[:role_slugs] || []
-    end
-
-    def to_h
-      {
-        user_id: user_id,
-        organization_id: organization_id,
-        role_slug: role_slug,
-        role_slugs: role_slugs
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

@@ -8,6 +8,16 @@ module WorkOS
   class UpdateOrganization
     include HashProvider
 
+    HASH_ATTRS = {
+      name: :name,
+      allow_profiles_outside_organization: :allow_profiles_outside_organization,
+      domains: :domains,
+      domain_data: :domain_data,
+      stripe_customer_id: :stripe_customer_id,
+      metadata: :metadata,
+      external_id: :external_id
+    }.freeze
+
     # @!attribute domains
     #   @deprecated The domains associated with the organization. Deprecated in favor of `domain_data`.
 
@@ -36,26 +46,6 @@ module WorkOS
       @stripe_customer_id = hash[:stripe_customer_id]
       @metadata = hash[:metadata] || {}
       @external_id = hash[:external_id]
-    end
-
-    def to_h
-      {
-        name: name,
-        allow_profiles_outside_organization: allow_profiles_outside_organization,
-        domains: @domains,
-        domain_data: (domain_data || []).map(&:to_h),
-        stripe_customer_id: stripe_customer_id,
-        metadata: metadata,
-        external_id: external_id
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

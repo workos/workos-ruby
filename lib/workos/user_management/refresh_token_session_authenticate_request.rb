@@ -8,6 +8,17 @@ module WorkOS
   class RefreshTokenSessionAuthenticateRequest
     include HashProvider
 
+    HASH_ATTRS = {
+      client_id: :client_id,
+      client_secret: :client_secret,
+      grant_type: :grant_type,
+      refresh_token: :refresh_token,
+      organization_id: :organization_id,
+      ip_address: :ip_address,
+      device_id: :device_id,
+      user_agent: :user_agent
+    }.freeze
+
     attr_accessor \
       :client_id,
       :client_secret,
@@ -29,27 +40,6 @@ module WorkOS
       @ip_address = hash[:ip_address]
       @device_id = hash[:device_id]
       @user_agent = hash[:user_agent]
-    end
-
-    def to_h
-      {
-        client_id: client_id,
-        client_secret: client_secret,
-        grant_type: grant_type,
-        refresh_token: refresh_token,
-        organization_id: organization_id,
-        ip_address: ip_address,
-        device_id: device_id,
-        user_agent: user_agent
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

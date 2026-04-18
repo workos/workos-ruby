@@ -8,6 +8,11 @@ module WorkOS
   class CreateWebhookEndpoint
     include HashProvider
 
+    HASH_ATTRS = {
+      endpoint_url: :endpoint_url,
+      events: :events
+    }.freeze
+
     attr_accessor \
       :endpoint_url,
       :events
@@ -17,21 +22,6 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @endpoint_url = hash[:endpoint_url]
       @events = hash[:events] || []
-    end
-
-    def to_h
-      {
-        endpoint_url: endpoint_url,
-        events: events
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

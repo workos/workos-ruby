@@ -8,6 +8,15 @@ module WorkOS
   class ActionAuthenticationDenied
     include HashProvider
 
+    HASH_ATTRS = {
+      id: :id,
+      event: :event,
+      data: :data,
+      context: :context,
+      created_at: :created_at,
+      object: :object
+    }.freeze
+
     attr_accessor \
       :id,
       :event,
@@ -25,25 +34,6 @@ module WorkOS
       @context = hash[:context] ? WorkOS::EventContext.new(hash[:context]) : nil
       @created_at = hash[:created_at]
       @object = hash[:object]
-    end
-
-    def to_h
-      {
-        id: id,
-        event: event,
-        data: data&.to_h,
-        context: context&.to_h,
-        created_at: created_at,
-        object: object
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class} id=#{@id}>"
     end
   end
 end

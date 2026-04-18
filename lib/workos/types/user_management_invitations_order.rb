@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    UserManagementInvitationsOrder = ApplicationsOrder
+    UserManagementInvitationsOrder = EventsOrder
   end
 end

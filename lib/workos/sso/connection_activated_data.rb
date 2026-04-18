@@ -8,6 +8,20 @@ module WorkOS
   class ConnectionActivatedData
     include HashProvider
 
+    HASH_ATTRS = {
+      object: :object,
+      id: :id,
+      state: :state,
+      name: :name,
+      connection_type: :connection_type,
+      organization_id: :organization_id,
+      created_at: :created_at,
+      updated_at: :updated_at,
+      external_key: :external_key,
+      status: :status,
+      domains: :domains
+    }.freeze
+
     attr_accessor \
       :object,
       :id,
@@ -35,30 +49,6 @@ module WorkOS
       @external_key = hash[:external_key]
       @status = hash[:status]
       @domains = (hash[:domains] || []).map { |item| item ? WorkOS::ConnectionActivatedDataDomain.new(item) : nil }
-    end
-
-    def to_h
-      {
-        object: object,
-        id: id,
-        state: state,
-        name: name,
-        connection_type: connection_type,
-        organization_id: organization_id,
-        created_at: created_at,
-        updated_at: updated_at,
-        external_key: external_key,
-        status: status,
-        domains: (domains || []).map(&:to_h)
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class} id=#{@id}>"
     end
   end
 end

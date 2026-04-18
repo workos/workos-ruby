@@ -8,6 +8,22 @@ module WorkOS
   class EmailChangeConfirmationUser
     include HashProvider
 
+    HASH_ATTRS = {
+      object: :object,
+      id: :id,
+      first_name: :first_name,
+      last_name: :last_name,
+      profile_picture_url: :profile_picture_url,
+      email: :email,
+      email_verified: :email_verified,
+      external_id: :external_id,
+      metadata: :metadata,
+      last_sign_in_at: :last_sign_in_at,
+      locale: :locale,
+      created_at: :created_at,
+      updated_at: :updated_at
+    }.freeze
+
     attr_accessor \
       :object,
       :id,
@@ -39,32 +55,6 @@ module WorkOS
       @locale = hash[:locale]
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
-    end
-
-    def to_h
-      {
-        object: object,
-        id: id,
-        first_name: first_name,
-        last_name: last_name,
-        profile_picture_url: profile_picture_url,
-        email: email,
-        email_verified: email_verified,
-        external_id: external_id,
-        metadata: metadata,
-        last_sign_in_at: last_sign_in_at,
-        locale: locale,
-        created_at: created_at,
-        updated_at: updated_at
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class} id=#{@id}>"
     end
   end
 end

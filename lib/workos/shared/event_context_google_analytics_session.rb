@@ -8,6 +8,12 @@ module WorkOS
   class EventContextGoogleAnalyticsSession
     include HashProvider
 
+    HASH_ATTRS = {
+      containerId: :container_id,
+      sessionId: :session_id,
+      sessionNumber: :session_number
+    }.freeze
+
     attr_accessor \
       :container_id,
       :session_id,
@@ -19,22 +25,6 @@ module WorkOS
       @container_id = hash[:containerId]
       @session_id = hash[:sessionId]
       @session_number = hash[:sessionNumber]
-    end
-
-    def to_h
-      {
-        containerId: container_id,
-        sessionId: session_id,
-        sessionNumber: session_number
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

@@ -8,6 +8,20 @@ module WorkOS
   class Directory
     include HashProvider
 
+    HASH_ATTRS = {
+      object: :object,
+      id: :id,
+      organization_id: :organization_id,
+      external_key: :external_key,
+      type: :type,
+      state: :state,
+      name: :name,
+      domain: :domain,
+      metadata: :metadata,
+      created_at: :created_at,
+      updated_at: :updated_at
+    }.freeze
+
     attr_accessor \
       :object,
       :id,
@@ -35,30 +49,6 @@ module WorkOS
       @metadata = hash[:metadata] ? WorkOS::DirectoryMetadata.new(hash[:metadata]) : nil
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
-    end
-
-    def to_h
-      {
-        object: object,
-        id: id,
-        organization_id: organization_id,
-        external_key: external_key,
-        type: type,
-        state: state,
-        name: name,
-        domain: domain,
-        metadata: metadata&.to_h,
-        created_at: created_at,
-        updated_at: updated_at
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class} id=#{@id}>"
     end
   end
 end

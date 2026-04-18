@@ -8,6 +8,13 @@ module WorkOS
   class EnrollUserAuthenticationFactor
     include HashProvider
 
+    HASH_ATTRS = {
+      type: :type,
+      totp_issuer: :totp_issuer,
+      totp_user: :totp_user,
+      totp_secret: :totp_secret
+    }.freeze
+
     attr_accessor \
       :type,
       :totp_issuer,
@@ -21,23 +28,6 @@ module WorkOS
       @totp_issuer = hash[:totp_issuer]
       @totp_user = hash[:totp_user]
       @totp_secret = hash[:totp_secret]
-    end
-
-    def to_h
-      {
-        type: type,
-        totp_issuer: totp_issuer,
-        totp_user: totp_user,
-        totp_secret: totp_secret
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

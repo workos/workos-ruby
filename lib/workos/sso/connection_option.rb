@@ -8,26 +8,16 @@ module WorkOS
   class ConnectionOption
     include HashProvider
 
+    HASH_ATTRS = {
+      signing_cert: :signing_cert
+    }.freeze
+
     attr_accessor :signing_cert
 
     def initialize(json)
       hash = json.is_a?(Hash) ? json : JSON.parse(json, symbolize_names: true)
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @signing_cert = hash[:signing_cert]
-    end
-
-    def to_h
-      {
-        signing_cert: signing_cert
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

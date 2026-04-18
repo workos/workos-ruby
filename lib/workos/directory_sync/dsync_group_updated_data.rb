@@ -8,6 +8,19 @@ module WorkOS
   class DsyncGroupUpdatedData
     include HashProvider
 
+    HASH_ATTRS = {
+      object: :object,
+      id: :id,
+      idp_id: :idp_id,
+      directory_id: :directory_id,
+      organization_id: :organization_id,
+      name: :name,
+      raw_attributes: :raw_attributes,
+      created_at: :created_at,
+      updated_at: :updated_at,
+      previous_attributes: :previous_attributes
+    }.freeze
+
     attr_accessor \
       :object,
       :id,
@@ -33,29 +46,6 @@ module WorkOS
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
       @previous_attributes = hash[:previous_attributes] || {}
-    end
-
-    def to_h
-      {
-        object: object,
-        id: id,
-        idp_id: idp_id,
-        directory_id: directory_id,
-        organization_id: organization_id,
-        name: name,
-        raw_attributes: raw_attributes,
-        created_at: created_at,
-        updated_at: updated_at,
-        previous_attributes: previous_attributes
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class} id=#{@id}>"
     end
   end
 end

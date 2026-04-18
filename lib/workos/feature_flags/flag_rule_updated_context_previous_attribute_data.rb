@@ -8,6 +8,11 @@ module WorkOS
   class FlagRuleUpdatedContextPreviousAttributeData
     include HashProvider
 
+    HASH_ATTRS = {
+      enabled: :enabled,
+      default_value: :default_value
+    }.freeze
+
     attr_accessor \
       :enabled,
       :default_value
@@ -17,21 +22,6 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @enabled = hash[:enabled]
       @default_value = hash[:default_value]
-    end
-
-    def to_h
-      {
-        enabled: enabled,
-        default_value: default_value
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

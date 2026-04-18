@@ -31,7 +31,7 @@ module WorkOS
         "order" => order
       }.compact
       response = @client.request(method: :get, path: "/webhook_endpoints", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::WebhookEndpointJson, filters: {before: before, limit: limit, order: order}) do |cursor|
+      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::WebhookEndpoint, filters: {before: before, limit: limit, order: order}) do |cursor|
         list_webhook_endpoints(
           before: before,
           after: cursor,
@@ -46,7 +46,7 @@ module WorkOS
     # @param endpoint_url [String] The HTTPS URL where webhooks will be sent.
     # @param events [Array<WorkOS::Types::CreateWebhookEndpointEvents>] The events that the Webhook Endpoint is subscribed to.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::WebhookEndpointJson]
+    # @return [WorkOS::WebhookEndpoint]
     def create_webhook_endpoint(
       endpoint_url:,
       events:,
@@ -57,7 +57,7 @@ module WorkOS
         "events" => events
       }.compact
       response = @client.request(method: :post, path: "/webhook_endpoints", auth: true, body: body, request_options: request_options)
-      WorkOS::WebhookEndpointJson.new(response.body)
+      WorkOS::WebhookEndpoint.new(response.body)
     end
 
     # Update a Webhook Endpoint
@@ -66,7 +66,7 @@ module WorkOS
     # @param status [WorkOS::Types::UpdateWebhookEndpointStatus, nil] Whether the Webhook Endpoint is enabled or disabled.
     # @param events [Array<WorkOS::Types::UpdateWebhookEndpointEvents>, nil] The events that the Webhook Endpoint is subscribed to.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::WebhookEndpointJson]
+    # @return [WorkOS::WebhookEndpoint]
     def update_webhook_endpoint(
       id:,
       endpoint_url: nil,
@@ -80,7 +80,7 @@ module WorkOS
         "events" => events
       }.compact
       response = @client.request(method: :patch, path: "/webhook_endpoints/#{WorkOS::Util.encode_path(id)}", auth: true, body: body, request_options: request_options)
-      WorkOS::WebhookEndpointJson.new(response.body)
+      WorkOS::WebhookEndpoint.new(response.body)
     end
 
     # Delete a Webhook Endpoint
@@ -152,29 +152,21 @@ module WorkOS
     # Compute the HMAC-SHA256 hex signature for a (timestamp, payload) pair.
     # Exposed publicly so users can build their own verification flow.
     def compute_signature(payload:, timestamp:, secret:)
-      OpenSSL::HMAC.hexdigest("SHA256", secret, "#{timestamp}.#{payload}")
+      WorkOS::Util::Signature.compute(payload: payload, timestamp: timestamp, secret: secret)
     end
 
     # Parse a "t=<ms>, v1=<sig>" header into [timestamp, signature].
     # Exposed publicly for advanced use.
     def parse_signature_header(sig_header)
-      raise WorkOS::SignatureVerificationError.new(message: "Signature header missing", http_status: nil) if sig_header.nil? || sig_header.empty?
-      parts = sig_header.split(",").map(&:strip)
-      t_part = parts.find { |p| p.start_with?("t=") }
-      v_part = parts.find { |p| p.start_with?("v1=") }
-      raise WorkOS::SignatureVerificationError.new(message: "Unable to extract timestamp and signature hash from header", http_status: nil) unless t_part && v_part
-      [t_part.sub(/\At=/, ""), v_part.sub(/\Av1=/, "")]
+      WorkOS::Util::Signature.parse_header(sig_header)
+    rescue ArgumentError => e
+      raise WorkOS::SignatureVerificationError.new(message: e.message, http_status: nil)
     end
 
     private
 
     def secure_compare(a, b)
-      return false if a.bytesize != b.bytesize
-      l = a.unpack("C*")
-      r = 0
-      i = -1
-      b.each_byte { |byte| r |= byte ^ l[i += 1] }
-      r.zero?
+      WorkOS::Util::Signature.secure_compare(a, b)
     end
     # @oagen-ignore-end
   end

@@ -8,6 +8,11 @@ module WorkOS
   class OrganizationDomainData
     include HashProvider
 
+    HASH_ATTRS = {
+      domain: :domain,
+      state: :state
+    }.freeze
+
     attr_accessor \
       :domain,
       :state
@@ -17,21 +22,6 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @domain = hash[:domain]
       @state = hash[:state]
-    end
-
-    def to_h
-      {
-        domain: domain,
-        state: state
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

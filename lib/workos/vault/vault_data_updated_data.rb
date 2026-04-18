@@ -8,6 +8,15 @@ module WorkOS
   class VaultDataUpdatedData
     include HashProvider
 
+    HASH_ATTRS = {
+      actor_id: :actor_id,
+      actor_source: :actor_source,
+      actor_name: :actor_name,
+      kv_name: :kv_name,
+      key_id: :key_id,
+      key_context: :key_context
+    }.freeze
+
     attr_accessor \
       :actor_id,
       :actor_source,
@@ -25,25 +34,6 @@ module WorkOS
       @kv_name = hash[:kv_name]
       @key_id = hash[:key_id]
       @key_context = hash[:key_context] || {}
-    end
-
-    def to_h
-      {
-        actor_id: actor_id,
-        actor_source: actor_source,
-        actor_name: actor_name,
-        kv_name: kv_name,
-        key_id: key_id,
-        key_context: key_context
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

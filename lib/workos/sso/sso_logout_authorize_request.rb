@@ -8,26 +8,16 @@ module WorkOS
   class SSOLogoutAuthorizeRequest
     include HashProvider
 
+    HASH_ATTRS = {
+      profile_id: :profile_id
+    }.freeze
+
     attr_accessor :profile_id
 
     def initialize(json)
       hash = json.is_a?(Hash) ? json : JSON.parse(json, symbolize_names: true)
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @profile_id = hash[:profile_id]
-    end
-
-    def to_h
-      {
-        profile_id: profile_id
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

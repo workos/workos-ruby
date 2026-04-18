@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    AuditLogsOrder = ApplicationsOrder
+    AuditLogsOrder = EventsOrder
   end
 end

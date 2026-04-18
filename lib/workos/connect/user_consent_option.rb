@@ -8,6 +8,13 @@ module WorkOS
   class UserConsentOption
     include HashProvider
 
+    HASH_ATTRS = {
+      claim: :claim,
+      type: :type,
+      label: :label,
+      choices: :choices
+    }.freeze
+
     attr_accessor \
       :claim,
       :type,
@@ -21,23 +28,6 @@ module WorkOS
       @type = hash[:type]
       @label = hash[:label]
       @choices = (hash[:choices] || []).map { |item| item ? WorkOS::UserConsentOptionChoice.new(item) : nil }
-    end
-
-    def to_h
-      {
-        claim: claim,
-        type: type,
-        label: label,
-        choices: (choices || []).map(&:to_h)
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

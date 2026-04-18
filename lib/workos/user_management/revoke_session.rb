@@ -8,6 +8,11 @@ module WorkOS
   class RevokeSession
     include HashProvider
 
+    HASH_ATTRS = {
+      session_id: :session_id,
+      return_to: :return_to
+    }.freeze
+
     attr_accessor \
       :session_id,
       :return_to
@@ -17,21 +22,6 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @session_id = hash[:session_id]
       @return_to = hash[:return_to]
-    end
-
-    def to_h
-      {
-        session_id: session_id,
-        return_to: return_to
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

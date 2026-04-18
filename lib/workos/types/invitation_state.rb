@@ -4,6 +4,12 @@
 
 module WorkOS
   module Types
-    InvitationState = InvitationAcceptedDataState
+    class InvitationState
+      PENDING = "pending"
+      ACCEPTED = "accepted"
+      EXPIRED = "expired"
+      REVOKED = "revoked"
+      ALL = [PENDING, ACCEPTED, EXPIRED, REVOKED].freeze
+    end
   end
 end

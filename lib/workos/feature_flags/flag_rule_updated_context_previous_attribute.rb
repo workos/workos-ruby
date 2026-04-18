@@ -8,6 +8,11 @@ module WorkOS
   class FlagRuleUpdatedContextPreviousAttribute
     include HashProvider
 
+    HASH_ATTRS = {
+      data: :data,
+      context: :context
+    }.freeze
+
     attr_accessor \
       :data,
       :context
@@ -17,21 +22,6 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @data = hash[:data] ? WorkOS::FlagRuleUpdatedContextPreviousAttributeData.new(hash[:data]) : nil
       @context = hash[:context] ? WorkOS::FlagRuleUpdatedContextPreviousAttributeContext.new(hash[:context]) : nil
-    end
-
-    def to_h
-      {
-        data: data&.to_h,
-        context: context&.to_h
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

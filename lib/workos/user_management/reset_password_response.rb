@@ -8,26 +8,16 @@ module WorkOS
   class ResetPasswordResponse
     include HashProvider
 
+    HASH_ATTRS = {
+      user: :user
+    }.freeze
+
     attr_accessor :user
 
     def initialize(json)
       hash = json.is_a?(Hash) ? json : JSON.parse(json, symbolize_names: true)
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @user = hash[:user] ? WorkOS::User.new(hash[:user]) : nil
-    end
-
-    def to_h
-      {
-        user: user&.to_h
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

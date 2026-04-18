@@ -8,6 +8,17 @@ module WorkOS
   class CreateOAuthApplication
     include HashProvider
 
+    HASH_ATTRS = {
+      name: :name,
+      application_type: :application_type,
+      description: :description,
+      scopes: :scopes,
+      redirect_uris: :redirect_uris,
+      uses_pkce: :uses_pkce,
+      is_first_party: :is_first_party,
+      organization_id: :organization_id
+    }.freeze
+
     attr_accessor \
       :name,
       :application_type,
@@ -29,27 +40,6 @@ module WorkOS
       @uses_pkce = hash[:uses_pkce]
       @is_first_party = hash[:is_first_party]
       @organization_id = hash[:organization_id]
-    end
-
-    def to_h
-      {
-        name: name,
-        application_type: application_type,
-        description: description,
-        scopes: scopes,
-        redirect_uris: (redirect_uris || []).map(&:to_h),
-        uses_pkce: uses_pkce,
-        is_first_party: is_first_party,
-        organization_id: organization_id
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

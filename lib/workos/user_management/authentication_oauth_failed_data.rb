@@ -8,6 +8,16 @@ module WorkOS
   class AuthenticationOAuthFailedData
     include HashProvider
 
+    HASH_ATTRS = {
+      type: :type,
+      status: :status,
+      ip_address: :ip_address,
+      user_agent: :user_agent,
+      user_id: :user_id,
+      email: :email,
+      error: :error
+    }.freeze
+
     attr_accessor \
       :type,
       :status,
@@ -27,26 +37,6 @@ module WorkOS
       @user_id = hash[:user_id]
       @email = hash[:email]
       @error = hash[:error] ? WorkOS::AuthenticationOAuthFailedDataError.new(hash[:error]) : nil
-    end
-
-    def to_h
-      {
-        type: type,
-        status: status,
-        ip_address: ip_address,
-        user_agent: user_agent,
-        user_id: user_id,
-        email: email,
-        error: error&.to_h
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

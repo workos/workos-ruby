@@ -8,6 +8,17 @@ module WorkOS
   class AuthenticateResponse
     include HashProvider
 
+    HASH_ATTRS = {
+      user: :user,
+      organization_id: :organization_id,
+      authkit_authorization_code: :authkit_authorization_code,
+      access_token: :access_token,
+      refresh_token: :refresh_token,
+      authentication_method: :authentication_method,
+      impersonator: :impersonator,
+      oauth_tokens: :oauth_tokens
+    }.freeze
+
     attr_accessor \
       :user,
       :organization_id,
@@ -29,27 +40,6 @@ module WorkOS
       @authentication_method = hash[:authentication_method]
       @impersonator = hash[:impersonator] ? WorkOS::AuthenticateResponseImpersonator.new(hash[:impersonator]) : nil
       @oauth_tokens = hash[:oauth_tokens] ? WorkOS::AuthenticateResponseOAuthToken.new(hash[:oauth_tokens]) : nil
-    end
-
-    def to_h
-      {
-        user: user&.to_h,
-        organization_id: organization_id,
-        authkit_authorization_code: authkit_authorization_code,
-        access_token: access_token,
-        refresh_token: refresh_token,
-        authentication_method: authentication_method,
-        impersonator: impersonator&.to_h,
-        oauth_tokens: oauth_tokens&.to_h
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

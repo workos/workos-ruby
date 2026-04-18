@@ -8,6 +8,12 @@ module WorkOS
   class DataIntegrationsGetDataIntegrationAuthorizeUrlRequest
     include HashProvider
 
+    HASH_ATTRS = {
+      user_id: :user_id,
+      organization_id: :organization_id,
+      return_to: :return_to
+    }.freeze
+
     attr_accessor \
       :user_id,
       :organization_id,
@@ -19,22 +25,6 @@ module WorkOS
       @user_id = hash[:user_id]
       @organization_id = hash[:organization_id]
       @return_to = hash[:return_to]
-    end
-
-    def to_h
-      {
-        user_id: user_id,
-        organization_id: organization_id,
-        return_to: return_to
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

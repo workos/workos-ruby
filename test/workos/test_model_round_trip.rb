@@ -860,7 +860,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["success"], json[:success]
   end
 
-  def test_audit_log_export_json_round_trip
+  def test_audit_log_export_round_trip
     fixture = {
       "object" => "audit_log_export",
       "id" => "stub",
@@ -869,7 +869,7 @@ class ModelRoundTripTest < Minitest::Test
       "created_at" => "stub",
       "updated_at" => "stub"
     }
-    model = WorkOS::AuditLogExportJson.new(fixture.to_json)
+    model = WorkOS::AuditLogExport.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
@@ -877,33 +877,17 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["updated_at"], json[:updated_at]
   end
 
-  def test_audit_logs_retention_json_round_trip
+  def test_audit_logs_retention_round_trip
     fixture = {
       "retention_period_in_days" => nil
     }
-    model = WorkOS::AuditLogsRetentionJson.new(fixture.to_json)
+    model = WorkOS::AuditLogsRetention.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
     assert_nil json[:retention_period_in_days]
   end
 
-  def test_audit_log_schema_json_round_trip
-    fixture = {
-      "object" => "audit_log_schema",
-      "version" => 1,
-      "actor" => {},
-      "targets" => [],
-      "metadata" => {},
-      "created_at" => "stub"
-    }
-    model = WorkOS::AuditLogSchemaJson.new(fixture.to_json)
-    json = model.to_h
-    assert_kind_of Hash, json
-    assert_equal fixture["version"], json[:version]
-    assert_equal fixture["created_at"], json[:created_at]
-  end
-
-  def test_audit_log_action_json_round_trip
+  def test_audit_log_action_round_trip
     fixture = {
       "object" => "audit_log_action",
       "name" => "stub",
@@ -911,7 +895,7 @@ class ModelRoundTripTest < Minitest::Test
       "created_at" => "stub",
       "updated_at" => "stub"
     }
-    model = WorkOS::AuditLogActionJson.new(fixture.to_json)
+    model = WorkOS::AuditLogAction.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["name"], json[:name]
@@ -5560,7 +5544,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["expires_in"], json[:expires_in]
   end
 
-  def test_webhook_endpoint_json_round_trip
+  def test_webhook_endpoint_round_trip
     fixture = {
       "object" => "webhook_endpoint",
       "id" => "stub",
@@ -5571,7 +5555,7 @@ class ModelRoundTripTest < Minitest::Test
       "created_at" => "stub",
       "updated_at" => "stub"
     }
-    model = WorkOS::WebhookEndpointJson.new(fixture.to_json)
+    model = WorkOS::WebhookEndpoint.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
@@ -6003,26 +5987,6 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["secret"], json[:secret]
     assert_equal fixture["qr_code"], json[:qr_code]
     assert_equal fixture["uri"], json[:uri]
-  end
-
-  def test_audit_log_schema_json_actor_round_trip
-    fixture = {
-      "metadata" => {}
-    }
-    model = WorkOS::AuditLogSchemaJsonActor.new(fixture.to_json)
-    json = model.to_h
-    assert_kind_of Hash, json
-  end
-
-  def test_audit_log_schema_json_target_round_trip
-    fixture = {
-      "type" => "stub",
-      "metadata" => {}
-    }
-    model = WorkOS::AuditLogSchemaJsonTarget.new(fixture.to_json)
-    json = model.to_h
-    assert_kind_of Hash, json
-    assert_equal fixture["type"], json[:type]
   end
 
   def test_authorized_connect_application_list_data_round_trip

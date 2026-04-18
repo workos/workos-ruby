@@ -8,6 +8,12 @@ module WorkOS
   class FlagUpdatedContextActor
     include HashProvider
 
+    HASH_ATTRS = {
+      id: :id,
+      source: :source,
+      name: :name
+    }.freeze
+
     attr_accessor \
       :id,
       :source,
@@ -19,22 +25,6 @@ module WorkOS
       @id = hash[:id]
       @source = hash[:source]
       @name = hash[:name]
-    end
-
-    def to_h
-      {
-        id: id,
-        source: source,
-        name: name
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class} id=#{@id}>"
     end
   end
 end

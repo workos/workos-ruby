@@ -8,6 +8,23 @@ module WorkOS
   class Profile
     include HashProvider
 
+    HASH_ATTRS = {
+      object: :object,
+      id: :id,
+      organization_id: :organization_id,
+      connection_id: :connection_id,
+      connection_type: :connection_type,
+      idp_id: :idp_id,
+      email: :email,
+      first_name: :first_name,
+      last_name: :last_name,
+      role: :role,
+      roles: :roles,
+      groups: :groups,
+      custom_attributes: :custom_attributes,
+      raw_attributes: :raw_attributes
+    }.freeze
+
     attr_accessor \
       :object,
       :id,
@@ -41,33 +58,6 @@ module WorkOS
       @groups = hash[:groups] || []
       @custom_attributes = hash[:custom_attributes] || {}
       @raw_attributes = hash[:raw_attributes] || {}
-    end
-
-    def to_h
-      {
-        object: object,
-        id: id,
-        organization_id: organization_id,
-        connection_id: connection_id,
-        connection_type: connection_type,
-        idp_id: idp_id,
-        email: email,
-        first_name: first_name,
-        last_name: last_name,
-        role: role&.to_h,
-        roles: (roles || []).map(&:to_h),
-        groups: groups,
-        custom_attributes: custom_attributes,
-        raw_attributes: raw_attributes
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class} id=#{@id}>"
     end
   end
 end

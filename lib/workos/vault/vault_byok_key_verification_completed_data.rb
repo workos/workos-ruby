@@ -8,6 +8,12 @@ module WorkOS
   class VaultByokKeyVerificationCompletedData
     include HashProvider
 
+    HASH_ATTRS = {
+      organization_id: :organization_id,
+      key_provider: :key_provider,
+      verified: :verified
+    }.freeze
+
     attr_accessor \
       :organization_id,
       :key_provider,
@@ -19,22 +25,6 @@ module WorkOS
       @organization_id = hash[:organization_id]
       @key_provider = hash[:key_provider]
       @verified = hash[:verified]
-    end
-
-    def to_h
-      {
-        organization_id: organization_id,
-        key_provider: key_provider,
-        verified: verified
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

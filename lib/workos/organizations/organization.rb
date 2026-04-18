@@ -8,6 +8,19 @@ module WorkOS
   class Organization
     include HashProvider
 
+    HASH_ATTRS = {
+      object: :object,
+      id: :id,
+      name: :name,
+      domains: :domains,
+      metadata: :metadata,
+      external_id: :external_id,
+      stripe_customer_id: :stripe_customer_id,
+      created_at: :created_at,
+      updated_at: :updated_at,
+      allow_profiles_outside_organization: :allow_profiles_outside_organization
+    }.freeze
+
     # @!attribute allow_profiles_outside_organization
     #   @deprecated Whether the Organization allows profiles outside of its managed domains.
 
@@ -42,29 +55,6 @@ module WorkOS
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
       @allow_profiles_outside_organization = hash[:allow_profiles_outside_organization]
-    end
-
-    def to_h
-      {
-        object: object,
-        id: id,
-        name: name,
-        domains: (domains || []).map(&:to_h),
-        metadata: metadata,
-        external_id: external_id,
-        stripe_customer_id: stripe_customer_id,
-        created_at: created_at,
-        updated_at: updated_at,
-        allow_profiles_outside_organization: @allow_profiles_outside_organization
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class} id=#{@id}>"
     end
   end
 end

@@ -8,6 +8,14 @@ module WorkOS
   class AuthenticateResponseOAuthToken
     include HashProvider
 
+    HASH_ATTRS = {
+      provider: :provider,
+      refresh_token: :refresh_token,
+      access_token: :access_token,
+      expires_at: :expires_at,
+      scopes: :scopes
+    }.freeze
+
     attr_accessor \
       :provider,
       :refresh_token,
@@ -23,24 +31,6 @@ module WorkOS
       @access_token = hash[:access_token]
       @expires_at = hash[:expires_at]
       @scopes = hash[:scopes] || []
-    end
-
-    def to_h
-      {
-        provider: provider,
-        refresh_token: refresh_token,
-        access_token: access_token,
-        expires_at: expires_at,
-        scopes: scopes
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

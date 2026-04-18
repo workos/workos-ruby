@@ -8,6 +8,17 @@ module WorkOS
   class CreateAuthorizationResource
     include HashProvider
 
+    HASH_ATTRS = {
+      external_id: :external_id,
+      name: :name,
+      description: :description,
+      resource_type_slug: :resource_type_slug,
+      organization_id: :organization_id,
+      parent_resource_id: :parent_resource_id,
+      parent_resource_external_id: :parent_resource_external_id,
+      parent_resource_type_slug: :parent_resource_type_slug
+    }.freeze
+
     attr_accessor \
       :external_id,
       :name,
@@ -29,27 +40,6 @@ module WorkOS
       @parent_resource_id = hash[:parent_resource_id]
       @parent_resource_external_id = hash[:parent_resource_external_id]
       @parent_resource_type_slug = hash[:parent_resource_type_slug]
-    end
-
-    def to_h
-      {
-        external_id: external_id,
-        name: name,
-        description: description,
-        resource_type_slug: resource_type_slug,
-        organization_id: organization_id,
-        parent_resource_id: parent_resource_id,
-        parent_resource_external_id: parent_resource_external_id,
-        parent_resource_type_slug: parent_resource_type_slug
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

@@ -2,6 +2,7 @@
 
 # @oagen-ignore-file — hand-maintained runtime
 require "json"
+require "logger"
 require "net/http"
 require "securerandom"
 require "uri"
@@ -20,17 +21,17 @@ module WorkOS
 
     USER_AGENT = "workos-ruby/#{WorkOS::VERSION} ruby/#{RUBY_VERSION} (#{RUBY_PLATFORM})"
 
-    attr_reader :api_key, :base_url, :client_id, :timeout, :max_retries
+    attr_reader :api_key, :base_url, :client_id, :timeout, :max_retries, :logger, :log_level
 
     def initialize(api_key: nil, base_url: DEFAULT_BASE_URL, client_id: nil,
-      timeout: DEFAULT_TIMEOUT, max_retries: DEFAULT_MAX_RETRIES)
+      timeout: DEFAULT_TIMEOUT, max_retries: DEFAULT_MAX_RETRIES, logger: nil, log_level: nil)
       @api_key = api_key
       @base_url = base_url
       @client_id = client_id
       @timeout = timeout
       @max_retries = max_retries
-      @connections = {}
-      @connections_mutex = Mutex.new
+      @logger = logger
+      @log_level = log_level
     end
 
     # -- Request builders -------------------------------------------------
@@ -101,15 +102,19 @@ module WorkOS
       attempt = 0
 
       loop do
+        log(:debug, "request start", method: request.method, path: request.path, attempt: attempt + 1)
         http = connection_for(base, timeout)
         response = http.request(request)
         return response if response.is_a?(Net::HTTPSuccess)
 
         if attempt < retries && retryable?(response)
           attempt += 1
+          inject_retry_idempotency_key(request)
+          log(:info, "request retry", method: request.method, path: request.path, attempt: attempt + 1, status: response.code.to_i)
           sleep(retry_delay(response, attempt))
           next
         end
+        log(:warn, "request error", method: request.method, path: request.path, status: response.code.to_i, request_id: response["x-request-id"] || response["X-Request-Id"])
         handle_error_response(response)
       rescue Net::OpenTimeout, Net::ReadTimeout,
         Errno::ECONNRESET, Errno::ECONNREFUSED,
@@ -117,20 +122,20 @@ module WorkOS
         evict_connection(base)
         if attempt < retries
           attempt += 1
+          inject_retry_idempotency_key(request)
+          log(:info, "request retry", method: request.method, path: request.path, attempt: attempt + 1, error: e.class.name)
           sleep(retry_delay(nil, attempt))
           next
         end
+        log(:warn, "connection error", method: request.method, path: request.path, error: e.class.name, message: e.message)
         raise WorkOS::APIConnectionError.new(message: e.message)
       end
     end
 
     # Close all persistent connections.
     def shutdown
-      connections = @connections_mutex.synchronize do
-        current = @connections.values
-        @connections = {}
-        current
-      end
+      connections = thread_connections.values
+      thread_connections.clear
       connections.each { |connection| connection.finish if connection.started? }
     end
 
@@ -147,8 +152,8 @@ module WorkOS
 
     def connection_for(base_url, timeout)
       uri = URI(base_url)
-      key = connection_key(uri)
-      conn = @connections_mutex.synchronize { @connections[key] }
+      key = connection_key(uri, timeout)
+      conn = thread_connections[key]
 
       if conn&.started?
         conn.read_timeout = timeout
@@ -162,21 +167,27 @@ module WorkOS
       http.open_timeout = timeout
       http.keep_alive_timeout = 30
       http.start
-      @connections_mutex.synchronize { @connections[key] = http }
+      thread_connections[key] = http
       http
     end
 
     def evict_connection(base_url)
       uri = URI(base_url)
-      key = connection_key(uri)
-      conn = @connections_mutex.synchronize { @connections.delete(key) }
-      conn&.finish if conn&.started?
+      keys = thread_connections.keys.select { |key| key.start_with?("#{uri.scheme}:#{uri.host}:#{uri.port}:") }
+      keys.each do |key|
+        connection = thread_connections.delete(key)
+        connection&.finish if connection&.started?
+      end
     rescue IOError
       # Already closed, ignore
     end
 
-    def connection_key(uri)
-      "#{Thread.current.object_id}:#{uri.scheme}:#{uri.host}:#{uri.port}"
+    def connection_key(uri, timeout)
+      "#{uri.scheme}:#{uri.host}:#{uri.port}:#{timeout}"
+    end
+
+    def thread_connections
+      Thread.current[:workos_connections] ||= {}
     end
 
     def resolve_option(opts, key)
@@ -205,12 +216,41 @@ module WorkOS
     end
 
     def inject_idempotency_key(request, request_options)
-      key = nil
-      if request_options.is_a?(Hash)
-        key = request_options[:idempotency_key] || request_options["idempotency_key"]
-      end
-      key ||= SecureRandom.uuid
+      key = resolve_option(request_options, :idempotency_key)
+      return if key.nil? || key.to_s.empty?
+
       request["Idempotency-Key"] ||= key
+    end
+
+    def inject_retry_idempotency_key(request)
+      return unless %w[POST PUT PATCH].include?(request.method)
+      return if request["Idempotency-Key"]
+
+      request["Idempotency-Key"] = SecureRandom.uuid
+    end
+
+    def log(level, message, details = {})
+      sink = @logger
+      return unless sink
+
+      log_level = @log_level || level
+      formatter = details.compact.map { |key, value| "#{key}=#{value}" }.join(" ")
+      line = formatter.empty? ? message : "#{message} #{formatter}"
+      if sink.respond_to?(log_level)
+        sink.public_send(log_level, line)
+      elsif sink.respond_to?(:add)
+        sink.add(log_level_to_severity(log_level), line)
+      end
+    end
+
+    def log_level_to_severity(level)
+      case level
+      when :debug then ::Logger::DEBUG
+      when :info then ::Logger::INFO
+      when :warn then ::Logger::WARN
+      when :error then ::Logger::ERROR
+      else ::Logger::UNKNOWN
+      end
     end
 
     def retryable?(response)

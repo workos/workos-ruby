@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    SessionRevokedDataStatus = SessionCreatedDataStatus
+    SessionRevokedDataStatus = UserSessionsStatus
   end
 end

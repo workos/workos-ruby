@@ -8,6 +8,14 @@ module WorkOS
   class CreateM2MApplication
     include HashProvider
 
+    HASH_ATTRS = {
+      name: :name,
+      application_type: :application_type,
+      description: :description,
+      scopes: :scopes,
+      organization_id: :organization_id
+    }.freeze
+
     attr_accessor \
       :name,
       :application_type,
@@ -23,24 +31,6 @@ module WorkOS
       @description = hash[:description]
       @scopes = hash[:scopes] || []
       @organization_id = hash[:organization_id]
-    end
-
-    def to_h
-      {
-        name: name,
-        application_type: application_type,
-        description: description,
-        scopes: scopes,
-        organization_id: organization_id
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

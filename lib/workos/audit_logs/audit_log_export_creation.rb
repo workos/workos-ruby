@@ -8,6 +8,17 @@ module WorkOS
   class AuditLogExportCreation
     include HashProvider
 
+    HASH_ATTRS = {
+      organization_id: :organization_id,
+      range_start: :range_start,
+      range_end: :range_end,
+      actions: :actions,
+      actors: :actors,
+      actor_names: :actor_names,
+      actor_ids: :actor_ids,
+      targets: :targets
+    }.freeze
+
     # @!attribute actors
     #   @deprecated Deprecated. Use `actor_names` instead.
 
@@ -38,27 +49,6 @@ module WorkOS
       @actor_names = hash[:actor_names] || []
       @actor_ids = hash[:actor_ids] || []
       @targets = hash[:targets] || []
-    end
-
-    def to_h
-      {
-        organization_id: organization_id,
-        range_start: range_start,
-        range_end: range_end,
-        actions: actions,
-        actors: @actors,
-        actor_names: actor_names,
-        actor_ids: actor_ids,
-        targets: targets
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

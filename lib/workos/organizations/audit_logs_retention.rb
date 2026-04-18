@@ -5,8 +5,12 @@
 require "json"
 
 module WorkOS
-  class AuditLogsRetentionJson
+  class AuditLogsRetention
     include HashProvider
+
+    HASH_ATTRS = {
+      retention_period_in_days: :retention_period_in_days
+    }.freeze
 
     attr_accessor :retention_period_in_days
 
@@ -14,20 +18,6 @@ module WorkOS
       hash = json.is_a?(Hash) ? json : JSON.parse(json, symbolize_names: true)
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @retention_period_in_days = hash[:retention_period_in_days]
-    end
-
-    def to_h
-      {
-        retention_period_in_days: retention_period_in_days
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

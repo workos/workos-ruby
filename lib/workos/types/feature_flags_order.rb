@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    FeatureFlagsOrder = ApplicationsOrder
+    FeatureFlagsOrder = EventsOrder
   end
 end

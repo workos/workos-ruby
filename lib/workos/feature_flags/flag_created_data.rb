@@ -8,6 +8,21 @@ module WorkOS
   class FlagCreatedData
     include HashProvider
 
+    HASH_ATTRS = {
+      object: :object,
+      id: :id,
+      environment_id: :environment_id,
+      slug: :slug,
+      name: :name,
+      description: :description,
+      owner: :owner,
+      tags: :tags,
+      enabled: :enabled,
+      default_value: :default_value,
+      created_at: :created_at,
+      updated_at: :updated_at
+    }.freeze
+
     attr_accessor \
       :object,
       :id,
@@ -37,31 +52,6 @@ module WorkOS
       @default_value = hash[:default_value]
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
-    end
-
-    def to_h
-      {
-        object: object,
-        id: id,
-        environment_id: environment_id,
-        slug: slug,
-        name: name,
-        description: description,
-        owner: owner&.to_h,
-        tags: tags,
-        enabled: enabled,
-        default_value: default_value,
-        created_at: created_at,
-        updated_at: updated_at
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class} id=#{@id}>"
     end
   end
 end

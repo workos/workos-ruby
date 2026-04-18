@@ -8,6 +8,7 @@
 
 require "json"
 require "openssl"
+require "workos/util/signature"
 
 module WorkOS
   # AuthKit Actions request verification + response signing.
@@ -20,7 +21,7 @@ module WorkOS
   #     action_type: "authentication", verdict: "Allow",
   #     secret: ENV["WORKOS_ACTIONS_SECRET"]
   #   )
-  class Actions
+  module Actions
     DEFAULT_TOLERANCE_SECONDS = 30
 
     ACTION_TYPE_TO_RESPONSE_OBJECT = {
@@ -28,10 +29,7 @@ module WorkOS
       "user_registration" => "user_registration_action_response"
     }.freeze
 
-    def initialize(client = nil)
-      # client is unused but accepted for parity with other service accessors.
-      @client = client
-    end
+    module_function
 
     # Verify a request signature; raises on failure.
     def verify_header(payload:, sig_header:, secret:, tolerance: DEFAULT_TOLERANCE_SECONDS)
@@ -78,28 +76,18 @@ module WorkOS
 
     # Compute HMAC-SHA256 hex signature for a (timestamp, payload) pair.
     def compute_signature(payload:, timestamp:, secret:)
-      OpenSSL::HMAC.hexdigest("SHA256", secret, "#{timestamp}.#{payload}")
+      WorkOS::Util::Signature.compute(payload: payload, timestamp: timestamp, secret: secret)
     end
 
     # Parse a "t=<ms>, v1=<sig>" header into [timestamp, signature].
     def parse_signature_header(sig_header)
-      raise WorkOS::SignatureVerificationError.new(message: "Signature header missing", http_status: nil) if sig_header.nil? || sig_header.empty?
-      parts = sig_header.split(",").map(&:strip)
-      t_part = parts.find { |p| p.start_with?("t=") }
-      v_part = parts.find { |p| p.start_with?("v1=") }
-      raise WorkOS::SignatureVerificationError.new(message: "Unable to extract timestamp and signature hash from header", http_status: nil) unless t_part && v_part
-      [t_part.sub(/\At=/, ""), v_part.sub(/\Av1=/, "")]
+      WorkOS::Util::Signature.parse_header(sig_header)
+    rescue ArgumentError => e
+      raise WorkOS::SignatureVerificationError.new(message: e.message, http_status: nil)
     end
 
-    private
-
     def secure_compare(a, b)
-      return false if a.bytesize != b.bytesize
-      l = a.unpack("C*")
-      r = 0
-      i = -1
-      b.each_byte { |byte| r |= byte ^ l[i += 1] }
-      r.zero?
+      WorkOS::Util::Signature.secure_compare(a, b)
     end
   end
 end

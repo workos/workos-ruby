@@ -8,6 +8,11 @@ module WorkOS
   class ConnectionSAMLCertificateRenewedDataCertificate
     include HashProvider
 
+    HASH_ATTRS = {
+      certificate_type: :certificate_type,
+      expiry_date: :expiry_date
+    }.freeze
+
     attr_accessor \
       :certificate_type,
       :expiry_date
@@ -17,21 +22,6 @@ module WorkOS
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
       @certificate_type = hash[:certificate_type]
       @expiry_date = hash[:expiry_date]
-    end
-
-    def to_h
-      {
-        certificate_type: certificate_type,
-        expiry_date: expiry_date
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end

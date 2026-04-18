@@ -8,6 +8,15 @@ module WorkOS
   class GenerateLink
     include HashProvider
 
+    HASH_ATTRS = {
+      return_url: :return_url,
+      success_url: :success_url,
+      organization: :organization,
+      intent: :intent,
+      intent_options: :intent_options,
+      admin_emails: :admin_emails
+    }.freeze
+
     attr_accessor \
       :return_url,
       :success_url,
@@ -25,25 +34,6 @@ module WorkOS
       @intent = hash[:intent]
       @intent_options = hash[:intent_options] ? WorkOS::IntentOptions.new(hash[:intent_options]) : nil
       @admin_emails = hash[:admin_emails] || []
-    end
-
-    def to_h
-      {
-        return_url: return_url,
-        success_url: success_url,
-        organization: organization,
-        intent: intent,
-        intent_options: intent_options&.to_h,
-        admin_emails: admin_emails
-      }
-    end
-
-    def to_json(*args)
-      to_h.to_json(*args)
-    end
-
-    def inspect
-      "#<#{self.class}>"
     end
   end
 end
