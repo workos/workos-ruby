@@ -323,6 +323,40 @@ Examples:
 
 If your code imports, type-checks, or pattern matches on these classes, update those references.
 
+#### Response models no longer inherit from `Hash`
+
+In v6, `WorkOS::DirectoryUser`, `WorkOS::DirectoryGroup`, and other models inherited from an internal `DeprecatedHashWrapper < Hash`. That meant an instance was simultaneously a model and a `Hash`, which produced confusing behavior like this (see [#316](https://github.com/workos/workos-ruby/issues/316)):
+
+```ruby
+user.is_a?(WorkOS::DirectoryUser)           # => true
+user.is_a?(Hash)                            # => true  (v6)
+user.to_hash.is_a?(WorkOS::DirectoryUser)   # => true  (v6 — returned self)
+user.to_h                                   # => "{...}"  (v6 — returned a JSON string)
+user[:id]                                   # => "user_123" with a deprecation warning
+```
+
+In v7, models are plain classes that `include WorkOS::HashProvider`. They are no longer `Hash` instances:
+
+```ruby
+user.is_a?(WorkOS::DirectoryUser)  # => true
+user.is_a?(Hash)                   # => false
+user.to_h                          # => { id: "user_123", email: "...", ... }  (real Hash)
+user.to_h.is_a?(Hash)              # => true
+user.to_json                       # => '{"id":"user_123",...}'
+user[:id]                          # => NoMethodError
+user.to_hash                       # => NoMethodError
+```
+
+Update call sites accordingly:
+
+- Replace `user[:attr]` with the accessor method (`user.attr`).
+- Replace `user.to_hash` with `user.to_h`.
+- If you relied on passing a model into `**splat` or `Hash#merge` (which used the implicit `to_hash` coercion), call `.to_h` explicitly: `merge(user.to_h)`, `some_method(**user.to_h)`.
+- If you called `.to_h` and expected a JSON string, use `.to_json` instead.
+- Any `rescue`/log/assertion that inspects a model with `is_a?(Hash)` needs to be updated.
+
+The `DeprecatedHashWrapper` class and its deprecation warnings have been removed.
+
 ### Error handling
 
 #### Error classes are still typed, but the base class contract changed
