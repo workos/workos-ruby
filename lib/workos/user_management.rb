@@ -1277,7 +1277,7 @@ module WorkOS
       cid = client_id || @client.client_id
       raise ArgumentError, "client_id is required" if cid.nil? || cid.empty?
       base = @client.base_url || "https://api.workos.com"
-      URI.join(base, "/sso/jwks/#{CGI.escape(cid.to_s).gsub("+", "%20")}").to_s
+      URI.join(base, "/sso/jwks/#{WorkOS::Util.encode_path(cid)}").to_s
     end
 
     # H09 — Build an AuthKit authorization URL (client-side, no HTTP call).
@@ -1324,6 +1324,9 @@ module WorkOS
     end
 
     # H11 — Exchange a code for tokens with PKCE support (public client; no secret).
+    # NOTE: Unlike the other authenticate_with_* helpers, this does NOT delegate to
+    # create_authenticate because PKCE is a public-client flow that requires
+    # auth: false (no Bearer token / API key in the Authorization header).
     def authenticate_with_code_pkce(code:, code_verifier:, client_id: nil, ip_address: nil, user_agent: nil, request_options: {})
       cid = client_id || @client.client_id
       raise ArgumentError, "client_id is required" if cid.nil? || cid.empty?
