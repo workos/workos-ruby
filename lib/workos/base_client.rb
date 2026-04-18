@@ -190,7 +190,7 @@ module WorkOS
         key = resolve_option(request_options, :api_key) || @api_key
         request["Authorization"] = "Bearer #{key}" if key && !key.empty?
       end
-      request["User-Agent"] = @user_agent
+      request["User-Agent"] = USER_AGENT
       apply_extra_headers(request, request_options)
       request
     end
