@@ -19,7 +19,7 @@ module WorkOS
 
     attr_reader :seal_data, :cookie_password
 
-    def authenticate
+    def authenticate(&claim_extractor)
       return SessionManager::AuthError.new(authenticated: false, reason: SessionManager::NO_SESSION_COOKIE_PROVIDED) if @seal_data.nil? || @seal_data.empty?
 
       session = begin
@@ -45,7 +45,8 @@ module WorkOS
         entitlements: decoded["entitlements"],
         user: session["user"],
         impersonator: session["impersonator"],
-        feature_flags: decoded["feature_flags"]
+        feature_flags: decoded["feature_flags"],
+        custom_claims: claim_extractor&.call(decoded)
       )
     end
 

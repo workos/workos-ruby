@@ -84,6 +84,54 @@ class SessionTest < Minitest::Test
     assert_equal "u_1", result.user["id"]
   end
 
+  def test_authenticate_merges_custom_claims_from_block
+    rsa, pub = signing_key_pair
+    access_token = make_jwt(
+      {
+        "sid" => "session_custom",
+        "org_id" => "org_custom",
+        "custom_claim" => "custom_value",
+        "another_claim" => 123,
+        "exp" => Time.now.to_i + 60
+      },
+      rsa
+    )
+    sealed = @sm.seal_data({"access_token" => access_token, "user" => {"id" => "u_2"}}, PASSWORD)
+
+    stub_request(:get, "https://api.workos.com/sso/jwks/client_001")
+      .to_return(status: 200, body: jwks_payload(pub).to_json)
+
+    result = @sm.authenticate(seal_data: sealed, cookie_password: PASSWORD) do |jwt|
+      {
+        my_custom_claim: jwt["custom_claim"],
+        my_other_claim: jwt["another_claim"]
+      }
+    end
+
+    assert_kind_of WorkOS::SessionManager::AuthSuccess, result
+    assert_equal "custom_value", result[:my_custom_claim]
+    assert_equal 123, result[:my_other_claim]
+    assert_equal "custom_value", result.my_custom_claim
+    assert_equal "custom_value", result.to_h[:my_custom_claim]
+  end
+
+  def test_authenticate_rejects_custom_claims_that_overwrite_reserved_keys
+    rsa, pub = signing_key_pair
+    access_token = make_jwt({"sid" => "session_reserved", "exp" => Time.now.to_i + 60}, rsa)
+    sealed = @sm.seal_data({"access_token" => access_token}, PASSWORD)
+
+    stub_request(:get, "https://api.workos.com/sso/jwks/client_001")
+      .to_return(status: 200, body: jwks_payload(pub).to_json)
+
+    error = assert_raises(ArgumentError) do
+      @sm.authenticate(seal_data: sealed, cookie_password: PASSWORD) do
+        {authenticated: false}
+      end
+    end
+
+    assert_match(/reserved key/, error.message)
+  end
+
   def test_authenticate_returns_no_session_cookie_when_blank
     result = @sm.authenticate(seal_data: "", cookie_password: PASSWORD)
     assert_kind_of WorkOS::SessionManager::AuthError, result

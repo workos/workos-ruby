@@ -23,11 +23,78 @@ module WorkOS
     SEAL_VERSION = 0x01
 
     # H04 success / failure shapes — kept minimal & frozen.
-    AuthSuccess = Struct.new(
-      :authenticated, :session_id, :organization_id, :role, :roles,
-      :permissions, :entitlements, :user, :impersonator, :feature_flags,
-      keyword_init: true
-    )
+    class AuthSuccess
+      RESERVED_KEYS = [
+        :authenticated, :session_id, :organization_id, :role, :roles,
+        :permissions, :entitlements, :user, :impersonator, :feature_flags
+      ].freeze
+
+      attr_reader(*RESERVED_KEYS)
+
+      def initialize(
+        authenticated:,
+        session_id:,
+        organization_id:,
+        role:,
+        roles:,
+        permissions:,
+        entitlements:,
+        user:,
+        impersonator:,
+        feature_flags:,
+        custom_claims: nil
+      )
+        @authenticated = authenticated
+        @session_id = session_id
+        @organization_id = organization_id
+        @role = role
+        @roles = roles
+        @permissions = permissions
+        @entitlements = entitlements
+        @user = user
+        @impersonator = impersonator
+        @feature_flags = feature_flags
+        @custom_claims = normalize_custom_claims(custom_claims)
+      end
+
+      def [](key)
+        sym_key = key.to_sym
+        return public_send(sym_key) if RESERVED_KEYS.include?(sym_key)
+
+        @custom_claims[sym_key]
+      end
+
+      def to_h
+        RESERVED_KEYS.to_h { |key| [key, public_send(key)] }.merge(@custom_claims)
+      end
+
+      def method_missing(name, *args, &block)
+        return @custom_claims[name] if args.empty? && @custom_claims.key?(name)
+
+        super
+      end
+
+      def respond_to_missing?(name, include_private = false)
+        @custom_claims.key?(name) || super
+      end
+
+      private
+
+      def normalize_custom_claims(custom_claims)
+        return {} if custom_claims.nil?
+        raise ArgumentError, "claim_extractor must return a Hash" unless custom_claims.is_a?(Hash)
+
+        claims = custom_claims.each_with_object({}) do |(key, value), memo|
+          sym_key = key.to_sym
+          if RESERVED_KEYS.include?(sym_key)
+            raise ArgumentError, "claim_extractor cannot overwrite reserved key #{sym_key.inspect}"
+          end
+
+          memo[sym_key] = value
+        end
+        claims.freeze
+      end
+    end
     AuthError = Struct.new(:authenticated, :reason, keyword_init: true)
 
     RefreshSuccess = Struct.new(
@@ -62,8 +129,8 @@ module WorkOS
     end
 
     # H05 — Inline convenience: authenticate without manual Session construction.
-    def authenticate(seal_data:, cookie_password:)
-      load(seal_data: seal_data, cookie_password: cookie_password).authenticate
+    def authenticate(seal_data:, cookie_password:, &claim_extractor)
+      load(seal_data: seal_data, cookie_password: cookie_password).authenticate(&claim_extractor)
     end
 
     # H05 — Inline convenience: refresh without manual Session construction.
