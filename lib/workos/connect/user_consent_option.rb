@@ -35,5 +35,9 @@ module WorkOS
     def to_json(*args)
       to_h.to_json(*args)
     end
+
+    def inspect
+      "#<#{self.class}>"
+    end
   end
 end
