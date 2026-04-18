@@ -34,17 +34,18 @@ module WorkOS
         parsed = JSON.parse(response.body)
         items = parsed["data"] || []
         items = items.map { |item| model.new(item) } if model
+        fetch_next_proc = if fetch_page
+          ->(md) {
+            cursor = md.is_a?(Hash) ? (md["after"] || md[:after]) : nil
+            return nil if cursor.nil? || cursor.to_s.empty?
+            fetch_page.call(cursor)
+          }
+        end
         new(
           data: items,
           list_metadata: parsed["list_metadata"],
           filters: filters,
-          fetch_next: if fetch_page
-            ->(md) {
-              cursor = md.is_a?(Hash) ? (md["after"] || md[:after]) : nil
-              return nil if cursor.nil? || cursor.to_s.empty?
-              fetch_page.call(cursor)
-            }
-          end
+          fetch_next: fetch_next_proc
         )
       end
 

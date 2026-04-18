@@ -18,17 +18,17 @@ module WorkOS
     RETRYABLE_STATUSES = [408, 409, 429, 500, 502, 503, 504].freeze
     RETRY_BACKOFF_BASE = 0.5
 
-    attr_reader :api_key, :base_url, :client_id, :timeout, :max_retries, :user_agent
+    USER_AGENT = "workos-ruby/#{WorkOS::VERSION} ruby/#{RUBY_VERSION} (#{RUBY_PLATFORM})"
+
+    attr_reader :api_key, :base_url, :client_id, :timeout, :max_retries
 
     def initialize(api_key: nil, base_url: DEFAULT_BASE_URL, client_id: nil,
-      timeout: DEFAULT_TIMEOUT, max_retries: DEFAULT_MAX_RETRIES,
-      user_agent: "workos-ruby/#{WorkOS::VERSION} ruby/#{RUBY_VERSION} (#{RUBY_PLATFORM})")
+      timeout: DEFAULT_TIMEOUT, max_retries: DEFAULT_MAX_RETRIES)
       @api_key = api_key
       @base_url = base_url
       @client_id = client_id
       @timeout = timeout
       @max_retries = max_retries
-      @user_agent = user_agent
       @connections = {}
       @connections_mutex = Mutex.new
     end
@@ -83,10 +83,10 @@ module WorkOS
     # it in a single call, removing the need for callers to pass
     # request_options twice.
     def request(method:, path:, auth: true, params: {}, body: nil, request_options: nil)
-      if method == :get
-        req = get_request(path: path, auth: auth, params: params, request_options: request_options)
+      req = if method == :get
+        get_request(path: path, auth: auth, params: params, request_options: request_options)
       else
-        req = send("#{method}_request", path: path, auth: auth, body: body, params: params, request_options: request_options)
+        send("#{method}_request", path: path, auth: auth, body: body, params: params, request_options: request_options)
       end
       execute_request(request: req, request_options: request_options)
     end

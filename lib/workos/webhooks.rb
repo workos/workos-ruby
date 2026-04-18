@@ -160,8 +160,8 @@ module WorkOS
     def parse_signature_header(sig_header)
       raise WorkOS::SignatureVerificationError.new(message: "Signature header missing", http_status: nil) if sig_header.nil? || sig_header.empty?
       parts = sig_header.split(",").map(&:strip)
-      t_part = parts.find { |p| p.match?(/\At=/) }
-      v_part = parts.find { |p| p.match?(/\Av1=/) }
+      t_part = parts.find { |p| p.start_with?("t=") }
+      v_part = parts.find { |p| p.start_with?("v1=") }
       raise WorkOS::SignatureVerificationError.new(message: "Unable to extract timestamp and signature hash from header", http_status: nil) unless t_part && v_part
       [t_part.sub(/\At=/, ""), v_part.sub(/\Av1=/, "")]
     end
