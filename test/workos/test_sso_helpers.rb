@@ -3,7 +3,6 @@
 # @oagen-ignore-file
 require "test_helper"
 require "uri"
-require "cgi"
 
 class SSOHelpersTest < Minitest::Test
   def setup
@@ -18,11 +17,11 @@ class SSOHelpersTest < Minitest::Test
       connection: "conn_001"
     )
     parsed = URI.parse(url)
-    params = CGI.parse(parsed.query)
+    params = URI.decode_www_form(parsed.query).to_h
     assert_equal "/sso/authorize", parsed.path
-    assert_equal "client_001", params["client_id"].first
-    assert_equal "conn_001", params["connection"].first
-    assert_equal "code", params["response_type"].first
+    assert_equal "client_001", params["client_id"]
+    assert_equal "conn_001", params["connection"]
+    assert_equal "code", params["response_type"]
   end
 
   def test_get_authorization_url_serializes_provider_scopes_csv
@@ -31,8 +30,8 @@ class SSOHelpersTest < Minitest::Test
       provider: "GoogleOAuth",
       provider_scopes: ["openid", "email"]
     )
-    params = CGI.parse(URI.parse(url).query)
-    assert_equal "openid,email", params["provider_scopes"].first
+    params = URI.decode_www_form(URI.parse(url).query).to_h
+    assert_equal "openid,email", params["provider_scopes"]
   end
 
   def test_get_authorization_url_serializes_provider_query_params_json
@@ -41,8 +40,8 @@ class SSOHelpersTest < Minitest::Test
       provider: "GoogleOAuth",
       provider_query_params: {"hd" => "example.com"}
     )
-    params = CGI.parse(URI.parse(url).query)
-    assert_equal({"hd" => "example.com"}, JSON.parse(params["provider_query_params"].first))
+    params = URI.decode_www_form(URI.parse(url).query).to_h
+    assert_equal({"hd" => "example.com"}, JSON.parse(params["provider_query_params"]))
   end
 
   # H15
@@ -51,10 +50,10 @@ class SSOHelpersTest < Minitest::Test
       redirect_uri: "x",
       connection: "conn_001"
     )
-    params = CGI.parse(URI.parse(url).query)
-    assert_equal "S256", params["code_challenge_method"].first
-    assert_equal WorkOS::PKCE.generate_code_challenge(verifier), params["code_challenge"].first
-    assert_equal state, params["state"].first
+    params = URI.decode_www_form(URI.parse(url).query).to_h
+    assert_equal "S256", params["code_challenge_method"]
+    assert_equal WorkOS::PKCE.generate_code_challenge(verifier), params["code_challenge"]
+    assert_equal state, params["state"]
   end
 
   # H16
@@ -76,6 +75,6 @@ class SSOHelpersTest < Minitest::Test
     url = @sso.build_logout_url(token: "tok_xyz")
     parsed = URI.parse(url)
     assert_equal "/sso/logout", parsed.path
-    assert_equal "tok_xyz", CGI.parse(parsed.query)["token"].first
+    assert_equal "tok_xyz", URI.decode_www_form(parsed.query).to_h["token"]
   end
 end

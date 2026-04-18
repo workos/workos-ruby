@@ -3,7 +3,6 @@
 # @oagen-ignore-file
 require "test_helper"
 require "uri"
-require "cgi"
 
 class AuthKitHelpersTest < Minitest::Test
   def setup
@@ -19,11 +18,11 @@ class AuthKitHelpersTest < Minitest::Test
     )
     assert_kind_of String, url
     parsed = URI.parse(url)
-    params = CGI.parse(parsed.query)
-    assert_equal "client_001", params["client_id"].first
-    assert_equal "https://app.example.com/cb", params["redirect_uri"].first
-    assert_equal "code", params["response_type"].first
-    assert_equal "GoogleOAuth", params["provider"].first
+    params = URI.decode_www_form(parsed.query).to_h
+    assert_equal "client_001", params["client_id"]
+    assert_equal "https://app.example.com/cb", params["redirect_uri"]
+    assert_equal "code", params["response_type"]
+    assert_equal "GoogleOAuth", params["provider"]
     assert_equal "/user_management/authorize", parsed.path
   end
 
@@ -52,10 +51,10 @@ class AuthKitHelpersTest < Minitest::Test
     assert_kind_of String, verifier
     assert_kind_of String, state
     parsed = URI.parse(url)
-    params = CGI.parse(parsed.query)
-    assert_equal "S256", params["code_challenge_method"].first
+    params = URI.decode_www_form(parsed.query).to_h
+    assert_equal "S256", params["code_challenge_method"]
     expected_challenge = WorkOS::PKCE.generate_code_challenge(verifier)
-    assert_equal expected_challenge, params["code_challenge"].first
+    assert_equal expected_challenge, params["code_challenge"]
   end
 
   # H11
@@ -96,15 +95,15 @@ class AuthKitHelpersTest < Minitest::Test
   def test_get_logout_url_builds_url
     url = @um.get_logout_url(session_id: "session_01H93ZY4F80QPBEZ1R5B2SHQG8")
     parsed = URI.parse(url)
-    params = CGI.parse(parsed.query)
+    params = URI.decode_www_form(parsed.query).to_h
     assert_equal "/user_management/sessions/logout", parsed.path
-    assert_equal "session_01H93ZY4F80QPBEZ1R5B2SHQG8", params["session_id"].first
+    assert_equal "session_01H93ZY4F80QPBEZ1R5B2SHQG8", params["session_id"]
   end
 
   def test_get_logout_url_includes_return_to
     url = @um.get_logout_url(session_id: "sid_1", return_to: "https://example.com")
     parsed = URI.parse(url)
-    params = CGI.parse(parsed.query)
-    assert_equal "https://example.com", params["return_to"].first
+    params = URI.decode_www_form(parsed.query).to_h
+    assert_equal "https://example.com", params["return_to"]
   end
 end
