@@ -1,39 +1,20 @@
 # frozen_string_literal: true
 
-$LOAD_PATH << File.join(File.dirname(__FILE__), "..", "lib")
-$LOAD_PATH << File.join(File.dirname(__FILE__))
+# @oagen-ignore-file — hand-maintained runtime
+$LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
 
 require "minitest/autorun"
 require "webmock/minitest"
+require "json"
 require "workos"
-require "vcr"
 
-TEST_ROOT = File.dirname(__FILE__)
+module FixtureHelper
+  FIXTURES_DIR = File.expand_path("fixtures", __dir__)
 
-VCR.configure do |config|
-  config.cassette_library_dir = "test/fixtures/vcr_cassettes"
-  config.filter_sensitive_data("<API_KEY>") { WorkOS.config.key }
-  config.filter_sensitive_data("<ACCESS_TOKEN>", :token) do |interaction|
-    JSON.parse(interaction.response.body)["access_token"]
-  end
-  config.filter_sensitive_data("<REFRESH_TOKEN>", :token) do |interaction|
-    JSON.parse(interaction.response.body)["refresh_token"]
-  end
-  config.hook_into :webmock
-end
+  def load_fixture(name)
+    path = File.join(FIXTURES_DIR, name)
+    return {} unless File.exist?(path)
 
-class WorkOS::TestCase < Minitest::Test
-  def setup
-    WorkOS.instance_variable_set(:@config, WorkOS.default_config)
-    WorkOS.config.key ||= ""
-    VCR.turn_on!
-  end
-
-  # Helper to temporarily disable VCR when using WebMock stubs directly
-  def with_vcr_off
-    VCR.turn_off!
-    yield
-  ensure
-    VCR.turn_on!
+    JSON.parse(File.read(path))
   end
 end

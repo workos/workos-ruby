@@ -1,51 +1,59 @@
 # frozen_string_literal: true
 
+# @oagen-ignore-file
 require "test_helper"
 
-class TestPasswordless < WorkOS::TestCase
-  def test_create_session_with_valid_options
-    VCR.use_cassette("passwordless/create_session") do
-      response = WorkOS::Passwordless.create_session(
-        email: "demo@workos-okta.com",
-        type: "MagicLink",
-        redirect_uri: "foo.com/auth/callback"
-      )
-
-      assert_equal "demo@workos-okta.com", response.email
-    end
+class PasswordlessTest < Minitest::Test
+  def setup
+    @client = WorkOS::Client.new(api_key: "sk_test_passwordless")
   end
 
-  def test_create_session_with_invalid_options
-    VCR.use_cassette("passwordless/create_session_invalid") do
-      err = assert_raises(WorkOS::UnprocessableEntityError) do
-        WorkOS::Passwordless.create_session({})
-      end
-      assert_match(
-        /Status 422, Validation failed \(email: email must be a string; type: type must be a valid enum value\)/,
-        err.message
-      )
-    end
+  def test_passwordless_accessor_exists
+    assert_kind_of WorkOS::Passwordless, @client.passwordless
   end
 
-  def test_send_session_with_valid_session_id
-    VCR.use_cassette("passwordless/send_session") do
-      response = WorkOS::Passwordless.send_session(
-        "passwordless_session_01EJC0F4KH42T11Y2DHPEB09BM"
-      )
+  def test_create_session_returns_passwordless_session_struct
+    payload = {
+      id: "passwordless_session_01",
+      email: "user@example.com",
+      expires_at: "2026-04-15T12:00:00Z",
+      link: "https://workos.com/magic/abc",
+      object: "passwordless_session"
+    }
+    stub_request(:post, "https://api.workos.com/passwordless/sessions")
+      .with(body: hash_including("email" => "user@example.com", "type" => "MagicLink"))
+      .to_return(status: 200, body: payload.to_json)
 
-      assert_equal true, response["success"]
-    end
+    result = @client.passwordless.create_session(email: "user@example.com")
+    assert_equal "passwordless_session_01", result.id
+    assert_equal "user@example.com", result.email
+    assert_equal "https://workos.com/magic/abc", result.link
+    assert_equal "passwordless_session", result.object
   end
 
-  def test_send_session_with_invalid_session_id
-    VCR.use_cassette("passwordless/send_session_invalid") do
-      err = assert_raises(WorkOS::UnprocessableEntityError) do
-        WorkOS::Passwordless.send_session("session_123")
-      end
-      assert_match(
-        /Status 422, The passwordless session 'session_123' has expired or is invalid./,
-        err.message
-      )
-    end
+  def test_create_session_forwards_optional_params
+    stub_request(:post, "https://api.workos.com/passwordless/sessions")
+      .with(body: hash_including(
+        "email" => "user@example.com",
+        "redirect_uri" => "https://app.example.com/cb",
+        "state" => "xyz",
+        "connection" => "conn_123"
+      ))
+      .to_return(status: 200, body: '{"id":"s","email":"user@example.com","expires_at":"x","link":"y"}')
+
+    @client.passwordless.create_session(
+      email: "user@example.com",
+      redirect_uri: "https://app.example.com/cb",
+      state: "xyz",
+      connection: "conn_123"
+    )
+  end
+
+  def test_send_session_posts_to_send_endpoint
+    stub_request(:post, "https://api.workos.com/passwordless/sessions/sess_42/send")
+      .to_return(status: 200, body: '{"success":true}')
+
+    result = @client.passwordless.send_session("sess_42")
+    assert_equal({"success" => true}, result)
   end
 end

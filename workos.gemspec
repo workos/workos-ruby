@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "English"
+
 lib = File.expand_path("lib", __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "workos/version"
@@ -11,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.email = ["support@workos.com"]
   spec.description = "API client for WorkOS"
   spec.summary = "API client for WorkOS"
-  spec.homepage = "https://github.com/workos-inc/workos-ruby"
+  spec.homepage = "https://github.com/workos/workos-ruby"
   spec.license = "MIT"
   spec.metadata = {
     "documentation_uri" => "https://docs.workos.com/sdk/ruby"
@@ -20,15 +22,15 @@ Gem::Specification.new do |spec|
   spec.files = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "encryptor", "~> 3.0"
   spec.add_dependency "jwt", "~> 3.1"
+  spec.add_dependency "logger", "~> 1.7"
+  spec.add_dependency "zeitwerk", "~> 2.6"
 
   spec.add_development_dependency "bundler", ">= 2.0.1"
+  spec.add_development_dependency "minitest", "~> 6.0"
   spec.add_development_dependency "rake"
-  spec.add_development_dependency "minitest", "~> 5.25"
   spec.add_development_dependency "standard", "~> 1.49"
-  spec.add_development_dependency "vcr", "~> 6.0"
-  spec.add_development_dependency "webmock"
+  spec.add_development_dependency "webmock", "~> 3.26"
 
   spec.required_ruby_version = ">= 3.3"
 end
