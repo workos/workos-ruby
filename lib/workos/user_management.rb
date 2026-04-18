@@ -457,18 +457,33 @@ module WorkOS
         "email" => email
       }.compact
       response = @client.request(method: :get, path: "/user_management/users", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::User, filters: {before: before, limit: limit, order: order, organization: organization, organization_id: organization_id, email: email}) do |cursor|
-        list_users(
-          before: before,
-          after: cursor,
-          limit: limit,
-          order: order,
-          organization: organization,
-          organization_id: organization_id,
-          email: email,
-          request_options: request_options
-        )
-      end
+      WorkOS::Types::ListStruct.from_response(
+        response, model: WorkOS::User, filters: {before: before, limit: limit, order: order, organization: organization, organization_id: organization_id, email: email},
+        fetch_next: lambda do |cursor|
+          list_users(
+            before: before,
+            after: cursor,
+            limit: limit,
+            order: order,
+            organization: organization,
+            organization_id: organization_id,
+            email: email,
+            request_options: request_options
+          )
+        end,
+        fetch_previous: lambda do |cursor|
+          list_users(
+            before: cursor,
+            after: nil,
+            limit: limit,
+            order: order,
+            organization: organization,
+            organization_id: organization_id,
+            email: email,
+            request_options: request_options
+          )
+        end
+      )
     end
 
     # Create a user
@@ -709,16 +724,29 @@ module WorkOS
         "order" => order
       }.compact
       response = @client.request(method: :get, path: "/user_management/users/#{WorkOS::Util.encode_path(id)}/sessions", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::UserSessionsListItem, filters: {id: id, before: before, limit: limit, order: order}) do |cursor|
-        list_sessions(
-          id: id,
-          before: before,
-          after: cursor,
-          limit: limit,
-          order: order,
-          request_options: request_options
-        )
-      end
+      WorkOS::Types::ListStruct.from_response(
+        response, model: WorkOS::UserSessionsListItem, filters: {id: id, before: before, limit: limit, order: order},
+        fetch_next: lambda do |cursor|
+          list_sessions(
+            id: id,
+            before: before,
+            after: cursor,
+            limit: limit,
+            order: order,
+            request_options: request_options
+          )
+        end,
+        fetch_previous: lambda do |cursor|
+          list_sessions(
+            id: id,
+            before: cursor,
+            after: nil,
+            limit: limit,
+            order: order,
+            request_options: request_options
+          )
+        end
+      )
     end
 
     # List invitations
@@ -748,17 +776,31 @@ module WorkOS
         "email" => email
       }.compact
       response = @client.request(method: :get, path: "/user_management/invitations", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::UserInvite, filters: {before: before, limit: limit, order: order, organization_id: organization_id, email: email}) do |cursor|
-        list_invitations(
-          before: before,
-          after: cursor,
-          limit: limit,
-          order: order,
-          organization_id: organization_id,
-          email: email,
-          request_options: request_options
-        )
-      end
+      WorkOS::Types::ListStruct.from_response(
+        response, model: WorkOS::UserInvite, filters: {before: before, limit: limit, order: order, organization_id: organization_id, email: email},
+        fetch_next: lambda do |cursor|
+          list_invitations(
+            before: before,
+            after: cursor,
+            limit: limit,
+            order: order,
+            organization_id: organization_id,
+            email: email,
+            request_options: request_options
+          )
+        end,
+        fetch_previous: lambda do |cursor|
+          list_invitations(
+            before: cursor,
+            after: nil,
+            limit: limit,
+            order: order,
+            organization_id: organization_id,
+            email: email,
+            request_options: request_options
+          )
+        end
+      )
     end
 
     # Send an invitation
@@ -931,18 +973,33 @@ module WorkOS
         "user_id" => user_id
       }.compact
       response = @client.request(method: :get, path: "/user_management/organization_memberships", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::UserOrganizationMembership, filters: {before: before, limit: limit, order: order, organization_id: organization_id, statuses: statuses, user_id: user_id}) do |cursor|
-        list_organization_memberships(
-          before: before,
-          after: cursor,
-          limit: limit,
-          order: order,
-          organization_id: organization_id,
-          statuses: statuses,
-          user_id: user_id,
-          request_options: request_options
-        )
-      end
+      WorkOS::Types::ListStruct.from_response(
+        response, model: WorkOS::UserOrganizationMembership, filters: {before: before, limit: limit, order: order, organization_id: organization_id, statuses: statuses, user_id: user_id},
+        fetch_next: lambda do |cursor|
+          list_organization_memberships(
+            before: before,
+            after: cursor,
+            limit: limit,
+            order: order,
+            organization_id: organization_id,
+            statuses: statuses,
+            user_id: user_id,
+            request_options: request_options
+          )
+        end,
+        fetch_previous: lambda do |cursor|
+          list_organization_memberships(
+            before: cursor,
+            after: nil,
+            limit: limit,
+            order: order,
+            organization_id: organization_id,
+            statuses: statuses,
+            user_id: user_id,
+            request_options: request_options
+          )
+        end
+      )
     end
 
     # Create an organization membership
@@ -1095,16 +1152,29 @@ module WorkOS
         "order" => order
       }.compact
       response = @client.request(method: :get, path: "/user_management/users/#{WorkOS::Util.encode_path(user_id)}/authorized_applications", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::AuthorizedConnectApplicationListData, filters: {user_id: user_id, before: before, limit: limit, order: order}) do |cursor|
-        list_user_authorized_applications(
-          user_id: user_id,
-          before: before,
-          after: cursor,
-          limit: limit,
-          order: order,
-          request_options: request_options
-        )
-      end
+      WorkOS::Types::ListStruct.from_response(
+        response, model: WorkOS::AuthorizedConnectApplicationListData, filters: {user_id: user_id, before: before, limit: limit, order: order},
+        fetch_next: lambda do |cursor|
+          list_user_authorized_applications(
+            user_id: user_id,
+            before: before,
+            after: cursor,
+            limit: limit,
+            order: order,
+            request_options: request_options
+          )
+        end,
+        fetch_previous: lambda do |cursor|
+          list_user_authorized_applications(
+            user_id: user_id,
+            before: cursor,
+            after: nil,
+            limit: limit,
+            order: order,
+            request_options: request_options
+          )
+        end
+      )
     end
 
     # Delete an authorized application

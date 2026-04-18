@@ -8,10 +8,21 @@ module WorkOS
     module Signature
       module_function
 
+      # Computes the expected signature hash for a webhook or action payload.
+      #
+      # @param payload [String] Raw request body.
+      # @param timestamp [String] Timestamp extracted from the signature header.
+      # @param secret [String] Webhook or action signing secret.
+      # @return [String]
       def compute(payload:, timestamp:, secret:)
         OpenSSL::HMAC.hexdigest("SHA256", secret, "#{timestamp}.#{payload}")
       end
 
+      # Parses the WorkOS signature header.
+      #
+      # @param sig_header [String] Header value in `t=..., v1=...` format.
+      # @return [Array(String, String)]
+      # @raise [ArgumentError] If the header is missing or malformed.
       def parse_header(sig_header)
         raise ArgumentError, "Signature header missing" if sig_header.nil? || sig_header.empty?
 
@@ -23,6 +34,11 @@ module WorkOS
         [timestamp, signature]
       end
 
+      # Compares two signature hashes in constant time.
+      #
+      # @param a [String]
+      # @param b [String]
+      # @return [Boolean]
       def secure_compare(a, b)
         return false if a.bytesize != b.bytesize
 

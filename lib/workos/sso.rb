@@ -43,19 +43,35 @@ module WorkOS
         "search" => search
       }.compact
       response = @client.request(method: :get, path: "/connections", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::Connection, filters: {before: before, limit: limit, order: order, connection_type: connection_type, domain: domain, organization_id: organization_id, search: search}) do |cursor|
-        list_connections(
-          before: before,
-          after: cursor,
-          limit: limit,
-          order: order,
-          connection_type: connection_type,
-          domain: domain,
-          organization_id: organization_id,
-          search: search,
-          request_options: request_options
-        )
-      end
+      WorkOS::Types::ListStruct.from_response(
+        response, model: WorkOS::Connection, filters: {before: before, limit: limit, order: order, connection_type: connection_type, domain: domain, organization_id: organization_id, search: search},
+        fetch_next: lambda do |cursor|
+          list_connections(
+            before: before,
+            after: cursor,
+            limit: limit,
+            order: order,
+            connection_type: connection_type,
+            domain: domain,
+            organization_id: organization_id,
+            search: search,
+            request_options: request_options
+          )
+        end,
+        fetch_previous: lambda do |cursor|
+          list_connections(
+            before: cursor,
+            after: nil,
+            limit: limit,
+            order: order,
+            connection_type: connection_type,
+            domain: domain,
+            organization_id: organization_id,
+            search: search,
+            request_options: request_options
+          )
+        end
+      )
     end
 
     # Get a Connection
@@ -113,16 +129,13 @@ module WorkOS
       code:,
       request_options: {}
     )
-      params = {
-        "code" => code
-      }.compact
       body = {
         "grant_type" => "authorization_code",
-        "client_id" => @client.client_id,
-        "client_secret" => @client.api_key,
+        "client_id" => request_options[:client_id] || request_options["client_id"] || @client.client_id,
+        "client_secret" => request_options[:api_key] || request_options["api_key"] || @client.api_key,
         "code" => code
       }.compact
-      response = @client.request(method: :post, path: "/sso/token", auth: true, params: params, body: body, request_options: request_options)
+      response = @client.request(method: :post, path: "/sso/token", auth: true, body: body, request_options: request_options)
       WorkOS::SSOTokenResponse.new(response.body)
     end
 

@@ -60,15 +60,27 @@ module WorkOS
         "order" => order
       }.compact
       response = @client.request(method: :get, path: "/audit_logs/actions", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::AuditLogAction, filters: {before: before, limit: limit, order: order}) do |cursor|
-        list_actions(
-          before: before,
-          after: cursor,
-          limit: limit,
-          order: order,
-          request_options: request_options
-        )
-      end
+      WorkOS::Types::ListStruct.from_response(
+        response, model: WorkOS::AuditLogAction, filters: {before: before, limit: limit, order: order},
+        fetch_next: lambda do |cursor|
+          list_actions(
+            before: before,
+            after: cursor,
+            limit: limit,
+            order: order,
+            request_options: request_options
+          )
+        end,
+        fetch_previous: lambda do |cursor|
+          list_actions(
+            before: cursor,
+            after: nil,
+            limit: limit,
+            order: order,
+            request_options: request_options
+          )
+        end
+      )
     end
 
     # List Schemas
@@ -94,16 +106,29 @@ module WorkOS
         "order" => order
       }.compact
       response = @client.request(method: :get, path: "/audit_logs/actions/#{WorkOS::Util.encode_path(action_name)}/schemas", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::AuditLogSchema, filters: {action_name: action_name, before: before, limit: limit, order: order}) do |cursor|
-        list_action_schemas(
-          action_name: action_name,
-          before: before,
-          after: cursor,
-          limit: limit,
-          order: order,
-          request_options: request_options
-        )
-      end
+      WorkOS::Types::ListStruct.from_response(
+        response, model: WorkOS::AuditLogSchema, filters: {action_name: action_name, before: before, limit: limit, order: order},
+        fetch_next: lambda do |cursor|
+          list_action_schemas(
+            action_name: action_name,
+            before: before,
+            after: cursor,
+            limit: limit,
+            order: order,
+            request_options: request_options
+          )
+        end,
+        fetch_previous: lambda do |cursor|
+          list_action_schemas(
+            action_name: action_name,
+            before: cursor,
+            after: nil,
+            limit: limit,
+            order: order,
+            request_options: request_options
+          )
+        end
+      )
     end
 
     # Create Schema

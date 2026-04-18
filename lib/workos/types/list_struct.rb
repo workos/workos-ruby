@@ -12,12 +12,13 @@ module WorkOS
     class ListStruct
       include Enumerable
 
-      attr_accessor :data, :list_metadata, :fetch_next, :filters
+      attr_accessor :data, :list_metadata, :fetch_next, :fetch_previous, :filters
 
-      def initialize(data:, list_metadata:, fetch_next: nil, filters: {})
+      def initialize(data:, list_metadata:, fetch_next: nil, fetch_previous: nil, filters: {})
         @data = data || []
         @list_metadata = list_metadata || {}
         @fetch_next = fetch_next
+        @fetch_previous = fetch_previous
         @filters = filters
       end
 
@@ -28,27 +29,27 @@ module WorkOS
       # @param model [Class, nil] Model class whose `.new` accepts a Hash.
       #   When nil, items are returned as raw Hashes.
       # @param filters [Hash] Filter state forwarded to the next page.
-      # @yield [cursor] Block called to fetch the next page given a cursor string.
+      # @param fetch_next [Proc, nil] Proc called to fetch the next page given
+      #   the current page's `after` cursor.
+      # @param fetch_previous [Proc, nil] Proc called to fetch the previous page
+      #   given the current page's `before` cursor.
       # @return [ListStruct]
-      def self.from_response(response, model: nil, filters: {}, &fetch_page)
+      def self.from_response(response, model: nil, filters: {}, fetch_next: nil, fetch_previous: nil)
         parsed = JSON.parse(response.body)
         items = parsed["data"] || []
         items = items.map { |item| model.new(item) } if model
-        fetch_next_proc = if fetch_page
-          ->(md) {
-            cursor = md.is_a?(Hash) ? (md["after"] || md[:after]) : nil
-            return nil if cursor.nil? || cursor.to_s.empty?
-            fetch_page.call(cursor)
-          }
-        end
         new(
           data: items,
           list_metadata: parsed["list_metadata"],
           filters: filters,
-          fetch_next: fetch_next_proc
+          fetch_next: fetch_next,
+          fetch_previous: fetch_previous
         )
       end
 
+      # Iterates the current page only. Use `auto_paging_each` to span pages.
+      #
+      # @return [Enumerator]
       def each(&block)
         @data.each(&block)
       end
@@ -56,6 +57,28 @@ module WorkOS
       def has_more?
         cursor = @list_metadata.is_a?(Hash) ? (@list_metadata["after"] || @list_metadata[:after]) : nil
         !cursor.nil? && !cursor.to_s.empty?
+      end
+
+      # Fetch the next page when an `after` cursor is present.
+      #
+      # @return [ListStruct, nil]
+      def next_page
+        cursor = @list_metadata.is_a?(Hash) ? (@list_metadata["after"] || @list_metadata[:after]) : nil
+        return nil if cursor.nil? || cursor.to_s.empty?
+        return nil unless @fetch_next
+
+        @fetch_next.call(cursor)
+      end
+
+      # Fetch the previous page when a `before` cursor is present.
+      #
+      # @return [ListStruct, nil]
+      def previous_page
+        cursor = @list_metadata.is_a?(Hash) ? (@list_metadata["before"] || @list_metadata[:before]) : nil
+        return nil if cursor.nil? || cursor.to_s.empty?
+        return nil unless @fetch_previous
+
+        @fetch_previous.call(cursor)
       end
 
       # Iterate over every item across pages.
@@ -69,9 +92,7 @@ module WorkOS
         page = self
         loop do
           page.data.each { |item| yield item }
-          break unless page.fetch_next
-
-          next_page = page.fetch_next.call(page.list_metadata)
+          next_page = page.next_page
           break if next_page.nil?
           break unless next_page.is_a?(ListStruct)
           break if next_page.data.nil? || next_page.data.empty?
@@ -91,9 +112,7 @@ module WorkOS
         page = self
         loop do
           yield page
-          break unless page.fetch_next
-
-          next_page = page.fetch_next.call(page.list_metadata)
+          next_page = page.next_page
           break if next_page.nil?
           break unless next_page.is_a?(ListStruct)
           break if next_page.data.nil? || next_page.data.empty?

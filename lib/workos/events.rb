@@ -43,19 +43,35 @@ module WorkOS
         "organization_id" => organization_id
       }.compact
       response = @client.request(method: :get, path: "/events", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::EventSchema, filters: {before: before, limit: limit, order: order, events: events, range_start: range_start, range_end: range_end, organization_id: organization_id}) do |cursor|
-        list_events(
-          before: before,
-          after: cursor,
-          limit: limit,
-          order: order,
-          events: events,
-          range_start: range_start,
-          range_end: range_end,
-          organization_id: organization_id,
-          request_options: request_options
-        )
-      end
+      WorkOS::Types::ListStruct.from_response(
+        response, model: WorkOS::EventSchema, filters: {before: before, limit: limit, order: order, events: events, range_start: range_start, range_end: range_end, organization_id: organization_id},
+        fetch_next: lambda do |cursor|
+          list_events(
+            before: before,
+            after: cursor,
+            limit: limit,
+            order: order,
+            events: events,
+            range_start: range_start,
+            range_end: range_end,
+            organization_id: organization_id,
+            request_options: request_options
+          )
+        end,
+        fetch_previous: lambda do |cursor|
+          list_events(
+            before: cursor,
+            after: nil,
+            limit: limit,
+            order: order,
+            events: events,
+            range_start: range_start,
+            range_end: range_end,
+            organization_id: organization_id,
+            request_options: request_options
+          )
+        end
+      )
     end
   end
 end

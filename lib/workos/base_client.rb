@@ -18,6 +18,7 @@ module WorkOS
     DEFAULT_MAX_RETRIES = 2
     RETRYABLE_STATUSES = [408, 409, 429, 500, 502, 503, 504].freeze
     RETRY_BACKOFF_BASE = 0.5
+    LOG_SEVERITY = {debug: 0, info: 1, warn: 2, error: 3, unknown: 4}.freeze
 
     USER_AGENT = "workos-ruby/#{WorkOS::VERSION} ruby/#{RUBY_VERSION} (#{RUBY_PLATFORM})"
 
@@ -84,10 +85,19 @@ module WorkOS
     # it in a single call, removing the need for callers to pass
     # request_options twice.
     def request(method:, path:, auth: true, params: {}, body: nil, request_options: nil)
-      req = if method == :get
+      raise ArgumentError, "unsupported method" unless %i[get post put patch delete].include?(method)
+
+      req = case method
+      when :get
         get_request(path: path, auth: auth, params: params, request_options: request_options)
-      else
-        send("#{method}_request", path: path, auth: auth, body: body, params: params, request_options: request_options)
+      when :post
+        post_request(path: path, auth: auth, body: body, params: params, request_options: request_options)
+      when :put
+        put_request(path: path, auth: auth, body: body, params: params, request_options: request_options)
+      when :patch
+        patch_request(path: path, auth: auth, body: body, params: params, request_options: request_options)
+      when :delete
+        delete_request(path: path, auth: auth, body: body, params: params, request_options: request_options)
       end
       execute_request(request: req, request_options: request_options)
     end
@@ -202,6 +212,8 @@ module WorkOS
         request["Authorization"] = "Bearer #{key}" if key && !key.empty?
       end
       request["User-Agent"] = USER_AGENT
+      # Apply user headers before idempotency injection so caller-supplied
+      # Idempotency-Key values win.
       apply_extra_headers(request, request_options)
       request
     end
@@ -232,15 +244,19 @@ module WorkOS
     def log(level, message, details = {})
       sink = @logger
       return unless sink
+      return unless loggable?(level)
 
-      log_level = @log_level || level
       formatter = details.compact.map { |key, value| "#{key}=#{value}" }.join(" ")
       line = formatter.empty? ? message : "#{message} #{formatter}"
-      if sink.respond_to?(log_level)
-        sink.public_send(log_level, line)
+      if sink.respond_to?(level)
+        sink.public_send(level, line)
       elsif sink.respond_to?(:add)
-        sink.add(log_level_to_severity(log_level), line)
+        sink.add(log_level_to_severity(level), line)
       end
+    end
+
+    def loggable?(level)
+      LOG_SEVERITY.fetch(level, LOG_SEVERITY[:unknown]) >= LOG_SEVERITY.fetch(@log_level || :debug, LOG_SEVERITY[:debug])
     end
 
     def log_level_to_severity(level)
@@ -289,6 +305,10 @@ module WorkOS
       when 401 then raise WorkOS::AuthenticationError.new(**error_args)
       when 403 then raise WorkOS::ForbiddenRequestError.new(**error_args)
       when 404 then raise WorkOS::NotFoundError.new(**error_args)
+      when 409
+        raise WorkOS::IdempotencyError.new(**error_args) if body["code"] == "idempotency_error"
+
+        raise WorkOS::APIError.new(**error_args)
       when 422 then raise WorkOS::UnprocessableEntityError.new(**error_args)
       when 429 then raise WorkOS::RateLimitExceededError.new(**error_args)
       else raise WorkOS::APIError.new(**error_args)

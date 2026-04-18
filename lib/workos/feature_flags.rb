@@ -31,15 +31,27 @@ module WorkOS
         "order" => order
       }.compact
       response = @client.request(method: :get, path: "/feature-flags", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::Flag, filters: {before: before, limit: limit, order: order}) do |cursor|
-        list_feature_flags(
-          before: before,
-          after: cursor,
-          limit: limit,
-          order: order,
-          request_options: request_options
-        )
-      end
+      WorkOS::Types::ListStruct.from_response(
+        response, model: WorkOS::Flag, filters: {before: before, limit: limit, order: order},
+        fetch_next: lambda do |cursor|
+          list_feature_flags(
+            before: before,
+            after: cursor,
+            limit: limit,
+            order: order,
+            request_options: request_options
+          )
+        end,
+        fetch_previous: lambda do |cursor|
+          list_feature_flags(
+            before: cursor,
+            after: nil,
+            limit: limit,
+            order: order,
+            request_options: request_options
+          )
+        end
+      )
     end
 
     # Get a feature flag
@@ -129,16 +141,29 @@ module WorkOS
         "order" => order
       }.compact
       response = @client.request(method: :get, path: "/organizations/#{WorkOS::Util.encode_path(organization_id)}/feature-flags", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::Flag, filters: {organization_id: organization_id, before: before, limit: limit, order: order}) do |cursor|
-        list_organization_feature_flags(
-          organization_id: organization_id,
-          before: before,
-          after: cursor,
-          limit: limit,
-          order: order,
-          request_options: request_options
-        )
-      end
+      WorkOS::Types::ListStruct.from_response(
+        response, model: WorkOS::Flag, filters: {organization_id: organization_id, before: before, limit: limit, order: order},
+        fetch_next: lambda do |cursor|
+          list_organization_feature_flags(
+            organization_id: organization_id,
+            before: before,
+            after: cursor,
+            limit: limit,
+            order: order,
+            request_options: request_options
+          )
+        end,
+        fetch_previous: lambda do |cursor|
+          list_organization_feature_flags(
+            organization_id: organization_id,
+            before: cursor,
+            after: nil,
+            limit: limit,
+            order: order,
+            request_options: request_options
+          )
+        end
+      )
     end
 
     # List enabled feature flags for a user
@@ -164,16 +189,29 @@ module WorkOS
         "order" => order
       }.compact
       response = @client.request(method: :get, path: "/user_management/users/#{WorkOS::Util.encode_path(user_id)}/feature-flags", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::Flag, filters: {user_id: user_id, before: before, limit: limit, order: order}) do |cursor|
-        list_user_feature_flags(
-          user_id: user_id,
-          before: before,
-          after: cursor,
-          limit: limit,
-          order: order,
-          request_options: request_options
-        )
-      end
+      WorkOS::Types::ListStruct.from_response(
+        response, model: WorkOS::Flag, filters: {user_id: user_id, before: before, limit: limit, order: order},
+        fetch_next: lambda do |cursor|
+          list_user_feature_flags(
+            user_id: user_id,
+            before: before,
+            after: cursor,
+            limit: limit,
+            order: order,
+            request_options: request_options
+          )
+        end,
+        fetch_previous: lambda do |cursor|
+          list_user_feature_flags(
+            user_id: user_id,
+            before: cursor,
+            after: nil,
+            limit: limit,
+            order: order,
+            request_options: request_options
+          )
+        end
+      )
     end
   end
 end

@@ -17,11 +17,12 @@ module WorkOS
 
   class APIError < Error; end
   class APIConnectionError < Error; end
-  class AuthenticationError < Error; end
-  class ForbiddenRequestError < Error; end
-  class InvalidRequestError < Error; end
-  class NotFoundError < Error; end
-  class RateLimitExceededError < Error; end
-  class UnprocessableEntityError < Error; end
+  class AuthenticationError < APIError; end
+  class ForbiddenRequestError < APIError; end
+  class IdempotencyError < APIError; end
+  class InvalidRequestError < APIError; end
+  class NotFoundError < APIError; end
+  class RateLimitExceededError < APIError; end
+  class UnprocessableEntityError < APIError; end
   class SignatureVerificationError < Error; end
 end

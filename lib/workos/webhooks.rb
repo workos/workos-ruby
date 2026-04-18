@@ -31,15 +31,27 @@ module WorkOS
         "order" => order
       }.compact
       response = @client.request(method: :get, path: "/webhook_endpoints", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::WebhookEndpoint, filters: {before: before, limit: limit, order: order}) do |cursor|
-        list_webhook_endpoints(
-          before: before,
-          after: cursor,
-          limit: limit,
-          order: order,
-          request_options: request_options
-        )
-      end
+      WorkOS::Types::ListStruct.from_response(
+        response, model: WorkOS::WebhookEndpoint, filters: {before: before, limit: limit, order: order},
+        fetch_next: lambda do |cursor|
+          list_webhook_endpoints(
+            before: before,
+            after: cursor,
+            limit: limit,
+            order: order,
+            request_options: request_options
+          )
+        end,
+        fetch_previous: lambda do |cursor|
+          list_webhook_endpoints(
+            before: cursor,
+            after: nil,
+            limit: limit,
+            order: order,
+            request_options: request_options
+          )
+        end
+      )
     end
 
     # Create a Webhook Endpoint

@@ -40,18 +40,33 @@ module WorkOS
         "domain" => domain
       }.compact
       response = @client.request(method: :get, path: "/directories", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::Directory, filters: {before: before, limit: limit, order: order, organization_id: organization_id, search: search, domain: domain}) do |cursor|
-        list_directories(
-          before: before,
-          after: cursor,
-          limit: limit,
-          order: order,
-          organization_id: organization_id,
-          search: search,
-          domain: domain,
-          request_options: request_options
-        )
-      end
+      WorkOS::Types::ListStruct.from_response(
+        response, model: WorkOS::Directory, filters: {before: before, limit: limit, order: order, organization_id: organization_id, search: search, domain: domain},
+        fetch_next: lambda do |cursor|
+          list_directories(
+            before: before,
+            after: cursor,
+            limit: limit,
+            order: order,
+            organization_id: organization_id,
+            search: search,
+            domain: domain,
+            request_options: request_options
+          )
+        end,
+        fetch_previous: lambda do |cursor|
+          list_directories(
+            before: cursor,
+            after: nil,
+            limit: limit,
+            order: order,
+            organization_id: organization_id,
+            search: search,
+            domain: domain,
+            request_options: request_options
+          )
+        end
+      )
     end
 
     # Get a Directory
@@ -105,17 +120,31 @@ module WorkOS
         "user" => user
       }.compact
       response = @client.request(method: :get, path: "/directory_groups", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::DirectoryGroup, filters: {before: before, limit: limit, order: order, directory: directory, user: user}) do |cursor|
-        list_groups(
-          before: before,
-          after: cursor,
-          limit: limit,
-          order: order,
-          directory: directory,
-          user: user,
-          request_options: request_options
-        )
-      end
+      WorkOS::Types::ListStruct.from_response(
+        response, model: WorkOS::DirectoryGroup, filters: {before: before, limit: limit, order: order, directory: directory, user: user},
+        fetch_next: lambda do |cursor|
+          list_groups(
+            before: before,
+            after: cursor,
+            limit: limit,
+            order: order,
+            directory: directory,
+            user: user,
+            request_options: request_options
+          )
+        end,
+        fetch_previous: lambda do |cursor|
+          list_groups(
+            before: cursor,
+            after: nil,
+            limit: limit,
+            order: order,
+            directory: directory,
+            user: user,
+            request_options: request_options
+          )
+        end
+      )
     end
 
     # Get a Directory Group
@@ -157,17 +186,31 @@ module WorkOS
         "group" => group
       }.compact
       response = @client.request(method: :get, path: "/directory_users", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::DirectoryUserWithGroups, filters: {before: before, limit: limit, order: order, directory: directory, group: group}) do |cursor|
-        list_users(
-          before: before,
-          after: cursor,
-          limit: limit,
-          order: order,
-          directory: directory,
-          group: group,
-          request_options: request_options
-        )
-      end
+      WorkOS::Types::ListStruct.from_response(
+        response, model: WorkOS::DirectoryUserWithGroups, filters: {before: before, limit: limit, order: order, directory: directory, group: group},
+        fetch_next: lambda do |cursor|
+          list_users(
+            before: before,
+            after: cursor,
+            limit: limit,
+            order: order,
+            directory: directory,
+            group: group,
+            request_options: request_options
+          )
+        end,
+        fetch_previous: lambda do |cursor|
+          list_users(
+            before: cursor,
+            after: nil,
+            limit: limit,
+            order: order,
+            directory: directory,
+            group: group,
+            request_options: request_options
+          )
+        end
+      )
     end
 
     # Get a Directory User

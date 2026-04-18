@@ -79,18 +79,33 @@ module WorkOS
         params["parent_resource_external_id"] = parent_resource[:parent_resource_external_id]
       end
       response = @client.request(method: :get, path: "/authorization/organization_memberships/#{WorkOS::Util.encode_path(organization_membership_id)}/resources", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::AuthorizationResource, filters: {organization_membership_id: organization_membership_id, before: before, limit: limit, order: order, permission_slug: permission_slug, parent_resource: parent_resource}) do |cursor|
-        list_organization_membership_resources(
-          organization_membership_id: organization_membership_id,
-          before: before,
-          after: cursor,
-          limit: limit,
-          order: order,
-          permission_slug: permission_slug,
-          parent_resource: parent_resource,
-          request_options: request_options
-        )
-      end
+      WorkOS::Types::ListStruct.from_response(
+        response, model: WorkOS::AuthorizationResource, filters: {organization_membership_id: organization_membership_id, before: before, limit: limit, order: order, permission_slug: permission_slug, parent_resource: parent_resource},
+        fetch_next: lambda do |cursor|
+          list_organization_membership_resources(
+            organization_membership_id: organization_membership_id,
+            before: before,
+            after: cursor,
+            limit: limit,
+            order: order,
+            permission_slug: permission_slug,
+            parent_resource: parent_resource,
+            request_options: request_options
+          )
+        end,
+        fetch_previous: lambda do |cursor|
+          list_organization_membership_resources(
+            organization_membership_id: organization_membership_id,
+            before: cursor,
+            after: nil,
+            limit: limit,
+            order: order,
+            permission_slug: permission_slug,
+            parent_resource: parent_resource,
+            request_options: request_options
+          )
+        end
+      )
     end
 
     # List effective permissions for an organization membership on a resource
@@ -118,17 +133,31 @@ module WorkOS
         "order" => order
       }.compact
       response = @client.request(method: :get, path: "/authorization/organization_memberships/#{WorkOS::Util.encode_path(organization_membership_id)}/resources/#{WorkOS::Util.encode_path(resource_id)}/permissions", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::AuthorizationPermission, filters: {organization_membership_id: organization_membership_id, resource_id: resource_id, before: before, limit: limit, order: order}) do |cursor|
-        list_resource_permissions(
-          organization_membership_id: organization_membership_id,
-          resource_id: resource_id,
-          before: before,
-          after: cursor,
-          limit: limit,
-          order: order,
-          request_options: request_options
-        )
-      end
+      WorkOS::Types::ListStruct.from_response(
+        response, model: WorkOS::AuthorizationPermission, filters: {organization_membership_id: organization_membership_id, resource_id: resource_id, before: before, limit: limit, order: order},
+        fetch_next: lambda do |cursor|
+          list_resource_permissions(
+            organization_membership_id: organization_membership_id,
+            resource_id: resource_id,
+            before: before,
+            after: cursor,
+            limit: limit,
+            order: order,
+            request_options: request_options
+          )
+        end,
+        fetch_previous: lambda do |cursor|
+          list_resource_permissions(
+            organization_membership_id: organization_membership_id,
+            resource_id: resource_id,
+            before: cursor,
+            after: nil,
+            limit: limit,
+            order: order,
+            request_options: request_options
+          )
+        end
+      )
     end
 
     # List effective permissions for an organization membership on a resource by external ID
@@ -158,18 +187,33 @@ module WorkOS
         "order" => order
       }.compact
       response = @client.request(method: :get, path: "/authorization/organization_memberships/#{WorkOS::Util.encode_path(organization_membership_id)}/resources/#{WorkOS::Util.encode_path(resource_type_slug)}/#{WorkOS::Util.encode_path(external_id)}/permissions", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::AuthorizationPermission, filters: {organization_membership_id: organization_membership_id, resource_type_slug: resource_type_slug, external_id: external_id, before: before, limit: limit, order: order}) do |cursor|
-        list_effective_permissions_by_external_id(
-          organization_membership_id: organization_membership_id,
-          resource_type_slug: resource_type_slug,
-          external_id: external_id,
-          before: before,
-          after: cursor,
-          limit: limit,
-          order: order,
-          request_options: request_options
-        )
-      end
+      WorkOS::Types::ListStruct.from_response(
+        response, model: WorkOS::AuthorizationPermission, filters: {organization_membership_id: organization_membership_id, resource_type_slug: resource_type_slug, external_id: external_id, before: before, limit: limit, order: order},
+        fetch_next: lambda do |cursor|
+          list_effective_permissions_by_external_id(
+            organization_membership_id: organization_membership_id,
+            resource_type_slug: resource_type_slug,
+            external_id: external_id,
+            before: before,
+            after: cursor,
+            limit: limit,
+            order: order,
+            request_options: request_options
+          )
+        end,
+        fetch_previous: lambda do |cursor|
+          list_effective_permissions_by_external_id(
+            organization_membership_id: organization_membership_id,
+            resource_type_slug: resource_type_slug,
+            external_id: external_id,
+            before: cursor,
+            after: nil,
+            limit: limit,
+            order: order,
+            request_options: request_options
+          )
+        end
+      )
     end
 
     # List role assignments
@@ -195,16 +239,29 @@ module WorkOS
         "order" => order
       }.compact
       response = @client.request(method: :get, path: "/authorization/organization_memberships/#{WorkOS::Util.encode_path(organization_membership_id)}/role_assignments", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::RoleAssignment, filters: {organization_membership_id: organization_membership_id, before: before, limit: limit, order: order}) do |cursor|
-        list_organization_membership_role_assignments(
-          organization_membership_id: organization_membership_id,
-          before: before,
-          after: cursor,
-          limit: limit,
-          order: order,
-          request_options: request_options
-        )
-      end
+      WorkOS::Types::ListStruct.from_response(
+        response, model: WorkOS::RoleAssignment, filters: {organization_membership_id: organization_membership_id, before: before, limit: limit, order: order},
+        fetch_next: lambda do |cursor|
+          list_organization_membership_role_assignments(
+            organization_membership_id: organization_membership_id,
+            before: before,
+            after: cursor,
+            limit: limit,
+            order: order,
+            request_options: request_options
+          )
+        end,
+        fetch_previous: lambda do |cursor|
+          list_organization_membership_role_assignments(
+            organization_membership_id: organization_membership_id,
+            before: cursor,
+            after: nil,
+            limit: limit,
+            order: order,
+            request_options: request_options
+          )
+        end
+      )
     end
 
     # Assign a role
@@ -547,20 +604,37 @@ module WorkOS
         "assignment" => assignment
       }.compact
       response = @client.request(method: :get, path: "/authorization/organizations/#{WorkOS::Util.encode_path(organization_id)}/resources/#{WorkOS::Util.encode_path(resource_type_slug)}/#{WorkOS::Util.encode_path(external_id)}/organization_memberships", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::UserOrganizationMembershipBaseListData, filters: {organization_id: organization_id, resource_type_slug: resource_type_slug, external_id: external_id, before: before, limit: limit, order: order, permission_slug: permission_slug, assignment: assignment}) do |cursor|
-        list_resource_organization_memberships(
-          organization_id: organization_id,
-          resource_type_slug: resource_type_slug,
-          external_id: external_id,
-          before: before,
-          after: cursor,
-          limit: limit,
-          order: order,
-          permission_slug: permission_slug,
-          assignment: assignment,
-          request_options: request_options
-        )
-      end
+      WorkOS::Types::ListStruct.from_response(
+        response, model: WorkOS::UserOrganizationMembershipBaseListData, filters: {organization_id: organization_id, resource_type_slug: resource_type_slug, external_id: external_id, before: before, limit: limit, order: order, permission_slug: permission_slug, assignment: assignment},
+        fetch_next: lambda do |cursor|
+          list_resource_organization_memberships(
+            organization_id: organization_id,
+            resource_type_slug: resource_type_slug,
+            external_id: external_id,
+            before: before,
+            after: cursor,
+            limit: limit,
+            order: order,
+            permission_slug: permission_slug,
+            assignment: assignment,
+            request_options: request_options
+          )
+        end,
+        fetch_previous: lambda do |cursor|
+          list_resource_organization_memberships(
+            organization_id: organization_id,
+            resource_type_slug: resource_type_slug,
+            external_id: external_id,
+            before: cursor,
+            after: nil,
+            limit: limit,
+            order: order,
+            permission_slug: permission_slug,
+            assignment: assignment,
+            request_options: request_options
+          )
+        end
+      )
     end
 
     # List resources
@@ -603,19 +677,35 @@ module WorkOS
         end
       end
       response = @client.request(method: :get, path: "/authorization/resources", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::AuthorizationResource, filters: {before: before, limit: limit, order: order, organization_id: organization_id, resource_type_slug: resource_type_slug, search: search, parent: parent}) do |cursor|
-        list_resources(
-          before: before,
-          after: cursor,
-          limit: limit,
-          order: order,
-          organization_id: organization_id,
-          resource_type_slug: resource_type_slug,
-          search: search,
-          parent: parent,
-          request_options: request_options
-        )
-      end
+      WorkOS::Types::ListStruct.from_response(
+        response, model: WorkOS::AuthorizationResource, filters: {before: before, limit: limit, order: order, organization_id: organization_id, resource_type_slug: resource_type_slug, search: search, parent: parent},
+        fetch_next: lambda do |cursor|
+          list_resources(
+            before: before,
+            after: cursor,
+            limit: limit,
+            order: order,
+            organization_id: organization_id,
+            resource_type_slug: resource_type_slug,
+            search: search,
+            parent: parent,
+            request_options: request_options
+          )
+        end,
+        fetch_previous: lambda do |cursor|
+          list_resources(
+            before: cursor,
+            after: nil,
+            limit: limit,
+            order: order,
+            organization_id: organization_id,
+            resource_type_slug: resource_type_slug,
+            search: search,
+            parent: parent,
+            request_options: request_options
+          )
+        end
+      )
     end
 
     # Create an authorization resource
@@ -763,18 +853,33 @@ module WorkOS
         "assignment" => assignment
       }.compact
       response = @client.request(method: :get, path: "/authorization/resources/#{WorkOS::Util.encode_path(resource_id)}/organization_memberships", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::UserOrganizationMembershipBaseListData, filters: {resource_id: resource_id, before: before, limit: limit, order: order, permission_slug: permission_slug, assignment: assignment}) do |cursor|
-        list_memberships_for_resource(
-          resource_id: resource_id,
-          before: before,
-          after: cursor,
-          limit: limit,
-          order: order,
-          permission_slug: permission_slug,
-          assignment: assignment,
-          request_options: request_options
-        )
-      end
+      WorkOS::Types::ListStruct.from_response(
+        response, model: WorkOS::UserOrganizationMembershipBaseListData, filters: {resource_id: resource_id, before: before, limit: limit, order: order, permission_slug: permission_slug, assignment: assignment},
+        fetch_next: lambda do |cursor|
+          list_memberships_for_resource(
+            resource_id: resource_id,
+            before: before,
+            after: cursor,
+            limit: limit,
+            order: order,
+            permission_slug: permission_slug,
+            assignment: assignment,
+            request_options: request_options
+          )
+        end,
+        fetch_previous: lambda do |cursor|
+          list_memberships_for_resource(
+            resource_id: resource_id,
+            before: cursor,
+            after: nil,
+            limit: limit,
+            order: order,
+            permission_slug: permission_slug,
+            assignment: assignment,
+            request_options: request_options
+          )
+        end
+      )
     end
 
     # List environment roles
@@ -896,15 +1001,27 @@ module WorkOS
         "order" => order
       }.compact
       response = @client.request(method: :get, path: "/authorization/permissions", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::AuthorizationPermission, filters: {before: before, limit: limit, order: order}) do |cursor|
-        list_permissions(
-          before: before,
-          after: cursor,
-          limit: limit,
-          order: order,
-          request_options: request_options
-        )
-      end
+      WorkOS::Types::ListStruct.from_response(
+        response, model: WorkOS::AuthorizationPermission, filters: {before: before, limit: limit, order: order},
+        fetch_next: lambda do |cursor|
+          list_permissions(
+            before: before,
+            after: cursor,
+            limit: limit,
+            order: order,
+            request_options: request_options
+          )
+        end,
+        fetch_previous: lambda do |cursor|
+          list_permissions(
+            before: cursor,
+            after: nil,
+            limit: limit,
+            order: order,
+            request_options: request_options
+          )
+        end
+      )
     end
 
     # Create a permission

@@ -37,17 +37,31 @@ module WorkOS
         "search" => search
       }.compact
       response = @client.request(method: :get, path: "/organizations", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::Organization, filters: {before: before, limit: limit, order: order, domains: domains, search: search}) do |cursor|
-        list_organizations(
-          before: before,
-          after: cursor,
-          limit: limit,
-          order: order,
-          domains: domains,
-          search: search,
-          request_options: request_options
-        )
-      end
+      WorkOS::Types::ListStruct.from_response(
+        response, model: WorkOS::Organization, filters: {before: before, limit: limit, order: order, domains: domains, search: search},
+        fetch_next: lambda do |cursor|
+          list_organizations(
+            before: before,
+            after: cursor,
+            limit: limit,
+            order: order,
+            domains: domains,
+            search: search,
+            request_options: request_options
+          )
+        end,
+        fetch_previous: lambda do |cursor|
+          list_organizations(
+            before: cursor,
+            after: nil,
+            limit: limit,
+            order: order,
+            domains: domains,
+            search: search,
+            request_options: request_options
+          )
+        end
+      )
     end
 
     # Create an Organization

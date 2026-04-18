@@ -60,16 +60,29 @@ module WorkOS
         "order" => order
       }.compact
       response = @client.request(method: :get, path: "/organizations/#{WorkOS::Util.encode_path(organization_id)}/api_keys", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::ApiKey, filters: {organization_id: organization_id, before: before, limit: limit, order: order}) do |cursor|
-        list_organization_api_keys(
-          organization_id: organization_id,
-          before: before,
-          after: cursor,
-          limit: limit,
-          order: order,
-          request_options: request_options
-        )
-      end
+      WorkOS::Types::ListStruct.from_response(
+        response, model: WorkOS::ApiKey, filters: {organization_id: organization_id, before: before, limit: limit, order: order},
+        fetch_next: lambda do |cursor|
+          list_organization_api_keys(
+            organization_id: organization_id,
+            before: before,
+            after: cursor,
+            limit: limit,
+            order: order,
+            request_options: request_options
+          )
+        end,
+        fetch_previous: lambda do |cursor|
+          list_organization_api_keys(
+            organization_id: organization_id,
+            before: cursor,
+            after: nil,
+            limit: limit,
+            order: order,
+            request_options: request_options
+          )
+        end
+      )
     end
 
     # Create an API key for an organization
