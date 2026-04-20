@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    OrganizationDomainVerificationFailedDataOrganizationDomainState = OrganizationDomainState
+    OrganizationDomainVerificationFailedDataOrganizationDomainState = OrganizationCreatedDataDomainState
   end
 end

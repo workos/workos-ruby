@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    AuthorizationOrder = EventsOrder
+    AuthorizationOrder = ApplicationsOrder
   end
 end

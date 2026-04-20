@@ -4,6 +4,10 @@
 
 module WorkOS
   module Types
-    VaultDataCreatedDataActorSource = VaultDekReadDataActorSource
+    class VaultDataCreatedDataActorSource
+      API = "api"
+      DASHBOARD = "dashboard"
+      ALL = [API, DASHBOARD].freeze
+    end
   end
 end

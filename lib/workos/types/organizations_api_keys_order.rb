@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    OrganizationsApiKeysOrder = EventsOrder
+    OrganizationsApiKeysOrder = ApplicationsOrder
   end
 end

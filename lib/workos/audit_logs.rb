@@ -13,20 +13,23 @@ module WorkOS
     # Get Retention
     # @param id [String] Unique identifier of the Organization.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::AuditLogsRetention]
+    # @return [WorkOS::AuditLogsRetentionJson]
     def get_organization_audit_logs_retention(
       id:,
       request_options: {}
     )
-      response = @client.request(method: :get, path: "/organizations/#{WorkOS::Util.encode_path(id)}/audit_logs_retention", auth: true, request_options: request_options)
-      WorkOS::AuditLogsRetention.new(response.body)
+      response = @client.execute_request(
+        request: @client.get_request(path: "/organizations/#{CGI.escape(id.to_s)}/audit_logs_retention", auth: true, request_options: request_options),
+        request_options: request_options
+      )
+      WorkOS::AuditLogsRetentionJson.new(response.body)
     end
 
     # Set Retention
     # @param id [String] Unique identifier of the Organization.
     # @param retention_period_in_days [Integer] The number of days Audit Log events will be retained. Valid values are `30` and `365`.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::AuditLogsRetention]
+    # @return [WorkOS::AuditLogsRetentionJson]
     def update_organization_audit_logs_retention(
       id:,
       retention_period_in_days:,
@@ -35,8 +38,11 @@ module WorkOS
       body = {
         "retention_period_in_days" => retention_period_in_days
       }.compact
-      response = @client.request(method: :put, path: "/organizations/#{WorkOS::Util.encode_path(id)}/audit_logs_retention", auth: true, body: body, request_options: request_options)
-      WorkOS::AuditLogsRetention.new(response.body)
+      response = @client.execute_request(
+        request: @client.put_request(path: "/organizations/#{CGI.escape(id.to_s)}/audit_logs_retention", auth: true, body: body, request_options: request_options),
+        request_options: request_options
+      )
+      WorkOS::AuditLogsRetentionJson.new(response.body)
     end
 
     # List Actions
@@ -50,7 +56,7 @@ module WorkOS
       before: nil,
       after: nil,
       limit: nil,
-      order: nil,
+      order: "desc",
       request_options: {}
     )
       params = {
@@ -59,28 +65,24 @@ module WorkOS
         "limit" => limit,
         "order" => order
       }.compact
-      response = @client.request(method: :get, path: "/audit_logs/actions", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(
-        response, model: WorkOS::AuditLogAction, filters: {before: before, limit: limit, order: order},
-        fetch_next: lambda do |cursor|
-          list_actions(
-            before: before,
-            after: cursor,
-            limit: limit,
-            order: order,
-            request_options: request_options
-          )
-        end,
-        fetch_previous: lambda do |cursor|
-          list_actions(
-            before: cursor,
-            after: nil,
-            limit: limit,
-            order: order,
-            request_options: request_options
-          )
-        end
+      response = @client.execute_request(
+        request: @client.get_request(path: "/audit_logs/actions", auth: true, params: params, request_options: request_options),
+        request_options: request_options
       )
+      parsed = JSON.parse(response.body)
+      items = (parsed["data"] || []).map { |item| WorkOS::AuditLogActionJson.new(item) }
+      fetch_next = lambda do |metadata|
+        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
+        return nil if cursor.nil? || cursor.to_s.empty?
+        list_actions(
+          before: before,
+          after: cursor,
+          limit: limit,
+          order: order,
+          request_options: request_options
+        )
+      end
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {before: before, limit: limit, order: order})
     end
 
     # List Schemas
@@ -96,7 +98,7 @@ module WorkOS
       before: nil,
       after: nil,
       limit: nil,
-      order: nil,
+      order: "desc",
       request_options: {}
     )
       params = {
@@ -105,30 +107,25 @@ module WorkOS
         "limit" => limit,
         "order" => order
       }.compact
-      response = @client.request(method: :get, path: "/audit_logs/actions/#{WorkOS::Util.encode_path(action_name)}/schemas", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(
-        response, model: WorkOS::AuditLogSchema, filters: {action_name: action_name, before: before, limit: limit, order: order},
-        fetch_next: lambda do |cursor|
-          list_action_schemas(
-            action_name: action_name,
-            before: before,
-            after: cursor,
-            limit: limit,
-            order: order,
-            request_options: request_options
-          )
-        end,
-        fetch_previous: lambda do |cursor|
-          list_action_schemas(
-            action_name: action_name,
-            before: cursor,
-            after: nil,
-            limit: limit,
-            order: order,
-            request_options: request_options
-          )
-        end
+      response = @client.execute_request(
+        request: @client.get_request(path: "/audit_logs/actions/#{CGI.escape(action_name.to_s)}/schemas", auth: true, params: params, request_options: request_options),
+        request_options: request_options
       )
+      parsed = JSON.parse(response.body)
+      items = (parsed["data"] || []).map { |item| WorkOS::AuditLogSchemaJson.new(item) }
+      fetch_next = lambda do |metadata|
+        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
+        return nil if cursor.nil? || cursor.to_s.empty?
+        list_action_schemas(
+          action_name: action_name,
+          before: before,
+          after: cursor,
+          limit: limit,
+          order: order,
+          request_options: request_options
+        )
+      end
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {action_name: action_name, before: before, limit: limit, order: order})
     end
 
     # Create Schema
@@ -137,7 +134,7 @@ module WorkOS
     # @param targets [Array<WorkOS::AuditLogSchemaTarget>] The list of targets for the schema.
     # @param metadata [Hash{String => Object}, nil] Optional JSON schema for event metadata.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::AuditLogSchema]
+    # @return [WorkOS::AuditLogSchemaJson]
     def create_schema(
       action_name:,
       targets:,
@@ -150,8 +147,11 @@ module WorkOS
         "targets" => targets,
         "metadata" => metadata
       }.compact
-      response = @client.request(method: :post, path: "/audit_logs/actions/#{WorkOS::Util.encode_path(action_name)}/schemas", auth: true, body: body, request_options: request_options)
-      WorkOS::AuditLogSchema.new(response.body)
+      response = @client.execute_request(
+        request: @client.post_request(path: "/audit_logs/actions/#{CGI.escape(action_name.to_s)}/schemas", auth: true, body: body, request_options: request_options),
+        request_options: request_options
+      )
+      WorkOS::AuditLogSchemaJson.new(response.body)
     end
 
     # Create Event
@@ -168,7 +168,10 @@ module WorkOS
         "organization_id" => organization_id,
         "event" => event
       }.compact
-      response = @client.request(method: :post, path: "/audit_logs/events", auth: true, body: body, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.post_request(path: "/audit_logs/events", auth: true, body: body, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::AuditLogEventCreateResponse.new(response.body)
     end
 
@@ -182,7 +185,7 @@ module WorkOS
     # @param actor_ids [Array<String>, nil] List of actor IDs to filter against.
     # @param targets [Array<String>, nil] List of target types to filter against.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::AuditLogExport]
+    # @return [WorkOS::AuditLogExportJson]
     def create_export(
       organization_id:,
       range_start:,
@@ -204,20 +207,26 @@ module WorkOS
         "actor_ids" => actor_ids,
         "targets" => targets
       }.compact
-      response = @client.request(method: :post, path: "/audit_logs/exports", auth: true, body: body, request_options: request_options)
-      WorkOS::AuditLogExport.new(response.body)
+      response = @client.execute_request(
+        request: @client.post_request(path: "/audit_logs/exports", auth: true, body: body, request_options: request_options),
+        request_options: request_options
+      )
+      WorkOS::AuditLogExportJson.new(response.body)
     end
 
     # Get Export
     # @param audit_log_export_id [String] The unique ID of the Audit Log Export.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::AuditLogExport]
+    # @return [WorkOS::AuditLogExportJson]
     def get_export(
       audit_log_export_id:,
       request_options: {}
     )
-      response = @client.request(method: :get, path: "/audit_logs/exports/#{WorkOS::Util.encode_path(audit_log_export_id)}", auth: true, request_options: request_options)
-      WorkOS::AuditLogExport.new(response.body)
+      response = @client.execute_request(
+        request: @client.get_request(path: "/audit_logs/exports/#{CGI.escape(audit_log_export_id.to_s)}", auth: true, request_options: request_options),
+        request_options: request_options
+      )
+      WorkOS::AuditLogExportJson.new(response.body)
     end
   end
 end

@@ -4,6 +4,10 @@
 
 module WorkOS
   module Types
-    UpdateWebhookEndpointStatus = WebhookEndpointStatus
+    class UpdateWebhookEndpointStatus
+      ENABLED = "enabled"
+      DISABLED = "disabled"
+      ALL = [ENABLED, DISABLED].freeze
+    end
   end
 end

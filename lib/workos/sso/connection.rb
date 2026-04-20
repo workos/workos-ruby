@@ -38,7 +38,7 @@ module WorkOS
       :updated_at
 
     def status
-      warn "[DEPRECATION] `status` is deprecated. Deprecated. Use `state` instead.", uplevel: 1, category: :deprecated
+      warn "[DEPRECATION] `status` is deprecated. Deprecated. Use `state` instead.", uplevel: 1
       @status
     end
 

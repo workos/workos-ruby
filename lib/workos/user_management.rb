@@ -18,7 +18,10 @@ module WorkOS
       client_id:,
       request_options: {}
     )
-      response = @client.request(method: :get, path: "/sso/jwks/#{WorkOS::Util.encode_path(client_id)}", auth: true, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.get_request(path: "/sso/jwks/#{CGI.escape(client_id.to_s)}", auth: true, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::JwksResponse.new(response.body)
     end
 
@@ -78,7 +81,10 @@ module WorkOS
         "authentication_challenge_id" => authentication_challenge_id,
         "device_code" => device_code
       }.compact
-      response = @client.request(method: :post, path: "/user_management/authenticate", auth: true, body: body, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.post_request(path: "/user_management/authenticate", auth: true, body: body, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::AuthenticateResponse.new(response.body)
     end
 
@@ -100,18 +106,22 @@ module WorkOS
       user_agent: nil,
       request_options: {}
     )
-      create_authenticate(
-        grant_type: "password",
-        client_id: @client.client_id,
-        client_secret: @client.api_key,
-        email: email,
-        password: password,
-        invitation_token: invitation_token,
-        ip_address: ip_address,
-        device_id: device_id,
-        user_agent: user_agent,
+      body = {
+        "grant_type" => "password",
+        "client_id" => @client.client_id,
+        "client_secret" => @client.api_key,
+        "email" => email,
+        "password" => password,
+        "invitation_token" => invitation_token,
+        "ip_address" => ip_address,
+        "device_id" => device_id,
+        "user_agent" => user_agent
+      }.compact
+      response = @client.execute_request(
+        request: @client.post_request(path: "/user_management/authenticate", auth: true, body: body, request_options: request_options),
         request_options: request_options
       )
+      WorkOS::AuthenticateResponse.new(response.body)
     end
 
     # Authenticate with code.
@@ -132,18 +142,22 @@ module WorkOS
       user_agent: nil,
       request_options: {}
     )
-      create_authenticate(
-        grant_type: "authorization_code",
-        client_id: @client.client_id,
-        client_secret: @client.api_key,
-        code: code,
-        code_verifier: code_verifier,
-        invitation_token: invitation_token,
-        ip_address: ip_address,
-        device_id: device_id,
-        user_agent: user_agent,
+      body = {
+        "grant_type" => "authorization_code",
+        "client_id" => @client.client_id,
+        "client_secret" => @client.api_key,
+        "code" => code,
+        "code_verifier" => code_verifier,
+        "invitation_token" => invitation_token,
+        "ip_address" => ip_address,
+        "device_id" => device_id,
+        "user_agent" => user_agent
+      }.compact
+      response = @client.execute_request(
+        request: @client.post_request(path: "/user_management/authenticate", auth: true, body: body, request_options: request_options),
         request_options: request_options
       )
+      WorkOS::AuthenticateResponse.new(response.body)
     end
 
     # Authenticate with refresh token.
@@ -162,17 +176,21 @@ module WorkOS
       user_agent: nil,
       request_options: {}
     )
-      create_authenticate(
-        grant_type: "refresh_token",
-        client_id: @client.client_id,
-        client_secret: @client.api_key,
-        refresh_token: refresh_token,
-        organization_id: organization_id,
-        ip_address: ip_address,
-        device_id: device_id,
-        user_agent: user_agent,
+      body = {
+        "grant_type" => "refresh_token",
+        "client_id" => @client.client_id,
+        "client_secret" => @client.api_key,
+        "refresh_token" => refresh_token,
+        "organization_id" => organization_id,
+        "ip_address" => ip_address,
+        "device_id" => device_id,
+        "user_agent" => user_agent
+      }.compact
+      response = @client.execute_request(
+        request: @client.post_request(path: "/user_management/authenticate", auth: true, body: body, request_options: request_options),
         request_options: request_options
       )
+      WorkOS::AuthenticateResponse.new(response.body)
     end
 
     # Authenticate with magic auth.
@@ -193,18 +211,22 @@ module WorkOS
       user_agent: nil,
       request_options: {}
     )
-      create_authenticate(
-        grant_type: "urn:workos:oauth:grant-type:magic-auth:code",
-        client_id: @client.client_id,
-        client_secret: @client.api_key,
-        code: code,
-        email: email,
-        invitation_token: invitation_token,
-        ip_address: ip_address,
-        device_id: device_id,
-        user_agent: user_agent,
+      body = {
+        "grant_type" => "urn:workos:oauth:grant-type:magic-auth:code",
+        "client_id" => @client.client_id,
+        "client_secret" => @client.api_key,
+        "code" => code,
+        "email" => email,
+        "invitation_token" => invitation_token,
+        "ip_address" => ip_address,
+        "device_id" => device_id,
+        "user_agent" => user_agent
+      }.compact
+      response = @client.execute_request(
+        request: @client.post_request(path: "/user_management/authenticate", auth: true, body: body, request_options: request_options),
         request_options: request_options
       )
+      WorkOS::AuthenticateResponse.new(response.body)
     end
 
     # Authenticate with email verification.
@@ -223,17 +245,21 @@ module WorkOS
       user_agent: nil,
       request_options: {}
     )
-      create_authenticate(
-        grant_type: "urn:workos:oauth:grant-type:email-verification:code",
-        client_id: @client.client_id,
-        client_secret: @client.api_key,
-        code: code,
-        pending_authentication_token: pending_authentication_token,
-        ip_address: ip_address,
-        device_id: device_id,
-        user_agent: user_agent,
+      body = {
+        "grant_type" => "urn:workos:oauth:grant-type:email-verification:code",
+        "client_id" => @client.client_id,
+        "client_secret" => @client.api_key,
+        "code" => code,
+        "pending_authentication_token" => pending_authentication_token,
+        "ip_address" => ip_address,
+        "device_id" => device_id,
+        "user_agent" => user_agent
+      }.compact
+      response = @client.execute_request(
+        request: @client.post_request(path: "/user_management/authenticate", auth: true, body: body, request_options: request_options),
         request_options: request_options
       )
+      WorkOS::AuthenticateResponse.new(response.body)
     end
 
     # Authenticate with totp.
@@ -254,18 +280,22 @@ module WorkOS
       user_agent: nil,
       request_options: {}
     )
-      create_authenticate(
-        grant_type: "urn:workos:oauth:grant-type:mfa-totp",
-        client_id: @client.client_id,
-        client_secret: @client.api_key,
-        code: code,
-        pending_authentication_token: pending_authentication_token,
-        authentication_challenge_id: authentication_challenge_id,
-        ip_address: ip_address,
-        device_id: device_id,
-        user_agent: user_agent,
+      body = {
+        "grant_type" => "urn:workos:oauth:grant-type:mfa-totp",
+        "client_id" => @client.client_id,
+        "client_secret" => @client.api_key,
+        "code" => code,
+        "pending_authentication_token" => pending_authentication_token,
+        "authentication_challenge_id" => authentication_challenge_id,
+        "ip_address" => ip_address,
+        "device_id" => device_id,
+        "user_agent" => user_agent
+      }.compact
+      response = @client.execute_request(
+        request: @client.post_request(path: "/user_management/authenticate", auth: true, body: body, request_options: request_options),
         request_options: request_options
       )
+      WorkOS::AuthenticateResponse.new(response.body)
     end
 
     # Authenticate with organization selection.
@@ -284,17 +314,21 @@ module WorkOS
       user_agent: nil,
       request_options: {}
     )
-      create_authenticate(
-        grant_type: "urn:workos:oauth:grant-type:organization-selection",
-        client_id: @client.client_id,
-        client_secret: @client.api_key,
-        pending_authentication_token: pending_authentication_token,
-        organization_id: organization_id,
-        ip_address: ip_address,
-        device_id: device_id,
-        user_agent: user_agent,
+      body = {
+        "grant_type" => "urn:workos:oauth:grant-type:organization-selection",
+        "client_id" => @client.client_id,
+        "client_secret" => @client.api_key,
+        "pending_authentication_token" => pending_authentication_token,
+        "organization_id" => organization_id,
+        "ip_address" => ip_address,
+        "device_id" => device_id,
+        "user_agent" => user_agent
+      }.compact
+      response = @client.execute_request(
+        request: @client.post_request(path: "/user_management/authenticate", auth: true, body: body, request_options: request_options),
         request_options: request_options
       )
+      WorkOS::AuthenticateResponse.new(response.body)
     end
 
     # Authenticate with device code.
@@ -311,15 +345,19 @@ module WorkOS
       user_agent: nil,
       request_options: {}
     )
-      create_authenticate(
-        grant_type: "urn:ietf:params:oauth:grant-type:device_code",
-        client_id: @client.client_id,
-        device_code: device_code,
-        ip_address: ip_address,
-        device_id: device_id,
-        user_agent: user_agent,
+      body = {
+        "grant_type" => "urn:ietf:params:oauth:grant-type:device_code",
+        "client_id" => @client.client_id,
+        "device_code" => device_code,
+        "ip_address" => ip_address,
+        "device_id" => device_id,
+        "user_agent" => user_agent
+      }.compact
+      response = @client.execute_request(
+        request: @client.post_request(path: "/user_management/authenticate", auth: true, body: body, request_options: request_options),
         request_options: request_options
       )
+      WorkOS::AuthenticateResponse.new(response.body)
     end
 
     # Get device authorization URL
@@ -333,7 +371,10 @@ module WorkOS
       body = {
         "client_id" => client_id
       }.compact
-      response = @client.request(method: :post, path: "/user_management/authorize/device", auth: true, body: body, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.post_request(path: "/user_management/authorize/device", auth: true, body: body, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::DeviceAuthorizationResponse.new(response.body)
     end
 
@@ -351,7 +392,10 @@ module WorkOS
         "session_id" => session_id,
         "return_to" => return_to
       }.compact
-      @client.request(method: :post, path: "/user_management/sessions/revoke", auth: true, body: body, request_options: request_options)
+      @client.execute_request(
+        request: @client.post_request(path: "/user_management/sessions/revoke", auth: true, body: body, request_options: request_options),
+        request_options: request_options
+      )
       nil
     end
 
@@ -366,7 +410,10 @@ module WorkOS
       body = {
         "origin" => origin
       }.compact
-      response = @client.request(method: :post, path: "/user_management/cors_origins", auth: true, body: body, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.post_request(path: "/user_management/cors_origins", auth: true, body: body, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::CORSOriginResponse.new(response.body)
     end
 
@@ -378,7 +425,10 @@ module WorkOS
       id:,
       request_options: {}
     )
-      response = @client.request(method: :get, path: "/user_management/email_verification/#{WorkOS::Util.encode_path(id)}", auth: true, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.get_request(path: "/user_management/email_verification/#{CGI.escape(id.to_s)}", auth: true, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::EmailVerification.new(response.body)
     end
 
@@ -393,7 +443,10 @@ module WorkOS
       body = {
         "email" => email
       }.compact
-      response = @client.request(method: :post, path: "/user_management/password_reset", auth: true, body: body, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.post_request(path: "/user_management/password_reset", auth: true, body: body, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::PasswordReset.new(response.body)
     end
 
@@ -411,7 +464,10 @@ module WorkOS
         "token" => token,
         "new_password" => new_password
       }.compact
-      response = @client.request(method: :post, path: "/user_management/password_reset/confirm", auth: true, body: body, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.post_request(path: "/user_management/password_reset/confirm", auth: true, body: body, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::ResetPasswordResponse.new(response.body)
     end
 
@@ -423,7 +479,10 @@ module WorkOS
       id:,
       request_options: {}
     )
-      response = @client.request(method: :get, path: "/user_management/password_reset/#{WorkOS::Util.encode_path(id)}", auth: true, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.get_request(path: "/user_management/password_reset/#{CGI.escape(id.to_s)}", auth: true, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::PasswordReset.new(response.body)
     end
 
@@ -441,7 +500,7 @@ module WorkOS
       before: nil,
       after: nil,
       limit: nil,
-      order: nil,
+      order: "desc",
       organization: nil,
       organization_id: nil,
       email: nil,
@@ -456,34 +515,27 @@ module WorkOS
         "organization_id" => organization_id,
         "email" => email
       }.compact
-      response = @client.request(method: :get, path: "/user_management/users", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(
-        response, model: WorkOS::User, filters: {before: before, limit: limit, order: order, organization: organization, organization_id: organization_id, email: email},
-        fetch_next: lambda do |cursor|
-          list_users(
-            before: before,
-            after: cursor,
-            limit: limit,
-            order: order,
-            organization: organization,
-            organization_id: organization_id,
-            email: email,
-            request_options: request_options
-          )
-        end,
-        fetch_previous: lambda do |cursor|
-          list_users(
-            before: cursor,
-            after: nil,
-            limit: limit,
-            order: order,
-            organization: organization,
-            organization_id: organization_id,
-            email: email,
-            request_options: request_options
-          )
-        end
+      response = @client.execute_request(
+        request: @client.get_request(path: "/user_management/users", auth: true, params: params, request_options: request_options),
+        request_options: request_options
       )
+      parsed = JSON.parse(response.body)
+      items = (parsed["data"] || []).map { |item| WorkOS::User.new(item) }
+      fetch_next = lambda do |metadata|
+        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
+        return nil if cursor.nil? || cursor.to_s.empty?
+        list_users(
+          before: before,
+          after: cursor,
+          limit: limit,
+          order: order,
+          organization: organization,
+          organization_id: organization_id,
+          email: email,
+          request_options: request_options
+        )
+      end
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {before: before, limit: limit, order: order, organization: organization, organization_id: organization_id, email: email})
     end
 
     # Create a user
@@ -510,7 +562,7 @@ module WorkOS
       password_hash_type: nil,
       request_options: {}
     )
-      params = {}
+      params = {}.compact
       if password
         case password[:type]
         when "plaintext"
@@ -531,7 +583,10 @@ module WorkOS
         "password_hash" => password_hash,
         "password_hash_type" => password_hash_type
       }.compact
-      response = @client.request(method: :post, path: "/user_management/users", auth: true, params: params, body: body, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.post_request(path: "/user_management/users", auth: true, params: params, body: body, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::User.new(response.body)
     end
 
@@ -543,7 +598,10 @@ module WorkOS
       external_id:,
       request_options: {}
     )
-      response = @client.request(method: :get, path: "/user_management/users/external_id/#{WorkOS::Util.encode_path(external_id)}", auth: true, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.get_request(path: "/user_management/users/external_id/#{CGI.escape(external_id.to_s)}", auth: true, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::User.new(response.body)
     end
 
@@ -555,7 +613,10 @@ module WorkOS
       id:,
       request_options: {}
     )
-      response = @client.request(method: :get, path: "/user_management/users/#{WorkOS::Util.encode_path(id)}", auth: true, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.get_request(path: "/user_management/users/#{CGI.escape(id.to_s)}", auth: true, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::User.new(response.body)
     end
 
@@ -587,7 +648,7 @@ module WorkOS
       password_hash_type: nil,
       request_options: {}
     )
-      params = {}
+      params = {}.compact
       if password
         case password[:type]
         when "plaintext"
@@ -609,7 +670,10 @@ module WorkOS
         "password_hash" => password_hash,
         "password_hash_type" => password_hash_type
       }.compact
-      response = @client.request(method: :put, path: "/user_management/users/#{WorkOS::Util.encode_path(id)}", auth: true, params: params, body: body, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.put_request(path: "/user_management/users/#{CGI.escape(id.to_s)}", auth: true, params: params, body: body, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::User.new(response.body)
     end
 
@@ -621,7 +685,10 @@ module WorkOS
       id:,
       request_options: {}
     )
-      @client.request(method: :delete, path: "/user_management/users/#{WorkOS::Util.encode_path(id)}", auth: true, request_options: request_options)
+      @client.execute_request(
+        request: @client.delete_request(path: "/user_management/users/#{CGI.escape(id.to_s)}", auth: true, request_options: request_options),
+        request_options: request_options
+      )
       nil
     end
 
@@ -638,7 +705,10 @@ module WorkOS
       body = {
         "code" => code
       }.compact
-      response = @client.request(method: :post, path: "/user_management/users/#{WorkOS::Util.encode_path(id)}/email_change/confirm", auth: true, body: body, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.post_request(path: "/user_management/users/#{CGI.escape(id.to_s)}/email_change/confirm", auth: true, body: body, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::EmailChangeConfirmation.new(response.body)
     end
 
@@ -655,7 +725,10 @@ module WorkOS
       body = {
         "new_email" => new_email
       }.compact
-      response = @client.request(method: :post, path: "/user_management/users/#{WorkOS::Util.encode_path(id)}/email_change/send", auth: true, body: body, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.post_request(path: "/user_management/users/#{CGI.escape(id.to_s)}/email_change/send", auth: true, body: body, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::EmailChange.new(response.body)
     end
 
@@ -672,7 +745,10 @@ module WorkOS
       body = {
         "code" => code
       }.compact
-      response = @client.request(method: :post, path: "/user_management/users/#{WorkOS::Util.encode_path(id)}/email_verification/confirm", auth: true, body: body, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.post_request(path: "/user_management/users/#{CGI.escape(id.to_s)}/email_verification/confirm", auth: true, body: body, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::VerifyEmailResponse.new(response.body)
     end
 
@@ -684,7 +760,10 @@ module WorkOS
       id:,
       request_options: {}
     )
-      response = @client.request(method: :post, path: "/user_management/users/#{WorkOS::Util.encode_path(id)}/email_verification/send", auth: true, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.post_request(path: "/user_management/users/#{CGI.escape(id.to_s)}/email_verification/send", auth: true, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::SendVerificationEmailResponse.new(response.body)
     end
 
@@ -696,7 +775,10 @@ module WorkOS
       id:,
       request_options: {}
     )
-      response = @client.request(method: :get, path: "/user_management/users/#{WorkOS::Util.encode_path(id)}/identities", auth: true, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.get_request(path: "/user_management/users/#{CGI.escape(id.to_s)}/identities", auth: true, request_options: request_options),
+        request_options: request_options
+      )
       parsed = JSON.parse(response.body)
       (parsed || []).map { |item| WorkOS::UserIdentitiesGetItem.new(item) }
     end
@@ -714,7 +796,7 @@ module WorkOS
       before: nil,
       after: nil,
       limit: nil,
-      order: nil,
+      order: "desc",
       request_options: {}
     )
       params = {
@@ -723,30 +805,25 @@ module WorkOS
         "limit" => limit,
         "order" => order
       }.compact
-      response = @client.request(method: :get, path: "/user_management/users/#{WorkOS::Util.encode_path(id)}/sessions", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(
-        response, model: WorkOS::UserSessionsListItem, filters: {id: id, before: before, limit: limit, order: order},
-        fetch_next: lambda do |cursor|
-          list_sessions(
-            id: id,
-            before: before,
-            after: cursor,
-            limit: limit,
-            order: order,
-            request_options: request_options
-          )
-        end,
-        fetch_previous: lambda do |cursor|
-          list_sessions(
-            id: id,
-            before: cursor,
-            after: nil,
-            limit: limit,
-            order: order,
-            request_options: request_options
-          )
-        end
+      response = @client.execute_request(
+        request: @client.get_request(path: "/user_management/users/#{CGI.escape(id.to_s)}/sessions", auth: true, params: params, request_options: request_options),
+        request_options: request_options
       )
+      parsed = JSON.parse(response.body)
+      items = (parsed["data"] || []).map { |item| WorkOS::UserSessionsListItem.new(item) }
+      fetch_next = lambda do |metadata|
+        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
+        return nil if cursor.nil? || cursor.to_s.empty?
+        list_sessions(
+          id: id,
+          before: before,
+          after: cursor,
+          limit: limit,
+          order: order,
+          request_options: request_options
+        )
+      end
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {id: id, before: before, limit: limit, order: order})
     end
 
     # List invitations
@@ -762,7 +839,7 @@ module WorkOS
       before: nil,
       after: nil,
       limit: nil,
-      order: nil,
+      order: "desc",
       organization_id: nil,
       email: nil,
       request_options: {}
@@ -775,32 +852,26 @@ module WorkOS
         "organization_id" => organization_id,
         "email" => email
       }.compact
-      response = @client.request(method: :get, path: "/user_management/invitations", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(
-        response, model: WorkOS::UserInvite, filters: {before: before, limit: limit, order: order, organization_id: organization_id, email: email},
-        fetch_next: lambda do |cursor|
-          list_invitations(
-            before: before,
-            after: cursor,
-            limit: limit,
-            order: order,
-            organization_id: organization_id,
-            email: email,
-            request_options: request_options
-          )
-        end,
-        fetch_previous: lambda do |cursor|
-          list_invitations(
-            before: cursor,
-            after: nil,
-            limit: limit,
-            order: order,
-            organization_id: organization_id,
-            email: email,
-            request_options: request_options
-          )
-        end
+      response = @client.execute_request(
+        request: @client.get_request(path: "/user_management/invitations", auth: true, params: params, request_options: request_options),
+        request_options: request_options
       )
+      parsed = JSON.parse(response.body)
+      items = (parsed["data"] || []).map { |item| WorkOS::UserInvite.new(item) }
+      fetch_next = lambda do |metadata|
+        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
+        return nil if cursor.nil? || cursor.to_s.empty?
+        list_invitations(
+          before: before,
+          after: cursor,
+          limit: limit,
+          order: order,
+          organization_id: organization_id,
+          email: email,
+          request_options: request_options
+        )
+      end
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {before: before, limit: limit, order: order, organization_id: organization_id, email: email})
     end
 
     # Send an invitation
@@ -829,7 +900,10 @@ module WorkOS
         "inviter_user_id" => inviter_user_id,
         "locale" => locale
       }.compact
-      response = @client.request(method: :post, path: "/user_management/invitations", auth: true, body: body, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.post_request(path: "/user_management/invitations", auth: true, body: body, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::UserInvite.new(response.body)
     end
 
@@ -841,7 +915,10 @@ module WorkOS
       token:,
       request_options: {}
     )
-      response = @client.request(method: :get, path: "/user_management/invitations/by_token/#{WorkOS::Util.encode_path(token)}", auth: true, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.get_request(path: "/user_management/invitations/by_token/#{CGI.escape(token.to_s)}", auth: true, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::UserInvite.new(response.body)
     end
 
@@ -853,7 +930,10 @@ module WorkOS
       id:,
       request_options: {}
     )
-      response = @client.request(method: :get, path: "/user_management/invitations/#{WorkOS::Util.encode_path(id)}", auth: true, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.get_request(path: "/user_management/invitations/#{CGI.escape(id.to_s)}", auth: true, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::UserInvite.new(response.body)
     end
 
@@ -865,7 +945,10 @@ module WorkOS
       id:,
       request_options: {}
     )
-      response = @client.request(method: :post, path: "/user_management/invitations/#{WorkOS::Util.encode_path(id)}/accept", auth: true, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.post_request(path: "/user_management/invitations/#{CGI.escape(id.to_s)}/accept", auth: true, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::Invitation.new(response.body)
     end
 
@@ -882,7 +965,10 @@ module WorkOS
       body = {
         "locale" => locale
       }.compact
-      response = @client.request(method: :post, path: "/user_management/invitations/#{WorkOS::Util.encode_path(id)}/resend", auth: true, body: body, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.post_request(path: "/user_management/invitations/#{CGI.escape(id.to_s)}/resend", auth: true, body: body, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::UserInvite.new(response.body)
     end
 
@@ -894,7 +980,10 @@ module WorkOS
       id:,
       request_options: {}
     )
-      response = @client.request(method: :post, path: "/user_management/invitations/#{WorkOS::Util.encode_path(id)}/revoke", auth: true, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.post_request(path: "/user_management/invitations/#{CGI.escape(id.to_s)}/revoke", auth: true, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::Invitation.new(response.body)
     end
 
@@ -909,7 +998,10 @@ module WorkOS
       body = {
         "content" => content
       }.compact
-      response = @client.request(method: :put, path: "/user_management/jwt_template", auth: true, body: body, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.put_request(path: "/user_management/jwt_template", auth: true, body: body, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::JWTTemplateResponse.new(response.body)
     end
 
@@ -927,7 +1019,10 @@ module WorkOS
         "email" => email,
         "invitation_token" => invitation_token
       }.compact
-      response = @client.request(method: :post, path: "/user_management/magic_auth", auth: true, body: body, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.post_request(path: "/user_management/magic_auth", auth: true, body: body, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::MagicAuth.new(response.body)
     end
 
@@ -939,7 +1034,10 @@ module WorkOS
       id:,
       request_options: {}
     )
-      response = @client.request(method: :get, path: "/user_management/magic_auth/#{WorkOS::Util.encode_path(id)}", auth: true, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.get_request(path: "/user_management/magic_auth/#{CGI.escape(id.to_s)}", auth: true, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::MagicAuth.new(response.body)
     end
 
@@ -957,7 +1055,7 @@ module WorkOS
       before: nil,
       after: nil,
       limit: nil,
-      order: nil,
+      order: "desc",
       organization_id: nil,
       statuses: nil,
       user_id: nil,
@@ -972,34 +1070,27 @@ module WorkOS
         "statuses" => statuses,
         "user_id" => user_id
       }.compact
-      response = @client.request(method: :get, path: "/user_management/organization_memberships", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(
-        response, model: WorkOS::UserOrganizationMembership, filters: {before: before, limit: limit, order: order, organization_id: organization_id, statuses: statuses, user_id: user_id},
-        fetch_next: lambda do |cursor|
-          list_organization_memberships(
-            before: before,
-            after: cursor,
-            limit: limit,
-            order: order,
-            organization_id: organization_id,
-            statuses: statuses,
-            user_id: user_id,
-            request_options: request_options
-          )
-        end,
-        fetch_previous: lambda do |cursor|
-          list_organization_memberships(
-            before: cursor,
-            after: nil,
-            limit: limit,
-            order: order,
-            organization_id: organization_id,
-            statuses: statuses,
-            user_id: user_id,
-            request_options: request_options
-          )
-        end
+      response = @client.execute_request(
+        request: @client.get_request(path: "/user_management/organization_memberships", auth: true, params: params, request_options: request_options),
+        request_options: request_options
       )
+      parsed = JSON.parse(response.body)
+      items = (parsed["data"] || []).map { |item| WorkOS::UserOrganizationMembership.new(item) }
+      fetch_next = lambda do |metadata|
+        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
+        return nil if cursor.nil? || cursor.to_s.empty?
+        list_organization_memberships(
+          before: before,
+          after: cursor,
+          limit: limit,
+          order: order,
+          organization_id: organization_id,
+          statuses: statuses,
+          user_id: user_id,
+          request_options: request_options
+        )
+      end
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {before: before, limit: limit, order: order, organization_id: organization_id, statuses: statuses, user_id: user_id})
     end
 
     # Create an organization membership
@@ -1017,7 +1108,7 @@ module WorkOS
       role: nil,
       request_options: {}
     )
-      params = {}
+      params = {}.compact
       if role
         case role[:type]
         when "single"
@@ -1032,7 +1123,10 @@ module WorkOS
         "role_slug" => role_slug,
         "role_slugs" => role_slugs
       }.compact
-      response = @client.request(method: :post, path: "/user_management/organization_memberships", auth: true, params: params, body: body, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.post_request(path: "/user_management/organization_memberships", auth: true, params: params, body: body, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::OrganizationMembership.new(response.body)
     end
 
@@ -1044,7 +1138,10 @@ module WorkOS
       id:,
       request_options: {}
     )
-      response = @client.request(method: :get, path: "/user_management/organization_memberships/#{WorkOS::Util.encode_path(id)}", auth: true, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.get_request(path: "/user_management/organization_memberships/#{CGI.escape(id.to_s)}", auth: true, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::UserOrganizationMembership.new(response.body)
     end
 
@@ -1061,7 +1158,7 @@ module WorkOS
       role: nil,
       request_options: {}
     )
-      params = {}
+      params = {}.compact
       if role
         case role[:type]
         when "single"
@@ -1074,7 +1171,10 @@ module WorkOS
         "role_slug" => role_slug,
         "role_slugs" => role_slugs
       }.compact
-      response = @client.request(method: :put, path: "/user_management/organization_memberships/#{WorkOS::Util.encode_path(id)}", auth: true, params: params, body: body, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.put_request(path: "/user_management/organization_memberships/#{CGI.escape(id.to_s)}", auth: true, params: params, body: body, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::UserOrganizationMembership.new(response.body)
     end
 
@@ -1086,7 +1186,10 @@ module WorkOS
       id:,
       request_options: {}
     )
-      @client.request(method: :delete, path: "/user_management/organization_memberships/#{WorkOS::Util.encode_path(id)}", auth: true, request_options: request_options)
+      @client.execute_request(
+        request: @client.delete_request(path: "/user_management/organization_memberships/#{CGI.escape(id.to_s)}", auth: true, request_options: request_options),
+        request_options: request_options
+      )
       nil
     end
 
@@ -1098,7 +1201,10 @@ module WorkOS
       id:,
       request_options: {}
     )
-      response = @client.request(method: :put, path: "/user_management/organization_memberships/#{WorkOS::Util.encode_path(id)}/deactivate", auth: true, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.put_request(path: "/user_management/organization_memberships/#{CGI.escape(id.to_s)}/deactivate", auth: true, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::OrganizationMembership.new(response.body)
     end
 
@@ -1110,7 +1216,10 @@ module WorkOS
       id:,
       request_options: {}
     )
-      response = @client.request(method: :put, path: "/user_management/organization_memberships/#{WorkOS::Util.encode_path(id)}/reactivate", auth: true, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.put_request(path: "/user_management/organization_memberships/#{CGI.escape(id.to_s)}/reactivate", auth: true, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::UserOrganizationMembership.new(response.body)
     end
 
@@ -1125,7 +1234,10 @@ module WorkOS
       body = {
         "uri" => uri
       }.compact
-      response = @client.request(method: :post, path: "/user_management/redirect_uris", auth: true, body: body, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.post_request(path: "/user_management/redirect_uris", auth: true, body: body, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::RedirectUri.new(response.body)
     end
 
@@ -1142,7 +1254,7 @@ module WorkOS
       before: nil,
       after: nil,
       limit: nil,
-      order: nil,
+      order: "desc",
       request_options: {}
     )
       params = {
@@ -1151,30 +1263,25 @@ module WorkOS
         "limit" => limit,
         "order" => order
       }.compact
-      response = @client.request(method: :get, path: "/user_management/users/#{WorkOS::Util.encode_path(user_id)}/authorized_applications", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(
-        response, model: WorkOS::AuthorizedConnectApplicationListData, filters: {user_id: user_id, before: before, limit: limit, order: order},
-        fetch_next: lambda do |cursor|
-          list_user_authorized_applications(
-            user_id: user_id,
-            before: before,
-            after: cursor,
-            limit: limit,
-            order: order,
-            request_options: request_options
-          )
-        end,
-        fetch_previous: lambda do |cursor|
-          list_user_authorized_applications(
-            user_id: user_id,
-            before: cursor,
-            after: nil,
-            limit: limit,
-            order: order,
-            request_options: request_options
-          )
-        end
+      response = @client.execute_request(
+        request: @client.get_request(path: "/user_management/users/#{CGI.escape(user_id.to_s)}/authorized_applications", auth: true, params: params, request_options: request_options),
+        request_options: request_options
       )
+      parsed = JSON.parse(response.body)
+      items = (parsed["data"] || []).map { |item| WorkOS::AuthorizedConnectApplicationListData.new(item) }
+      fetch_next = lambda do |metadata|
+        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
+        return nil if cursor.nil? || cursor.to_s.empty?
+        list_user_authorized_applications(
+          user_id: user_id,
+          before: before,
+          after: cursor,
+          limit: limit,
+          order: order,
+          request_options: request_options
+        )
+      end
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {user_id: user_id, before: before, limit: limit, order: order})
     end
 
     # Delete an authorized application
@@ -1187,7 +1294,10 @@ module WorkOS
       user_id:,
       request_options: {}
     )
-      @client.request(method: :delete, path: "/user_management/users/#{WorkOS::Util.encode_path(user_id)}/authorized_applications/#{WorkOS::Util.encode_path(application_id)}", auth: true, request_options: request_options)
+      @client.execute_request(
+        request: @client.delete_request(path: "/user_management/users/#{CGI.escape(user_id.to_s)}/authorized_applications/#{CGI.escape(application_id.to_s)}", auth: true, request_options: request_options),
+        request_options: request_options
+      )
       nil
     end
 

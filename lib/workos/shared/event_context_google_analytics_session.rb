@@ -9,9 +9,9 @@ module WorkOS
     include HashProvider
 
     HASH_ATTRS = {
-      containerId: :container_id,
-      sessionId: :session_id,
-      sessionNumber: :session_number
+      container_id: :container_id,
+      session_id: :session_id,
+      session_number: :session_number
     }.freeze
 
     attr_accessor \

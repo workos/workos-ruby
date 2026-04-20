@@ -29,7 +29,10 @@ module WorkOS
         "organization_id" => organization_id,
         "return_to" => return_to
       }.compact
-      response = @client.request(method: :post, path: "/data-integrations/#{WorkOS::Util.encode_path(slug)}/authorize", auth: true, body: body, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.post_request(path: "/data-integrations/#{CGI.escape(slug.to_s)}/authorize", auth: true, body: body, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::DataIntegrationAuthorizeUrlResponse.new(response.body)
     end
 
@@ -49,7 +52,10 @@ module WorkOS
         "user_id" => user_id,
         "organization_id" => organization_id
       }.compact
-      response = @client.request(method: :post, path: "/data-integrations/#{WorkOS::Util.encode_path(slug)}/token", auth: true, body: body, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.post_request(path: "/data-integrations/#{CGI.escape(slug.to_s)}/token", auth: true, body: body, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::DataIntegrationAccessTokenResponse.new(response.body)
     end
 
@@ -68,7 +74,10 @@ module WorkOS
       params = {
         "organization_id" => organization_id
       }.compact
-      response = @client.request(method: :get, path: "/user_management/users/#{WorkOS::Util.encode_path(user_id)}/connected_accounts/#{WorkOS::Util.encode_path(slug)}", auth: true, params: params, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.get_request(path: "/user_management/users/#{CGI.escape(user_id.to_s)}/connected_accounts/#{CGI.escape(slug.to_s)}", auth: true, params: params, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::ConnectedAccount.new(response.body)
     end
 
@@ -87,7 +96,10 @@ module WorkOS
       params = {
         "organization_id" => organization_id
       }.compact
-      @client.request(method: :delete, path: "/user_management/users/#{WorkOS::Util.encode_path(user_id)}/connected_accounts/#{WorkOS::Util.encode_path(slug)}", auth: true, params: params, request_options: request_options)
+      @client.execute_request(
+        request: @client.delete_request(path: "/user_management/users/#{CGI.escape(user_id.to_s)}/connected_accounts/#{CGI.escape(slug.to_s)}", auth: true, params: params, request_options: request_options),
+        request_options: request_options
+      )
       nil
     end
 
@@ -104,7 +116,10 @@ module WorkOS
       params = {
         "organization_id" => organization_id
       }.compact
-      response = @client.request(method: :get, path: "/user_management/users/#{WorkOS::Util.encode_path(user_id)}/data_providers", auth: true, params: params, request_options: request_options)
+      response = @client.execute_request(
+        request: @client.get_request(path: "/user_management/users/#{CGI.escape(user_id.to_s)}/data_providers", auth: true, params: params, request_options: request_options),
+        request_options: request_options
+      )
       WorkOS::DataIntegrationsListResponse.new(response.body)
     end
   end

@@ -4,10 +4,6 @@
 
 module WorkOS
   module Types
-    class OrganizationDomainVerificationStrategy
-      DNS = "dns"
-      MANUAL = "manual"
-      ALL = [DNS, MANUAL].freeze
-    end
+    OrganizationDomainVerificationStrategy = OrganizationCreatedDataDomainVerificationStrategy
   end
 end

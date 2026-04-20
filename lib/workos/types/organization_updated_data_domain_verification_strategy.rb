@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    OrganizationUpdatedDataDomainVerificationStrategy = OrganizationDomainVerificationStrategy
+    OrganizationUpdatedDataDomainVerificationStrategy = OrganizationCreatedDataDomainVerificationStrategy
   end
 end

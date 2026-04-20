@@ -30,7 +30,7 @@ module WorkOS
       :external_id
 
     def domains
-      warn "[DEPRECATION] `domains` is deprecated. The domains associated with the organization. Deprecated in favor of `domain_data`.", uplevel: 1, category: :deprecated
+      warn "[DEPRECATION] `domains` is deprecated. The domains associated with the organization. Deprecated in favor of `domain_data`.", uplevel: 1
       @domains
     end
 

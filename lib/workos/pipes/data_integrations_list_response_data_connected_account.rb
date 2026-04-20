@@ -17,7 +17,7 @@ module WorkOS
       state: :state,
       created_at: :created_at,
       updated_at: :updated_at,
-      userlandUserId: :userland_user_id
+      userland_user_id: :userland_user_id
     }.freeze
 
     # @!attribute userland_user_id
@@ -34,7 +34,7 @@ module WorkOS
       :updated_at
 
     def userland_user_id
-      warn "[DEPRECATION] `userland_user_id` is deprecated. Use `user_id` instead.", uplevel: 1, category: :deprecated
+      warn "[DEPRECATION] `userland_user_id` is deprecated. Use `user_id` instead.", uplevel: 1
       @userland_user_id
     end
 

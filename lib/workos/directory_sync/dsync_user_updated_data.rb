@@ -57,28 +57,28 @@ module WorkOS
       :previous_attributes
 
     def emails
-      warn "[DEPRECATION] `emails` is deprecated. A list of email addresses for the user.", uplevel: 1, category: :deprecated
+      warn "[DEPRECATION] `emails` is deprecated. A list of email addresses for the user.", uplevel: 1
       @emails
     end
 
     attr_writer :emails
 
     def job_title
-      warn "[DEPRECATION] `job_title` is deprecated. The job title of the user.", uplevel: 1, category: :deprecated
+      warn "[DEPRECATION] `job_title` is deprecated. The job title of the user.", uplevel: 1
       @job_title
     end
 
     attr_writer :job_title
 
     def username
-      warn "[DEPRECATION] `username` is deprecated. The username of the user.", uplevel: 1, category: :deprecated
+      warn "[DEPRECATION] `username` is deprecated. The username of the user.", uplevel: 1
       @username
     end
 
     attr_writer :username
 
     def raw_attributes
-      warn "[DEPRECATION] `raw_attributes` is deprecated. The raw attributes received from the directory provider.", uplevel: 1, category: :deprecated
+      warn "[DEPRECATION] `raw_attributes` is deprecated. The raw attributes received from the directory provider.", uplevel: 1
       @raw_attributes
     end
 

@@ -9,31 +9,22 @@ module WorkOS
     include HashProvider
 
     HASH_ATTRS = {
-      object: :object,
-      version: :version,
       actor: :actor,
       targets: :targets,
-      metadata: :metadata,
-      created_at: :created_at
+      metadata: :metadata
     }.freeze
 
     attr_accessor \
-      :object,
-      :version,
       :actor,
       :targets,
-      :metadata,
-      :created_at
+      :metadata
 
     def initialize(json)
       hash = json.is_a?(Hash) ? json : JSON.parse(json, symbolize_names: true)
       hash = hash.transform_keys(&:to_sym) if hash.keys.first.is_a?(String)
-      @object = hash[:object]
-      @version = hash[:version]
       @actor = hash[:actor] ? WorkOS::AuditLogSchemaActor.new(hash[:actor]) : nil
       @targets = (hash[:targets] || []).map { |item| item ? WorkOS::AuditLogSchemaTarget.new(item) : nil }
       @metadata = hash[:metadata] || {}
-      @created_at = hash[:created_at]
     end
   end
 end

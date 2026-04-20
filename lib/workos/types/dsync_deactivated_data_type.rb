@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    DsyncDeactivatedDataType = DsyncDeletedDataType
+    DsyncDeactivatedDataType = DsyncActivatedDataType
   end
 end

@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    UserOrganizationMembershipBaseListDataStatus = OrganizationMembershipStatus
+    UserOrganizationMembershipBaseListDataStatus = OrganizationMembershipCreatedDataStatus
   end
 end

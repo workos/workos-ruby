@@ -36,7 +36,7 @@ module WorkOS
       :updated_at
 
     def allow_profiles_outside_organization
-      warn "[DEPRECATION] `allow_profiles_outside_organization` is deprecated. Whether the Organization allows profiles outside of its managed domains.", uplevel: 1, category: :deprecated
+      warn "[DEPRECATION] `allow_profiles_outside_organization` is deprecated. Whether the Organization allows profiles outside of its managed domains.", uplevel: 1
       @allow_profiles_outside_organization
     end
 

@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    UserManagementMultiFactorAuthenticationOrder = EventsOrder
+    UserManagementMultiFactorAuthenticationOrder = ApplicationsOrder
   end
 end

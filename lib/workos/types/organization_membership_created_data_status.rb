@@ -4,6 +4,11 @@
 
 module WorkOS
   module Types
-    OrganizationMembershipCreatedDataStatus = OrganizationMembershipStatus
+    class OrganizationMembershipCreatedDataStatus
+      ACTIVE = "active"
+      INACTIVE = "inactive"
+      PENDING = "pending"
+      ALL = [ACTIVE, INACTIVE, PENDING].freeze
+    end
   end
 end

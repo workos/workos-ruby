@@ -4,6 +4,13 @@
 
 module WorkOS
   module Types
-    DsyncActivatedDataState = DsyncDeletedDataState
+    class DsyncActivatedDataState
+      ACTIVE = "active"
+      VALIDATING = "validating"
+      INVALID_CREDENTIALS = "invalid_credentials"
+      INACTIVE = "inactive"
+      DELETING = "deleting"
+      ALL = [ACTIVE, VALIDATING, INVALID_CREDENTIALS, INACTIVE, DELETING].freeze
+    end
   end
 end

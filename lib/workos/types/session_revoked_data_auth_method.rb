@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    SessionRevokedDataAuthMethod = UserSessionsAuthMethod
+    SessionRevokedDataAuthMethod = SessionCreatedDataAuthMethod
   end
 end

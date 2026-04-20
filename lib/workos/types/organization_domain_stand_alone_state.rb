@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    OrganizationDomainStandAloneState = OrganizationDomainState
+    OrganizationDomainStandAloneState = OrganizationCreatedDataDomainState
   end
 end

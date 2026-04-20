@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    OrganizationDeletedDataDomainVerificationStrategy = OrganizationDomainVerificationStrategy
+    OrganizationDeletedDataDomainVerificationStrategy = OrganizationCreatedDataDomainVerificationStrategy
   end
 end

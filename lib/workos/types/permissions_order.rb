@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    PermissionsOrder = EventsOrder
+    PermissionsOrder = ApplicationsOrder
   end
 end

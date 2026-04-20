@@ -4,10 +4,6 @@
 
 module WorkOS
   module Types
-    class ConnectionStatus
-      LINKED = "linked"
-      UNLINKED = "unlinked"
-      ALL = [LINKED, UNLINKED].freeze
-    end
+    ConnectionStatus = ConnectionActivatedDataStatus
   end
 end

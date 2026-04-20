@@ -4,15 +4,6 @@
 
 module WorkOS
   module Types
-    class RadarType
-      IP_ADDRESS = "ip_address"
-      DOMAIN = "domain"
-      EMAIL = "email"
-      DEVICE = "device"
-      USER_AGENT = "user_agent"
-      DEVICE_FINGERPRINT = "device_fingerprint"
-      COUNTRY = "country"
-      ALL = [IP_ADDRESS, DOMAIN, EMAIL, DEVICE, USER_AGENT, DEVICE_FINGERPRINT, COUNTRY].freeze
-    end
+    RadarType = RadarStandaloneResponseBlocklistType
   end
 end

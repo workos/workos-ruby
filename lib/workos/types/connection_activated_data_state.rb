@@ -4,6 +4,13 @@
 
 module WorkOS
   module Types
-    ConnectionActivatedDataState = ConnectionDeletedDataState
+    class ConnectionActivatedDataState
+      DRAFT = "draft"
+      ACTIVE = "active"
+      VALIDATING = "validating"
+      INACTIVE = "inactive"
+      DELETING = "deleting"
+      ALL = [DRAFT, ACTIVE, VALIDATING, INACTIVE, DELETING].freeze
+    end
   end
 end

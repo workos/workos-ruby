@@ -21,7 +21,7 @@ module WorkOS
       before: nil,
       after: nil,
       limit: nil,
-      order: nil,
+      order: "desc",
       request_options: {}
     )
       params = {
@@ -30,35 +30,31 @@ module WorkOS
         "limit" => limit,
         "order" => order
       }.compact
-      response = @client.request(method: :get, path: "/webhook_endpoints", auth: true, params: params, request_options: request_options)
-      WorkOS::Types::ListStruct.from_response(
-        response, model: WorkOS::WebhookEndpoint, filters: {before: before, limit: limit, order: order},
-        fetch_next: lambda do |cursor|
-          list_webhook_endpoints(
-            before: before,
-            after: cursor,
-            limit: limit,
-            order: order,
-            request_options: request_options
-          )
-        end,
-        fetch_previous: lambda do |cursor|
-          list_webhook_endpoints(
-            before: cursor,
-            after: nil,
-            limit: limit,
-            order: order,
-            request_options: request_options
-          )
-        end
+      response = @client.execute_request(
+        request: @client.get_request(path: "/webhook_endpoints", auth: true, params: params, request_options: request_options),
+        request_options: request_options
       )
+      parsed = JSON.parse(response.body)
+      items = (parsed["data"] || []).map { |item| WorkOS::WebhookEndpointJson.new(item) }
+      fetch_next = lambda do |metadata|
+        cursor = metadata.is_a?(Hash) ? (metadata["after"] || metadata[:after]) : nil
+        return nil if cursor.nil? || cursor.to_s.empty?
+        list_webhook_endpoints(
+          before: before,
+          after: cursor,
+          limit: limit,
+          order: order,
+          request_options: request_options
+        )
+      end
+      WorkOS::Types::ListStruct.new(data: items, list_metadata: parsed["list_metadata"], fetch_next: fetch_next, filters: {before: before, limit: limit, order: order})
     end
 
     # Create a Webhook Endpoint
     # @param endpoint_url [String] The HTTPS URL where webhooks will be sent.
     # @param events [Array<WorkOS::Types::CreateWebhookEndpointEvents>] The events that the Webhook Endpoint is subscribed to.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::WebhookEndpoint]
+    # @return [WorkOS::WebhookEndpointJson]
     def create_webhook_endpoint(
       endpoint_url:,
       events:,
@@ -68,8 +64,11 @@ module WorkOS
         "endpoint_url" => endpoint_url,
         "events" => events
       }.compact
-      response = @client.request(method: :post, path: "/webhook_endpoints", auth: true, body: body, request_options: request_options)
-      WorkOS::WebhookEndpoint.new(response.body)
+      response = @client.execute_request(
+        request: @client.post_request(path: "/webhook_endpoints", auth: true, body: body, request_options: request_options),
+        request_options: request_options
+      )
+      WorkOS::WebhookEndpointJson.new(response.body)
     end
 
     # Update a Webhook Endpoint
@@ -78,7 +77,7 @@ module WorkOS
     # @param status [WorkOS::Types::UpdateWebhookEndpointStatus, nil] Whether the Webhook Endpoint is enabled or disabled.
     # @param events [Array<WorkOS::Types::UpdateWebhookEndpointEvents>, nil] The events that the Webhook Endpoint is subscribed to.
     # @param request_options [Hash] Per-request overrides: :api_key, :timeout, :base_url, :max_retries, :idempotency_key, :extra_headers.
-    # @return [WorkOS::WebhookEndpoint]
+    # @return [WorkOS::WebhookEndpointJson]
     def update_webhook_endpoint(
       id:,
       endpoint_url: nil,
@@ -91,8 +90,11 @@ module WorkOS
         "status" => status,
         "events" => events
       }.compact
-      response = @client.request(method: :patch, path: "/webhook_endpoints/#{WorkOS::Util.encode_path(id)}", auth: true, body: body, request_options: request_options)
-      WorkOS::WebhookEndpoint.new(response.body)
+      response = @client.execute_request(
+        request: @client.patch_request(path: "/webhook_endpoints/#{CGI.escape(id.to_s)}", auth: true, body: body, request_options: request_options),
+        request_options: request_options
+      )
+      WorkOS::WebhookEndpointJson.new(response.body)
     end
 
     # Delete a Webhook Endpoint
@@ -103,7 +105,10 @@ module WorkOS
       id:,
       request_options: {}
     )
-      @client.request(method: :delete, path: "/webhook_endpoints/#{WorkOS::Util.encode_path(id)}", auth: true, request_options: request_options)
+      @client.execute_request(
+        request: @client.delete_request(path: "/webhook_endpoints/#{CGI.escape(id.to_s)}", auth: true, request_options: request_options),
+        request_options: request_options
+      )
       nil
     end
 

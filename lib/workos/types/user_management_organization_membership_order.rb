@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    UserManagementOrganizationMembershipOrder = EventsOrder
+    UserManagementOrganizationMembershipOrder = ApplicationsOrder
   end
 end

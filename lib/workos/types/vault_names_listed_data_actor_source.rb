@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    VaultNamesListedDataActorSource = VaultDekReadDataActorSource
+    VaultNamesListedDataActorSource = VaultDataCreatedDataActorSource
   end
 end

@@ -4,12 +4,6 @@
 
 module WorkOS
   module Types
-    class AuthenticationFactorType
-      GENERIC_OTP = "generic_otp"
-      SMS = "sms"
-      TOTP = "totp"
-      WEBAUTHN = "webauthn"
-      ALL = [GENERIC_OTP, SMS, TOTP, WEBAUTHN].freeze
-    end
+    AuthenticationFactorType = AuthenticationFactorEnrolledType
   end
 end

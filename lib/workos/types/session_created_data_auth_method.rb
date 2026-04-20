@@ -4,6 +4,18 @@
 
 module WorkOS
   module Types
-    SessionCreatedDataAuthMethod = UserSessionsAuthMethod
+    class SessionCreatedDataAuthMethod
+      CROSS_APP_AUTH = "cross_app_auth"
+      EXTERNAL_AUTH = "external_auth"
+      IMPERSONATION = "impersonation"
+      MAGIC_CODE = "magic_code"
+      MIGRATED_SESSION = "migrated_session"
+      OAUTH = "oauth"
+      PASSKEY = "passkey"
+      PASSWORD = "password"
+      SSO = "sso"
+      UNKNOWN = "unknown"
+      ALL = [CROSS_APP_AUTH, EXTERNAL_AUTH, IMPERSONATION, MAGIC_CODE, MIGRATED_SESSION, OAUTH, PASSKEY, PASSWORD, SSO, UNKNOWN].freeze
+    end
   end
 end
