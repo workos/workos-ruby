@@ -2,20 +2,28 @@
 
 ## [7.0.0](https://github.com/workos/workos-ruby/compare/v6.2.0...v7.0.0) (2026-04-20)
 
+This is a major release that introduces a fully redesigned SDK architecture. The SDK is now **generated from the WorkOS OpenAPI spec**, bringing type safety, consistent interfaces, and improved developer ergonomics.
 
-### ⚠ BREAKING CHANGES
+### High-Level Changes
 
-* Release OpenAPI spec generated Ruby SDK ([#454](https://github.com/workos/workos-ruby/issues/454))
+- **Client-centric architecture**: The SDK now revolves around an instantiated `WorkOS::Client` rather than module-level service calls. All product areas are accessed through client methods (e.g., `client.organizations`, `client.user_management`, `client.sso`).
 
-### Features
+- **Generated request/response models**: Typed models replace raw hashes. Response models no longer inherit from `Hash` — use accessor methods instead of bracket notation.
 
-* Release OpenAPI spec generated Ruby SDK ([#454](https://github.com/workos/workos-ruby/issues/454)) ([fd45b9d](https://github.com/workos/workos-ruby/commit/fd45b9d37bb9df9609fb293bf611b889fd485ff7))
+- **Per-request overrides**: The new runtime supports `request_options:` for per-request API key, timeout, base URL, and retry overrides — useful for multi-tenant setups.
 
+- **Minimum Ruby 3.3+**: The minimum Ruby version has been raised to 3.3.
 
-### Bug Fixes
+- **Renamed services and methods**: Several top-level services were renamed (e.g., `WorkOS::Portal` → `client.admin_portal`, `WorkOS::MFA` → `client.multi_factor_auth`). Method signatures now use explicit keyword arguments.
 
-* outdated gemfile.lock ([e69ddbd](https://github.com/workos/workos-ruby/commit/e69ddbd811a67f7a63631b97659903854c08a3c6))
-* Remove extractVersion from matchUpdateTypes rules ([#455](https://github.com/workos/workos-ruby/issues/455)) ([8132e48](https://github.com/workos/workos-ruby/commit/8132e48bfd25100df393be9fae21bc5c33ab6ae4))
+- **Session management refactor**: AuthKit session sealing, refresh, and authentication flows were overhauled with a dedicated `SessionManager` on the client instance.
+
+- **New capabilities**: Device code flow, public/PKCE clients, `auto_paging_each` pagination, and `last_response` observability on all responses.
+
+### Migration Guide
+
+For detailed instructions on updating your application, see the **[v7 Migration Guide](https://github.com/workos/workos-ruby/blob/main/docs/V7_MIGRATION_GUIDE.md)**.
+
 
 ## [6.2.0](https://github.com/workos/workos-ruby/compare/v6.1.0...v6.2.0) (2026-03-06)
 
