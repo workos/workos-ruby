@@ -17,7 +17,6 @@ The biggest change is architectural: the SDK is now centered around an instantia
 
    ```ruby
    require "workos"
-   require "workos/configuration"
 
    WorkOS.configure do |config|
      config.api_key = ENV.fetch("WORKOS_API_KEY")
@@ -97,6 +96,7 @@ Methods now consistently accept:
 
 ```ruby
 request_options: {
+  api_key: "sk_...",         # per-request API key override (useful for multi-tenant)
   timeout: 10,
   base_url: "https://api.workos.com",
   max_retries: 1,
@@ -157,12 +157,29 @@ After:
 ```ruby
 WorkOS.configure do |config|
   config.api_key = ENV.fetch("WORKOS_API_KEY")
-  config.base_url = "https://api.workos.com"
+  config.base_url = "https://api.workos.com"  # default
   config.client_id = ENV["WORKOS_CLIENT_ID"]
-  config.timeout = 30
-  config.max_retries = 2
+  config.timeout = 30        # default; seconds per request
+  config.max_retries = 2     # default; set to 0 to disable retries
+  config.logger = Logger.new($stdout)  # optional; enables request logging
+  config.log_level = :info             # optional; :debug, :info, :warn, :error
 end
 ```
+
+**Note:** In v6, `Configuration` auto-populated `api_key` from `ENV["WORKOS_API_KEY"]` (and legacy `ENV["WORKOS_KEY"]`). In v7 you must set `config.api_key` explicitly.
+
+#### Fork safety: `reset_client` and `shutdown`
+
+If you run a forking web server (Puma, Unicorn), reset the cached client in the worker boot hook to avoid sharing sockets across forked processes:
+
+```ruby
+# config/puma.rb
+on_worker_boot do
+  WorkOS.reset_client
+end
+```
+
+If you manage your own `WorkOS::Client` instance, call `client.shutdown` before forking to close persistent connections on the current fiber/thread.
 
 #### Direct module-style service access is no longer the default integration pattern
 
@@ -267,6 +284,23 @@ Review all usages of:
 - `authenticate_with_refresh_token`
 - `authenticate_with_magic_auth`
 - `authenticate_with_email_verification`
+- `authenticate_with_totp`
+- `authenticate_with_organization_selection`
+- `authenticate_with_device_code`
+- `authenticate_with_code_pkce` (hand-maintained)
+
+#### `get_jwks_url` signature changed
+
+`get_jwks_url` changed from a positional argument to a keyword argument:
+
+```ruby
+# Before
+url = WorkOS::UserManagement.get_jwks_url("client_123")
+
+# After
+url = client.user_management.get_jwks_url(client_id: "client_123")
+# client_id defaults to the client instance's client_id if omitted
+```
 
 #### Authorization URL helpers were renamed
 
@@ -317,11 +351,15 @@ If your code expects a raw string or hash, check the return type again.
 Examples:
 
 - `WorkOS::AuthenticationResponse` -> `WorkOS::AuthenticateResponse`
+- `WorkOS::RefreshAuthenticationResponse` -> folded into `WorkOS::AuthenticateResponse`
+- `WorkOS::ProfileAndToken` -> `WorkOS::SSOTokenResponse`
 - `WorkOS::Factor` -> `WorkOS::AuthenticationFactor`
 - `WorkOS::Challenge` -> `WorkOS::AuthenticationChallenge`
 - `WorkOS::VerifyChallenge` -> `WorkOS::AuthenticationChallengeVerifyResponse`
+- `WorkOS::AuthenticationFactorAndChallenge` -> `WorkOS::AuthenticationFactorEnrolled` (factor fields) + `WorkOS::AuthenticationChallenge` (challenge fields)
+- `WorkOS::WorkOSError` -> `WorkOS::Error`
 
-If your code imports, type-checks, or pattern matches on these classes, update those references.
+If your code imports, type-checks, or pattern matches on these classes, update those references. In particular, any `rescue WorkOS::WorkOSError` must become `rescue WorkOS::Error`.
 
 #### Response models no longer inherit from `Hash`
 
@@ -353,6 +391,7 @@ Update call sites accordingly:
 - Replace `user.to_hash` with `user.to_h`.
 - If you relied on passing a model into `**splat` or `Hash#merge` (which used the implicit `to_hash` coercion), call `.to_h` explicitly: `merge(user.to_h)`, `some_method(**user.to_h)`.
 - If you called `.to_h` and expected a JSON string, use `.to_json` instead.
+- If you passed a model to `JSON.generate(user)`, use `JSON.generate(user.to_h)` instead -- `JSON.generate` no longer traverses hash keys on models.
 - Any `rescue`/log/assertion that inspects a model with `is_a?(Hash)` needs to be updated.
 
 The `DeprecatedHashWrapper` class and its deprecation warnings have been removed.
@@ -387,8 +426,10 @@ end
 
 Important differences:
 
+- the base error class was renamed from `WorkOS::WorkOSError` to `WorkOS::Error` -- any `rescue WorkOS::WorkOSError` must be updated
 - transport failures now raise `WorkOS::APIConnectionError`
 - the old `WorkOS::TimeoutError` is no longer part of the new error surface
+- the old `e.data` field is now `e.body`, and `e.errors`, `e.error_description`, `e.retry_after` were removed
 - the old extra fields like `retry_after`, `errors`, `error_description`, and `data` are not exposed the same way
 
 If your code rescues specific exception types or reads fields from exceptions, review every rescue path.
@@ -418,6 +459,41 @@ end
 ```
 
 This is mostly an improvement, but if you implemented your own pagination assumptions around the old response shape, test those code paths again.
+
+`ListStruct` no longer masquerades as a `Hash`. If any caller did `result.is_a?(Hash)` or `result[:data]` on a list response, use `result.data` and `result.list_metadata` instead.
+
+Additional pagination helpers available in v7:
+
+- `result.next_page` / `result.previous_page` -- programmatic cursor walks (returns a new `ListStruct` or `nil`)
+- `result.each_page { |page| ... }` -- iterate one page at a time (useful for bulk upserts)
+- `result.has_more?` -- check if a next page exists
+- Some list endpoints now accept `order: "normal"` as a third option alongside `"asc"` / `"desc"` (descending with reversed cursor semantics)
+
+### Webhook verification
+
+Webhook signature verification moved from module-style calls to the client instance.
+
+Before:
+
+```ruby
+event = WorkOS::Webhooks.construct_event(
+  payload: request.body.read,
+  sig_header: request.headers["WorkOS-Signature"],
+  secret: ENV["WORKOS_WEBHOOK_SECRET"]
+)
+```
+
+After:
+
+```ruby
+event = client.webhooks.construct_event(
+  payload: request.body.read,
+  sig_header: request.headers["WorkOS-Signature"],
+  secret: ENV["WORKOS_WEBHOOK_SECRET"]
+)
+```
+
+The same applies to `verify_event`, `verify_header`, `compute_signature`, and `parse_signature_header`. All are now instance methods on `client.webhooks`.
 
 ### AuthKit sessions and cookies
 
@@ -497,6 +573,8 @@ Notable changes:
   # or, for full control:
   WorkOS::SessionManager.new(client, encryptor: custom_encryptor)
   ```
+
+  **Note:** Calling `client.session_manager(encryptor: x)` replaces the cached manager instance. Call it once at boot, or construct `WorkOS::SessionManager.new(client, encryptor: ...)` explicitly if you need per-request encryptors.
 
 #### Authenticating a loaded session
 
@@ -641,11 +719,62 @@ sealed = client.session_manager.seal_data(payload, key)
 client.session_manager.unseal_data(sealed, key)
 ```
 
-A custom encryptor passed to `client.session_manager(encryptor: ...)` is used by these helpers as well.
+A custom encryptor passed to `client.session_manager(encryptor: ...)` is used by these helpers as well. A custom encryptor must respond to `seal(data, key) -> String` and `unseal(sealed_string, key) -> Hash`. The `encryptor` gem is no longer a dependency; if your `Gemfile.lock` pinned it transitively, you may remove it unless your custom encryptor requires it.
 
 #### Deprecations to clean up
 
-- `WorkOS::SessionManager::SEAL_VERSION` is deprecated in favor of `WorkOS::Encryptors::AesGcm::SEAL_VERSION`. Update any code reading the constant off the manager.
-- `WorkOS::Session.new(...)` is still callable but its constructor signature changed (`Session.new(manager, seal_data:, cookie_password:)`). Prefer `client.session_manager.load(...)` — direct instantiation is no longer part of the public contract.
+- `WorkOS::SessionManager::SEAL_VERSION` has been removed. Use `WorkOS::Encryptors::AesGcm::SEAL_VERSION` if you need the seal-version constant.
+- Direct instantiation of `WorkOS::Session.new` now requires a `SessionManager` instance as its first positional argument and is not part of the public contract. Always use `client.session_manager.load(seal_data:, cookie_password:)` instead.
 
 If your app relies on session sealing or cookie refresh behavior, verify those flows carefully in integration tests.
+
+---
+
+## New in v7
+
+### Device code flow
+
+v7 adds device-code authorization via two methods:
+
+```ruby
+# Start device authorization
+device = client.user_management.authorize_device(redirect_uri: "https://app.example.com/callback")
+device.device_code    # poll with this
+device.user_code      # display to the user
+device.interval       # polling interval
+
+# Poll for completion
+response = client.user_management.authenticate_with_device_code(
+  device_code: device.device_code
+)
+```
+
+### Public / PKCE clients
+
+If you're running in a context that cannot store an API key (browser, mobile, CLI), construct a public client:
+
+```ruby
+client = WorkOS::PublicClient.create(client_id: "client_...")
+url, verifier, state = client.user_management.get_authorization_url_with_pkce(
+  redirect_uri: "https://app.example.com/callback"
+)
+# user authenticates, you get `code` on the callback
+response = client.user_management.authenticate_with_code_pkce(
+  code: code, code_verifier: verifier
+)
+```
+
+### Observability: `last_response` on all responses
+
+Every model and list response now exposes `last_response` with HTTP metadata:
+
+```ruby
+org = client.organizations.get_organization(id: "org_123")
+org.last_response.http_status   # => 200
+org.last_response.request_id    # => "req_..."
+org.last_response.http_headers  # => { "x-request-id" => "...", ... }
+
+# Also available on paginated responses:
+result = client.organizations.list_organizations
+result.last_response.http_status
+```

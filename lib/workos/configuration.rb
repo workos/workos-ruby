@@ -2,7 +2,15 @@
 
 # @oagen-ignore-file — hand-maintained runtime
 module WorkOS
-  # Simple holder for configuration parameters.
+  # Global configuration holder for `WorkOS.configure`.
+  #
+  # @example
+  #   WorkOS.configure do |config|
+  #     config.api_key = ENV.fetch("WORKOS_API_KEY")
+  #     config.client_id = ENV["WORKOS_CLIENT_ID"]
+  #     config.logger = Logger.new($stdout)
+  #     config.log_level = :info
+  #   end
   class Configuration
     attr_accessor :api_key, :base_url, :client_id, :timeout, :max_retries, :logger, :log_level
 

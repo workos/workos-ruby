@@ -8,7 +8,18 @@ require "openssl"
 require "uri"
 
 module WorkOS
-  # The Session class provides helper methods for working with WorkOS sessions
+  # Wraps a sealed session cookie for authentication, refresh, and logout.
+  # Constructed by {SessionManager#load}; not intended for direct instantiation.
+  #
+  # @example Authenticate and refresh
+  #   session = client.session_manager.load(seal_data: cookie, cookie_password: pw)
+  #   result = session.authenticate
+  #   if result.is_a?(SessionManager::AuthError) && result.reason == SessionManager::EXPIRED_JWT
+  #     refresh = session.refresh
+  #   end
+  #
+  # @example Build a logout URL
+  #   url = session.get_logout_url(return_to: "https://app.example.com")
   class Session
     def initialize(manager, seal_data:, cookie_password:)
       raise ArgumentError, "cookie_password is required" if cookie_password.nil? || cookie_password.empty?
@@ -74,16 +85,17 @@ module WorkOS
       end
       return SessionManager::RefreshError.new(authenticated: false, reason: SessionManager::INVALID_SESSION_COOKIE) unless session.is_a?(Hash) && session["refresh_token"]
 
+      # Uses auth: true (Bearer token) to match authenticate_with_refresh_token.
+      # client_id is included in the body as required by the OAuth2 token exchange.
       body = {
         "grant_type" => "refresh_token",
         "client_id" => @client.client_id,
-        "client_secret" => @client.api_key,
         "refresh_token" => session["refresh_token"],
         "session" => {"seal_session" => true, "cookie_password" => effective_password}
       }
       body["organization_id"] = organization_id if organization_id
 
-      response = @client.request(method: :post, path: "/user_management/authenticate", auth: false, body: body)
+      response = @client.request(method: :post, path: "/user_management/authenticate", auth: true, body: body)
       auth_response = JSON.parse(response.body)
       sealed = auth_response["sealed_session"].to_s
       @seal_data = sealed
@@ -103,7 +115,7 @@ module WorkOS
         impersonator: auth_response["impersonator"],
         feature_flags: decoded["feature_flags"]
       )
-    rescue WorkOS::Error => e
+    rescue WorkOS::AuthenticationError, WorkOS::InvalidRequestError => e
       SessionManager::RefreshError.new(authenticated: false, reason: e.message)
     end
 

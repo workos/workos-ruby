@@ -13,10 +13,6 @@ module WorkOS
     #
     # Subclasses declare HASH_ATTRS for serialization and implement their
     # own initialize(json) using normalize to parse input.
-    # Lightweight wrapper around the raw HTTP response, exposing status,
-    # headers, and request-id for observability without leaking Net::HTTP.
-    ApiResponse = Data.define(:http_status, :http_headers, :request_id)
-
     class BaseModel
       include HashProvider
 

@@ -135,12 +135,33 @@ module WorkOS
 
     # Verify a webhook signature and return a typed event struct.
     #
-    # @param payload [String] Raw webhook request body.
-    # @param sig_header [String] Value of the WorkOS-Signature header.
-    # @param secret [String] Webhook endpoint secret.
-    # @param tolerance [Integer] Maximum event age in seconds.
-    # @return [WorkOS::WebhookEvent] Typed event with .event, .data, .id, .created_at.
-    # @raise [WorkOS::SignatureVerificationError] if verification fails.
+    # Parses the `WorkOS-Signature` header, validates the HMAC-SHA256
+    # signature against the endpoint secret, checks that the event
+    # timestamp is within the tolerance window, and returns a typed
+    # {WorkOS::WebhookEvent}.
+    #
+    # @example Rack / Sinatra
+    #   post "/webhooks" do
+    #     event = client.webhooks.construct_event(
+    #       payload:   request.body.read,
+    #       sig_header: request.env["HTTP_WORKOS_SIGNATURE"],
+    #       secret:    ENV["WORKOS_WEBHOOK_SECRET"]
+    #     )
+    #     case event.event
+    #     when "user.created" then handle_user_created(event.data)
+    #     end
+    #   end
+    #
+    # @param payload [String] Raw webhook request body (must be the
+    #   exact bytes received; do not re-serialize).
+    # @param sig_header [String] Value of the `WorkOS-Signature` header
+    #   (format: `"t=<ms_timestamp>, v1=<hex_sig>"`).
+    # @param secret [String] Webhook endpoint secret from the WorkOS dashboard.
+    # @param tolerance [Integer] Maximum event age in seconds (default: 180).
+    #   Events older than this are rejected to guard against replay attacks.
+    # @return [WorkOS::WebhookEvent] Typed event with `.event`, `.data`, `.id`, `.created_at`.
+    # @raise [WorkOS::SignatureVerificationError] if the signature does not
+    #   match, the header is malformed, or the timestamp exceeds the tolerance.
     def construct_event(payload:, sig_header:, secret:, tolerance: DEFAULT_TOLERANCE_SECONDS)
       raw = verify_event(payload: payload, sig_header: sig_header, secret: secret, tolerance: tolerance)
       WebhookEvent.new(raw)
@@ -160,7 +181,14 @@ module WorkOS
       JSON.parse(payload)
     end
 
-    # Verify the signature without deserializing. Raises on failure.
+    # Verify the webhook signature without deserializing the payload.
+    #
+    # @param payload [String] Raw webhook request body.
+    # @param sig_header [String] Value of the `WorkOS-Signature` header.
+    # @param secret [String] Webhook endpoint secret.
+    # @param tolerance [Integer] Maximum event age in seconds (default: 180).
+    # @return [true] Returns `true` on success.
+    # @raise [WorkOS::SignatureVerificationError] if verification fails.
     def verify_header(payload:, sig_header:, secret:, tolerance: DEFAULT_TOLERANCE_SECONDS)
       timestamp_ms, signature_hash = parse_signature_header(sig_header)
       max_age = tolerance.to_i

@@ -16,11 +16,24 @@ require "json"
 require "jwt"
 
 module WorkOS
+  # Manages sealed-session lifecycle: loading, authenticating, refreshing,
+  # and sealing sessions from authentication responses.
+  #
+  # @example Load and authenticate a session
+  #   session = client.session_manager.load(
+  #     seal_data: cookies["wos-session"],
+  #     cookie_password: ENV["COOKIE_PASSWORD"]
+  #   )
+  #   result = session.authenticate
+  #
+  # @example Seal a session from an auth response
+  #   sealed = client.session_manager.seal_session_from_auth_response(
+  #     access_token: response.access_token,
+  #     refresh_token: response.refresh_token,
+  #     cookie_password: ENV["COOKIE_PASSWORD"]
+  #   )
   class SessionManager
     JWK_ALGORITHMS = ["RS256"].freeze
-
-    # @deprecated Use {WorkOS::Encryptors::AesGcm::SEAL_VERSION} instead.
-    SEAL_VERSION = 0x01
 
     # H04 success / failure shapes — kept minimal & frozen.
     class AuthSuccess
@@ -48,6 +61,7 @@ module WorkOS
         @impersonator = impersonator
         @feature_flags = feature_flags
         @custom_claims = normalize_custom_claims(custom_claims)
+        define_custom_claim_readers(@custom_claims)
       end
 
       def [](key)
@@ -61,17 +75,15 @@ module WorkOS
         RESERVED_KEYS.to_h { |key| [key, public_send(key)] }.merge(@custom_claims)
       end
 
-      def method_missing(name, *args, &block)
-        return @custom_claims[name] if args.empty? && @custom_claims.key?(name)
-
-        super
-      end
-
-      def respond_to_missing?(name, include_private = false)
-        @custom_claims.key?(name) || super
-      end
-
       private
+
+      def define_custom_claim_readers(claims)
+        claims.each_key do |key|
+          next if respond_to?(key)
+
+          define_singleton_method(key) { @custom_claims[key] }
+        end
+      end
 
       def normalize_custom_claims(custom_claims)
         return {} if custom_claims.nil?

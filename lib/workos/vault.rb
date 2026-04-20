@@ -14,8 +14,14 @@ module WorkOS
   # WorkOS Vault: KV secret storage, server-managed key wrapping, and
   # client-side AES-GCM encrypt/decrypt.
   #
+  # @example Store and retrieve a secret
   #   client.vault.create_object(name: "api-key", value: "sk_...", key_context: { "tenant" => "t1" })
-  #   client.vault.encrypt(data: "plaintext", key_context: { "tenant" => "t1" })
+  #   obj = client.vault.read_object_by_name(name: "api-key")
+  #   obj.value # => "sk_..."
+  #
+  # @example Client-side encrypt/decrypt
+  #   encrypted = client.vault.encrypt(data: "plaintext", key_context: { "tenant" => "t1" })
+  #   client.vault.decrypt(encrypted_data: encrypted)
   class Vault
     DEFAULT_RESPONSE_LIMIT = 10
 

@@ -12,6 +12,19 @@ module WorkOS
   # Instance-scoped HTTP runtime that implements request execution,
   # retry policy with exponential backoff + jitter, error translation,
   # and per-request option overrides.
+  #
+  # @example Create a client with custom settings
+  #   client = WorkOS::Client.new(
+  #     api_key: "sk_...",
+  #     client_id: "client_...",
+  #     timeout: 60,
+  #     max_retries: 3,
+  #     logger: Logger.new($stdout),
+  #     log_level: :info
+  #   )
+  #
+  # @example Shut down connections before forking
+  #   client.shutdown
   class BaseClient
     DEFAULT_BASE_URL = "https://api.workos.com"
     DEFAULT_TIMEOUT = 30
@@ -89,6 +102,7 @@ module WorkOS
     # request_options twice.
     def request(method:, path:, auth: true, params: {}, body: nil, request_options: {})
       raise ArgumentError, "unsupported method" unless %i[get post put patch delete].include?(method)
+      request_options = (request_options || {}).transform_keys(&:to_sym)
 
       req = case method
       when :get
@@ -221,15 +235,11 @@ module WorkOS
       Fiber[:workos_connections] ||= {}
     end
 
-    def resolve_option(opts, key)
-      return nil unless opts.is_a?(Hash)
-      opts[key] || opts[key.to_s]
-    end
-
     def build_request(klass, path, auth:, request_options:)
+      opts = request_options.is_a?(Hash) ? request_options : {}
       request = klass.new(path)
       if auth
-        key = resolve_option(request_options, :api_key) || @api_key
+        key = opts[:api_key] || opts["api_key"] || @api_key
         request["Authorization"] = "Bearer #{key}" if key && !key.empty?
       end
       request["User-Agent"] = USER_AGENT
@@ -249,7 +259,8 @@ module WorkOS
     end
 
     def inject_idempotency_key(request, request_options)
-      key = resolve_option(request_options, :idempotency_key)
+      opts = request_options.is_a?(Hash) ? request_options : {}
+      key = opts[:idempotency_key] || opts["idempotency_key"]
       return if key.nil? || key.to_s.empty?
 
       request["Idempotency-Key"] ||= key

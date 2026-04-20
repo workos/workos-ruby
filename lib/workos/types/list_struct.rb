@@ -12,7 +12,7 @@ module WorkOS
     class ListStruct
       include Enumerable
 
-      attr_accessor :data, :list_metadata, :fetch_next, :fetch_previous, :filters
+      attr_accessor :data, :list_metadata, :fetch_next, :fetch_previous, :filters, :last_response
 
       def initialize(data:, list_metadata:, fetch_next: nil, fetch_previous: nil, filters: {})
         @data = data || []
@@ -26,6 +26,7 @@ module WorkOS
       # an optional model class and wiring cursor-based auto-pagination.
       #
       # @param response [Net::HTTPResponse] Raw HTTP response with JSON body.
+      #   `model.new` accepts a JSON String or a Hash (see {BaseModel.normalize}).
       # @param model [Class, nil] Model class whose `.new` accepts a Hash.
       #   When nil, items are returned as raw Hashes.
       # @param filters [Hash] Filter state forwarded to the next page.
@@ -38,13 +39,19 @@ module WorkOS
         parsed = JSON.parse(response.body)
         items = parsed["data"] || []
         items = items.map { |item| model.new(item) } if model
-        new(
+        result = new(
           data: items,
           list_metadata: parsed["list_metadata"],
           filters: filters,
           fetch_next: fetch_next,
           fetch_previous: fetch_previous
         )
+        result.last_response = ApiResponse.new(
+          http_status: response.code.to_i,
+          http_headers: response.each_header.to_h,
+          request_id: response["x-request-id"]
+        )
+        result
       end
 
       # Iterates the current page only. Use `auto_paging_each` to span pages.
