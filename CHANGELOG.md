@@ -1,5 +1,22 @@
 # Changelog
 
+## [7.0.0](https://github.com/workos/workos-ruby/compare/v6.2.0...v7.0.0) (2026-04-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* Release OpenAPI spec generated Ruby SDK ([#454](https://github.com/workos/workos-ruby/issues/454))
+
+### Features
+
+* Release OpenAPI spec generated Ruby SDK ([#454](https://github.com/workos/workos-ruby/issues/454)) ([fd45b9d](https://github.com/workos/workos-ruby/commit/fd45b9d37bb9df9609fb293bf611b889fd485ff7))
+
+
+### Bug Fixes
+
+* outdated gemfile.lock ([e69ddbd](https://github.com/workos/workos-ruby/commit/e69ddbd811a67f7a63631b97659903854c08a3c6))
+* Remove extractVersion from matchUpdateTypes rules ([#455](https://github.com/workos/workos-ruby/issues/455)) ([8132e48](https://github.com/workos/workos-ruby/commit/8132e48bfd25100df393be9fae21bc5c33ab6ae4))
+
 ## [6.2.0](https://github.com/workos/workos-ruby/compare/v6.1.0...v6.2.0) (2026-03-06)
 
 
