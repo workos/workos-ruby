@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
 # @oagen-ignore-file
-# Hand-maintained Session object (H04). Constructed by SessionManager#load.
+# Hand-maintained Session object. Constructed by SessionManager#load.
 require "json"
 require "jwt"
 require "openssl"
 require "uri"
 
 module WorkOS
+  # The Session class provides helper methods for working with WorkOS sessions
   class Session
     def initialize(manager, seal_data:, cookie_password:)
       raise ArgumentError, "cookie_password is required" if cookie_password.nil? || cookie_password.empty?
@@ -19,7 +20,11 @@ module WorkOS
 
     attr_reader :seal_data, :cookie_password
 
-    def authenticate(&claim_extractor)
+    # Authenticates the user based on the session data
+    # @param include_expired [Boolean] If true, returns decoded token data even when expired (default: false)
+    # @param block [Proc] Optional block to call to extract additional claims from the decoded JWT
+    # @return [Hash] A hash containing the authentication response and a reason if the authentication failed
+    def authenticate(include_expired: false, &claim_extractor)
       return SessionManager::AuthError.new(authenticated: false, reason: SessionManager::NO_SESSION_COOKIE_PROVIDED) if @seal_data.nil? || @seal_data.empty?
 
       session = begin
@@ -30,13 +35,18 @@ module WorkOS
       return SessionManager::AuthError.new(authenticated: false, reason: SessionManager::INVALID_SESSION_COOKIE) unless session.is_a?(Hash) && session["access_token"]
 
       decoded = begin
-        @manager.decode_jwt(session["access_token"])
-      rescue JWT::DecodeError, JWT::ExpiredSignature
+        @manager.decode_jwt(session["access_token"], verify_expiration: !include_expired)
+      rescue JWT::ExpiredSignature
+        return SessionManager::AuthError.new(authenticated: false, reason: SessionManager::EXPIRED_JWT)
+      rescue JWT::DecodeError
         return SessionManager::AuthError.new(authenticated: false, reason: SessionManager::INVALID_JWT)
       end
 
+      is_expired = decoded["exp"] && decoded["exp"] < Time.now.to_i
+
       SessionManager::AuthSuccess.new(
-        authenticated: true,
+        authenticated: !is_expired,
+        reason: is_expired ? SessionManager::EXPIRED_JWT : nil,
         session_id: decoded["sid"],
         organization_id: decoded["org_id"],
         role: decoded["role"],

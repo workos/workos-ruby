@@ -25,7 +25,7 @@ module WorkOS
     # H04 success / failure shapes — kept minimal & frozen.
     class AuthSuccess
       RESERVED_KEYS = [
-        :authenticated, :session_id, :organization_id, :role, :roles,
+        :authenticated, :reason, :session_id, :organization_id, :role, :roles,
         :permissions, :entitlements, :user, :impersonator, :feature_flags
       ].freeze
 
@@ -33,18 +33,11 @@ module WorkOS
 
       def initialize(
         authenticated:,
-        session_id:,
-        organization_id:,
-        role:,
-        roles:,
-        permissions:,
-        entitlements:,
-        user:,
-        impersonator:,
-        feature_flags:,
+        session_id:, organization_id:, role:, roles:, permissions:, entitlements:, user:, impersonator:, feature_flags:, reason: nil,
         custom_claims: nil
       )
         @authenticated = authenticated
+        @reason = reason
         @session_id = session_id
         @organization_id = organization_id
         @role = role
@@ -108,6 +101,7 @@ module WorkOS
     NO_SESSION_COOKIE_PROVIDED = "no_session_cookie_provided"
     INVALID_SESSION_COOKIE = "invalid_session_cookie"
     INVALID_JWT = "invalid_jwt"
+    EXPIRED_JWT = "expired_jwt"
 
     # @param client [WorkOS::Client]
     # @param encryptor [#seal, #unseal] Optional custom encryptor. Defaults to
@@ -129,8 +123,8 @@ module WorkOS
     end
 
     # H05 — Inline convenience: authenticate without manual Session construction.
-    def authenticate(seal_data:, cookie_password:, &claim_extractor)
-      load(seal_data: seal_data, cookie_password: cookie_password).authenticate(&claim_extractor)
+    def authenticate(seal_data:, cookie_password:, include_expired: false, &claim_extractor)
+      load(seal_data: seal_data, cookie_password: cookie_password).authenticate(include_expired: include_expired, &claim_extractor)
     end
 
     # H05 — Inline convenience: refresh without manual Session construction.
@@ -161,7 +155,7 @@ module WorkOS
 
     # Verify an access-token JWT against the WorkOS JWKS for this client.
     # Used by Session#authenticate; exposed publicly for advanced cases.
-    def decode_jwt(access_token)
+    def decode_jwt(access_token, verify_expiration: true)
       jwks = fetch_jwks
       JWT.decode(
         access_token,
@@ -169,7 +163,8 @@ module WorkOS
         true,
         algorithms: JWK_ALGORITHMS,
         jwks: jwks,
-        verify_aud: false
+        verify_aud: false,
+        verify_expiration: verify_expiration
       ).first
     end
 

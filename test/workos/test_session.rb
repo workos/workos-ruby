@@ -157,6 +157,36 @@ class SessionTest < Minitest::Test
     assert_equal WorkOS::SessionManager::INVALID_JWT, result.reason
   end
 
+  def test_authenticate_returns_expired_jwt_when_expired_and_include_expired_is_false
+    rsa, pub = signing_key_pair
+    # Token expired 60 seconds ago
+    access_token = make_jwt({"sid" => "session_expired", "exp" => Time.now.to_i - 60}, rsa)
+    sealed = @sm.seal_data({"access_token" => access_token}, PASSWORD)
+
+    stub_request(:get, "https://api.workos.com/sso/jwks/client_001")
+      .to_return(status: 200, body: jwks_payload(pub).to_json)
+
+    result = @sm.authenticate(seal_data: sealed, cookie_password: PASSWORD, include_expired: false)
+    assert_equal WorkOS::SessionManager::EXPIRED_JWT, result.reason
+    refute result.authenticated
+  end
+
+  def test_authenticate_returns_auth_success_with_authenticated_false_when_expired_and_include_expired_is_true
+    rsa, pub = signing_key_pair
+    # Token expired 60 seconds ago
+    access_token = make_jwt({"sid" => "session_expired", "exp" => Time.now.to_i - 60}, rsa)
+    sealed = @sm.seal_data({"access_token" => access_token}, PASSWORD)
+
+    stub_request(:get, "https://api.workos.com/sso/jwks/client_001")
+      .to_return(status: 200, body: jwks_payload(pub).to_json)
+
+    result = @sm.authenticate(seal_data: sealed, cookie_password: PASSWORD, include_expired: true)
+    assert_kind_of WorkOS::SessionManager::AuthSuccess, result
+    refute result.authenticated
+    assert_equal WorkOS::SessionManager::EXPIRED_JWT, result.reason
+    assert_equal "session_expired", result.session_id
+  end
+
   # --- get_logout_url -------------------------------------------------------
 
   def test_get_logout_url_includes_session_id_from_authenticate
