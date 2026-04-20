@@ -421,7 +421,50 @@ This is mostly an improvement, but if you implemented your own pagination assump
 
 ### AuthKit sessions and cookies
 
-#### Session management moved out of `UserManagement` and into `SessionManager`
+Session management was one of the largest refactors in v7. The old `WorkOS::Session`, the `session:` kwarg on `authenticate_with_*`, and the class-level `seal_data` / `unseal_data` helpers were all replaced by a dedicated `WorkOS::SessionManager` on the client. The behavior is similar, but the surface area, return types, parameter names, and reason strings all changed.
+
+If your application seals session cookies, refreshes access tokens, or decodes the access-token JWT, every one of these call sites needs to be updated.
+
+#### Sealing a cookie from an authentication response
+
+In v6, you asked `authenticate_with_*` to seal the cookie for you:
+
+```ruby
+response = WorkOS::UserManagement.authenticate_with_code(
+  code: code,
+  client_id: client_id,
+  session: { seal_session: true, cookie_password: cookie_password }
+)
+
+response.sealed_session # => "..."
+```
+
+In v7, the `session:` kwarg has been removed from **every** `authenticate_with_*` helper. Seal the cookie yourself after the authenticate call:
+
+```ruby
+response = client.user_management.authenticate_with_code(code: code)
+
+sealed = client.session_manager.seal_session_from_auth_response(
+  access_token: response.access_token,
+  refresh_token: response.refresh_token,
+  cookie_password: cookie_password,
+  user: response.user,
+  impersonator: response.impersonator
+)
+```
+
+This applies to all of:
+
+- `authenticate_with_code`
+- `authenticate_with_password`
+- `authenticate_with_refresh_token`
+- `authenticate_with_magic_auth`
+- `authenticate_with_email_verification`
+- `authenticate_with_totp`
+- `authenticate_with_organization_selection`
+- `authenticate_with_device_code`
+
+#### Loading a session from a sealed cookie
 
 Before:
 
@@ -429,7 +472,8 @@ Before:
 session = WorkOS::UserManagement.load_sealed_session(
   client_id: client_id,
   session_data: session_data,
-  cookie_password: cookie_password
+  cookie_password: cookie_password,
+  encryptor: custom_encryptor # optional
 )
 ```
 
@@ -442,11 +486,166 @@ session = client.session_manager.load(
 )
 ```
 
-Refresh and authenticate helpers also moved:
+Notable changes:
+
+- The kwarg is renamed from `session_data:` to `seal_data:`.
+- `client_id` is no longer passed per-call; it is read from the client instance.
+- A custom `encryptor:` is now supplied when the manager is created, not on `load`:
+
+  ```ruby
+  client.session_manager(encryptor: custom_encryptor)
+  # or, for full control:
+  WorkOS::SessionManager.new(client, encryptor: custom_encryptor)
+  ```
+
+#### Authenticating a loaded session
+
+The return type changed from a `Hash` to a typed result object. **Any code that reads `result[:authenticated]` or `result[:reason]` needs to be updated.**
+
+Before:
 
 ```ruby
-client.session_manager.authenticate(...)
-client.session_manager.refresh(...)
+result = session.authenticate
+
+result[:authenticated]    # => true / false
+result[:reason]           # => 'INVALID_SESSION_COOKIE' (uppercase string)
+result[:session_id]
+result[:feature_flags]
 ```
+
+After:
+
+```ruby
+result = session.authenticate
+
+case result
+when WorkOS::SessionManager::AuthSuccess
+  result.authenticated    # => true
+  result.session_id
+  result.organization_id
+  result.role
+  result.roles
+  result.permissions
+  result.entitlements
+  result.feature_flags
+  result.user
+  result.impersonator
+when WorkOS::SessionManager::AuthError
+  result.authenticated    # => false
+  result.reason           # => "invalid_session_cookie" (lowercase string)
+end
+```
+
+Additional behavioral changes:
+
+- **Reason strings are now lowercase.** `'NO_SESSION_COOKIE_PROVIDED'` → `"no_session_cookie_provided"`, `'INVALID_SESSION_COOKIE'` → `"invalid_session_cookie"`, `'INVALID_JWT'` → `"invalid_jwt"`. These are exposed as constants on `WorkOS::SessionManager` (`NO_SESSION_COOKIE_PROVIDED`, `INVALID_SESSION_COOKIE`, `INVALID_JWT`) — prefer the constants over string literals.
+- **`claim_extractor` semantics changed.** In v6 the block's returned Hash was merged flat into the result Hash. In v7 the returned Hash is stored as `custom_claims` on `AuthSuccess` and accessed via `#[]` or via dynamic readers:
+
+  ```ruby
+  result = session.authenticate do |decoded_jwt|
+    { tenant_id: decoded_jwt["tenant_id"] }
+  end
+
+  result[:tenant_id]   # => "tnt_123"
+  result.tenant_id     # => "tnt_123"
+  result.to_h[:tenant_id]
+  ```
+
+  The extractor **must** return a Hash and **must not** overwrite reserved keys (`authenticated`, `session_id`, `organization_id`, `role`, `roles`, `permissions`, `entitlements`, `user`, `impersonator`, `feature_flags`); doing either raises `ArgumentError`.
+
+#### Refreshing a loaded session
+
+The return shape was flattened and the option-hash parameter style was replaced with keyword arguments.
+
+Before:
+
+```ruby
+result = session.refresh(
+  cookie_password: cookie_password,
+  organization_id: "org_123"
+)
+
+result[:authenticated]
+result[:sealed_session]
+result[:session].user            # nested AuthenticationResponse
+result[:session].sealed_session
+result[:reason]
+```
+
+After:
+
+```ruby
+result = session.refresh(
+  organization_id: "org_123",
+  cookie_password: cookie_password # optional; defaults to the password used at load
+)
+
+case result
+when WorkOS::SessionManager::RefreshSuccess
+  result.sealed_session     # new sealed cookie to write back to the browser
+  result.session_id
+  result.organization_id
+  result.role
+  result.roles
+  result.permissions
+  result.entitlements
+  result.user
+  result.impersonator
+  result.feature_flags
+when WorkOS::SessionManager::RefreshError
+  result.authenticated      # => false
+  result.reason
+end
+```
+
+The nested `result[:session]` field is gone; the fields that used to live on that inner `AuthenticationResponse` are now exposed directly on `RefreshSuccess`. `session.refresh` also updates the `Session`'s internal `seal_data` / `cookie_password` in place, so a subsequent `session.authenticate` will use the refreshed token without reconstructing the `Session`.
+
+For call sites that don't need a long-lived `Session` object, `SessionManager` also exposes inline helpers:
+
+```ruby
+client.session_manager.authenticate(seal_data: session_data, cookie_password: cookie_password)
+client.session_manager.refresh(seal_data: session_data, cookie_password: cookie_password)
+```
+
+#### Building a logout URL
+
+Before:
+
+```ruby
+url = session.get_logout_url(return_to: "https://example.com")
+# or, if you only had the session_id:
+url = WorkOS::UserManagement.get_logout_url(session_id: sid)
+```
+
+After:
+
+```ruby
+url = session.get_logout_url(return_to: "https://example.com")
+# or, via the UserManagement service:
+url = client.user_management.get_logout_url(session_id: sid, return_to: "https://example.com")
+```
+
+`Session#get_logout_url` now calls `authenticate` internally to extract the `session_id` and raises `WorkOS::Error` (instead of a plain `RuntimeError`) if authentication fails.
+
+#### Raw seal / unseal helpers
+
+The class methods `WorkOS::Session.seal_data` and `WorkOS::Session.unseal_data` were removed. Use the instance methods on `SessionManager` instead:
+
+```ruby
+# Before
+sealed = WorkOS::Session.seal_data(payload, key)
+WorkOS::Session.unseal_data(sealed, key)
+
+# After
+sealed = client.session_manager.seal_data(payload, key)
+client.session_manager.unseal_data(sealed, key)
+```
+
+A custom encryptor passed to `client.session_manager(encryptor: ...)` is used by these helpers as well.
+
+#### Deprecations to clean up
+
+- `WorkOS::SessionManager::SEAL_VERSION` is deprecated in favor of `WorkOS::Encryptors::AesGcm::SEAL_VERSION`. Update any code reading the constant off the manager.
+- `WorkOS::Session.new(...)` is still callable but its constructor signature changed (`Session.new(manager, seal_data:, cookie_password:)`). Prefer `client.session_manager.load(...)` — direct instantiation is no longer part of the public contract.
 
 If your app relies on session sealing or cookie refresh behavior, verify those flows carefully in integration tests.
