@@ -18,6 +18,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["email"], json[:email]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_user_consent_option_round_trip
@@ -32,6 +33,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["claim"], json[:claim]
     assert_equal fixture["label"], json[:label]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_user_management_login_request_round_trip
@@ -44,6 +46,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["external_auth_id"], json[:external_auth_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_validate_api_key_round_trip
@@ -54,6 +57,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["value"], json[:value]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_redirect_uri_input_round_trip
@@ -65,6 +69,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["uri"], json[:uri]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_create_oauth_application_round_trip
@@ -83,6 +88,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["name"], json[:name]
     assert_equal fixture["is_first_party"], json[:is_first_party]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_create_m2m_application_round_trip
@@ -98,6 +104,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["name"], json[:name]
     assert_equal fixture["organization_id"], json[:organization_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_update_oauth_application_round_trip
@@ -110,6 +117,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::UpdateOAuthApplication.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_create_application_secret_round_trip
@@ -130,6 +138,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["type"], json[:type]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_audit_log_event_target_round_trip
@@ -144,6 +153,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["type"], json[:type]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_audit_log_event_context_round_trip
@@ -155,6 +165,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["location"], json[:location]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_audit_log_event_round_trip
@@ -172,6 +183,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["action"], json[:action]
     assert_equal fixture["occurred_at"], json[:occurred_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_audit_log_event_ingestion_round_trip
@@ -183,6 +195,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["organization_id"], json[:organization_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_audit_log_export_creation_round_trip
@@ -202,6 +215,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["organization_id"], json[:organization_id]
     assert_equal fixture["range_start"], json[:range_start]
     assert_equal fixture["range_end"], json[:range_end]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_update_audit_logs_retention_round_trip
@@ -212,6 +226,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["retention_period_in_days"], json[:retention_period_in_days]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_audit_log_schema_actor_round_trip
@@ -221,6 +236,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::AuditLogSchemaActor.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_audit_log_schema_target_round_trip
@@ -232,6 +248,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["type"], json[:type]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_audit_log_schema_round_trip
@@ -243,6 +260,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::AuditLogSchema.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_challenge_authentication_factor_round_trip
@@ -252,6 +270,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::ChallengeAuthenticationFactor.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_check_authorization_round_trip
@@ -265,6 +284,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["permission_slug"], json[:permission_slug]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_assign_role_round_trip
@@ -278,6 +298,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["role_slug"], json[:role_slug]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_remove_role_round_trip
@@ -291,6 +312,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["role_slug"], json[:role_slug]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_set_role_permissions_round_trip
@@ -300,6 +322,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::SetRolePermissions.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_add_role_permission_round_trip
@@ -310,6 +333,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["slug"], json[:slug]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_create_organization_role_round_trip
@@ -323,6 +347,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["name"], json[:name]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_update_organization_role_round_trip
@@ -333,6 +358,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::UpdateOrganizationRole.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_create_authorization_permission_round_trip
@@ -347,6 +373,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["slug"], json[:slug]
     assert_equal fixture["name"], json[:name]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_update_authorization_permission_round_trip
@@ -357,6 +384,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::UpdateAuthorizationPermission.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_create_role_round_trip
@@ -371,6 +399,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["slug"], json[:slug]
     assert_equal fixture["name"], json[:name]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_update_role_round_trip
@@ -381,6 +410,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::UpdateRole.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_update_authorization_resource_round_trip
@@ -394,6 +424,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::UpdateAuthorizationResource.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_create_authorization_resource_round_trip
@@ -414,6 +445,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["name"], json[:name]
     assert_equal fixture["resource_type_slug"], json[:resource_type_slug]
     assert_equal fixture["organization_id"], json[:organization_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_create_cors_origin_round_trip
@@ -424,6 +456,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["origin"], json[:origin]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_update_jwt_template_round_trip
@@ -434,6 +467,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["content"], json[:content]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_create_organization_domain_round_trip
@@ -446,6 +480,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["domain"], json[:domain]
     assert_equal fixture["organization_id"], json[:organization_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_create_organization_api_key_round_trip
@@ -457,6 +492,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["name"], json[:name]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_domain_data_round_trip
@@ -468,6 +504,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["domain"], json[:domain]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_input_round_trip
@@ -483,6 +520,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["name"], json[:name]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_update_organization_round_trip
@@ -498,6 +536,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::UpdateOrganization.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_sso_intent_options_round_trip
@@ -508,6 +547,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::SSOIntentOptions.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_intent_options_round_trip
@@ -517,6 +557,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::IntentOptions.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_generate_link_round_trip
@@ -532,6 +573,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["organization"], json[:organization]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_create_redirect_uri_round_trip
@@ -542,6 +584,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["uri"], json[:uri]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_enroll_user_authentication_factor_round_trip
@@ -554,6 +597,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::EnrollUserAuthenticationFactor.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_create_magic_code_and_return_round_trip
@@ -565,6 +609,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_create_user_invite_options_round_trip
@@ -580,6 +625,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_resend_user_invite_options_round_trip
@@ -589,6 +635,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::ResendUserInviteOptions.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_create_user_organization_membership_round_trip
@@ -603,6 +650,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["user_id"], json[:user_id]
     assert_equal fixture["organization_id"], json[:organization_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_update_user_organization_membership_round_trip
@@ -613,6 +661,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::UpdateUserOrganizationMembership.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_create_user_round_trip
@@ -631,6 +680,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_update_user_round_trip
@@ -649,6 +699,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::UpdateUser.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_verify_email_address_round_trip
@@ -659,6 +710,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["code"], json[:code]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_create_password_reset_token_round_trip
@@ -669,6 +721,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_create_password_reset_round_trip
@@ -681,6 +734,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["token"], json[:token]
     assert_equal fixture["new_password"], json[:new_password]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_send_email_change_round_trip
@@ -691,6 +745,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["new_email"], json[:new_email]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_confirm_email_change_round_trip
@@ -701,6 +756,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["code"], json[:code]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_revoke_session_round_trip
@@ -712,6 +768,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["session_id"], json[:session_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_create_webhook_endpoint_round_trip
@@ -723,6 +780,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["endpoint_url"], json[:endpoint_url]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_update_webhook_endpoint_round_trip
@@ -734,6 +792,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::UpdateWebhookEndpoint.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_widget_session_token_round_trip
@@ -746,6 +805,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["organization_id"], json[:organization_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_token_query_round_trip
@@ -761,6 +821,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["client_id"], json[:client_id]
     assert_equal fixture["client_secret"], json[:client_secret]
     assert_equal fixture["code"], json[:code]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_external_auth_complete_response_round_trip
@@ -771,6 +832,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["redirect_uri"], json[:redirect_uri]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_api_key_round_trip
@@ -794,6 +856,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:last_used_at]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_api_key_validation_response_round_trip
@@ -803,6 +866,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::ApiKeyValidationResponse.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_connect_application_round_trip
@@ -827,6 +891,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["name"], json[:name]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_new_connect_application_secret_round_trip
@@ -848,6 +913,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
     assert_equal fixture["secret"], json[:secret]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_audit_log_event_create_response_round_trip
@@ -858,6 +924,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["success"], json[:success]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_audit_log_export_json_round_trip
@@ -875,6 +942,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_audit_logs_retention_json_round_trip
@@ -885,6 +953,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_nil json[:retention_period_in_days]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_audit_log_schema_json_round_trip
@@ -901,6 +970,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["version"], json[:version]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_audit_log_action_json_round_trip
@@ -917,6 +987,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["name"], json[:name]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_challenge_round_trip
@@ -936,6 +1007,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["authentication_factor_id"], json[:authentication_factor_id]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_challenge_verify_response_round_trip
@@ -947,6 +1019,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["valid"], json[:valid]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_factor_enrolled_round_trip
@@ -966,6 +1039,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_factor_round_trip
@@ -985,6 +1059,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authorization_check_round_trip
@@ -995,6 +1070,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["authorized"], json[:authorized]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authorization_resource_round_trip
@@ -1022,6 +1098,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["resource_type_slug"], json[:resource_type_slug]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authorization_permission_round_trip
@@ -1047,6 +1124,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["resource_type_slug"], json[:resource_type_slug]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_slim_role_round_trip
@@ -1057,6 +1135,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["slug"], json[:slug]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_role_assignment_round_trip
@@ -1074,6 +1153,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_role_round_trip
@@ -1099,6 +1179,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["resource_type_slug"], json[:resource_type_slug]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_role_list_round_trip
@@ -1109,6 +1190,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::RoleList.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_connection_round_trip
@@ -1132,6 +1214,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["name"], json[:name]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_cors_origin_response_round_trip
@@ -1149,6 +1232,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["origin"], json[:origin]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_directory_round_trip
@@ -1174,6 +1258,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["name"], json[:name]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_directory_group_round_trip
@@ -1198,6 +1283,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["name"], json[:name]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_directory_user_with_groups_round_trip
@@ -1232,6 +1318,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:email]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_event_context_actor_round_trip
@@ -1245,6 +1332,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_nil json[:name]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_event_context_round_trip
@@ -1259,6 +1347,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::EventContext.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_directory_user_round_trip
@@ -1292,6 +1381,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:email]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_group_round_trip
@@ -1313,6 +1403,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:description]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_user_round_trip
@@ -1344,6 +1435,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:last_sign_in_at]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_event_schema_round_trip
@@ -1361,6 +1453,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["event"], json[:event]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_action_authentication_denied_round_trip
@@ -1377,6 +1470,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_action_authentication_denied_data_round_trip
@@ -1401,6 +1495,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["email"], json[:email]
     assert_nil json[:ip_address]
     assert_nil json[:user_agent]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_action_user_registration_denied_round_trip
@@ -1417,6 +1512,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_action_user_registration_denied_data_round_trip
@@ -1439,6 +1535,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["email"], json[:email]
     assert_nil json[:ip_address]
     assert_nil json[:user_agent]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_api_key_created_round_trip
@@ -1455,6 +1552,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_api_key_created_data_round_trip
@@ -1478,6 +1576,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:last_used_at]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_api_key_created_data_owner_round_trip
@@ -1489,6 +1588,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_api_key_revoked_round_trip
@@ -1505,6 +1605,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_api_key_revoked_data_round_trip
@@ -1528,6 +1629,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:last_used_at]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_api_key_revoked_data_owner_round_trip
@@ -1539,6 +1641,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_email_verification_failed_round_trip
@@ -1555,6 +1658,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_email_verification_failed_data_round_trip
@@ -1574,6 +1678,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:user_agent]
     assert_nil json[:user_id]
     assert_nil json[:email]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_email_verification_failed_data_error_round_trip
@@ -1586,6 +1691,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["code"], json[:code]
     assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_email_verification_succeeded_round_trip
@@ -1602,6 +1708,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_email_verification_succeeded_data_round_trip
@@ -1620,6 +1727,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:user_agent]
     assert_equal fixture["user_id"], json[:user_id]
     assert_equal fixture["email"], json[:email]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_magic_auth_failed_round_trip
@@ -1636,6 +1744,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_magic_auth_failed_data_round_trip
@@ -1655,6 +1764,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:user_agent]
     assert_nil json[:user_id]
     assert_nil json[:email]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_magic_auth_failed_data_error_round_trip
@@ -1667,6 +1777,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["code"], json[:code]
     assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_magic_auth_succeeded_round_trip
@@ -1683,6 +1794,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_magic_auth_succeeded_data_round_trip
@@ -1701,6 +1813,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:user_agent]
     assert_equal fixture["user_id"], json[:user_id]
     assert_equal fixture["email"], json[:email]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_mfa_failed_round_trip
@@ -1717,6 +1830,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_mfa_failed_data_round_trip
@@ -1736,6 +1850,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:user_agent]
     assert_nil json[:user_id]
     assert_nil json[:email]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_mfa_failed_data_error_round_trip
@@ -1748,6 +1863,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["code"], json[:code]
     assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_mfa_succeeded_round_trip
@@ -1764,6 +1880,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_mfa_succeeded_data_round_trip
@@ -1782,6 +1899,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:user_agent]
     assert_equal fixture["user_id"], json[:user_id]
     assert_equal fixture["email"], json[:email]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_oauth_failed_round_trip
@@ -1798,6 +1916,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_oauth_failed_data_round_trip
@@ -1817,6 +1936,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:user_agent]
     assert_nil json[:user_id]
     assert_nil json[:email]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_oauth_failed_data_error_round_trip
@@ -1829,6 +1949,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["code"], json[:code]
     assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_oauth_succeeded_round_trip
@@ -1845,6 +1966,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_oauth_succeeded_data_round_trip
@@ -1863,6 +1985,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:user_agent]
     assert_nil json[:user_id]
     assert_equal fixture["email"], json[:email]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_passkey_failed_round_trip
@@ -1879,6 +2002,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_passkey_failed_data_round_trip
@@ -1898,6 +2022,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:user_agent]
     assert_nil json[:user_id]
     assert_nil json[:email]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_passkey_failed_data_error_round_trip
@@ -1910,6 +2035,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["code"], json[:code]
     assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_passkey_succeeded_round_trip
@@ -1926,6 +2052,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_passkey_succeeded_data_round_trip
@@ -1944,6 +2071,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:user_agent]
     assert_equal fixture["user_id"], json[:user_id]
     assert_equal fixture["email"], json[:email]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_password_failed_round_trip
@@ -1960,6 +2088,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_password_failed_data_round_trip
@@ -1979,6 +2108,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:user_agent]
     assert_nil json[:user_id]
     assert_nil json[:email]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_password_failed_data_error_round_trip
@@ -1991,6 +2121,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["code"], json[:code]
     assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_password_succeeded_round_trip
@@ -2007,6 +2138,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_password_succeeded_data_round_trip
@@ -2025,6 +2157,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:user_agent]
     assert_equal fixture["user_id"], json[:user_id]
     assert_equal fixture["email"], json[:email]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_radar_risk_detected_round_trip
@@ -2041,6 +2174,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_radar_risk_detected_data_round_trip
@@ -2064,6 +2198,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:user_agent]
     assert_equal fixture["user_id"], json[:user_id]
     assert_equal fixture["email"], json[:email]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_sso_failed_round_trip
@@ -2080,6 +2215,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_sso_failed_data_round_trip
@@ -2100,6 +2236,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:user_agent]
     assert_nil json[:user_id]
     assert_nil json[:email]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_sso_failed_data_sso_round_trip
@@ -2114,6 +2251,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:organization_id]
     assert_nil json[:connection_id]
     assert_nil json[:session_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_sso_failed_data_error_round_trip
@@ -2126,6 +2264,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["code"], json[:code]
     assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_sso_started_round_trip
@@ -2142,6 +2281,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_sso_started_data_round_trip
@@ -2161,6 +2301,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:user_agent]
     assert_nil json[:user_id]
     assert_nil json[:email]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_sso_started_data_sso_round_trip
@@ -2175,6 +2316,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:organization_id]
     assert_nil json[:connection_id]
     assert_nil json[:session_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_sso_succeeded_round_trip
@@ -2191,6 +2333,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_sso_succeeded_data_round_trip
@@ -2210,6 +2353,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:user_agent]
     assert_nil json[:user_id]
     assert_equal fixture["email"], json[:email]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_sso_succeeded_data_sso_round_trip
@@ -2224,6 +2368,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:organization_id]
     assert_nil json[:connection_id]
     assert_nil json[:session_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_sso_timed_out_round_trip
@@ -2240,6 +2385,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_sso_timed_out_data_round_trip
@@ -2260,6 +2406,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:user_agent]
     assert_nil json[:user_id]
     assert_nil json[:email]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_sso_timed_out_data_sso_round_trip
@@ -2274,6 +2421,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:organization_id]
     assert_nil json[:connection_id]
     assert_nil json[:session_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_sso_timed_out_data_error_round_trip
@@ -2286,6 +2434,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["code"], json[:code]
     assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_connection_activated_round_trip
@@ -2302,6 +2451,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_connection_activated_data_round_trip
@@ -2326,6 +2476,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
     assert_equal fixture["external_key"], json[:external_key]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_connection_activated_data_domain_round_trip
@@ -2339,6 +2490,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["domain"], json[:domain]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_connection_deactivated_round_trip
@@ -2355,6 +2507,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_connection_deactivated_data_round_trip
@@ -2379,6 +2532,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
     assert_equal fixture["external_key"], json[:external_key]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_connection_deactivated_data_domain_round_trip
@@ -2392,6 +2546,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["domain"], json[:domain]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_connection_deleted_round_trip
@@ -2408,6 +2563,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_connection_deleted_data_round_trip
@@ -2428,6 +2584,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["name"], json[:name]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_connection_saml_certificate_renewal_required_round_trip
@@ -2444,6 +2601,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_connection_saml_certificate_renewal_required_data_round_trip
@@ -2456,6 +2614,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["days_until_expiry"], json[:days_until_expiry]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_connection_saml_certificate_renewal_required_data_connection_round_trip
@@ -2467,6 +2626,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_connection_saml_certificate_renewal_required_data_certificate_round_trip
@@ -2480,6 +2640,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["expiry_date"], json[:expiry_date]
     assert_equal fixture["is_expired"], json[:is_expired]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_connection_saml_certificate_renewed_round_trip
@@ -2496,6 +2657,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_connection_saml_certificate_renewed_data_round_trip
@@ -2508,6 +2670,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["renewed_at"], json[:renewed_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_connection_saml_certificate_renewed_data_connection_round_trip
@@ -2519,6 +2682,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_connection_saml_certificate_renewed_data_certificate_round_trip
@@ -2530,6 +2694,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["expiry_date"], json[:expiry_date]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_dsync_activated_round_trip
@@ -2546,6 +2711,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_dsync_activated_data_round_trip
@@ -2569,6 +2735,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
     assert_equal fixture["external_key"], json[:external_key]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_dsync_activated_data_domain_round_trip
@@ -2582,6 +2749,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["domain"], json[:domain]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_dsync_deactivated_round_trip
@@ -2598,6 +2766,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_dsync_deactivated_data_round_trip
@@ -2621,6 +2790,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
     assert_equal fixture["external_key"], json[:external_key]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_dsync_deactivated_data_domain_round_trip
@@ -2634,6 +2804,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["domain"], json[:domain]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_dsync_deleted_round_trip
@@ -2650,6 +2821,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_dsync_deleted_data_round_trip
@@ -2670,6 +2842,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["name"], json[:name]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_dsync_group_created_round_trip
@@ -2686,6 +2859,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_dsync_group_deleted_round_trip
@@ -2702,6 +2876,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_dsync_group_updated_round_trip
@@ -2718,6 +2893,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_dsync_group_updated_data_round_trip
@@ -2743,6 +2919,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["name"], json[:name]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_dsync_group_user_added_round_trip
@@ -2759,6 +2936,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_dsync_group_user_added_data_round_trip
@@ -2771,6 +2949,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["directory_id"], json[:directory_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_dsync_user_created_round_trip
@@ -2787,6 +2966,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_dsync_user_deleted_round_trip
@@ -2803,6 +2983,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_dsync_group_user_removed_round_trip
@@ -2819,6 +3000,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_dsync_group_user_removed_data_round_trip
@@ -2831,6 +3013,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["directory_id"], json[:directory_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_dsync_user_updated_round_trip
@@ -2847,6 +3030,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_dsync_user_updated_data_round_trip
@@ -2881,6 +3065,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:email]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_dsync_user_updated_data_email_round_trip
@@ -2892,6 +3077,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::DsyncUserUpdatedDataEmail.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_email_verification_created_round_trip
@@ -2908,6 +3094,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_email_verification_created_data_round_trip
@@ -2929,6 +3116,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["expires_at"], json[:expires_at]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_flag_created_round_trip
@@ -2945,6 +3133,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_flag_created_data_round_trip
@@ -2974,6 +3163,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["default_value"], json[:default_value]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_flag_created_data_owner_round_trip
@@ -2988,6 +3178,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["email"], json[:email]
     assert_nil json[:first_name]
     assert_nil json[:last_name]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_flag_created_context_round_trip
@@ -2999,6 +3190,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["client_id"], json[:client_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_flag_created_context_actor_round_trip
@@ -3012,6 +3204,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_nil json[:name]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_flag_deleted_round_trip
@@ -3028,6 +3221,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_flag_deleted_data_round_trip
@@ -3057,6 +3251,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["default_value"], json[:default_value]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_flag_deleted_data_owner_round_trip
@@ -3071,6 +3266,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["email"], json[:email]
     assert_nil json[:first_name]
     assert_nil json[:last_name]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_flag_deleted_context_round_trip
@@ -3082,6 +3278,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["client_id"], json[:client_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_flag_deleted_context_actor_round_trip
@@ -3095,6 +3292,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_nil json[:name]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_flag_rule_updated_round_trip
@@ -3111,6 +3309,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_flag_rule_updated_data_round_trip
@@ -3140,6 +3339,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["default_value"], json[:default_value]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_flag_rule_updated_data_owner_round_trip
@@ -3154,6 +3354,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["email"], json[:email]
     assert_nil json[:first_name]
     assert_nil json[:last_name]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_flag_rule_updated_context_round_trip
@@ -3168,6 +3369,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["client_id"], json[:client_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_flag_rule_updated_context_actor_round_trip
@@ -3181,6 +3383,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_nil json[:name]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_flag_rule_updated_context_configured_target_round_trip
@@ -3191,6 +3394,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::FlagRuleUpdatedContextConfiguredTarget.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_flag_rule_updated_context_configured_target_organization_round_trip
@@ -3203,6 +3407,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["name"], json[:name]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_flag_rule_updated_context_configured_target_user_round_trip
@@ -3215,6 +3420,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["email"], json[:email]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_flag_rule_updated_context_previous_attribute_round_trip
@@ -3225,6 +3431,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::FlagRuleUpdatedContextPreviousAttribute.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_flag_rule_updated_context_previous_attribute_data_round_trip
@@ -3235,6 +3442,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::FlagRuleUpdatedContextPreviousAttributeData.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_flag_rule_updated_context_previous_attribute_context_round_trip
@@ -3245,6 +3453,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::FlagRuleUpdatedContextPreviousAttributeContext.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_flag_rule_updated_context_previous_attribute_context_configured_target_round_trip
@@ -3255,6 +3464,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::FlagRuleUpdatedContextPreviousAttributeContextConfiguredTarget.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_flag_rule_updated_context_previous_attribute_context_configured_target_organization_round_trip
@@ -3267,6 +3477,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["name"], json[:name]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_flag_rule_updated_context_previous_attribute_context_configured_target_user_round_trip
@@ -3279,6 +3490,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["email"], json[:email]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_flag_updated_round_trip
@@ -3295,6 +3507,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_flag_updated_data_round_trip
@@ -3324,6 +3537,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["default_value"], json[:default_value]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_flag_updated_data_owner_round_trip
@@ -3338,6 +3552,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["email"], json[:email]
     assert_nil json[:first_name]
     assert_nil json[:last_name]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_flag_updated_context_round_trip
@@ -3350,6 +3565,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["client_id"], json[:client_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_flag_updated_context_actor_round_trip
@@ -3363,6 +3579,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_nil json[:name]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_flag_updated_context_previous_attribute_round_trip
@@ -3372,6 +3589,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::FlagUpdatedContextPreviousAttribute.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_flag_updated_context_previous_attribute_data_round_trip
@@ -3385,6 +3603,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::FlagUpdatedContextPreviousAttributeData.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_group_created_round_trip
@@ -3401,6 +3620,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_group_deleted_round_trip
@@ -3417,6 +3637,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_group_member_added_round_trip
@@ -3433,6 +3654,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_group_member_added_data_round_trip
@@ -3445,6 +3667,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["group_id"], json[:group_id]
     assert_equal fixture["organization_membership_id"], json[:organization_membership_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_group_member_removed_round_trip
@@ -3461,6 +3684,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_group_member_removed_data_round_trip
@@ -3473,6 +3697,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["group_id"], json[:group_id]
     assert_equal fixture["organization_membership_id"], json[:organization_membership_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_group_updated_round_trip
@@ -3489,6 +3714,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_invitation_accepted_round_trip
@@ -3505,6 +3731,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_invitation_accepted_data_round_trip
@@ -3535,6 +3762,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:accepted_user_id]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_invitation_created_round_trip
@@ -3551,6 +3779,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_invitation_created_data_round_trip
@@ -3581,6 +3810,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:accepted_user_id]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_invitation_resent_round_trip
@@ -3597,6 +3827,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_invitation_resent_data_round_trip
@@ -3627,6 +3858,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:accepted_user_id]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_invitation_revoked_round_trip
@@ -3643,6 +3875,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_invitation_revoked_data_round_trip
@@ -3673,6 +3906,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:accepted_user_id]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_magic_auth_created_round_trip
@@ -3689,6 +3923,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_magic_auth_created_data_round_trip
@@ -3710,6 +3945,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["expires_at"], json[:expires_at]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_created_round_trip
@@ -3726,6 +3962,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_created_data_round_trip
@@ -3748,6 +3985,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:external_id]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_created_data_domain_round_trip
@@ -3771,6 +4009,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["domain"], json[:domain]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_deleted_round_trip
@@ -3787,6 +4026,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_deleted_data_round_trip
@@ -3809,6 +4049,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:external_id]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_deleted_data_domain_round_trip
@@ -3832,6 +4073,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["domain"], json[:domain]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_domain_created_round_trip
@@ -3848,6 +4090,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_domain_created_data_round_trip
@@ -3871,6 +4114,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["domain"], json[:domain]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_domain_deleted_round_trip
@@ -3887,6 +4131,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_domain_deleted_data_round_trip
@@ -3910,6 +4155,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["domain"], json[:domain]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_domain_updated_round_trip
@@ -3926,6 +4172,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_domain_updated_data_round_trip
@@ -3949,6 +4196,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["domain"], json[:domain]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_domain_verification_failed_round_trip
@@ -3965,6 +4213,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_domain_verification_failed_data_round_trip
@@ -3975,6 +4224,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::OrganizationDomainVerificationFailedData.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_domain_verification_failed_data_organization_domain_round_trip
@@ -3998,6 +4248,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["domain"], json[:domain]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_domain_verified_round_trip
@@ -4014,6 +4265,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_domain_verified_data_round_trip
@@ -4037,6 +4289,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["domain"], json[:domain]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_membership_created_round_trip
@@ -4053,6 +4306,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_membership_created_data_round_trip
@@ -4078,6 +4332,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["directory_managed"], json[:directory_managed]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_membership_deleted_round_trip
@@ -4094,6 +4349,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_membership_deleted_data_round_trip
@@ -4119,6 +4375,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["directory_managed"], json[:directory_managed]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_membership_updated_round_trip
@@ -4135,6 +4392,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_membership_updated_data_round_trip
@@ -4160,6 +4418,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["directory_managed"], json[:directory_managed]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_role_created_round_trip
@@ -4176,6 +4435,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_role_created_data_round_trip
@@ -4200,6 +4460,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["resource_type_slug"], json[:resource_type_slug]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_role_deleted_round_trip
@@ -4216,6 +4477,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_role_deleted_data_round_trip
@@ -4240,6 +4502,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["resource_type_slug"], json[:resource_type_slug]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_role_updated_round_trip
@@ -4256,6 +4519,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_role_updated_data_round_trip
@@ -4280,6 +4544,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["resource_type_slug"], json[:resource_type_slug]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_updated_round_trip
@@ -4296,6 +4561,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_updated_data_round_trip
@@ -4318,6 +4584,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:external_id]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_updated_data_domain_round_trip
@@ -4341,6 +4608,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["domain"], json[:domain]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_password_reset_created_round_trip
@@ -4357,6 +4625,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_password_reset_created_data_round_trip
@@ -4376,6 +4645,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["email"], json[:email]
     assert_equal fixture["expires_at"], json[:expires_at]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_password_reset_succeeded_round_trip
@@ -4392,6 +4662,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_password_reset_succeeded_data_round_trip
@@ -4411,6 +4682,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["email"], json[:email]
     assert_equal fixture["expires_at"], json[:expires_at]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_permission_created_round_trip
@@ -4427,6 +4699,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_permission_created_data_round_trip
@@ -4450,6 +4723,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["system"], json[:system]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_permission_deleted_round_trip
@@ -4466,6 +4740,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_permission_deleted_data_round_trip
@@ -4489,6 +4764,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["system"], json[:system]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_permission_updated_round_trip
@@ -4505,6 +4781,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_permission_updated_data_round_trip
@@ -4528,6 +4805,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["system"], json[:system]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_role_created_round_trip
@@ -4544,6 +4822,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_role_created_data_round_trip
@@ -4562,6 +4841,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["resource_type_slug"], json[:resource_type_slug]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_role_deleted_round_trip
@@ -4578,6 +4858,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_role_deleted_data_round_trip
@@ -4596,6 +4877,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["resource_type_slug"], json[:resource_type_slug]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_role_updated_round_trip
@@ -4612,6 +4894,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_role_updated_data_round_trip
@@ -4630,6 +4913,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["resource_type_slug"], json[:resource_type_slug]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_session_created_round_trip
@@ -4646,6 +4930,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_session_created_data_round_trip
@@ -4675,6 +4960,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:ended_at]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_session_created_data_impersonator_round_trip
@@ -4687,6 +4973,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
     assert_nil json[:reason]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_session_revoked_round_trip
@@ -4703,6 +4990,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_session_revoked_data_round_trip
@@ -4732,6 +5020,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:ended_at]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_session_revoked_data_impersonator_round_trip
@@ -4744,6 +5033,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
     assert_nil json[:reason]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_user_created_round_trip
@@ -4760,6 +5050,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_user_deleted_round_trip
@@ -4776,6 +5067,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_user_updated_round_trip
@@ -4792,6 +5084,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_vault_byok_key_verification_completed_round_trip
@@ -4808,6 +5101,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_vault_byok_key_verification_completed_data_round_trip
@@ -4821,6 +5115,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["organization_id"], json[:organization_id]
     assert_equal fixture["verified"], json[:verified]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_vault_data_created_round_trip
@@ -4837,6 +5132,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_vault_data_created_data_round_trip
@@ -4855,6 +5151,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["actor_name"], json[:actor_name]
     assert_equal fixture["kv_name"], json[:kv_name]
     assert_equal fixture["key_id"], json[:key_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_vault_data_deleted_round_trip
@@ -4871,6 +5168,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_vault_data_deleted_data_round_trip
@@ -4886,6 +5184,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["actor_id"], json[:actor_id]
     assert_equal fixture["actor_name"], json[:actor_name]
     assert_equal fixture["kv_name"], json[:kv_name]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_vault_data_read_round_trip
@@ -4902,6 +5201,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_vault_data_read_data_round_trip
@@ -4919,6 +5219,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["actor_name"], json[:actor_name]
     assert_equal fixture["kv_name"], json[:kv_name]
     assert_equal fixture["key_id"], json[:key_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_vault_data_updated_round_trip
@@ -4935,6 +5236,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_vault_data_updated_data_round_trip
@@ -4953,6 +5255,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["actor_name"], json[:actor_name]
     assert_equal fixture["kv_name"], json[:kv_name]
     assert_equal fixture["key_id"], json[:key_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_vault_dek_decrypted_round_trip
@@ -4969,6 +5272,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_vault_dek_decrypted_data_round_trip
@@ -4984,6 +5288,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["actor_id"], json[:actor_id]
     assert_equal fixture["actor_name"], json[:actor_name]
     assert_equal fixture["key_id"], json[:key_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_vault_dek_read_round_trip
@@ -5000,6 +5305,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_vault_dek_read_data_round_trip
@@ -5015,6 +5321,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["actor_id"], json[:actor_id]
     assert_equal fixture["actor_name"], json[:actor_name]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_vault_kek_created_round_trip
@@ -5031,6 +5338,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_vault_kek_created_data_round_trip
@@ -5048,6 +5356,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["actor_name"], json[:actor_name]
     assert_equal fixture["key_name"], json[:key_name]
     assert_equal fixture["key_id"], json[:key_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_vault_metadata_read_round_trip
@@ -5064,6 +5373,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_vault_metadata_read_data_round_trip
@@ -5079,6 +5389,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["actor_id"], json[:actor_id]
     assert_equal fixture["actor_name"], json[:actor_name]
     assert_equal fixture["kv_name"], json[:kv_name]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_vault_names_listed_round_trip
@@ -5095,6 +5406,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_vault_names_listed_data_round_trip
@@ -5108,6 +5420,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["actor_id"], json[:actor_id]
     assert_equal fixture["actor_name"], json[:actor_name]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_jwt_template_response_round_trip
@@ -5123,6 +5436,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["content"], json[:content]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_domain_stand_alone_round_trip
@@ -5146,6 +5460,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["domain"], json[:domain]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_flag_round_trip
@@ -5173,6 +5488,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["default_value"], json[:default_value]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_api_key_with_value_round_trip
@@ -5198,6 +5514,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
     assert_equal fixture["value"], json[:value]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_round_trip
@@ -5221,6 +5538,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:external_id]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_audit_log_configuration_round_trip
@@ -5235,6 +5553,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["organization_id"], json[:organization_id]
     assert_equal fixture["retention_period_in_days"], json[:retention_period_in_days]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_data_integration_authorize_url_response_round_trip
@@ -5245,6 +5564,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["url"], json[:url]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_data_integration_access_token_response_round_trip
@@ -5256,6 +5576,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::DataIntegrationAccessTokenResponse.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_connected_account_round_trip
@@ -5277,6 +5598,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:organization_id]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_data_integrations_list_response_round_trip
@@ -5287,6 +5609,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::DataIntegrationsListResponse.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_portal_link_response_round_trip
@@ -5297,6 +5620,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["link"], json[:link]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_radar_standalone_response_round_trip
@@ -5312,6 +5636,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["reason"], json[:reason]
     assert_equal fixture["attempt_id"], json[:attempt_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_radar_list_entry_already_present_response_round_trip
@@ -5322,6 +5647,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_redirect_uri_round_trip
@@ -5341,6 +5667,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["default"], json[:default]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_user_authentication_factor_enroll_response_round_trip
@@ -5351,6 +5678,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::UserAuthenticationFactorEnrollResponse.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_magic_auth_round_trip
@@ -5374,6 +5702,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
     assert_equal fixture["code"], json[:code]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_user_invite_round_trip
@@ -5408,6 +5737,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["updated_at"], json[:updated_at]
     assert_equal fixture["token"], json[:token]
     assert_equal fixture["accept_invitation_url"], json[:accept_invitation_url]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_user_organization_membership_round_trip
@@ -5433,6 +5763,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["directory_managed"], json[:directory_managed]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_email_verification_round_trip
@@ -5456,6 +5787,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
     assert_equal fixture["code"], json[:code]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_send_verification_email_response_round_trip
@@ -5465,6 +5797,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::SendVerificationEmailResponse.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_verify_email_response_round_trip
@@ -5474,6 +5807,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::VerifyEmailResponse.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_password_reset_round_trip
@@ -5497,6 +5831,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["password_reset_token"], json[:password_reset_token]
     assert_equal fixture["password_reset_url"], json[:password_reset_url]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_reset_password_response_round_trip
@@ -5506,6 +5841,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::ResetPasswordResponse.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_email_change_round_trip
@@ -5522,6 +5858,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["new_email"], json[:new_email]
     assert_equal fixture["expires_at"], json[:expires_at]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authenticate_response_round_trip
@@ -5540,6 +5877,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["access_token"], json[:access_token]
     assert_equal fixture["refresh_token"], json[:refresh_token]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_device_authorization_response_round_trip
@@ -5558,6 +5896,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["user_code"], json[:user_code]
     assert_equal fixture["verification_uri"], json[:verification_uri]
     assert_equal fixture["expires_in"], json[:expires_in]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_webhook_endpoint_json_round_trip
@@ -5579,6 +5918,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["secret"], json[:secret]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_widget_session_token_response_round_trip
@@ -5589,6 +5929,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["token"], json[:token]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_sso_authorize_url_response_round_trip
@@ -5599,6 +5940,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["url"], json[:url]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_profile_round_trip
@@ -5628,6 +5970,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["email"], json[:email]
     assert_nil json[:first_name]
     assert_nil json[:last_name]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_sso_token_response_round_trip
@@ -5643,6 +5986,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["access_token"], json[:access_token]
     assert_equal fixture["expires_in"], json[:expires_in]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_sso_logout_authorize_response_round_trip
@@ -5655,6 +5999,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["logout_url"], json[:logout_url]
     assert_equal fixture["logout_token"], json[:logout_token]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_jwks_response_round_trip
@@ -5664,6 +6009,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::JwksResponse.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_jwks_response_keys_round_trip
@@ -5684,6 +6030,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["e"], json[:e]
     assert_equal fixture["kid"], json[:kid]
     assert_equal fixture["x5t#S256"], json["x5t#S256"]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_sso_token_response_oauth_token_round_trip
@@ -5701,6 +6048,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["refresh_token"], json[:refresh_token]
     assert_equal fixture["access_token"], json[:access_token]
     assert_equal fixture["expires_at"], json[:expires_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authenticate_response_impersonator_round_trip
@@ -5713,6 +6061,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
     assert_nil json[:reason]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authenticate_response_oauth_token_round_trip
@@ -5730,6 +6079,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["refresh_token"], json[:refresh_token]
     assert_equal fixture["access_token"], json[:access_token]
     assert_equal fixture["expires_at"], json[:expires_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_data_integrations_list_response_data_round_trip
@@ -5758,6 +6108,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["credentials_type"], json[:credentials_type]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_data_integration_access_token_response_access_token_round_trip
@@ -5773,6 +6124,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["access_token"], json[:access_token]
     assert_nil json[:expires_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_audit_log_configuration_log_stream_round_trip
@@ -5789,6 +6141,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["id"], json[:id]
     assert_nil json[:last_synced_at]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_domain_round_trip
@@ -5812,6 +6165,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["domain"], json[:domain]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_api_key_with_value_owner_round_trip
@@ -5823,6 +6177,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_flag_owner_round_trip
@@ -5837,6 +6192,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["email"], json[:email]
     assert_nil json[:first_name]
     assert_nil json[:last_name]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_event_list_list_metadata_round_trip
@@ -5847,6 +6203,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_nil json[:after]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_directory_user_email_round_trip
@@ -5858,6 +6215,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::DirectoryUserEmail.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_event_context_google_analytics_session_round_trip
@@ -5870,6 +6228,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["containerId"], json[:containerId]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_directory_user_with_groups_email_round_trip
@@ -5881,6 +6240,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::DirectoryUserWithGroupsEmail.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_directory_metadata_round_trip
@@ -5892,6 +6252,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["groups"], json[:groups]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_connection_domain_round_trip
@@ -5905,6 +6266,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["domain"], json[:domain]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_connection_option_round_trip
@@ -5915,6 +6277,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_nil json[:signing_cert]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_user_organization_membership_base_list_data_round_trip
@@ -5939,6 +6302,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["directory_managed"], json[:directory_managed]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_role_assignment_resource_round_trip
@@ -5953,6 +6317,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["external_id"], json[:external_id]
     assert_equal fixture["resource_type_slug"], json[:resource_type_slug]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_factor_sms_round_trip
@@ -5963,6 +6328,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["phone_number"], json[:phone_number]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_factor_totp_round_trip
@@ -5975,6 +6341,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["issuer"], json[:issuer]
     assert_equal fixture["user"], json[:user]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_factor_enrolled_sms_round_trip
@@ -5985,6 +6352,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["phone_number"], json[:phone_number]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_factor_enrolled_totp_round_trip
@@ -6003,6 +6371,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["secret"], json[:secret]
     assert_equal fixture["qr_code"], json[:qr_code]
     assert_equal fixture["uri"], json[:uri]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_audit_log_schema_json_actor_round_trip
@@ -6012,6 +6381,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::AuditLogSchemaJsonActor.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_audit_log_schema_json_target_round_trip
@@ -6023,6 +6393,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["type"], json[:type]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authorized_connect_application_list_data_round_trip
@@ -6037,6 +6408,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_api_key_owner_round_trip
@@ -6048,6 +6420,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_user_consent_option_choice_round_trip
@@ -6058,6 +6431,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::UserConsentOptionChoice.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_challenges_verify_request_round_trip
@@ -6068,6 +6442,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["code"], json[:code]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authentication_factors_create_request_round_trip
@@ -6081,6 +6456,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::AuthenticationFactorsCreateRequest.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_permission_round_trip
@@ -6106,6 +6482,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["resource_type_slug"], json[:resource_type_slug]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_application_credentials_list_item_round_trip
@@ -6125,6 +6502,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:last_used_at]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_data_integrations_get_data_integration_authorize_url_request_round_trip
@@ -6137,6 +6515,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["user_id"], json[:user_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_data_integrations_get_user_token_request_round_trip
@@ -6148,6 +6527,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["user_id"], json[:user_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_feature_flag_round_trip
@@ -6175,6 +6555,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["default_value"], json[:default_value]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_feature_flag_owner_round_trip
@@ -6189,6 +6570,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["email"], json[:email]
     assert_nil json[:first_name]
     assert_nil json[:last_name]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_radar_standalone_assess_request_round_trip
@@ -6207,6 +6589,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["ip_address"], json[:ip_address]
     assert_equal fixture["user_agent"], json[:user_agent]
     assert_equal fixture["email"], json[:email]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_radar_standalone_update_radar_attempt_request_round_trip
@@ -6217,6 +6600,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::RadarStandaloneUpdateRadarAttemptRequest.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_radar_standalone_update_radar_list_request_round_trip
@@ -6227,6 +6611,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["entry"], json[:entry]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_radar_standalone_delete_radar_list_entry_request_round_trip
@@ -6237,6 +6622,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["entry"], json[:entry]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_sso_logout_authorize_request_round_trip
@@ -6247,6 +6633,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["profile_id"], json[:profile_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_authorization_code_session_authenticate_request_round_trip
@@ -6267,6 +6654,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["client_id"], json[:client_id]
     assert_equal fixture["client_secret"], json[:client_secret]
     assert_equal fixture["code"], json[:code]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_password_session_authenticate_request_round_trip
@@ -6288,6 +6676,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["client_secret"], json[:client_secret]
     assert_equal fixture["email"], json[:email]
     assert_equal fixture["password"], json[:password]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_refresh_token_session_authenticate_request_round_trip
@@ -6307,6 +6696,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["client_id"], json[:client_id]
     assert_equal fixture["client_secret"], json[:client_secret]
     assert_equal fixture["refresh_token"], json[:refresh_token]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_magic_auth_code_session_authenticate_request_round_trip
@@ -6328,6 +6718,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["client_secret"], json[:client_secret]
     assert_equal fixture["code"], json[:code]
     assert_equal fixture["email"], json[:email]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_email_verification_code_session_authenticate_request_round_trip
@@ -6348,6 +6739,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["client_secret"], json[:client_secret]
     assert_equal fixture["code"], json[:code]
     assert_equal fixture["pending_authentication_token"], json[:pending_authentication_token]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_mfa_totp_session_authenticate_request_round_trip
@@ -6370,6 +6762,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["code"], json[:code]
     assert_equal fixture["pending_authentication_token"], json[:pending_authentication_token]
     assert_equal fixture["authentication_challenge_id"], json[:authentication_challenge_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_selection_session_authenticate_request_round_trip
@@ -6390,6 +6783,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["client_secret"], json[:client_secret]
     assert_equal fixture["pending_authentication_token"], json[:pending_authentication_token]
     assert_equal fixture["organization_id"], json[:organization_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_device_code_session_authenticate_request_round_trip
@@ -6406,6 +6800,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["client_id"], json[:client_id]
     assert_equal fixture["device_code"], json[:device_code]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_sso_device_authorization_request_round_trip
@@ -6416,6 +6811,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["client_id"], json[:client_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_invitation_round_trip
@@ -6450,6 +6846,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["updated_at"], json[:updated_at]
     assert_equal fixture["token"], json[:token]
     assert_equal fixture["accept_invitation_url"], json[:accept_invitation_url]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_organization_membership_round_trip
@@ -6475,6 +6872,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["directory_managed"], json[:directory_managed]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_email_change_confirmation_round_trip
@@ -6485,6 +6883,7 @@ class ModelRoundTripTest < Minitest::Test
     model = WorkOS::EmailChangeConfirmation.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_email_change_confirmation_user_round_trip
@@ -6516,6 +6915,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:last_sign_in_at]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_user_identities_get_item_round_trip
@@ -6528,6 +6928,7 @@ class ModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["idp_id"], json[:idp_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_user_sessions_list_item_round_trip
@@ -6557,6 +6958,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_nil json[:ended_at]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_user_sessions_impersonator_round_trip
@@ -6569,6 +6971,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
     assert_nil json[:reason]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_directory_metadata_user_round_trip
@@ -6581,6 +6984,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["active"], json[:active]
     assert_equal fixture["inactive"], json[:inactive]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_data_integrations_list_response_data_connected_account_round_trip
@@ -6604,5 +7008,6 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
     assert_nil json[:userlandUserId]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 end

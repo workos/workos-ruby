@@ -12,62 +12,46 @@ class OrganizationDomainsTest < Minitest::Test
   end
 
   def test_create_organization_domain_returns_expected_result
-    stub_request(:post, /#{Regexp.escape("organization_domains")}/)
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/organization_domains(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.organization_domains.create_organization_domain(domain: "stub", organization_id: "stub")
     refute_nil result
   end
 
-  def test_create_organization_domain_raises_authentication_error_on_401
-    stub_request(:post, /#{Regexp.escape("organization_domains")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.organization_domains.create_organization_domain(domain: "stub", organization_id: "stub")
-    end
-  end
-
   def test_get_organization_domain_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("organization_domains")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/organization_domains/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.organization_domains.get_organization_domain(id: "stub")
     refute_nil result
   end
 
-  def test_get_organization_domain_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("organization_domains")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.organization_domains.get_organization_domain(id: "stub")
-    end
-  end
-
   def test_delete_organization_domain_returns_expected_result
-    stub_request(:delete, /#{Regexp.escape("organization_domains")}/)
+    stub_request(:delete, %r{\Ahttps://api\.workos\.com/organization_domains/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.organization_domains.delete_organization_domain(id: "stub")
-    assert_nil result if result.nil?
-  end
-
-  def test_delete_organization_domain_raises_authentication_error_on_401
-    stub_request(:delete, /#{Regexp.escape("organization_domains")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.organization_domains.delete_organization_domain(id: "stub")
-    end
+    assert_nil result
   end
 
   def test_verify_organization_domain_returns_expected_result
-    stub_request(:post, /#{Regexp.escape("organization_domains")}/)
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/organization_domains/stub/verify(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.organization_domains.verify_organization_domain(id: "stub")
     refute_nil result
   end
 
-  def test_verify_organization_domain_raises_authentication_error_on_401
-    stub_request(:post, /#{Regexp.escape("organization_domains")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.organization_domains.verify_organization_domain(id: "stub")
+  # Parameterized authentication error tests (one per endpoint).
+  [
+    {name: :create_organization_domain, verb: :post, url: %r{\Ahttps://api\.workos\.com/organization_domains(\?|\z)}, args: {domain: "stub", organization_id: "stub"}},
+    {name: :get_organization_domain, verb: :get, url: %r{\Ahttps://api\.workos\.com/organization_domains/stub(\?|\z)}, args: {id: "stub"}},
+    {name: :delete_organization_domain, verb: :delete, url: %r{\Ahttps://api\.workos\.com/organization_domains/stub(\?|\z)}, args: {id: "stub"}},
+    {name: :verify_organization_domain, verb: :post, url: %r{\Ahttps://api\.workos\.com/organization_domains/stub/verify(\?|\z)}, args: {id: "stub"}}
+  ].each do |spec|
+    define_method("test_#{spec[:name]}_raises_authentication_error_on_401") do
+      stub_request(spec[:verb], spec[:url])
+        .to_return(body: '{"message": "Unauthorized"}', status: 401)
+      assert_raises(WorkOS::AuthenticationError) do
+        @client.organization_domains.send(spec[:name], **(spec[:args] || {}))
+      end
     end
   end
 end

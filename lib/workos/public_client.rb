@@ -16,15 +16,12 @@ module WorkOS
     # etc.) instead of methods that require server-side credentials.
     #
     # @param client_id [String] WorkOS client ID for the application.
-    # @param base_url [String] Optional override of the API base URL.
-    # @param timeout [Integer] HTTP timeout in seconds.
+    # @param opts [Hash] Additional options forwarded to {WorkOS::Client.new}
+    #   (e.g. :base_url, :timeout, :max_retries, :logger, :log_level, :extra_headers).
     # @return [WorkOS::Client]
-    def create(client_id:, base_url: nil, timeout: nil)
+    def create(client_id:, **opts)
       raise ArgumentError, "client_id is required" if client_id.nil? || client_id.empty?
-      args = {client_id: client_id}
-      args[:base_url] = base_url if base_url
-      args[:timeout] = timeout if timeout
-      WorkOS::Client.new(**args)
+      WorkOS::Client.new(client_id: client_id, **opts)
     end
   end
 end

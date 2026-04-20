@@ -154,7 +154,7 @@ class SessionTest < Minitest::Test
       .to_return(status: 200, body: jwks_payload(rsa.public_key).to_json)
 
     result = @sm.authenticate(seal_data: sealed, cookie_password: PASSWORD)
-    assert_equal WorkOS::SessionManager::INVALID_JWT, result.reason
+    assert_equal WorkOS::SessionManager::INVALID_JWT_SIGNATURE, result.reason
   end
 
   def test_authenticate_returns_expired_jwt_when_expired_and_include_expired_is_false

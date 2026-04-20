@@ -43,7 +43,14 @@ module WorkOS
       )
     end
 
-    # Reset the cached client (e.g., after reconfiguring).
+    # Reset the cached singleton client. Shuts down any open connections
+    # on the current fiber/thread, then clears the cached client so the
+    # next call to {.client} builds a fresh one.
+    #
+    # Call this after reconfiguring, or in a Puma/Unicorn `on_worker_boot`
+    # block to avoid sharing sockets across forked processes.
+    #
+    # @return [void]
     def reset_client
       @client&.shutdown
       @client = nil

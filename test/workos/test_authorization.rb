@@ -12,557 +12,310 @@ class AuthorizationTest < Minitest::Test
   end
 
   def test_check_returns_expected_result
-    stub_request(:post, /#{Regexp.escape("authorization")}/)
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/check(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.authorization.check(organization_membership_id: "stub", permission_slug: "stub", resource_target: {type: "by_id"})
     refute_nil result
   end
 
-  def test_check_raises_authentication_error_on_401
-    stub_request(:post, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.check(organization_membership_id: "stub", permission_slug: "stub", resource_target: {type: "by_id"})
-    end
-  end
-
   def test_list_organization_membership_resources_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("authorization")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/resources(\?|\z)})
       .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
     result = @client.authorization.list_organization_membership_resources(organization_membership_id: "stub", permission_slug: "stub", parent_resource: {type: "by_id"})
     assert_kind_of WorkOS::Types::ListStruct, result
   end
 
-  def test_list_organization_membership_resources_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.list_organization_membership_resources(organization_membership_id: "stub", permission_slug: "stub", parent_resource: {type: "by_id"})
-    end
-  end
-
   def test_list_resource_permissions_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("authorization")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/resources/stub/permissions(\?|\z)})
       .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
     result = @client.authorization.list_resource_permissions(organization_membership_id: "stub", resource_id: "stub")
     assert_kind_of WorkOS::Types::ListStruct, result
   end
 
-  def test_list_resource_permissions_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.list_resource_permissions(organization_membership_id: "stub", resource_id: "stub")
-    end
-  end
-
   def test_list_effective_permissions_by_external_id_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("authorization")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/resources/stub/stub/permissions(\?|\z)})
       .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
     result = @client.authorization.list_effective_permissions_by_external_id(organization_membership_id: "stub", resource_type_slug: "stub", external_id: "stub")
     assert_kind_of WorkOS::Types::ListStruct, result
   end
 
-  def test_list_effective_permissions_by_external_id_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.list_effective_permissions_by_external_id(organization_membership_id: "stub", resource_type_slug: "stub", external_id: "stub")
-    end
-  end
-
   def test_list_organization_membership_role_assignments_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("authorization")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/role_assignments(\?|\z)})
       .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
     result = @client.authorization.list_organization_membership_role_assignments(organization_membership_id: "stub")
     assert_kind_of WorkOS::Types::ListStruct, result
   end
 
-  def test_list_organization_membership_role_assignments_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.list_organization_membership_role_assignments(organization_membership_id: "stub")
-    end
-  end
-
   def test_assign_role_returns_expected_result
-    stub_request(:post, /#{Regexp.escape("authorization")}/)
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/role_assignments(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.authorization.assign_role(organization_membership_id: "stub", role_slug: "stub", resource_target: {type: "by_id"})
     refute_nil result
   end
 
-  def test_assign_role_raises_authentication_error_on_401
-    stub_request(:post, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.assign_role(organization_membership_id: "stub", role_slug: "stub", resource_target: {type: "by_id"})
-    end
-  end
-
   def test_remove_role_returns_expected_result
-    stub_request(:delete, /#{Regexp.escape("authorization")}/)
+    stub_request(:delete, %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/role_assignments(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.authorization.remove_role(organization_membership_id: "stub", role_slug: "stub", resource_target: {type: "by_id"})
-    assert_nil result if result.nil?
-  end
-
-  def test_remove_role_raises_authentication_error_on_401
-    stub_request(:delete, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.remove_role(organization_membership_id: "stub", role_slug: "stub", resource_target: {type: "by_id"})
-    end
+    assert_nil result
   end
 
   def test_delete_organization_membership_role_assignment_returns_expected_result
-    stub_request(:delete, /#{Regexp.escape("authorization")}/)
+    stub_request(:delete, %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/role_assignments/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.authorization.delete_organization_membership_role_assignment(organization_membership_id: "stub", role_assignment_id: "stub")
-    assert_nil result if result.nil?
-  end
-
-  def test_delete_organization_membership_role_assignment_raises_authentication_error_on_401
-    stub_request(:delete, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.delete_organization_membership_role_assignment(organization_membership_id: "stub", role_assignment_id: "stub")
-    end
+    assert_nil result
   end
 
   def test_list_organization_roles_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("authorization")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/roles(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.authorization.list_organization_roles(organization_id: "stub")
     refute_nil result
   end
 
-  def test_list_organization_roles_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.list_organization_roles(organization_id: "stub")
-    end
-  end
-
   def test_create_organization_role_returns_expected_result
-    stub_request(:post, /#{Regexp.escape("authorization")}/)
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/roles(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.authorization.create_organization_role(organization_id: "stub", name: "stub")
     refute_nil result
   end
 
-  def test_create_organization_role_raises_authentication_error_on_401
-    stub_request(:post, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.create_organization_role(organization_id: "stub", name: "stub")
-    end
-  end
-
   def test_get_organization_role_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("authorization")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/roles/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.authorization.get_organization_role(organization_id: "stub", slug: "stub")
     refute_nil result
   end
 
-  def test_get_organization_role_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.get_organization_role(organization_id: "stub", slug: "stub")
-    end
-  end
-
   def test_update_organization_role_returns_expected_result
-    stub_request(:patch, /#{Regexp.escape("authorization")}/)
+    stub_request(:patch, %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/roles/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.authorization.update_organization_role(organization_id: "stub", slug: "stub")
     refute_nil result
   end
 
-  def test_update_organization_role_raises_authentication_error_on_401
-    stub_request(:patch, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.update_organization_role(organization_id: "stub", slug: "stub")
-    end
-  end
-
   def test_delete_organization_role_returns_expected_result
-    stub_request(:delete, /#{Regexp.escape("authorization")}/)
+    stub_request(:delete, %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/roles/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.authorization.delete_organization_role(organization_id: "stub", slug: "stub")
-    assert_nil result if result.nil?
-  end
-
-  def test_delete_organization_role_raises_authentication_error_on_401
-    stub_request(:delete, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.delete_organization_role(organization_id: "stub", slug: "stub")
-    end
+    assert_nil result
   end
 
   def test_create_role_permission_returns_expected_result
-    stub_request(:post, /#{Regexp.escape("authorization")}/)
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/roles/stub/permissions(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.authorization.create_role_permission(organization_id: "stub", slug: "stub", body_slug: "stub")
     refute_nil result
   end
 
-  def test_create_role_permission_raises_authentication_error_on_401
-    stub_request(:post, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.create_role_permission(organization_id: "stub", slug: "stub", body_slug: "stub")
-    end
-  end
-
   def test_update_role_permissions_returns_expected_result
-    stub_request(:put, /#{Regexp.escape("authorization")}/)
+    stub_request(:put, %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/roles/stub/permissions(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.authorization.update_role_permissions(organization_id: "stub", slug: "stub", permissions: [])
     refute_nil result
   end
 
-  def test_update_role_permissions_raises_authentication_error_on_401
-    stub_request(:put, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.update_role_permissions(organization_id: "stub", slug: "stub", permissions: [])
-    end
-  end
-
   def test_delete_role_permission_returns_expected_result
-    stub_request(:delete, /#{Regexp.escape("authorization")}/)
+    stub_request(:delete, %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/roles/stub/permissions/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.authorization.delete_role_permission(organization_id: "stub", slug: "stub", permission_slug: "stub")
-    assert_nil result if result.nil?
-  end
-
-  def test_delete_role_permission_raises_authentication_error_on_401
-    stub_request(:delete, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.delete_role_permission(organization_id: "stub", slug: "stub", permission_slug: "stub")
-    end
+    refute_nil result
   end
 
   def test_get_organization_resource_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("authorization")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/resources/stub/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.authorization.get_organization_resource(organization_id: "stub", resource_type_slug: "stub", external_id: "stub")
     refute_nil result
   end
 
-  def test_get_organization_resource_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.get_organization_resource(organization_id: "stub", resource_type_slug: "stub", external_id: "stub")
-    end
-  end
-
   def test_update_organization_resource_returns_expected_result
-    stub_request(:patch, /#{Regexp.escape("authorization")}/)
+    stub_request(:patch, %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/resources/stub/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.authorization.update_organization_resource(organization_id: "stub", resource_type_slug: "stub", external_id: "stub")
     refute_nil result
   end
 
-  def test_update_organization_resource_raises_authentication_error_on_401
-    stub_request(:patch, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.update_organization_resource(organization_id: "stub", resource_type_slug: "stub", external_id: "stub")
-    end
-  end
-
   def test_delete_organization_resource_returns_expected_result
-    stub_request(:delete, /#{Regexp.escape("authorization")}/)
+    stub_request(:delete, %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/resources/stub/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.authorization.delete_organization_resource(organization_id: "stub", resource_type_slug: "stub", external_id: "stub")
-    assert_nil result if result.nil?
-  end
-
-  def test_delete_organization_resource_raises_authentication_error_on_401
-    stub_request(:delete, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.delete_organization_resource(organization_id: "stub", resource_type_slug: "stub", external_id: "stub")
-    end
+    assert_nil result
   end
 
   def test_list_resource_organization_memberships_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("authorization")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/resources/stub/stub/organization_memberships(\?|\z)})
       .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
     result = @client.authorization.list_resource_organization_memberships(organization_id: "stub", resource_type_slug: "stub", external_id: "stub", permission_slug: "stub")
     assert_kind_of WorkOS::Types::ListStruct, result
   end
 
-  def test_list_resource_organization_memberships_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.list_resource_organization_memberships(organization_id: "stub", resource_type_slug: "stub", external_id: "stub", permission_slug: "stub")
-    end
-  end
-
   def test_list_resources_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("authorization")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/authorization/resources(\?|\z)})
       .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
     result = @client.authorization.list_resources
     assert_kind_of WorkOS::Types::ListStruct, result
   end
 
-  def test_list_resources_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.list_resources
-    end
-  end
-
   def test_create_resource_returns_expected_result
-    stub_request(:post, /#{Regexp.escape("authorization")}/)
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/authorization/resources(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.authorization.create_resource(external_id: "stub", name: "stub", resource_type_slug: "stub", organization_id: "stub")
     refute_nil result
   end
 
-  def test_create_resource_raises_authentication_error_on_401
-    stub_request(:post, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.create_resource(external_id: "stub", name: "stub", resource_type_slug: "stub", organization_id: "stub")
-    end
-  end
-
   def test_get_resource_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("authorization")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/authorization/resources/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.authorization.get_resource(resource_id: "stub")
     refute_nil result
   end
 
-  def test_get_resource_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.get_resource(resource_id: "stub")
-    end
-  end
-
   def test_update_resource_returns_expected_result
-    stub_request(:patch, /#{Regexp.escape("authorization")}/)
+    stub_request(:patch, %r{\Ahttps://api\.workos\.com/authorization/resources/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.authorization.update_resource(resource_id: "stub")
     refute_nil result
   end
 
-  def test_update_resource_raises_authentication_error_on_401
-    stub_request(:patch, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.update_resource(resource_id: "stub")
-    end
-  end
-
   def test_delete_resource_returns_expected_result
-    stub_request(:delete, /#{Regexp.escape("authorization")}/)
+    stub_request(:delete, %r{\Ahttps://api\.workos\.com/authorization/resources/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.authorization.delete_resource(resource_id: "stub")
-    assert_nil result if result.nil?
-  end
-
-  def test_delete_resource_raises_authentication_error_on_401
-    stub_request(:delete, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.delete_resource(resource_id: "stub")
-    end
+    assert_nil result
   end
 
   def test_list_memberships_for_resource_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("authorization")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/authorization/resources/stub/organization_memberships(\?|\z)})
       .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
     result = @client.authorization.list_memberships_for_resource(resource_id: "stub", permission_slug: "stub")
     assert_kind_of WorkOS::Types::ListStruct, result
   end
 
-  def test_list_memberships_for_resource_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.list_memberships_for_resource(resource_id: "stub", permission_slug: "stub")
-    end
-  end
-
   def test_list_environment_roles_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("authorization")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/authorization/roles(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.authorization.list_environment_roles
     refute_nil result
   end
 
-  def test_list_environment_roles_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.list_environment_roles
-    end
-  end
-
   def test_create_environment_role_returns_expected_result
-    stub_request(:post, /#{Regexp.escape("authorization")}/)
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/authorization/roles(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.authorization.create_environment_role(slug: "stub", name: "stub")
     refute_nil result
   end
 
-  def test_create_environment_role_raises_authentication_error_on_401
-    stub_request(:post, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.create_environment_role(slug: "stub", name: "stub")
-    end
-  end
-
   def test_get_environment_role_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("authorization")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/authorization/roles/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.authorization.get_environment_role(slug: "stub")
     refute_nil result
   end
 
-  def test_get_environment_role_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.get_environment_role(slug: "stub")
-    end
-  end
-
   def test_update_environment_role_returns_expected_result
-    stub_request(:patch, /#{Regexp.escape("authorization")}/)
+    stub_request(:patch, %r{\Ahttps://api\.workos\.com/authorization/roles/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.authorization.update_environment_role(slug: "stub")
     refute_nil result
   end
 
-  def test_update_environment_role_raises_authentication_error_on_401
-    stub_request(:patch, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.update_environment_role(slug: "stub")
-    end
-  end
-
   def test_add_environment_role_permission_returns_expected_result
-    stub_request(:post, /#{Regexp.escape("authorization")}/)
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/authorization/roles/stub/permissions(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.authorization.add_environment_role_permission(slug: "stub", body_slug: "stub")
     refute_nil result
   end
 
-  def test_add_environment_role_permission_raises_authentication_error_on_401
-    stub_request(:post, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.add_environment_role_permission(slug: "stub", body_slug: "stub")
-    end
-  end
-
   def test_set_environment_role_permissions_returns_expected_result
-    stub_request(:put, /#{Regexp.escape("authorization")}/)
+    stub_request(:put, %r{\Ahttps://api\.workos\.com/authorization/roles/stub/permissions(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.authorization.set_environment_role_permissions(slug: "stub", permissions: [])
     refute_nil result
   end
 
-  def test_set_environment_role_permissions_raises_authentication_error_on_401
-    stub_request(:put, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.set_environment_role_permissions(slug: "stub", permissions: [])
-    end
-  end
-
   def test_list_permissions_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("authorization")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/authorization/permissions(\?|\z)})
       .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
     result = @client.authorization.list_permissions
     assert_kind_of WorkOS::Types::ListStruct, result
   end
 
-  def test_list_permissions_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.list_permissions
-    end
-  end
-
   def test_create_permission_returns_expected_result
-    stub_request(:post, /#{Regexp.escape("authorization")}/)
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/authorization/permissions(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.authorization.create_permission(slug: "stub", name: "stub")
     refute_nil result
   end
 
-  def test_create_permission_raises_authentication_error_on_401
-    stub_request(:post, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.create_permission(slug: "stub", name: "stub")
-    end
-  end
-
   def test_get_permission_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("authorization")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/authorization/permissions/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.authorization.get_permission(slug: "stub")
     refute_nil result
   end
 
-  def test_get_permission_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.get_permission(slug: "stub")
-    end
-  end
-
   def test_update_permission_returns_expected_result
-    stub_request(:patch, /#{Regexp.escape("authorization")}/)
+    stub_request(:patch, %r{\Ahttps://api\.workos\.com/authorization/permissions/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.authorization.update_permission(slug: "stub")
     refute_nil result
   end
 
-  def test_update_permission_raises_authentication_error_on_401
-    stub_request(:patch, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.update_permission(slug: "stub")
-    end
-  end
-
   def test_delete_permission_returns_expected_result
-    stub_request(:delete, /#{Regexp.escape("authorization")}/)
+    stub_request(:delete, %r{\Ahttps://api\.workos\.com/authorization/permissions/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.authorization.delete_permission(slug: "stub")
-    assert_nil result if result.nil?
+    assert_nil result
   end
 
-  def test_delete_permission_raises_authentication_error_on_401
-    stub_request(:delete, /#{Regexp.escape("authorization")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.authorization.delete_permission(slug: "stub")
+  # Parameterized authentication error tests (one per endpoint).
+  [
+    {name: :check, verb: :post, url: %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/check(\?|\z)}, args: {organization_membership_id: "stub", permission_slug: "stub", resource_target: {type: "by_id"}}},
+    {name: :list_organization_membership_resources, verb: :get, url: %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/resources(\?|\z)}, args: {organization_membership_id: "stub", permission_slug: "stub", parent_resource: {type: "by_id"}}},
+    {name: :list_resource_permissions, verb: :get, url: %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/resources/stub/permissions(\?|\z)}, args: {organization_membership_id: "stub", resource_id: "stub"}},
+    {name: :list_effective_permissions_by_external_id, verb: :get, url: %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/resources/stub/stub/permissions(\?|\z)}, args: {organization_membership_id: "stub", resource_type_slug: "stub", external_id: "stub"}},
+    {name: :list_organization_membership_role_assignments, verb: :get, url: %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/role_assignments(\?|\z)}, args: {organization_membership_id: "stub"}},
+    {name: :assign_role, verb: :post, url: %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/role_assignments(\?|\z)}, args: {organization_membership_id: "stub", role_slug: "stub", resource_target: {type: "by_id"}}},
+    {name: :remove_role, verb: :delete, url: %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/role_assignments(\?|\z)}, args: {organization_membership_id: "stub", role_slug: "stub", resource_target: {type: "by_id"}}},
+    {name: :delete_organization_membership_role_assignment, verb: :delete, url: %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/role_assignments/stub(\?|\z)}, args: {organization_membership_id: "stub", role_assignment_id: "stub"}},
+    {name: :list_organization_roles, verb: :get, url: %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/roles(\?|\z)}, args: {organization_id: "stub"}},
+    {name: :create_organization_role, verb: :post, url: %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/roles(\?|\z)}, args: {organization_id: "stub", name: "stub"}},
+    {name: :get_organization_role, verb: :get, url: %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/roles/stub(\?|\z)}, args: {organization_id: "stub", slug: "stub"}},
+    {name: :update_organization_role, verb: :patch, url: %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/roles/stub(\?|\z)}, args: {organization_id: "stub", slug: "stub"}},
+    {name: :delete_organization_role, verb: :delete, url: %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/roles/stub(\?|\z)}, args: {organization_id: "stub", slug: "stub"}},
+    {name: :create_role_permission, verb: :post, url: %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/roles/stub/permissions(\?|\z)}, args: {organization_id: "stub", slug: "stub", body_slug: "stub"}},
+    {name: :update_role_permissions, verb: :put, url: %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/roles/stub/permissions(\?|\z)}, args: {organization_id: "stub", slug: "stub", permissions: []}},
+    {name: :delete_role_permission, verb: :delete, url: %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/roles/stub/permissions/stub(\?|\z)}, args: {organization_id: "stub", slug: "stub", permission_slug: "stub"}},
+    {name: :get_organization_resource, verb: :get, url: %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/resources/stub/stub(\?|\z)}, args: {organization_id: "stub", resource_type_slug: "stub", external_id: "stub"}},
+    {name: :update_organization_resource, verb: :patch, url: %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/resources/stub/stub(\?|\z)}, args: {organization_id: "stub", resource_type_slug: "stub", external_id: "stub"}},
+    {name: :delete_organization_resource, verb: :delete, url: %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/resources/stub/stub(\?|\z)}, args: {organization_id: "stub", resource_type_slug: "stub", external_id: "stub"}},
+    {name: :list_resource_organization_memberships, verb: :get, url: %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/resources/stub/stub/organization_memberships(\?|\z)}, args: {organization_id: "stub", resource_type_slug: "stub", external_id: "stub", permission_slug: "stub"}},
+    {name: :list_resources, verb: :get, url: %r{\Ahttps://api\.workos\.com/authorization/resources(\?|\z)}},
+    {name: :create_resource, verb: :post, url: %r{\Ahttps://api\.workos\.com/authorization/resources(\?|\z)}, args: {external_id: "stub", name: "stub", resource_type_slug: "stub", organization_id: "stub"}},
+    {name: :get_resource, verb: :get, url: %r{\Ahttps://api\.workos\.com/authorization/resources/stub(\?|\z)}, args: {resource_id: "stub"}},
+    {name: :update_resource, verb: :patch, url: %r{\Ahttps://api\.workos\.com/authorization/resources/stub(\?|\z)}, args: {resource_id: "stub"}},
+    {name: :delete_resource, verb: :delete, url: %r{\Ahttps://api\.workos\.com/authorization/resources/stub(\?|\z)}, args: {resource_id: "stub"}},
+    {name: :list_memberships_for_resource, verb: :get, url: %r{\Ahttps://api\.workos\.com/authorization/resources/stub/organization_memberships(\?|\z)}, args: {resource_id: "stub", permission_slug: "stub"}},
+    {name: :list_environment_roles, verb: :get, url: %r{\Ahttps://api\.workos\.com/authorization/roles(\?|\z)}},
+    {name: :create_environment_role, verb: :post, url: %r{\Ahttps://api\.workos\.com/authorization/roles(\?|\z)}, args: {slug: "stub", name: "stub"}},
+    {name: :get_environment_role, verb: :get, url: %r{\Ahttps://api\.workos\.com/authorization/roles/stub(\?|\z)}, args: {slug: "stub"}},
+    {name: :update_environment_role, verb: :patch, url: %r{\Ahttps://api\.workos\.com/authorization/roles/stub(\?|\z)}, args: {slug: "stub"}},
+    {name: :add_environment_role_permission, verb: :post, url: %r{\Ahttps://api\.workos\.com/authorization/roles/stub/permissions(\?|\z)}, args: {slug: "stub", body_slug: "stub"}},
+    {name: :set_environment_role_permissions, verb: :put, url: %r{\Ahttps://api\.workos\.com/authorization/roles/stub/permissions(\?|\z)}, args: {slug: "stub", permissions: []}},
+    {name: :list_permissions, verb: :get, url: %r{\Ahttps://api\.workos\.com/authorization/permissions(\?|\z)}},
+    {name: :create_permission, verb: :post, url: %r{\Ahttps://api\.workos\.com/authorization/permissions(\?|\z)}, args: {slug: "stub", name: "stub"}},
+    {name: :get_permission, verb: :get, url: %r{\Ahttps://api\.workos\.com/authorization/permissions/stub(\?|\z)}, args: {slug: "stub"}},
+    {name: :update_permission, verb: :patch, url: %r{\Ahttps://api\.workos\.com/authorization/permissions/stub(\?|\z)}, args: {slug: "stub"}},
+    {name: :delete_permission, verb: :delete, url: %r{\Ahttps://api\.workos\.com/authorization/permissions/stub(\?|\z)}, args: {slug: "stub"}}
+  ].each do |spec|
+    define_method("test_#{spec[:name]}_raises_authentication_error_on_401") do
+      stub_request(spec[:verb], spec[:url])
+        .to_return(body: '{"message": "Unauthorized"}', status: 401)
+      assert_raises(WorkOS::AuthenticationError) do
+        @client.authorization.send(spec[:name], **(spec[:args] || {}))
+      end
     end
   end
 end

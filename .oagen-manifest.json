@@ -1,7 +1,7 @@
 {
   "version": 1,
   "language": "ruby",
-  "generatedAt": "2026-04-20T08:17:13.463Z",
+  "generatedAt": "2026-04-20T09:23:28.313Z",
   "files": [
     "lib/workos.rb",
     "lib/workos/admin_portal.rb",
@@ -159,6 +159,7 @@
     "lib/workos/feature_flags/flag_updated_context_previous_attribute_data.rb",
     "lib/workos/feature_flags/flag_updated_data.rb",
     "lib/workos/feature_flags/flag_updated_data_owner.rb",
+    "lib/workos/inflections.rb",
     "lib/workos/multi_factor_auth.rb",
     "lib/workos/multi_factor_auth/authentication_challenge.rb",
     "lib/workos/multi_factor_auth/authentication_challenge_verify_response.rb",

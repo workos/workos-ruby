@@ -12,107 +12,70 @@ class OrganizationsTest < Minitest::Test
   end
 
   def test_list_organizations_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("organizations")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/organizations(\?|\z)})
       .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
     result = @client.organizations.list_organizations
     assert_kind_of WorkOS::Types::ListStruct, result
   end
 
-  def test_list_organizations_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("organizations")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.organizations.list_organizations
-    end
-  end
-
   def test_create_organization_returns_expected_result
-    stub_request(:post, /#{Regexp.escape("organizations")}/)
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/organizations(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.organizations.create_organization(name: "stub")
     refute_nil result
   end
 
-  def test_create_organization_raises_authentication_error_on_401
-    stub_request(:post, /#{Regexp.escape("organizations")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.organizations.create_organization(name: "stub")
-    end
-  end
-
   def test_get_organization_by_external_id_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("organizations")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/organizations/external_id/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.organizations.get_organization_by_external_id(external_id: "stub")
     refute_nil result
   end
 
-  def test_get_organization_by_external_id_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("organizations")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.organizations.get_organization_by_external_id(external_id: "stub")
-    end
-  end
-
   def test_get_organization_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("organizations")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/organizations/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.organizations.get_organization(id: "stub")
     refute_nil result
   end
 
-  def test_get_organization_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("organizations")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.organizations.get_organization(id: "stub")
-    end
-  end
-
   def test_update_organization_returns_expected_result
-    stub_request(:put, /#{Regexp.escape("organizations")}/)
+    stub_request(:put, %r{\Ahttps://api\.workos\.com/organizations/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.organizations.update_organization(id: "stub")
     refute_nil result
   end
 
-  def test_update_organization_raises_authentication_error_on_401
-    stub_request(:put, /#{Regexp.escape("organizations")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.organizations.update_organization(id: "stub")
-    end
-  end
-
   def test_delete_organization_returns_expected_result
-    stub_request(:delete, /#{Regexp.escape("organizations")}/)
+    stub_request(:delete, %r{\Ahttps://api\.workos\.com/organizations/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.organizations.delete_organization(id: "stub")
-    assert_nil result if result.nil?
-  end
-
-  def test_delete_organization_raises_authentication_error_on_401
-    stub_request(:delete, /#{Regexp.escape("organizations")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.organizations.delete_organization(id: "stub")
-    end
+    assert_nil result
   end
 
   def test_get_audit_log_configuration_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("organizations")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/organizations/stub/audit_log_configuration(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.organizations.get_audit_log_configuration(id: "stub")
     refute_nil result
   end
 
-  def test_get_audit_log_configuration_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("organizations")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.organizations.get_audit_log_configuration(id: "stub")
+  # Parameterized authentication error tests (one per endpoint).
+  [
+    {name: :list_organizations, verb: :get, url: %r{\Ahttps://api\.workos\.com/organizations(\?|\z)}},
+    {name: :create_organization, verb: :post, url: %r{\Ahttps://api\.workos\.com/organizations(\?|\z)}, args: {name: "stub"}},
+    {name: :get_organization_by_external_id, verb: :get, url: %r{\Ahttps://api\.workos\.com/organizations/external_id/stub(\?|\z)}, args: {external_id: "stub"}},
+    {name: :get_organization, verb: :get, url: %r{\Ahttps://api\.workos\.com/organizations/stub(\?|\z)}, args: {id: "stub"}},
+    {name: :update_organization, verb: :put, url: %r{\Ahttps://api\.workos\.com/organizations/stub(\?|\z)}, args: {id: "stub"}},
+    {name: :delete_organization, verb: :delete, url: %r{\Ahttps://api\.workos\.com/organizations/stub(\?|\z)}, args: {id: "stub"}},
+    {name: :get_audit_log_configuration, verb: :get, url: %r{\Ahttps://api\.workos\.com/organizations/stub/audit_log_configuration(\?|\z)}, args: {id: "stub"}}
+  ].each do |spec|
+    define_method("test_#{spec[:name]}_raises_authentication_error_on_401") do
+      stub_request(spec[:verb], spec[:url])
+        .to_return(body: '{"message": "Unauthorized"}', status: 401)
+      assert_raises(WorkOS::AuthenticationError) do
+        @client.organizations.send(spec[:name], **(spec[:args] || {}))
+      end
     end
   end
 end

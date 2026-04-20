@@ -12,122 +12,78 @@ class FeatureFlagsTest < Minitest::Test
   end
 
   def test_list_feature_flags_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("feature-flags")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/feature-flags(\?|\z)})
       .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
     result = @client.feature_flags.list_feature_flags
     assert_kind_of WorkOS::Types::ListStruct, result
   end
 
-  def test_list_feature_flags_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("feature-flags")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.feature_flags.list_feature_flags
-    end
-  end
-
   def test_get_feature_flag_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("feature-flags")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/feature-flags/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.feature_flags.get_feature_flag(slug: "stub")
     refute_nil result
   end
 
-  def test_get_feature_flag_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("feature-flags")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.feature_flags.get_feature_flag(slug: "stub")
-    end
-  end
-
   def test_disable_feature_flag_returns_expected_result
-    stub_request(:put, /#{Regexp.escape("feature-flags")}/)
+    stub_request(:put, %r{\Ahttps://api\.workos\.com/feature-flags/stub/disable(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.feature_flags.disable_feature_flag(slug: "stub")
     refute_nil result
   end
 
-  def test_disable_feature_flag_raises_authentication_error_on_401
-    stub_request(:put, /#{Regexp.escape("feature-flags")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.feature_flags.disable_feature_flag(slug: "stub")
-    end
-  end
-
   def test_enable_feature_flag_returns_expected_result
-    stub_request(:put, /#{Regexp.escape("feature-flags")}/)
+    stub_request(:put, %r{\Ahttps://api\.workos\.com/feature-flags/stub/enable(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.feature_flags.enable_feature_flag(slug: "stub")
     refute_nil result
   end
 
-  def test_enable_feature_flag_raises_authentication_error_on_401
-    stub_request(:put, /#{Regexp.escape("feature-flags")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.feature_flags.enable_feature_flag(slug: "stub")
-    end
-  end
-
   def test_add_flag_target_returns_expected_result
-    stub_request(:post, /#{Regexp.escape("feature-flags")}/)
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/feature-flags/stub/targets/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.feature_flags.add_flag_target(resource_id: "stub", slug: "stub")
-    assert_nil result if result.nil?
-  end
-
-  def test_add_flag_target_raises_authentication_error_on_401
-    stub_request(:post, /#{Regexp.escape("feature-flags")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.feature_flags.add_flag_target(resource_id: "stub", slug: "stub")
-    end
+    assert_nil result
   end
 
   def test_remove_flag_target_returns_expected_result
-    stub_request(:delete, /#{Regexp.escape("feature-flags")}/)
+    stub_request(:delete, %r{\Ahttps://api\.workos\.com/feature-flags/stub/targets/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.feature_flags.remove_flag_target(resource_id: "stub", slug: "stub")
-    assert_nil result if result.nil?
-  end
-
-  def test_remove_flag_target_raises_authentication_error_on_401
-    stub_request(:delete, /#{Regexp.escape("feature-flags")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.feature_flags.remove_flag_target(resource_id: "stub", slug: "stub")
-    end
+    assert_nil result
   end
 
   def test_list_organization_feature_flags_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("organizations")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/organizations/stub/feature-flags(\?|\z)})
       .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
     result = @client.feature_flags.list_organization_feature_flags(organization_id: "stub")
     assert_kind_of WorkOS::Types::ListStruct, result
   end
 
-  def test_list_organization_feature_flags_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("organizations")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.feature_flags.list_organization_feature_flags(organization_id: "stub")
-    end
-  end
-
   def test_list_user_feature_flags_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("user_management")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/user_management/users/stub/feature-flags(\?|\z)})
       .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
     result = @client.feature_flags.list_user_feature_flags(user_id: "stub")
     assert_kind_of WorkOS::Types::ListStruct, result
   end
 
-  def test_list_user_feature_flags_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("user_management")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.feature_flags.list_user_feature_flags(user_id: "stub")
+  # Parameterized authentication error tests (one per endpoint).
+  [
+    {name: :list_feature_flags, verb: :get, url: %r{\Ahttps://api\.workos\.com/feature-flags(\?|\z)}},
+    {name: :get_feature_flag, verb: :get, url: %r{\Ahttps://api\.workos\.com/feature-flags/stub(\?|\z)}, args: {slug: "stub"}},
+    {name: :disable_feature_flag, verb: :put, url: %r{\Ahttps://api\.workos\.com/feature-flags/stub/disable(\?|\z)}, args: {slug: "stub"}},
+    {name: :enable_feature_flag, verb: :put, url: %r{\Ahttps://api\.workos\.com/feature-flags/stub/enable(\?|\z)}, args: {slug: "stub"}},
+    {name: :add_flag_target, verb: :post, url: %r{\Ahttps://api\.workos\.com/feature-flags/stub/targets/stub(\?|\z)}, args: {resource_id: "stub", slug: "stub"}},
+    {name: :remove_flag_target, verb: :delete, url: %r{\Ahttps://api\.workos\.com/feature-flags/stub/targets/stub(\?|\z)}, args: {resource_id: "stub", slug: "stub"}},
+    {name: :list_organization_feature_flags, verb: :get, url: %r{\Ahttps://api\.workos\.com/organizations/stub/feature-flags(\?|\z)}, args: {organization_id: "stub"}},
+    {name: :list_user_feature_flags, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/users/stub/feature-flags(\?|\z)}, args: {user_id: "stub"}}
+  ].each do |spec|
+    define_method("test_#{spec[:name]}_raises_authentication_error_on_401") do
+      stub_request(spec[:verb], spec[:url])
+        .to_return(body: '{"message": "Unauthorized"}', status: 401)
+      assert_raises(WorkOS::AuthenticationError) do
+        @client.feature_flags.send(spec[:name], **(spec[:args] || {}))
+      end
     end
   end
 end

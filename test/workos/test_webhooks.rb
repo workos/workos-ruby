@@ -12,62 +12,46 @@ class WebhooksTest < Minitest::Test
   end
 
   def test_list_webhook_endpoints_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("webhook_endpoints")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/webhook_endpoints(\?|\z)})
       .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
     result = @client.webhooks.list_webhook_endpoints
     assert_kind_of WorkOS::Types::ListStruct, result
   end
 
-  def test_list_webhook_endpoints_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("webhook_endpoints")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.webhooks.list_webhook_endpoints
-    end
-  end
-
   def test_create_webhook_endpoint_returns_expected_result
-    stub_request(:post, /#{Regexp.escape("webhook_endpoints")}/)
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/webhook_endpoints(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.webhooks.create_webhook_endpoint(endpoint_url: "stub", events: [])
     refute_nil result
   end
 
-  def test_create_webhook_endpoint_raises_authentication_error_on_401
-    stub_request(:post, /#{Regexp.escape("webhook_endpoints")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.webhooks.create_webhook_endpoint(endpoint_url: "stub", events: [])
-    end
-  end
-
   def test_update_webhook_endpoint_returns_expected_result
-    stub_request(:patch, /#{Regexp.escape("webhook_endpoints")}/)
+    stub_request(:patch, %r{\Ahttps://api\.workos\.com/webhook_endpoints/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.webhooks.update_webhook_endpoint(id: "stub")
     refute_nil result
   end
 
-  def test_update_webhook_endpoint_raises_authentication_error_on_401
-    stub_request(:patch, /#{Regexp.escape("webhook_endpoints")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.webhooks.update_webhook_endpoint(id: "stub")
-    end
-  end
-
   def test_delete_webhook_endpoint_returns_expected_result
-    stub_request(:delete, /#{Regexp.escape("webhook_endpoints")}/)
+    stub_request(:delete, %r{\Ahttps://api\.workos\.com/webhook_endpoints/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.webhooks.delete_webhook_endpoint(id: "stub")
-    assert_nil result if result.nil?
+    assert_nil result
   end
 
-  def test_delete_webhook_endpoint_raises_authentication_error_on_401
-    stub_request(:delete, /#{Regexp.escape("webhook_endpoints")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.webhooks.delete_webhook_endpoint(id: "stub")
+  # Parameterized authentication error tests (one per endpoint).
+  [
+    {name: :list_webhook_endpoints, verb: :get, url: %r{\Ahttps://api\.workos\.com/webhook_endpoints(\?|\z)}},
+    {name: :create_webhook_endpoint, verb: :post, url: %r{\Ahttps://api\.workos\.com/webhook_endpoints(\?|\z)}, args: {endpoint_url: "stub", events: []}},
+    {name: :update_webhook_endpoint, verb: :patch, url: %r{\Ahttps://api\.workos\.com/webhook_endpoints/stub(\?|\z)}, args: {id: "stub"}},
+    {name: :delete_webhook_endpoint, verb: :delete, url: %r{\Ahttps://api\.workos\.com/webhook_endpoints/stub(\?|\z)}, args: {id: "stub"}}
+  ].each do |spec|
+    define_method("test_#{spec[:name]}_raises_authentication_error_on_401") do
+      stub_request(spec[:verb], spec[:url])
+        .to_return(body: '{"message": "Unauthorized"}', status: 401)
+      assert_raises(WorkOS::AuthenticationError) do
+        @client.webhooks.send(spec[:name], **(spec[:args] || {}))
+      end
     end
   end
 end

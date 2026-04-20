@@ -38,6 +38,10 @@ module WorkOS
         @manager.decode_jwt(session["access_token"], verify_expiration: !include_expired)
       rescue JWT::ExpiredSignature
         return SessionManager::AuthError.new(authenticated: false, reason: SessionManager::EXPIRED_JWT)
+      rescue JWT::IncorrectAlgorithm
+        return SessionManager::AuthError.new(authenticated: false, reason: SessionManager::INVALID_JWT_ALGORITHM)
+      rescue JWT::VerificationError
+        return SessionManager::AuthError.new(authenticated: false, reason: SessionManager::INVALID_JWT_SIGNATURE)
       rescue JWT::DecodeError
         return SessionManager::AuthError.new(authenticated: false, reason: SessionManager::INVALID_JWT)
       end
@@ -108,7 +112,7 @@ module WorkOS
     def get_logout_url(return_to: nil)
       result = authenticate
       raise WorkOS::Error.new(message: "Failed to extract session ID for logout URL: #{result.reason}") if result.is_a?(SessionManager::AuthError)
-      base = @client.base_url || "https://api.workos.com"
+      base = @client.base_url
       params = {"session_id" => result.session_id}
       params["return_to"] = return_to if return_to
       uri = URI.join(base, "/user_management/sessions/logout")

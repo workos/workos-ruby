@@ -12,62 +12,46 @@ class RadarTest < Minitest::Test
   end
 
   def test_create_attempt_returns_expected_result
-    stub_request(:post, /#{Regexp.escape("radar")}/)
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/radar/attempts(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.radar.create_attempt(ip_address: "stub", user_agent: "stub", email: "stub", auth_method: "stub", action: "stub")
     refute_nil result
   end
 
-  def test_create_attempt_raises_authentication_error_on_401
-    stub_request(:post, /#{Regexp.escape("radar")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.radar.create_attempt(ip_address: "stub", user_agent: "stub", email: "stub", auth_method: "stub", action: "stub")
-    end
-  end
-
   def test_update_attempt_returns_expected_result
-    stub_request(:put, /#{Regexp.escape("radar")}/)
+    stub_request(:put, %r{\Ahttps://api\.workos\.com/radar/attempts/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.radar.update_attempt(id: "stub")
-    assert_nil result if result.nil?
-  end
-
-  def test_update_attempt_raises_authentication_error_on_401
-    stub_request(:put, /#{Regexp.escape("radar")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.radar.update_attempt(id: "stub")
-    end
+    assert_nil result
   end
 
   def test_add_list_entry_returns_expected_result
-    stub_request(:post, /#{Regexp.escape("radar")}/)
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/radar/lists/stub/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.radar.add_list_entry(type: "stub", action: "stub", entry: "stub")
     refute_nil result
   end
 
-  def test_add_list_entry_raises_authentication_error_on_401
-    stub_request(:post, /#{Regexp.escape("radar")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.radar.add_list_entry(type: "stub", action: "stub", entry: "stub")
-    end
-  end
-
   def test_remove_list_entry_returns_expected_result
-    stub_request(:delete, /#{Regexp.escape("radar")}/)
+    stub_request(:delete, %r{\Ahttps://api\.workos\.com/radar/lists/stub/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.radar.remove_list_entry(type: "stub", action: "stub", entry: "stub")
-    assert_nil result if result.nil?
+    assert_nil result
   end
 
-  def test_remove_list_entry_raises_authentication_error_on_401
-    stub_request(:delete, /#{Regexp.escape("radar")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.radar.remove_list_entry(type: "stub", action: "stub", entry: "stub")
+  # Parameterized authentication error tests (one per endpoint).
+  [
+    {name: :create_attempt, verb: :post, url: %r{\Ahttps://api\.workos\.com/radar/attempts(\?|\z)}, args: {ip_address: "stub", user_agent: "stub", email: "stub", auth_method: "stub", action: "stub"}},
+    {name: :update_attempt, verb: :put, url: %r{\Ahttps://api\.workos\.com/radar/attempts/stub(\?|\z)}, args: {id: "stub"}},
+    {name: :add_list_entry, verb: :post, url: %r{\Ahttps://api\.workos\.com/radar/lists/stub/stub(\?|\z)}, args: {type: "stub", action: "stub", entry: "stub"}},
+    {name: :remove_list_entry, verb: :delete, url: %r{\Ahttps://api\.workos\.com/radar/lists/stub/stub(\?|\z)}, args: {type: "stub", action: "stub", entry: "stub"}}
+  ].each do |spec|
+    define_method("test_#{spec[:name]}_raises_authentication_error_on_401") do
+      stub_request(spec[:verb], spec[:url])
+        .to_return(body: '{"message": "Unauthorized"}', status: 401)
+      assert_raises(WorkOS::AuthenticationError) do
+        @client.radar.send(spec[:name], **(spec[:args] || {}))
+      end
     end
   end
 end

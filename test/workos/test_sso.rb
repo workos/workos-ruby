@@ -12,92 +12,62 @@ class SSOTest < Minitest::Test
   end
 
   def test_list_connections_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("connections")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/connections(\?|\z)})
       .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
     result = @client.sso.list_connections
     assert_kind_of WorkOS::Types::ListStruct, result
   end
 
-  def test_list_connections_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("connections")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.sso.list_connections
-    end
-  end
-
   def test_get_connection_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("connections")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/connections/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.sso.get_connection(id: "stub")
     refute_nil result
   end
 
-  def test_get_connection_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("connections")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.sso.get_connection(id: "stub")
-    end
-  end
-
   def test_delete_connection_returns_expected_result
-    stub_request(:delete, /#{Regexp.escape("connections")}/)
+    stub_request(:delete, %r{\Ahttps://api\.workos\.com/connections/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.sso.delete_connection(id: "stub")
-    assert_nil result if result.nil?
-  end
-
-  def test_delete_connection_raises_authentication_error_on_401
-    stub_request(:delete, /#{Regexp.escape("connections")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.sso.delete_connection(id: "stub")
-    end
+    assert_nil result
   end
 
   def test_authorize_logout_returns_expected_result
-    stub_request(:post, /#{Regexp.escape("sso")}/)
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/sso/logout/authorize(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.sso.authorize_logout(profile_id: "stub")
     refute_nil result
   end
 
-  def test_authorize_logout_raises_authentication_error_on_401
-    stub_request(:post, /#{Regexp.escape("sso")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.sso.authorize_logout(profile_id: "stub")
-    end
-  end
-
   def test_get_profile_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("sso")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/sso/profile(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.sso.get_profile
     refute_nil result
   end
 
-  def test_get_profile_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("sso")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.sso.get_profile
-    end
-  end
-
   def test_get_profile_and_token_returns_expected_result
-    stub_request(:post, /#{Regexp.escape("sso")}/)
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/sso/token(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.sso.get_profile_and_token(code: "stub")
     refute_nil result
   end
 
-  def test_get_profile_and_token_raises_authentication_error_on_401
-    stub_request(:post, /#{Regexp.escape("sso")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.sso.get_profile_and_token(code: "stub")
+  # Parameterized authentication error tests (one per endpoint).
+  [
+    {name: :list_connections, verb: :get, url: %r{\Ahttps://api\.workos\.com/connections(\?|\z)}},
+    {name: :get_connection, verb: :get, url: %r{\Ahttps://api\.workos\.com/connections/stub(\?|\z)}, args: {id: "stub"}},
+    {name: :delete_connection, verb: :delete, url: %r{\Ahttps://api\.workos\.com/connections/stub(\?|\z)}, args: {id: "stub"}},
+    {name: :authorize_logout, verb: :post, url: %r{\Ahttps://api\.workos\.com/sso/logout/authorize(\?|\z)}, args: {profile_id: "stub"}},
+    {name: :get_profile, verb: :get, url: %r{\Ahttps://api\.workos\.com/sso/profile(\?|\z)}},
+    {name: :get_profile_and_token, verb: :post, url: %r{\Ahttps://api\.workos\.com/sso/token(\?|\z)}, args: {code: "stub"}}
+  ].each do |spec|
+    define_method("test_#{spec[:name]}_raises_authentication_error_on_401") do
+      stub_request(spec[:verb], spec[:url])
+        .to_return(body: '{"message": "Unauthorized"}', status: 401)
+      assert_raises(WorkOS::AuthenticationError) do
+        @client.sso.send(spec[:name], **(spec[:args] || {}))
+      end
     end
   end
 end

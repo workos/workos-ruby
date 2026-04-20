@@ -101,6 +101,8 @@ module WorkOS
     NO_SESSION_COOKIE_PROVIDED = "no_session_cookie_provided"
     INVALID_SESSION_COOKIE = "invalid_session_cookie"
     INVALID_JWT = "invalid_jwt"
+    INVALID_JWT_ALGORITHM = "invalid_jwt_algorithm"
+    INVALID_JWT_SIGNATURE = "invalid_jwt_signature"
     EXPIRED_JWT = "expired_jwt"
 
     # @param client [WorkOS::Client]

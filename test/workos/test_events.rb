@@ -12,17 +12,22 @@ class EventsTest < Minitest::Test
   end
 
   def test_list_events_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("events")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/events(\?|\z)})
       .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
     result = @client.events.list_events
     assert_kind_of WorkOS::Types::ListStruct, result
   end
 
-  def test_list_events_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("events")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.events.list_events
+  # Parameterized authentication error tests (one per endpoint).
+  [
+    {name: :list_events, verb: :get, url: %r{\Ahttps://api\.workos\.com/events(\?|\z)}}
+  ].each do |spec|
+    define_method("test_#{spec[:name]}_raises_authentication_error_on_401") do
+      stub_request(spec[:verb], spec[:url])
+        .to_return(body: '{"message": "Unauthorized"}', status: 401)
+      assert_raises(WorkOS::AuthenticationError) do
+        @client.events.send(spec[:name], **(spec[:args] || {}))
+      end
     end
   end
 end

@@ -50,6 +50,48 @@ end
 client = WorkOS.client
 ```
 
+## Client patterns
+
+### Singleton (recommended for most apps)
+
+```ruby
+WorkOS.configure do |config|
+  config.api_key = ENV.fetch("WORKOS_API_KEY")
+  config.client_id = ENV["WORKOS_CLIENT_ID"]
+end
+
+WorkOS.client.organizations.list_organizations
+```
+
+### Multi-tenant (one client per API key)
+
+```ruby
+tenant_a = WorkOS::Client.new(api_key: "sk_tenant_a", client_id: "client_a")
+tenant_b = WorkOS::Client.new(api_key: "sk_tenant_b", client_id: "client_b")
+
+tenant_a.organizations.list_organizations
+tenant_b.organizations.list_organizations
+```
+
+### Public / PKCE (browser, mobile, CLI)
+
+```ruby
+public_client = WorkOS::PublicClient.create(client_id: "client_123")
+url, verifier, state = public_client.user_management.get_authorization_url_with_pkce(
+  redirect_uri: "https://example.com/callback"
+)
+```
+
+### Fork safety (Puma / Unicorn)
+
+The SDK caches persistent connections per fiber. After forking, call
+`WorkOS.reset_client` (or `client.shutdown`) to close inherited sockets:
+
+```ruby
+# config/puma.rb
+on_worker_boot { WorkOS.reset_client }
+```
+
 ## Per-request options
 
 Every API call accepts `request_options:` for per-call overrides:

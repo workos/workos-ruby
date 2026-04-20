@@ -90,10 +90,10 @@ class BaseClientTest < Minitest::Test
     client = RecordingClient.new(api_key: "sk_test_123")
 
     assert_equal ["GET", {timeout: 5}], client.request(method: :get, path: "/get", request_options: {timeout: 5})
-    assert_equal ["POST", nil], client.request(method: :post, path: "/post", body: {ok: true})
-    assert_equal ["PUT", nil], client.request(method: :put, path: "/put", body: {ok: true})
-    assert_equal ["PATCH", nil], client.request(method: :patch, path: "/patch", body: {ok: true})
-    assert_equal ["DELETE", nil], client.request(method: :delete, path: "/delete")
+    assert_equal ["POST", {}], client.request(method: :post, path: "/post", body: {ok: true})
+    assert_equal ["PUT", {}], client.request(method: :put, path: "/put", body: {ok: true})
+    assert_equal ["PATCH", {}], client.request(method: :patch, path: "/patch", body: {ok: true})
+    assert_equal ["DELETE", {}], client.request(method: :delete, path: "/delete")
     assert_equal %i[get post put patch delete], client.calls.map(&:first)
   end
 

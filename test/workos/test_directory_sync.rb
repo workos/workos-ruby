@@ -12,107 +12,70 @@ class DirectorySyncTest < Minitest::Test
   end
 
   def test_list_directories_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("directories")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/directories(\?|\z)})
       .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
     result = @client.directory_sync.list_directories
     assert_kind_of WorkOS::Types::ListStruct, result
   end
 
-  def test_list_directories_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("directories")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.directory_sync.list_directories
-    end
-  end
-
   def test_get_directory_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("directories")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/directories/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.directory_sync.get_directory(id: "stub")
     refute_nil result
   end
 
-  def test_get_directory_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("directories")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.directory_sync.get_directory(id: "stub")
-    end
-  end
-
   def test_delete_directory_returns_expected_result
-    stub_request(:delete, /#{Regexp.escape("directories")}/)
+    stub_request(:delete, %r{\Ahttps://api\.workos\.com/directories/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.directory_sync.delete_directory(id: "stub")
-    assert_nil result if result.nil?
-  end
-
-  def test_delete_directory_raises_authentication_error_on_401
-    stub_request(:delete, /#{Regexp.escape("directories")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.directory_sync.delete_directory(id: "stub")
-    end
+    assert_nil result
   end
 
   def test_list_groups_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("directory_groups")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/directory_groups(\?|\z)})
       .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
     result = @client.directory_sync.list_groups
     assert_kind_of WorkOS::Types::ListStruct, result
   end
 
-  def test_list_groups_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("directory_groups")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.directory_sync.list_groups
-    end
-  end
-
   def test_get_group_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("directory_groups")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/directory_groups/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.directory_sync.get_group(id: "stub")
     refute_nil result
   end
 
-  def test_get_group_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("directory_groups")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.directory_sync.get_group(id: "stub")
-    end
-  end
-
   def test_list_users_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("directory_users")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/directory_users(\?|\z)})
       .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
     result = @client.directory_sync.list_users
     assert_kind_of WorkOS::Types::ListStruct, result
   end
 
-  def test_list_users_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("directory_users")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.directory_sync.list_users
-    end
-  end
-
   def test_get_user_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("directory_users")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/directory_users/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.directory_sync.get_user(id: "stub")
     refute_nil result
   end
 
-  def test_get_user_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("directory_users")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.directory_sync.get_user(id: "stub")
+  # Parameterized authentication error tests (one per endpoint).
+  [
+    {name: :list_directories, verb: :get, url: %r{\Ahttps://api\.workos\.com/directories(\?|\z)}},
+    {name: :get_directory, verb: :get, url: %r{\Ahttps://api\.workos\.com/directories/stub(\?|\z)}, args: {id: "stub"}},
+    {name: :delete_directory, verb: :delete, url: %r{\Ahttps://api\.workos\.com/directories/stub(\?|\z)}, args: {id: "stub"}},
+    {name: :list_groups, verb: :get, url: %r{\Ahttps://api\.workos\.com/directory_groups(\?|\z)}},
+    {name: :get_group, verb: :get, url: %r{\Ahttps://api\.workos\.com/directory_groups/stub(\?|\z)}, args: {id: "stub"}},
+    {name: :list_users, verb: :get, url: %r{\Ahttps://api\.workos\.com/directory_users(\?|\z)}},
+    {name: :get_user, verb: :get, url: %r{\Ahttps://api\.workos\.com/directory_users/stub(\?|\z)}, args: {id: "stub"}}
+  ].each do |spec|
+    define_method("test_#{spec[:name]}_raises_authentication_error_on_401") do
+      stub_request(spec[:verb], spec[:url])
+        .to_return(body: '{"message": "Unauthorized"}', status: 401)
+      assert_raises(WorkOS::AuthenticationError) do
+        @client.directory_sync.send(spec[:name], **(spec[:args] || {}))
+      end
     end
   end
 end

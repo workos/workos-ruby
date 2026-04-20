@@ -17,6 +17,7 @@ module WorkOS
     DEFAULT_TIMEOUT = 30
     DEFAULT_MAX_RETRIES = 2
     RETRYABLE_STATUSES = [408, 409, 429, 500, 502, 503, 504].freeze
+    MAX_CACHED_CONNECTIONS = 8
     RETRY_BACKOFF_BASE = 0.5
     LOG_SEVERITY = {debug: 0, info: 1, warn: 2, error: 3, unknown: 4}.freeze
 
@@ -25,7 +26,8 @@ module WorkOS
     attr_reader :api_key, :base_url, :client_id, :timeout, :max_retries, :logger, :log_level
 
     def initialize(api_key: nil, base_url: DEFAULT_BASE_URL, client_id: nil,
-      timeout: DEFAULT_TIMEOUT, max_retries: DEFAULT_MAX_RETRIES, logger: nil, log_level: nil)
+      timeout: DEFAULT_TIMEOUT, max_retries: DEFAULT_MAX_RETRIES,
+      logger: nil, log_level: nil, random: Random.new)
       @api_key = api_key
       @base_url = base_url
       @client_id = client_id
@@ -33,6 +35,7 @@ module WorkOS
       @max_retries = max_retries
       @logger = logger
       @log_level = log_level
+      @random = random
     end
 
     # -- Request builders -------------------------------------------------
@@ -84,7 +87,7 @@ module WorkOS
     # Unified request helper: builds the verb-specific request and executes
     # it in a single call, removing the need for callers to pass
     # request_options twice.
-    def request(method:, path:, auth: true, params: {}, body: nil, request_options: nil)
+    def request(method:, path:, auth: true, params: {}, body: nil, request_options: {})
       raise ArgumentError, "unsupported method" unless %i[get post put patch delete].include?(method)
 
       req = case method
@@ -105,7 +108,7 @@ module WorkOS
     # -- Execution --------------------------------------------------------
 
     def execute_request(request:, request_options: nil)
-      opts = request_options || {}
+      opts = (request_options || {}).transform_keys(&:to_sym)
       base = opts[:base_url] || @base_url
       timeout = opts[:timeout] || @timeout
       retries = opts[:max_retries] || @max_retries
@@ -142,7 +145,13 @@ module WorkOS
       end
     end
 
-    # Close all persistent connections.
+    # Close all persistent connections cached by this client on the current
+    # fiber/thread.
+    #
+    # Call this before forking (e.g. in a Puma `on_worker_boot` block) to
+    # avoid sharing `Net::HTTP` sockets across processes.
+    #
+    # @return [void]
     def shutdown
       connections = thread_connections.values
       thread_connections.clear
@@ -177,7 +186,9 @@ module WorkOS
       http.open_timeout = timeout
       http.keep_alive_timeout = 30
       http.start
-      thread_connections[key] = http
+      cache = thread_connections
+      cache[key] = http
+      evict_lru_connections(cache) if cache.size > MAX_CACHED_CONNECTIONS
       http
     end
 
@@ -192,12 +203,22 @@ module WorkOS
       # Already closed, ignore
     end
 
+    def evict_lru_connections(cache)
+      while cache.size > MAX_CACHED_CONNECTIONS
+        oldest_key = cache.keys.first
+        conn = cache.delete(oldest_key)
+        conn&.finish if conn&.started?
+      end
+    rescue IOError
+      # Already closed, ignore
+    end
+
     def connection_key(uri, timeout)
       "#{uri.scheme}:#{uri.host}:#{uri.port}:#{timeout}"
     end
 
     def thread_connections
-      Thread.current[:workos_connections] ||= {}
+      Fiber[:workos_connections] ||= {}
     end
 
     def resolve_option(opts, key)
@@ -280,7 +301,7 @@ module WorkOS
       end
 
       base = RETRY_BACKOFF_BASE * (2**(attempt - 1))
-      jitter = rand * 0.25 * base
+      jitter = @random.rand * 0.25 * base
       base + jitter
     end
 

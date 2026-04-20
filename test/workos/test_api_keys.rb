@@ -12,62 +12,46 @@ class ApiKeysTest < Minitest::Test
   end
 
   def test_create_validation_returns_expected_result
-    stub_request(:post, /#{Regexp.escape("api_keys")}/)
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/api_keys/validations(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.api_keys.create_validation(value: "stub")
     refute_nil result
   end
 
-  def test_create_validation_raises_authentication_error_on_401
-    stub_request(:post, /#{Regexp.escape("api_keys")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.api_keys.create_validation(value: "stub")
-    end
-  end
-
   def test_delete_api_key_returns_expected_result
-    stub_request(:delete, /#{Regexp.escape("api_keys")}/)
+    stub_request(:delete, %r{\Ahttps://api\.workos\.com/api_keys/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.api_keys.delete_api_key(id: "stub")
-    assert_nil result if result.nil?
-  end
-
-  def test_delete_api_key_raises_authentication_error_on_401
-    stub_request(:delete, /#{Regexp.escape("api_keys")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.api_keys.delete_api_key(id: "stub")
-    end
+    assert_nil result
   end
 
   def test_list_organization_api_keys_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("organizations")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/organizations/stub/api_keys(\?|\z)})
       .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
     result = @client.api_keys.list_organization_api_keys(organization_id: "stub")
     assert_kind_of WorkOS::Types::ListStruct, result
   end
 
-  def test_list_organization_api_keys_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("organizations")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.api_keys.list_organization_api_keys(organization_id: "stub")
-    end
-  end
-
   def test_create_organization_api_key_returns_expected_result
-    stub_request(:post, /#{Regexp.escape("organizations")}/)
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/organizations/stub/api_keys(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.api_keys.create_organization_api_key(organization_id: "stub", name: "stub")
     refute_nil result
   end
 
-  def test_create_organization_api_key_raises_authentication_error_on_401
-    stub_request(:post, /#{Regexp.escape("organizations")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.api_keys.create_organization_api_key(organization_id: "stub", name: "stub")
+  # Parameterized authentication error tests (one per endpoint).
+  [
+    {name: :create_validation, verb: :post, url: %r{\Ahttps://api\.workos\.com/api_keys/validations(\?|\z)}, args: {value: "stub"}},
+    {name: :delete_api_key, verb: :delete, url: %r{\Ahttps://api\.workos\.com/api_keys/stub(\?|\z)}, args: {id: "stub"}},
+    {name: :list_organization_api_keys, verb: :get, url: %r{\Ahttps://api\.workos\.com/organizations/stub/api_keys(\?|\z)}, args: {organization_id: "stub"}},
+    {name: :create_organization_api_key, verb: :post, url: %r{\Ahttps://api\.workos\.com/organizations/stub/api_keys(\?|\z)}, args: {organization_id: "stub", name: "stub"}}
+  ].each do |spec|
+    define_method("test_#{spec[:name]}_raises_authentication_error_on_401") do
+      stub_request(spec[:verb], spec[:url])
+        .to_return(body: '{"message": "Unauthorized"}', status: 401)
+      assert_raises(WorkOS::AuthenticationError) do
+        @client.api_keys.send(spec[:name], **(spec[:args] || {}))
+      end
     end
   end
 end

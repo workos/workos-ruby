@@ -12,17 +12,22 @@ class WidgetsTest < Minitest::Test
   end
 
   def test_create_token_returns_expected_result
-    stub_request(:post, /#{Regexp.escape("widgets")}/)
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/widgets/token(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.widgets.create_token(organization_id: "stub")
     refute_nil result
   end
 
-  def test_create_token_raises_authentication_error_on_401
-    stub_request(:post, /#{Regexp.escape("widgets")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.widgets.create_token(organization_id: "stub")
+  # Parameterized authentication error tests (one per endpoint).
+  [
+    {name: :create_token, verb: :post, url: %r{\Ahttps://api\.workos\.com/widgets/token(\?|\z)}, args: {organization_id: "stub"}}
+  ].each do |spec|
+    define_method("test_#{spec[:name]}_raises_authentication_error_on_401") do
+      stub_request(spec[:verb], spec[:url])
+        .to_return(body: '{"message": "Unauthorized"}', status: 401)
+      assert_raises(WorkOS::AuthenticationError) do
+        @client.widgets.send(spec[:name], **(spec[:args] || {}))
+      end
     end
   end
 end

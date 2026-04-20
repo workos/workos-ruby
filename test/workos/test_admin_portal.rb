@@ -12,17 +12,22 @@ class AdminPortalTest < Minitest::Test
   end
 
   def test_generate_link_returns_expected_result
-    stub_request(:post, /#{Regexp.escape("portal")}/)
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/portal/generate_link(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.admin_portal.generate_link(organization: "stub")
     refute_nil result
   end
 
-  def test_generate_link_raises_authentication_error_on_401
-    stub_request(:post, /#{Regexp.escape("portal")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.admin_portal.generate_link(organization: "stub")
+  # Parameterized authentication error tests (one per endpoint).
+  [
+    {name: :generate_link, verb: :post, url: %r{\Ahttps://api\.workos\.com/portal/generate_link(\?|\z)}, args: {organization: "stub"}}
+  ].each do |spec|
+    define_method("test_#{spec[:name]}_raises_authentication_error_on_401") do
+      stub_request(spec[:verb], spec[:url])
+        .to_return(body: '{"message": "Unauthorized"}', status: 401)
+      assert_raises(WorkOS::AuthenticationError) do
+        @client.admin_portal.send(spec[:name], **(spec[:args] || {}))
+      end
     end
   end
 end

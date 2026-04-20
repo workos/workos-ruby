@@ -19,13 +19,13 @@ module WorkOS
   class Vault
     DEFAULT_RESPONSE_LIMIT = 10
 
-    DataKey = Struct.new(:id, :key, keyword_init: true) do
+    DataKey = Data.define(:id, :key) do
       def self.from_response(hash)
         new(id: hash["id"], key: hash["data_key"])
       end
     end
 
-    DataKeyPair = Struct.new(:context, :data_key, :encrypted_keys, keyword_init: true) do
+    DataKeyPair = Data.define(:context, :data_key, :encrypted_keys) do
       def self.from_response(hash)
         new(
           context: hash["context"],
@@ -35,17 +35,14 @@ module WorkOS
       end
     end
 
-    ObjectUpdateBy = Struct.new(:id, :name, keyword_init: true) do
+    ObjectUpdateBy = Data.define(:id, :name) do
       def self.from_hash(hash)
         return nil if hash.nil?
         new(id: hash["id"], name: hash["name"])
       end
     end
 
-    ObjectMetadata = Struct.new(
-      :context, :environment_id, :id, :key_id, :updated_at, :updated_by, :version_id,
-      keyword_init: true
-    ) do
+    ObjectMetadata = Data.define(:context, :environment_id, :id, :key_id, :updated_at, :updated_by, :version_id) do
       def self.from_hash(hash)
         new(
           context: hash["context"],
@@ -59,7 +56,7 @@ module WorkOS
       end
     end
 
-    VaultObject = Struct.new(:id, :name, :value, :metadata, keyword_init: true) do
+    VaultObject = Data.define(:id, :name, :value, :metadata) do
       def self.from_hash(hash)
         new(
           id: hash["id"],
@@ -70,13 +67,13 @@ module WorkOS
       end
     end
 
-    ObjectDigest = Struct.new(:id, :name, :updated_at, keyword_init: true) do
+    ObjectDigest = Data.define(:id, :name, :updated_at) do
       def self.from_hash(hash)
         new(id: hash["id"], name: hash["name"], updated_at: hash["updated_at"])
       end
     end
 
-    ObjectVersion = Struct.new(:id, :created_at, :current_version, keyword_init: true) do
+    ObjectVersion = Data.define(:id, :created_at, :current_version) do
       def self.from_hash(hash)
         new(id: hash["id"], created_at: hash["created_at"], current_version: hash["current_version"])
       end

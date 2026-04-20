@@ -12,107 +12,70 @@ class MultiFactorAuthTest < Minitest::Test
   end
 
   def test_verify_challenge_returns_expected_result
-    stub_request(:post, /#{Regexp.escape("auth")}/)
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/auth/challenges/stub/verify(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.multi_factor_auth.verify_challenge(id: "stub", code: "stub")
     refute_nil result
   end
 
-  def test_verify_challenge_raises_authentication_error_on_401
-    stub_request(:post, /#{Regexp.escape("auth")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.multi_factor_auth.verify_challenge(id: "stub", code: "stub")
-    end
-  end
-
   def test_enroll_factor_returns_expected_result
-    stub_request(:post, /#{Regexp.escape("auth")}/)
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/auth/factors/enroll(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.multi_factor_auth.enroll_factor(type: "stub")
     refute_nil result
   end
 
-  def test_enroll_factor_raises_authentication_error_on_401
-    stub_request(:post, /#{Regexp.escape("auth")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.multi_factor_auth.enroll_factor(type: "stub")
-    end
-  end
-
   def test_get_factor_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("auth")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/auth/factors/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.multi_factor_auth.get_factor(id: "stub")
     refute_nil result
   end
 
-  def test_get_factor_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("auth")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.multi_factor_auth.get_factor(id: "stub")
-    end
-  end
-
   def test_delete_factor_returns_expected_result
-    stub_request(:delete, /#{Regexp.escape("auth")}/)
+    stub_request(:delete, %r{\Ahttps://api\.workos\.com/auth/factors/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.multi_factor_auth.delete_factor(id: "stub")
-    assert_nil result if result.nil?
-  end
-
-  def test_delete_factor_raises_authentication_error_on_401
-    stub_request(:delete, /#{Regexp.escape("auth")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.multi_factor_auth.delete_factor(id: "stub")
-    end
+    assert_nil result
   end
 
   def test_challenge_factor_returns_expected_result
-    stub_request(:post, /#{Regexp.escape("auth")}/)
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/auth/factors/stub/challenge(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.multi_factor_auth.challenge_factor(id: "stub")
     refute_nil result
   end
 
-  def test_challenge_factor_raises_authentication_error_on_401
-    stub_request(:post, /#{Regexp.escape("auth")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.multi_factor_auth.challenge_factor(id: "stub")
-    end
-  end
-
   def test_list_user_auth_factors_returns_expected_result
-    stub_request(:get, /#{Regexp.escape("user_management")}/)
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/user_management/users/stub/auth_factors(\?|\z)})
       .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
     result = @client.multi_factor_auth.list_user_auth_factors(userland_user_id: "stub")
     assert_kind_of WorkOS::Types::ListStruct, result
   end
 
-  def test_list_user_auth_factors_raises_authentication_error_on_401
-    stub_request(:get, /#{Regexp.escape("user_management")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.multi_factor_auth.list_user_auth_factors(userland_user_id: "stub")
-    end
-  end
-
   def test_create_user_auth_factor_returns_expected_result
-    stub_request(:post, /#{Regexp.escape("user_management")}/)
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/user_management/users/stub/auth_factors(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.multi_factor_auth.create_user_auth_factor(userland_user_id: "stub", type: "totp")
     refute_nil result
   end
 
-  def test_create_user_auth_factor_raises_authentication_error_on_401
-    stub_request(:post, /#{Regexp.escape("user_management")}/)
-      .to_return(body: '{"message": "Unauthorized"}', status: 401)
-    assert_raises(WorkOS::AuthenticationError) do
-      @client.multi_factor_auth.create_user_auth_factor(userland_user_id: "stub", type: "totp")
+  # Parameterized authentication error tests (one per endpoint).
+  [
+    {name: :verify_challenge, verb: :post, url: %r{\Ahttps://api\.workos\.com/auth/challenges/stub/verify(\?|\z)}, args: {id: "stub", code: "stub"}},
+    {name: :enroll_factor, verb: :post, url: %r{\Ahttps://api\.workos\.com/auth/factors/enroll(\?|\z)}, args: {type: "stub"}},
+    {name: :get_factor, verb: :get, url: %r{\Ahttps://api\.workos\.com/auth/factors/stub(\?|\z)}, args: {id: "stub"}},
+    {name: :delete_factor, verb: :delete, url: %r{\Ahttps://api\.workos\.com/auth/factors/stub(\?|\z)}, args: {id: "stub"}},
+    {name: :challenge_factor, verb: :post, url: %r{\Ahttps://api\.workos\.com/auth/factors/stub/challenge(\?|\z)}, args: {id: "stub"}},
+    {name: :list_user_auth_factors, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/users/stub/auth_factors(\?|\z)}, args: {userland_user_id: "stub"}},
+    {name: :create_user_auth_factor, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/users/stub/auth_factors(\?|\z)}, args: {userland_user_id: "stub", type: "totp"}}
+  ].each do |spec|
+    define_method("test_#{spec[:name]}_raises_authentication_error_on_401") do
+      stub_request(spec[:verb], spec[:url])
+        .to_return(body: '{"message": "Unauthorized"}', status: 401)
+      assert_raises(WorkOS::AuthenticationError) do
+        @client.multi_factor_auth.send(spec[:name], **(spec[:args] || {}))
+      end
     end
   end
 end
