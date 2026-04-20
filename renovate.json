@@ -11,6 +11,13 @@
   "rebaseWhen": "conflicted",
   "packageRules": [
     {
+      "matchManagers": [
+        "github-actions"
+      ],
+      "pinDigests": true,
+      "extractVersion": "^v(?<version>\\d+\\.\\d+\\.\\d+)$"
+    },
+    {
       "matchUpdateTypes": [
         "minor",
         "patch"

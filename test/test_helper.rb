@@ -1,0 +1,20 @@
+# frozen_string_literal: true
+
+# @oagen-ignore-file — hand-maintained runtime
+$LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
+
+require "minitest/autorun"
+require "webmock/minitest"
+require "json"
+require "workos"
+
+module FixtureHelper
+  FIXTURES_DIR = File.expand_path("fixtures", __dir__)
+
+  def load_fixture(name)
+    path = File.join(FIXTURES_DIR, name)
+    return {} unless File.exist?(path)
+
+    JSON.parse(File.read(path))
+  end
+end

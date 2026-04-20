@@ -1,48 +1,55 @@
 # frozen_string_literal: true
 
-require 'encryptor'
-require 'securerandom'
-require 'json'
-require 'base64'
+# @oagen-ignore-file
+# Default AES-256-GCM encryptor for sealed session cookies.
+# Implements the seal/unseal interface expected by SessionManager.
+
+require "base64"
+require "digest"
+require "json"
+require "openssl"
+require "securerandom"
 
 module WorkOS
   module Encryptors
-    # Default encryptor using AES-256-GCM.
-    # Implements the encryptor interface: #seal(data, key) and #unseal(sealed_data, key)
     class AesGcm
-      # Encrypts and seals data using AES-256-GCM
-      # @param data [Hash] The data to seal
-      # @param key [String] The encryption key
-      # @return [String] Base64-encoded sealed data
-      def seal(data, key)
-        iv = SecureRandom.random_bytes(12)
+      SEAL_VERSION = 0x01
 
-        encrypted_data = Encryptor.encrypt(
-          value: JSON.generate(data),
-          key: key,
-          iv: iv,
-          algorithm: 'aes-256-gcm',
-        )
-        Base64.encode64(iv + encrypted_data)
+      def seal(data, key)
+        json = data.is_a?(String) ? data : JSON.generate(data)
+        cipher = OpenSSL::Cipher.new("aes-256-gcm").encrypt
+        cipher.key = derive_key(key)
+        iv = SecureRandom.random_bytes(12)
+        cipher.iv = iv
+        ciphertext = cipher.update(json) + cipher.final
+        Base64.strict_encode64(SEAL_VERSION.chr + iv + cipher.auth_tag + ciphertext)
       end
 
-      # Decrypts and unseals data using AES-256-GCM
-      # @param sealed_data [String] The sealed data to unseal
-      # @param key [String] The decryption key
-      # @return [Hash] The unsealed data with symbolized keys
-      def unseal(sealed_data, key)
-        decoded_data = Base64.decode64(sealed_data)
-        iv = decoded_data[0..11]
-        encrypted_data = decoded_data[12..]
+      def unseal(sealed, key)
+        raw = Base64.decode64(sealed.to_s)
+        raise ArgumentError, "Sealed payload too short" if raw.bytesize < 1 + 12 + 16
+        version = raw.byteslice(0, 1).bytes.first
+        raise ArgumentError, "Unknown seal version: #{version}" unless version == SEAL_VERSION
+        iv = raw.byteslice(1, 12)
+        tag = raw.byteslice(13, 16)
+        ciphertext = raw.byteslice(29, raw.bytesize - 29)
+        cipher = OpenSSL::Cipher.new("aes-256-gcm").decrypt
+        cipher.key = derive_key(key)
+        cipher.iv = iv
+        cipher.auth_tag = tag
+        decoded = cipher.update(ciphertext) + cipher.final
+        decoded.force_encoding(Encoding::UTF_8)
+        begin
+          JSON.parse(decoded)
+        rescue JSON::ParserError
+          decoded
+        end
+      end
 
-        decrypted_data = Encryptor.decrypt(
-          value: encrypted_data,
-          key: key,
-          iv: iv,
-          algorithm: 'aes-256-gcm',
-        )
+      private
 
-        JSON.parse(decrypted_data, symbolize_names: true)
+      def derive_key(passphrase)
+        Digest::SHA256.digest(passphrase.to_s)
       end
     end
   end

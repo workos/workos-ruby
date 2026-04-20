@@ -1,71 +1,76 @@
 # frozen_string_literal: true
 
-require 'net/http'
+# @oagen-ignore-file
+# Hand-maintained: Passwordless session endpoints are not yet in the OpenAPI
+# spec, so this module wraps them until they are.
+# See https://workos.com/docs/reference/magic-link.
+require "json"
 
 module WorkOS
-  # The Passwordless module provides convenience methods for working with
-  # passwordless sessions including the WorkOS Magic Link. You'll need a valid
-  # API key.
+  # Passwordless authentication sessions (magic-link).
   #
-  # @see https://workos.com/docs/sso/configuring-magic-link
-  module Passwordless
-    class << self
-      include Client
-
-      # Create a Passwordless Session.
-      #
-      # @param [Hash] options A hash with options for the session
-      # @option options [String] email The email of the user to authenticate.
-      # @option options [String] state Optional parameter that the redirect URI
-      #  received from WorkOS will contain. The state parameter can be used to
-      #  encode arbitrary information to help restore application state between
-      #  redirects.
-      # @option options [String] connection Optional parameter for the ID of a
-      #  specific connection. This can be used to create a Passwordless Session
-      #  for a specific connection rather than using the domain from the email
-      #  to determine the Organization and Connection.
-      # @option options [String] type The type of Passwordless Session to
-      #  create. Currently, the only supported value is 'MagicLink'.
-      # @option options [String] redirect_uri The URI where users are directed
-      #  after completing the authentication step. Must match a
-      #  configured redirect URI on your WorkOS dashboard.
-      #
-      # @return Hash
-      def create_session(options)
-        response = execute_request(
-          request: post_request(
-            path: '/passwordless/sessions',
-            auth: true,
-            body: options,
-          ),
-        )
-
-        hash = JSON.parse(response.body)
-
-        WorkOS::Types::PasswordlessSessionStruct.new(
-          id: hash['id'],
-          email: hash['email'],
-          expires_at: Date.parse(hash['expires_at']),
-          link: hash['link'],
+  #   session = client.passwordless.create_session(email: "user@example.com")
+  #   client.passwordless.send_session(session.id)
+  class Passwordless
+    PasswordlessSession = Struct.new(:id, :email, :expires_at, :link, :object, keyword_init: true) do
+      def self.from_hash(hash)
+        new(
+          id: hash["id"],
+          email: hash["email"],
+          expires_at: hash["expires_at"],
+          link: hash["link"],
+          object: hash["object"] || "passwordless_session"
         )
       end
 
-      # Send a Passwordless Session via email.
-      #
-      # @param [String] session_id The unique identifier of the Passwordless
-      #  Session to send an email for.
-      #
-      # @return Hash
-      def send_session(session_id)
-        response = execute_request(
-          request: post_request(
-            path: "/passwordless/sessions/#{session_id}/send",
-            auth: true,
-          ),
-        )
-
-        JSON.parse(response.body)
+      def to_h
+        super.compact
       end
+    end
+
+    def initialize(client)
+      @client = client
+    end
+
+    # Create a passwordless session.
+    #
+    # @param email [String] Email of the user to authenticate.
+    # @param type [String] Session type. Currently only "MagicLink" is supported.
+    # @param redirect_uri [String, nil] Where to redirect the user after auth.
+    # @param state [String, nil] Arbitrary state echoed back on redirect.
+    # @param connection [String, nil] Specific connection ID to use.
+    # @param expires_in [Integer, nil] Lifetime in seconds.
+    # @param request_options [Hash] Per-request overrides.
+    # @return [PasswordlessSession]
+    def create_session(email:, type: "MagicLink", redirect_uri: nil, state: nil, connection: nil, expires_in: nil, request_options: {})
+      body = {
+        "email" => email,
+        "type" => type,
+        "redirect_uri" => redirect_uri,
+        "state" => state,
+        "connection" => connection,
+        "expires_in" => expires_in
+      }.compact
+      response = @client.request(method: :post, path: "/passwordless/sessions", auth: true, body: body, request_options: request_options)
+      PasswordlessSession.from_hash(JSON.parse(response.body))
+    end
+
+    # Send the magic-link email for an existing passwordless session.
+    #
+    # @param session_id [String] Unique identifier of the passwordless session.
+    # @param request_options [Hash] Per-request overrides.
+    # @return [Hash] Server response payload.
+    def send_session(session_id, request_options: {})
+      response = @client.request(
+        method: :post,
+        path: "/passwordless/sessions/#{WorkOS::Util.encode_path(session_id)}/send",
+        auth: true,
+        body: {},
+        request_options: request_options
+      )
+      JSON.parse(response.body || "{}")
+    rescue JSON::ParserError
+      {}
     end
   end
 end

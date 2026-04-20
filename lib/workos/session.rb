@@ -1,187 +1,135 @@
 # frozen_string_literal: true
 
-require 'jwt'
-require 'uri'
-require 'net/http'
-require 'encryptor'
-require 'securerandom'
-require 'json'
-require 'uri'
+# @oagen-ignore-file
+# Hand-maintained Session object. Constructed by SessionManager#load.
+require "json"
+require "jwt"
+require "openssl"
+require "uri"
 
 module WorkOS
-  # The Session class provides helper methods for working with WorkOS sessions
-  # This class is not meant to be instantiated in a user space, and is instantiated internally but exposed.
+  # Wraps a sealed session cookie for authentication, refresh, and logout.
+  # Constructed by {SessionManager#load}; not intended for direct instantiation.
+  #
+  # @example Authenticate and refresh
+  #   session = client.session_manager.load(seal_data: cookie, cookie_password: pw)
+  #   result = session.authenticate
+  #   if result.is_a?(SessionManager::AuthError) && result.reason == SessionManager::EXPIRED_JWT
+  #     refresh = session.refresh
+  #   end
+  #
+  # @example Build a logout URL
+  #   url = session.get_logout_url(return_to: "https://app.example.com")
   class Session
-    attr_accessor :jwks, :jwks_algorithms, :user_management, :cookie_password, :session_data, :client_id, :encryptor
-
-    def initialize(user_management:, client_id:, session_data:, cookie_password:, encryptor: nil)
-      raise ArgumentError, 'cookiePassword is required' if cookie_password.nil? || cookie_password.empty?
-
-      @encryptor = encryptor || WorkOS::Encryptors::AesGcm.new
-      validate_encryptor!(@encryptor)
-
-      @user_management = user_management
+    def initialize(manager, seal_data:, cookie_password:)
+      raise ArgumentError, "cookie_password is required" if cookie_password.nil? || cookie_password.empty?
+      @manager = manager
+      @client = manager.client
+      @seal_data = seal_data
       @cookie_password = cookie_password
-      @session_data = session_data
-      @client_id = client_id
-
-      @jwks = Cache.fetch("jwks_#{client_id}", expires_in: 5 * 60) do
-        create_remote_jwk_set(URI(@user_management.get_jwks_url(client_id)))
-      end
-      @jwks_algorithms = @jwks.map { |key| key[:alg] }.compact.uniq
     end
+
+    attr_reader :seal_data, :cookie_password
 
     # Authenticates the user based on the session data
     # @param include_expired [Boolean] If true, returns decoded token data even when expired (default: false)
     # @param block [Proc] Optional block to call to extract additional claims from the decoded JWT
     # @return [Hash] A hash containing the authentication response and a reason if the authentication failed
-    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
     def authenticate(include_expired: false, &claim_extractor)
-      return { authenticated: false, reason: 'NO_SESSION_COOKIE_PROVIDED' } if @session_data.nil?
+      return SessionManager::AuthError.new(authenticated: false, reason: SessionManager::NO_SESSION_COOKIE_PROVIDED) if @seal_data.nil? || @seal_data.empty?
 
-      begin
-        session = Session.unseal_data(@session_data, @cookie_password, encryptor: @encryptor)
-      rescue StandardError
-        return { authenticated: false, reason: 'INVALID_SESSION_COOKIE' }
+      session = begin
+        @manager.unseal_data(@seal_data, @cookie_password)
+      rescue ArgumentError, OpenSSL::Cipher::CipherError
+        return SessionManager::AuthError.new(authenticated: false, reason: SessionManager::INVALID_SESSION_COOKIE)
       end
+      return SessionManager::AuthError.new(authenticated: false, reason: SessionManager::INVALID_SESSION_COOKIE) unless session.is_a?(Hash) && session["access_token"]
 
-      return { authenticated: false, reason: 'INVALID_SESSION_COOKIE' } unless session[:access_token]
-
-      begin
-        decoded = JWT.decode(
-          session[:access_token],
-          nil,
-          true,
-          algorithms: @jwks_algorithms,
-          jwks: @jwks,
-          verify_expiration: false,
-        ).first
-
-        expired = decoded['exp'] && decoded['exp'] < Time.now.to_i
-
-        # Early return for expired tokens when not including expired data (backward compatible)
-        return { authenticated: false, reason: 'INVALID_JWT' } if expired && !include_expired
-
-        # Return full data for valid tokens or when include_expired is true
-        result = {
-          authenticated: !expired,
-          session_id: decoded['sid'],
-          organization_id: decoded['org_id'],
-          role: decoded['role'],
-          roles: decoded['roles'],
-          permissions: decoded['permissions'],
-          entitlements: decoded['entitlements'],
-          feature_flags: decoded['feature_flags'],
-          user: session[:user],
-          impersonator: session[:impersonator],
-          reason: expired ? 'INVALID_JWT' : nil,
-        }
-        result.merge!(claim_extractor.call(decoded)) if block_given?
-        result
+      decoded = begin
+        @manager.decode_jwt(session["access_token"], verify_expiration: !include_expired)
+      rescue JWT::ExpiredSignature
+        return SessionManager::AuthError.new(authenticated: false, reason: SessionManager::EXPIRED_JWT)
+      rescue JWT::IncorrectAlgorithm
+        return SessionManager::AuthError.new(authenticated: false, reason: SessionManager::INVALID_JWT_ALGORITHM)
+      rescue JWT::VerificationError
+        return SessionManager::AuthError.new(authenticated: false, reason: SessionManager::INVALID_JWT_SIGNATURE)
       rescue JWT::DecodeError
-        { authenticated: false, reason: 'INVALID_JWT' }
-      rescue StandardError => e
-        { authenticated: false, reason: e.message }
+        return SessionManager::AuthError.new(authenticated: false, reason: SessionManager::INVALID_JWT)
       end
+
+      is_expired = decoded["exp"] && decoded["exp"] < Time.now.to_i
+
+      SessionManager::AuthSuccess.new(
+        authenticated: !is_expired,
+        reason: is_expired ? SessionManager::EXPIRED_JWT : nil,
+        session_id: decoded["sid"],
+        organization_id: decoded["org_id"],
+        role: decoded["role"],
+        roles: decoded["roles"],
+        permissions: decoded["permissions"],
+        entitlements: decoded["entitlements"],
+        user: session["user"],
+        impersonator: session["impersonator"],
+        feature_flags: decoded["feature_flags"],
+        custom_claims: claim_extractor&.call(decoded)
+      )
     end
 
-    # Refreshes the session data using the refresh token stored in the session data
-    # @param options [Hash] Options for refreshing the session
-    # @option options [String] :cookie_password The password to use for unsealing the session data
-    # @option options [String] :organization_id The organization ID to use for refreshing the session
-    # @return [Hash] A hash containing a new sealed session, the authentication response,
-    # and a reason if the refresh failed
-    def refresh(options = nil)
-      cookie_password = options.nil? || options[:cookie_password].nil? ? @cookie_password : options[:cookie_password]
+    def refresh(organization_id: nil, cookie_password: nil)
+      effective_password = cookie_password || @cookie_password
 
-      begin
-        session = Session.unseal_data(@session_data, cookie_password, encryptor: @encryptor)
-      rescue StandardError
-        return { authenticated: false, reason: 'INVALID_SESSION_COOKIE' }
+      session = begin
+        @manager.unseal_data(@seal_data, effective_password)
+      rescue ArgumentError, OpenSSL::Cipher::CipherError
+        return SessionManager::RefreshError.new(authenticated: false, reason: SessionManager::INVALID_SESSION_COOKIE)
       end
+      return SessionManager::RefreshError.new(authenticated: false, reason: SessionManager::INVALID_SESSION_COOKIE) unless session.is_a?(Hash) && session["refresh_token"]
 
-      return { authenticated: false, reason: 'INVALID_SESSION_COOKIE' } unless session[:refresh_token] && session[:user]
+      # Uses auth: true (Bearer token) to match authenticate_with_refresh_token.
+      # client_id is included in the body as required by the OAuth2 token exchange.
+      body = {
+        "grant_type" => "refresh_token",
+        "client_id" => @client.client_id,
+        "refresh_token" => session["refresh_token"],
+        "session" => {"seal_session" => true, "cookie_password" => effective_password}
+      }
+      body["organization_id"] = organization_id if organization_id
 
-      begin
-        auth_response = @user_management.authenticate_with_refresh_token(
-          client_id: @client_id,
-          refresh_token: session[:refresh_token],
-          organization_id: options.nil? || options[:organization_id].nil? ? nil : options[:organization_id],
-          session: { seal_session: true, cookie_password: cookie_password, encryptor: @encryptor },
-        )
+      response = @client.request(method: :post, path: "/user_management/authenticate", auth: true, body: body)
+      auth_response = JSON.parse(response.body)
+      sealed = auth_response["sealed_session"].to_s
+      @seal_data = sealed
+      @cookie_password = effective_password
 
-        @session_data = auth_response.sealed_session
-        @cookie_password = cookie_password
-
-        {
-          authenticated: true,
-          sealed_session: auth_response.sealed_session,
-          session: auth_response,
-          reason: nil,
-        }
-      rescue StandardError => e
-        { authenticated: false, reason: e.message }
-      end
+      decoded = @manager.decode_jwt(auth_response["access_token"])
+      SessionManager::RefreshSuccess.new(
+        authenticated: true,
+        sealed_session: sealed,
+        session_id: decoded["sid"],
+        organization_id: decoded["org_id"],
+        role: decoded["role"],
+        roles: decoded["roles"],
+        permissions: decoded["permissions"],
+        entitlements: decoded["entitlements"],
+        user: auth_response["user"],
+        impersonator: auth_response["impersonator"],
+        feature_flags: decoded["feature_flags"]
+      )
+    rescue WorkOS::AuthenticationError, WorkOS::InvalidRequestError => e
+      SessionManager::RefreshError.new(authenticated: false, reason: e.message)
     end
-    # rubocop:enable Metrics/AbcSize
-    # rubocop:enable Metrics/CyclomaticComplexity
-    # rubocop:enable Metrics/PerceivedComplexity
 
-    # Returns a URL to redirect the user to for logging out
-    # @param return_to [String] The URL to redirect the user to after logging out
-    # @return [String] The URL to redirect the user to for logging out
+    # Build the WorkOS session-logout URL for the currently authenticated session.
+    # Requires #authenticate to succeed (so we have the session_id).
     def get_logout_url(return_to: nil)
-      auth_response = authenticate
-
-      unless auth_response[:authenticated]
-        raise "Failed to extract session ID for logout URL: #{auth_response[:reason]}"
-      end
-
-      @user_management.get_logout_url(session_id: auth_response[:session_id], return_to: return_to)
-    end
-
-    # Encrypts and seals data using the provided encryptor (defaults to AES-256-GCM)
-    # @param data [Hash] The data to seal
-    # @param key [String] The key to use for encryption
-    # @param encryptor [Object] Optional encryptor that responds to #seal(data, key)
-    # @return [String] The sealed data
-    def self.seal_data(data, key, encryptor: nil)
-      enc = encryptor || WorkOS::Encryptors::AesGcm.new
-      enc.seal(data, key)
-    end
-
-    # Decrypts and unseals data using the provided encryptor (defaults to AES-256-GCM)
-    # @param sealed_data [String] The sealed data to unseal
-    # @param key [String] The key to use for decryption
-    # @param encryptor [Object] Optional encryptor that responds to #unseal(sealed_data, key)
-    # @return [Hash] The unsealed data
-    def self.unseal_data(sealed_data, key, encryptor: nil)
-      enc = encryptor || WorkOS::Encryptors::AesGcm.new
-      enc.unseal(sealed_data, key)
-    end
-
-    private
-
-    def validate_encryptor!(enc)
-      return if enc.respond_to?(:seal) && enc.respond_to?(:unseal)
-
-      raise ArgumentError, 'encryptor must respond to #seal(data, key) and #unseal(sealed_data, key)'
-    end
-
-    # Creates a JWKS set from a remote JWKS URL
-    # @param uri [URI] The URI of the JWKS
-    # @return [JWT::JWK::Set] The JWKS set
-    def create_remote_jwk_set(uri)
-      # Fetch the JWKS from the remote URL
-      response = Net::HTTP.get(uri)
-
-      jwks_hash = JSON.parse(response)
-      jwks = JWT::JWK::Set.new(jwks_hash)
-
-      # filter jwks so it only returns the keys where 'use' is equal to 'sig'
-      jwks.keys.select! { |key| key[:use] == 'sig' }
-
-      jwks
+      result = authenticate
+      raise WorkOS::Error.new(message: "Failed to extract session ID for logout URL: #{result.reason}") if result.is_a?(SessionManager::AuthError)
+      base = @client.base_url
+      params = {"session_id" => result.session_id}
+      params["return_to"] = return_to if return_to
+      uri = URI.join(base, "/user_management/sessions/logout")
+      uri.query = URI.encode_www_form(params)
+      uri.to_s
     end
   end
 end
