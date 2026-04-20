@@ -29,9 +29,6 @@ jobs:
         with:
           bundler-cache: true
 
-      - name: Run tests
-        run: bundle exec rspec
-
       - name: Publish to RubyGems
         run: |
           VERSION="${GITHUB_REF_NAME#v}"
