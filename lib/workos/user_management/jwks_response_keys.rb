@@ -9,14 +9,14 @@ module WorkOS
     include HashProvider
 
     HASH_ATTRS = {
-      alg: :alg,
-      kty: :kty,
-      use: :use,
-      x_5_c: :x_5_c,
-      n: :n,
-      e: :e,
-      kid: :kid,
-      x_5_t_s_256: :x_5_t_s_256
+      :alg => :alg,
+      :kty => :kty,
+      :use => :use,
+      :x5c => :x_5_c,
+      :n => :n,
+      :e => :e,
+      :kid => :kid,
+      "x5t#S256" => :x_5_t_s_256
     }.freeze
 
     attr_accessor \

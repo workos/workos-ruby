@@ -17,7 +17,7 @@ module WorkOS
       state: :state,
       created_at: :created_at,
       updated_at: :updated_at,
-      userland_user_id: :userland_user_id
+      userlandUserId: :userland_user_id
     }.freeze
 
     # @!attribute userland_user_id
