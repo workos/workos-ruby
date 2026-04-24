@@ -30,6 +30,7 @@ loader.collapse("#{__dir__}/workos/vault")
 loader.collapse("#{__dir__}/workos/webhooks")
 loader.collapse("#{__dir__}/workos/widgets")
 loader.ignore("#{__dir__}/workos/errors.rb")
+loader.ignore("#{__dir__}/workos/inflections.rb")
 loader.setup
 
 require "workos/errors"
