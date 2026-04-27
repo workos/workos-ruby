@@ -6,10 +6,19 @@ module WorkOS
   module Types
     class SSOProvider
       APPLE_OAUTH = "AppleOAuth"
+      BITBUCKET_OAUTH = "BitbucketOAuth"
       GIT_HUB_OAUTH = "GitHubOAuth"
+      GIT_LAB_OAUTH = "GitLabOAuth"
       GOOGLE_OAUTH = "GoogleOAuth"
+      INTUIT_OAUTH = "IntuitOAuth"
+      LINKED_IN_OAUTH = "LinkedInOAuth"
       MICROSOFT_OAUTH = "MicrosoftOAuth"
-      ALL = [APPLE_OAUTH, GIT_HUB_OAUTH, GOOGLE_OAUTH, MICROSOFT_OAUTH].freeze
+      SALESFORCE_OAUTH = "SalesforceOAuth"
+      SLACK_OAUTH = "SlackOAuth"
+      VERCEL_MARKETPLACE_OAUTH = "VercelMarketplaceOAuth"
+      VERCEL_OAUTH = "VercelOAuth"
+      XERO_OAUTH = "XeroOAuth"
+      ALL = [APPLE_OAUTH, BITBUCKET_OAUTH, GIT_HUB_OAUTH, GIT_LAB_OAUTH, GOOGLE_OAUTH, INTUIT_OAUTH, LINKED_IN_OAUTH, MICROSOFT_OAUTH, SALESFORCE_OAUTH, SLACK_OAUTH, VERCEL_MARKETPLACE_OAUTH, VERCEL_OAUTH, XERO_OAUTH].freeze
     end
   end
 end

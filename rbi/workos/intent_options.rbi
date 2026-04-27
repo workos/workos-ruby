@@ -9,11 +9,17 @@ module WorkOS
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
 
-    sig { returns(WorkOS::SSOIntentOptions) }
+    sig { returns(T.nilable(WorkOS::SSOIntentOptions)) }
     def sso; end
 
-    sig { params(value: WorkOS::SSOIntentOptions).returns(WorkOS::SSOIntentOptions) }
+    sig { params(value: T.nilable(WorkOS::SSOIntentOptions)).returns(T.nilable(WorkOS::SSOIntentOptions)) }
     def sso=(value); end
+
+    sig { returns(T.nilable(WorkOS::DomainVerificationIntentOptions)) }
+    def domain_verification; end
+
+    sig { params(value: T.nilable(WorkOS::DomainVerificationIntentOptions)).returns(T.nilable(WorkOS::DomainVerificationIntentOptions)) }
+    def domain_verification=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end

@@ -16,7 +16,7 @@ module WorkOS
     # @param organization [String] An [Organization](https://workos.com/docs/reference/organization) identifier.
     # @param intent [WorkOS::Types::GenerateLinkIntent, nil] The intent of the Admin Portal. - `sso` - Launch Admin Portal for creating SSO connections - `dsync` - Launch Admin Portal for creating Directory Sync connections - `audit_logs` - Launch Admin Portal for viewing Audit Logs - `log_streams` - Launch Admin Portal for creating Log Streams - `domain_verification` - Launch Admin Portal for Domain Verification - `certificate_renewal` - Launch Admin Portal for renewing SAML Certificates - `bring_your_own_key` - Launch Admin Portal for configuring Bring Your Own Key
     # @param intent_options [WorkOS::IntentOptions, nil] Options to configure the Admin Portal based on the intent.
-    # @param admin_emails [Array<String>, nil] The email addresses of the IT admins to grant access to the Admin Portal for the given organization. Accepts up to 20 emails.
+    # @param it_contact_emails [Array<String>, nil] The email addresses of the IT contacts to grant access to the Admin Portal for the given organization. Accepts up to 20 emails.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::PortalLinkResponse]
     def generate_link(
@@ -25,7 +25,7 @@ module WorkOS
       success_url: nil,
       intent: nil,
       intent_options: nil,
-      admin_emails: nil,
+      it_contact_emails: nil,
       request_options: {}
     )
       body = {
@@ -34,7 +34,7 @@ module WorkOS
         "organization" => organization,
         "intent" => intent,
         "intent_options" => intent_options,
-        "admin_emails" => admin_emails
+        "it_contact_emails" => it_contact_emails
       }.compact
       response = @client.request(
         method: :post,
