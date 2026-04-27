@@ -34,6 +34,8 @@ module WorkOS
     #   @deprecated The username of the user.
     # @!attribute raw_attributes
     #   @deprecated The raw attributes received from the directory provider.
+    # @!attribute groups
+    #   @deprecated The directory groups the user belongs to. Use the List Directory Groups endpoint with a user filter instead.
 
     attr_accessor \
       :object,
@@ -49,8 +51,7 @@ module WorkOS
       :role,
       :roles,
       :created_at,
-      :updated_at,
-      :groups
+      :updated_at
 
     def emails
       warn "[DEPRECATION] `emails` is deprecated and will be removed in a future version.", uplevel: 1
@@ -79,6 +80,13 @@ module WorkOS
     end
 
     attr_writer :raw_attributes
+
+    def groups
+      warn "[DEPRECATION] `groups` is deprecated and will be removed in a future version.", uplevel: 1
+      @groups
+    end
+
+    attr_writer :groups
 
     def initialize(json)
       hash = self.class.normalize(json)

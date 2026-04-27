@@ -32,7 +32,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_organization_membership_resources(organization_membership_id:, permission_slug:, before:, after:, limit:, order:, request_options:); end
+    def list_resources_for_membership(organization_membership_id:, permission_slug:, before:, after:, limit:, order:, request_options:); end
 
     sig do
       params(
@@ -45,7 +45,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_resource_permissions(organization_membership_id:, resource_id:, before:, after:, limit:, order:, request_options:); end
+    def list_effective_permissions(organization_membership_id:, resource_id:, before:, after:, limit:, order:, request_options:); end
 
     sig do
       params(
@@ -71,7 +71,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_organization_membership_role_assignments(organization_membership_id:, before:, after:, limit:, order:, request_options:); end
+    def list_role_assignments(organization_membership_id:, before:, after:, limit:, order:, request_options:); end
 
     sig do
       params(
@@ -104,7 +104,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def delete_organization_membership_role_assignment(organization_membership_id:, role_assignment_id:, request_options:); end
+    def remove_role_assignment(organization_membership_id:, role_assignment_id:, request_options:); end
 
     sig do
       params(
@@ -162,7 +162,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Role)
     end
-    def create_role_permission(organization_id:, slug:, request_options:); end
+    def add_organization_role_permission(organization_id:, slug:, request_options:); end
 
     sig do
       params(
@@ -172,7 +172,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Role)
     end
-    def update_role_permissions(organization_id:, slug:, permissions:, request_options:); end
+    def set_organization_role_permissions(organization_id:, slug:, permissions:, request_options:); end
 
     sig do
       params(
@@ -182,7 +182,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Role)
     end
-    def delete_role_permission(organization_id:, slug:, permission_slug:, request_options:); end
+    def remove_organization_role_permission(organization_id:, slug:, permission_slug:, request_options:); end
 
     sig do
       params(
@@ -192,7 +192,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AuthorizationResource)
     end
-    def get_organization_resource(organization_id:, resource_type_slug:, external_id:, request_options:); end
+    def get_resource_by_external_id(organization_id:, resource_type_slug:, external_id:, request_options:); end
 
     sig do
       params(
@@ -207,7 +207,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AuthorizationResource)
     end
-    def update_organization_resource(organization_id:, resource_type_slug:, external_id:, name:, description:, parent_resource_id:, parent_resource_external_id:, parent_resource_type_slug:, request_options:); end
+    def update_resource_by_external_id(organization_id:, resource_type_slug:, external_id:, name:, description:, parent_resource_id:, parent_resource_external_id:, parent_resource_type_slug:, request_options:); end
 
     sig do
       params(
@@ -218,7 +218,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def delete_organization_resource(organization_id:, resource_type_slug:, external_id:, cascade_delete:, request_options:); end
+    def delete_resource_by_external_id(organization_id:, resource_type_slug:, external_id:, cascade_delete:, request_options:); end
 
     sig do
       params(
@@ -234,7 +234,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_resource_organization_memberships(organization_id:, resource_type_slug:, external_id:, permission_slug:, before:, after:, limit:, order:, assignment:, request_options:); end
+    def list_memberships_for_resource_by_external_id(organization_id:, resource_type_slug:, external_id:, permission_slug:, before:, after:, limit:, order:, assignment:, request_options:); end
 
     sig do
       params(
@@ -244,11 +244,12 @@ module WorkOS
         order: T.nilable(String),
         organization_id: T.nilable(String),
         resource_type_slug: T.nilable(String),
+        resource_external_id: T.nilable(String),
         search: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_resources(before:, after:, limit:, order:, organization_id:, resource_type_slug:, search:, request_options:); end
+    def list_resources(before:, after:, limit:, order:, organization_id:, resource_type_slug:, resource_external_id:, search:, request_options:); end
 
     sig do
       params(

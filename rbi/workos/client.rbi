@@ -42,6 +42,9 @@ module WorkOS
     sig { returns(WorkOS::AuditLogs) }
     def audit_logs; end
 
+    sig { returns(WorkOS::Groups) }
+    def groups; end
+
     sig { returns(WorkOS::AdminPortal) }
     def admin_portal; end
 
@@ -50,6 +53,9 @@ module WorkOS
 
     sig { returns(WorkOS::UserManagement) }
     def user_management; end
+
+    sig { returns(WorkOS::UserManagementOrganizationMembershipGroups) }
+    def user_management_organization_membership_groups; end
 
     sig { returns(WorkOS::Webhooks) }
     def webhooks; end

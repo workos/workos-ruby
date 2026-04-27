@@ -630,16 +630,6 @@ module WorkOS
       password_hash_type: nil,
       request_options: {}
     )
-      params = {}.compact
-      if password
-        case password[:type]
-        when "plaintext"
-          params["password"] = password[:password]
-        when "hashed"
-          params["password_hash"] = password[:password_hash]
-          params["password_hash_type"] = password[:password_hash_type]
-        end
-      end
       body = {
         "email" => email,
         "first_name" => first_name,
@@ -651,11 +641,19 @@ module WorkOS
         "password_hash" => password_hash,
         "password_hash_type" => password_hash_type
       }.compact
+      if password
+        case password[:type]
+        when "plaintext"
+          body["password"] = password[:password]
+        when "hashed"
+          body["password_hash"] = password[:password_hash]
+          body["password_hash_type"] = password[:password_hash_type]
+        end
+      end
       response = @client.request(
         method: :post,
         path: "/user_management/users",
         auth: true,
-        params: params,
         body: body,
         request_options: request_options
       )
@@ -730,16 +728,6 @@ module WorkOS
       password_hash_type: nil,
       request_options: {}
     )
-      params = {}.compact
-      if password
-        case password[:type]
-        when "plaintext"
-          params["password"] = password[:password]
-        when "hashed"
-          params["password_hash"] = password[:password_hash]
-          params["password_hash_type"] = password[:password_hash_type]
-        end
-      end
       body = {
         "email" => email,
         "first_name" => first_name,
@@ -752,11 +740,19 @@ module WorkOS
         "password_hash" => password_hash,
         "password_hash_type" => password_hash_type
       }.compact
+      if password
+        case password[:type]
+        when "plaintext"
+          body["password"] = password[:password]
+        when "hashed"
+          body["password_hash"] = password[:password_hash]
+          body["password_hash_type"] = password[:password_hash_type]
+        end
+      end
       response = @client.request(
         method: :put,
         path: "/user_management/users/#{WorkOS::Util.encode_path(id)}",
         auth: true,
-        params: params,
         body: body,
         request_options: request_options
       )
@@ -1271,26 +1267,24 @@ module WorkOS
       role: nil,
       request_options: {}
     )
-      params = {}.compact
-      if role
-        case role[:type]
-        when "single"
-          params["role_slug"] = role[:role_slug]
-        when "multiple"
-          params["role_slugs"] = role[:role_slugs]
-        end
-      end
       body = {
         "user_id" => user_id,
         "organization_id" => organization_id,
         "role_slug" => role_slug,
         "role_slugs" => role_slugs
       }.compact
+      if role
+        case role[:type]
+        when "single"
+          body["role_slug"] = role[:role_slug]
+        when "multiple"
+          body["role_slugs"] = role[:role_slugs]
+        end
+      end
       response = @client.request(
         method: :post,
         path: "/user_management/organization_memberships",
         auth: true,
-        params: params,
         body: body,
         request_options: request_options
       )
@@ -1331,24 +1325,22 @@ module WorkOS
       role: nil,
       request_options: {}
     )
-      params = {}.compact
-      if role
-        case role[:type]
-        when "single"
-          params["role_slug"] = role[:role_slug]
-        when "multiple"
-          params["role_slugs"] = role[:role_slugs]
-        end
-      end
       body = {
         "role_slug" => role_slug,
         "role_slugs" => role_slugs
       }.compact
+      if role
+        case role[:type]
+        when "single"
+          body["role_slug"] = role[:role_slug]
+        when "multiple"
+          body["role_slugs"] = role[:role_slugs]
+        end
+      end
       response = @client.request(
         method: :put,
         path: "/user_management/organization_memberships/#{WorkOS::Util.encode_path(id)}",
         auth: true,
-        params: params,
         body: body,
         request_options: request_options
       )

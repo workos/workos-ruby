@@ -40,10 +40,10 @@ module WorkOS
     def intent_options=(value); end
 
     sig { returns(T.nilable(T::Array[String])) }
-    def admin_emails; end
+    def it_contact_emails; end
 
     sig { params(value: T.nilable(T::Array[String])).returns(T.nilable(T::Array[String])) }
-    def admin_emails=(value); end
+    def it_contact_emails=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end

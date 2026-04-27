@@ -5,7 +5,7 @@
 # typed: strong
 
 module WorkOS
-  class InvitationCreatedData
+  class WaitlistUser
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
 
@@ -34,46 +34,10 @@ module WorkOS
     def state=(value); end
 
     sig { returns(T.nilable(String)) }
-    def accepted_at; end
+    def approved_at; end
 
     sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
-    def accepted_at=(value); end
-
-    sig { returns(T.nilable(String)) }
-    def revoked_at; end
-
-    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
-    def revoked_at=(value); end
-
-    sig { returns(String) }
-    def expires_at; end
-
-    sig { params(value: String).returns(String) }
-    def expires_at=(value); end
-
-    sig { returns(T.nilable(String)) }
-    def organization_id; end
-
-    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
-    def organization_id=(value); end
-
-    sig { returns(T.nilable(String)) }
-    def inviter_user_id; end
-
-    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
-    def inviter_user_id=(value); end
-
-    sig { returns(T.nilable(String)) }
-    def accepted_user_id; end
-
-    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
-    def accepted_user_id=(value); end
-
-    sig { returns(T.nilable(String)) }
-    def role_slug; end
-
-    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
-    def role_slug=(value); end
+    def approved_at=(value); end
 
     sig { returns(String) }
     def created_at; end

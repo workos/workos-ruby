@@ -48,6 +48,10 @@ module WorkOS
       @organizations ||= WorkOS::Organizations.new(self)
     end
 
+    def groups
+      @groups ||= WorkOS::Groups.new(self)
+    end
+
     def admin_portal
       @admin_portal ||= WorkOS::AdminPortal.new(self)
     end
@@ -58,6 +62,10 @@ module WorkOS
 
     def user_management
       @user_management ||= WorkOS::UserManagement.new(self)
+    end
+
+    def user_management_organization_membership_groups
+      @user_management_organization_membership_groups ||= WorkOS::UserManagementOrganizationMembershipGroups.new(self)
     end
 
     def webhooks
