@@ -1,5 +1,21 @@
 # Changelog
 
+## [7.1.0](https://github.com/workos/workos-ruby/compare/v7.0.0...v7.1.0) (2026-04-27)
+
+
+### Features
+
+* **generated:** update generated SDK from spec changes ([#465](https://github.com/workos/workos-ruby/issues/465)) ([6c145d2](https://github.com/workos/workos-ruby/commit/6c145d2bfec9af8fcffdc5ffe678f452ea925f22))
+
+
+### Bug Fixes
+
+* add ruby/setup-ruby to release-please workflow ([aa5ebd0](https://github.com/workos/workos-ruby/commit/aa5ebd0e26edc291f54d92b2f4681a224b0d3889))
+* eagerly load configuration.rb to fix WorkOS.configure ([#467](https://github.com/workos/workos-ruby/issues/467)) ([eea391c](https://github.com/workos/workos-ruby/commit/eea391cd88015373fb89f3b8fbe1dda9c5cfedbe))
+* remove stale URN-prefixed alias files breaking Zeitwerk ([#466](https://github.com/workos/workos-ruby/issues/466)) ([92b2aa5](https://github.com/workos/workos-ruby/commit/92b2aa5166e370bc8f9aaaee22626058d93521a5))
+* update Gemfile.lock in release-please PR and bump action pins ([2aa0574](https://github.com/workos/workos-ruby/commit/2aa0574f3084e79af488c2125adbfc337604a3be))
+* update Zeitwerk autoload for inflections.rb ([#460](https://github.com/workos/workos-ruby/issues/460)) ([4fa1332](https://github.com/workos/workos-ruby/commit/4fa1332f66c14e89c6df8d8d6af6ac8024824b15))
+
 ## [7.0.0](https://github.com/workos/workos-ruby/compare/v6.2.0...v7.0.0) (2026-04-20)
 
 This is a major release that introduces a fully redesigned SDK architecture. The SDK is now **generated from the WorkOS OpenAPI spec**, bringing type safety, consistent interfaces, and improved developer ergonomics.
