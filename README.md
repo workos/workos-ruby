@@ -37,7 +37,6 @@ Or configure the SDK in an initializer:
 # /config/initializers/workos.rb
 
 require "workos"
-require "workos/configuration"
 
 WorkOS.configure do |config|
   config.api_key = ENV.fetch("WORKOS_API_KEY")
