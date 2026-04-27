@@ -5,9 +5,9 @@
 module WorkOS
   module Types
     class AuthenticationFactorsCreateRequestType
-      GENERIC_OTP = "generic_otp"
-      SMS = "sms"
-      TOTP = "totp"
+      GENERIC_OTP = 'generic_otp'
+      SMS = 'sms'
+      TOTP = 'totp'
       ALL = [GENERIC_OTP, SMS, TOTP].freeze
     end
   end

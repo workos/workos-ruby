@@ -4,6 +4,7 @@
 
 module WorkOS
   class DirectoryMetadataUser < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       active: :active,
       inactive: :inactive

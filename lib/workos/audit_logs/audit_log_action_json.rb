@@ -4,6 +4,7 @@
 
 module WorkOS
   class AuditLogActionJson < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       object: :object,
       name: :name,

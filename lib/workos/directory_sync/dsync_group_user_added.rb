@@ -4,6 +4,7 @@
 
 module WorkOS
   class DsyncGroupUserAdded < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       id: :id,
       event: :event,

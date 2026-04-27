@@ -4,6 +4,7 @@
 
 module WorkOS
   class CreateOrganizationApiKey < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       name: :name,
       permissions: :permissions
@@ -16,7 +17,7 @@ module WorkOS
     def initialize(json)
       hash = self.class.normalize(json)
       @name = hash[:name]
-      @permissions = hash[:permissions] || []
+      @permissions = (hash[:permissions] || [])
     end
   end
 end

@@ -4,6 +4,7 @@
 
 module WorkOS
   class Organization < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       object: :object,
       id: :id,
@@ -32,11 +33,13 @@ module WorkOS
       :updated_at
 
     def allow_profiles_outside_organization
-      warn "[DEPRECATION] `allow_profiles_outside_organization` is deprecated and will be removed in a future version.", uplevel: 1
+      warn "[DEPRECATION] \`allow_profiles_outside_organization\` is deprecated and will be removed in a future version.", uplevel: 1
       @allow_profiles_outside_organization
     end
 
-    attr_writer :allow_profiles_outside_organization
+    def allow_profiles_outside_organization=(value)
+      @allow_profiles_outside_organization = value
+    end
 
     def initialize(json)
       hash = self.class.normalize(json)

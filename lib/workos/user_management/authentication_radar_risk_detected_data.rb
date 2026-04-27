@@ -4,6 +4,7 @@
 
 module WorkOS
   class AuthenticationRadarRiskDetectedData < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       auth_method: :auth_method,
       action: :action,

@@ -4,6 +4,7 @@
 
 module WorkOS
   class FlagRuleUpdatedContextPreviousAttributeContext < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       access_type: :access_type,
       configured_targets: :configured_targets

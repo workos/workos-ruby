@@ -4,6 +4,7 @@
 
 module WorkOS
   class CreatePasswordReset < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       token: :token,
       new_password: :new_password

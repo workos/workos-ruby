@@ -4,6 +4,7 @@
 
 module WorkOS
   class FlagUpdatedContextPreviousAttributeData < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       name: :name,
       description: :description,
@@ -23,7 +24,7 @@ module WorkOS
       hash = self.class.normalize(json)
       @name = hash[:name]
       @description = hash[:description]
-      @tags = hash[:tags] || []
+      @tags = (hash[:tags] || [])
       @enabled = hash[:enabled]
       @default_value = hash[:default_value]
     end

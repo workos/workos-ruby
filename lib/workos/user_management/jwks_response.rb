@@ -4,6 +4,7 @@
 
 module WorkOS
   class JwksResponse < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       keys: :keys
     }.freeze

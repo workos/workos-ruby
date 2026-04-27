@@ -4,6 +4,7 @@
 
 module WorkOS
   class SSOTokenResponse < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       token_type: :token_type,
       access_token: :access_token,

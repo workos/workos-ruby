@@ -4,6 +4,7 @@
 
 module WorkOS
   class DirectoryMetadata < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       users: :users,
       groups: :groups

@@ -5,10 +5,10 @@
 module WorkOS
   module Types
     class AuditLogConfigurationLogStreamState
-      ACTIVE = "active"
-      INACTIVE = "inactive"
-      ERROR = "error"
-      INVALID = "invalid"
+      ACTIVE = 'active'
+      INACTIVE = 'inactive'
+      ERROR = 'error'
+      INVALID = 'invalid'
       ALL = [ACTIVE, INACTIVE, ERROR, INVALID].freeze
     end
   end

@@ -5,8 +5,8 @@
 module WorkOS
   module Types
     class AuthenticationRadarRiskDetectedDataAction
-      SIGNUP = "signup"
-      LOGIN = "login"
+      SIGNUP = 'signup'
+      LOGIN = 'login'
       ALL = [SIGNUP, LOGIN].freeze
     end
   end

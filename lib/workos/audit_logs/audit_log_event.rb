@@ -4,6 +4,7 @@
 
 module WorkOS
   class AuditLogEvent < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       action: :action,
       occurred_at: :occurred_at,

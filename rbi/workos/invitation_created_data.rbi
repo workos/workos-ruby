@@ -69,6 +69,12 @@ module WorkOS
     sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
     def accepted_user_id=(value); end
 
+    sig { returns(T.nilable(String)) }
+    def role_slug; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def role_slug=(value); end
+
     sig { returns(String) }
     def created_at; end
 

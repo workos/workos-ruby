@@ -4,6 +4,7 @@
 
 module WorkOS
   class OrganizationInput < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       name: :name,
       allow_profiles_outside_organization: :allow_profiles_outside_organization,
@@ -25,7 +26,7 @@ module WorkOS
       hash = self.class.normalize(json)
       @name = hash[:name]
       @allow_profiles_outside_organization = hash[:allow_profiles_outside_organization]
-      @domains = hash[:domains] || []
+      @domains = (hash[:domains] || [])
       @domain_data = (hash[:domain_data] || []).map { |item| item ? WorkOS::OrganizationDomainData.new(item) : nil }
       @metadata = hash[:metadata] || {}
       @external_id = hash[:external_id]

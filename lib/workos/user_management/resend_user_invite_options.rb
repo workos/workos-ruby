@@ -4,6 +4,7 @@
 
 module WorkOS
   class ResendUserInviteOptions < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       locale: :locale
     }.freeze

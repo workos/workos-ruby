@@ -4,6 +4,7 @@
 
 module WorkOS
   class AuditLogEventCreateResponse < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       success: :success
     }.freeze

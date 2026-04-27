@@ -4,6 +4,7 @@
 
 module WorkOS
   class ExternalAuthCompleteResponse < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       redirect_uri: :redirect_uri
     }.freeze

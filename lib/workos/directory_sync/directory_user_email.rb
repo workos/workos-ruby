@@ -4,6 +4,7 @@
 
 module WorkOS
   class DirectoryUserEmail < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       primary: :primary,
       type: :type,

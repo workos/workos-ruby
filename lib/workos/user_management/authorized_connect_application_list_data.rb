@@ -4,6 +4,7 @@
 
 module WorkOS
   class AuthorizedConnectApplicationListData < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       object: :object,
       id: :id,
@@ -23,7 +24,7 @@ module WorkOS
       hash = self.class.normalize(json)
       @object = hash[:object]
       @id = hash[:id]
-      @granted_scopes = hash[:granted_scopes] || []
+      @granted_scopes = (hash[:granted_scopes] || [])
       @oauth_resource = hash[:oauth_resource]
       @application = hash[:application] ? WorkOS::ConnectApplication.new(hash[:application]) : nil
     end

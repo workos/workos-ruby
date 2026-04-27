@@ -4,13 +4,14 @@
 
 module WorkOS
   class GenerateLink < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       return_url: :return_url,
       success_url: :success_url,
       organization: :organization,
       intent: :intent,
       intent_options: :intent_options,
-      admin_emails: :admin_emails
+      it_contact_emails: :it_contact_emails
     }.freeze
 
     attr_accessor \
@@ -19,7 +20,7 @@ module WorkOS
       :organization,
       :intent,
       :intent_options,
-      :admin_emails
+      :it_contact_emails
 
     def initialize(json)
       hash = self.class.normalize(json)
@@ -28,7 +29,7 @@ module WorkOS
       @organization = hash[:organization]
       @intent = hash[:intent]
       @intent_options = hash[:intent_options] ? WorkOS::IntentOptions.new(hash[:intent_options]) : nil
-      @admin_emails = hash[:admin_emails] || []
+      @it_contact_emails = (hash[:it_contact_emails] || [])
     end
   end
 end

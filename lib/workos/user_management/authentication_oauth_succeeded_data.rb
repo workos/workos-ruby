@@ -4,6 +4,7 @@
 
 module WorkOS
   class AuthenticationOAuthSucceededData < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       type: :type,
       status: :status,

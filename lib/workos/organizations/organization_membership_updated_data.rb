@@ -4,6 +4,7 @@
 
 module WorkOS
   class OrganizationMembershipUpdatedData < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       object: :object,
       id: :id,

@@ -4,6 +4,7 @@
 
 module WorkOS
   class PortalLinkResponse < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       link: :link
     }.freeze

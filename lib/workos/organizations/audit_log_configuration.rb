@@ -4,6 +4,7 @@
 
 module WorkOS
   class AuditLogConfiguration < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       organization_id: :organization_id,
       retention_period_in_days: :retention_period_in_days,

@@ -4,6 +4,7 @@
 
 module WorkOS
   class AuthenticationOAuthFailed < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       id: :id,
       event: :event,

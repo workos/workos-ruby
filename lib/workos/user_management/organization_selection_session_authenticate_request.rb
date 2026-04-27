@@ -4,6 +4,7 @@
 
 module WorkOS
   class OrganizationSelectionSessionAuthenticateRequest < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       client_id: :client_id,
       client_secret: :client_secret,

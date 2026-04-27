@@ -5,8 +5,8 @@
 module WorkOS
   module Types
     class UserManagementAuthenticationScreenHint
-      SIGN_UP = "sign-up"
-      SIGN_IN = "sign-in"
+      SIGN_UP = 'sign-up'
+      SIGN_IN = 'sign-in'
       ALL = [SIGN_UP, SIGN_IN].freeze
     end
   end

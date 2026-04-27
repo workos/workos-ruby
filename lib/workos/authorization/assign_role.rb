@@ -4,6 +4,7 @@
 
 module WorkOS
   class AssignRole < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       role_slug: :role_slug,
       resource_id: :resource_id,

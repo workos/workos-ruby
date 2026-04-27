@@ -5,8 +5,8 @@
 module WorkOS
   module Types
     class RadarAction
-      BLOCK = "block"
-      ALLOW = "allow"
+      BLOCK = 'block'
+      ALLOW = 'allow'
       ALL = [BLOCK, ALLOW].freeze
     end
   end

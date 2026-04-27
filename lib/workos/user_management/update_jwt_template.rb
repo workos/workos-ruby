@@ -4,6 +4,7 @@
 
 module WorkOS
   class UpdateJWTTemplate < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       content: :content
     }.freeze

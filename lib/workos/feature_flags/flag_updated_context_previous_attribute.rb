@@ -4,6 +4,7 @@
 
 module WorkOS
   class FlagUpdatedContextPreviousAttribute < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       data: :data
     }.freeze

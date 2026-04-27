@@ -4,6 +4,7 @@
 
 module WorkOS
   class ConnectedAccount < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       object: :object,
       id: :id,
@@ -31,7 +32,7 @@ module WorkOS
       @id = hash[:id]
       @user_id = hash[:user_id]
       @organization_id = hash[:organization_id]
-      @scopes = hash[:scopes] || []
+      @scopes = (hash[:scopes] || [])
       @state = hash[:state]
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]

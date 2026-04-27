@@ -4,6 +4,7 @@
 
 module WorkOS
   class UpdateOAuthApplication < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       name: :name,
       description: :description,
@@ -21,7 +22,7 @@ module WorkOS
       hash = self.class.normalize(json)
       @name = hash[:name]
       @description = hash[:description]
-      @scopes = hash[:scopes] || []
+      @scopes = (hash[:scopes] || [])
       @redirect_uris = (hash[:redirect_uris] || []).map { |item| item ? WorkOS::RedirectUriInput.new(item) : nil }
     end
   end

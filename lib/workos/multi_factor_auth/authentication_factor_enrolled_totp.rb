@@ -4,6 +4,7 @@
 
 module WorkOS
   class AuthenticationFactorEnrolledTotp < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       issuer: :issuer,
       user: :user,

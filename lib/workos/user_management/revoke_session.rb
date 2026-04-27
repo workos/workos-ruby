@@ -4,6 +4,7 @@
 
 module WorkOS
   class RevokeSession < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       session_id: :session_id,
       return_to: :return_to

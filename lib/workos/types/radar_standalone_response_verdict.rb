@@ -5,9 +5,9 @@
 module WorkOS
   module Types
     class RadarStandaloneResponseVerdict
-      ALLOW = "allow"
-      BLOCK = "block"
-      CHALLENGE = "challenge"
+      ALLOW = 'allow'
+      BLOCK = 'block'
+      CHALLENGE = 'challenge'
       ALL = [ALLOW, BLOCK, CHALLENGE].freeze
     end
   end

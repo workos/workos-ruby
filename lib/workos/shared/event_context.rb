@@ -4,6 +4,7 @@
 
 module WorkOS
   class EventContext < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       google_analytics_client_id: :google_analytics_client_id,
       google_analytics_sessions: :google_analytics_sessions,

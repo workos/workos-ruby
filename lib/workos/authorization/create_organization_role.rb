@@ -4,6 +4,7 @@
 
 module WorkOS
   class CreateOrganizationRole < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       slug: :slug,
       name: :name,

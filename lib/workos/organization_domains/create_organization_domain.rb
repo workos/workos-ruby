@@ -4,6 +4,7 @@
 
 module WorkOS
   class CreateOrganizationDomain < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       domain: :domain,
       organization_id: :organization_id

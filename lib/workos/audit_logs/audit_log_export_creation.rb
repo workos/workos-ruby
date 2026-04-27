@@ -4,6 +4,7 @@
 
 module WorkOS
   class AuditLogExportCreation < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       organization_id: :organization_id,
       range_start: :range_start,
@@ -28,22 +29,24 @@ module WorkOS
       :targets
 
     def actors
-      warn "[DEPRECATION] `actors` is deprecated and will be removed in a future version.", uplevel: 1
+      warn "[DEPRECATION] \`actors\` is deprecated and will be removed in a future version.", uplevel: 1
       @actors
     end
 
-    attr_writer :actors
+    def actors=(value)
+      @actors = value
+    end
 
     def initialize(json)
       hash = self.class.normalize(json)
       @organization_id = hash[:organization_id]
       @range_start = hash[:range_start]
       @range_end = hash[:range_end]
-      @actions = hash[:actions] || []
-      @actors = hash[:actors] || []
-      @actor_names = hash[:actor_names] || []
-      @actor_ids = hash[:actor_ids] || []
-      @targets = hash[:targets] || []
+      @actions = (hash[:actions] || [])
+      @actors = (hash[:actors] || [])
+      @actor_names = (hash[:actor_names] || [])
+      @actor_ids = (hash[:actor_ids] || [])
+      @targets = (hash[:targets] || [])
     end
   end
 end

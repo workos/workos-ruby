@@ -4,6 +4,7 @@
 
 module WorkOS
   class EmailVerification < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       object: :object,
       id: :id,

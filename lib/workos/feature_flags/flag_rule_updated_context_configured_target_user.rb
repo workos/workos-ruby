@@ -4,6 +4,7 @@
 
 module WorkOS
   class FlagRuleUpdatedContextConfiguredTargetUser < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       id: :id,
       email: :email

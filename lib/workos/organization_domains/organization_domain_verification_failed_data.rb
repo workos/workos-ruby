@@ -4,6 +4,7 @@
 
 module WorkOS
   class OrganizationDomainVerificationFailedData < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       reason: :reason,
       organization_domain: :organization_domain

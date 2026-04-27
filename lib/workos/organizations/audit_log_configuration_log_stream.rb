@@ -4,6 +4,7 @@
 
 module WorkOS
   class AuditLogConfigurationLogStream < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       id: :id,
       type: :type,

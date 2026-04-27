@@ -4,6 +4,7 @@
 
 module WorkOS
   class AuthenticationChallengesVerifyRequest < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       code: :code
     }.freeze

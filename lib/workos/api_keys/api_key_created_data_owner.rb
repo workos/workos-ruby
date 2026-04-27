@@ -4,6 +4,7 @@
 
 module WorkOS
   class ApiKeyCreatedDataOwner < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       type: :type,
       id: :id

@@ -5,11 +5,11 @@
 module WorkOS
   module Types
     class DirectoryState
-      LINKED = "linked"
-      VALIDATING = "validating"
-      INVALID_CREDENTIALS = "invalid_credentials"
-      UNLINKED = "unlinked"
-      DELETING = "deleting"
+      LINKED = 'linked'
+      VALIDATING = 'validating'
+      INVALID_CREDENTIALS = 'invalid_credentials'
+      UNLINKED = 'unlinked'
+      DELETING = 'deleting'
       ALL = [LINKED, VALIDATING, INVALID_CREDENTIALS, UNLINKED, DELETING].freeze
     end
   end

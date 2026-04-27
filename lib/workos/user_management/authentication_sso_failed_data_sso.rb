@@ -4,6 +4,7 @@
 
 module WorkOS
   class AuthenticationSSOFailedDataSSO < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       organization_id: :organization_id,
       connection_id: :connection_id,

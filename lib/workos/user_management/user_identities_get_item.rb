@@ -4,6 +4,7 @@
 
 module WorkOS
   class UserIdentitiesGetItem < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       idp_id: :idp_id,
       type: :type,

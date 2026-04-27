@@ -4,6 +4,7 @@
 
 module WorkOS
   class UserManagementLoginRequest < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       external_auth_id: :external_auth_id,
       user: :user,

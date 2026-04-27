@@ -4,6 +4,7 @@
 
 module WorkOS
   class CreateAuthorizationResource < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       external_id: :external_id,
       name: :name,

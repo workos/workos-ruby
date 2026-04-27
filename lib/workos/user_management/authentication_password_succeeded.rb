@@ -4,6 +4,7 @@
 
 module WorkOS
   class AuthenticationPasswordSucceeded < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       id: :id,
       event: :event,

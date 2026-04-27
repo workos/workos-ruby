@@ -4,6 +4,7 @@
 
 module WorkOS
   class UpdateOrganization < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       name: :name,
       allow_profiles_outside_organization: :allow_profiles_outside_organization,
@@ -26,17 +27,19 @@ module WorkOS
       :external_id
 
     def domains
-      warn "[DEPRECATION] `domains` is deprecated and will be removed in a future version.", uplevel: 1
+      warn "[DEPRECATION] \`domains\` is deprecated and will be removed in a future version.", uplevel: 1
       @domains
     end
 
-    attr_writer :domains
+    def domains=(value)
+      @domains = value
+    end
 
     def initialize(json)
       hash = self.class.normalize(json)
       @name = hash[:name]
       @allow_profiles_outside_organization = hash[:allow_profiles_outside_organization]
-      @domains = hash[:domains] || []
+      @domains = (hash[:domains] || [])
       @domain_data = (hash[:domain_data] || []).map { |item| item ? WorkOS::OrganizationDomainData.new(item) : nil }
       @stripe_customer_id = hash[:stripe_customer_id]
       @metadata = hash[:metadata] || {}

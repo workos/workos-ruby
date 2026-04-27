@@ -4,6 +4,7 @@
 
 module WorkOS
   class DataIntegrationsGetDataIntegrationAuthorizeUrlRequest < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       user_id: :user_id,
       organization_id: :organization_id,

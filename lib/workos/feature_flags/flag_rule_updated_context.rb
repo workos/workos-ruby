@@ -4,6 +4,7 @@
 
 module WorkOS
   class FlagRuleUpdatedContext < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       client_id: :client_id,
       actor: :actor,

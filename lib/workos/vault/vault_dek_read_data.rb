@@ -4,6 +4,7 @@
 
 module WorkOS
   class VaultDekReadData < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       actor_id: :actor_id,
       actor_source: :actor_source,
@@ -24,7 +25,7 @@ module WorkOS
       @actor_id = hash[:actor_id]
       @actor_source = hash[:actor_source]
       @actor_name = hash[:actor_name]
-      @key_ids = hash[:key_ids] || []
+      @key_ids = (hash[:key_ids] || [])
       @key_context = hash[:key_context] || {}
     end
   end

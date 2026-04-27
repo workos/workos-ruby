@@ -5,9 +5,9 @@
 module WorkOS
   module Types
     class AuditLogExportJsonState
-      PENDING = "pending"
-      READY = "ready"
-      ERROR = "error"
+      PENDING = 'pending'
+      READY = 'ready'
+      ERROR = 'error'
       ALL = [PENDING, READY, ERROR].freeze
     end
   end

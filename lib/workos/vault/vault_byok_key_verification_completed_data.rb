@@ -4,6 +4,7 @@
 
 module WorkOS
   class VaultByokKeyVerificationCompletedData < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       organization_id: :organization_id,
       key_provider: :key_provider,

@@ -4,6 +4,7 @@
 
 module WorkOS
   class SendEmailChange < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       new_email: :new_email
     }.freeze

@@ -5,8 +5,8 @@
 module WorkOS
   module Types
     class DataIntegrationsListResponseDataOwnership
-      USERLAND_USER = "userland_user"
-      ORGANIZATION = "organization"
+      USERLAND_USER = 'userland_user'
+      ORGANIZATION = 'organization'
       ALL = [USERLAND_USER, ORGANIZATION].freeze
     end
   end

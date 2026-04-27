@@ -4,14 +4,15 @@
 
 module WorkOS
   class JwksResponseKeys < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
-      :alg => :alg,
-      :kty => :kty,
-      :use => :use,
-      :x5c => :x_5_c,
-      :n => :n,
-      :e => :e,
-      :kid => :kid,
+      alg: :alg,
+      kty: :kty,
+      use: :use,
+      x5c: :x_5_c,
+      n: :n,
+      e: :e,
+      kid: :kid,
       "x5t#S256" => :x_5_t_s_256
     }.freeze
 
@@ -30,7 +31,7 @@ module WorkOS
       @alg = hash[:alg]
       @kty = hash[:kty]
       @use = hash[:use]
-      @x_5_c = hash[:x5c] || []
+      @x_5_c = (hash[:x5c] || [])
       @n = hash[:n]
       @e = hash[:e]
       @kid = hash[:kid]

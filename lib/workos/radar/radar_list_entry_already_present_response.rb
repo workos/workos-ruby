@@ -4,6 +4,7 @@
 
 module WorkOS
   class RadarListEntryAlreadyPresentResponse < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       message: :message
     }.freeze

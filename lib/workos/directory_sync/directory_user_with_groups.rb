@@ -4,6 +4,7 @@
 
 module WorkOS
   class DirectoryUserWithGroups < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       object: :object,
       id: :id,
@@ -34,6 +35,8 @@ module WorkOS
     #   @deprecated The username of the user.
     # @!attribute raw_attributes
     #   @deprecated The raw attributes received from the directory provider.
+    # @!attribute groups
+    #   @deprecated The directory groups the user belongs to. Use the List Directory Groups endpoint with a user filter instead.
 
     attr_accessor \
       :object,
@@ -49,36 +52,52 @@ module WorkOS
       :role,
       :roles,
       :created_at,
-      :updated_at,
-      :groups
+      :updated_at
 
     def emails
-      warn "[DEPRECATION] `emails` is deprecated and will be removed in a future version.", uplevel: 1
+      warn "[DEPRECATION] \`emails\` is deprecated and will be removed in a future version.", uplevel: 1
       @emails
     end
 
-    attr_writer :emails
+    def emails=(value)
+      @emails = value
+    end
 
     def job_title
-      warn "[DEPRECATION] `job_title` is deprecated and will be removed in a future version.", uplevel: 1
+      warn "[DEPRECATION] \`job_title\` is deprecated and will be removed in a future version.", uplevel: 1
       @job_title
     end
 
-    attr_writer :job_title
+    def job_title=(value)
+      @job_title = value
+    end
 
     def username
-      warn "[DEPRECATION] `username` is deprecated and will be removed in a future version.", uplevel: 1
+      warn "[DEPRECATION] \`username\` is deprecated and will be removed in a future version.", uplevel: 1
       @username
     end
 
-    attr_writer :username
+    def username=(value)
+      @username = value
+    end
 
     def raw_attributes
-      warn "[DEPRECATION] `raw_attributes` is deprecated and will be removed in a future version.", uplevel: 1
+      warn "[DEPRECATION] \`raw_attributes\` is deprecated and will be removed in a future version.", uplevel: 1
       @raw_attributes
     end
 
-    attr_writer :raw_attributes
+    def raw_attributes=(value)
+      @raw_attributes = value
+    end
+
+    def groups
+      warn "[DEPRECATION] \`groups\` is deprecated and will be removed in a future version.", uplevel: 1
+      @groups
+    end
+
+    def groups=(value)
+      @groups = value
+    end
 
     def initialize(json)
       hash = self.class.normalize(json)

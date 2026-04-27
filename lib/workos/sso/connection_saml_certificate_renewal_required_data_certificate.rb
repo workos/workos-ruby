@@ -4,6 +4,7 @@
 
 module WorkOS
   class ConnectionSAMLCertificateRenewalRequiredDataCertificate < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       certificate_type: :certificate_type,
       expiry_date: :expiry_date,

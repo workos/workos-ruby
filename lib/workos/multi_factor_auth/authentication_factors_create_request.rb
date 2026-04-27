@@ -4,6 +4,7 @@
 
 module WorkOS
   class AuthenticationFactorsCreateRequest < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       type: :type,
       phone_number: :phone_number,

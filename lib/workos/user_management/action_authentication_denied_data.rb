@@ -4,6 +4,7 @@
 
 module WorkOS
   class ActionAuthenticationDeniedData < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       action_endpoint_id: :action_endpoint_id,
       action_execution_id: :action_execution_id,

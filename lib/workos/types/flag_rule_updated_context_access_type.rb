@@ -5,9 +5,9 @@
 module WorkOS
   module Types
     class FlagRuleUpdatedContextAccessType
-      NONE = "none"
-      SOME = "some"
-      VALUE_ALL = "all"
+      NONE = 'none'
+      SOME = 'some'
+      VALUE_ALL = 'all'
       ALL = [NONE, SOME, VALUE_ALL].freeze
     end
   end

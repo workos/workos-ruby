@@ -4,6 +4,7 @@
 
 module WorkOS
   class OrganizationDomainData < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       domain: :domain,
       state: :state

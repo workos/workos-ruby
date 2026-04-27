@@ -4,6 +4,7 @@
 
 module WorkOS
   class DataIntegrationsListResponseDataConnectedAccount < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       object: :object,
       id: :id,
@@ -30,11 +31,13 @@ module WorkOS
       :updated_at
 
     def userland_user_id
-      warn "[DEPRECATION] `userland_user_id` is deprecated and will be removed in a future version.", uplevel: 1
+      warn "[DEPRECATION] \`userland_user_id\` is deprecated and will be removed in a future version.", uplevel: 1
       @userland_user_id
     end
 
-    attr_writer :userland_user_id
+    def userland_user_id=(value)
+      @userland_user_id = value
+    end
 
     def initialize(json)
       hash = self.class.normalize(json)
@@ -42,7 +45,7 @@ module WorkOS
       @id = hash[:id]
       @user_id = hash[:user_id]
       @organization_id = hash[:organization_id]
-      @scopes = hash[:scopes] || []
+      @scopes = (hash[:scopes] || [])
       @state = hash[:state]
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]

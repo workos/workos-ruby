@@ -4,6 +4,7 @@
 
 module WorkOS
   class DsyncGroupUserAddedData < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       directory_id: :directory_id,
       user: :user,

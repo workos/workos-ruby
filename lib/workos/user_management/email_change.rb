@@ -4,6 +4,7 @@
 
 module WorkOS
   class EmailChange < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       object: :object,
       user: :user,

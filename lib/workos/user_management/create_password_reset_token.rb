@@ -4,6 +4,7 @@
 
 module WorkOS
   class CreatePasswordResetToken < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       email: :email
     }.freeze

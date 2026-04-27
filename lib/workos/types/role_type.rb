@@ -5,8 +5,8 @@
 module WorkOS
   module Types
     class RoleType
-      ENVIRONMENT_ROLE = "EnvironmentRole"
-      ORGANIZATION_ROLE = "OrganizationRole"
+      ENVIRONMENT_ROLE = 'EnvironmentRole'
+      ORGANIZATION_ROLE = 'OrganizationRole'
       ALL = [ENVIRONMENT_ROLE, ORGANIZATION_ROLE].freeze
     end
   end

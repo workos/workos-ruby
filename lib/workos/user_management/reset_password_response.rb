@@ -4,6 +4,7 @@
 
 module WorkOS
   class ResetPasswordResponse < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       user: :user
     }.freeze

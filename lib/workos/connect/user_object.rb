@@ -4,6 +4,7 @@
 
 module WorkOS
   class UserObject < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       id: :id,
       email: :email,

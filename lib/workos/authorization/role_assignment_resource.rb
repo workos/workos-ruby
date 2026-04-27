@@ -4,6 +4,7 @@
 
 module WorkOS
   class RoleAssignmentResource < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       id: :id,
       external_id: :external_id,

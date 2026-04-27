@@ -4,6 +4,7 @@
 
 module WorkOS
   class ConnectionSAMLCertificateRenewalRequiredDataConnection < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       id: :id,
       organization_id: :organization_id

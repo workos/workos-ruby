@@ -5,9 +5,9 @@
 module WorkOS
   module Types
     class DirectoryUserState
-      ACTIVE = "active"
-      SUSPENDED = "suspended"
-      INACTIVE = "inactive"
+      ACTIVE = 'active'
+      SUSPENDED = 'suspended'
+      INACTIVE = 'inactive'
       ALL = [ACTIVE, SUSPENDED, INACTIVE].freeze
     end
   end

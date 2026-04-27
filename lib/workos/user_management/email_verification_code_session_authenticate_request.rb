@@ -4,6 +4,7 @@
 
 module WorkOS
   class EmailVerificationCodeSessionAuthenticateRequest < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       client_id: :client_id,
       client_secret: :client_secret,

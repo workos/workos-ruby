@@ -4,6 +4,7 @@
 
 module WorkOS
   class CreateUserOrganizationMembership < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       user_id: :user_id,
       organization_id: :organization_id,
@@ -22,7 +23,7 @@ module WorkOS
       @user_id = hash[:user_id]
       @organization_id = hash[:organization_id]
       @role_slug = hash[:role_slug]
-      @role_slugs = hash[:role_slugs] || []
+      @role_slugs = (hash[:role_slugs] || [])
     end
   end
 end

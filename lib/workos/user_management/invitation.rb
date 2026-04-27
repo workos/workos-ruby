@@ -4,6 +4,7 @@
 
 module WorkOS
   class Invitation < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       object: :object,
       id: :id,
@@ -15,6 +16,7 @@ module WorkOS
       organization_id: :organization_id,
       inviter_user_id: :inviter_user_id,
       accepted_user_id: :accepted_user_id,
+      role_slug: :role_slug,
       created_at: :created_at,
       updated_at: :updated_at,
       token: :token,
@@ -32,6 +34,7 @@ module WorkOS
       :organization_id,
       :inviter_user_id,
       :accepted_user_id,
+      :role_slug,
       :created_at,
       :updated_at,
       :token,
@@ -49,6 +52,7 @@ module WorkOS
       @organization_id = hash[:organization_id]
       @inviter_user_id = hash[:inviter_user_id]
       @accepted_user_id = hash[:accepted_user_id]
+      @role_slug = hash[:role_slug]
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
       @token = hash[:token]

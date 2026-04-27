@@ -4,6 +4,7 @@
 
 module WorkOS
   class UpdateUser < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       email: :email,
       first_name: :first_name,

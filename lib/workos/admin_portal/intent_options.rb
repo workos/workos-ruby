@@ -4,15 +4,20 @@
 
 module WorkOS
   class IntentOptions < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
-      sso: :sso
+      sso: :sso,
+      domain_verification: :domain_verification
     }.freeze
 
-    attr_accessor :sso
+    attr_accessor \
+      :sso,
+      :domain_verification
 
     def initialize(json)
       hash = self.class.normalize(json)
       @sso = hash[:sso] ? WorkOS::SSOIntentOptions.new(hash[:sso]) : nil
+      @domain_verification = hash[:domain_verification] ? WorkOS::DomainVerificationIntentOptions.new(hash[:domain_verification]) : nil
     end
   end
 end

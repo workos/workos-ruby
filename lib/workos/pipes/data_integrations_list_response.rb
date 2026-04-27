@@ -4,6 +4,7 @@
 
 module WorkOS
   class DataIntegrationsListResponse < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       object: :object,
       data: :data

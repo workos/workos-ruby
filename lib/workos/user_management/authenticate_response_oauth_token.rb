@@ -4,6 +4,7 @@
 
 module WorkOS
   class AuthenticateResponseOAuthToken < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       provider: :provider,
       refresh_token: :refresh_token,
@@ -25,7 +26,7 @@ module WorkOS
       @refresh_token = hash[:refresh_token]
       @access_token = hash[:access_token]
       @expires_at = hash[:expires_at]
-      @scopes = hash[:scopes] || []
+      @scopes = (hash[:scopes] || [])
     end
   end
 end

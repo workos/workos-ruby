@@ -5,8 +5,8 @@
 module WorkOS
   module Types
     class OrganizationDomainVerificationFailedDataReason
-      DOMAIN_VERIFICATION_PERIOD_EXPIRED = "domain_verification_period_expired"
-      DOMAIN_VERIFIED_BY_OTHER_ORGANIZATION = "domain_verified_by_other_organization"
+      DOMAIN_VERIFICATION_PERIOD_EXPIRED = 'domain_verification_period_expired'
+      DOMAIN_VERIFIED_BY_OTHER_ORGANIZATION = 'domain_verified_by_other_organization'
       ALL = [DOMAIN_VERIFICATION_PERIOD_EXPIRED, DOMAIN_VERIFIED_BY_OTHER_ORGANIZATION].freeze
     end
   end

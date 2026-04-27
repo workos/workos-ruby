@@ -4,6 +4,7 @@
 
 module WorkOS
   class DataIntegrationsListResponseData < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       object: :object,
       id: :id,
@@ -42,7 +43,7 @@ module WorkOS
       @slug = hash[:slug]
       @integration_type = hash[:integration_type]
       @credentials_type = hash[:credentials_type]
-      @scopes = hash[:scopes] || []
+      @scopes = (hash[:scopes] || [])
       @ownership = hash[:ownership]
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]

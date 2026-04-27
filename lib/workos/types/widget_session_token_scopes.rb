@@ -5,12 +5,12 @@
 module WorkOS
   module Types
     class WidgetSessionTokenScopes
-      WIDGETS_USERS_TABLE_MANAGE = "widgets:users-table:manage"
-      WIDGETS_DOMAIN_VERIFICATION_MANAGE = "widgets:domain-verification:manage"
-      WIDGETS_SSO_MANAGE = "widgets:sso:manage"
-      WIDGETS_API_KEYS_MANAGE = "widgets:api-keys:manage"
-      WIDGETS_DSYNC_MANAGE = "widgets:dsync:manage"
-      WIDGETS_AUDIT_LOG_STREAMING_MANAGE = "widgets:audit-log-streaming:manage"
+      WIDGETS_USERS_TABLE_MANAGE = 'widgets:users-table:manage'
+      WIDGETS_DOMAIN_VERIFICATION_MANAGE = 'widgets:domain-verification:manage'
+      WIDGETS_SSO_MANAGE = 'widgets:sso:manage'
+      WIDGETS_API_KEYS_MANAGE = 'widgets:api-keys:manage'
+      WIDGETS_DSYNC_MANAGE = 'widgets:dsync:manage'
+      WIDGETS_AUDIT_LOG_STREAMING_MANAGE = 'widgets:audit-log-streaming:manage'
       ALL = [WIDGETS_USERS_TABLE_MANAGE, WIDGETS_DOMAIN_VERIFICATION_MANAGE, WIDGETS_SSO_MANAGE, WIDGETS_API_KEYS_MANAGE, WIDGETS_DSYNC_MANAGE, WIDGETS_AUDIT_LOG_STREAMING_MANAGE].freeze
     end
   end

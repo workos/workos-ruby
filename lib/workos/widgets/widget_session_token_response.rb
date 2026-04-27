@@ -4,6 +4,7 @@
 
 module WorkOS
   class WidgetSessionTokenResponse < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       token: :token
     }.freeze

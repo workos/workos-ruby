@@ -4,6 +4,7 @@
 
 module WorkOS
   class DataIntegrationAccessTokenResponseAccessToken < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       object: :object,
       access_token: :access_token,
@@ -24,8 +25,8 @@ module WorkOS
       @object = hash[:object]
       @access_token = hash[:access_token]
       @expires_at = hash[:expires_at]
-      @scopes = hash[:scopes] || []
-      @missing_scopes = hash[:missing_scopes] || []
+      @scopes = (hash[:scopes] || [])
+      @missing_scopes = (hash[:missing_scopes] || [])
     end
   end
 end

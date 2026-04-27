@@ -4,6 +4,7 @@
 
 module WorkOS
   class CreateOAuthApplication < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       name: :name,
       application_type: :application_type,
@@ -30,7 +31,7 @@ module WorkOS
       @name = hash[:name]
       @application_type = hash[:application_type]
       @description = hash[:description]
-      @scopes = hash[:scopes] || []
+      @scopes = (hash[:scopes] || [])
       @redirect_uris = (hash[:redirect_uris] || []).map { |item| item ? WorkOS::RedirectUriInput.new(item) : nil }
       @uses_pkce = hash[:uses_pkce]
       @is_first_party = hash[:is_first_party]

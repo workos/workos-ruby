@@ -4,6 +4,7 @@
 
 module WorkOS
   class ApiKeyValidationResponse < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       api_key: :api_key
     }.freeze

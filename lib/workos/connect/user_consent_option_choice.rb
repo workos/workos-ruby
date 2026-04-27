@@ -4,6 +4,7 @@
 
 module WorkOS
   class UserConsentOptionChoice < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       value: :value,
       label: :label

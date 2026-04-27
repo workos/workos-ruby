@@ -4,6 +4,7 @@
 
 module WorkOS
   class SSOLogoutAuthorizeRequest < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       profile_id: :profile_id
     }.freeze

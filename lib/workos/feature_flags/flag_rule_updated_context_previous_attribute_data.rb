@@ -4,6 +4,7 @@
 
 module WorkOS
   class FlagRuleUpdatedContextPreviousAttributeData < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       enabled: :enabled,
       default_value: :default_value

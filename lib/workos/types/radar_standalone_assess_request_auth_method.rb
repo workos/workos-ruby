@@ -5,14 +5,14 @@
 module WorkOS
   module Types
     class RadarStandaloneAssessRequestAuthMethod
-      PASSWORD = "Password"
-      PASSKEY = "Passkey"
-      AUTHENTICATOR = "Authenticator"
-      SMS_OTP = "SMS_OTP"
-      EMAIL_OTP = "Email_OTP"
-      SOCIAL = "Social"
-      SSO = "SSO"
-      OTHER = "Other"
+      PASSWORD = 'Password'
+      PASSKEY = 'Passkey'
+      AUTHENTICATOR = 'Authenticator'
+      SMS_OTP = 'SMS_OTP'
+      EMAIL_OTP = 'Email_OTP'
+      SOCIAL = 'Social'
+      SSO = 'SSO'
+      OTHER = 'Other'
       ALL = [PASSWORD, PASSKEY, AUTHENTICATOR, SMS_OTP, EMAIL_OTP, SOCIAL, SSO, OTHER].freeze
     end
   end

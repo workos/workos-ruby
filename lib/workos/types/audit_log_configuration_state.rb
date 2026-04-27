@@ -5,9 +5,9 @@
 module WorkOS
   module Types
     class AuditLogConfigurationState
-      ACTIVE = "active"
-      INACTIVE = "inactive"
-      DISABLED = "disabled"
+      ACTIVE = 'active'
+      INACTIVE = 'inactive'
+      DISABLED = 'disabled'
       ALL = [ACTIVE, INACTIVE, DISABLED].freeze
     end
   end

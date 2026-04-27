@@ -4,6 +4,7 @@
 
 module WorkOS
   class CreateRedirectUri < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       uri: :uri
     }.freeze

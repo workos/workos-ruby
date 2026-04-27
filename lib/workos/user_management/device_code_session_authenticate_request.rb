@@ -4,6 +4,7 @@
 
 module WorkOS
   class DeviceCodeSessionAuthenticateRequest < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       client_id: :client_id,
       grant_type: :grant_type,

@@ -5,8 +5,8 @@
 module WorkOS
   module Types
     class OrganizationDomainDataState
-      PENDING = "pending"
-      VERIFIED = "verified"
+      PENDING = 'pending'
+      VERIFIED = 'verified'
       ALL = [PENDING, VERIFIED].freeze
     end
   end

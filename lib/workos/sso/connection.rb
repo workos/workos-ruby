@@ -4,6 +4,7 @@
 
 module WorkOS
   class Connection < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       object: :object,
       id: :id,
@@ -34,11 +35,13 @@ module WorkOS
       :updated_at
 
     def status
-      warn "[DEPRECATION] `status` is deprecated and will be removed in a future version.", uplevel: 1
+      warn "[DEPRECATION] \`status\` is deprecated and will be removed in a future version.", uplevel: 1
       @status
     end
 
-    attr_writer :status
+    def status=(value)
+      @status = value
+    end
 
     def initialize(json)
       hash = self.class.normalize(json)

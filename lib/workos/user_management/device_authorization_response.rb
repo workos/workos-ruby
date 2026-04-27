@@ -4,6 +4,7 @@
 
 module WorkOS
   class DeviceAuthorizationResponse < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       device_code: :device_code,
       user_code: :user_code,

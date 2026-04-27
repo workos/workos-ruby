@@ -4,10 +4,12 @@
 
 module WorkOS
   class CreateApplicationSecret < WorkOS::Types::BaseModel
-    HASH_ATTRS = {}.freeze
+
+    HASH_ATTRS = {
+    }.freeze
 
     def initialize(json)
-      self.class.normalize(json)
+      hash = self.class.normalize(json)
     end
   end
 end

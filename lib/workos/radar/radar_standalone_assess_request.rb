@@ -4,6 +4,7 @@
 
 module WorkOS
   class RadarStandaloneAssessRequest < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       ip_address: :ip_address,
       user_agent: :user_agent,

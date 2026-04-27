@@ -4,6 +4,7 @@
 
 module WorkOS
   class ConnectionSAMLCertificateRenewedData < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       connection: :connection,
       certificate: :certificate,

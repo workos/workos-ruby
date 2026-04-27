@@ -4,6 +4,7 @@
 
 module WorkOS
   class UserConsentOption < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       claim: :claim,
       type: :type,

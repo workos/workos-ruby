@@ -4,6 +4,7 @@
 
 module WorkOS
   class UpdateWebhookEndpoint < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       endpoint_url: :endpoint_url,
       status: :status,
@@ -19,7 +20,7 @@ module WorkOS
       hash = self.class.normalize(json)
       @endpoint_url = hash[:endpoint_url]
       @status = hash[:status]
-      @events = hash[:events] || []
+      @events = (hash[:events] || [])
     end
   end
 end

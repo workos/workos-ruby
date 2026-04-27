@@ -4,6 +4,7 @@
 
 module WorkOS
   class EventContextGoogleAnalyticsSession < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       containerId: :container_id,
       sessionId: :session_id,

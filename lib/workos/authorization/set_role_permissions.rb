@@ -4,6 +4,7 @@
 
 module WorkOS
   class SetRolePermissions < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       permissions: :permissions
     }.freeze
@@ -12,7 +13,7 @@ module WorkOS
 
     def initialize(json)
       hash = self.class.normalize(json)
-      @permissions = hash[:permissions] || []
+      @permissions = (hash[:permissions] || [])
     end
   end
 end

@@ -4,6 +4,7 @@
 
 module WorkOS
   class CreateM2MApplication < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       name: :name,
       application_type: :application_type,
@@ -24,7 +25,7 @@ module WorkOS
       @name = hash[:name]
       @application_type = hash[:application_type]
       @description = hash[:description]
-      @scopes = hash[:scopes] || []
+      @scopes = (hash[:scopes] || [])
       @organization_id = hash[:organization_id]
     end
   end

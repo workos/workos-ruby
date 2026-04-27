@@ -4,6 +4,7 @@
 
 module WorkOS
   class EventListListMetadata < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       after: :after
     }.freeze

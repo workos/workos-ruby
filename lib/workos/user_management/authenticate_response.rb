@@ -4,6 +4,7 @@
 
 module WorkOS
   class AuthenticateResponse < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       user: :user,
       organization_id: :organization_id,

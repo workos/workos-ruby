@@ -4,6 +4,7 @@
 
 module WorkOS
   class GroupMemberAddedData < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       group_id: :group_id,
       organization_membership_id: :organization_membership_id

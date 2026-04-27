@@ -4,6 +4,7 @@
 
 module WorkOS
   class DsyncUserUpdatedData < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       object: :object,
       id: :id,
@@ -53,32 +54,40 @@ module WorkOS
       :previous_attributes
 
     def emails
-      warn "[DEPRECATION] `emails` is deprecated and will be removed in a future version.", uplevel: 1
+      warn "[DEPRECATION] \`emails\` is deprecated and will be removed in a future version.", uplevel: 1
       @emails
     end
 
-    attr_writer :emails
+    def emails=(value)
+      @emails = value
+    end
 
     def job_title
-      warn "[DEPRECATION] `job_title` is deprecated and will be removed in a future version.", uplevel: 1
+      warn "[DEPRECATION] \`job_title\` is deprecated and will be removed in a future version.", uplevel: 1
       @job_title
     end
 
-    attr_writer :job_title
+    def job_title=(value)
+      @job_title = value
+    end
 
     def username
-      warn "[DEPRECATION] `username` is deprecated and will be removed in a future version.", uplevel: 1
+      warn "[DEPRECATION] \`username\` is deprecated and will be removed in a future version.", uplevel: 1
       @username
     end
 
-    attr_writer :username
+    def username=(value)
+      @username = value
+    end
 
     def raw_attributes
-      warn "[DEPRECATION] `raw_attributes` is deprecated and will be removed in a future version.", uplevel: 1
+      warn "[DEPRECATION] \`raw_attributes\` is deprecated and will be removed in a future version.", uplevel: 1
       @raw_attributes
     end
 
-    attr_writer :raw_attributes
+    def raw_attributes=(value)
+      @raw_attributes = value
+    end
 
     def initialize(json)
       hash = self.class.normalize(json)

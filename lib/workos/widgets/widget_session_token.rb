@@ -4,6 +4,7 @@
 
 module WorkOS
   class WidgetSessionToken < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       organization_id: :organization_id,
       user_id: :user_id,
@@ -19,7 +20,7 @@ module WorkOS
       hash = self.class.normalize(json)
       @organization_id = hash[:organization_id]
       @user_id = hash[:user_id]
-      @scopes = hash[:scopes] || []
+      @scopes = (hash[:scopes] || [])
     end
   end
 end

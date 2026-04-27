@@ -4,6 +4,7 @@
 
 module WorkOS
   class SSOLogoutAuthorizeResponse < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       logout_url: :logout_url,
       logout_token: :logout_token

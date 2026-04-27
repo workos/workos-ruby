@@ -4,6 +4,7 @@
 
 module WorkOS
   class RadarStandaloneUpdateRadarAttemptRequest < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       challenge_status: :challenge_status,
       attempt_status: :attempt_status

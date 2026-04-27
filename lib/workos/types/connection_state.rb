@@ -5,12 +5,12 @@
 module WorkOS
   module Types
     class ConnectionState
-      REQUIRES_TYPE = "requires_type"
-      DRAFT = "draft"
-      ACTIVE = "active"
-      VALIDATING = "validating"
-      INACTIVE = "inactive"
-      DELETING = "deleting"
+      REQUIRES_TYPE = 'requires_type'
+      DRAFT = 'draft'
+      ACTIVE = 'active'
+      VALIDATING = 'validating'
+      INACTIVE = 'inactive'
+      DELETING = 'deleting'
       ALL = [REQUIRES_TYPE, DRAFT, ACTIVE, VALIDATING, INACTIVE, DELETING].freeze
     end
   end

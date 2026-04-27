@@ -4,6 +4,7 @@
 
 module WorkOS
   class FlagUpdatedContextActor < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       id: :id,
       source: :source,

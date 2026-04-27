@@ -4,6 +4,7 @@
 
 module WorkOS
   class AuthenticationFactorEnrolledSms < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       phone_number: :phone_number
     }.freeze

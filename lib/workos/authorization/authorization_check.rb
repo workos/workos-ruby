@@ -4,6 +4,7 @@
 
 module WorkOS
   class AuthorizationCheck < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       authorized: :authorized
     }.freeze

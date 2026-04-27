@@ -4,6 +4,7 @@
 
 module WorkOS
   class OrganizationMembershipDeletedData < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       object: :object,
       id: :id,

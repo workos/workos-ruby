@@ -5,12 +5,12 @@
 module WorkOS
   module Types
     class AuditLogConfigurationLogStreamType
-      AZURE_SENTINEL = "AzureSentinel"
-      DATADOG = "Datadog"
-      GENERIC_HTTPS = "GenericHttps"
-      GOOGLE_CLOUD_STORAGE = "GoogleCloudStorage"
-      S_3 = "S3"
-      SPLUNK = "Splunk"
+      AZURE_SENTINEL = 'AzureSentinel'
+      DATADOG = 'Datadog'
+      GENERIC_HTTPS = 'GenericHttps'
+      GOOGLE_CLOUD_STORAGE = 'GoogleCloudStorage'
+      S_3 = 'S3'
+      SPLUNK = 'Splunk'
       ALL = [AZURE_SENTINEL, DATADOG, GENERIC_HTTPS, GOOGLE_CLOUD_STORAGE, S_3, SPLUNK].freeze
     end
   end

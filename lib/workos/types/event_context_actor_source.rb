@@ -5,9 +5,9 @@
 module WorkOS
   module Types
     class EventContextActorSource
-      API = "api"
-      DASHBOARD = "dashboard"
-      SYSTEM = "system"
+      API = 'api'
+      DASHBOARD = 'dashboard'
+      SYSTEM = 'system'
       ALL = [API, DASHBOARD, SYSTEM].freeze
     end
   end

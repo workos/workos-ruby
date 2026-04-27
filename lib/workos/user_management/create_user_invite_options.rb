@@ -4,6 +4,7 @@
 
 module WorkOS
   class CreateUserInviteOptions < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       email: :email,
       organization_id: :organization_id,

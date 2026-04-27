@@ -4,6 +4,7 @@
 
 module WorkOS
   class SSOAuthorizeUrlResponse < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       url: :url
     }.freeze

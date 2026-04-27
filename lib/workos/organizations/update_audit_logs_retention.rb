@@ -4,6 +4,7 @@
 
 module WorkOS
   class UpdateAuditLogsRetention < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       retention_period_in_days: :retention_period_in_days
     }.freeze

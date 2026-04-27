@@ -4,6 +4,7 @@
 
 module WorkOS
   class Role < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       slug: :slug,
       object: :object,
@@ -38,7 +39,7 @@ module WorkOS
       @description = hash[:description]
       @type = hash[:type]
       @resource_type_slug = hash[:resource_type_slug]
-      @permissions = hash[:permissions] || []
+      @permissions = (hash[:permissions] || [])
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
     end

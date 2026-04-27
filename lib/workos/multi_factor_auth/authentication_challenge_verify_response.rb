@@ -4,6 +4,7 @@
 
 module WorkOS
   class AuthenticationChallengeVerifyResponse < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       challenge: :challenge,
       valid: :valid

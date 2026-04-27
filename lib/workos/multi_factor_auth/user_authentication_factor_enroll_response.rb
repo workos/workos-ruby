@@ -4,6 +4,7 @@
 
 module WorkOS
   class UserAuthenticationFactorEnrollResponse < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       authentication_factor: :authentication_factor,
       authentication_challenge: :authentication_challenge

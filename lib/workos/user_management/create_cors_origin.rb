@@ -4,6 +4,7 @@
 
 module WorkOS
   class CreateCORSOrigin < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       origin: :origin
     }.freeze

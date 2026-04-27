@@ -4,6 +4,7 @@
 
 module WorkOS
   class AuditLogSchema < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       actor: :actor,
       targets: :targets,

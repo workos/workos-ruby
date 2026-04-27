@@ -4,6 +4,7 @@
 
 module WorkOS
   class SSOIntentOptions < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       bookmark_slug: :bookmark_slug,
       provider_type: :provider_type

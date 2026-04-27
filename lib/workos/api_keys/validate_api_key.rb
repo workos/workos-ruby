@@ -4,6 +4,7 @@
 
 module WorkOS
   class ValidateApiKey < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       value: :value
     }.freeze

@@ -4,6 +4,7 @@
 
 module WorkOS
   class CreateWebhookEndpoint < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       endpoint_url: :endpoint_url,
       events: :events
@@ -16,7 +17,7 @@ module WorkOS
     def initialize(json)
       hash = self.class.normalize(json)
       @endpoint_url = hash[:endpoint_url]
-      @events = hash[:events] || []
+      @events = (hash[:events] || [])
     end
   end
 end

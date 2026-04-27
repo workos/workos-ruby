@@ -4,6 +4,7 @@
 
 module WorkOS
   class CheckAuthorization < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       permission_slug: :permission_slug,
       resource_id: :resource_id,

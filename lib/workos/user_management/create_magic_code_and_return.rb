@@ -4,6 +4,7 @@
 
 module WorkOS
   class CreateMagicCodeAndReturn < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       email: :email,
       invitation_token: :invitation_token

@@ -4,6 +4,7 @@
 
 module WorkOS
   class FlagCreatedData < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       object: :object,
       id: :id,
@@ -42,7 +43,7 @@ module WorkOS
       @name = hash[:name]
       @description = hash[:description]
       @owner = hash[:owner] ? WorkOS::FlagCreatedDataOwner.new(hash[:owner]) : nil
-      @tags = hash[:tags] || []
+      @tags = (hash[:tags] || [])
       @enabled = hash[:enabled]
       @default_value = hash[:default_value]
       @created_at = hash[:created_at]

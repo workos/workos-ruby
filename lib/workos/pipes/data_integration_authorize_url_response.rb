@@ -4,6 +4,7 @@
 
 module WorkOS
   class DataIntegrationAuthorizeUrlResponse < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       url: :url
     }.freeze

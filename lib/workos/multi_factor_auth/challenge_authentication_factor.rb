@@ -4,6 +4,7 @@
 
 module WorkOS
   class ChallengeAuthenticationFactor < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       sms_template: :sms_template
     }.freeze

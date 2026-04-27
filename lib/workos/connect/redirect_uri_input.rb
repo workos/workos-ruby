@@ -4,6 +4,7 @@
 
 module WorkOS
   class RedirectUriInput < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       uri: :uri,
       default: :default

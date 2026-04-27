@@ -4,6 +4,7 @@
 
 module WorkOS
   class VaultDekDecryptedData < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       actor_id: :actor_id,
       actor_source: :actor_source,

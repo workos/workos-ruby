@@ -4,6 +4,7 @@
 
 module WorkOS
   class WebhookEndpointJson < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       object: :object,
       id: :id,
@@ -32,7 +33,7 @@ module WorkOS
       @endpoint_url = hash[:endpoint_url]
       @secret = hash[:secret]
       @status = hash[:status]
-      @events = hash[:events] || []
+      @events = (hash[:events] || [])
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
     end

@@ -4,6 +4,7 @@
 
 module WorkOS
   class FeatureFlagOwner < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       email: :email,
       first_name: :first_name,

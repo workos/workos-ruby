@@ -4,6 +4,7 @@
 
 module WorkOS
   class JWTTemplateResponse < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       object: :object,
       content: :content,

@@ -4,6 +4,7 @@
 
 module WorkOS
   class AuditLogEventIngestion < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       organization_id: :organization_id,
       event: :event

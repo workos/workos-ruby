@@ -4,6 +4,7 @@
 
 module WorkOS
   class DataIntegrationAccessTokenResponse < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       active: :active,
       access_token: :access_token,

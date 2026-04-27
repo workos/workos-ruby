@@ -4,6 +4,7 @@
 
 module WorkOS
   class ConnectionOption < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       signing_cert: :signing_cert
     }.freeze

@@ -4,6 +4,7 @@
 
 module WorkOS
   class ApiKey < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       object: :object,
       id: :id,
@@ -35,7 +36,7 @@ module WorkOS
       @name = hash[:name]
       @obfuscated_value = hash[:obfuscated_value]
       @last_used_at = hash[:last_used_at]
-      @permissions = hash[:permissions] || []
+      @permissions = (hash[:permissions] || [])
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
     end

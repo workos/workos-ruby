@@ -5,8 +5,8 @@
 module WorkOS
   module Types
     class AuthorizationAssignment
-      DIRECT = "direct"
-      INDIRECT = "indirect"
+      DIRECT = 'direct'
+      INDIRECT = 'indirect'
       ALL = [DIRECT, INDIRECT].freeze
     end
   end

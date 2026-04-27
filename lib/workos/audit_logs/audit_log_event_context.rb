@@ -4,6 +4,7 @@
 
 module WorkOS
   class AuditLogEventContext < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       location: :location,
       user_agent: :user_agent

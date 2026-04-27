@@ -4,6 +4,7 @@
 
 module WorkOS
   class AuthenticationEmailVerificationFailedDataError < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       code: :code,
       message: :message

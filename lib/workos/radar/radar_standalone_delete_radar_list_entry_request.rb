@@ -4,6 +4,7 @@
 
 module WorkOS
   class RadarStandaloneDeleteRadarListEntryRequest < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       entry: :entry
     }.freeze

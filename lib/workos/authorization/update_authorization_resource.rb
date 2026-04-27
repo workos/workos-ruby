@@ -4,6 +4,7 @@
 
 module WorkOS
   class UpdateAuthorizationResource < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       name: :name,
       description: :description,

@@ -4,6 +4,7 @@
 
 module WorkOS
   class ConnectApplication < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       object: :object,
       id: :id,
@@ -36,7 +37,7 @@ module WorkOS
       @client_id = hash[:client_id]
       @description = hash[:description]
       @name = hash[:name]
-      @scopes = hash[:scopes] || []
+      @scopes = (hash[:scopes] || [])
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
       @application_type = hash[:application_type]

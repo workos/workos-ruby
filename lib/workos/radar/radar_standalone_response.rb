@@ -4,6 +4,7 @@
 
 module WorkOS
   class RadarStandaloneResponse < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       verdict: :verdict,
       reason: :reason,

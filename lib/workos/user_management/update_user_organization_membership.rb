@@ -4,6 +4,7 @@
 
 module WorkOS
   class UpdateUserOrganizationMembership < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       role_slug: :role_slug,
       role_slugs: :role_slugs
@@ -16,7 +17,7 @@ module WorkOS
     def initialize(json)
       hash = self.class.normalize(json)
       @role_slug = hash[:role_slug]
-      @role_slugs = hash[:role_slugs] || []
+      @role_slugs = (hash[:role_slugs] || [])
     end
   end
 end

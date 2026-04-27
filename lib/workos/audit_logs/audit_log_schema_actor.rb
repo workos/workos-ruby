@@ -4,6 +4,7 @@
 
 module WorkOS
   class AuditLogSchemaActor < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       metadata: :metadata
     }.freeze

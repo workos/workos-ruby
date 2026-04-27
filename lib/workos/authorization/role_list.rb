@@ -4,6 +4,7 @@
 
 module WorkOS
   class RoleList < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       object: :object,
       data: :data

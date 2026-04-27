@@ -4,6 +4,7 @@
 
 module WorkOS
   class Profile < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       object: :object,
       id: :id,
@@ -50,7 +51,7 @@ module WorkOS
       @last_name = hash[:last_name]
       @role = hash[:role] ? WorkOS::SlimRole.new(hash[:role]) : nil
       @roles = (hash[:roles] || []).map { |item| item ? WorkOS::SlimRole.new(item) : nil }
-      @groups = hash[:groups] || []
+      @groups = (hash[:groups] || [])
       @custom_attributes = hash[:custom_attributes] || {}
       @raw_attributes = hash[:raw_attributes] || {}
     end

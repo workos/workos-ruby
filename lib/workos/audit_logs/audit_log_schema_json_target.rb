@@ -4,6 +4,7 @@
 
 module WorkOS
   class AuditLogSchemaJsonTarget < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       type: :type,
       metadata: :metadata

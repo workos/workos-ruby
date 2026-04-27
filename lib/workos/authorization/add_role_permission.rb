@@ -4,6 +4,7 @@
 
 module WorkOS
   class AddRolePermission < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       slug: :slug
     }.freeze

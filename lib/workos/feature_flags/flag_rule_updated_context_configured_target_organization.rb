@@ -4,6 +4,7 @@
 
 module WorkOS
   class FlagRuleUpdatedContextConfiguredTargetOrganization < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       id: :id,
       name: :name

@@ -4,6 +4,7 @@
 
 module WorkOS
   class AuthenticationPasswordFailedData < WorkOS::Types::BaseModel
+
     HASH_ATTRS = {
       type: :type,
       status: :status,
