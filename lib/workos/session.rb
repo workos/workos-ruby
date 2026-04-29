@@ -90,18 +90,27 @@ module WorkOS
       body = {
         "grant_type" => "refresh_token",
         "client_id" => @client.client_id,
-        "refresh_token" => session["refresh_token"],
-        "session" => {"seal_session" => true, "cookie_password" => effective_password}
+        "refresh_token" => session["refresh_token"]
       }
       body["organization_id"] = organization_id if organization_id
 
       response = @client.request(method: :post, path: "/user_management/authenticate", auth: true, body: body)
       auth_response = JSON.parse(response.body)
-      sealed = auth_response["sealed_session"].to_s
+
+      sealed = @manager.seal_session_from_auth_response(
+        access_token: auth_response["access_token"],
+        refresh_token: auth_response["refresh_token"],
+        cookie_password: effective_password,
+        user: auth_response["user"],
+        impersonator: auth_response["impersonator"]
+      )
+
+      # Decode before mutating session state so a malformed access_token
+      # doesn't leave the Session half-updated.
+      decoded = @manager.decode_jwt(auth_response["access_token"])
+
       @seal_data = sealed
       @cookie_password = effective_password
-
-      decoded = @manager.decode_jwt(auth_response["access_token"])
       SessionManager::RefreshSuccess.new(
         authenticated: true,
         sealed_session: sealed,
@@ -116,6 +125,8 @@ module WorkOS
         feature_flags: decoded["feature_flags"]
       )
     rescue WorkOS::AuthenticationError, WorkOS::InvalidRequestError => e
+      SessionManager::RefreshError.new(authenticated: false, reason: e.message)
+    rescue JWT::DecodeError => e
       SessionManager::RefreshError.new(authenticated: false, reason: e.message)
     end
 
