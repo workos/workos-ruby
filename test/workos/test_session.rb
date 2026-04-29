@@ -206,6 +206,105 @@ class SessionTest < Minitest::Test
     assert_equal "https://app/cb", params["return_to"]
   end
 
+  # --- Session#refresh -------------------------------------------------------
+
+  def test_refresh_seals_session_client_side_and_returns_refresh_success
+    rsa, pub = signing_key_pair
+    old_access = make_jwt({"sid" => "session_old", "exp" => Time.now.to_i - 60}, rsa)
+    sealed = @sm.seal_data({"access_token" => old_access, "refresh_token" => "rt_old", "user" => {"id" => "u_1"}}, PASSWORD)
+
+    new_access = make_jwt({"sid" => "session_new", "org_id" => "org_1", "role" => "admin", "exp" => Time.now.to_i + 300}, rsa)
+    api_response = {
+      "access_token" => new_access,
+      "refresh_token" => "rt_new",
+      "user" => {"id" => "u_1", "email" => "a@b.com"},
+      "impersonator" => nil
+    }
+
+    stub_request(:post, "https://api.workos.com/user_management/authenticate")
+      .with(body: hash_including("grant_type" => "refresh_token", "refresh_token" => "rt_old"))
+      .to_return(status: 200, body: api_response.to_json)
+    stub_request(:get, "https://api.workos.com/sso/jwks/client_001")
+      .to_return(status: 200, body: jwks_payload(pub).to_json)
+
+    session = @sm.load(seal_data: sealed, cookie_password: PASSWORD)
+    result = session.refresh
+
+    assert_kind_of WorkOS::SessionManager::RefreshSuccess, result
+    assert result.authenticated
+    assert_equal "session_new", result.session_id
+    assert_equal "org_1", result.organization_id
+    assert_equal "admin", result.role
+    assert_equal "u_1", result.user["id"]
+
+    # sealed_session should be a non-empty string that round-trips
+    refute_empty result.sealed_session
+    unsealed = @sm.unseal_data(result.sealed_session, PASSWORD)
+    assert_equal new_access, unsealed["access_token"]
+    assert_equal "rt_new", unsealed["refresh_token"]
+  end
+
+  def test_refresh_updates_internal_seal_data_for_subsequent_authenticate
+    rsa, pub = signing_key_pair
+    old_access = make_jwt({"sid" => "session_old", "exp" => Time.now.to_i - 60}, rsa)
+    sealed = @sm.seal_data({"access_token" => old_access, "refresh_token" => "rt_old", "user" => {"id" => "u_1"}}, PASSWORD)
+
+    new_access = make_jwt({"sid" => "session_refreshed", "org_id" => "org_2", "exp" => Time.now.to_i + 300}, rsa)
+    api_response = {
+      "access_token" => new_access,
+      "refresh_token" => "rt_new",
+      "user" => {"id" => "u_1"}
+    }
+
+    stub_request(:post, "https://api.workos.com/user_management/authenticate")
+      .to_return(status: 200, body: api_response.to_json)
+    stub_request(:get, "https://api.workos.com/sso/jwks/client_001")
+      .to_return(status: 200, body: jwks_payload(pub).to_json)
+
+    session = @sm.load(seal_data: sealed, cookie_password: PASSWORD)
+    session.refresh
+
+    # A subsequent authenticate should use the refreshed token
+    auth = session.authenticate
+    assert_kind_of WorkOS::SessionManager::AuthSuccess, auth
+    assert auth.authenticated
+    assert_equal "session_refreshed", auth.session_id
+  end
+
+  def test_refresh_returns_error_on_invalid_cookie
+    result = @sm.refresh(seal_data: "garbage", cookie_password: PASSWORD)
+    assert_kind_of WorkOS::SessionManager::RefreshError, result
+    refute result.authenticated
+    assert_equal WorkOS::SessionManager::INVALID_SESSION_COOKIE, result.reason
+  end
+
+  def test_refresh_returns_error_when_no_refresh_token
+    sealed = @sm.seal_data({"access_token" => "at_only"}, PASSWORD)
+    result = @sm.refresh(seal_data: sealed, cookie_password: PASSWORD)
+    assert_kind_of WorkOS::SessionManager::RefreshError, result
+    assert_equal WorkOS::SessionManager::INVALID_SESSION_COOKIE, result.reason
+  end
+
+  def test_refresh_does_not_send_session_param_to_api
+    rsa, pub = signing_key_pair
+    old_access = make_jwt({"sid" => "s", "exp" => Time.now.to_i - 60}, rsa)
+    sealed = @sm.seal_data({"access_token" => old_access, "refresh_token" => "rt_x", "user" => {"id" => "u"}}, PASSWORD)
+
+    new_access = make_jwt({"sid" => "s2", "exp" => Time.now.to_i + 300}, rsa)
+    api_response = {"access_token" => new_access, "refresh_token" => "rt_y", "user" => {"id" => "u"}}
+
+    stub = stub_request(:post, "https://api.workos.com/user_management/authenticate")
+      .with { |req| !req.body.include?("seal_session") }
+      .to_return(status: 200, body: api_response.to_json)
+    stub_request(:get, "https://api.workos.com/sso/jwks/client_001")
+      .to_return(status: 200, body: jwks_payload(pub).to_json)
+
+    session = @sm.load(seal_data: sealed, cookie_password: PASSWORD)
+    session.refresh
+
+    assert_requested(stub)
+  end
+
   # --- Session constructor validation ---------------------------------------
 
   def test_session_load_requires_cookie_password
