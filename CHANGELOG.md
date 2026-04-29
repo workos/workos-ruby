@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.1.1](https://github.com/workos/workos-ruby/compare/v7.1.0...v7.1.1) (2026-04-29)
+
+
+### Bug Fixes
+
+* seal session client-side in Session#refresh ([#470](https://github.com/workos/workos-ruby/issues/470)) ([32662ab](https://github.com/workos/workos-ruby/commit/32662ab3d67ffdcc895141aa8fd5efb22ba79fdb))
+
 ## [7.1.0](https://github.com/workos/workos-ruby/compare/v7.0.0...v7.1.0) (2026-04-27)
 
 
