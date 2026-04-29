@@ -305,6 +305,32 @@ class SessionTest < Minitest::Test
     assert_requested(stub)
   end
 
+  def test_refresh_returns_error_on_malformed_access_token_without_mutating_state
+    rsa, pub = signing_key_pair
+    old_access = make_jwt({"sid" => "session_old", "exp" => Time.now.to_i - 60}, rsa)
+    sealed = @sm.seal_data({"access_token" => old_access, "refresh_token" => "rt_old", "user" => {"id" => "u_1"}}, PASSWORD)
+
+    api_response = {
+      "access_token" => "not-a-valid-jwt",
+      "refresh_token" => "rt_new",
+      "user" => {"id" => "u_1"}
+    }
+
+    stub_request(:post, "https://api.workos.com/user_management/authenticate")
+      .to_return(status: 200, body: api_response.to_json)
+    stub_request(:get, "https://api.workos.com/sso/jwks/client_001")
+      .to_return(status: 200, body: jwks_payload(pub).to_json)
+
+    session = @sm.load(seal_data: sealed, cookie_password: PASSWORD)
+    result = session.refresh
+
+    assert_kind_of WorkOS::SessionManager::RefreshError, result
+    refute result.authenticated
+
+    # Session state should not have been mutated
+    assert_equal sealed, session.seal_data
+  end
+
   # --- Session constructor validation ---------------------------------------
 
   def test_session_load_requires_cookie_password

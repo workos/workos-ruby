@@ -104,10 +104,13 @@ module WorkOS
         user: auth_response["user"],
         impersonator: auth_response["impersonator"]
       )
+
+      # Decode before mutating session state so a malformed access_token
+      # doesn't leave the Session half-updated.
+      decoded = @manager.decode_jwt(auth_response["access_token"])
+
       @seal_data = sealed
       @cookie_password = effective_password
-
-      decoded = @manager.decode_jwt(auth_response["access_token"])
       SessionManager::RefreshSuccess.new(
         authenticated: true,
         sealed_session: sealed,
@@ -122,6 +125,8 @@ module WorkOS
         feature_flags: decoded["feature_flags"]
       )
     rescue WorkOS::AuthenticationError, WorkOS::InvalidRequestError => e
+      SessionManager::RefreshError.new(authenticated: false, reason: e.message)
+    rescue JWT::DecodeError => e
       SessionManager::RefreshError.new(authenticated: false, reason: e.message)
     end
 
