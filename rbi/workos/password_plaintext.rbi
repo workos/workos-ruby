@@ -6,12 +6,12 @@
 
 module WorkOS
   class PasswordPlaintext
-    sig { returns(T.nilable(String)) }
+    sig { returns(String) }
     def password; end
 
     sig do
       params(
-        password: T.nilable(String)
+        password: String
       ).returns(WorkOS::PasswordPlaintext)
     end
     def self.new(password:); end

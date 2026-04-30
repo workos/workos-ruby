@@ -6,6 +6,6 @@ module WorkOS
   # Identifies the password (plaintext variant).
   #
   # @!attribute [r] password
-  #   @return [String, nil]
+  #   @return [String]
   PasswordPlaintext = Data.define(:password)
 end
