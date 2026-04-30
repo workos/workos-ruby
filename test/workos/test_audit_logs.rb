@@ -42,7 +42,7 @@ class AuditLogsTest < Minitest::Test
   def test_create_schema_returns_expected_result
     stub_request(:post, %r{\Ahttps://api\.workos\.com/audit_logs/actions/stub/schemas(\?|\z)})
       .to_return(body: "{}", status: 200)
-    result = @client.audit_logs.create_schema(action_name: "stub", targets: [])
+    result = @client.audit_logs.create_schema(action_name: "stub", targets: [{}])
     refute_nil result
   end
 
@@ -73,7 +73,7 @@ class AuditLogsTest < Minitest::Test
     {name: :update_organization_audit_logs_retention, verb: :put, url: %r{\Ahttps://api\.workos\.com/organizations/stub/audit_logs_retention(\?|\z)}, args: {id: "stub", retention_period_in_days: 1}},
     {name: :list_actions, verb: :get, url: %r{\Ahttps://api\.workos\.com/audit_logs/actions(\?|\z)}},
     {name: :list_action_schemas, verb: :get, url: %r{\Ahttps://api\.workos\.com/audit_logs/actions/stub/schemas(\?|\z)}, args: {action_name: "stub"}},
-    {name: :create_schema, verb: :post, url: %r{\Ahttps://api\.workos\.com/audit_logs/actions/stub/schemas(\?|\z)}, args: {action_name: "stub", targets: []}},
+    {name: :create_schema, verb: :post, url: %r{\Ahttps://api\.workos\.com/audit_logs/actions/stub/schemas(\?|\z)}, args: {action_name: "stub", targets: [{}]}},
     {name: :create_event, verb: :post, url: %r{\Ahttps://api\.workos\.com/audit_logs/events(\?|\z)}, args: {organization_id: "stub", event: {}}},
     {name: :create_export, verb: :post, url: %r{\Ahttps://api\.workos\.com/audit_logs/exports(\?|\z)}, args: {organization_id: "stub", range_start: "stub", range_end: "stub"}},
     {name: :get_export, verb: :get, url: %r{\Ahttps://api\.workos\.com/audit_logs/exports/stub(\?|\z)}, args: {audit_log_export_id: "stub"}}

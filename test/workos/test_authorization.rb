@@ -144,7 +144,7 @@ class AuthorizationTest < Minitest::Test
   def test_set_organization_role_permissions_returns_expected_result
     stub_request(:put, %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/roles/stub/permissions(\?|\z)})
       .to_return(body: "{}", status: 200)
-    result = @client.authorization.set_organization_role_permissions(organization_id: "stub", slug: "stub", permissions: [])
+    result = @client.authorization.set_organization_role_permissions(organization_id: "stub", slug: "stub", permissions: ["stub"])
     refute_nil result
   end
 
@@ -297,7 +297,7 @@ class AuthorizationTest < Minitest::Test
   def test_set_environment_role_permissions_returns_expected_result
     stub_request(:put, %r{\Ahttps://api\.workos\.com/authorization/roles/stub/permissions(\?|\z)})
       .to_return(body: "{}", status: 200)
-    result = @client.authorization.set_environment_role_permissions(slug: "stub", permissions: [])
+    result = @client.authorization.set_environment_role_permissions(slug: "stub", permissions: ["stub"])
     refute_nil result
   end
 
@@ -352,7 +352,7 @@ class AuthorizationTest < Minitest::Test
     {name: :update_organization_role, verb: :patch, url: %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/roles/stub(\?|\z)}, args: {organization_id: "stub", slug: "stub"}},
     {name: :delete_organization_role, verb: :delete, url: %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/roles/stub(\?|\z)}, args: {organization_id: "stub", slug: "stub"}},
     {name: :add_organization_role_permission, verb: :post, url: %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/roles/stub/permissions(\?|\z)}, args: {organization_id: "stub", slug: "stub", body_slug: "stub"}},
-    {name: :set_organization_role_permissions, verb: :put, url: %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/roles/stub/permissions(\?|\z)}, args: {organization_id: "stub", slug: "stub", permissions: []}},
+    {name: :set_organization_role_permissions, verb: :put, url: %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/roles/stub/permissions(\?|\z)}, args: {organization_id: "stub", slug: "stub", permissions: ["stub"]}},
     {name: :remove_organization_role_permission, verb: :delete, url: %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/roles/stub/permissions/stub(\?|\z)}, args: {organization_id: "stub", slug: "stub", permission_slug: "stub"}},
     {name: :get_resource_by_external_id, verb: :get, url: %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/resources/stub/stub(\?|\z)}, args: {organization_id: "stub", resource_type_slug: "stub", external_id: "stub"}},
     {name: :update_resource_by_external_id, verb: :patch, url: %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/resources/stub/stub(\?|\z)}, args: {organization_id: "stub", resource_type_slug: "stub", external_id: "stub", parent_resource: WorkOS::Authorization::ParentResourceById.new(parent_resource_id: "stub")}},
@@ -369,7 +369,7 @@ class AuthorizationTest < Minitest::Test
     {name: :get_environment_role, verb: :get, url: %r{\Ahttps://api\.workos\.com/authorization/roles/stub(\?|\z)}, args: {slug: "stub"}},
     {name: :update_environment_role, verb: :patch, url: %r{\Ahttps://api\.workos\.com/authorization/roles/stub(\?|\z)}, args: {slug: "stub"}},
     {name: :add_environment_role_permission, verb: :post, url: %r{\Ahttps://api\.workos\.com/authorization/roles/stub/permissions(\?|\z)}, args: {slug: "stub", body_slug: "stub"}},
-    {name: :set_environment_role_permissions, verb: :put, url: %r{\Ahttps://api\.workos\.com/authorization/roles/stub/permissions(\?|\z)}, args: {slug: "stub", permissions: []}},
+    {name: :set_environment_role_permissions, verb: :put, url: %r{\Ahttps://api\.workos\.com/authorization/roles/stub/permissions(\?|\z)}, args: {slug: "stub", permissions: ["stub"]}},
     {name: :list_permissions, verb: :get, url: %r{\Ahttps://api\.workos\.com/authorization/permissions(\?|\z)}},
     {name: :create_permission, verb: :post, url: %r{\Ahttps://api\.workos\.com/authorization/permissions(\?|\z)}, args: {slug: "stub", name: "stub"}},
     {name: :get_permission, verb: :get, url: %r{\Ahttps://api\.workos\.com/authorization/permissions/stub(\?|\z)}, args: {slug: "stub"}},
