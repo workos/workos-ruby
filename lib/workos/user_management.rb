@@ -1303,10 +1303,20 @@ module WorkOS
       role: nil,
       request_options: {}
     )
+      body = {}.compact
+      if role
+        case role
+        when WorkOS::RoleSingle
+          body["role_slug"] = role.role_slug
+        when WorkOS::RoleMultiple
+          body["role_slugs"] = role.role_slugs
+        end
+      end
       response = @client.request(
         method: :put,
         path: "/user_management/organization_memberships/#{WorkOS::Util.encode_path(id)}",
         auth: true,
+        body: body,
         request_options: request_options
       )
       result = WorkOS::UserOrganizationMembership.new(response.body)
