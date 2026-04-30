@@ -24,13 +24,15 @@ module WorkOS
     )
       body = {
         "permission_slug" => permission_slug
-      }.compact
+      }
       case resource_target
       when WorkOS::ResourceTargetById
         body["resource_id"] = resource_target.resource_id
       when WorkOS::ResourceTargetByExternalId
         body["resource_external_id"] = resource_target.resource_external_id
         body["resource_type_slug"] = resource_target.resource_type_slug
+      else
+        raise ArgumentError, "expected resource_target to be one of: WorkOS::ResourceTargetById, WorkOS::ResourceTargetByExternalId, got #{resource_target.class}"
       end
       response = @client.request(
         method: :post,
@@ -77,6 +79,8 @@ module WorkOS
       when WorkOS::ParentResourceByExternalId
         params["parent_resource_type_slug"] = parent_resource.parent_resource_type_slug
         params["parent_resource_external_id"] = parent_resource.parent_resource_external_id
+      else
+        raise ArgumentError, "expected parent_resource to be one of: WorkOS::ParentResourceById, WorkOS::ParentResourceByExternalId, got #{parent_resource.class}"
       end
       response = @client.request(
         method: :get,
@@ -269,13 +273,15 @@ module WorkOS
     )
       body = {
         "role_slug" => role_slug
-      }.compact
+      }
       case resource_target
       when WorkOS::ResourceTargetById
         body["resource_id"] = resource_target.resource_id
       when WorkOS::ResourceTargetByExternalId
         body["resource_external_id"] = resource_target.resource_external_id
         body["resource_type_slug"] = resource_target.resource_type_slug
+      else
+        raise ArgumentError, "expected resource_target to be one of: WorkOS::ResourceTargetById, WorkOS::ResourceTargetByExternalId, got #{resource_target.class}"
       end
       response = @client.request(
         method: :post,
@@ -301,17 +307,19 @@ module WorkOS
       resource_target:,
       request_options: {}
     )
-      params = {}.compact
+      params = {}
       case resource_target
       when WorkOS::ResourceTargetById
         params["resource_id"] = resource_target.resource_id
       when WorkOS::ResourceTargetByExternalId
         params["resource_external_id"] = resource_target.resource_external_id
         params["resource_type_slug"] = resource_target.resource_type_slug
+      else
+        raise ArgumentError, "expected resource_target to be one of: WorkOS::ResourceTargetById, WorkOS::ResourceTargetByExternalId, got #{resource_target.class}"
       end
       body = {
         "role_slug" => role_slug
-      }.compact
+      }
       @client.request(
         method: :delete,
         path: "/authorization/organization_memberships/#{WorkOS::Util.encode_path(organization_membership_id)}/role_assignments",
@@ -479,7 +487,7 @@ module WorkOS
     )
       body = {
         "slug" => body_slug
-      }.compact
+      }
       response = @client.request(
         method: :post,
         path: "/authorization/organizations/#{WorkOS::Util.encode_path(organization_id)}/roles/#{WorkOS::Util.encode_path(slug)}/permissions",
@@ -506,7 +514,7 @@ module WorkOS
     )
       body = {
         "permissions" => permissions
-      }.compact
+      }
       response = @client.request(
         method: :put,
         path: "/authorization/organizations/#{WorkOS::Util.encode_path(organization_id)}/roles/#{WorkOS::Util.encode_path(slug)}/permissions",
@@ -594,6 +602,8 @@ module WorkOS
         when WorkOS::ParentResourceByExternalId
           body["parent_resource_external_id"] = parent_resource.parent_resource_external_id
           body["parent_resource_type_slug"] = parent_resource.parent_resource_type_slug
+        else
+          raise ArgumentError, "expected parent_resource to be one of: WorkOS::ParentResourceById, WorkOS::ParentResourceByExternalId, got #{parent_resource.class}"
         end
       end
       response = @client.request(
@@ -737,6 +747,8 @@ module WorkOS
         when WorkOS::ParentByExternalId
           params["parent_resource_type_slug"] = parent.parent_resource_type_slug
           params["parent_external_id"] = parent.parent_external_id
+        else
+          raise ArgumentError, "expected parent to be one of: WorkOS::ParentById, WorkOS::ParentByExternalId, got #{parent.class}"
         end
       end
       response = @client.request(
@@ -800,6 +812,8 @@ module WorkOS
         when WorkOS::ParentResourceByExternalId
           body["parent_resource_external_id"] = parent_resource.parent_resource_external_id
           body["parent_resource_type_slug"] = parent_resource.parent_resource_type_slug
+        else
+          raise ArgumentError, "expected parent_resource to be one of: WorkOS::ParentResourceById, WorkOS::ParentResourceByExternalId, got #{parent_resource.class}"
         end
       end
       response = @client.request(
@@ -858,6 +872,8 @@ module WorkOS
         when WorkOS::ParentResourceByExternalId
           body["parent_resource_external_id"] = parent_resource.parent_resource_external_id
           body["parent_resource_type_slug"] = parent_resource.parent_resource_type_slug
+        else
+          raise ArgumentError, "expected parent_resource to be one of: WorkOS::ParentResourceById, WorkOS::ParentResourceByExternalId, got #{parent_resource.class}"
         end
       end
       response = @client.request(
@@ -1056,7 +1072,7 @@ module WorkOS
     )
       body = {
         "slug" => body_slug
-      }.compact
+      }
       response = @client.request(
         method: :post,
         path: "/authorization/roles/#{WorkOS::Util.encode_path(slug)}/permissions",
@@ -1081,7 +1097,7 @@ module WorkOS
     )
       body = {
         "permissions" => permissions
-      }.compact
+      }
       response = @client.request(
         method: :put,
         path: "/authorization/roles/#{WorkOS::Util.encode_path(slug)}/permissions",

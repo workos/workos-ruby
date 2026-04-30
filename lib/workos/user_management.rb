@@ -403,7 +403,7 @@ module WorkOS
     )
       body = {
         "client_id" => client_id
-      }.compact
+      }
       response = @client.request(
         method: :post,
         path: "/user_management/authorize/device",
@@ -450,7 +450,7 @@ module WorkOS
     )
       body = {
         "origin" => origin
-      }.compact
+      }
       response = @client.request(
         method: :post,
         path: "/user_management/cors_origins",
@@ -492,7 +492,7 @@ module WorkOS
     )
       body = {
         "email" => email
-      }.compact
+      }
       response = @client.request(
         method: :post,
         path: "/user_management/password_reset",
@@ -518,7 +518,7 @@ module WorkOS
       body = {
         "token" => token,
         "new_password" => new_password
-      }.compact
+      }
       response = @client.request(
         method: :post,
         path: "/user_management/password_reset/confirm",
@@ -641,6 +641,8 @@ module WorkOS
         when WorkOS::PasswordHashed
           body["password_hash"] = password.password_hash
           body["password_hash_type"] = password.password_hash_type
+        else
+          raise ArgumentError, "expected password to be one of: WorkOS::PasswordPlaintext, WorkOS::PasswordHashed, got #{password.class}"
         end
       end
       response = @client.request(
@@ -733,6 +735,8 @@ module WorkOS
         when WorkOS::PasswordHashed
           body["password_hash"] = password.password_hash
           body["password_hash_type"] = password.password_hash_type
+        else
+          raise ArgumentError, "expected password to be one of: WorkOS::PasswordPlaintext, WorkOS::PasswordHashed, got #{password.class}"
         end
       end
       response = @client.request(
@@ -776,7 +780,7 @@ module WorkOS
     )
       body = {
         "code" => code
-      }.compact
+      }
       response = @client.request(
         method: :post,
         path: "/user_management/users/#{WorkOS::Util.encode_path(id)}/email_change/confirm",
@@ -801,7 +805,7 @@ module WorkOS
     )
       body = {
         "new_email" => new_email
-      }.compact
+      }
       response = @client.request(
         method: :post,
         path: "/user_management/users/#{WorkOS::Util.encode_path(id)}/email_change/send",
@@ -826,7 +830,7 @@ module WorkOS
     )
       body = {
         "code" => code
-      }.compact
+      }
       response = @client.request(
         method: :post,
         path: "/user_management/users/#{WorkOS::Util.encode_path(id)}/email_verification/confirm",
@@ -1124,7 +1128,7 @@ module WorkOS
     )
       body = {
         "content" => content
-      }.compact
+      }
       response = @client.request(
         method: :put,
         path: "/user_management/jwt_template",
@@ -1253,13 +1257,15 @@ module WorkOS
       body = {
         "user_id" => user_id,
         "organization_id" => organization_id
-      }.compact
+      }
       if role
         case role
         when WorkOS::RoleSingle
           body["role_slug"] = role.role_slug
         when WorkOS::RoleMultiple
           body["role_slugs"] = role.role_slugs
+        else
+          raise ArgumentError, "expected role to be one of: WorkOS::RoleSingle, WorkOS::RoleMultiple, got #{role.class}"
         end
       end
       response = @client.request(
@@ -1303,13 +1309,15 @@ module WorkOS
       role: nil,
       request_options: {}
     )
-      body = {}.compact
+      body = {}
       if role
         case role
         when WorkOS::RoleSingle
           body["role_slug"] = role.role_slug
         when WorkOS::RoleMultiple
           body["role_slugs"] = role.role_slugs
+        else
+          raise ArgumentError, "expected role to be one of: WorkOS::RoleSingle, WorkOS::RoleMultiple, got #{role.class}"
         end
       end
       response = @client.request(
@@ -1389,7 +1397,7 @@ module WorkOS
     )
       body = {
         "uri" => uri
-      }.compact
+      }
       response = @client.request(
         method: :post,
         path: "/user_management/redirect_uris",

@@ -91,7 +91,7 @@ module WorkOS
     )
       body = {
         "entry" => entry
-      }.compact
+      }
       response = @client.request(
         method: :post,
         path: "/radar/lists/#{WorkOS::Util.encode_path(type)}/#{WorkOS::Util.encode_path(action)}",
@@ -118,7 +118,7 @@ module WorkOS
     )
       body = {
         "entry" => entry
-      }.compact
+      }
       @client.request(
         method: :delete,
         path: "/radar/lists/#{WorkOS::Util.encode_path(type)}/#{WorkOS::Util.encode_path(action)}",

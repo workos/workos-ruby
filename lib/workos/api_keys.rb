@@ -20,7 +20,7 @@ module WorkOS
     )
       body = {
         "value" => value
-      }.compact
+      }
       response = @client.request(
         method: :post,
         path: "/api_keys/validations",

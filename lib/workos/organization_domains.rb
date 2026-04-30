@@ -23,7 +23,7 @@ module WorkOS
       body = {
         "domain" => domain,
         "organization_id" => organization_id
-      }.compact
+      }
       response = @client.request(
         method: :post,
         path: "/organization_domains",

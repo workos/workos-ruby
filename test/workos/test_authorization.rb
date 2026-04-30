@@ -19,10 +19,25 @@ class AuthorizationTest < Minitest::Test
     refute_nil result
   end
 
+  def test_check_with_resource_target_by_external_id_returns_expected_result
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/check(\?|\z)})
+      .with(body: hash_including("permission_slug" => "stub", "resource_external_id" => "stub", "resource_type_slug" => "stub"))
+      .to_return(body: "{}", status: 200)
+    result = @client.authorization.check(organization_membership_id: "stub", permission_slug: "stub", resource_target: WorkOS::ResourceTargetByExternalId.new(resource_external_id: "stub", resource_type_slug: "stub"))
+    refute_nil result
+  end
+
   def test_list_resources_for_membership_returns_expected_result
     stub_request(:get, %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/resources(\?|\z)})
       .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
     result = @client.authorization.list_resources_for_membership(organization_membership_id: "stub", permission_slug: "stub", parent_resource: WorkOS::ParentResourceById.new(parent_resource_id: "stub"))
+    assert_kind_of WorkOS::Types::ListStruct, result
+  end
+
+  def test_list_resources_for_membership_with_parent_resource_by_external_id_returns_expected_result
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/resources(\?|\z)})
+      .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
+    result = @client.authorization.list_resources_for_membership(organization_membership_id: "stub", permission_slug: "stub", parent_resource: WorkOS::ParentResourceByExternalId.new(parent_resource_type_slug: "stub", parent_resource_external_id: "stub"))
     assert_kind_of WorkOS::Types::ListStruct, result
   end
 
@@ -55,10 +70,25 @@ class AuthorizationTest < Minitest::Test
     refute_nil result
   end
 
+  def test_assign_role_with_resource_target_by_external_id_returns_expected_result
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/role_assignments(\?|\z)})
+      .with(body: hash_including("role_slug" => "stub", "resource_external_id" => "stub", "resource_type_slug" => "stub"))
+      .to_return(body: "{}", status: 200)
+    result = @client.authorization.assign_role(organization_membership_id: "stub", role_slug: "stub", resource_target: WorkOS::ResourceTargetByExternalId.new(resource_external_id: "stub", resource_type_slug: "stub"))
+    refute_nil result
+  end
+
   def test_remove_role_returns_expected_result
     stub_request(:delete, %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/role_assignments(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.authorization.remove_role(organization_membership_id: "stub", role_slug: "stub", resource_target: WorkOS::ResourceTargetById.new(resource_id: "stub"))
+    assert_nil result
+  end
+
+  def test_remove_role_with_resource_target_by_external_id_returns_expected_result
+    stub_request(:delete, %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/role_assignments(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.authorization.remove_role(organization_membership_id: "stub", role_slug: "stub", resource_target: WorkOS::ResourceTargetByExternalId.new(resource_external_id: "stub", resource_type_slug: "stub"))
     assert_nil result
   end
 
@@ -140,6 +170,14 @@ class AuthorizationTest < Minitest::Test
     refute_nil result
   end
 
+  def test_update_resource_by_external_id_with_parent_resource_by_external_id_returns_expected_result
+    stub_request(:patch, %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/resources/stub/stub(\?|\z)})
+      .with(body: hash_including("parent_resource_external_id" => "stub", "parent_resource_type_slug" => "stub"))
+      .to_return(body: "{}", status: 200)
+    result = @client.authorization.update_resource_by_external_id(organization_id: "stub", resource_type_slug: "stub", external_id: "stub", parent_resource: WorkOS::ParentResourceByExternalId.new(parent_resource_external_id: "stub", parent_resource_type_slug: "stub"))
+    refute_nil result
+  end
+
   def test_delete_resource_by_external_id_returns_expected_result
     stub_request(:delete, %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/resources/stub/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
@@ -161,11 +199,26 @@ class AuthorizationTest < Minitest::Test
     assert_kind_of WorkOS::Types::ListStruct, result
   end
 
+  def test_list_resources_with_parent_by_external_id_returns_expected_result
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/authorization/resources(\?|\z)})
+      .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
+    result = @client.authorization.list_resources(parent: WorkOS::ParentByExternalId.new(parent_resource_type_slug: "stub", parent_external_id: "stub"))
+    assert_kind_of WorkOS::Types::ListStruct, result
+  end
+
   def test_create_resource_returns_expected_result
     stub_request(:post, %r{\Ahttps://api\.workos\.com/authorization/resources(\?|\z)})
       .with(body: hash_including("external_id" => "stub", "name" => "stub", "resource_type_slug" => "stub", "organization_id" => "stub", "parent_resource_id" => "stub"))
       .to_return(body: "{}", status: 200)
     result = @client.authorization.create_resource(external_id: "stub", name: "stub", resource_type_slug: "stub", organization_id: "stub", parent_resource: WorkOS::ParentResourceById.new(parent_resource_id: "stub"))
+    refute_nil result
+  end
+
+  def test_create_resource_with_parent_resource_by_external_id_returns_expected_result
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/authorization/resources(\?|\z)})
+      .with(body: hash_including("external_id" => "stub", "name" => "stub", "resource_type_slug" => "stub", "organization_id" => "stub", "parent_resource_external_id" => "stub", "parent_resource_type_slug" => "stub"))
+      .to_return(body: "{}", status: 200)
+    result = @client.authorization.create_resource(external_id: "stub", name: "stub", resource_type_slug: "stub", organization_id: "stub", parent_resource: WorkOS::ParentResourceByExternalId.new(parent_resource_external_id: "stub", parent_resource_type_slug: "stub"))
     refute_nil result
   end
 
@@ -181,6 +234,14 @@ class AuthorizationTest < Minitest::Test
       .with(body: hash_including("parent_resource_id" => "stub"))
       .to_return(body: "{}", status: 200)
     result = @client.authorization.update_resource(resource_id: "stub", parent_resource: WorkOS::ParentResourceById.new(parent_resource_id: "stub"))
+    refute_nil result
+  end
+
+  def test_update_resource_with_parent_resource_by_external_id_returns_expected_result
+    stub_request(:patch, %r{\Ahttps://api\.workos\.com/authorization/resources/stub(\?|\z)})
+      .with(body: hash_including("parent_resource_external_id" => "stub", "parent_resource_type_slug" => "stub"))
+      .to_return(body: "{}", status: 200)
+    result = @client.authorization.update_resource(resource_id: "stub", parent_resource: WorkOS::ParentResourceByExternalId.new(parent_resource_external_id: "stub", parent_resource_type_slug: "stub"))
     refute_nil result
   end
 

@@ -209,6 +209,14 @@ class UserManagementTest < Minitest::Test
     refute_nil result
   end
 
+  def test_create_user_with_password_hashed_returns_expected_result
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/user_management/users(\?|\z)})
+      .with(body: hash_including("email" => "stub", "password_hash" => "stub", "password_hash_type" => "stub"))
+      .to_return(body: "{}", status: 200)
+    result = @client.user_management.create_user(email: "stub", password: WorkOS::PasswordHashed.new(password_hash: "stub", password_hash_type: "stub"))
+    refute_nil result
+  end
+
   def test_get_user_by_external_id_returns_expected_result
     stub_request(:get, %r{\Ahttps://api\.workos\.com/user_management/users/external_id/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
@@ -228,6 +236,14 @@ class UserManagementTest < Minitest::Test
       .with(body: hash_including("password" => "stub"))
       .to_return(body: "{}", status: 200)
     result = @client.user_management.update_user(id: "stub", password: WorkOS::PasswordPlaintext.new(password: "stub"))
+    refute_nil result
+  end
+
+  def test_update_user_with_password_hashed_returns_expected_result
+    stub_request(:put, %r{\Ahttps://api\.workos\.com/user_management/users/stub(\?|\z)})
+      .with(body: hash_including("password_hash" => "stub", "password_hash_type" => "stub"))
+      .to_return(body: "{}", status: 200)
+    result = @client.user_management.update_user(id: "stub", password: WorkOS::PasswordHashed.new(password_hash: "stub", password_hash_type: "stub"))
     refute_nil result
   end
 
@@ -365,6 +381,14 @@ class UserManagementTest < Minitest::Test
     refute_nil result
   end
 
+  def test_create_organization_membership_with_role_multiple_returns_expected_result
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/user_management/organization_memberships(\?|\z)})
+      .with(body: hash_including("user_id" => "stub", "organization_id" => "stub", "role_slugs" => "stub"))
+      .to_return(body: "{}", status: 200)
+    result = @client.user_management.create_organization_membership(user_id: "stub", organization_id: "stub", role: WorkOS::RoleMultiple.new(role_slugs: "stub"))
+    refute_nil result
+  end
+
   def test_get_organization_membership_returns_expected_result
     stub_request(:get, %r{\Ahttps://api\.workos\.com/user_management/organization_memberships/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
@@ -377,6 +401,14 @@ class UserManagementTest < Minitest::Test
       .with(body: hash_including("role_slug" => "stub"))
       .to_return(body: "{}", status: 200)
     result = @client.user_management.update_organization_membership(id: "stub", role: WorkOS::RoleSingle.new(role_slug: "stub"))
+    refute_nil result
+  end
+
+  def test_update_organization_membership_with_role_multiple_returns_expected_result
+    stub_request(:put, %r{\Ahttps://api\.workos\.com/user_management/organization_memberships/stub(\?|\z)})
+      .with(body: hash_including("role_slugs" => "stub"))
+      .to_return(body: "{}", status: 200)
+    result = @client.user_management.update_organization_membership(id: "stub", role: WorkOS::RoleMultiple.new(role_slugs: "stub"))
     refute_nil result
   end
 
