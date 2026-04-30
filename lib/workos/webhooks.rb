@@ -67,7 +67,7 @@ module WorkOS
       body = {
         "endpoint_url" => endpoint_url,
         "events" => events
-      }.compact
+      }
       response = @client.request(
         method: :post,
         path: "/webhook_endpoints",

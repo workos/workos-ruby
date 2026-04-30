@@ -22,7 +22,7 @@ module WorkOS
     )
       body = {
         "code" => code
-      }.compact
+      }
       response = @client.request(
         method: :post,
         path: "/auth/challenges/#{WorkOS::Util.encode_path(id)}/verify",

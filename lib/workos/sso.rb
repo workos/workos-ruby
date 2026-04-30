@@ -116,7 +116,7 @@ module WorkOS
     )
       body = {
         "profile_id" => profile_id
-      }.compact
+      }
       response = @client.request(
         method: :post,
         path: "/sso/logout/authorize",
@@ -157,7 +157,7 @@ module WorkOS
         "client_id" => request_options[:client_id] || @client.client_id,
         "client_secret" => request_options[:api_key] || @client.api_key,
         "code" => code
-      }.compact
+      }
       response = @client.request(
         method: :post,
         path: "/sso/token",

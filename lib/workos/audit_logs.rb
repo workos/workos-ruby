@@ -41,7 +41,7 @@ module WorkOS
     )
       body = {
         "retention_period_in_days" => retention_period_in_days
-      }.compact
+      }
       response = @client.request(
         method: :put,
         path: "/organizations/#{WorkOS::Util.encode_path(id)}/audit_logs_retention",
@@ -189,7 +189,7 @@ module WorkOS
       body = {
         "organization_id" => organization_id,
         "event" => event
-      }.compact
+      }
       response = @client.request(
         method: :post,
         path: "/audit_logs/events",

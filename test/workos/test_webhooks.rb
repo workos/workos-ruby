@@ -21,7 +21,7 @@ class WebhooksTest < Minitest::Test
   def test_create_webhook_endpoint_returns_expected_result
     stub_request(:post, %r{\Ahttps://api\.workos\.com/webhook_endpoints(\?|\z)})
       .to_return(body: "{}", status: 200)
-    result = @client.webhooks.create_webhook_endpoint(endpoint_url: "stub", events: [])
+    result = @client.webhooks.create_webhook_endpoint(endpoint_url: "stub", events: ["stub"])
     refute_nil result
   end
 
@@ -42,7 +42,7 @@ class WebhooksTest < Minitest::Test
   # Parameterized authentication error tests (one per endpoint).
   [
     {name: :list_webhook_endpoints, verb: :get, url: %r{\Ahttps://api\.workos\.com/webhook_endpoints(\?|\z)}},
-    {name: :create_webhook_endpoint, verb: :post, url: %r{\Ahttps://api\.workos\.com/webhook_endpoints(\?|\z)}, args: {endpoint_url: "stub", events: []}},
+    {name: :create_webhook_endpoint, verb: :post, url: %r{\Ahttps://api\.workos\.com/webhook_endpoints(\?|\z)}, args: {endpoint_url: "stub", events: ["stub"]}},
     {name: :update_webhook_endpoint, verb: :patch, url: %r{\Ahttps://api\.workos\.com/webhook_endpoints/stub(\?|\z)}, args: {id: "stub"}},
     {name: :delete_webhook_endpoint, verb: :delete, url: %r{\Ahttps://api\.workos\.com/webhook_endpoints/stub(\?|\z)}, args: {id: "stub"}}
   ].each do |spec|

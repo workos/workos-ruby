@@ -219,7 +219,7 @@ module WorkOS
     )
       body = {
         "organization_membership_id" => organization_membership_id
-      }.compact
+      }
       response = @client.request(
         method: :post,
         path: "/organizations/#{WorkOS::Util.encode_path(organization_id)}/groups/#{WorkOS::Util.encode_path(group_id)}/organization-memberships",
