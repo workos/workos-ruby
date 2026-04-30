@@ -6,6 +6,48 @@ require "json"
 
 module WorkOS
   class Authorization
+    # Identifies the resource target (by id variant).
+    #
+    # @!attribute [r] resource_id
+    #   @return [String]
+    ResourceTargetById = Data.define(:resource_id)
+
+    # Identifies the resource target (by external id variant).
+    #
+    # @!attribute [r] resource_external_id
+    #   @return [String]
+    # @!attribute [r] resource_type_slug
+    #   @return [String]
+    ResourceTargetByExternalId = Data.define(:resource_external_id, :resource_type_slug)
+
+    # Identifies the parent resource (by id variant).
+    #
+    # @!attribute [r] parent_resource_id
+    #   @return [String]
+    ParentResourceById = Data.define(:parent_resource_id)
+
+    # Identifies the parent resource (by external id variant).
+    #
+    # @!attribute [r] parent_resource_type_slug
+    #   @return [String]
+    # @!attribute [r] parent_resource_external_id
+    #   @return [String]
+    ParentResourceByExternalId = Data.define(:parent_resource_type_slug, :parent_resource_external_id)
+
+    # Identifies the parent (by id variant).
+    #
+    # @!attribute [r] parent_resource_id
+    #   @return [String]
+    ParentById = Data.define(:parent_resource_id)
+
+    # Identifies the parent (by external id variant).
+    #
+    # @!attribute [r] parent_resource_type_slug
+    #   @return [String]
+    # @!attribute [r] parent_external_id
+    #   @return [String]
+    ParentByExternalId = Data.define(:parent_resource_type_slug, :parent_external_id)
+
     def initialize(client)
       @client = client
     end
@@ -13,7 +55,7 @@ module WorkOS
     # Check authorization
     # @param organization_membership_id [String] The ID of the organization membership to check.
     # @param permission_slug [String] The slug of the permission to check.
-    # @param resource_target [WorkOS::ResourceTargetById, WorkOS::ResourceTargetByExternalId] Identifies the resource target.
+    # @param resource_target [WorkOS::Authorization::ResourceTargetById, WorkOS::Authorization::ResourceTargetByExternalId] Identifies the resource target.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::AuthorizationCheck]
     def check(
@@ -26,13 +68,13 @@ module WorkOS
         "permission_slug" => permission_slug
       }
       case resource_target
-      when WorkOS::ResourceTargetById
+      when WorkOS::Authorization::ResourceTargetById
         body["resource_id"] = resource_target.resource_id
-      when WorkOS::ResourceTargetByExternalId
+      when WorkOS::Authorization::ResourceTargetByExternalId
         body["resource_external_id"] = resource_target.resource_external_id
         body["resource_type_slug"] = resource_target.resource_type_slug
       else
-        raise ArgumentError, "expected resource_target to be one of: WorkOS::ResourceTargetById, WorkOS::ResourceTargetByExternalId, got #{resource_target.class}"
+        raise ArgumentError, "expected resource_target to be one of: WorkOS::Authorization::ResourceTargetById, WorkOS::Authorization::ResourceTargetByExternalId, got #{resource_target.class}"
       end
       response = @client.request(
         method: :post,
@@ -53,7 +95,7 @@ module WorkOS
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::AuthorizationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
     # @param permission_slug [String] The permission slug to filter by. Only child resources where the organization membership has this permission are returned.
-    # @param parent_resource [WorkOS::ParentResourceById, WorkOS::ParentResourceByExternalId] Identifies the parent resource.
+    # @param parent_resource [WorkOS::Authorization::ParentResourceById, WorkOS::Authorization::ParentResourceByExternalId] Identifies the parent resource.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::Types::ListStruct<WorkOS::AuthorizationResource>]
     def list_resources_for_membership(
@@ -74,13 +116,13 @@ module WorkOS
         "permission_slug" => permission_slug
       }.compact
       case parent_resource
-      when WorkOS::ParentResourceById
+      when WorkOS::Authorization::ParentResourceById
         params["parent_resource_id"] = parent_resource.parent_resource_id
-      when WorkOS::ParentResourceByExternalId
+      when WorkOS::Authorization::ParentResourceByExternalId
         params["parent_resource_type_slug"] = parent_resource.parent_resource_type_slug
         params["parent_resource_external_id"] = parent_resource.parent_resource_external_id
       else
-        raise ArgumentError, "expected parent_resource to be one of: WorkOS::ParentResourceById, WorkOS::ParentResourceByExternalId, got #{parent_resource.class}"
+        raise ArgumentError, "expected parent_resource to be one of: WorkOS::Authorization::ParentResourceById, WorkOS::Authorization::ParentResourceByExternalId, got #{parent_resource.class}"
       end
       response = @client.request(
         method: :get,
@@ -262,7 +304,7 @@ module WorkOS
     # Assign a role
     # @param organization_membership_id [String] The ID of the organization membership.
     # @param role_slug [String] The slug of the role to assign.
-    # @param resource_target [WorkOS::ResourceTargetById, WorkOS::ResourceTargetByExternalId] Identifies the resource target.
+    # @param resource_target [WorkOS::Authorization::ResourceTargetById, WorkOS::Authorization::ResourceTargetByExternalId] Identifies the resource target.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::RoleAssignment]
     def assign_role(
@@ -275,13 +317,13 @@ module WorkOS
         "role_slug" => role_slug
       }
       case resource_target
-      when WorkOS::ResourceTargetById
+      when WorkOS::Authorization::ResourceTargetById
         body["resource_id"] = resource_target.resource_id
-      when WorkOS::ResourceTargetByExternalId
+      when WorkOS::Authorization::ResourceTargetByExternalId
         body["resource_external_id"] = resource_target.resource_external_id
         body["resource_type_slug"] = resource_target.resource_type_slug
       else
-        raise ArgumentError, "expected resource_target to be one of: WorkOS::ResourceTargetById, WorkOS::ResourceTargetByExternalId, got #{resource_target.class}"
+        raise ArgumentError, "expected resource_target to be one of: WorkOS::Authorization::ResourceTargetById, WorkOS::Authorization::ResourceTargetByExternalId, got #{resource_target.class}"
       end
       response = @client.request(
         method: :post,
@@ -298,7 +340,7 @@ module WorkOS
     # Remove a role assignment
     # @param organization_membership_id [String] The ID of the organization membership.
     # @param role_slug [String] The slug of the role to remove.
-    # @param resource_target [WorkOS::ResourceTargetById, WorkOS::ResourceTargetByExternalId] Identifies the resource target.
+    # @param resource_target [WorkOS::Authorization::ResourceTargetById, WorkOS::Authorization::ResourceTargetByExternalId] Identifies the resource target.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [void]
     def remove_role(
@@ -309,13 +351,13 @@ module WorkOS
     )
       params = {}
       case resource_target
-      when WorkOS::ResourceTargetById
+      when WorkOS::Authorization::ResourceTargetById
         params["resource_id"] = resource_target.resource_id
-      when WorkOS::ResourceTargetByExternalId
+      when WorkOS::Authorization::ResourceTargetByExternalId
         params["resource_external_id"] = resource_target.resource_external_id
         params["resource_type_slug"] = resource_target.resource_type_slug
       else
-        raise ArgumentError, "expected resource_target to be one of: WorkOS::ResourceTargetById, WorkOS::ResourceTargetByExternalId, got #{resource_target.class}"
+        raise ArgumentError, "expected resource_target to be one of: WorkOS::Authorization::ResourceTargetById, WorkOS::Authorization::ResourceTargetByExternalId, got #{resource_target.class}"
       end
       body = {
         "role_slug" => role_slug
@@ -579,7 +621,7 @@ module WorkOS
     # @param external_id [String] An identifier you provide to reference the resource in your system.
     # @param name [String, nil] A display name for the resource.
     # @param description [String, nil] An optional description of the resource.
-    # @param parent_resource [WorkOS::ParentResourceById, WorkOS::ParentResourceByExternalId, nil] Identifies the parent resource.
+    # @param parent_resource [WorkOS::Authorization::ParentResourceById, WorkOS::Authorization::ParentResourceByExternalId, nil] Identifies the parent resource.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::AuthorizationResource]
     def update_resource_by_external_id(
@@ -597,13 +639,13 @@ module WorkOS
       }.compact
       if parent_resource
         case parent_resource
-        when WorkOS::ParentResourceById
+        when WorkOS::Authorization::ParentResourceById
           body["parent_resource_id"] = parent_resource.parent_resource_id
-        when WorkOS::ParentResourceByExternalId
+        when WorkOS::Authorization::ParentResourceByExternalId
           body["parent_resource_external_id"] = parent_resource.parent_resource_external_id
           body["parent_resource_type_slug"] = parent_resource.parent_resource_type_slug
         else
-          raise ArgumentError, "expected parent_resource to be one of: WorkOS::ParentResourceById, WorkOS::ParentResourceByExternalId, got #{parent_resource.class}"
+          raise ArgumentError, "expected parent_resource to be one of: WorkOS::Authorization::ParentResourceById, WorkOS::Authorization::ParentResourceByExternalId, got #{parent_resource.class}"
         end
       end
       response = @client.request(
@@ -715,7 +757,7 @@ module WorkOS
     # @param resource_type_slug [String, nil] Filter resources by resource type slug.
     # @param resource_external_id [String, nil] Filter resources by external ID.
     # @param search [String, nil] Search resources by name.
-    # @param parent [WorkOS::ParentById, WorkOS::ParentByExternalId, nil] Identifies the parent.
+    # @param parent [WorkOS::Authorization::ParentById, WorkOS::Authorization::ParentByExternalId, nil] Identifies the parent.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::Types::ListStruct<WorkOS::AuthorizationResource>]
     def list_resources(
@@ -742,13 +784,13 @@ module WorkOS
       }.compact
       if parent
         case parent
-        when WorkOS::ParentById
+        when WorkOS::Authorization::ParentById
           params["parent_resource_id"] = parent.parent_resource_id
-        when WorkOS::ParentByExternalId
+        when WorkOS::Authorization::ParentByExternalId
           params["parent_resource_type_slug"] = parent.parent_resource_type_slug
           params["parent_external_id"] = parent.parent_external_id
         else
-          raise ArgumentError, "expected parent to be one of: WorkOS::ParentById, WorkOS::ParentByExternalId, got #{parent.class}"
+          raise ArgumentError, "expected parent to be one of: WorkOS::Authorization::ParentById, WorkOS::Authorization::ParentByExternalId, got #{parent.class}"
         end
       end
       response = @client.request(
@@ -786,7 +828,7 @@ module WorkOS
     # @param description [String, nil] An optional description of the resource.
     # @param resource_type_slug [String] The slug of the resource type.
     # @param organization_id [String] The ID of the organization this resource belongs to.
-    # @param parent_resource [WorkOS::ParentResourceById, WorkOS::ParentResourceByExternalId, nil] Identifies the parent resource.
+    # @param parent_resource [WorkOS::Authorization::ParentResourceById, WorkOS::Authorization::ParentResourceByExternalId, nil] Identifies the parent resource.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::AuthorizationResource]
     def create_resource(
@@ -807,13 +849,13 @@ module WorkOS
       }.compact
       if parent_resource
         case parent_resource
-        when WorkOS::ParentResourceById
+        when WorkOS::Authorization::ParentResourceById
           body["parent_resource_id"] = parent_resource.parent_resource_id
-        when WorkOS::ParentResourceByExternalId
+        when WorkOS::Authorization::ParentResourceByExternalId
           body["parent_resource_external_id"] = parent_resource.parent_resource_external_id
           body["parent_resource_type_slug"] = parent_resource.parent_resource_type_slug
         else
-          raise ArgumentError, "expected parent_resource to be one of: WorkOS::ParentResourceById, WorkOS::ParentResourceByExternalId, got #{parent_resource.class}"
+          raise ArgumentError, "expected parent_resource to be one of: WorkOS::Authorization::ParentResourceById, WorkOS::Authorization::ParentResourceByExternalId, got #{parent_resource.class}"
         end
       end
       response = @client.request(
@@ -851,7 +893,7 @@ module WorkOS
     # @param resource_id [String] The ID of the authorization resource.
     # @param name [String, nil] A display name for the resource.
     # @param description [String, nil] An optional description of the resource.
-    # @param parent_resource [WorkOS::ParentResourceById, WorkOS::ParentResourceByExternalId, nil] Identifies the parent resource.
+    # @param parent_resource [WorkOS::Authorization::ParentResourceById, WorkOS::Authorization::ParentResourceByExternalId, nil] Identifies the parent resource.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::AuthorizationResource]
     def update_resource(
@@ -867,13 +909,13 @@ module WorkOS
       }.compact
       if parent_resource
         case parent_resource
-        when WorkOS::ParentResourceById
+        when WorkOS::Authorization::ParentResourceById
           body["parent_resource_id"] = parent_resource.parent_resource_id
-        when WorkOS::ParentResourceByExternalId
+        when WorkOS::Authorization::ParentResourceByExternalId
           body["parent_resource_external_id"] = parent_resource.parent_resource_external_id
           body["parent_resource_type_slug"] = parent_resource.parent_resource_type_slug
         else
-          raise ArgumentError, "expected parent_resource to be one of: WorkOS::ParentResourceById, WorkOS::ParentResourceByExternalId, got #{parent_resource.class}"
+          raise ArgumentError, "expected parent_resource to be one of: WorkOS::Authorization::ParentResourceById, WorkOS::Authorization::ParentResourceByExternalId, got #{parent_resource.class}"
         end
       end
       response = @client.request(

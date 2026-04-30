@@ -6,6 +6,32 @@ require "json"
 
 module WorkOS
   class UserManagement
+    # Identifies the password (plaintext variant).
+    #
+    # @!attribute [r] password
+    #   @return [String]
+    PasswordPlaintext = Data.define(:password)
+
+    # Identifies the password (hashed variant).
+    #
+    # @!attribute [r] password_hash
+    #   @return [String]
+    # @!attribute [r] password_hash_type
+    #   @return [WorkOS::Types::CreateUserPasswordHashType]
+    PasswordHashed = Data.define(:password_hash, :password_hash_type)
+
+    # Identifies the role (single variant).
+    #
+    # @!attribute [r] role_slug
+    #   @return [String]
+    RoleSingle = Data.define(:role_slug)
+
+    # Identifies the role (multiple variant).
+    #
+    # @!attribute [r] role_slugs
+    #   @return [Array<String>]
+    RoleMultiple = Data.define(:role_slugs)
+
     def initialize(client)
       @client = client
     end
@@ -613,7 +639,7 @@ module WorkOS
     # @param email_verified [Boolean, nil] Whether the user's email has been verified.
     # @param metadata [Hash{String => String}, nil] Object containing metadata key/value pairs associated with the user.
     # @param external_id [String, nil] The external ID of the user.
-    # @param password [WorkOS::PasswordPlaintext, WorkOS::PasswordHashed, nil] Identifies the password.
+    # @param password [WorkOS::UserManagement::PasswordPlaintext, WorkOS::UserManagement::PasswordHashed, nil] Identifies the password.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::User]
     def create_user(
@@ -636,13 +662,13 @@ module WorkOS
       }.compact
       if password
         case password
-        when WorkOS::PasswordPlaintext
+        when WorkOS::UserManagement::PasswordPlaintext
           body["password"] = password.password
-        when WorkOS::PasswordHashed
+        when WorkOS::UserManagement::PasswordHashed
           body["password_hash"] = password.password_hash
           body["password_hash_type"] = password.password_hash_type
         else
-          raise ArgumentError, "expected password to be one of: WorkOS::PasswordPlaintext, WorkOS::PasswordHashed, got #{password.class}"
+          raise ArgumentError, "expected password to be one of: WorkOS::UserManagement::PasswordPlaintext, WorkOS::UserManagement::PasswordHashed, got #{password.class}"
         end
       end
       response = @client.request(
@@ -704,7 +730,7 @@ module WorkOS
     # @param metadata [Hash{String => String}, nil] Object containing metadata key/value pairs associated with the user.
     # @param external_id [String, nil] The external ID of the user.
     # @param locale [String, nil] The user's preferred locale.
-    # @param password [WorkOS::PasswordPlaintext, WorkOS::PasswordHashed, nil] Identifies the password.
+    # @param password [WorkOS::UserManagement::PasswordPlaintext, WorkOS::UserManagement::PasswordHashed, nil] Identifies the password.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::User]
     def update_user(
@@ -730,13 +756,13 @@ module WorkOS
       }.compact
       if password
         case password
-        when WorkOS::PasswordPlaintext
+        when WorkOS::UserManagement::PasswordPlaintext
           body["password"] = password.password
-        when WorkOS::PasswordHashed
+        when WorkOS::UserManagement::PasswordHashed
           body["password_hash"] = password.password_hash
           body["password_hash_type"] = password.password_hash_type
         else
-          raise ArgumentError, "expected password to be one of: WorkOS::PasswordPlaintext, WorkOS::PasswordHashed, got #{password.class}"
+          raise ArgumentError, "expected password to be one of: WorkOS::UserManagement::PasswordPlaintext, WorkOS::UserManagement::PasswordHashed, got #{password.class}"
         end
       end
       response = @client.request(
@@ -1245,7 +1271,7 @@ module WorkOS
     # Create an organization membership
     # @param user_id [String] The ID of the [user](https://workos.com/docs/reference/authkit/user).
     # @param organization_id [String] The ID of the [organization](https://workos.com/docs/reference/organization) which the user belongs to.
-    # @param role [WorkOS::RoleSingle, WorkOS::RoleMultiple, nil] Identifies the role.
+    # @param role [WorkOS::UserManagement::RoleSingle, WorkOS::UserManagement::RoleMultiple, nil] Identifies the role.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::OrganizationMembership]
     def create_organization_membership(
@@ -1260,12 +1286,12 @@ module WorkOS
       }
       if role
         case role
-        when WorkOS::RoleSingle
+        when WorkOS::UserManagement::RoleSingle
           body["role_slug"] = role.role_slug
-        when WorkOS::RoleMultiple
+        when WorkOS::UserManagement::RoleMultiple
           body["role_slugs"] = role.role_slugs
         else
-          raise ArgumentError, "expected role to be one of: WorkOS::RoleSingle, WorkOS::RoleMultiple, got #{role.class}"
+          raise ArgumentError, "expected role to be one of: WorkOS::UserManagement::RoleSingle, WorkOS::UserManagement::RoleMultiple, got #{role.class}"
         end
       end
       response = @client.request(
@@ -1301,7 +1327,7 @@ module WorkOS
 
     # Update an organization membership
     # @param id [String] The unique ID of the organization membership.
-    # @param role [WorkOS::RoleSingle, WorkOS::RoleMultiple, nil] Identifies the role.
+    # @param role [WorkOS::UserManagement::RoleSingle, WorkOS::UserManagement::RoleMultiple, nil] Identifies the role.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::UserOrganizationMembership]
     def update_organization_membership(
@@ -1312,12 +1338,12 @@ module WorkOS
       body = {}
       if role
         case role
-        when WorkOS::RoleSingle
+        when WorkOS::UserManagement::RoleSingle
           body["role_slug"] = role.role_slug
-        when WorkOS::RoleMultiple
+        when WorkOS::UserManagement::RoleMultiple
           body["role_slugs"] = role.role_slugs
         else
-          raise ArgumentError, "expected role to be one of: WorkOS::RoleSingle, WorkOS::RoleMultiple, got #{role.class}"
+          raise ArgumentError, "expected role to be one of: WorkOS::UserManagement::RoleSingle, WorkOS::UserManagement::RoleMultiple, got #{role.class}"
         end
       end
       response = @client.request(

@@ -6,6 +6,58 @@
 
 module WorkOS
   class UserManagement
+    class PasswordPlaintext
+      sig { returns(String) }
+      def password; end
+
+      sig do
+        params(
+          password: String
+        ).returns(WorkOS::UserManagement::PasswordPlaintext)
+      end
+      def self.new(password:); end
+    end
+
+    class PasswordHashed
+      sig { returns(String) }
+      def password_hash; end
+
+      sig { returns(String) }
+      def password_hash_type; end
+
+      sig do
+        params(
+          password_hash: String,
+          password_hash_type: String
+        ).returns(WorkOS::UserManagement::PasswordHashed)
+      end
+      def self.new(password_hash:, password_hash_type:); end
+    end
+
+    class RoleSingle
+      sig { returns(String) }
+      def role_slug; end
+
+      sig do
+        params(
+          role_slug: String
+        ).returns(WorkOS::UserManagement::RoleSingle)
+      end
+      def self.new(role_slug:); end
+    end
+
+    class RoleMultiple
+      sig { returns(T::Array[String]) }
+      def role_slugs; end
+
+      sig do
+        params(
+          role_slugs: T::Array[String]
+        ).returns(WorkOS::UserManagement::RoleMultiple)
+      end
+      def self.new(role_slugs:); end
+    end
+
     sig { params(client: WorkOS::BaseClient).void }
     def initialize(client); end
 
@@ -113,7 +165,7 @@ module WorkOS
         email_verified: T.nilable(T::Boolean),
         metadata: T.nilable(T::Hash[String, String]),
         external_id: T.nilable(String),
-        password: T.nilable(T.any(WorkOS::PasswordPlaintext, WorkOS::PasswordHashed)),
+        password: T.nilable(T.any(WorkOS::UserManagement::PasswordPlaintext, WorkOS::UserManagement::PasswordHashed)),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::User)
     end
@@ -145,7 +197,7 @@ module WorkOS
         metadata: T.nilable(T::Hash[String, String]),
         external_id: T.nilable(String),
         locale: T.nilable(String),
-        password: T.nilable(T.any(WorkOS::PasswordPlaintext, WorkOS::PasswordHashed)),
+        password: T.nilable(T.any(WorkOS::UserManagement::PasswordPlaintext, WorkOS::UserManagement::PasswordHashed)),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::User)
     end
@@ -324,7 +376,7 @@ module WorkOS
       params(
         user_id: String,
         organization_id: String,
-        role: T.nilable(T.any(WorkOS::RoleSingle, WorkOS::RoleMultiple)),
+        role: T.nilable(T.any(WorkOS::UserManagement::RoleSingle, WorkOS::UserManagement::RoleMultiple)),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::OrganizationMembership)
     end
@@ -341,7 +393,7 @@ module WorkOS
     sig do
       params(
         id: String,
-        role: T.nilable(T.any(WorkOS::RoleSingle, WorkOS::RoleMultiple)),
+        role: T.nilable(T.any(WorkOS::UserManagement::RoleSingle, WorkOS::UserManagement::RoleMultiple)),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::UserOrganizationMembership)
     end

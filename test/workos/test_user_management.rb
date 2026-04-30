@@ -205,7 +205,7 @@ class UserManagementTest < Minitest::Test
     stub_request(:post, %r{\Ahttps://api\.workos\.com/user_management/users(\?|\z)})
       .with(body: hash_including("email" => "stub", "password" => "stub"))
       .to_return(body: "{}", status: 200)
-    result = @client.user_management.create_user(email: "stub", password: WorkOS::PasswordPlaintext.new(password: "stub"))
+    result = @client.user_management.create_user(email: "stub", password: WorkOS::UserManagement::PasswordPlaintext.new(password: "stub"))
     refute_nil result
   end
 
@@ -213,7 +213,7 @@ class UserManagementTest < Minitest::Test
     stub_request(:post, %r{\Ahttps://api\.workos\.com/user_management/users(\?|\z)})
       .with(body: hash_including("email" => "stub", "password_hash" => "stub", "password_hash_type" => "stub"))
       .to_return(body: "{}", status: 200)
-    result = @client.user_management.create_user(email: "stub", password: WorkOS::PasswordHashed.new(password_hash: "stub", password_hash_type: "stub"))
+    result = @client.user_management.create_user(email: "stub", password: WorkOS::UserManagement::PasswordHashed.new(password_hash: "stub", password_hash_type: "stub"))
     refute_nil result
   end
 
@@ -235,7 +235,7 @@ class UserManagementTest < Minitest::Test
     stub_request(:put, %r{\Ahttps://api\.workos\.com/user_management/users/stub(\?|\z)})
       .with(body: hash_including("password" => "stub"))
       .to_return(body: "{}", status: 200)
-    result = @client.user_management.update_user(id: "stub", password: WorkOS::PasswordPlaintext.new(password: "stub"))
+    result = @client.user_management.update_user(id: "stub", password: WorkOS::UserManagement::PasswordPlaintext.new(password: "stub"))
     refute_nil result
   end
 
@@ -243,7 +243,7 @@ class UserManagementTest < Minitest::Test
     stub_request(:put, %r{\Ahttps://api\.workos\.com/user_management/users/stub(\?|\z)})
       .with(body: hash_including("password_hash" => "stub", "password_hash_type" => "stub"))
       .to_return(body: "{}", status: 200)
-    result = @client.user_management.update_user(id: "stub", password: WorkOS::PasswordHashed.new(password_hash: "stub", password_hash_type: "stub"))
+    result = @client.user_management.update_user(id: "stub", password: WorkOS::UserManagement::PasswordHashed.new(password_hash: "stub", password_hash_type: "stub"))
     refute_nil result
   end
 
@@ -377,7 +377,7 @@ class UserManagementTest < Minitest::Test
     stub_request(:post, %r{\Ahttps://api\.workos\.com/user_management/organization_memberships(\?|\z)})
       .with(body: hash_including("user_id" => "stub", "organization_id" => "stub", "role_slug" => "stub"))
       .to_return(body: "{}", status: 200)
-    result = @client.user_management.create_organization_membership(user_id: "stub", organization_id: "stub", role: WorkOS::RoleSingle.new(role_slug: "stub"))
+    result = @client.user_management.create_organization_membership(user_id: "stub", organization_id: "stub", role: WorkOS::UserManagement::RoleSingle.new(role_slug: "stub"))
     refute_nil result
   end
 
@@ -385,7 +385,7 @@ class UserManagementTest < Minitest::Test
     stub_request(:post, %r{\Ahttps://api\.workos\.com/user_management/organization_memberships(\?|\z)})
       .with(body: hash_including("user_id" => "stub", "organization_id" => "stub", "role_slugs" => "stub"))
       .to_return(body: "{}", status: 200)
-    result = @client.user_management.create_organization_membership(user_id: "stub", organization_id: "stub", role: WorkOS::RoleMultiple.new(role_slugs: "stub"))
+    result = @client.user_management.create_organization_membership(user_id: "stub", organization_id: "stub", role: WorkOS::UserManagement::RoleMultiple.new(role_slugs: "stub"))
     refute_nil result
   end
 
@@ -400,7 +400,7 @@ class UserManagementTest < Minitest::Test
     stub_request(:put, %r{\Ahttps://api\.workos\.com/user_management/organization_memberships/stub(\?|\z)})
       .with(body: hash_including("role_slug" => "stub"))
       .to_return(body: "{}", status: 200)
-    result = @client.user_management.update_organization_membership(id: "stub", role: WorkOS::RoleSingle.new(role_slug: "stub"))
+    result = @client.user_management.update_organization_membership(id: "stub", role: WorkOS::UserManagement::RoleSingle.new(role_slug: "stub"))
     refute_nil result
   end
 
@@ -408,7 +408,7 @@ class UserManagementTest < Minitest::Test
     stub_request(:put, %r{\Ahttps://api\.workos\.com/user_management/organization_memberships/stub(\?|\z)})
       .with(body: hash_including("role_slugs" => "stub"))
       .to_return(body: "{}", status: 200)
-    result = @client.user_management.update_organization_membership(id: "stub", role: WorkOS::RoleMultiple.new(role_slugs: "stub"))
+    result = @client.user_management.update_organization_membership(id: "stub", role: WorkOS::UserManagement::RoleMultiple.new(role_slugs: "stub"))
     refute_nil result
   end
 
@@ -466,10 +466,10 @@ class UserManagementTest < Minitest::Test
     {name: :confirm_password_reset, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/password_reset/confirm(\?|\z)}, args: {token: "stub", new_password: "stub"}},
     {name: :get_password_reset, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/password_reset/stub(\?|\z)}, args: {id: "stub"}},
     {name: :list_users, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/users(\?|\z)}},
-    {name: :create_user, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/users(\?|\z)}, args: {email: "stub", password: WorkOS::PasswordPlaintext.new(password: "stub")}},
+    {name: :create_user, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/users(\?|\z)}, args: {email: "stub", password: WorkOS::UserManagement::PasswordPlaintext.new(password: "stub")}},
     {name: :get_user_by_external_id, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/users/external_id/stub(\?|\z)}, args: {external_id: "stub"}},
     {name: :get_user, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/users/stub(\?|\z)}, args: {id: "stub"}},
-    {name: :update_user, verb: :put, url: %r{\Ahttps://api\.workos\.com/user_management/users/stub(\?|\z)}, args: {id: "stub", password: WorkOS::PasswordPlaintext.new(password: "stub")}},
+    {name: :update_user, verb: :put, url: %r{\Ahttps://api\.workos\.com/user_management/users/stub(\?|\z)}, args: {id: "stub", password: WorkOS::UserManagement::PasswordPlaintext.new(password: "stub")}},
     {name: :delete_user, verb: :delete, url: %r{\Ahttps://api\.workos\.com/user_management/users/stub(\?|\z)}, args: {id: "stub"}},
     {name: :confirm_email_change, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/users/stub/email_change/confirm(\?|\z)}, args: {id: "stub", code: "stub"}},
     {name: :send_email_change, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/users/stub/email_change/send(\?|\z)}, args: {id: "stub", new_email: "stub"}},
@@ -488,9 +488,9 @@ class UserManagementTest < Minitest::Test
     {name: :create_magic_auth, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/magic_auth(\?|\z)}, args: {email: "stub"}},
     {name: :get_magic_auth, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/magic_auth/stub(\?|\z)}, args: {id: "stub"}},
     {name: :list_organization_memberships, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/organization_memberships(\?|\z)}},
-    {name: :create_organization_membership, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/organization_memberships(\?|\z)}, args: {user_id: "stub", organization_id: "stub", role: WorkOS::RoleSingle.new(role_slug: "stub")}},
+    {name: :create_organization_membership, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/organization_memberships(\?|\z)}, args: {user_id: "stub", organization_id: "stub", role: WorkOS::UserManagement::RoleSingle.new(role_slug: "stub")}},
     {name: :get_organization_membership, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/organization_memberships/stub(\?|\z)}, args: {id: "stub"}},
-    {name: :update_organization_membership, verb: :put, url: %r{\Ahttps://api\.workos\.com/user_management/organization_memberships/stub(\?|\z)}, args: {id: "stub", role: WorkOS::RoleSingle.new(role_slug: "stub")}},
+    {name: :update_organization_membership, verb: :put, url: %r{\Ahttps://api\.workos\.com/user_management/organization_memberships/stub(\?|\z)}, args: {id: "stub", role: WorkOS::UserManagement::RoleSingle.new(role_slug: "stub")}},
     {name: :delete_organization_membership, verb: :delete, url: %r{\Ahttps://api\.workos\.com/user_management/organization_memberships/stub(\?|\z)}, args: {id: "stub"}},
     {name: :deactivate_organization_membership, verb: :put, url: %r{\Ahttps://api\.workos\.com/user_management/organization_memberships/stub/deactivate(\?|\z)}, args: {id: "stub"}},
     {name: :reactivate_organization_membership, verb: :put, url: %r{\Ahttps://api\.workos\.com/user_management/organization_memberships/stub/reactivate(\?|\z)}, args: {id: "stub"}},

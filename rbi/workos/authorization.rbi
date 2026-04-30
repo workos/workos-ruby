@@ -6,6 +6,90 @@
 
 module WorkOS
   class Authorization
+    class ResourceTargetById
+      sig { returns(String) }
+      def resource_id; end
+
+      sig do
+        params(
+          resource_id: String
+        ).returns(WorkOS::Authorization::ResourceTargetById)
+      end
+      def self.new(resource_id:); end
+    end
+
+    class ResourceTargetByExternalId
+      sig { returns(String) }
+      def resource_external_id; end
+
+      sig { returns(String) }
+      def resource_type_slug; end
+
+      sig do
+        params(
+          resource_external_id: String,
+          resource_type_slug: String
+        ).returns(WorkOS::Authorization::ResourceTargetByExternalId)
+      end
+      def self.new(resource_external_id:, resource_type_slug:); end
+    end
+
+    class ParentResourceById
+      sig { returns(String) }
+      def parent_resource_id; end
+
+      sig do
+        params(
+          parent_resource_id: String
+        ).returns(WorkOS::Authorization::ParentResourceById)
+      end
+      def self.new(parent_resource_id:); end
+    end
+
+    class ParentResourceByExternalId
+      sig { returns(String) }
+      def parent_resource_type_slug; end
+
+      sig { returns(String) }
+      def parent_resource_external_id; end
+
+      sig do
+        params(
+          parent_resource_type_slug: String,
+          parent_resource_external_id: String
+        ).returns(WorkOS::Authorization::ParentResourceByExternalId)
+      end
+      def self.new(parent_resource_type_slug:, parent_resource_external_id:); end
+    end
+
+    class ParentById
+      sig { returns(String) }
+      def parent_resource_id; end
+
+      sig do
+        params(
+          parent_resource_id: String
+        ).returns(WorkOS::Authorization::ParentById)
+      end
+      def self.new(parent_resource_id:); end
+    end
+
+    class ParentByExternalId
+      sig { returns(String) }
+      def parent_resource_type_slug; end
+
+      sig { returns(String) }
+      def parent_external_id; end
+
+      sig do
+        params(
+          parent_resource_type_slug: String,
+          parent_external_id: String
+        ).returns(WorkOS::Authorization::ParentByExternalId)
+      end
+      def self.new(parent_resource_type_slug:, parent_external_id:); end
+    end
+
     sig { params(client: WorkOS::BaseClient).void }
     def initialize(client); end
 
@@ -13,7 +97,7 @@ module WorkOS
       params(
         organization_membership_id: String,
         permission_slug: String,
-        resource_target: T.any(WorkOS::ResourceTargetById, WorkOS::ResourceTargetByExternalId),
+        resource_target: T.any(WorkOS::Authorization::ResourceTargetById, WorkOS::Authorization::ResourceTargetByExternalId),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AuthorizationCheck)
     end
@@ -23,7 +107,7 @@ module WorkOS
       params(
         organization_membership_id: String,
         permission_slug: String,
-        parent_resource: T.any(WorkOS::ParentResourceById, WorkOS::ParentResourceByExternalId),
+        parent_resource: T.any(WorkOS::Authorization::ParentResourceById, WorkOS::Authorization::ParentResourceByExternalId),
         before: T.nilable(String),
         after: T.nilable(String),
         limit: T.nilable(Integer),
@@ -76,7 +160,7 @@ module WorkOS
       params(
         organization_membership_id: String,
         role_slug: String,
-        resource_target: T.any(WorkOS::ResourceTargetById, WorkOS::ResourceTargetByExternalId),
+        resource_target: T.any(WorkOS::Authorization::ResourceTargetById, WorkOS::Authorization::ResourceTargetByExternalId),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::RoleAssignment)
     end
@@ -86,7 +170,7 @@ module WorkOS
       params(
         organization_membership_id: String,
         role_slug: String,
-        resource_target: T.any(WorkOS::ResourceTargetById, WorkOS::ResourceTargetByExternalId),
+        resource_target: T.any(WorkOS::Authorization::ResourceTargetById, WorkOS::Authorization::ResourceTargetByExternalId),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
@@ -196,7 +280,7 @@ module WorkOS
         external_id: String,
         name: T.nilable(String),
         description: T.nilable(String),
-        parent_resource: T.nilable(T.any(WorkOS::ParentResourceById, WorkOS::ParentResourceByExternalId)),
+        parent_resource: T.nilable(T.any(WorkOS::Authorization::ParentResourceById, WorkOS::Authorization::ParentResourceByExternalId)),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AuthorizationResource)
     end
@@ -239,7 +323,7 @@ module WorkOS
         resource_type_slug: T.nilable(String),
         resource_external_id: T.nilable(String),
         search: T.nilable(String),
-        parent: T.nilable(T.any(WorkOS::ParentById, WorkOS::ParentByExternalId)),
+        parent: T.nilable(T.any(WorkOS::Authorization::ParentById, WorkOS::Authorization::ParentByExternalId)),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
@@ -252,7 +336,7 @@ module WorkOS
         resource_type_slug: String,
         organization_id: String,
         description: T.nilable(String),
-        parent_resource: T.nilable(T.any(WorkOS::ParentResourceById, WorkOS::ParentResourceByExternalId)),
+        parent_resource: T.nilable(T.any(WorkOS::Authorization::ParentResourceById, WorkOS::Authorization::ParentResourceByExternalId)),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AuthorizationResource)
     end
@@ -271,7 +355,7 @@ module WorkOS
         resource_id: String,
         name: T.nilable(String),
         description: T.nilable(String),
-        parent_resource: T.nilable(T.any(WorkOS::ParentResourceById, WorkOS::ParentResourceByExternalId)),
+        parent_resource: T.nilable(T.any(WorkOS::Authorization::ParentResourceById, WorkOS::Authorization::ParentResourceByExternalId)),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AuthorizationResource)
     end
