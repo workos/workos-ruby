@@ -14,14 +14,14 @@ class AuthorizationTest < Minitest::Test
   def test_check_returns_expected_result
     stub_request(:post, %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/check(\?|\z)})
       .to_return(body: "{}", status: 200)
-    result = @client.authorization.check(organization_membership_id: "stub", permission_slug: "stub", resource_target: {type: "by_id"})
+    result = @client.authorization.check(organization_membership_id: "stub", permission_slug: "stub", resource_target: WorkOS::ResourceTargetById.new(resource_id: "stub"))
     refute_nil result
   end
 
   def test_list_resources_for_membership_returns_expected_result
     stub_request(:get, %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/resources(\?|\z)})
       .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
-    result = @client.authorization.list_resources_for_membership(organization_membership_id: "stub", permission_slug: "stub", parent_resource: {type: "by_id"})
+    result = @client.authorization.list_resources_for_membership(organization_membership_id: "stub", permission_slug: "stub", parent_resource: WorkOS::ParentResourceById.new(parent_resource_id: "stub"))
     assert_kind_of WorkOS::Types::ListStruct, result
   end
 
@@ -49,14 +49,14 @@ class AuthorizationTest < Minitest::Test
   def test_assign_role_returns_expected_result
     stub_request(:post, %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/role_assignments(\?|\z)})
       .to_return(body: "{}", status: 200)
-    result = @client.authorization.assign_role(organization_membership_id: "stub", role_slug: "stub", resource_target: {type: "by_id"})
+    result = @client.authorization.assign_role(organization_membership_id: "stub", role_slug: "stub", resource_target: WorkOS::ResourceTargetById.new(resource_id: "stub"))
     refute_nil result
   end
 
   def test_remove_role_returns_expected_result
     stub_request(:delete, %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/role_assignments(\?|\z)})
       .to_return(body: "{}", status: 200)
-    result = @client.authorization.remove_role(organization_membership_id: "stub", role_slug: "stub", resource_target: {type: "by_id"})
+    result = @client.authorization.remove_role(organization_membership_id: "stub", role_slug: "stub", resource_target: WorkOS::ResourceTargetById.new(resource_id: "stub"))
     assert_nil result
   end
 
@@ -272,13 +272,13 @@ class AuthorizationTest < Minitest::Test
 
   # Parameterized authentication error tests (one per endpoint).
   [
-    {name: :check, verb: :post, url: %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/check(\?|\z)}, args: {organization_membership_id: "stub", permission_slug: "stub", resource_target: {type: "by_id"}}},
-    {name: :list_resources_for_membership, verb: :get, url: %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/resources(\?|\z)}, args: {organization_membership_id: "stub", permission_slug: "stub", parent_resource: {type: "by_id"}}},
+    {name: :check, verb: :post, url: %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/check(\?|\z)}, args: {organization_membership_id: "stub", permission_slug: "stub", resource_target: WorkOS::ResourceTargetById.new(resource_id: "stub")}},
+    {name: :list_resources_for_membership, verb: :get, url: %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/resources(\?|\z)}, args: {organization_membership_id: "stub", permission_slug: "stub", parent_resource: WorkOS::ParentResourceById.new(parent_resource_id: "stub")}},
     {name: :list_effective_permissions, verb: :get, url: %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/resources/stub/permissions(\?|\z)}, args: {organization_membership_id: "stub", resource_id: "stub"}},
     {name: :list_effective_permissions_by_external_id, verb: :get, url: %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/resources/stub/stub/permissions(\?|\z)}, args: {organization_membership_id: "stub", resource_type_slug: "stub", external_id: "stub"}},
     {name: :list_role_assignments, verb: :get, url: %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/role_assignments(\?|\z)}, args: {organization_membership_id: "stub"}},
-    {name: :assign_role, verb: :post, url: %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/role_assignments(\?|\z)}, args: {organization_membership_id: "stub", role_slug: "stub", resource_target: {type: "by_id"}}},
-    {name: :remove_role, verb: :delete, url: %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/role_assignments(\?|\z)}, args: {organization_membership_id: "stub", role_slug: "stub", resource_target: {type: "by_id"}}},
+    {name: :assign_role, verb: :post, url: %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/role_assignments(\?|\z)}, args: {organization_membership_id: "stub", role_slug: "stub", resource_target: WorkOS::ResourceTargetById.new(resource_id: "stub")}},
+    {name: :remove_role, verb: :delete, url: %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/role_assignments(\?|\z)}, args: {organization_membership_id: "stub", role_slug: "stub", resource_target: WorkOS::ResourceTargetById.new(resource_id: "stub")}},
     {name: :remove_role_assignment, verb: :delete, url: %r{\Ahttps://api\.workos\.com/authorization/organization_memberships/stub/role_assignments/stub(\?|\z)}, args: {organization_membership_id: "stub", role_assignment_id: "stub"}},
     {name: :list_organization_roles, verb: :get, url: %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/roles(\?|\z)}, args: {organization_id: "stub"}},
     {name: :create_organization_role, verb: :post, url: %r{\Ahttps://api\.workos\.com/authorization/organizations/stub/roles(\?|\z)}, args: {organization_id: "stub", name: "stub"}},

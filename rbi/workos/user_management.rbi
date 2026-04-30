@@ -113,13 +113,11 @@ module WorkOS
         email_verified: T.nilable(T::Boolean),
         metadata: T.nilable(T::Hash[String, String]),
         external_id: T.nilable(String),
-        password: T.nilable(String),
-        password_hash: T.nilable(String),
-        password_hash_type: T.nilable(String),
+        password: T.nilable(T.any(WorkOS::PasswordPlaintext, WorkOS::PasswordHashed)),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::User)
     end
-    def create_user(email:, first_name:, last_name:, email_verified:, metadata:, external_id:, password:, password_hash:, password_hash_type:, request_options:); end
+    def create_user(email:, first_name:, last_name:, email_verified:, metadata:, external_id:, password:, request_options:); end
 
     sig do
       params(
@@ -147,13 +145,11 @@ module WorkOS
         metadata: T.nilable(T::Hash[String, String]),
         external_id: T.nilable(String),
         locale: T.nilable(String),
-        password: T.nilable(String),
-        password_hash: T.nilable(String),
-        password_hash_type: T.nilable(String),
+        password: T.nilable(T.any(WorkOS::PasswordPlaintext, WorkOS::PasswordHashed)),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::User)
     end
-    def update_user(id:, email:, first_name:, last_name:, email_verified:, metadata:, external_id:, locale:, password:, password_hash:, password_hash_type:, request_options:); end
+    def update_user(id:, email:, first_name:, last_name:, email_verified:, metadata:, external_id:, locale:, password:, request_options:); end
 
     sig do
       params(
@@ -328,12 +324,11 @@ module WorkOS
       params(
         user_id: String,
         organization_id: String,
-        role_slug: T.nilable(String),
-        role_slugs: T.nilable(T::Array[String]),
+        role: T.nilable(T.any(WorkOS::RoleSingle, WorkOS::RoleMultiple)),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::OrganizationMembership)
     end
-    def create_organization_membership(user_id:, organization_id:, role_slug:, role_slugs:, request_options:); end
+    def create_organization_membership(user_id:, organization_id:, role:, request_options:); end
 
     sig do
       params(
@@ -346,12 +341,11 @@ module WorkOS
     sig do
       params(
         id: String,
-        role_slug: T.nilable(String),
-        role_slugs: T.nilable(T::Array[String]),
+        role: T.nilable(T.any(WorkOS::RoleSingle, WorkOS::RoleMultiple)),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::UserOrganizationMembership)
     end
-    def update_organization_membership(id:, role_slug:, role_slugs:, request_options:); end
+    def update_organization_membership(id:, role:, request_options:); end
 
     sig do
       params(
