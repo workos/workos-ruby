@@ -5,7 +5,7 @@
 # typed: strong
 
 module WorkOS
-  class UserOrganizationMembership
+  class ApiKeyValidationResponseApiKey
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
 
@@ -21,41 +21,35 @@ module WorkOS
     sig { params(value: String).returns(String) }
     def id=(value); end
 
-    sig { returns(String) }
-    def user_id; end
+    sig { returns(WorkOS::ApiKeyValidationResponseApiKeyOwner) }
+    def owner; end
 
-    sig { params(value: String).returns(String) }
-    def user_id=(value); end
-
-    sig { returns(String) }
-    def organization_id; end
-
-    sig { params(value: String).returns(String) }
-    def organization_id=(value); end
+    sig { params(value: WorkOS::ApiKeyValidationResponseApiKeyOwner).returns(WorkOS::ApiKeyValidationResponseApiKeyOwner) }
+    def owner=(value); end
 
     sig { returns(String) }
-    def status; end
+    def name; end
 
     sig { params(value: String).returns(String) }
-    def status=(value); end
+    def name=(value); end
 
-    sig { returns(T::Boolean) }
-    def directory_managed; end
+    sig { returns(String) }
+    def obfuscated_value; end
 
-    sig { params(value: T::Boolean).returns(T::Boolean) }
-    def directory_managed=(value); end
+    sig { params(value: String).returns(String) }
+    def obfuscated_value=(value); end
 
     sig { returns(T.nilable(String)) }
-    def organization_name; end
+    def last_used_at; end
 
     sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
-    def organization_name=(value); end
+    def last_used_at=(value); end
 
-    sig { returns(T.nilable(T::Hash[String, T.untyped])) }
-    def custom_attributes; end
+    sig { returns(T::Array[String]) }
+    def permissions; end
 
-    sig { params(value: T.nilable(T::Hash[String, T.untyped])).returns(T.nilable(T::Hash[String, T.untyped])) }
-    def custom_attributes=(value); end
+    sig { params(value: T::Array[String]).returns(T::Array[String]) }
+    def permissions=(value); end
 
     sig { returns(String) }
     def created_at; end
@@ -68,18 +62,6 @@ module WorkOS
 
     sig { params(value: String).returns(String) }
     def updated_at=(value); end
-
-    sig { returns(WorkOS::SlimRole) }
-    def role; end
-
-    sig { params(value: WorkOS::SlimRole).returns(WorkOS::SlimRole) }
-    def role=(value); end
-
-    sig { returns(WorkOS::User) }
-    def user; end
-
-    sig { params(value: WorkOS::User).returns(WorkOS::User) }
-    def user=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end

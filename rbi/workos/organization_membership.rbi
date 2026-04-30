@@ -75,6 +75,12 @@ module WorkOS
     sig { params(value: WorkOS::SlimRole).returns(WorkOS::SlimRole) }
     def role=(value); end
 
+    sig { returns(WorkOS::User) }
+    def user; end
+
+    sig { params(value: WorkOS::User).returns(WorkOS::User) }
+    def user=(value); end
+
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end
 

@@ -12,7 +12,7 @@ module WorkOS
 
     def initialize(json)
       hash = self.class.normalize(json)
-      @api_key = hash[:api_key] ? WorkOS::ApiKey.new(hash[:api_key]) : nil
+      @api_key = hash[:api_key] ? WorkOS::ApiKeyValidationResponseApiKey.new(hash[:api_key]) : nil
     end
   end
 end

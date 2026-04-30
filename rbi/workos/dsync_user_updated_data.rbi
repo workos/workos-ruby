@@ -57,6 +57,12 @@ module WorkOS
     sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
     def last_name=(value); end
 
+    sig { returns(T.nilable(String)) }
+    def name; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def name=(value); end
+
     sig { returns(T.nilable(T::Array[WorkOS::DsyncUserUpdatedDataEmail])) }
     def emails; end
 

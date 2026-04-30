@@ -698,7 +698,7 @@ module WorkOS
     # @param permission_slug [String] The permission slug to filter by. Only users with this permission on the resource are returned.
     # @param assignment [WorkOS::Types::AuthorizationAssignment, nil] Filter by assignment type. Use "direct" for direct assignments only, or "indirect" to include inherited assignments.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
-    # @return [WorkOS::Types::ListStruct<WorkOS::UserOrganizationMembershipBaseListData>]
+    # @return [WorkOS::Types::ListStruct<WorkOS::UserOrganizationMembershipBaseWithUser>]
     def list_memberships_for_resource_by_external_id(
       organization_id:,
       resource_type_slug:,
@@ -742,7 +742,7 @@ module WorkOS
       }
       WorkOS::Types::ListStruct.from_response(
         response,
-        model: WorkOS::UserOrganizationMembershipBaseListData,
+        model: WorkOS::UserOrganizationMembershipBaseWithUser,
         filters: {organization_id: organization_id, resource_type_slug: resource_type_slug, external_id: external_id, before: before, limit: limit, order: order, permission_slug: permission_slug, assignment: assignment},
         fetch_next: fetch_next
       )
@@ -962,7 +962,7 @@ module WorkOS
     # @param permission_slug [String] The permission slug to filter by. Only users with this permission on the resource are returned.
     # @param assignment [WorkOS::Types::AuthorizationAssignment, nil] Filter by assignment type. Use `direct` for direct assignments only, or `indirect` to include inherited assignments.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
-    # @return [WorkOS::Types::ListStruct<WorkOS::UserOrganizationMembershipBaseListData>]
+    # @return [WorkOS::Types::ListStruct<WorkOS::UserOrganizationMembershipBaseWithUser>]
     def list_memberships_for_resource(
       resource_id:,
       permission_slug:,
@@ -1002,7 +1002,7 @@ module WorkOS
       }
       WorkOS::Types::ListStruct.from_response(
         response,
-        model: WorkOS::UserOrganizationMembershipBaseListData,
+        model: WorkOS::UserOrganizationMembershipBaseWithUser,
         filters: {resource_id: resource_id, before: before, limit: limit, order: order, permission_slug: permission_slug, assignment: assignment},
         fetch_next: fetch_next
       )

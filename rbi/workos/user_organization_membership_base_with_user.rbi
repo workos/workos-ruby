@@ -5,7 +5,7 @@
 # typed: strong
 
 module WorkOS
-  class UserOrganizationMembership
+  class UserOrganizationMembershipBaseWithUser
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
 
@@ -68,12 +68,6 @@ module WorkOS
 
     sig { params(value: String).returns(String) }
     def updated_at=(value); end
-
-    sig { returns(WorkOS::SlimRole) }
-    def role; end
-
-    sig { params(value: WorkOS::SlimRole).returns(WorkOS::SlimRole) }
-    def role=(value); end
 
     sig { returns(WorkOS::User) }
     def user; end
