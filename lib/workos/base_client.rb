@@ -34,7 +34,12 @@ module WorkOS
     RETRY_BACKOFF_BASE = 0.5
     LOG_SEVERITY = {debug: 0, info: 1, warn: 2, error: 3, unknown: 4}.freeze
 
-    USER_AGENT = "workos-ruby/#{WorkOS::VERSION} ruby/#{RUBY_VERSION} (#{RUBY_PLATFORM})"
+    USER_AGENT = [
+      "WorkOS",
+      "#{defined?(::RUBY_ENGINE) ? ::RUBY_ENGINE : "ruby"}/#{RUBY_VERSION}",
+      RUBY_PLATFORM,
+      "v#{WorkOS::VERSION}"
+    ].join("; ").freeze
 
     attr_reader :api_key, :base_url, :client_id, :timeout, :max_retries, :logger, :log_level
 
