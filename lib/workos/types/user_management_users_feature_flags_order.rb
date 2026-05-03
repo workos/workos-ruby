@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    UserManagementUsersFeatureFlagsOrder = ApplicationsOrder
+    UserManagementUsersFeatureFlagsOrder = ApiKeysOrder
   end
 end

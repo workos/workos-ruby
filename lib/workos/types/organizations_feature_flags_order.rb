@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    OrganizationsFeatureFlagsOrder = ApplicationsOrder
+    OrganizationsFeatureFlagsOrder = ApiKeysOrder
   end
 end

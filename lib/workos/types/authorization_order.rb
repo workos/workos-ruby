@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    AuthorizationOrder = ApplicationsOrder
+    AuthorizationOrder = ApiKeysOrder
   end
 end

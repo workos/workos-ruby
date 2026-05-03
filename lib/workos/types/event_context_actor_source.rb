@@ -7,8 +7,9 @@ module WorkOS
     class EventContextActorSource
       API = "api"
       DASHBOARD = "dashboard"
+      ADMIN_PORTAL = "admin_portal"
       SYSTEM = "system"
-      ALL = [API, DASHBOARD, SYSTEM].freeze
+      ALL = [API, DASHBOARD, ADMIN_PORTAL, SYSTEM].freeze
     end
   end
 end

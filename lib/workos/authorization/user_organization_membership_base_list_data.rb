@@ -14,7 +14,8 @@ module WorkOS
       organization_name: :organization_name,
       custom_attributes: :custom_attributes,
       created_at: :created_at,
-      updated_at: :updated_at
+      updated_at: :updated_at,
+      user: :user
     }.freeze
 
     attr_accessor \
@@ -27,7 +28,8 @@ module WorkOS
       :organization_name,
       :custom_attributes,
       :created_at,
-      :updated_at
+      :updated_at,
+      :user
 
     def initialize(json)
       hash = self.class.normalize(json)
@@ -41,6 +43,7 @@ module WorkOS
       @custom_attributes = hash[:custom_attributes] || {}
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
+      @user = hash[:user] ? WorkOS::User.new(hash[:user]) : nil
     end
   end
 end

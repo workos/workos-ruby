@@ -31,7 +31,7 @@ module WorkOS
       hash = self.class.normalize(json)
       @object = hash[:object]
       @id = hash[:id]
-      @owner = hash[:owner] ? WorkOS::ApiKeyOwner.new(hash[:owner]) : nil
+      @owner = hash[:owner]
       @name = hash[:name]
       @obfuscated_value = hash[:obfuscated_value]
       @last_used_at = hash[:last_used_at]

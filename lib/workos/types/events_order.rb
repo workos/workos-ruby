@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    EventsOrder = ApplicationsOrder
+    EventsOrder = ApiKeysOrder
   end
 end

@@ -4,10 +4,6 @@
 
 module WorkOS
   class Client < BaseClient
-    def api_keys
-      @api_keys ||= WorkOS::ApiKeys.new(self)
-    end
-
     def multi_factor_auth
       @multi_factor_auth ||= WorkOS::MultiFactorAuth.new(self)
     end
@@ -46,6 +42,10 @@ module WorkOS
 
     def organizations
       @organizations ||= WorkOS::Organizations.new(self)
+    end
+
+    def api_keys
+      @api_keys ||= WorkOS::ApiKeys.new(self)
     end
 
     def groups

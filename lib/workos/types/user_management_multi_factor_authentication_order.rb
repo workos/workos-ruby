@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    UserManagementMultiFactorAuthenticationOrder = ApplicationsOrder
+    UserManagementMultiFactorAuthenticationOrder = ApiKeysOrder
   end
 end

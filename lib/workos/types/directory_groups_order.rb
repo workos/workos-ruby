@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    DirectoryGroupsOrder = ApplicationsOrder
+    DirectoryGroupsOrder = ApiKeysOrder
   end
 end

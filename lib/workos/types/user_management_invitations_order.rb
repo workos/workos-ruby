@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    UserManagementInvitationsOrder = ApplicationsOrder
+    UserManagementInvitationsOrder = ApiKeysOrder
   end
 end

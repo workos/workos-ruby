@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    UserManagementOrganizationMembershipGroupsOrder = ApplicationsOrder
+    UserManagementOrganizationMembershipGroupsOrder = ApiKeysOrder
   end
 end

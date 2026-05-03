@@ -1144,6 +1144,21 @@ module WorkOS
       result
     end
 
+    # Get JWT template
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::JWTTemplateResponse]
+    def list_jwt_template(request_options: {})
+      response = @client.request(
+        method: :get,
+        path: "/user_management/jwt_template",
+        auth: true,
+        request_options: request_options
+      )
+      result = WorkOS::JWTTemplateResponse.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
     # Update JWT template
     # @param content [String] The JWT template content as a Liquid template string.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
@@ -1500,6 +1515,88 @@ module WorkOS
         request_options: request_options
       )
       nil
+    end
+
+    # List API keys for a user
+    # @param user_id [String] Unique identifier of the user.
+    # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list.
+    # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list.
+    # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
+    # @param order [WorkOS::Types::ApiKeysOrder, nil] Order the results by the creation time.
+    # @param organization_id [String, nil] The ID of the organization to filter user API keys by. When provided, only API keys created against that organization membership are returned.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::Types::ListStruct<WorkOS::UserApiKey>]
+    def list_user_api_keys(
+      user_id:,
+      before: nil,
+      after: nil,
+      limit: nil,
+      order: "desc",
+      organization_id: nil,
+      request_options: {}
+    )
+      params = {
+        "before" => before,
+        "after" => after,
+        "limit" => limit,
+        "order" => order,
+        "organization_id" => organization_id
+      }.compact
+      response = @client.request(
+        method: :get,
+        path: "/user_management/users/#{WorkOS::Util.encode_path(user_id)}/api_keys",
+        auth: true,
+        params: params,
+        request_options: request_options
+      )
+      fetch_next = ->(cursor) {
+        list_user_api_keys(
+          user_id: user_id,
+          before: before,
+          after: cursor,
+          limit: limit,
+          order: order,
+          organization_id: organization_id,
+          request_options: request_options
+        )
+      }
+      WorkOS::Types::ListStruct.from_response(
+        response,
+        model: WorkOS::UserApiKey,
+        filters: {user_id: user_id, before: before, limit: limit, order: order, organization_id: organization_id},
+        fetch_next: fetch_next
+      )
+    end
+
+    # Create an API key for a user
+    # @param user_id [String] Unique identifier of the user.
+    # @param name [String] A descriptive name for the API key.
+    # @param organization_id [String] The ID of the organization the user API key is associated with. The user must have an active membership in this organization.
+    # @param permissions [Array<String>, nil] The permission slugs to assign to the API key. Each permission must be enabled for user API keys.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::UserApiKeyWithValue]
+    def create_user_api_key(
+      user_id:,
+      name:,
+      organization_id:,
+      permissions: nil,
+      request_options: {}
+    )
+      body = {
+        "name" => name,
+        "organization_id" => organization_id,
+        "permissions" => permissions
+      }.compact
+      response = @client.request(
+        method: :post,
+        path: "/user_management/users/#{WorkOS::Util.encode_path(user_id)}/api_keys",
+        auth: true,
+        body: body,
+        request_options: request_options
+      )
+      result = WorkOS::UserApiKeyWithValue.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
     end
 
     # @oagen-ignore-start — non-spec helpers (hand-maintained)

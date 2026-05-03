@@ -4,11 +4,6 @@
 
 module WorkOS
   module Types
-    class VaultByokKeyVerificationCompletedDataKeyProvider
-      AWS_KMS = "AWS_KMS"
-      GCP_KMS = "GCP_KMS"
-      AZURE_KEY_VAULT = "AZURE_KEY_VAULT"
-      ALL = [AWS_KMS, GCP_KMS, AZURE_KEY_VAULT].freeze
-    end
+    VaultByokKeyVerificationCompletedDataKeyProvider = VaultByokKeyDeletedDataKeyProvider
   end
 end

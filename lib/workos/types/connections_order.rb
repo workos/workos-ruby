@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    ConnectionsOrder = ApplicationsOrder
+    ConnectionsOrder = ApiKeysOrder
   end
 end

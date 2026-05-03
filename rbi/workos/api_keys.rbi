@@ -11,22 +11,6 @@ module WorkOS
 
     sig do
       params(
-        value: String,
-        request_options: T::Hash[Symbol, T.untyped]
-      ).returns(WorkOS::ApiKeyValidationResponse)
-    end
-    def create_validation(value:, request_options:); end
-
-    sig do
-      params(
-        id: String,
-        request_options: T::Hash[Symbol, T.untyped]
-      ).returns(NilClass)
-    end
-    def delete_api_key(id:, request_options:); end
-
-    sig do
-      params(
         organization_id: String,
         before: T.nilable(String),
         after: T.nilable(String),
@@ -43,9 +27,25 @@ module WorkOS
         name: String,
         permissions: T.nilable(T::Array[String]),
         request_options: T::Hash[Symbol, T.untyped]
-      ).returns(WorkOS::ApiKeyWithValue)
+      ).returns(WorkOS::OrganizationApiKeyWithValue)
     end
     def create_organization_api_key(organization_id:, name:, permissions:, request_options:); end
+
+    sig do
+      params(
+        value: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::ApiKeyValidationResponse)
+    end
+    def create_validation(value:, request_options:); end
+
+    sig do
+      params(
+        id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(NilClass)
+    end
+    def delete_api_key(id:, request_options:); end
 
   end
 end
