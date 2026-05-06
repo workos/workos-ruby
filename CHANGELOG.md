@@ -1,5 +1,34 @@
 # Changelog
 
+## [8.0.0](https://github.com/workos/workos-ruby/compare/v7.1.2...v8.0.0) (2026-05-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* **authorization:** Consolidate order enums to PaginationOrder
+* **api_keys:** Separate organization and user API key types
+* **user_management:** Consolidate order enums to PaginationOrder
+* **vault:** Add BYOK key deleted event and consolidate key provider enum
+* **types:** Consolidate pagination order enums
+* **authorization:** Rename RoleAssignment to UserRoleAssignment
+
+### Features
+
+* **api_keys:** Separate organization and user API key types ([956386a](https://github.com/workos/workos-ruby/commit/956386a27cb0f8a8707442fa98b74a317f3f9920))
+* **authorization:** Add new role assignment listing endpoints ([956386a](https://github.com/workos/workos-ruby/commit/956386a27cb0f8a8707442fa98b74a317f3f9920))
+* **authorization:** Consolidate order enums to PaginationOrder ([956386a](https://github.com/workos/workos-ruby/commit/956386a27cb0f8a8707442fa98b74a317f3f9920))
+* **authorization:** Rename RoleAssignment to UserRoleAssignment ([956386a](https://github.com/workos/workos-ruby/commit/956386a27cb0f8a8707442fa98b74a317f3f9920))
+* **directory_sync:** Add name field to directory users ([956386a](https://github.com/workos/workos-ruby/commit/956386a27cb0f8a8707442fa98b74a317f3f9920))
+* **docs:** publish YARD API docs + llms.txt to GitHub Pages ([#480](https://github.com/workos/workos-ruby/issues/480)) ([117eeac](https://github.com/workos/workos-ruby/commit/117eeac5d25c896c7a9b989592f3525f51e52a3d))
+* **events:** Add admin_portal source to event context actor ([956386a](https://github.com/workos/workos-ruby/commit/956386a27cb0f8a8707442fa98b74a317f3f9920))
+* **sso:** Add name field to SSO profile ([956386a](https://github.com/workos/workos-ruby/commit/956386a27cb0f8a8707442fa98b74a317f3f9920))
+* **types:** Consolidate pagination order enums ([956386a](https://github.com/workos/workos-ruby/commit/956386a27cb0f8a8707442fa98b74a317f3f9920))
+* **user_management:** Add get JWT template endpoint ([956386a](https://github.com/workos/workos-ruby/commit/956386a27cb0f8a8707442fa98b74a317f3f9920))
+* **user_management:** Add user API key management ([956386a](https://github.com/workos/workos-ruby/commit/956386a27cb0f8a8707442fa98b74a317f3f9920))
+* **user_management:** Add user field to membership and organization membership ([956386a](https://github.com/workos/workos-ruby/commit/956386a27cb0f8a8707442fa98b74a317f3f9920))
+* **user_management:** Consolidate order enums to PaginationOrder ([956386a](https://github.com/workos/workos-ruby/commit/956386a27cb0f8a8707442fa98b74a317f3f9920))
+* **vault:** Add BYOK key deleted event and consolidate key provider enum ([956386a](https://github.com/workos/workos-ruby/commit/956386a27cb0f8a8707442fa98b74a317f3f9920))
+
 ## [7.1.2](https://github.com/workos/workos-ruby/compare/v7.1.1...v7.1.2) (2026-05-06)
 
 
