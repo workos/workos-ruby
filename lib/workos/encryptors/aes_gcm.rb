@@ -27,6 +27,18 @@ module WorkOS
 
       def unseal(sealed, key)
         raw = Base64.decode64(sealed.to_s)
+        decode_v7(raw, key)
+      rescue ArgumentError, OpenSSL::Cipher::CipherError => original_error
+        begin
+          decode_old(raw, key)
+        rescue ArgumentError, OpenSSL::Cipher::CipherError
+          raise original_error
+        end
+      end
+
+      private
+
+      def decode_v7(raw, key)
         raise ArgumentError, "Sealed payload too short" if raw.bytesize < 1 + 12 + 16
         version = raw.byteslice(0, 1).bytes.first
         raise ArgumentError, "Unknown seal version: #{version}" unless version == SEAL_VERSION
@@ -37,7 +49,29 @@ module WorkOS
         cipher.key = derive_key(key)
         cipher.iv = iv
         cipher.auth_tag = tag
-        decoded = cipher.update(ciphertext) + cipher.final
+
+        parse_decoded(cipher.update(ciphertext) + cipher.final)
+      end
+
+      def decode_old(raw, key)
+        # v6 sealed sessions were Base64(iv + ciphertext + auth_tag) using the
+        # `encryptor` gem without the v7 version byte or key derivation.
+        raise ArgumentError, "Legacy sealed payload too short" if raw.bytesize < 12 + 16
+
+        iv = raw.byteslice(0, 12)
+        encrypted = raw.byteslice(12, raw.bytesize - 12)
+        ciphertext = encrypted.byteslice(0, encrypted.bytesize - 16)
+        tag = encrypted.byteslice(encrypted.bytesize - 16, 16)
+
+        cipher = OpenSSL::Cipher.new("aes-256-gcm").decrypt
+        cipher.key = key.to_s
+        cipher.iv = iv
+        cipher.auth_tag = tag
+
+        parse_decoded(cipher.update(ciphertext) + cipher.final)
+      end
+
+      def parse_decoded(decoded)
         decoded.force_encoding(Encoding::UTF_8)
         begin
           JSON.parse(decoded)
@@ -45,8 +79,6 @@ module WorkOS
           decoded
         end
       end
-
-      private
 
       def derive_key(passphrase)
         Digest::SHA256.digest(passphrase.to_s)

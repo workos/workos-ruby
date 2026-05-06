@@ -3,6 +3,9 @@
 # @oagen-ignore-file
 require "test_helper"
 require "base64"
+require "json"
+require "openssl"
+require "securerandom"
 
 class EncryptorsAesGcmTest < Minitest::Test
   PASSWORD = "test-cookie-password-at-least-32"
@@ -50,5 +53,23 @@ class EncryptorsAesGcmTest < Minitest::Test
     sealed1 = @enc.seal(data, PASSWORD)
     sealed2 = @enc.seal(data, PASSWORD)
     refute_equal sealed1, sealed2
+  end
+
+  def test_unseal_reads_legacy_v6_payload
+    data = {"access_token" => "tok_abc", "refresh_token" => "ref_xyz"}
+    sealed = legacy_v6_seal(data, PASSWORD)
+    assert_equal data, @enc.unseal(sealed, PASSWORD)
+  end
+
+  private
+
+  def legacy_v6_seal(data, key)
+    cipher = OpenSSL::Cipher.new("aes-256-gcm").encrypt
+    iv = SecureRandom.random_bytes(12)
+    cipher.key = key
+    cipher.iv = iv
+    ciphertext = cipher.update(JSON.generate(data)) + cipher.final
+
+    Base64.encode64(iv + ciphertext + cipher.auth_tag)
   end
 end

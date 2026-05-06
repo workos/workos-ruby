@@ -6,6 +6,7 @@ require "json"
 require "openssl"
 require "jwt"
 require "base64"
+require "securerandom"
 
 class SessionTest < Minitest::Test
   PASSWORD = "very-long-cookie-password-secret"
@@ -82,6 +83,22 @@ class SessionTest < Minitest::Test
     assert_equal "session_42", result.session_id
     assert_equal "org_1", result.organization_id
     assert_equal "u_1", result.user["id"]
+  end
+
+  def test_authenticate_reads_legacy_v6_sealed_session
+    rsa, pub = signing_key_pair
+    access_token = make_jwt({"sid" => "session_v6", "org_id" => "org_legacy", "exp" => Time.now.to_i + 60}, rsa)
+    sealed = legacy_v6_seal({"access_token" => access_token, "user" => {"id" => "u_legacy"}}, PASSWORD)
+
+    stub_request(:get, "https://api.workos.com/sso/jwks/client_001")
+      .to_return(status: 200, body: jwks_payload(pub).to_json)
+
+    result = @sm.authenticate(seal_data: sealed, cookie_password: PASSWORD)
+    assert_kind_of WorkOS::SessionManager::AuthSuccess, result
+    assert result.authenticated
+    assert_equal "session_v6", result.session_id
+    assert_equal "org_legacy", result.organization_id
+    assert_equal "u_legacy", result.user["id"]
   end
 
   def test_authenticate_merges_custom_claims_from_block
@@ -244,6 +261,45 @@ class SessionTest < Minitest::Test
     assert_equal "rt_new", unsealed["refresh_token"]
   end
 
+  def test_refresh_reads_legacy_v6_sealed_session
+    rsa, pub = signing_key_pair
+    old_access = make_jwt({"sid" => "session_old_v6", "exp" => Time.now.to_i - 60}, rsa)
+    sealed = legacy_v6_seal(
+      {"access_token" => old_access, "refresh_token" => "rt_old_v6", "user" => {"id" => "u_v6"}},
+      PASSWORD
+    )
+
+    new_access = make_jwt({"sid" => "session_new_v6", "org_id" => "org_v6", "role" => "member", "exp" => Time.now.to_i + 300}, rsa)
+    api_response = {
+      "access_token" => new_access,
+      "refresh_token" => "rt_new_v6",
+      "user" => {"id" => "u_v6", "email" => "legacy@example.com"},
+      "impersonator" => nil
+    }
+
+    stub_request(:post, "https://api.workos.com/user_management/authenticate")
+      .with(body: hash_including("grant_type" => "refresh_token", "refresh_token" => "rt_old_v6"))
+      .to_return(status: 200, body: api_response.to_json)
+    stub_request(:get, "https://api.workos.com/sso/jwks/client_001")
+      .to_return(status: 200, body: jwks_payload(pub).to_json)
+
+    session = @sm.load(seal_data: sealed, cookie_password: PASSWORD)
+    result = session.refresh
+
+    assert_kind_of WorkOS::SessionManager::RefreshSuccess, result
+    assert result.authenticated
+    assert_equal "session_new_v6", result.session_id
+    assert_equal "org_v6", result.organization_id
+    assert_equal "member", result.role
+    assert_equal "u_v6", result.user["id"]
+
+    refute_empty result.sealed_session
+    unsealed = @sm.unseal_data(result.sealed_session, PASSWORD)
+    assert_equal new_access, unsealed["access_token"]
+    assert_equal "rt_new_v6", unsealed["refresh_token"]
+    assert_equal "u_v6", unsealed["user"]["id"]
+  end
+
   def test_refresh_updates_internal_seal_data_for_subsequent_authenticate
     rsa, pub = signing_key_pair
     old_access = make_jwt({"sid" => "session_old", "exp" => Time.now.to_i - 60}, rsa)
@@ -382,5 +438,17 @@ class SessionTest < Minitest::Test
     result = sm.authenticate(seal_data: sealed, cookie_password: PASSWORD)
     assert_kind_of WorkOS::SessionManager::AuthSuccess, result
     assert_equal "s_custom", result.session_id
+  end
+
+  private
+
+  def legacy_v6_seal(data, key)
+    cipher = OpenSSL::Cipher.new("aes-256-gcm").encrypt
+    iv = SecureRandom.random_bytes(12)
+    cipher.key = key
+    cipher.iv = iv
+    ciphertext = cipher.update(JSON.generate(data)) + cipher.final
+
+    Base64.encode64(iv + ciphertext + cipher.auth_tag)
   end
 end
