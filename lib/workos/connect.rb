@@ -50,7 +50,7 @@ module WorkOS
     def list_applications(
       before: nil,
       after: nil,
-      limit: nil,
+      limit: 10,
       order: "desc",
       organization_id: nil,
       request_options: {}

@@ -20,7 +20,7 @@ module WorkOS
     def list_webhook_endpoints(
       before: nil,
       after: nil,
-      limit: nil,
+      limit: 10,
       order: "desc",
       request_options: {}
     )

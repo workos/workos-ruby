@@ -64,7 +64,7 @@ module WorkOS
     def list_actions(
       before: nil,
       after: nil,
-      limit: nil,
+      limit: 10,
       order: "desc",
       request_options: {}
     )
@@ -110,7 +110,7 @@ module WorkOS
       action_name:,
       before: nil,
       after: nil,
-      limit: nil,
+      limit: 10,
       order: "desc",
       request_options: {}
     )

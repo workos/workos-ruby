@@ -1,7 +1,7 @@
 {
   "version": 2,
   "language": "ruby",
-  "generatedAt": "2026-05-06T01:54:11.909Z",
+  "generatedAt": "2026-05-06T22:30:35.198Z",
   "files": [
     "lib/workos.rb",
     "lib/workos/admin_portal.rb",
@@ -25,7 +25,6 @@
     "lib/workos/api_keys/organization_api_key_owner.rb",
     "lib/workos/api_keys/organization_api_key_with_value.rb",
     "lib/workos/api_keys/organization_api_key_with_value_owner.rb",
-    "lib/workos/api_keys/user_api_key_owner.rb",
     "lib/workos/api_keys/validate_api_key.rb",
     "lib/workos/audit_logs.rb",
     "lib/workos/audit_logs/audit_log_action_json.rb",
@@ -529,6 +528,7 @@
     "lib/workos/user_management/user.rb",
     "lib/workos/user_management/user_api_key.rb",
     "lib/workos/user_management/user_api_key_created_data_owner.rb",
+    "lib/workos/user_management/user_api_key_owner.rb",
     "lib/workos/user_management/user_api_key_revoked_data_owner.rb",
     "lib/workos/user_management/user_api_key_with_value.rb",
     "lib/workos/user_management/user_api_key_with_value_owner.rb",

@@ -589,7 +589,7 @@ module WorkOS
     def list_users(
       before: nil,
       after: nil,
-      limit: nil,
+      limit: 10,
       order: "desc",
       organization: nil,
       organization_id: nil,
@@ -918,7 +918,7 @@ module WorkOS
       id:,
       before: nil,
       after: nil,
-      limit: nil,
+      limit: 10,
       order: "desc",
       request_options: {}
     )
@@ -965,7 +965,7 @@ module WorkOS
     def list_invitations(
       before: nil,
       after: nil,
-      limit: nil,
+      limit: 10,
       order: "desc",
       organization_id: nil,
       email: nil,
@@ -1240,7 +1240,7 @@ module WorkOS
     def list_organization_memberships(
       before: nil,
       after: nil,
-      limit: nil,
+      limit: 10,
       order: "desc",
       organization_id: nil,
       statuses: nil,
@@ -1463,7 +1463,7 @@ module WorkOS
       user_id:,
       before: nil,
       after: nil,
-      limit: nil,
+      limit: 10,
       order: "desc",
       request_options: {}
     )
@@ -1530,7 +1530,7 @@ module WorkOS
       user_id:,
       before: nil,
       after: nil,
-      limit: nil,
+      limit: 10,
       order: "desc",
       organization_id: nil,
       request_options: {}

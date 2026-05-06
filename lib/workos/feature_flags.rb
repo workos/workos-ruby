@@ -20,7 +20,7 @@ module WorkOS
     def list_feature_flags(
       before: nil,
       after: nil,
-      limit: nil,
+      limit: 10,
       order: "desc",
       request_options: {}
     )
@@ -161,7 +161,7 @@ module WorkOS
       organization_id:,
       before: nil,
       after: nil,
-      limit: nil,
+      limit: 10,
       order: "desc",
       request_options: {}
     )
@@ -208,7 +208,7 @@ module WorkOS
       user_id:,
       before: nil,
       after: nil,
-      limit: nil,
+      limit: 10,
       order: "desc",
       request_options: {}
     )

@@ -22,7 +22,7 @@ module WorkOS
       organization_id:,
       before: nil,
       after: nil,
-      limit: nil,
+      limit: 10,
       order: "desc",
       request_options: {}
     )

@@ -22,7 +22,7 @@ module WorkOS
     def list_organizations(
       before: nil,
       after: nil,
-      limit: nil,
+      limit: 10,
       order: "desc",
       domains: nil,
       search: nil,

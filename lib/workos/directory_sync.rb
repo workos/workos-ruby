@@ -23,7 +23,7 @@ module WorkOS
     def list_directories(
       before: nil,
       after: nil,
-      limit: nil,
+      limit: 10,
       order: "desc",
       organization_id: nil,
       search: nil,
@@ -114,7 +114,7 @@ module WorkOS
     def list_groups(
       before: nil,
       after: nil,
-      limit: nil,
+      limit: 10,
       order: "desc",
       directory: nil,
       user: nil,
@@ -185,7 +185,7 @@ module WorkOS
     def list_users(
       before: nil,
       after: nil,
-      limit: nil,
+      limit: 10,
       order: "desc",
       directory: nil,
       group: nil,

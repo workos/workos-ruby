@@ -24,7 +24,7 @@ module WorkOS
     def list_events(
       before: nil,
       after: nil,
-      limit: nil,
+      limit: 10,
       order: "desc",
       events: nil,
       range_start: nil,

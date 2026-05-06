@@ -104,7 +104,7 @@ module WorkOS
       parent_resource:,
       before: nil,
       after: nil,
-      limit: nil,
+      limit: 10,
       order: "desc",
       request_options: {}
     )
@@ -165,7 +165,7 @@ module WorkOS
       resource_id:,
       before: nil,
       after: nil,
-      limit: nil,
+      limit: 10,
       order: "desc",
       request_options: {}
     )
@@ -217,7 +217,7 @@ module WorkOS
       external_id:,
       before: nil,
       after: nil,
-      limit: nil,
+      limit: 10,
       order: "desc",
       request_options: {}
     )
@@ -266,7 +266,7 @@ module WorkOS
       organization_membership_id:,
       before: nil,
       after: nil,
-      limit: nil,
+      limit: 10,
       order: "desc",
       request_options: {}
     )
@@ -671,7 +671,7 @@ module WorkOS
       organization_id:,
       resource_type_slug:,
       external_id:,
-      cascade_delete: nil,
+      cascade_delete: false,
       request_options: {}
     )
       params = {
@@ -706,7 +706,7 @@ module WorkOS
       permission_slug:,
       before: nil,
       after: nil,
-      limit: nil,
+      limit: 10,
       order: "desc",
       assignment: nil,
       request_options: {}
@@ -764,7 +764,7 @@ module WorkOS
       external_id:,
       before: nil,
       after: nil,
-      limit: nil,
+      limit: 10,
       order: "desc",
       request_options: {}
     )
@@ -816,7 +816,7 @@ module WorkOS
     def list_resources(
       before: nil,
       after: nil,
-      limit: nil,
+      limit: 10,
       order: "desc",
       organization_id: nil,
       resource_type_slug: nil,
@@ -990,7 +990,7 @@ module WorkOS
     # @return [void]
     def delete_resource(
       resource_id:,
-      cascade_delete: nil,
+      cascade_delete: false,
       request_options: {}
     )
       params = {
@@ -1021,7 +1021,7 @@ module WorkOS
       permission_slug:,
       before: nil,
       after: nil,
-      limit: nil,
+      limit: 10,
       order: "desc",
       assignment: nil,
       request_options: {}
@@ -1073,7 +1073,7 @@ module WorkOS
       resource_id:,
       before: nil,
       after: nil,
-      limit: nil,
+      limit: 10,
       order: "desc",
       request_options: {}
     )
@@ -1262,7 +1262,7 @@ module WorkOS
     def list_permissions(
       before: nil,
       after: nil,
-      limit: nil,
+      limit: 10,
       order: "desc",
       request_options: {}
     )

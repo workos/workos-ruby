@@ -24,7 +24,7 @@ module WorkOS
     def list_connections(
       before: nil,
       after: nil,
-      limit: nil,
+      limit: 10,
       order: "desc",
       connection_type: nil,
       domain: nil,
