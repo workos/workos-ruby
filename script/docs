@@ -11,3 +11,6 @@ bundle exec yard doc
 #    --no-cache forces a re-parse so the markdown formatter sees fresh registry data.
 #    --plugin yard-markdown ensures the plugin is loaded without relying on ~/.yard/config.
 bundle exec yard doc --plugin yard-markdown --format markdown --no-cache --output-dir docs/_site
+# 3. Generate llms.txt (index) from the markdown output, so the published site
+#    is consumable by LLM tooling.
+bundle exec ./script/llms-txt
