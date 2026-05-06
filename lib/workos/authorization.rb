@@ -93,7 +93,7 @@ module WorkOS
     # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`.
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
-    # @param order [WorkOS::Types::AuthorizationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
+    # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
     # @param permission_slug [String] The permission slug to filter by. Only child resources where the organization membership has this permission are returned.
     # @param parent_resource [WorkOS::Authorization::ParentResourceById, WorkOS::Authorization::ParentResourceByExternalId] Identifies the parent resource.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
@@ -157,7 +157,7 @@ module WorkOS
     # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`.
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
-    # @param order [WorkOS::Types::AuthorizationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
+    # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::Types::ListStruct<WorkOS::AuthorizationPermission>]
     def list_effective_permissions(
@@ -208,7 +208,7 @@ module WorkOS
     # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`.
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
-    # @param order [WorkOS::Types::AuthorizationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
+    # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::Types::ListStruct<WorkOS::AuthorizationPermission>]
     def list_effective_permissions_by_external_id(
@@ -259,9 +259,9 @@ module WorkOS
     # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`.
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
-    # @param order [WorkOS::Types::AuthorizationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
+    # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
-    # @return [WorkOS::Types::ListStruct<WorkOS::RoleAssignment>]
+    # @return [WorkOS::Types::ListStruct<WorkOS::UserRoleAssignment>]
     def list_role_assignments(
       organization_membership_id:,
       before: nil,
@@ -295,7 +295,7 @@ module WorkOS
       }
       WorkOS::Types::ListStruct.from_response(
         response,
-        model: WorkOS::RoleAssignment,
+        model: WorkOS::UserRoleAssignment,
         filters: {organization_membership_id: organization_membership_id, before: before, limit: limit, order: order},
         fetch_next: fetch_next
       )
@@ -306,7 +306,7 @@ module WorkOS
     # @param role_slug [String] The slug of the role to assign.
     # @param resource_target [WorkOS::Authorization::ResourceTargetById, WorkOS::Authorization::ResourceTargetByExternalId] Identifies the resource target.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
-    # @return [WorkOS::RoleAssignment]
+    # @return [WorkOS::UserRoleAssignment]
     def assign_role(
       organization_membership_id:,
       role_slug:,
@@ -332,7 +332,7 @@ module WorkOS
         body: body,
         request_options: request_options
       )
-      result = WorkOS::RoleAssignment.new(response.body)
+      result = WorkOS::UserRoleAssignment.new(response.body)
       result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
       result
     end
@@ -694,7 +694,7 @@ module WorkOS
     # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`.
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
-    # @param order [WorkOS::Types::AuthorizationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
+    # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
     # @param permission_slug [String] The permission slug to filter by. Only users with this permission on the resource are returned.
     # @param assignment [WorkOS::Types::AuthorizationAssignment, nil] Filter by assignment type. Use "direct" for direct assignments only, or "indirect" to include inherited assignments.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
@@ -748,11 +748,64 @@ module WorkOS
       )
     end
 
+    # List role assignments for a resource by external ID
+    # @param organization_id [String] The ID of the organization that owns the resource.
+    # @param resource_type_slug [String] The slug of the resource type.
+    # @param external_id [String] An identifier you provide to reference the resource in your system.
+    # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`.
+    # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
+    # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
+    # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::Types::ListStruct<WorkOS::UserRoleAssignment>]
+    def list_role_assignments_for_resource_by_external_id(
+      organization_id:,
+      resource_type_slug:,
+      external_id:,
+      before: nil,
+      after: nil,
+      limit: nil,
+      order: "desc",
+      request_options: {}
+    )
+      params = {
+        "before" => before,
+        "after" => after,
+        "limit" => limit,
+        "order" => order
+      }.compact
+      response = @client.request(
+        method: :get,
+        path: "/authorization/organizations/#{WorkOS::Util.encode_path(organization_id)}/resources/#{WorkOS::Util.encode_path(resource_type_slug)}/#{WorkOS::Util.encode_path(external_id)}/role_assignments",
+        auth: true,
+        params: params,
+        request_options: request_options
+      )
+      fetch_next = ->(cursor) {
+        list_role_assignments_for_resource_by_external_id(
+          organization_id: organization_id,
+          resource_type_slug: resource_type_slug,
+          external_id: external_id,
+          before: before,
+          after: cursor,
+          limit: limit,
+          order: order,
+          request_options: request_options
+        )
+      }
+      WorkOS::Types::ListStruct.from_response(
+        response,
+        model: WorkOS::UserRoleAssignment,
+        filters: {organization_id: organization_id, resource_type_slug: resource_type_slug, external_id: external_id, before: before, limit: limit, order: order},
+        fetch_next: fetch_next
+      )
+    end
+
     # List resources
     # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`.
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
-    # @param order [WorkOS::Types::AuthorizationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
+    # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
     # @param organization_id [String, nil] Filter resources by organization ID.
     # @param resource_type_slug [String, nil] Filter resources by resource type slug.
     # @param resource_external_id [String, nil] Filter resources by external ID.
@@ -958,7 +1011,7 @@ module WorkOS
     # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`.
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
-    # @param order [WorkOS::Types::AuthorizationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
+    # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
     # @param permission_slug [String] The permission slug to filter by. Only users with this permission on the resource are returned.
     # @param assignment [WorkOS::Types::AuthorizationAssignment, nil] Filter by assignment type. Use `direct` for direct assignments only, or `indirect` to include inherited assignments.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
@@ -1004,6 +1057,53 @@ module WorkOS
         response,
         model: WorkOS::UserOrganizationMembershipBaseListData,
         filters: {resource_id: resource_id, before: before, limit: limit, order: order, permission_slug: permission_slug, assignment: assignment},
+        fetch_next: fetch_next
+      )
+    end
+
+    # List role assignments for a resource
+    # @param resource_id [String] The ID of the authorization resource.
+    # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`.
+    # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
+    # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
+    # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::Types::ListStruct<WorkOS::UserRoleAssignment>]
+    def list_role_assignments_for_resource(
+      resource_id:,
+      before: nil,
+      after: nil,
+      limit: nil,
+      order: "desc",
+      request_options: {}
+    )
+      params = {
+        "before" => before,
+        "after" => after,
+        "limit" => limit,
+        "order" => order
+      }.compact
+      response = @client.request(
+        method: :get,
+        path: "/authorization/resources/#{WorkOS::Util.encode_path(resource_id)}/role_assignments",
+        auth: true,
+        params: params,
+        request_options: request_options
+      )
+      fetch_next = ->(cursor) {
+        list_role_assignments_for_resource(
+          resource_id: resource_id,
+          before: before,
+          after: cursor,
+          limit: limit,
+          order: order,
+          request_options: request_options
+        )
+      }
+      WorkOS::Types::ListStruct.from_response(
+        response,
+        model: WorkOS::UserRoleAssignment,
+        filters: {resource_id: resource_id, before: before, limit: limit, order: order},
         fetch_next: fetch_next
       )
     end
@@ -1156,7 +1256,7 @@ module WorkOS
     # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`.
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
-    # @param order [WorkOS::Types::PermissionsOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
+    # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::Types::ListStruct<WorkOS::AuthorizationPermission>]
     def list_permissions(

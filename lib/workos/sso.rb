@@ -14,7 +14,7 @@ module WorkOS
     # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list.
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
-    # @param order [WorkOS::Types::ConnectionsOrder, nil] Order the results by the creation time.
+    # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time.
     # @param connection_type [WorkOS::Types::ConnectionsConnectionType, nil] Filter Connections by their type.
     # @param domain [String, nil] Filter Connections by their associated domain.
     # @param organization_id [String, nil] Filter Connections by their associated organization.

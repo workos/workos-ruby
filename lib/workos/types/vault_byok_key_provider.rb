@@ -4,7 +4,7 @@
 
 module WorkOS
   module Types
-    class VaultByokKeyVerificationCompletedDataKeyProvider
+    class VaultByokKeyProvider
       AWS_KMS = "AWS_KMS"
       GCP_KMS = "GCP_KMS"
       AZURE_KEY_VAULT = "AZURE_KEY_VAULT"

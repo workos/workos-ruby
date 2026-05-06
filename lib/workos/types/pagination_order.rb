@@ -4,7 +4,7 @@
 
 module WorkOS
   module Types
-    class ApplicationsOrder
+    class PaginationOrder
       NORMAL = "normal"
       DESC = "desc"
       ASC = "asc"

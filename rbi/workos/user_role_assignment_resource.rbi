@@ -5,15 +5,9 @@
 # typed: strong
 
 module WorkOS
-  class RoleAssignment
+  class UserRoleAssignmentResource
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
-
-    sig { returns(String) }
-    def object; end
-
-    sig { params(value: String).returns(String) }
-    def object=(value); end
 
     sig { returns(String) }
     def id; end
@@ -21,29 +15,17 @@ module WorkOS
     sig { params(value: String).returns(String) }
     def id=(value); end
 
-    sig { returns(WorkOS::SlimRole) }
-    def role; end
-
-    sig { params(value: WorkOS::SlimRole).returns(WorkOS::SlimRole) }
-    def role=(value); end
-
-    sig { returns(WorkOS::RoleAssignmentResource) }
-    def resource; end
-
-    sig { params(value: WorkOS::RoleAssignmentResource).returns(WorkOS::RoleAssignmentResource) }
-    def resource=(value); end
-
     sig { returns(String) }
-    def created_at; end
+    def external_id; end
 
     sig { params(value: String).returns(String) }
-    def created_at=(value); end
+    def external_id=(value); end
 
     sig { returns(String) }
-    def updated_at; end
+    def resource_type_slug; end
 
     sig { params(value: String).returns(String) }
-    def updated_at=(value); end
+    def resource_type_slug=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end
