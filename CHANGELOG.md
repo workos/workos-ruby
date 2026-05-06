@@ -1,5 +1,14 @@
 # Changelog
 
+## [7.1.2](https://github.com/workos/workos-ruby/compare/v7.1.1...v7.1.2) (2026-05-06)
+
+
+### Bug Fixes
+
+* decode legacy v6 sealed sessions on unseal ([#479](https://github.com/workos/workos-ruby/issues/479)) ([1d8b4aa](https://github.com/workos/workos-ruby/commit/1d8b4aaa26e77e6d7820feb7e2f81278a77b0cf4))
+* replace parameter-group hashes with typed variant classes ([#473](https://github.com/workos/workos-ruby/issues/473)) ([a66c15b](https://github.com/workos/workos-ruby/commit/a66c15b6070ad8c26f0ca0b9ad7414f7b2ce8d8a))
+* set canonical User-Agent header format ([#476](https://github.com/workos/workos-ruby/issues/476)) ([6728358](https://github.com/workos/workos-ruby/commit/67283581886a122f36d907229a71211665623219))
+
 ## [7.1.1](https://github.com/workos/workos-ruby/compare/v7.1.0...v7.1.1) (2026-04-29)
 
 
