@@ -1,0 +1,12 @@
+#!/bin/sh
+set -eu
+cd "$(dirname "$0")/.."
+bundle config set --local with 'docs'
+bundle install --quiet
+if [ "${1:-}" = "--static" ]; then
+  if [ ! -d docs/_site ]; then
+    ./script/docs
+  fi
+  exec bundle exec ruby -run -e httpd -- docs/_site -p 4000
+fi
+exec bundle exec yard server --reload --port 4000

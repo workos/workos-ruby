@@ -1,0 +1,13 @@
+#!/bin/sh
+set -eu
+cd "$(dirname "$0")/.."
+bundle config set --local with 'docs'
+bundle install
+rm -rf docs/_site
+# 1. Generate HTML docs (default YARD format).
+bundle exec yard doc
+# 2. Generate Markdown docs alongside the HTML, using the yard-markdown plugin.
+#    We point output at the same docs/_site directory so .md files land next to .html.
+#    --no-cache forces a re-parse so the markdown formatter sees fresh registry data.
+#    --plugin yard-markdown ensures the plugin is loaded without relying on ~/.yard/config.
+bundle exec yard doc --plugin yard-markdown --format markdown --no-cache --output-dir docs/_site
