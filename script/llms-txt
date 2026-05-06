@@ -34,4 +34,4 @@ index_lines << ""
 
 SITE.join("llms.txt").write(index_lines.join("\n"))
 
-puts "Wrote #{SITE.join('llms.txt')} (#{md_files.size} entries)"
+puts "Wrote #{SITE.join("llms.txt")} (#{md_files.size} entries)"
