@@ -5,7 +5,7 @@
 # typed: strong
 
 module WorkOS
-  class ApiKeyWithValue
+  class UserRoleAssignment
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
 
@@ -21,35 +21,23 @@ module WorkOS
     sig { params(value: String).returns(String) }
     def id=(value); end
 
-    sig { returns(WorkOS::ApiKeyWithValueOwner) }
-    def owner; end
-
-    sig { params(value: WorkOS::ApiKeyWithValueOwner).returns(WorkOS::ApiKeyWithValueOwner) }
-    def owner=(value); end
-
     sig { returns(String) }
-    def name; end
+    def organization_membership_id; end
 
     sig { params(value: String).returns(String) }
-    def name=(value); end
+    def organization_membership_id=(value); end
 
-    sig { returns(String) }
-    def obfuscated_value; end
+    sig { returns(WorkOS::SlimRole) }
+    def role; end
 
-    sig { params(value: String).returns(String) }
-    def obfuscated_value=(value); end
+    sig { params(value: WorkOS::SlimRole).returns(WorkOS::SlimRole) }
+    def role=(value); end
 
-    sig { returns(T.nilable(String)) }
-    def last_used_at; end
+    sig { returns(WorkOS::UserRoleAssignmentResource) }
+    def resource; end
 
-    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
-    def last_used_at=(value); end
-
-    sig { returns(T::Array[String]) }
-    def permissions; end
-
-    sig { params(value: T::Array[String]).returns(T::Array[String]) }
-    def permissions=(value); end
+    sig { params(value: WorkOS::UserRoleAssignmentResource).returns(WorkOS::UserRoleAssignmentResource) }
+    def resource=(value); end
 
     sig { returns(String) }
     def created_at; end
@@ -62,12 +50,6 @@ module WorkOS
 
     sig { params(value: String).returns(String) }
     def updated_at=(value); end
-
-    sig { returns(String) }
-    def value; end
-
-    sig { params(value: String).returns(String) }
-    def value=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end

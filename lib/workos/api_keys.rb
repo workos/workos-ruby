@@ -10,6 +10,81 @@ module WorkOS
       @client = client
     end
 
+    # List API keys for an organization
+    # @param organization_id [String] Unique identifier of the Organization.
+    # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list.
+    # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list.
+    # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
+    # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::Types::ListStruct<WorkOS::OrganizationApiKey>]
+    def list_organization_api_keys(
+      organization_id:,
+      before: nil,
+      after: nil,
+      limit: 10,
+      order: "desc",
+      request_options: {}
+    )
+      params = {
+        "before" => before,
+        "after" => after,
+        "limit" => limit,
+        "order" => order
+      }.compact
+      response = @client.request(
+        method: :get,
+        path: "/organizations/#{WorkOS::Util.encode_path(organization_id)}/api_keys",
+        auth: true,
+        params: params,
+        request_options: request_options
+      )
+      fetch_next = ->(cursor) {
+        list_organization_api_keys(
+          organization_id: organization_id,
+          before: before,
+          after: cursor,
+          limit: limit,
+          order: order,
+          request_options: request_options
+        )
+      }
+      WorkOS::Types::ListStruct.from_response(
+        response,
+        model: WorkOS::OrganizationApiKey,
+        filters: {organization_id: organization_id, before: before, limit: limit, order: order},
+        fetch_next: fetch_next
+      )
+    end
+
+    # Create an API key for an organization
+    # @param organization_id [String] Unique identifier of the Organization.
+    # @param name [String] The name for the API key.
+    # @param permissions [Array<String>, nil] The permission slugs to assign to the API key.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::OrganizationApiKeyWithValue]
+    def create_organization_api_key(
+      organization_id:,
+      name:,
+      permissions: nil,
+      request_options: {}
+    )
+      body = {
+        "name" => name,
+        "permissions" => permissions
+      }.compact
+      response = @client.request(
+        method: :post,
+        path: "/organizations/#{WorkOS::Util.encode_path(organization_id)}/api_keys",
+        auth: true,
+        body: body,
+        request_options: request_options
+      )
+      result = WorkOS::OrganizationApiKeyWithValue.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
     # Validate API key
     # @param value [String] The value for an API key.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
@@ -48,81 +123,6 @@ module WorkOS
         request_options: request_options
       )
       nil
-    end
-
-    # List API keys for an organization
-    # @param organization_id [String] Unique identifier of the Organization.
-    # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list.
-    # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list.
-    # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
-    # @param order [WorkOS::Types::OrganizationsApiKeysOrder, nil] Order the results by the creation time.
-    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
-    # @return [WorkOS::Types::ListStruct<WorkOS::ApiKey>]
-    def list_organization_api_keys(
-      organization_id:,
-      before: nil,
-      after: nil,
-      limit: nil,
-      order: "desc",
-      request_options: {}
-    )
-      params = {
-        "before" => before,
-        "after" => after,
-        "limit" => limit,
-        "order" => order
-      }.compact
-      response = @client.request(
-        method: :get,
-        path: "/organizations/#{WorkOS::Util.encode_path(organization_id)}/api_keys",
-        auth: true,
-        params: params,
-        request_options: request_options
-      )
-      fetch_next = ->(cursor) {
-        list_organization_api_keys(
-          organization_id: organization_id,
-          before: before,
-          after: cursor,
-          limit: limit,
-          order: order,
-          request_options: request_options
-        )
-      }
-      WorkOS::Types::ListStruct.from_response(
-        response,
-        model: WorkOS::ApiKey,
-        filters: {organization_id: organization_id, before: before, limit: limit, order: order},
-        fetch_next: fetch_next
-      )
-    end
-
-    # Create an API key for an organization
-    # @param organization_id [String] Unique identifier of the Organization.
-    # @param name [String] The name for the API key.
-    # @param permissions [Array<String>, nil] The permission slugs to assign to the API key.
-    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
-    # @return [WorkOS::ApiKeyWithValue]
-    def create_organization_api_key(
-      organization_id:,
-      name:,
-      permissions: nil,
-      request_options: {}
-    )
-      body = {
-        "name" => name,
-        "permissions" => permissions
-      }.compact
-      response = @client.request(
-        method: :post,
-        path: "/organizations/#{WorkOS::Util.encode_path(organization_id)}/api_keys",
-        auth: true,
-        body: body,
-        request_options: request_options
-      )
-      result = WorkOS::ApiKeyWithValue.new(response.body)
-      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
-      result
     end
   end
 end

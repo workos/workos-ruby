@@ -14,13 +14,13 @@ module WorkOS
     # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list.
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
-    # @param order [WorkOS::Types::FeatureFlagsOrder, nil] Order the results by the creation time.
+    # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::Types::ListStruct<WorkOS::Flag>]
     def list_feature_flags(
       before: nil,
       after: nil,
-      limit: nil,
+      limit: 10,
       order: "desc",
       request_options: {}
     )
@@ -154,14 +154,14 @@ module WorkOS
     # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list.
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
-    # @param order [WorkOS::Types::OrganizationsFeatureFlagsOrder, nil] Order the results by the creation time.
+    # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::Types::ListStruct<WorkOS::Flag>]
     def list_organization_feature_flags(
       organization_id:,
       before: nil,
       after: nil,
-      limit: nil,
+      limit: 10,
       order: "desc",
       request_options: {}
     )
@@ -201,14 +201,14 @@ module WorkOS
     # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list.
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
-    # @param order [WorkOS::Types::UserManagementUsersFeatureFlagsOrder, nil] Order the results by the creation time.
+    # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::Types::ListStruct<WorkOS::Flag>]
     def list_user_feature_flags(
       user_id:,
       before: nil,
       after: nil,
-      limit: nil,
+      limit: 10,
       order: "desc",
       request_options: {}
     )

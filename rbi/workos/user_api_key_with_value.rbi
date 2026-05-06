@@ -5,7 +5,7 @@
 # typed: strong
 
 module WorkOS
-  class ApiKey
+  class UserApiKeyWithValue
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
 
@@ -21,10 +21,10 @@ module WorkOS
     sig { params(value: String).returns(String) }
     def id=(value); end
 
-    sig { returns(T.any(WorkOS::ApiKeyOwner, WorkOS::UserApiKeyOwner)) }
+    sig { returns(WorkOS::UserApiKeyWithValueOwner) }
     def owner; end
 
-    sig { params(value: T.any(WorkOS::ApiKeyOwner, WorkOS::UserApiKeyOwner)).returns(T.any(WorkOS::ApiKeyOwner, WorkOS::UserApiKeyOwner)) }
+    sig { params(value: WorkOS::UserApiKeyWithValueOwner).returns(WorkOS::UserApiKeyWithValueOwner) }
     def owner=(value); end
 
     sig { returns(String) }
@@ -62,6 +62,12 @@ module WorkOS
 
     sig { params(value: String).returns(String) }
     def updated_at=(value); end
+
+    sig { returns(String) }
+    def value; end
+
+    sig { params(value: String).returns(String) }
+    def value=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end

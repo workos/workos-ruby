@@ -6,9 +6,6 @@
 
 module WorkOS
   class Client < BaseClient
-    sig { returns(WorkOS::ApiKeys) }
-    def api_keys; end
-
     sig { returns(WorkOS::MultiFactorAuth) }
     def multi_factor_auth; end
 
@@ -41,6 +38,9 @@ module WorkOS
 
     sig { returns(WorkOS::AuditLogs) }
     def audit_logs; end
+
+    sig { returns(WorkOS::ApiKeys) }
+    def api_keys; end
 
     sig { returns(WorkOS::Groups) }
     def groups; end

@@ -14,6 +14,7 @@ module WorkOS
       email: :email,
       first_name: :first_name,
       last_name: :last_name,
+      name: :name,
       role: :role,
       roles: :roles,
       groups: :groups,
@@ -31,6 +32,7 @@ module WorkOS
       :email,
       :first_name,
       :last_name,
+      :name,
       :role,
       :roles,
       :groups,
@@ -48,6 +50,7 @@ module WorkOS
       @email = hash[:email]
       @first_name = hash[:first_name]
       @last_name = hash[:last_name]
+      @name = hash[:name]
       @role = hash[:role] ? WorkOS::SlimRole.new(hash[:role]) : nil
       @roles = (hash[:roles] || []).map { |item| item ? WorkOS::SlimRole.new(item) : nil }
       @groups = hash[:groups] || []

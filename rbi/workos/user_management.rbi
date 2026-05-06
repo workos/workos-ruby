@@ -335,6 +335,13 @@ module WorkOS
 
     sig do
       params(
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::JWTTemplateResponse)
+    end
+    def list_jwt_template(request_options:); end
+
+    sig do
+      params(
         content: String,
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::JWTTemplateResponse)
@@ -451,6 +458,30 @@ module WorkOS
       ).returns(NilClass)
     end
     def delete_user_authorized_application(application_id:, user_id:, request_options:); end
+
+    sig do
+      params(
+        user_id: String,
+        before: T.nilable(String),
+        after: T.nilable(String),
+        limit: T.nilable(Integer),
+        order: T.nilable(String),
+        organization_id: T.nilable(String),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::Types::ListStruct)
+    end
+    def list_user_api_keys(user_id:, before:, after:, limit:, order:, organization_id:, request_options:); end
+
+    sig do
+      params(
+        user_id: String,
+        name: String,
+        organization_id: String,
+        permissions: T.nilable(T::Array[String]),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::UserApiKeyWithValue)
+    end
+    def create_user_api_key(user_id:, name:, organization_id:, permissions:, request_options:); end
 
   end
 end

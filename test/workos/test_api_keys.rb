@@ -11,20 +11,6 @@ class ApiKeysTest < Minitest::Test
     @client = WorkOS::Client.new(api_key: "sk_test_123")
   end
 
-  def test_create_validation_returns_expected_result
-    stub_request(:post, %r{\Ahttps://api\.workos\.com/api_keys/validations(\?|\z)})
-      .to_return(body: "{}", status: 200)
-    result = @client.api_keys.create_validation(value: "stub")
-    refute_nil result
-  end
-
-  def test_delete_api_key_returns_expected_result
-    stub_request(:delete, %r{\Ahttps://api\.workos\.com/api_keys/stub(\?|\z)})
-      .to_return(body: "{}", status: 200)
-    result = @client.api_keys.delete_api_key(id: "stub")
-    assert_nil result
-  end
-
   def test_list_organization_api_keys_returns_expected_result
     stub_request(:get, %r{\Ahttps://api\.workos\.com/organizations/stub/api_keys(\?|\z)})
       .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
@@ -39,12 +25,26 @@ class ApiKeysTest < Minitest::Test
     refute_nil result
   end
 
+  def test_create_validation_returns_expected_result
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/api_keys/validations(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.api_keys.create_validation(value: "stub")
+    refute_nil result
+  end
+
+  def test_delete_api_key_returns_expected_result
+    stub_request(:delete, %r{\Ahttps://api\.workos\.com/api_keys/stub(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.api_keys.delete_api_key(id: "stub")
+    assert_nil result
+  end
+
   # Parameterized authentication error tests (one per endpoint).
   [
-    {name: :create_validation, verb: :post, url: %r{\Ahttps://api\.workos\.com/api_keys/validations(\?|\z)}, args: {value: "stub"}},
-    {name: :delete_api_key, verb: :delete, url: %r{\Ahttps://api\.workos\.com/api_keys/stub(\?|\z)}, args: {id: "stub"}},
     {name: :list_organization_api_keys, verb: :get, url: %r{\Ahttps://api\.workos\.com/organizations/stub/api_keys(\?|\z)}, args: {organization_id: "stub"}},
-    {name: :create_organization_api_key, verb: :post, url: %r{\Ahttps://api\.workos\.com/organizations/stub/api_keys(\?|\z)}, args: {organization_id: "stub", name: "stub"}}
+    {name: :create_organization_api_key, verb: :post, url: %r{\Ahttps://api\.workos\.com/organizations/stub/api_keys(\?|\z)}, args: {organization_id: "stub", name: "stub"}},
+    {name: :create_validation, verb: :post, url: %r{\Ahttps://api\.workos\.com/api_keys/validations(\?|\z)}, args: {value: "stub"}},
+    {name: :delete_api_key, verb: :delete, url: %r{\Ahttps://api\.workos\.com/api_keys/stub(\?|\z)}, args: {id: "stub"}}
   ].each do |spec|
     define_method("test_#{spec[:name]}_raises_authentication_error_on_401") do
       stub_request(spec[:verb], spec[:url])

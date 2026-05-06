@@ -162,7 +162,7 @@ module WorkOS
         role_slug: String,
         resource_target: T.any(WorkOS::Authorization::ResourceTargetById, WorkOS::Authorization::ResourceTargetByExternalId),
         request_options: T::Hash[Symbol, T.untyped]
-      ).returns(WorkOS::RoleAssignment)
+      ).returns(WorkOS::UserRoleAssignment)
     end
     def assign_role(organization_membership_id:, role_slug:, resource_target:, request_options:); end
 
@@ -315,6 +315,20 @@ module WorkOS
 
     sig do
       params(
+        organization_id: String,
+        resource_type_slug: String,
+        external_id: String,
+        before: T.nilable(String),
+        after: T.nilable(String),
+        limit: T.nilable(Integer),
+        order: T.nilable(String),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::Types::ListStruct)
+    end
+    def list_role_assignments_for_resource_by_external_id(organization_id:, resource_type_slug:, external_id:, before:, after:, limit:, order:, request_options:); end
+
+    sig do
+      params(
         before: T.nilable(String),
         after: T.nilable(String),
         limit: T.nilable(Integer),
@@ -383,6 +397,18 @@ module WorkOS
       ).returns(WorkOS::Types::ListStruct)
     end
     def list_memberships_for_resource(resource_id:, permission_slug:, before:, after:, limit:, order:, assignment:, request_options:); end
+
+    sig do
+      params(
+        resource_id: String,
+        before: T.nilable(String),
+        after: T.nilable(String),
+        limit: T.nilable(Integer),
+        order: T.nilable(String),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::Types::ListStruct)
+    end
+    def list_role_assignments_for_resource(resource_id:, before:, after:, limit:, order:, request_options:); end
 
     sig do
       params(

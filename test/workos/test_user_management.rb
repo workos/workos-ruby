@@ -345,6 +345,13 @@ class UserManagementTest < Minitest::Test
     refute_nil result
   end
 
+  def test_list_jwt_template_returns_expected_result
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/user_management/jwt_template(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.user_management.list_jwt_template
+    refute_nil result
+  end
+
   def test_update_jwt_template_returns_expected_result
     stub_request(:put, %r{\Ahttps://api\.workos\.com/user_management/jwt_template(\?|\z)})
       .to_return(body: "{}", status: 200)
@@ -454,6 +461,20 @@ class UserManagementTest < Minitest::Test
     assert_nil result
   end
 
+  def test_list_user_api_keys_returns_expected_result
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/user_management/users/stub/api_keys(\?|\z)})
+      .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
+    result = @client.user_management.list_user_api_keys(user_id: "stub")
+    assert_kind_of WorkOS::Types::ListStruct, result
+  end
+
+  def test_create_user_api_key_returns_expected_result
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/user_management/users/stub/api_keys(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.user_management.create_user_api_key(user_id: "stub", name: "stub", organization_id: "stub")
+    refute_nil result
+  end
+
   # Parameterized authentication error tests (one per endpoint).
   [
     {name: :get_jwks, verb: :get, url: %r{\Ahttps://api\.workos\.com/sso/jwks/stub(\?|\z)}, args: {client_id: "stub"}},
@@ -484,6 +505,7 @@ class UserManagementTest < Minitest::Test
     {name: :accept_invitation, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/invitations/stub/accept(\?|\z)}, args: {id: "stub"}},
     {name: :resend_invitation, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/invitations/stub/resend(\?|\z)}, args: {id: "stub"}},
     {name: :revoke_invitation, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/invitations/stub/revoke(\?|\z)}, args: {id: "stub"}},
+    {name: :list_jwt_template, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/jwt_template(\?|\z)}},
     {name: :update_jwt_template, verb: :put, url: %r{\Ahttps://api\.workos\.com/user_management/jwt_template(\?|\z)}, args: {content: "stub"}},
     {name: :create_magic_auth, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/magic_auth(\?|\z)}, args: {email: "stub"}},
     {name: :get_magic_auth, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/magic_auth/stub(\?|\z)}, args: {id: "stub"}},
@@ -496,7 +518,9 @@ class UserManagementTest < Minitest::Test
     {name: :reactivate_organization_membership, verb: :put, url: %r{\Ahttps://api\.workos\.com/user_management/organization_memberships/stub/reactivate(\?|\z)}, args: {id: "stub"}},
     {name: :create_redirect_uri, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/redirect_uris(\?|\z)}, args: {uri: "stub"}},
     {name: :list_user_authorized_applications, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/users/stub/authorized_applications(\?|\z)}, args: {user_id: "stub"}},
-    {name: :delete_user_authorized_application, verb: :delete, url: %r{\Ahttps://api\.workos\.com/user_management/users/stub/authorized_applications/stub(\?|\z)}, args: {application_id: "stub", user_id: "stub"}}
+    {name: :delete_user_authorized_application, verb: :delete, url: %r{\Ahttps://api\.workos\.com/user_management/users/stub/authorized_applications/stub(\?|\z)}, args: {application_id: "stub", user_id: "stub"}},
+    {name: :list_user_api_keys, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/users/stub/api_keys(\?|\z)}, args: {user_id: "stub"}},
+    {name: :create_user_api_key, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/users/stub/api_keys(\?|\z)}, args: {user_id: "stub", name: "stub", organization_id: "stub"}}
   ].each do |spec|
     define_method("test_#{spec[:name]}_raises_authentication_error_on_401") do
       stub_request(spec[:verb], spec[:url])

@@ -5,9 +5,15 @@
 # typed: strong
 
 module WorkOS
-  class RoleAssignmentResource
+  class UserApiKeyWithValueOwner
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
+
+    sig { returns(String) }
+    def type; end
+
+    sig { params(value: String).returns(String) }
+    def type=(value); end
 
     sig { returns(String) }
     def id; end
@@ -16,16 +22,10 @@ module WorkOS
     def id=(value); end
 
     sig { returns(String) }
-    def external_id; end
+    def organization_id; end
 
     sig { params(value: String).returns(String) }
-    def external_id=(value); end
-
-    sig { returns(String) }
-    def resource_type_slug; end
-
-    sig { params(value: String).returns(String) }
-    def resource_type_slug=(value); end
+    def organization_id=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end

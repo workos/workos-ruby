@@ -21,10 +21,10 @@ module WorkOS
     sig { params(value: String).returns(String) }
     def id=(value); end
 
-    sig { returns(WorkOS::ApiKeyRevokedDataOwner) }
+    sig { returns(T.any(WorkOS::ApiKeyRevokedDataOwner, WorkOS::UserApiKeyRevokedDataOwner)) }
     def owner; end
 
-    sig { params(value: WorkOS::ApiKeyRevokedDataOwner).returns(WorkOS::ApiKeyRevokedDataOwner) }
+    sig { params(value: T.any(WorkOS::ApiKeyRevokedDataOwner, WorkOS::UserApiKeyRevokedDataOwner)).returns(T.any(WorkOS::ApiKeyRevokedDataOwner, WorkOS::UserApiKeyRevokedDataOwner)) }
     def owner=(value); end
 
     sig { returns(String) }

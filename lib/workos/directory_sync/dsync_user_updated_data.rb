@@ -13,6 +13,7 @@ module WorkOS
       email: :email,
       first_name: :first_name,
       last_name: :last_name,
+      name: :name,
       emails: :emails,
       job_title: :job_title,
       username: :username,
@@ -44,6 +45,7 @@ module WorkOS
       :email,
       :first_name,
       :last_name,
+      :name,
       :state,
       :custom_attributes,
       :role,
@@ -90,6 +92,7 @@ module WorkOS
       @email = hash[:email]
       @first_name = hash[:first_name]
       @last_name = hash[:last_name]
+      @name = hash[:name]
       @emails = (hash[:emails] || []).map { |item| item ? WorkOS::DsyncUserUpdatedDataEmail.new(item) : nil }
       @job_title = hash[:job_title]
       @username = hash[:username]
