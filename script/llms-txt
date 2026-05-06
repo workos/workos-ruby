@@ -1,0 +1,37 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Generates llms.txt (curated index) from the Markdown docs produced by
+# `yard --format markdown` in docs/_site. See https://llmstxt.org for the format.
+
+require "pathname"
+
+ROOT = Pathname.new(__dir__).join("..").expand_path
+SITE = ROOT.join("docs/_site")
+require ROOT.join("lib/workos/version").to_s
+
+abort "docs/_site is missing — run script/docs first" unless SITE.directory?
+
+md_files = Pathname.glob(SITE.join("**/*.md")).sort_by { |p| p.relative_path_from(SITE).to_s }
+
+title_for = lambda do |path|
+  first_heading = path.each_line.lazy.map(&:strip).find { |l| l.start_with?("# ") }
+  first_heading ? first_heading.sub(/^#\s+/, "").sub(/\s*<a id=.*?<\/a>\s*$/, "").strip : path.basename(".md").to_s
+end
+
+index_lines = []
+index_lines << "# WorkOS Ruby SDK v#{WorkOS::VERSION}"
+index_lines << ""
+index_lines << "> API client for WorkOS. This file indexes the auto-generated YARD documentation for the `workos` gem so language models can locate per-class references."
+index_lines << ""
+index_lines << "## API Reference"
+index_lines << ""
+md_files.each do |path|
+  rel = path.relative_path_from(SITE).to_s
+  index_lines << "- [#{title_for.call(path)}](#{rel})"
+end
+index_lines << ""
+
+SITE.join("llms.txt").write(index_lines.join("\n"))
+
+puts "Wrote #{SITE.join("llms.txt")} (#{md_files.size} entries)"

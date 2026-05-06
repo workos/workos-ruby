@@ -1,0 +1,6 @@
+--output-dir docs/_site
+--markup markdown
+lib/**/*.rb
+-
+README.md
+CHANGELOG.md
