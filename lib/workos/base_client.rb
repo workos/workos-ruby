@@ -134,7 +134,8 @@ module WorkOS
       attempt = 0
 
       loop do
-        log(:debug, "request start", method: request.method, path: request.path, attempt: attempt + 1)
+        loggable_path = redact_path(request.path)
+        log(:debug, "request start", method: request.method, path: loggable_path, attempt: attempt + 1)
         http = connection_for(base, timeout)
         response = http.request(request)
         return response if response.is_a?(Net::HTTPSuccess)
@@ -142,11 +143,11 @@ module WorkOS
         if attempt < retries && retryable?(response)
           attempt += 1
           inject_retry_idempotency_key(request)
-          log(:info, "request retry", method: request.method, path: request.path, attempt: attempt + 1, status: response.code.to_i)
+          log(:info, "request retry", method: request.method, path: loggable_path, attempt: attempt + 1, status: response.code.to_i)
           sleep(retry_delay(response, attempt))
           next
         end
-        log(:warn, "request error", method: request.method, path: request.path, status: response.code.to_i, request_id: response["x-request-id"] || response["X-Request-Id"])
+        log(:warn, "request error", method: request.method, path: loggable_path, status: response.code.to_i, request_id: response["x-request-id"] || response["X-Request-Id"])
         handle_error_response(response)
       rescue Net::OpenTimeout, Net::ReadTimeout,
         Errno::ECONNRESET, Errno::ECONNREFUSED,
@@ -155,11 +156,11 @@ module WorkOS
         if attempt < retries
           attempt += 1
           inject_retry_idempotency_key(request)
-          log(:info, "request retry", method: request.method, path: request.path, attempt: attempt + 1, error: e.class.name)
+          log(:info, "request retry", method: request.method, path: loggable_path, attempt: attempt + 1, error: e.class.name)
           sleep(retry_delay(nil, attempt))
           next
         end
-        log(:warn, "connection error", method: request.method, path: request.path, error: e.class.name, message: e.message)
+        log(:warn, "connection error", method: request.method, path: loggable_path, error: e.class.name, message: e.message)
         raise WorkOS::APIConnectionError.new(message: e.message)
       end
     end
@@ -178,6 +179,43 @@ module WorkOS
     end
 
     private
+
+    # Redact path segments that carry bearer-equivalent tokens (e.g.
+    # `/user_management/invitations/by_token/<token>`,
+    # `/user_management/magic_auth/<token>`, password-reset / email-
+    # verification token paths) before the path is written to a logger.
+    # The WorkOS API exposes a small number of "by_token" endpoints whose
+    # path segments are themselves authentication material; redacting them
+    # here means the SDK never emits the token in its own log/retry/error
+    # messages even when the host application configures verbose logging.
+    REDACTED_TOKEN_PREFIXES = %w[
+      /user_management/invitations/by_token
+      /user_management/magic_auth
+      /user_management/password_reset
+      /user_management/email_verification
+      /user_management/sessions/authorize
+      /user_management/sessions/logout
+    ].freeze
+    private_constant :REDACTED_TOKEN_PREFIXES
+
+    def redact_path(path)
+      return path if path.nil? || path.empty?
+
+      # Strip query string for the prefix match; reattach unmodified after.
+      path_only, query = path.split("?", 2)
+      REDACTED_TOKEN_PREFIXES.each do |prefix|
+        next unless path_only.start_with?("#{prefix}/")
+
+        # Replace every segment after the matched prefix with "[REDACTED]".
+        remainder = path_only[(prefix.length + 1)..]
+        next if remainder.nil? || remainder.empty?
+
+        redacted = remainder.split("/").map { "[REDACTED]" }.join("/")
+        path_only = "#{prefix}/#{redacted}"
+        break
+      end
+      query ? "#{path_only}?#{query}" : path_only
+    end
 
     def append_query(path, params)
       return path unless params.is_a?(Hash) && !params.empty?
