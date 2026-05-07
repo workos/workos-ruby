@@ -26,9 +26,25 @@ class SessionTest < Minitest::Test
 
   def test_unseal_with_wrong_key_raises
     sealed = @sm.seal_data({"x" => 1}, PASSWORD)
+    # Wrong key is the same length (>= 32 bytes) so the length guard doesn't
+    # short-circuit; we want to assert the underlying cipher rejection.
     assert_raises(OpenSSL::Cipher::CipherError) do
-      @sm.unseal_data(sealed, "wrong-password")
+      @sm.unseal_data(sealed, "wrong-cookie-password-32-bytes--")
     end
+  end
+
+  def test_unseal_with_short_key_raises_argument_error
+    sealed = @sm.seal_data({"x" => 1}, PASSWORD)
+    assert_raises(ArgumentError) { @sm.unseal_data(sealed, "too-short") }
+  end
+
+  def test_seal_with_short_key_raises_argument_error
+    assert_raises(ArgumentError) { @sm.seal_data({"x" => 1}, "too-short") }
+  end
+
+  def test_session_load_requires_min_length_cookie_password
+    short = "x" * 31
+    assert_raises(ArgumentError) { @sm.load(seal_data: "x", cookie_password: short) }
   end
 
   def test_unseal_rejects_short_payload

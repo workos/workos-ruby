@@ -501,6 +501,27 @@ Session management was one of the largest refactors in v7. The old `WorkOS::Sess
 
 If your application seals session cookies, refreshes access tokens, or decodes the access-token JWT, every one of these call sites needs to be updated.
 
+#### `cookie_password` minimum length (32 bytes)
+
+v7 enforces a **minimum 32-byte length** on every `cookie_password` you supply
+to the session manager (`load`, `seal_data`, `unseal_data`,
+`seal_session_from_auth_response`, and the underlying `Encryptors::AesGcm`).
+
+Anything shorter — including `nil` or `""` — now raises `ArgumentError` at the
+moment the SDK is asked to seal or unseal. Older deployments that used a
+short passphrase (e.g. a 16-character secret) will start erroring at app
+boot or the next sealed-session request.
+
+Pick a 32+ byte secret once and store it as an environment variable:
+
+```sh
+ruby -rsecurerandom -e 'puts SecureRandom.base64(32)'
+```
+
+The KDF itself (single-pass SHA-256) is unchanged in this release, so
+existing sealed cookies continue to round-trip as long as the same
+(now-length-validated) password is in use.
+
 #### Sealing a cookie from an authentication response
 
 In v6, you asked `authenticate_with_*` to seal the cookie for you:

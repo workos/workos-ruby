@@ -21,8 +21,16 @@ module WorkOS
   # @example Build a logout URL
   #   url = session.get_logout_url(return_to: "https://app.example.com")
   class Session
+    # Minimum cookie_password byte length. AES-256-GCM derives a 32-byte
+    # key from the password via SHA-256; a passphrase shorter than the
+    # output it derives to provides less than the full keyspace and makes
+    # offline brute-force feasible. Require callers to supply at least 32
+    # bytes of high-entropy secret. See README + V7_MIGRATION_GUIDE.md.
+    MIN_COOKIE_PASSWORD_BYTES = 32
+
     def initialize(manager, seal_data:, cookie_password:)
       raise ArgumentError, "cookie_password is required" if cookie_password.nil? || cookie_password.empty?
+      raise ArgumentError, "cookie_password must be at least #{MIN_COOKIE_PASSWORD_BYTES} bytes" if cookie_password.bytesize < MIN_COOKIE_PASSWORD_BYTES
       @manager = manager
       @client = manager.client
       @seal_data = seal_data

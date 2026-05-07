@@ -14,8 +14,14 @@ module WorkOS
   module Encryptors
     class AesGcm
       SEAL_VERSION = 0x01
+      # Minimum cookie_password byte length. AES-256-GCM derives a 32-byte
+      # key from the password via SHA-256; a passphrase shorter than the
+      # output it derives to provides less than the full keyspace and makes
+      # offline brute-force feasible. See README + V7_MIGRATION_GUIDE.md.
+      MIN_KEY_BYTES = 32
 
       def seal(data, key)
+        validate_key!(key)
         json = data.is_a?(String) ? data : JSON.generate(data)
         cipher = OpenSSL::Cipher.new("aes-256-gcm").encrypt
         cipher.key = derive_key(key)
@@ -26,13 +32,16 @@ module WorkOS
       end
 
       def unseal(sealed, key)
+        validate_key!(key)
         raw = Base64.decode64(sealed.to_s)
-        decode_v7(raw, key)
-      rescue ArgumentError, OpenSSL::Cipher::CipherError => original_error
         begin
-          decode_old(raw, key)
-        rescue ArgumentError, OpenSSL::Cipher::CipherError
-          raise original_error
+          decode_v7(raw, key)
+        rescue ArgumentError, OpenSSL::Cipher::CipherError => original_error
+          begin
+            decode_old(raw, key)
+          rescue ArgumentError, OpenSSL::Cipher::CipherError
+            raise original_error
+          end
         end
       end
 
@@ -82,6 +91,11 @@ module WorkOS
 
       def derive_key(passphrase)
         Digest::SHA256.digest(passphrase.to_s)
+      end
+
+      def validate_key!(key)
+        raise ArgumentError, "cookie_password is required" if key.nil? || key.to_s.empty?
+        raise ArgumentError, "cookie_password must be at least #{MIN_KEY_BYTES} bytes" if key.to_s.bytesize < MIN_KEY_BYTES
       end
     end
   end

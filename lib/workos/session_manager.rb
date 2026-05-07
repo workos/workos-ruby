@@ -150,20 +150,20 @@ module WorkOS
     # H06 — Raw seal: encrypt arbitrary data with a key string.
     # Delegates to the configured encryptor (default: AES-256-GCM).
     def seal_data(data, key)
-      raise ArgumentError, "cookie_password is required" if key.nil? || key.empty?
+      validate_cookie_password!(key)
       @encryptor.seal(data, key)
     end
 
     # H06 — Raw unseal: returns parsed JSON (Hash) or raw string if not JSON.
     # Delegates to the configured encryptor (default: AES-256-GCM).
     def unseal_data(sealed, key)
-      raise ArgumentError, "cookie_password is required" if key.nil? || key.empty?
+      validate_cookie_password!(key)
       @encryptor.unseal(sealed, key)
     end
 
     # H07 — Build a sealed session string directly from auth-response fields.
     def seal_session_from_auth_response(access_token:, refresh_token:, cookie_password:, user: nil, impersonator: nil)
-      raise ArgumentError, "cookie_password is required" if cookie_password.nil? || cookie_password.empty?
+      validate_cookie_password!(cookie_password)
       payload = {"access_token" => access_token, "refresh_token" => refresh_token}
       payload["user"] = user if user
       payload["impersonator"] = impersonator if impersonator
@@ -184,6 +184,16 @@ module WorkOS
         verify_expiration: verify_expiration,
         required_claims: ["exp"]
       ).first
+    end
+
+    # Validate a cookie_password is non-empty and at least the minimum
+    # byte length required by Session::MIN_COOKIE_PASSWORD_BYTES (32).
+    # Defense-in-depth — Session#initialize enforces the same invariant
+    # on the load path; this guards the inline #seal_data / #unseal_data /
+    # #seal_session_from_auth_response entry points.
+    def validate_cookie_password!(key)
+      raise ArgumentError, "cookie_password is required" if key.nil? || key.empty?
+      raise ArgumentError, "cookie_password must be at least #{Session::MIN_COOKIE_PASSWORD_BYTES} bytes" if key.bytesize < Session::MIN_COOKIE_PASSWORD_BYTES
     end
 
     # Cached JWKS fetch (5-minute TTL, thread-safe).
