@@ -105,17 +105,20 @@ module WorkOS
         impersonator: auth_response["impersonator"]
       )
 
-      # Decode before mutating session state so a malformed access_token
-      # doesn't leave the Session half-updated.
-      decoded = @manager.decode_jwt(auth_response["access_token"])
-
+      # Persist the new seal/password BEFORE decoding the JWT, so a transient
+      # JWKS fetch error (or any decode failure on the freshly-minted token)
+      # leaves the Session with a usable sealed cookie that the caller can
+      # re-#authenticate against, rather than half-updated state.
       @seal_data = sealed
       @cookie_password = effective_password
+
+      decoded = @manager.decode_jwt(auth_response["access_token"])
+
       SessionManager::RefreshSuccess.new(
         authenticated: true,
         sealed_session: sealed,
         session_id: decoded["sid"],
-        organization_id: decoded["org_id"],
+        organization_id: auth_response["organization_id"] || decoded["org_id"],
         role: decoded["role"],
         roles: decoded["roles"],
         permissions: decoded["permissions"],

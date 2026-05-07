@@ -361,7 +361,7 @@ class SessionTest < Minitest::Test
     assert_requested(stub)
   end
 
-  def test_refresh_returns_error_on_malformed_access_token_without_mutating_state
+  def test_refresh_persists_seal_data_even_when_access_token_decode_fails
     rsa, pub = signing_key_pair
     old_access = make_jwt({"sid" => "session_old", "exp" => Time.now.to_i - 60}, rsa)
     sealed = @sm.seal_data({"access_token" => old_access, "refresh_token" => "rt_old", "user" => {"id" => "u_1"}}, PASSWORD)
@@ -383,8 +383,12 @@ class SessionTest < Minitest::Test
     assert_kind_of WorkOS::SessionManager::RefreshError, result
     refute result.authenticated
 
-    # Session state should not have been mutated
-    assert_equal sealed, session.seal_data
+    # Session state IS updated to the freshly-sealed cookie before decode runs,
+    # so a transient JWT/JWKS failure leaves a usable seal the caller can
+    # re-#authenticate against rather than half-updated state pinned to the
+    # stale (already-rotated) refresh token.
+    refute_equal sealed, session.seal_data
+    refute_nil session.seal_data
   end
 
   # --- Session constructor validation ---------------------------------------
