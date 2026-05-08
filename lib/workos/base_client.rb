@@ -193,8 +193,6 @@ module WorkOS
       /user_management/magic_auth
       /user_management/password_reset
       /user_management/email_verification
-      /user_management/sessions/authorize
-      /user_management/sessions/logout
     ].freeze
     private_constant :REDACTED_TOKEN_PREFIXES
 

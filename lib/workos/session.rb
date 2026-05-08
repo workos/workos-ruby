@@ -65,7 +65,7 @@ module WorkOS
         return SessionManager::AuthError.new(authenticated: false, reason: SessionManager::INVALID_JWT)
       end
 
-      is_expired = decoded["exp"].nil? || decoded["exp"] < Time.now.to_i
+      is_expired = decoded["exp"] < Time.now.to_i
 
       SessionManager::AuthSuccess.new(
         authenticated: !is_expired,
