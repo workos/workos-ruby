@@ -181,8 +181,7 @@ module WorkOS
         algorithms: JWK_ALGORITHMS,
         jwks: jwks,
         verify_aud: false,
-        verify_expiration: verify_expiration,
-        required_claims: ["exp"]
+        verify_expiration: verify_expiration
       ).first
     end
 
