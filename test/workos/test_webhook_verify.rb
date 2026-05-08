@@ -60,6 +60,17 @@ class WebhookVerifyTest < Minitest::Test
     assert_match(/Timestamp outside the tolerance zone/, err.message)
   end
 
+  def test_verify_header_raises_on_future_timestamp
+    payload = '{"x":1}'
+    future_ts = now_ms + (10 * 60 * 1000) # 10 minutes ahead
+    sig = OpenSSL::HMAC.hexdigest("SHA256", SECRET, "#{future_ts}.#{payload}")
+    header = "t=#{future_ts}, v1=#{sig}"
+    err = assert_raises(WorkOS::SignatureVerificationError) do
+      @webhooks.verify_header(payload: payload, sig_header: header, secret: SECRET, tolerance: 60)
+    end
+    assert_match(/Timestamp outside the tolerance zone/, err.message)
+  end
+
   def test_verify_header_raises_on_malformed_header
     assert_raises(WorkOS::SignatureVerificationError) do
       @webhooks.verify_header(payload: "{}", sig_header: "garbage", secret: SECRET)

@@ -49,6 +49,15 @@ class ActionsTest < Minitest::Test
     end
   end
 
+  def test_verify_header_raises_on_future_timestamp
+    payload = '{"x":1}'
+    future_ts = now_ms + 60_000 # 60s ahead, beyond default 30s tolerance
+    sig = OpenSSL::HMAC.hexdigest("SHA256", SECRET, "#{future_ts}.#{payload}")
+    assert_raises(WorkOS::SignatureVerificationError) do
+      @actions.verify_header(payload: payload, sig_header: "t=#{future_ts}, v1=#{sig}", secret: SECRET)
+    end
+  end
+
   def test_sign_response_authentication_allow
     resp = @actions.sign_response(action_type: "authentication", verdict: "Allow", secret: SECRET)
     assert_equal "authentication_action_response", resp["object"]
