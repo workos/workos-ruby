@@ -85,6 +85,11 @@ module WorkOS
 
     def refresh(organization_id: nil, cookie_password: nil)
       effective_password = cookie_password || @cookie_password
+      # Validate up front so a caller-supplied short password raises ArgumentError
+      # (matching Session#initialize) instead of being swallowed by the
+      # unseal_data rescue and surfacing as INVALID_SESSION_COOKIE.
+      raise ArgumentError, "cookie_password is required" if effective_password.nil? || effective_password.empty?
+      raise ArgumentError, "cookie_password must be at least #{MIN_COOKIE_PASSWORD_BYTES} bytes" if effective_password.bytesize < MIN_COOKIE_PASSWORD_BYTES
 
       session = begin
         @manager.unseal_data(@seal_data, effective_password)

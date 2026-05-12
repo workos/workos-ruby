@@ -350,6 +350,19 @@ class SessionTest < Minitest::Test
     assert_equal WorkOS::SessionManager::INVALID_SESSION_COOKIE, result.reason
   end
 
+  def test_refresh_raises_argument_error_for_short_cookie_password_override
+    sealed = @sm.seal_data({"access_token" => "at", "refresh_token" => "rt"}, PASSWORD)
+    session = @sm.load(seal_data: sealed, cookie_password: PASSWORD)
+    err = assert_raises(ArgumentError) { session.refresh(cookie_password: "x" * 31) }
+    assert_match(/at least 32 bytes/, err.message)
+  end
+
+  def test_refresh_raises_argument_error_for_empty_cookie_password_override
+    sealed = @sm.seal_data({"access_token" => "at", "refresh_token" => "rt"}, PASSWORD)
+    session = @sm.load(seal_data: sealed, cookie_password: PASSWORD)
+    assert_raises(ArgumentError) { session.refresh(cookie_password: "") }
+  end
+
   def test_refresh_returns_error_when_no_refresh_token
     sealed = @sm.seal_data({"access_token" => "at_only"}, PASSWORD)
     result = @sm.refresh(seal_data: sealed, cookie_password: PASSWORD)
