@@ -196,10 +196,27 @@ module WorkOS
     ].freeze
     private_constant :REDACTED_TOKEN_PREFIXES
 
+    # Query-string keys whose values are bearer-equivalent or otherwise
+    # sensitive and should never appear in SDK log lines. Defense-in-depth
+    # for any path that flows through execute_request with a sensitive
+    # query parameter (most WorkOS-issued tokens are path segments or POST
+    # bodies, but a few flows — e.g. authorize/logout redirects — surface
+    # them in the query string).
+    REDACTED_QUERY_KEYS = %w[
+      token
+      code
+      code_challenge
+      code_verifier
+      session_id
+      refresh_token
+      access_token
+    ].freeze
+    private_constant :REDACTED_QUERY_KEYS
+
     def redact_path(path)
       return path if path.nil? || path.empty?
 
-      # Strip query string for the prefix match; reattach unmodified after.
+      # Strip query string for the prefix match; reattach (scrubbed) after.
       path_only, query = path.split("?", 2)
       REDACTED_TOKEN_PREFIXES.each do |prefix|
         next unless path_only.start_with?("#{prefix}/")
@@ -212,7 +229,20 @@ module WorkOS
         path_only = "#{prefix}/#{redacted}"
         break
       end
-      query ? "#{path_only}?#{query}" : path_only
+      query ? "#{path_only}?#{redact_query(query)}" : path_only
+    end
+
+    def redact_query(query)
+      return query if query.nil? || query.empty?
+
+      query.split("&").map { |pair|
+        key, value = pair.split("=", 2)
+        if value && !value.empty? && REDACTED_QUERY_KEYS.include?(key)
+          "#{key}=[REDACTED]"
+        else
+          pair
+        end
+      }.join("&")
     end
 
     def append_query(path, params)

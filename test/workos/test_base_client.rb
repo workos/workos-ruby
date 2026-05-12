@@ -194,4 +194,24 @@ class BaseClientTest < Minitest::Test
     assert_nil @client.send(:redact_path, nil)
     assert_equal "", @client.send(:redact_path, "")
   end
+
+  def test_redact_path_scrubs_sensitive_query_params
+    redacted = @client.send(:redact_path, "/user_management/sessions/logout?session_id=ses_abc123&return_to=https://app.example.com")
+    assert_equal "/user_management/sessions/logout?session_id=[REDACTED]&return_to=https://app.example.com", redacted
+  end
+
+  def test_redact_path_scrubs_authorize_code_query_param
+    redacted = @client.send(:redact_path, "/user_management/authorize?client_id=client_1&code=auth_code_secret&state=xyz")
+    assert_equal "/user_management/authorize?client_id=client_1&code=[REDACTED]&state=xyz", redacted
+  end
+
+  def test_redact_path_leaves_non_sensitive_query_params_untouched
+    redacted = @client.send(:redact_path, "/user_management/users?limit=10&order=desc")
+    assert_equal "/user_management/users?limit=10&order=desc", redacted
+  end
+
+  def test_redact_path_scrubs_query_alongside_path_segment_redaction
+    redacted = @client.send(:redact_path, "/user_management/magic_auth/magic_secret?token=qs_token")
+    assert_equal "/user_management/magic_auth/[REDACTED]?token=[REDACTED]", redacted
+  end
 end
