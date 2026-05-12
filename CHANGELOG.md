@@ -1,5 +1,12 @@
 # Changelog
 
+## [8.0.1](https://github.com/workos/workos-ruby/compare/v8.0.0...v8.0.1) (2026-05-12)
+
+
+### Bug Fixes
+
+* harden session sealing, log redaction, and webhook tolerance checks ([#482](https://github.com/workos/workos-ruby/issues/482)) ([347fe1e](https://github.com/workos/workos-ruby/commit/347fe1edf296778d7ea331e666a7957870074b9f))
+
 ## [8.0.0](https://github.com/workos/workos-ruby/compare/v7.1.2...v8.0.0) (2026-05-06)
 
 
