@@ -405,6 +405,12 @@ class SessionTest < Minitest::Test
     # stale (already-rotated) refresh token.
     refute_equal sealed, session.seal_data
     refute_nil session.seal_data
+
+    # The rotated cookie is also reachable through the RefreshError result, so a
+    # caller that doesn't retain the Session object across requests (typical in
+    # a Rails request cycle) can still write the new cookie back to the browser
+    # rather than re-sending the now-revoked refresh token on the next request.
+    assert_equal session.seal_data, result.sealed_session
   end
 
   # --- Session constructor validation ---------------------------------------

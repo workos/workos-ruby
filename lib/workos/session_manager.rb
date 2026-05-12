@@ -107,7 +107,7 @@ module WorkOS
       :roles, :permissions, :entitlements, :user, :impersonator, :feature_flags,
       keyword_init: true
     )
-    RefreshError = Struct.new(:authenticated, :reason, keyword_init: true)
+    RefreshError = Struct.new(:authenticated, :reason, :sealed_session, keyword_init: true)
 
     # Failure reason constants
     NO_SESSION_COOKIE_PROVIDED = "no_session_cookie_provided"

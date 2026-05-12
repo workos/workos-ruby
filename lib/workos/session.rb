@@ -138,7 +138,12 @@ module WorkOS
     rescue WorkOS::AuthenticationError, WorkOS::InvalidRequestError => e
       SessionManager::RefreshError.new(authenticated: false, reason: e.message)
     rescue JWT::DecodeError => e
-      SessionManager::RefreshError.new(authenticated: false, reason: e.message)
+      # The refresh token was already rotated server-side before decode failed,
+      # so @seal_data holds the freshly-minted cookie. Surface it on the error
+      # struct so the caller can write the rotated cookie back to the browser
+      # and recover on a subsequent #authenticate, rather than re-sending the
+      # now-revoked refresh token.
+      SessionManager::RefreshError.new(authenticated: false, reason: e.message, sealed_session: @seal_data)
     end
 
     # Build the WorkOS session-logout URL for the currently authenticated session.
