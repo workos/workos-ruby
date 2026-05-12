@@ -35,7 +35,7 @@ module WorkOS
     def verify_header(payload:, sig_header:, secret:, tolerance: DEFAULT_TOLERANCE_SECONDS)
       timestamp_ms, signature_hash = parse_signature_header(sig_header)
       issued_at = timestamp_ms.to_i / 1000.0
-      if (Time.now.to_f - issued_at) > tolerance
+      if (Time.now.to_f - issued_at).abs > tolerance
         raise WorkOS::SignatureVerificationError.new(
           message: "Timestamp outside the tolerance zone",
           http_status: nil

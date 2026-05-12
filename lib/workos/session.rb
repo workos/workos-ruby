@@ -21,8 +21,16 @@ module WorkOS
   # @example Build a logout URL
   #   url = session.get_logout_url(return_to: "https://app.example.com")
   class Session
+    # Minimum cookie_password byte length. AES-256-GCM derives a 32-byte
+    # key from the password via SHA-256; a passphrase shorter than the
+    # output it derives to provides less than the full keyspace and makes
+    # offline brute-force feasible. Require callers to supply at least 32
+    # bytes of high-entropy secret. See README + V7_MIGRATION_GUIDE.md.
+    MIN_COOKIE_PASSWORD_BYTES = 32
+
     def initialize(manager, seal_data:, cookie_password:)
       raise ArgumentError, "cookie_password is required" if cookie_password.nil? || cookie_password.empty?
+      raise ArgumentError, "cookie_password must be at least #{MIN_COOKIE_PASSWORD_BYTES} bytes" if cookie_password.bytesize < MIN_COOKIE_PASSWORD_BYTES
       @manager = manager
       @client = manager.client
       @seal_data = seal_data
@@ -57,7 +65,7 @@ module WorkOS
         return SessionManager::AuthError.new(authenticated: false, reason: SessionManager::INVALID_JWT)
       end
 
-      is_expired = decoded["exp"] && decoded["exp"] < Time.now.to_i
+      is_expired = decoded["exp"].nil? || decoded["exp"] < Time.now.to_i
 
       SessionManager::AuthSuccess.new(
         authenticated: !is_expired,
@@ -77,6 +85,11 @@ module WorkOS
 
     def refresh(organization_id: nil, cookie_password: nil)
       effective_password = cookie_password || @cookie_password
+      # Validate up front so a caller-supplied short password raises ArgumentError
+      # (matching Session#initialize) instead of being swallowed by the
+      # unseal_data rescue and surfacing as INVALID_SESSION_COOKIE.
+      raise ArgumentError, "cookie_password is required" if effective_password.nil? || effective_password.empty?
+      raise ArgumentError, "cookie_password must be at least #{MIN_COOKIE_PASSWORD_BYTES} bytes" if effective_password.bytesize < MIN_COOKIE_PASSWORD_BYTES
 
       session = begin
         @manager.unseal_data(@seal_data, effective_password)
@@ -105,17 +118,20 @@ module WorkOS
         impersonator: auth_response["impersonator"]
       )
 
-      # Decode before mutating session state so a malformed access_token
-      # doesn't leave the Session half-updated.
-      decoded = @manager.decode_jwt(auth_response["access_token"])
-
+      # Persist the new seal/password BEFORE decoding the JWT, so a transient
+      # JWKS fetch error (or any decode failure on the freshly-minted token)
+      # leaves the Session with a usable sealed cookie that the caller can
+      # re-#authenticate against, rather than half-updated state.
       @seal_data = sealed
       @cookie_password = effective_password
+
+      decoded = @manager.decode_jwt(auth_response["access_token"])
+
       SessionManager::RefreshSuccess.new(
         authenticated: true,
         sealed_session: sealed,
         session_id: decoded["sid"],
-        organization_id: decoded["org_id"],
+        organization_id: auth_response["organization_id"] || decoded["org_id"],
         role: decoded["role"],
         roles: decoded["roles"],
         permissions: decoded["permissions"],
@@ -127,7 +143,12 @@ module WorkOS
     rescue WorkOS::AuthenticationError, WorkOS::InvalidRequestError => e
       SessionManager::RefreshError.new(authenticated: false, reason: e.message)
     rescue JWT::DecodeError => e
-      SessionManager::RefreshError.new(authenticated: false, reason: e.message)
+      # The refresh token was already rotated server-side before decode failed,
+      # so @seal_data holds the freshly-minted cookie. Surface it on the error
+      # struct so the caller can write the rotated cookie back to the browser
+      # and recover on a subsequent #authenticate, rather than re-sending the
+      # now-revoked refresh token.
+      SessionManager::RefreshError.new(authenticated: false, reason: e.message, sealed_session: @seal_data)
     end
 
     # Build the WorkOS session-logout URL for the currently authenticated session.

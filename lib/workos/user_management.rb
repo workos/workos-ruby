@@ -1641,6 +1641,13 @@ module WorkOS
     def get_authorization_url_with_pkce(redirect_uri:, client_id: nil, **opts)
       pair = WorkOS::PKCE.generate_pair
       state = opts.delete(:state) || WorkOS::PKCE.generate_code_verifier
+      # Strip caller-supplied PKCE params: this helper exists specifically
+      # to generate them, so a caller-provided value would either silently
+      # override our freshly-generated challenge (defeating the helper) or
+      # collide with the keyword args below and raise. Mirror the existing
+      # opts.delete(:state) pattern.
+      opts.delete(:code_challenge)
+      opts.delete(:code_challenge_method)
       url = get_authorization_url(
         redirect_uri: redirect_uri,
         client_id: client_id,

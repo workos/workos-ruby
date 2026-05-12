@@ -170,4 +170,48 @@ class BaseClientTest < Minitest::Test
     assert evict.finished
     refute keep.finished
   end
+
+  def test_redact_path_strips_invitation_token_segment
+    redacted = @client.send(:redact_path, "/user_management/invitations/by_token/invtoken_secret123")
+    assert_equal "/user_management/invitations/by_token/[REDACTED]", redacted
+  end
+
+  def test_redact_path_strips_magic_auth_token_segment
+    redacted = @client.send(:redact_path, "/user_management/magic_auth/magic_secret/extra")
+    assert_equal "/user_management/magic_auth/[REDACTED]/[REDACTED]", redacted
+  end
+
+  def test_redact_path_preserves_non_token_paths
+    assert_equal "/organizations/org_123", @client.send(:redact_path, "/organizations/org_123")
+  end
+
+  def test_redact_path_preserves_query_string
+    redacted = @client.send(:redact_path, "/user_management/invitations/by_token/secret?foo=bar")
+    assert_equal "/user_management/invitations/by_token/[REDACTED]?foo=bar", redacted
+  end
+
+  def test_redact_path_handles_nil_and_empty
+    assert_nil @client.send(:redact_path, nil)
+    assert_equal "", @client.send(:redact_path, "")
+  end
+
+  def test_redact_path_scrubs_sensitive_query_params
+    redacted = @client.send(:redact_path, "/user_management/sessions/logout?session_id=ses_abc123&return_to=https://app.example.com")
+    assert_equal "/user_management/sessions/logout?session_id=[REDACTED]&return_to=https://app.example.com", redacted
+  end
+
+  def test_redact_path_scrubs_authorize_code_query_param
+    redacted = @client.send(:redact_path, "/user_management/authorize?client_id=client_1&code=auth_code_secret&state=xyz")
+    assert_equal "/user_management/authorize?client_id=client_1&code=[REDACTED]&state=xyz", redacted
+  end
+
+  def test_redact_path_leaves_non_sensitive_query_params_untouched
+    redacted = @client.send(:redact_path, "/user_management/users?limit=10&order=desc")
+    assert_equal "/user_management/users?limit=10&order=desc", redacted
+  end
+
+  def test_redact_path_scrubs_query_alongside_path_segment_redaction
+    redacted = @client.send(:redact_path, "/user_management/magic_auth/magic_secret?token=qs_token")
+    assert_equal "/user_management/magic_auth/[REDACTED]?token=[REDACTED]", redacted
+  end
 end

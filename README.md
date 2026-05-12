@@ -139,6 +139,25 @@ user = WorkOS.client.user_management.create_user(
 puts user.id
 ```
 
+### Sealed sessions (cookie_password requirements)
+
+When you use `client.session_manager` to seal session cookies, the
+`cookie_password` you supply must be **at least 32 bytes** of high-entropy
+secret material (typically 32 random bytes encoded as base64 or a 64-char
+hex string). The SDK derives the AES-256-GCM key from this password via
+SHA-256, and a passphrase shorter than 32 bytes makes the resulting key
+materially easier to brute-force offline.
+
+Generate a suitable secret once and store it as an environment variable:
+
+```sh
+ruby -rsecurerandom -e 'puts SecureRandom.base64(32)'
+```
+
+Anything shorter than 32 bytes (including `nil` or `""`) raises
+`ArgumentError` at SDK init time — sealing or unsealing will not silently
+proceed with a weakened key.
+
 ### Verify a webhook
 
 ```ruby

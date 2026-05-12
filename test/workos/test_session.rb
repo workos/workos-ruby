@@ -26,9 +26,25 @@ class SessionTest < Minitest::Test
 
   def test_unseal_with_wrong_key_raises
     sealed = @sm.seal_data({"x" => 1}, PASSWORD)
+    # Wrong key is the same length (>= 32 bytes) so the length guard doesn't
+    # short-circuit; we want to assert the underlying cipher rejection.
     assert_raises(OpenSSL::Cipher::CipherError) do
-      @sm.unseal_data(sealed, "wrong-password")
+      @sm.unseal_data(sealed, "wrong-cookie-password-32-bytes--")
     end
+  end
+
+  def test_unseal_with_short_key_raises_argument_error
+    sealed = @sm.seal_data({"x" => 1}, PASSWORD)
+    assert_raises(ArgumentError) { @sm.unseal_data(sealed, "too-short") }
+  end
+
+  def test_seal_with_short_key_raises_argument_error
+    assert_raises(ArgumentError) { @sm.seal_data({"x" => 1}, "too-short") }
+  end
+
+  def test_session_load_requires_min_length_cookie_password
+    short = "x" * 31
+    assert_raises(ArgumentError) { @sm.load(seal_data: "x", cookie_password: short) }
   end
 
   def test_unseal_rejects_short_payload
@@ -334,6 +350,19 @@ class SessionTest < Minitest::Test
     assert_equal WorkOS::SessionManager::INVALID_SESSION_COOKIE, result.reason
   end
 
+  def test_refresh_raises_argument_error_for_short_cookie_password_override
+    sealed = @sm.seal_data({"access_token" => "at", "refresh_token" => "rt"}, PASSWORD)
+    session = @sm.load(seal_data: sealed, cookie_password: PASSWORD)
+    err = assert_raises(ArgumentError) { session.refresh(cookie_password: "x" * 31) }
+    assert_match(/at least 32 bytes/, err.message)
+  end
+
+  def test_refresh_raises_argument_error_for_empty_cookie_password_override
+    sealed = @sm.seal_data({"access_token" => "at", "refresh_token" => "rt"}, PASSWORD)
+    session = @sm.load(seal_data: sealed, cookie_password: PASSWORD)
+    assert_raises(ArgumentError) { session.refresh(cookie_password: "") }
+  end
+
   def test_refresh_returns_error_when_no_refresh_token
     sealed = @sm.seal_data({"access_token" => "at_only"}, PASSWORD)
     result = @sm.refresh(seal_data: sealed, cookie_password: PASSWORD)
@@ -361,7 +390,7 @@ class SessionTest < Minitest::Test
     assert_requested(stub)
   end
 
-  def test_refresh_returns_error_on_malformed_access_token_without_mutating_state
+  def test_refresh_persists_seal_data_even_when_access_token_decode_fails
     rsa, pub = signing_key_pair
     old_access = make_jwt({"sid" => "session_old", "exp" => Time.now.to_i - 60}, rsa)
     sealed = @sm.seal_data({"access_token" => old_access, "refresh_token" => "rt_old", "user" => {"id" => "u_1"}}, PASSWORD)
@@ -383,8 +412,18 @@ class SessionTest < Minitest::Test
     assert_kind_of WorkOS::SessionManager::RefreshError, result
     refute result.authenticated
 
-    # Session state should not have been mutated
-    assert_equal sealed, session.seal_data
+    # Session state IS updated to the freshly-sealed cookie before decode runs,
+    # so a transient JWT/JWKS failure leaves a usable seal the caller can
+    # re-#authenticate against rather than half-updated state pinned to the
+    # stale (already-rotated) refresh token.
+    refute_equal sealed, session.seal_data
+    refute_nil session.seal_data
+
+    # The rotated cookie is also reachable through the RefreshError result, so a
+    # caller that doesn't retain the Session object across requests (typical in
+    # a Rails request cycle) can still write the new cookie back to the browser
+    # rather than re-sending the now-revoked refresh token on the next request.
+    assert_equal session.seal_data, result.sealed_session
   end
 
   # --- Session constructor validation ---------------------------------------

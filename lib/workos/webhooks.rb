@@ -193,7 +193,7 @@ module WorkOS
       timestamp_ms, signature_hash = parse_signature_header(sig_header)
       max_age = tolerance.to_i
       issued_at = timestamp_ms.to_i / 1000.0
-      if (Time.now.to_f - issued_at) > max_age
+      if (Time.now.to_f - issued_at).abs > max_age
         raise WorkOS::SignatureVerificationError.new(
           message: "Timestamp outside the tolerance zone",
           http_status: nil

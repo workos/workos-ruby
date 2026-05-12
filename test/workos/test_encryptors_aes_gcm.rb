@@ -28,9 +28,24 @@ class EncryptorsAesGcmTest < Minitest::Test
 
   def test_unseal_with_wrong_key_raises
     sealed = @enc.seal({"x" => 1}, PASSWORD)
+    # Wrong key is the same length (>= 32 bytes) so the length guard doesn't
+    # short-circuit; we want to assert the underlying cipher rejection.
     assert_raises(OpenSSL::Cipher::CipherError) do
-      @enc.unseal(sealed, "wrong-password")
+      @enc.unseal(sealed, "wrong-cookie-password-32-bytes--")
     end
+  end
+
+  def test_unseal_rejects_short_key
+    sealed = @enc.seal({"x" => 1}, PASSWORD)
+    assert_raises(ArgumentError) do
+      @enc.unseal(sealed, "too-short")
+    end
+  end
+
+  def test_seal_rejects_short_key
+    assert_raises(ArgumentError) { @enc.seal({"x" => 1}, "too-short") }
+    assert_raises(ArgumentError) { @enc.seal({"x" => 1}, nil) }
+    assert_raises(ArgumentError) { @enc.seal({"x" => 1}, "") }
   end
 
   def test_unseal_rejects_short_payload
