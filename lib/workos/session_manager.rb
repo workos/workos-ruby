@@ -163,15 +163,23 @@ module WorkOS
 
     # H07 — Build a sealed session string directly from auth-response fields.
     def seal_session_from_auth_response(access_token:, refresh_token:, cookie_password:, user: nil, impersonator: nil)
-      validate_cookie_password!(cookie_password)
       payload = {"access_token" => access_token, "refresh_token" => refresh_token}
       payload["user"] = user if user
       payload["impersonator"] = impersonator if impersonator
+      # Delegates to seal_data, which calls validate_cookie_password!; no need
+      # to validate here too.
       seal_data(payload, cookie_password)
     end
 
     # Verify an access-token JWT against the WorkOS JWKS for this client.
     # Used by Session#authenticate; exposed publicly for advanced cases.
+    #
+    # NOTE on iss/aud/required_claims: this method intentionally does not
+    # enforce iss, aud, or required_claims. workos-node's `jose` call and
+    # workos-php's `isset($exp) && $exp < time()` accept exp-less tokens, and
+    # cross-SDK parity is required for the planned coordinated hardening of
+    # these claims. See commit 9ce069f for the rationale behind dropping the
+    # required_claims: ['exp'] tightening that was considered here.
     def decode_jwt(access_token, verify_expiration: true)
       jwks = fetch_jwks
       JWT.decode(
@@ -185,11 +193,13 @@ module WorkOS
       ).first
     end
 
+    private
+
     # Validate a cookie_password is non-empty and at least the minimum
     # byte length required by Session::MIN_COOKIE_PASSWORD_BYTES (32).
     # Defense-in-depth — Session#initialize enforces the same invariant
-    # on the load path; this guards the inline #seal_data / #unseal_data /
-    # #seal_session_from_auth_response entry points.
+    # on the load path; this guards the inline #seal_data / #unseal_data
+    # entry points.
     def validate_cookie_password!(key)
       raise ArgumentError, "cookie_password is required" if key.nil? || key.empty?
       raise ArgumentError, "cookie_password must be at least #{Session::MIN_COOKIE_PASSWORD_BYTES} bytes" if key.bytesize < Session::MIN_COOKIE_PASSWORD_BYTES
