@@ -260,6 +260,9 @@ module WorkOS
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
+    # @param resource_id [String, nil] Filter assignments by the ID of the resource.
+    # @param resource_external_id [String, nil] Filter assignments by the external ID of the resource.
+    # @param resource_type_slug [String, nil] Filter assignments by the slug of the resource type.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::Types::ListStruct<WorkOS::UserRoleAssignment>]
     def list_role_assignments(
@@ -268,13 +271,19 @@ module WorkOS
       after: nil,
       limit: 10,
       order: "desc",
+      resource_id: nil,
+      resource_external_id: nil,
+      resource_type_slug: nil,
       request_options: {}
     )
       params = {
         "before" => before,
         "after" => after,
         "limit" => limit,
-        "order" => order
+        "order" => order,
+        "resource_id" => resource_id,
+        "resource_external_id" => resource_external_id,
+        "resource_type_slug" => resource_type_slug
       }.compact
       response = @client.request(
         method: :get,
@@ -290,13 +299,16 @@ module WorkOS
           after: cursor,
           limit: limit,
           order: order,
+          resource_id: resource_id,
+          resource_external_id: resource_external_id,
+          resource_type_slug: resource_type_slug,
           request_options: request_options
         )
       }
       WorkOS::Types::ListStruct.from_response(
         response,
         model: WorkOS::UserRoleAssignment,
-        filters: {organization_membership_id: organization_membership_id, before: before, limit: limit, order: order},
+        filters: {organization_membership_id: organization_membership_id, before: before, limit: limit, order: order, resource_id: resource_id, resource_external_id: resource_external_id, resource_type_slug: resource_type_slug},
         fetch_next: fetch_next
       )
     end
@@ -756,6 +768,7 @@ module WorkOS
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
+    # @param role_slug [String, nil] Filter assignments by the slug of the role.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::Types::ListStruct<WorkOS::UserRoleAssignment>]
     def list_role_assignments_for_resource_by_external_id(
@@ -766,13 +779,15 @@ module WorkOS
       after: nil,
       limit: 10,
       order: "desc",
+      role_slug: nil,
       request_options: {}
     )
       params = {
         "before" => before,
         "after" => after,
         "limit" => limit,
-        "order" => order
+        "order" => order,
+        "role_slug" => role_slug
       }.compact
       response = @client.request(
         method: :get,
@@ -790,13 +805,14 @@ module WorkOS
           after: cursor,
           limit: limit,
           order: order,
+          role_slug: role_slug,
           request_options: request_options
         )
       }
       WorkOS::Types::ListStruct.from_response(
         response,
         model: WorkOS::UserRoleAssignment,
-        filters: {organization_id: organization_id, resource_type_slug: resource_type_slug, external_id: external_id, before: before, limit: limit, order: order},
+        filters: {organization_id: organization_id, resource_type_slug: resource_type_slug, external_id: external_id, before: before, limit: limit, order: order, role_slug: role_slug},
         fetch_next: fetch_next
       )
     end
@@ -809,7 +825,6 @@ module WorkOS
     # @param organization_id [String, nil] Filter resources by organization ID.
     # @param resource_type_slug [String, nil] Filter resources by resource type slug.
     # @param resource_external_id [String, nil] Filter resources by external ID.
-    # @param search [String, nil] Search resources by name.
     # @param parent [WorkOS::Authorization::ParentById, WorkOS::Authorization::ParentByExternalId, nil] Identifies the parent.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::Types::ListStruct<WorkOS::AuthorizationResource>]
@@ -821,7 +836,6 @@ module WorkOS
       organization_id: nil,
       resource_type_slug: nil,
       resource_external_id: nil,
-      search: nil,
       parent: nil,
       request_options: {}
     )
@@ -832,8 +846,7 @@ module WorkOS
         "order" => order,
         "organization_id" => organization_id,
         "resource_type_slug" => resource_type_slug,
-        "resource_external_id" => resource_external_id,
-        "search" => search
+        "resource_external_id" => resource_external_id
       }.compact
       if parent
         case parent
@@ -862,7 +875,6 @@ module WorkOS
           organization_id: organization_id,
           resource_type_slug: resource_type_slug,
           resource_external_id: resource_external_id,
-          search: search,
           parent: parent,
           request_options: request_options
         )
@@ -870,7 +882,7 @@ module WorkOS
       WorkOS::Types::ListStruct.from_response(
         response,
         model: WorkOS::AuthorizationResource,
-        filters: {before: before, limit: limit, order: order, organization_id: organization_id, resource_type_slug: resource_type_slug, resource_external_id: resource_external_id, search: search, parent: parent},
+        filters: {before: before, limit: limit, order: order, organization_id: organization_id, resource_type_slug: resource_type_slug, resource_external_id: resource_external_id, parent: parent},
         fetch_next: fetch_next
       )
     end
@@ -1067,6 +1079,7 @@ module WorkOS
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
+    # @param role_slug [String, nil] Filter assignments by the slug of the role.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::Types::ListStruct<WorkOS::UserRoleAssignment>]
     def list_role_assignments_for_resource(
@@ -1075,13 +1088,15 @@ module WorkOS
       after: nil,
       limit: 10,
       order: "desc",
+      role_slug: nil,
       request_options: {}
     )
       params = {
         "before" => before,
         "after" => after,
         "limit" => limit,
-        "order" => order
+        "order" => order,
+        "role_slug" => role_slug
       }.compact
       response = @client.request(
         method: :get,
@@ -1097,13 +1112,14 @@ module WorkOS
           after: cursor,
           limit: limit,
           order: order,
+          role_slug: role_slug,
           request_options: request_options
         )
       }
       WorkOS::Types::ListStruct.from_response(
         response,
         model: WorkOS::UserRoleAssignment,
-        filters: {resource_id: resource_id, before: before, limit: limit, order: order},
+        filters: {resource_id: resource_id, before: before, limit: limit, order: order, role_slug: role_slug},
         fetch_next: fetch_next
       )
     end
