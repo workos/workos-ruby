@@ -64,8 +64,8 @@ module WorkOS
       @user_management ||= WorkOS::UserManagement.new(self)
     end
 
-    def user_management_organization_membership_groups
-      @user_management_organization_membership_groups ||= WorkOS::UserManagementOrganizationMembershipGroups.new(self)
+    def organization_membership
+      @organization_membership ||= WorkOS::OrganizationMembershipService.new(self)
     end
 
     def webhooks

@@ -34,30 +34,6 @@ module WorkOS
       def self.new(password_hash:, password_hash_type:); end
     end
 
-    class RoleSingle
-      sig { returns(String) }
-      def role_slug; end
-
-      sig do
-        params(
-          role_slug: String
-        ).returns(WorkOS::UserManagement::RoleSingle)
-      end
-      def self.new(role_slug:); end
-    end
-
-    class RoleMultiple
-      sig { returns(T::Array[String]) }
-      def role_slugs; end
-
-      sig do
-        params(
-          role_slugs: T::Array[String]
-        ).returns(WorkOS::UserManagement::RoleMultiple)
-      end
-      def self.new(role_slugs:); end
-    end
-
     sig { params(client: WorkOS::BaseClient).void }
     def initialize(client); end
 
@@ -364,71 +340,6 @@ module WorkOS
       ).returns(WorkOS::MagicAuth)
     end
     def get_magic_auth(id:, request_options:); end
-
-    sig do
-      params(
-        before: T.nilable(String),
-        after: T.nilable(String),
-        limit: T.nilable(Integer),
-        order: T.nilable(String),
-        organization_id: T.nilable(String),
-        statuses: T.nilable(T::Array[String]),
-        user_id: T.nilable(String),
-        request_options: T::Hash[Symbol, T.untyped]
-      ).returns(T::Array[WorkOS::UserOrganizationMembership])
-    end
-    def list_organization_memberships(before:, after:, limit:, order:, organization_id:, statuses:, user_id:, request_options:); end
-
-    sig do
-      params(
-        user_id: String,
-        organization_id: String,
-        role: T.nilable(T.any(WorkOS::UserManagement::RoleSingle, WorkOS::UserManagement::RoleMultiple)),
-        request_options: T::Hash[Symbol, T.untyped]
-      ).returns(WorkOS::OrganizationMembership)
-    end
-    def create_organization_membership(user_id:, organization_id:, role:, request_options:); end
-
-    sig do
-      params(
-        id: String,
-        request_options: T::Hash[Symbol, T.untyped]
-      ).returns(WorkOS::UserOrganizationMembership)
-    end
-    def get_organization_membership(id:, request_options:); end
-
-    sig do
-      params(
-        id: String,
-        role: T.nilable(T.any(WorkOS::UserManagement::RoleSingle, WorkOS::UserManagement::RoleMultiple)),
-        request_options: T::Hash[Symbol, T.untyped]
-      ).returns(WorkOS::UserOrganizationMembership)
-    end
-    def update_organization_membership(id:, role:, request_options:); end
-
-    sig do
-      params(
-        id: String,
-        request_options: T::Hash[Symbol, T.untyped]
-      ).returns(NilClass)
-    end
-    def delete_organization_membership(id:, request_options:); end
-
-    sig do
-      params(
-        id: String,
-        request_options: T::Hash[Symbol, T.untyped]
-      ).returns(WorkOS::OrganizationMembership)
-    end
-    def deactivate_organization_membership(id:, request_options:); end
-
-    sig do
-      params(
-        id: String,
-        request_options: T::Hash[Symbol, T.untyped]
-      ).returns(WorkOS::UserOrganizationMembership)
-    end
-    def reactivate_organization_membership(id:, request_options:); end
 
     sig do
       params(
