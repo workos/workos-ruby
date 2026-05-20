@@ -130,8 +130,6 @@ module WorkOS
     end
 
     # @oagen-ignore-start — non-spec helpers (hand-maintained)
-    require "openssl"
-
     DEFAULT_TOLERANCE_SECONDS = 180
 
     # Verify a webhook signature and return a typed event struct.
