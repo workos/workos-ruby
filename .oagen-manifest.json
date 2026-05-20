@@ -1,7 +1,7 @@
 {
   "version": 2,
   "language": "ruby",
-  "generatedAt": "2026-05-06T22:30:35.198Z",
+  "generatedAt": "2026-05-20T20:29:03.170Z",
   "files": [
     "lib/workos.rb",
     "lib/workos/admin_portal.rb",
@@ -27,17 +27,17 @@
     "lib/workos/api_keys/organization_api_key_with_value_owner.rb",
     "lib/workos/api_keys/validate_api_key.rb",
     "lib/workos/audit_logs.rb",
-    "lib/workos/audit_logs/audit_log_action_json.rb",
+    "lib/workos/audit_logs/audit_log_action.rb",
     "lib/workos/audit_logs/audit_log_event.rb",
     "lib/workos/audit_logs/audit_log_event_actor.rb",
     "lib/workos/audit_logs/audit_log_event_context.rb",
     "lib/workos/audit_logs/audit_log_event_create_response.rb",
     "lib/workos/audit_logs/audit_log_event_ingestion.rb",
     "lib/workos/audit_logs/audit_log_event_target.rb",
+    "lib/workos/audit_logs/audit_log_export.rb",
     "lib/workos/audit_logs/audit_log_export_creation.rb",
-    "lib/workos/audit_logs/audit_log_export_json.rb",
-    "lib/workos/audit_logs/audit_log_schema.rb",
     "lib/workos/audit_logs/audit_log_schema_actor.rb",
+    "lib/workos/audit_logs/audit_log_schema_dto.rb",
     "lib/workos/audit_logs/audit_log_schema_json.rb",
     "lib/workos/audit_logs/audit_log_schema_json_actor.rb",
     "lib/workos/audit_logs/audit_log_schema_json_target.rb",
@@ -197,10 +197,15 @@
     "lib/workos/organization_domains/organization_domain_verification_failed_data_organization_domain.rb",
     "lib/workos/organization_domains/organization_domain_verified.rb",
     "lib/workos/organization_domains/organization_domain_verified_data.rb",
+    "lib/workos/organization_membership/create_user_organization_membership.rb",
+    "lib/workos/organization_membership/organization_membership.rb",
+    "lib/workos/organization_membership/update_user_organization_membership.rb",
+    "lib/workos/organization_membership/user_organization_membership.rb",
+    "lib/workos/organization_membership_service.rb",
     "lib/workos/organizations.rb",
     "lib/workos/organizations/audit_log_configuration.rb",
     "lib/workos/organizations/audit_log_configuration_log_stream.rb",
-    "lib/workos/organizations/audit_logs_retention_json.rb",
+    "lib/workos/organizations/audit_logs_retention.rb",
     "lib/workos/organizations/organization.rb",
     "lib/workos/organizations/organization_created.rb",
     "lib/workos/organizations/organization_created_data.rb",
@@ -288,7 +293,7 @@
     "lib/workos/types/audit_log_configuration_log_stream_state.rb",
     "lib/workos/types/audit_log_configuration_log_stream_type.rb",
     "lib/workos/types/audit_log_configuration_state.rb",
-    "lib/workos/types/audit_log_export_json_state.rb",
+    "lib/workos/types/audit_log_export_state.rb",
     "lib/workos/types/authenticate_response_authentication_method.rb",
     "lib/workos/types/authentication_factor_enrolled_type.rb",
     "lib/workos/types/authentication_factor_type.rb",
@@ -405,7 +410,7 @@
     "lib/workos/types/vault_metadata_read_data_actor_source.rb",
     "lib/workos/types/vault_names_listed_data_actor_source.rb",
     "lib/workos/types/waitlist_user_state.rb",
-    "lib/workos/types/webhook_endpoint_json_status.rb",
+    "lib/workos/types/webhook_endpoint_status.rb",
     "lib/workos/types/widget_session_token_scopes.rb",
     "lib/workos/user_management.rb",
     "lib/workos/user_management/action_authentication_denied.rb",
@@ -473,7 +478,6 @@
     "lib/workos/user_management/create_user.rb",
     "lib/workos/user_management/create_user_api_key.rb",
     "lib/workos/user_management/create_user_invite_options.rb",
-    "lib/workos/user_management/create_user_organization_membership.rb",
     "lib/workos/user_management/device_authorization_response.rb",
     "lib/workos/user_management/device_code_session_authenticate_request.rb",
     "lib/workos/user_management/email_change.rb",
@@ -500,7 +504,6 @@
     "lib/workos/user_management/magic_auth_created.rb",
     "lib/workos/user_management/magic_auth_created_data.rb",
     "lib/workos/user_management/mfa_totp_session_authenticate_request.rb",
-    "lib/workos/user_management/organization_membership.rb",
     "lib/workos/user_management/organization_selection_session_authenticate_request.rb",
     "lib/workos/user_management/password_reset.rb",
     "lib/workos/user_management/password_reset_created.rb",
@@ -524,7 +527,6 @@
     "lib/workos/user_management/sso_device_authorization_request.rb",
     "lib/workos/user_management/update_jwt_template.rb",
     "lib/workos/user_management/update_user.rb",
-    "lib/workos/user_management/update_user_organization_membership.rb",
     "lib/workos/user_management/user.rb",
     "lib/workos/user_management/user_api_key.rb",
     "lib/workos/user_management/user_api_key_created_data_owner.rb",
@@ -536,13 +538,11 @@
     "lib/workos/user_management/user_deleted.rb",
     "lib/workos/user_management/user_identities_get_item.rb",
     "lib/workos/user_management/user_invite.rb",
-    "lib/workos/user_management/user_organization_membership.rb",
     "lib/workos/user_management/user_sessions_impersonator.rb",
     "lib/workos/user_management/user_sessions_list_item.rb",
     "lib/workos/user_management/user_updated.rb",
     "lib/workos/user_management/verify_email_address.rb",
     "lib/workos/user_management/verify_email_response.rb",
-    "lib/workos/user_management_organization_membership_groups.rb",
     "lib/workos/vault/vault_byok_key_deleted.rb",
     "lib/workos/vault/vault_byok_key_deleted_data.rb",
     "lib/workos/vault/vault_byok_key_verification_completed.rb",
@@ -568,7 +568,7 @@
     "lib/workos/webhooks.rb",
     "lib/workos/webhooks/create_webhook_endpoint.rb",
     "lib/workos/webhooks/update_webhook_endpoint.rb",
-    "lib/workos/webhooks/webhook_endpoint_json.rb",
+    "lib/workos/webhooks/webhook_endpoint.rb",
     "lib/workos/widgets.rb",
     "lib/workos/widgets/widget_session_token.rb",
     "lib/workos/widgets/widget_session_token_response.rb",
@@ -590,7 +590,7 @@
     "rbi/workos/api_keys.rbi",
     "rbi/workos/application_credentials_list_item.rbi",
     "rbi/workos/assign_role.rbi",
-    "rbi/workos/audit_log_action_json.rbi",
+    "rbi/workos/audit_log_action.rbi",
     "rbi/workos/audit_log_configuration.rbi",
     "rbi/workos/audit_log_configuration_log_stream.rbi",
     "rbi/workos/audit_log_event.rbi",
@@ -599,16 +599,16 @@
     "rbi/workos/audit_log_event_create_response.rbi",
     "rbi/workos/audit_log_event_ingestion.rbi",
     "rbi/workos/audit_log_event_target.rbi",
+    "rbi/workos/audit_log_export.rbi",
     "rbi/workos/audit_log_export_creation.rbi",
-    "rbi/workos/audit_log_export_json.rbi",
-    "rbi/workos/audit_log_schema.rbi",
     "rbi/workos/audit_log_schema_actor.rbi",
+    "rbi/workos/audit_log_schema_dto.rbi",
     "rbi/workos/audit_log_schema_json.rbi",
     "rbi/workos/audit_log_schema_json_actor.rbi",
     "rbi/workos/audit_log_schema_json_target.rbi",
     "rbi/workos/audit_log_schema_target.rbi",
     "rbi/workos/audit_logs.rbi",
-    "rbi/workos/audit_logs_retention_json.rbi",
+    "rbi/workos/audit_logs_retention.rbi",
     "rbi/workos/authenticate_response.rbi",
     "rbi/workos/authenticate_response_impersonator.rbi",
     "rbi/workos/authenticate_response_oauth_token.rbi",
@@ -876,6 +876,7 @@
     "rbi/workos/organization_membership_created_data.rbi",
     "rbi/workos/organization_membership_deleted.rbi",
     "rbi/workos/organization_membership_deleted_data.rbi",
+    "rbi/workos/organization_membership_service.rbi",
     "rbi/workos/organization_membership_updated.rbi",
     "rbi/workos/organization_membership_updated_data.rbi",
     "rbi/workos/organization_role_created.rbi",
@@ -974,7 +975,6 @@
     "rbi/workos/user_invite.rbi",
     "rbi/workos/user_management.rbi",
     "rbi/workos/user_management_login_request.rbi",
-    "rbi/workos/user_management_organization_membership_groups.rbi",
     "rbi/workos/user_object.rbi",
     "rbi/workos/user_organization_membership.rbi",
     "rbi/workos/user_organization_membership_base_list_data.rbi",
@@ -1012,7 +1012,7 @@
     "rbi/workos/waitlist_user_approved.rbi",
     "rbi/workos/waitlist_user_created.rbi",
     "rbi/workos/waitlist_user_denied.rbi",
-    "rbi/workos/webhook_endpoint_json.rbi",
+    "rbi/workos/webhook_endpoint.rbi",
     "rbi/workos/webhooks.rbi",
     "rbi/workos/widget_session_token.rbi",
     "rbi/workos/widget_session_token_response.rbi",
@@ -1029,12 +1029,12 @@
     "test/workos/test_model_round_trip.rb",
     "test/workos/test_multi_factor_auth.rb",
     "test/workos/test_organization_domains.rb",
+    "test/workos/test_organization_membership_service.rb",
     "test/workos/test_organizations.rb",
     "test/workos/test_pipes.rb",
     "test/workos/test_radar.rb",
     "test/workos/test_sso.rb",
     "test/workos/test_user_management.rb",
-    "test/workos/test_user_management_organization_membership_groups.rb",
     "test/workos/test_webhooks.rb",
     "test/workos/test_widgets.rb"
   ],
@@ -1641,35 +1641,35 @@
     },
     "GET /user_management/organization_memberships": {
       "sdkMethod": "list_organization_memberships",
-      "service": "user_management"
+      "service": "organization_membership"
     },
     "POST /user_management/organization_memberships": {
       "sdkMethod": "create_organization_membership",
-      "service": "user_management"
+      "service": "organization_membership"
     },
     "GET /user_management/organization_memberships/{id}": {
       "sdkMethod": "get_organization_membership",
-      "service": "user_management"
+      "service": "organization_membership"
     },
     "PUT /user_management/organization_memberships/{id}": {
       "sdkMethod": "update_organization_membership",
-      "service": "user_management"
+      "service": "organization_membership"
     },
     "DELETE /user_management/organization_memberships/{id}": {
       "sdkMethod": "delete_organization_membership",
-      "service": "user_management"
+      "service": "organization_membership"
     },
     "PUT /user_management/organization_memberships/{id}/deactivate": {
       "sdkMethod": "deactivate_organization_membership",
-      "service": "user_management"
+      "service": "organization_membership"
     },
     "PUT /user_management/organization_memberships/{id}/reactivate": {
       "sdkMethod": "reactivate_organization_membership",
-      "service": "user_management"
+      "service": "organization_membership"
     },
     "GET /user_management/organization_memberships/{omId}/groups": {
       "sdkMethod": "list_organization_membership_groups",
-      "service": "user_management_organization_membership_groups"
+      "service": "organization_membership"
     },
     "POST /user_management/redirect_uris": {
       "sdkMethod": "create_redirect_uri",
