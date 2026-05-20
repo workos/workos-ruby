@@ -25,7 +25,7 @@ module WorkOS
         endpoint_url: String,
         events: T::Array[String],
         request_options: T::Hash[Symbol, T.untyped]
-      ).returns(WorkOS::WebhookEndpointJson)
+      ).returns(WorkOS::WebhookEndpoint)
     end
     def create_webhook_endpoint(endpoint_url:, events:, request_options:); end
 
@@ -36,7 +36,7 @@ module WorkOS
         status: T.nilable(String),
         events: T.nilable(T::Array[String]),
         request_options: T::Hash[Symbol, T.untyped]
-      ).returns(WorkOS::WebhookEndpointJson)
+      ).returns(WorkOS::WebhookEndpoint)
     end
     def update_webhook_endpoint(id:, endpoint_url:, status:, events:, request_options:); end
 
