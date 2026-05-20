@@ -6,85 +6,109 @@
 
 module WorkOS
   class OrganizationMembership
-    sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
-    def initialize(json); end
+    class RoleSingle
+      sig { returns(String) }
+      def role_slug; end
 
-    sig { returns(String) }
-    def object; end
+      sig do
+        params(
+          role_slug: String
+        ).returns(WorkOS::OrganizationMembership::RoleSingle)
+      end
+      def self.new(role_slug:); end
+    end
 
-    sig { params(value: String).returns(String) }
-    def object=(value); end
+    class RoleMultiple
+      sig { returns(T::Array[String]) }
+      def role_slugs; end
 
-    sig { returns(String) }
-    def id; end
+      sig do
+        params(
+          role_slugs: T::Array[String]
+        ).returns(WorkOS::OrganizationMembership::RoleMultiple)
+      end
+      def self.new(role_slugs:); end
+    end
 
-    sig { params(value: String).returns(String) }
-    def id=(value); end
+    sig { params(client: WorkOS::BaseClient).void }
+    def initialize(client); end
 
-    sig { returns(String) }
-    def user_id; end
+    sig do
+      params(
+        before: T.nilable(String),
+        after: T.nilable(String),
+        limit: T.nilable(Integer),
+        order: T.nilable(String),
+        organization_id: T.nilable(String),
+        statuses: T.nilable(T::Array[String]),
+        user_id: T.nilable(String),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(T::Array[WorkOS::UserOrganizationMembership])
+    end
+    def list_organization_memberships(before:, after:, limit:, order:, organization_id:, statuses:, user_id:, request_options:); end
 
-    sig { params(value: String).returns(String) }
-    def user_id=(value); end
+    sig do
+      params(
+        user_id: String,
+        organization_id: String,
+        role: T.nilable(T.any(WorkOS::OrganizationMembership::RoleSingle, WorkOS::OrganizationMembership::RoleMultiple)),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::OrganizationMembership)
+    end
+    def create_organization_membership(user_id:, organization_id:, role:, request_options:); end
 
-    sig { returns(String) }
-    def organization_id; end
+    sig do
+      params(
+        id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::UserOrganizationMembership)
+    end
+    def get_organization_membership(id:, request_options:); end
 
-    sig { params(value: String).returns(String) }
-    def organization_id=(value); end
+    sig do
+      params(
+        id: String,
+        role: T.nilable(T.any(WorkOS::OrganizationMembership::RoleSingle, WorkOS::OrganizationMembership::RoleMultiple)),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::UserOrganizationMembership)
+    end
+    def update_organization_membership(id:, role:, request_options:); end
 
-    sig { returns(String) }
-    def status; end
+    sig do
+      params(
+        id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(NilClass)
+    end
+    def delete_organization_membership(id:, request_options:); end
 
-    sig { params(value: String).returns(String) }
-    def status=(value); end
+    sig do
+      params(
+        id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::OrganizationMembership)
+    end
+    def deactivate_organization_membership(id:, request_options:); end
 
-    sig { returns(T::Boolean) }
-    def directory_managed; end
+    sig do
+      params(
+        id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::UserOrganizationMembership)
+    end
+    def reactivate_organization_membership(id:, request_options:); end
 
-    sig { params(value: T::Boolean).returns(T::Boolean) }
-    def directory_managed=(value); end
+    sig do
+      params(
+        om_id: String,
+        before: T.nilable(String),
+        after: T.nilable(String),
+        limit: T.nilable(Integer),
+        order: T.nilable(String),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::Types::ListStruct)
+    end
+    def list_organization_membership_groups(om_id:, before:, after:, limit:, order:, request_options:); end
 
-    sig { returns(T.nilable(String)) }
-    def organization_name; end
-
-    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
-    def organization_name=(value); end
-
-    sig { returns(T.nilable(T::Hash[String, T.untyped])) }
-    def custom_attributes; end
-
-    sig { params(value: T.nilable(T::Hash[String, T.untyped])).returns(T.nilable(T::Hash[String, T.untyped])) }
-    def custom_attributes=(value); end
-
-    sig { returns(String) }
-    def created_at; end
-
-    sig { params(value: String).returns(String) }
-    def created_at=(value); end
-
-    sig { returns(String) }
-    def updated_at; end
-
-    sig { params(value: String).returns(String) }
-    def updated_at=(value); end
-
-    sig { returns(WorkOS::SlimRole) }
-    def role; end
-
-    sig { params(value: WorkOS::SlimRole).returns(WorkOS::SlimRole) }
-    def role=(value); end
-
-    sig { returns(WorkOS::User) }
-    def user; end
-
-    sig { params(value: WorkOS::User).returns(WorkOS::User) }
-    def user=(value); end
-
-    sig { returns(T::Hash[Symbol, T.untyped]) }
-    def to_h; end
-
-    sig { params(args: T.untyped).returns(String) }
-    def to_json(*args); end
   end
 end

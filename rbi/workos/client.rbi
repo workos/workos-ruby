@@ -54,8 +54,8 @@ module WorkOS
     sig { returns(WorkOS::UserManagement) }
     def user_management; end
 
-    sig { returns(WorkOS::UserManagementOrganizationMembershipGroups) }
-    def user_management_organization_membership_groups; end
+    sig { returns(WorkOS::OrganizationMembership) }
+    def organization_membership; end
 
     sig { returns(WorkOS::Webhooks) }
     def webhooks; end
