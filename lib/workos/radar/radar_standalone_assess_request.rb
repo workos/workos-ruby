@@ -9,9 +9,7 @@ module WorkOS
       user_agent: :user_agent,
       email: :email,
       auth_method: :auth_method,
-      action: :action,
-      device_fingerprint: :device_fingerprint,
-      bot_score: :bot_score
+      action: :action
     }.freeze
 
     attr_accessor \
@@ -19,9 +17,7 @@ module WorkOS
       :user_agent,
       :email,
       :auth_method,
-      :action,
-      :device_fingerprint,
-      :bot_score
+      :action
 
     def initialize(json)
       hash = self.class.normalize(json)
@@ -30,8 +26,6 @@ module WorkOS
       @email = hash[:email]
       @auth_method = hash[:auth_method]
       @action = hash[:action]
-      @device_fingerprint = hash[:device_fingerprint]
-      @bot_score = hash[:bot_score]
     end
   end
 end

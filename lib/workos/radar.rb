@@ -16,8 +16,6 @@ module WorkOS
     # @param email [String] The email address of the user making the request.
     # @param auth_method [WorkOS::Types::RadarStandaloneAssessRequestAuthMethod] The authentication method being used.
     # @param action [WorkOS::Types::RadarStandaloneAssessRequestAction] The action being performed.
-    # @param device_fingerprint [String, nil] An optional device fingerprint for the request.
-    # @param bot_score [String, nil] An optional bot detection score for the request.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::RadarStandaloneResponse]
     def create_attempt(
@@ -26,8 +24,6 @@ module WorkOS
       email:,
       auth_method:,
       action:,
-      device_fingerprint: nil,
-      bot_score: nil,
       request_options: {}
     )
       body = {
@@ -35,10 +31,8 @@ module WorkOS
         "user_agent" => user_agent,
         "email" => email,
         "auth_method" => auth_method,
-        "action" => action,
-        "device_fingerprint" => device_fingerprint,
-        "bot_score" => bot_score
-      }.compact
+        "action" => action
+      }
       response = @client.request(
         method: :post,
         path: "/radar/attempts",
