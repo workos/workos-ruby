@@ -48,6 +48,7 @@ WORKOS_INFLECTIONS = {
   "jwt_template_response" => "JWTTemplateResponse",
   "m2m" => "M2M",
   "mfa_totp_session_authenticate_request" => "MFATotpSessionAuthenticateRequest",
+  "object" => "ObjectModel",
   "pkce" => "PKCE",
   "sso" => "SSO",
   "sso_authorize_url_response" => "SSOAuthorizeUrlResponse",
