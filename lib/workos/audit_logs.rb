@@ -105,7 +105,7 @@ module WorkOS
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
-    # @return [WorkOS::Types::ListStruct<WorkOS::AuditLogSchemaJson>]
+    # @return [WorkOS::Types::ListStruct<WorkOS::AuditLogSchema>]
     def list_action_schemas(
       action_name:,
       before: nil,
@@ -139,7 +139,7 @@ module WorkOS
       }
       WorkOS::Types::ListStruct.from_response(
         response,
-        model: WorkOS::AuditLogSchemaJson,
+        model: WorkOS::AuditLogSchema,
         filters: {action_name: action_name, before: before, limit: limit, order: order},
         fetch_next: fetch_next
       )
@@ -147,11 +147,11 @@ module WorkOS
 
     # Create Schema
     # @param action_name [String] The name of the Audit Log action.
-    # @param actor [WorkOS::AuditLogSchemaActor, nil] The metadata schema for the actor.
-    # @param targets [Array<WorkOS::AuditLogSchemaTarget>] The list of targets for the schema.
+    # @param actor [WorkOS::AuditLogSchemaActorInput, nil] The metadata schema for the actor.
+    # @param targets [Array<WorkOS::AuditLogSchemaTargetInput>] The list of targets for the schema.
     # @param metadata [Hash{String => Object}, nil] Optional JSON schema for event metadata.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
-    # @return [WorkOS::AuditLogSchemaJson]
+    # @return [WorkOS::AuditLogSchema]
     def create_schema(
       action_name:,
       targets:,
@@ -171,7 +171,7 @@ module WorkOS
         body: body,
         request_options: request_options
       )
-      result = WorkOS::AuditLogSchemaJson.new(response.body)
+      result = WorkOS::AuditLogSchema.new(response.body)
       result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
       result
     end

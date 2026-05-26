@@ -23,7 +23,7 @@ module WorkOS
       hash = self.class.normalize(json)
       @object = hash[:object]
       @name = hash[:name]
-      @schema = hash[:schema] ? WorkOS::AuditLogSchemaJson.new(hash[:schema]) : nil
+      @schema = hash[:schema] ? WorkOS::AuditLogSchema.new(hash[:schema]) : nil
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
     end

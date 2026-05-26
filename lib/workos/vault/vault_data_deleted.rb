@@ -5,30 +5,30 @@
 module WorkOS
   class VaultDataDeleted < WorkOS::Types::BaseModel
     HASH_ATTRS = {
+      object: :object,
       id: :id,
       event: :event,
       data: :data,
       created_at: :created_at,
-      context: :context,
-      object: :object
+      context: :context
     }.freeze
 
     attr_accessor \
+      :object,
       :id,
       :event,
       :data,
       :created_at,
-      :context,
-      :object
+      :context
 
     def initialize(json)
       hash = self.class.normalize(json)
+      @object = hash[:object]
       @id = hash[:id]
       @event = hash[:event]
       @data = hash[:data] ? WorkOS::VaultDataDeletedData.new(hash[:data]) : nil
       @created_at = hash[:created_at]
       @context = hash[:context] ? WorkOS::EventContext.new(hash[:context]) : nil
-      @object = hash[:object]
     end
   end
 end

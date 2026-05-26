@@ -5,30 +5,30 @@
 module WorkOS
   class ActionUserRegistrationDenied < WorkOS::Types::BaseModel
     HASH_ATTRS = {
+      object: :object,
       id: :id,
       event: :event,
       data: :data,
-      context: :context,
       created_at: :created_at,
-      object: :object
+      context: :context
     }.freeze
 
     attr_accessor \
+      :object,
       :id,
       :event,
       :data,
-      :context,
       :created_at,
-      :object
+      :context
 
     def initialize(json)
       hash = self.class.normalize(json)
+      @object = hash[:object]
       @id = hash[:id]
       @event = hash[:event]
       @data = hash[:data] ? WorkOS::ActionUserRegistrationDeniedData.new(hash[:data]) : nil
-      @context = hash[:context] ? WorkOS::EventContext.new(hash[:context]) : nil
       @created_at = hash[:created_at]
-      @object = hash[:object]
+      @context = hash[:context] ? WorkOS::EventContext.new(hash[:context]) : nil
     end
   end
 end

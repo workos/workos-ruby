@@ -45,18 +45,18 @@ module WorkOS
         limit: T.nilable(Integer),
         order: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
-      ).returns(T::Array[WorkOS::AuditLogSchemaJson])
+      ).returns(T::Array[WorkOS::AuditLogSchema])
     end
     def list_action_schemas(action_name:, before:, after:, limit:, order:, request_options:); end
 
     sig do
       params(
         action_name: String,
-        targets: T::Array[WorkOS::AuditLogSchemaTarget],
-        actor: T.nilable(WorkOS::AuditLogSchemaActor),
+        targets: T::Array[WorkOS::AuditLogSchemaTargetInput],
+        actor: T.nilable(WorkOS::AuditLogSchemaActorInput),
         metadata: T.nilable(T::Hash[String, T.untyped]),
         request_options: T::Hash[Symbol, T.untyped]
-      ).returns(WorkOS::AuditLogSchemaJson)
+      ).returns(WorkOS::AuditLogSchema)
     end
     def create_schema(action_name:, targets:, actor:, metadata:, request_options:); end
 

@@ -72,8 +72,8 @@ module WorkOS
     end
 
     # Add an entry to a Radar list
-    # @param type [WorkOS::Types::RadarType] The type of the Radar list (e.g. ip_address, domain, email).
-    # @param action [WorkOS::Types::RadarAction] The list action indicating whether to add the entry to the allow or block list.
+    # @param type [WorkOS::Types::RadarListType] The type of the Radar list (e.g. ip_address, domain, email).
+    # @param action [WorkOS::Types::RadarListAction] The list action indicating whether to add the entry to the allow or block list.
     # @param entry [String] The value to add to the list. Must match the format of the list type (e.g. a valid IP address for `ip_address`, a valid email for `email`).
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::RadarListEntryAlreadyPresentResponse]
@@ -99,8 +99,8 @@ module WorkOS
     end
 
     # Remove an entry from a Radar list
-    # @param type [WorkOS::Types::RadarType] The type of the Radar list (e.g. ip_address, domain, email).
-    # @param action [WorkOS::Types::RadarAction] The list action indicating whether to remove the entry from the allow or block list.
+    # @param type [WorkOS::Types::RadarListType] The type of the Radar list (e.g. ip_address, domain, email).
+    # @param action [WorkOS::Types::RadarListAction] The list action indicating whether to remove the entry from the allow or block list.
     # @param entry [String] The value to remove from the list. Must match an existing entry.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [void]

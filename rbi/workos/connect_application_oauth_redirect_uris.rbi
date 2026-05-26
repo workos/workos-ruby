@@ -5,15 +5,21 @@
 # typed: strong
 
 module WorkOS
-  class Error
+  class ConnectApplicationOAuthRedirectUris
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
 
     sig { returns(String) }
-    def error; end
+    def uri; end
 
     sig { params(value: String).returns(String) }
-    def error=(value); end
+    def uri=(value); end
+
+    sig { returns(T::Boolean) }
+    def default; end
+
+    sig { params(value: T::Boolean).returns(T::Boolean) }
+    def default=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end

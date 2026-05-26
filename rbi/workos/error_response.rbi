@@ -5,15 +5,15 @@
 # typed: strong
 
 module WorkOS
-  class AuditLogSchemaJsonActor
+  class ErrorResponse
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
 
-    sig { returns(T::Hash[String, T.untyped]) }
-    def metadata; end
+    sig { returns(String) }
+    def error; end
 
-    sig { params(value: T::Hash[String, T.untyped]).returns(T::Hash[String, T.untyped]) }
-    def metadata=(value); end
+    sig { params(value: String).returns(String) }
+    def error=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end

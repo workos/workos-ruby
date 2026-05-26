@@ -4,7 +4,7 @@
 
 module WorkOS
   module Types
-    class RadarAction
+    class RadarListAction
       BLOCK = "block"
       ALLOW = "allow"
       ALL = [BLOCK, ALLOW].freeze

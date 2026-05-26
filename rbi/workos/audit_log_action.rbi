@@ -21,10 +21,10 @@ module WorkOS
     sig { params(value: String).returns(String) }
     def name=(value); end
 
-    sig { returns(WorkOS::AuditLogSchemaJson) }
+    sig { returns(WorkOS::AuditLogSchema) }
     def schema; end
 
-    sig { params(value: WorkOS::AuditLogSchemaJson).returns(WorkOS::AuditLogSchemaJson) }
+    sig { params(value: WorkOS::AuditLogSchema).returns(WorkOS::AuditLogSchema) }
     def schema=(value); end
 
     sig { returns(String) }

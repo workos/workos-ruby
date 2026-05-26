@@ -10,6 +10,12 @@ module WorkOS
     def initialize(json); end
 
     sig { returns(String) }
+    def object; end
+
+    sig { params(value: String).returns(String) }
+    def object=(value); end
+
+    sig { returns(String) }
     def id; end
 
     sig { params(value: String).returns(String) }
@@ -27,23 +33,17 @@ module WorkOS
     sig { params(value: WorkOS::ActionUserRegistrationDeniedData).returns(WorkOS::ActionUserRegistrationDeniedData) }
     def data=(value); end
 
-    sig { returns(T.nilable(WorkOS::EventContext)) }
-    def context; end
-
-    sig { params(value: T.nilable(WorkOS::EventContext)).returns(T.nilable(WorkOS::EventContext)) }
-    def context=(value); end
-
     sig { returns(String) }
     def created_at; end
 
     sig { params(value: String).returns(String) }
     def created_at=(value); end
 
-    sig { returns(String) }
-    def object; end
+    sig { returns(T.nilable(WorkOS::EventContext)) }
+    def context; end
 
-    sig { params(value: String).returns(String) }
-    def object=(value); end
+    sig { params(value: T.nilable(WorkOS::EventContext)).returns(T.nilable(WorkOS::EventContext)) }
+    def context=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end
