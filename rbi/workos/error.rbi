@@ -5,27 +5,15 @@
 # typed: strong
 
 module WorkOS
-  class CreateOrganizationApiKey
+  class Error
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
 
     sig { returns(String) }
-    def name; end
+    def error; end
 
     sig { params(value: String).returns(String) }
-    def name=(value); end
-
-    sig { returns(T.nilable(T::Array[String])) }
-    def permissions; end
-
-    sig { params(value: T.nilable(T::Array[String])).returns(T.nilable(T::Array[String])) }
-    def permissions=(value); end
-
-    sig { returns(T.nilable(String)) }
-    def expires_at; end
-
-    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
-    def expires_at=(value); end
+    def error=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end

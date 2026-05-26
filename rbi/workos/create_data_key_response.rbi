@@ -5,39 +5,33 @@
 # typed: strong
 
 module WorkOS
-  class AuditLogAction
+  class CreateDataKeyResponse
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
 
-    sig { returns(String) }
-    def object; end
+    sig { returns(T::Hash[String, String]) }
+    def context; end
 
-    sig { params(value: String).returns(String) }
-    def object=(value); end
-
-    sig { returns(String) }
-    def name; end
-
-    sig { params(value: String).returns(String) }
-    def name=(value); end
-
-    sig { returns(WorkOS::AuditLogSchemaJson) }
-    def schema; end
-
-    sig { params(value: WorkOS::AuditLogSchemaJson).returns(WorkOS::AuditLogSchemaJson) }
-    def schema=(value); end
+    sig { params(value: T::Hash[String, String]).returns(T::Hash[String, String]) }
+    def context=(value); end
 
     sig { returns(String) }
-    def created_at; end
+    def data_key; end
 
     sig { params(value: String).returns(String) }
-    def created_at=(value); end
+    def data_key=(value); end
 
     sig { returns(String) }
-    def updated_at; end
+    def encrypted_keys; end
 
     sig { params(value: String).returns(String) }
-    def updated_at=(value); end
+    def encrypted_keys=(value); end
+
+    sig { returns(String) }
+    def id; end
+
+    sig { params(value: String).returns(String) }
+    def id=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end

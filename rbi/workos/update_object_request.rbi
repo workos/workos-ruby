@@ -5,15 +5,21 @@
 # typed: strong
 
 module WorkOS
-  class AuditLogsRetentionJson
+  class UpdateObjectRequest
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
 
-    sig { returns(T.nilable(Integer)) }
-    def retention_period_in_days; end
+    sig { returns(String) }
+    def value; end
 
-    sig { params(value: T.nilable(Integer)).returns(T.nilable(Integer)) }
-    def retention_period_in_days=(value); end
+    sig { params(value: String).returns(String) }
+    def value=(value); end
+
+    sig { returns(T.nilable(String)) }
+    def version_check; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def version_check=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end

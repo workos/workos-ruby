@@ -27,6 +27,12 @@ module WorkOS
     sig { params(value: T.nilable(T::Array[String])).returns(T.nilable(T::Array[String])) }
     def permissions=(value); end
 
+    sig { returns(T.nilable(String)) }
+    def expires_at; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def expires_at=(value); end
+
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end
 

@@ -5,15 +5,9 @@
 # typed: strong
 
 module WorkOS
-  class AuditLogExportJson
+  class ObjectModel
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
-
-    sig { returns(String) }
-    def object; end
-
-    sig { params(value: String).returns(String) }
-    def object=(value); end
 
     sig { returns(String) }
     def id; end
@@ -21,29 +15,23 @@ module WorkOS
     sig { params(value: String).returns(String) }
     def id=(value); end
 
-    sig { returns(String) }
-    def state; end
+    sig { returns(WorkOS::ObjectMetadata) }
+    def metadata; end
 
-    sig { params(value: String).returns(String) }
-    def state=(value); end
-
-    sig { returns(T.nilable(String)) }
-    def url; end
-
-    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
-    def url=(value); end
+    sig { params(value: WorkOS::ObjectMetadata).returns(WorkOS::ObjectMetadata) }
+    def metadata=(value); end
 
     sig { returns(String) }
-    def created_at; end
+    def name; end
 
     sig { params(value: String).returns(String) }
-    def created_at=(value); end
+    def name=(value); end
 
     sig { returns(String) }
-    def updated_at; end
+    def value; end
 
     sig { params(value: String).returns(String) }
-    def updated_at=(value); end
+    def value=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end

@@ -26,10 +26,11 @@ module WorkOS
         organization_id: String,
         name: String,
         permissions: T.nilable(T::Array[String]),
+        expires_at: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::OrganizationApiKeyWithValue)
     end
-    def create_organization_api_key(organization_id:, name:, permissions:, request_options:); end
+    def create_organization_api_key(organization_id:, name:, permissions:, expires_at:, request_options:); end
 
     sig do
       params(

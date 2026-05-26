@@ -5,9 +5,15 @@
 # typed: strong
 
 module WorkOS
-  class CreateOrganizationApiKey
+  class CreateObjectRequest
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
+
+    sig { returns(T::Hash[String, String]) }
+    def key_context; end
+
+    sig { params(value: T::Hash[String, String]).returns(T::Hash[String, String]) }
+    def key_context=(value); end
 
     sig { returns(String) }
     def name; end
@@ -15,17 +21,11 @@ module WorkOS
     sig { params(value: String).returns(String) }
     def name=(value); end
 
-    sig { returns(T.nilable(T::Array[String])) }
-    def permissions; end
+    sig { returns(String) }
+    def value; end
 
-    sig { params(value: T.nilable(T::Array[String])).returns(T.nilable(T::Array[String])) }
-    def permissions=(value); end
-
-    sig { returns(T.nilable(String)) }
-    def expires_at; end
-
-    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
-    def expires_at=(value); end
+    sig { params(value: String).returns(String) }
+    def value=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end

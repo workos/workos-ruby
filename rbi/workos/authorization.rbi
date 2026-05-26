@@ -151,10 +151,13 @@ module WorkOS
         after: T.nilable(String),
         limit: T.nilable(Integer),
         order: T.nilable(String),
+        resource_id: T.nilable(String),
+        resource_external_id: T.nilable(String),
+        resource_type_slug: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_role_assignments(organization_membership_id:, before:, after:, limit:, order:, request_options:); end
+    def list_role_assignments(organization_membership_id:, before:, after:, limit:, order:, resource_id:, resource_external_id:, resource_type_slug:, request_options:); end
 
     sig do
       params(
@@ -322,10 +325,11 @@ module WorkOS
         after: T.nilable(String),
         limit: T.nilable(Integer),
         order: T.nilable(String),
+        role_slug: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_role_assignments_for_resource_by_external_id(organization_id:, resource_type_slug:, external_id:, before:, after:, limit:, order:, request_options:); end
+    def list_role_assignments_for_resource_by_external_id(organization_id:, resource_type_slug:, external_id:, before:, after:, limit:, order:, role_slug:, request_options:); end
 
     sig do
       params(
@@ -336,12 +340,11 @@ module WorkOS
         organization_id: T.nilable(String),
         resource_type_slug: T.nilable(String),
         resource_external_id: T.nilable(String),
-        search: T.nilable(String),
         parent: T.nilable(T.any(WorkOS::Authorization::ParentById, WorkOS::Authorization::ParentByExternalId)),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_resources(before:, after:, limit:, order:, organization_id:, resource_type_slug:, resource_external_id:, search:, parent:, request_options:); end
+    def list_resources(before:, after:, limit:, order:, organization_id:, resource_type_slug:, resource_external_id:, parent:, request_options:); end
 
     sig do
       params(
@@ -405,10 +408,11 @@ module WorkOS
         after: T.nilable(String),
         limit: T.nilable(Integer),
         order: T.nilable(String),
+        role_slug: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_role_assignments_for_resource(resource_id:, before:, after:, limit:, order:, request_options:); end
+    def list_role_assignments_for_resource(resource_id:, before:, after:, limit:, order:, role_slug:, request_options:); end
 
     sig do
       params(

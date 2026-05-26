@@ -5,27 +5,27 @@
 # typed: strong
 
 module WorkOS
-  class CreateOrganizationApiKey
+  class ObjectWithoutValue
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
+
+    sig { returns(String) }
+    def id; end
+
+    sig { params(value: String).returns(String) }
+    def id=(value); end
+
+    sig { returns(WorkOS::ObjectMetadata) }
+    def metadata; end
+
+    sig { params(value: WorkOS::ObjectMetadata).returns(WorkOS::ObjectMetadata) }
+    def metadata=(value); end
 
     sig { returns(String) }
     def name; end
 
     sig { params(value: String).returns(String) }
     def name=(value); end
-
-    sig { returns(T.nilable(T::Array[String])) }
-    def permissions; end
-
-    sig { params(value: T.nilable(T::Array[String])).returns(T.nilable(T::Array[String])) }
-    def permissions=(value); end
-
-    sig { returns(T.nilable(String)) }
-    def expires_at; end
-
-    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
-    def expires_at=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end

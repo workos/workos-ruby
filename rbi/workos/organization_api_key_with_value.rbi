@@ -45,6 +45,12 @@ module WorkOS
     sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
     def last_used_at=(value); end
 
+    sig { returns(T.nilable(String)) }
+    def expires_at; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def expires_at=(value); end
+
     sig { returns(T::Array[String]) }
     def permissions; end
 

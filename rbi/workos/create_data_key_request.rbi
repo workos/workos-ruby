@@ -5,15 +5,15 @@
 # typed: strong
 
 module WorkOS
-  class AuditLogsRetention
+  class CreateDataKeyRequest
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
 
-    sig { returns(T.nilable(Integer)) }
-    def retention_period_in_days; end
+    sig { returns(T::Hash[String, String]) }
+    def context; end
 
-    sig { params(value: T.nilable(Integer)).returns(T.nilable(Integer)) }
-    def retention_period_in_days=(value); end
+    sig { params(value: T::Hash[String, String]).returns(T::Hash[String, String]) }
+    def context=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end

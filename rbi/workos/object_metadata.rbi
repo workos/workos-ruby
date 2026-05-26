@@ -5,15 +5,21 @@
 # typed: strong
 
 module WorkOS
-  class AuditLogExport
+  class ObjectMetadata
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
 
+    sig { returns(T::Hash[String, String]) }
+    def context; end
+
+    sig { params(value: T::Hash[String, String]).returns(T::Hash[String, String]) }
+    def context=(value); end
+
     sig { returns(String) }
-    def object; end
+    def environment_id; end
 
     sig { params(value: String).returns(String) }
-    def object=(value); end
+    def environment_id=(value); end
 
     sig { returns(String) }
     def id; end
@@ -22,28 +28,28 @@ module WorkOS
     def id=(value); end
 
     sig { returns(String) }
-    def state; end
+    def key_id; end
 
     sig { params(value: String).returns(String) }
-    def state=(value); end
-
-    sig { returns(T.nilable(String)) }
-    def url; end
-
-    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
-    def url=(value); end
-
-    sig { returns(String) }
-    def created_at; end
-
-    sig { params(value: String).returns(String) }
-    def created_at=(value); end
+    def key_id=(value); end
 
     sig { returns(String) }
     def updated_at; end
 
     sig { params(value: String).returns(String) }
     def updated_at=(value); end
+
+    sig { returns(WorkOS::Actor) }
+    def updated_by; end
+
+    sig { params(value: WorkOS::Actor).returns(WorkOS::Actor) }
+    def updated_by=(value); end
+
+    sig { returns(T.nilable(String)) }
+    def version_id; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def version_id=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end

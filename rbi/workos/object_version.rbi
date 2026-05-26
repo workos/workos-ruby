@@ -5,27 +5,9 @@
 # typed: strong
 
 module WorkOS
-  class AuditLogAction
+  class ObjectVersion
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
-
-    sig { returns(String) }
-    def object; end
-
-    sig { params(value: String).returns(String) }
-    def object=(value); end
-
-    sig { returns(String) }
-    def name; end
-
-    sig { params(value: String).returns(String) }
-    def name=(value); end
-
-    sig { returns(WorkOS::AuditLogSchemaJson) }
-    def schema; end
-
-    sig { params(value: WorkOS::AuditLogSchemaJson).returns(WorkOS::AuditLogSchemaJson) }
-    def schema=(value); end
 
     sig { returns(String) }
     def created_at; end
@@ -33,11 +15,29 @@ module WorkOS
     sig { params(value: String).returns(String) }
     def created_at=(value); end
 
+    sig { returns(T::Boolean) }
+    def current_version; end
+
+    sig { params(value: T::Boolean).returns(T::Boolean) }
+    def current_version=(value); end
+
     sig { returns(String) }
-    def updated_at; end
+    def etag; end
 
     sig { params(value: String).returns(String) }
-    def updated_at=(value); end
+    def etag=(value); end
+
+    sig { returns(String) }
+    def id; end
+
+    sig { params(value: String).returns(String) }
+    def id=(value); end
+
+    sig { returns(Integer) }
+    def size; end
+
+    sig { params(value: Integer).returns(Integer) }
+    def size=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end

@@ -5,7 +5,7 @@
 # typed: strong
 
 module WorkOS
-  class WebhookEndpointJson
+  class PipeConnectedAccount
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
 
@@ -22,28 +22,40 @@ module WorkOS
     def id=(value); end
 
     sig { returns(String) }
-    def endpoint_url; end
+    def data_integration_id; end
 
     sig { params(value: String).returns(String) }
-    def endpoint_url=(value); end
+    def data_integration_id=(value); end
 
     sig { returns(String) }
-    def secret; end
+    def provider_slug; end
 
     sig { params(value: String).returns(String) }
-    def secret=(value); end
+    def provider_slug=(value); end
 
-    sig { returns(String) }
-    def status; end
+    sig { returns(T.nilable(String)) }
+    def user_id; end
 
-    sig { params(value: String).returns(String) }
-    def status=(value); end
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def user_id=(value); end
+
+    sig { returns(T.nilable(String)) }
+    def organization_id; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def organization_id=(value); end
 
     sig { returns(T::Array[String]) }
-    def events; end
+    def scopes; end
 
     sig { params(value: T::Array[String]).returns(T::Array[String]) }
-    def events=(value); end
+    def scopes=(value); end
+
+    sig { returns(String) }
+    def state; end
+
+    sig { params(value: String).returns(String) }
+    def state=(value); end
 
     sig { returns(String) }
     def created_at; end

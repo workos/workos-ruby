@@ -5,15 +5,9 @@
 # typed: strong
 
 module WorkOS
-  class WebhookEndpoint
+  class PipesConnectedAccountDisconnected
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
-
-    sig { returns(String) }
-    def object; end
-
-    sig { params(value: String).returns(String) }
-    def object=(value); end
 
     sig { returns(String) }
     def id; end
@@ -22,28 +16,16 @@ module WorkOS
     def id=(value); end
 
     sig { returns(String) }
-    def endpoint_url; end
+    def event; end
 
     sig { params(value: String).returns(String) }
-    def endpoint_url=(value); end
+    def event=(value); end
 
-    sig { returns(String) }
-    def secret; end
+    sig { returns(WorkOS::PipeConnectedAccount) }
+    def data; end
 
-    sig { params(value: String).returns(String) }
-    def secret=(value); end
-
-    sig { returns(String) }
-    def status; end
-
-    sig { params(value: String).returns(String) }
-    def status=(value); end
-
-    sig { returns(T::Array[String]) }
-    def events; end
-
-    sig { params(value: T::Array[String]).returns(T::Array[String]) }
-    def events=(value); end
+    sig { params(value: WorkOS::PipeConnectedAccount).returns(WorkOS::PipeConnectedAccount) }
+    def data=(value); end
 
     sig { returns(String) }
     def created_at; end
@@ -51,11 +33,17 @@ module WorkOS
     sig { params(value: String).returns(String) }
     def created_at=(value); end
 
+    sig { returns(T.nilable(WorkOS::EventContext)) }
+    def context; end
+
+    sig { params(value: T.nilable(WorkOS::EventContext)).returns(T.nilable(WorkOS::EventContext)) }
+    def context=(value); end
+
     sig { returns(String) }
-    def updated_at; end
+    def object; end
 
     sig { params(value: String).returns(String) }
-    def updated_at=(value); end
+    def object=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end
