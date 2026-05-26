@@ -1,5 +1,34 @@
 # Changelog
 
+## [9.0.0](https://github.com/workos/workos-ruby/compare/v8.0.1...v9.0.0) (2026-05-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* **api_keys:** Add expires_at field to API key models ([#491](https://github.com/workos/workos-ruby/issues/491))
+* **radar:** Remove device_fingerprint and bot_score fields from Radar ([#491](https://github.com/workos/workos-ruby/issues/491))
+* **audit_logs:** Refactor audit logs models and type names ([#491](https://github.com/workos/workos-ruby/issues/491))
+* **webhooks:** Rename WebhookEndpointJson to WebhookEndpoint ([#491](https://github.com/workos/workos-ruby/issues/491))
+* **authorization:** Add filtering parameters to authorization list methods ([#491](https://github.com/workos/workos-ruby/issues/491))
+* **organization_membership:** Migrate organization membership to dedicated service ([#491](https://github.com/workos/workos-ruby/issues/491))
+
+### Features
+
+* **api_keys:** Add expires_at field to API key models ([#491](https://github.com/workos/workos-ruby/issues/491)) ([45093c0](https://github.com/workos/workos-ruby/commit/45093c0e387e3675cff1cf178617018f31d4c641))
+* **audit_logs:** Refactor audit logs models and type names ([#491](https://github.com/workos/workos-ruby/issues/491)) ([45093c0](https://github.com/workos/workos-ruby/commit/45093c0e387e3675cff1cf178617018f31d4c641))
+* **authorization:** Add filtering parameters to authorization list methods ([#491](https://github.com/workos/workos-ruby/issues/491)) ([45093c0](https://github.com/workos/workos-ruby/commit/45093c0e387e3675cff1cf178617018f31d4c641))
+* **generated:** Add Error and Actor shared models ([#491](https://github.com/workos/workos-ruby/issues/491)) ([45093c0](https://github.com/workos/workos-ruby/commit/45093c0e387e3675cff1cf178617018f31d4c641))
+* **organization_membership:** Migrate organization membership to dedicated service ([#491](https://github.com/workos/workos-ruby/issues/491)) ([45093c0](https://github.com/workos/workos-ruby/commit/45093c0e387e3675cff1cf178617018f31d4c641))
+* **pipes:** Add Pipes connected account event models ([#491](https://github.com/workos/workos-ruby/issues/491)) ([45093c0](https://github.com/workos/workos-ruby/commit/45093c0e387e3675cff1cf178617018f31d4c641))
+* **radar:** Remove device_fingerprint and bot_score fields from Radar ([#491](https://github.com/workos/workos-ruby/issues/491)) ([45093c0](https://github.com/workos/workos-ruby/commit/45093c0e387e3675cff1cf178617018f31d4c641))
+* **vault:** Add new Vault service with key-value operations ([#491](https://github.com/workos/workos-ruby/issues/491)) ([45093c0](https://github.com/workos/workos-ruby/commit/45093c0e387e3675cff1cf178617018f31d4c641))
+* **webhooks:** Rename WebhookEndpointJson to WebhookEndpoint ([#491](https://github.com/workos/workos-ruby/issues/491)) ([45093c0](https://github.com/workos/workos-ruby/commit/45093c0e387e3675cff1cf178617018f31d4c641))
+
+
+### Bug Fixes
+
+* **ci:** extract version from PR title in changelog inline step ([93768a1](https://github.com/workos/workos-ruby/commit/93768a1c00aab7f82c869f38bea5925f6e8cd933))
+
 ## [8.0.1](https://github.com/workos/workos-ruby/compare/v8.0.0...v8.0.1) (2026-05-12)
 
 
