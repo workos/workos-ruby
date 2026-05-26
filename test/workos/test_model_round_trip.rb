@@ -229,35 +229,35 @@ class ModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
-  def test_audit_log_schema_actor_round_trip
+  def test_audit_log_schema_actor_input_round_trip
     fixture = {
       "metadata" => {}
     }
-    model = WorkOS::AuditLogSchemaActor.new(fixture.to_json)
+    model = WorkOS::AuditLogSchemaActorInput.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
-  def test_audit_log_schema_target_round_trip
+  def test_audit_log_schema_target_input_round_trip
     fixture = {
       "type" => "stub",
       "metadata" => {}
     }
-    model = WorkOS::AuditLogSchemaTarget.new(fixture.to_json)
+    model = WorkOS::AuditLogSchemaTargetInput.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["type"], json[:type]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
-  def test_audit_log_schema_round_trip
+  def test_audit_log_schema_input_round_trip
     fixture = {
       "actor" => {},
       "targets" => [],
       "metadata" => {}
     }
-    model = WorkOS::AuditLogSchema.new(fixture.to_json)
+    model = WorkOS::AuditLogSchemaInput.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
@@ -520,7 +520,8 @@ class ModelRoundTripTest < Minitest::Test
   def test_create_organization_api_key_round_trip
     fixture = {
       "name" => "stub",
-      "permissions" => []
+      "permissions" => [],
+      "expires_at" => "stub"
     }
     model = WorkOS::CreateOrganizationApiKey.new(fixture.to_json)
     json = model.to_h
@@ -713,7 +714,8 @@ class ModelRoundTripTest < Minitest::Test
     fixture = {
       "name" => "stub",
       "organization_id" => "stub",
-      "permissions" => []
+      "permissions" => [],
+      "expires_at" => "stub"
     }
     model = WorkOS::CreateUserApiKey.new(fixture.to_json)
     json = model.to_h
@@ -883,6 +885,214 @@ class ModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_actor_round_trip
+    fixture = {
+      "id" => "stub",
+      "name" => "stub"
+    }
+    model = WorkOS::Actor.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["name"], json[:name]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_create_data_key_request_round_trip
+    fixture = {
+      "context" => {}
+    }
+    model = WorkOS::CreateDataKeyRequest.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_create_data_key_response_round_trip
+    fixture = {
+      "context" => {},
+      "data_key" => "stub",
+      "encrypted_keys" => "stub",
+      "id" => "stub"
+    }
+    model = WorkOS::CreateDataKeyResponse.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["data_key"], json[:data_key]
+    assert_equal fixture["encrypted_keys"], json[:encrypted_keys]
+    assert_equal fixture["id"], json[:id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_create_object_request_round_trip
+    fixture = {
+      "key_context" => {},
+      "name" => "stub",
+      "value" => "stub"
+    }
+    model = WorkOS::CreateObjectRequest.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["name"], json[:name]
+    assert_equal fixture["value"], json[:value]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_decrypt_request_round_trip
+    fixture = {
+      "keys" => "stub"
+    }
+    model = WorkOS::DecryptRequest.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["keys"], json[:keys]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_decrypt_response_round_trip
+    fixture = {
+      "data_key" => "stub",
+      "id" => "stub"
+    }
+    model = WorkOS::DecryptResponse.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["data_key"], json[:data_key]
+    assert_equal fixture["id"], json[:id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_delete_object_response_round_trip
+    fixture = {
+      "name" => "stub",
+      "success" => true
+    }
+    model = WorkOS::DeleteObjectResponse.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["name"], json[:name]
+    assert_equal fixture["success"], json[:success]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_error_response_round_trip
+    fixture = {
+      "error" => "stub"
+    }
+    model = WorkOS::ErrorResponse.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["error"], json[:error]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_object_round_trip
+    fixture = {
+      "id" => "stub",
+      "metadata" => {},
+      "name" => "stub",
+      "value" => "stub"
+    }
+    model = WorkOS::ObjectModel.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["name"], json[:name]
+    assert_equal fixture["value"], json[:value]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_object_metadata_round_trip
+    fixture = {
+      "context" => {},
+      "environment_id" => "stub",
+      "id" => "stub",
+      "key_id" => "stub",
+      "updated_at" => "stub",
+      "updated_by" => {},
+      "version_id" => nil
+    }
+    model = WorkOS::ObjectMetadata.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["environment_id"], json[:environment_id]
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["key_id"], json[:key_id]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_object_summary_round_trip
+    fixture = {
+      "id" => "stub",
+      "name" => "stub",
+      "updated_at" => nil
+    }
+    model = WorkOS::ObjectSummary.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["name"], json[:name]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_object_version_round_trip
+    fixture = {
+      "created_at" => "stub",
+      "current_version" => true,
+      "etag" => "stub",
+      "id" => "stub",
+      "size" => 1
+    }
+    model = WorkOS::ObjectVersion.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["current_version"], json[:current_version]
+    assert_equal fixture["etag"], json[:etag]
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["size"], json[:size]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_object_without_value_round_trip
+    fixture = {
+      "id" => "stub",
+      "metadata" => {},
+      "name" => "stub"
+    }
+    model = WorkOS::ObjectWithoutValue.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["name"], json[:name]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_rekey_request_round_trip
+    fixture = {
+      "context" => {},
+      "encrypted_keys" => "stub"
+    }
+    model = WorkOS::RekeyRequest.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["encrypted_keys"], json[:encrypted_keys]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_update_object_request_round_trip
+    fixture = {
+      "value" => "stub",
+      "version_check" => nil
+    }
+    model = WorkOS::UpdateObjectRequest.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["value"], json[:value]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_external_auth_complete_response_round_trip
     fixture = {
       "redirect_uri" => "stub"
@@ -902,6 +1112,7 @@ class ModelRoundTripTest < Minitest::Test
       "name" => "stub",
       "obfuscated_value" => "stub",
       "last_used_at" => nil,
+      "expires_at" => nil,
       "permissions" => [],
       "created_at" => "stub",
       "updated_at" => "stub"
@@ -913,6 +1124,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["name"], json[:name]
     assert_equal fixture["obfuscated_value"], json[:obfuscated_value]
     assert_nil json[:last_used_at]
+    assert_nil json[:expires_at]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
@@ -937,9 +1149,7 @@ class ModelRoundTripTest < Minitest::Test
       "name" => "stub",
       "scopes" => [],
       "created_at" => "stub",
-      "updated_at" => "stub",
-      "application_type" => "m2m",
-      "organization_id" => "stub"
+      "updated_at" => "stub"
     }
     model = WorkOS::ConnectApplication.new(fixture.to_json)
     json = model.to_h
@@ -950,6 +1160,76 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["name"], json[:name]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_connect_application_oauth_round_trip
+    fixture = {
+      "object" => "connect_application",
+      "id" => "stub",
+      "client_id" => "stub",
+      "description" => nil,
+      "name" => "stub",
+      "scopes" => [],
+      "created_at" => "stub",
+      "updated_at" => "stub",
+      "application_type" => "oauth",
+      "redirect_uris" => [],
+      "uses_pkce" => true,
+      "is_first_party" => true,
+      "was_dynamically_registered" => true,
+      "organization_id" => "stub"
+    }
+    model = WorkOS::ConnectApplicationOAuth.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["client_id"], json[:client_id]
+    assert_nil json[:description]
+    assert_equal fixture["name"], json[:name]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    assert_equal fixture["uses_pkce"], json[:uses_pkce]
+    assert_equal fixture["is_first_party"], json[:is_first_party]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_connect_application_oauth_redirect_uris_round_trip
+    fixture = {
+      "uri" => "stub",
+      "default" => true
+    }
+    model = WorkOS::ConnectApplicationOAuthRedirectUris.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["uri"], json[:uri]
+    assert_equal fixture["default"], json[:default]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_connect_application_m2m_round_trip
+    fixture = {
+      "object" => "connect_application",
+      "id" => "stub",
+      "client_id" => "stub",
+      "description" => nil,
+      "name" => "stub",
+      "scopes" => [],
+      "created_at" => "stub",
+      "updated_at" => "stub",
+      "application_type" => "m2m",
+      "organization_id" => "stub"
+    }
+    model = WorkOS::ConnectApplicationM2M.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["client_id"], json[:client_id]
+    assert_nil json[:description]
+    assert_equal fixture["name"], json[:name]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    assert_equal fixture["organization_id"], json[:organization_id]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
@@ -986,7 +1266,7 @@ class ModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
-  def test_audit_log_export_json_round_trip
+  def test_audit_log_export_round_trip
     fixture = {
       "object" => "audit_log_export",
       "id" => "stub",
@@ -995,7 +1275,7 @@ class ModelRoundTripTest < Minitest::Test
       "created_at" => "stub",
       "updated_at" => "stub"
     }
-    model = WorkOS::AuditLogExportJson.new(fixture.to_json)
+    model = WorkOS::AuditLogExport.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
@@ -1004,18 +1284,18 @@ class ModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
-  def test_audit_logs_retention_json_round_trip
+  def test_audit_logs_retention_round_trip
     fixture = {
       "retention_period_in_days" => nil
     }
-    model = WorkOS::AuditLogsRetentionJson.new(fixture.to_json)
+    model = WorkOS::AuditLogsRetention.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
     assert_nil json[:retention_period_in_days]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
-  def test_audit_log_schema_json_round_trip
+  def test_audit_log_schema_round_trip
     fixture = {
       "object" => "audit_log_schema",
       "version" => 1,
@@ -1024,7 +1304,7 @@ class ModelRoundTripTest < Minitest::Test
       "metadata" => {},
       "created_at" => "stub"
     }
-    model = WorkOS::AuditLogSchemaJson.new(fixture.to_json)
+    model = WorkOS::AuditLogSchema.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["version"], json[:version]
@@ -1032,7 +1312,7 @@ class ModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
-  def test_audit_log_action_json_round_trip
+  def test_audit_log_action_round_trip
     fixture = {
       "object" => "audit_log_action",
       "name" => "stub",
@@ -1040,7 +1320,7 @@ class ModelRoundTripTest < Minitest::Test
       "created_at" => "stub",
       "updated_at" => "stub"
     }
-    model = WorkOS::AuditLogActionJson.new(fixture.to_json)
+    model = WorkOS::AuditLogAction.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["name"], json[:name]
@@ -1501,6 +1781,32 @@ class ModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_pipe_connected_account_round_trip
+    fixture = {
+      "object" => "connected_account",
+      "id" => "stub",
+      "data_integration_id" => "stub",
+      "provider_slug" => "stub",
+      "user_id" => nil,
+      "organization_id" => nil,
+      "scopes" => [],
+      "state" => "stub",
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::PipeConnectedAccount.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["data_integration_id"], json[:data_integration_id]
+    assert_equal fixture["provider_slug"], json[:provider_slug]
+    assert_nil json[:user_id]
+    assert_nil json[:organization_id]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_waitlist_user_round_trip
     fixture = {
       "object" => "waitlist_user",
@@ -1542,12 +1848,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_action_authentication_denied_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "action.authentication.denied",
       "data" => {},
-      "context" => {},
       "created_at" => "stub",
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::ActionAuthenticationDenied.new(fixture.to_json)
     json = model.to_h
@@ -1584,12 +1890,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_action_user_registration_denied_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "action.user_registration.denied",
       "data" => {},
-      "context" => {},
       "created_at" => "stub",
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::ActionUserRegistrationDenied.new(fixture.to_json)
     json = model.to_h
@@ -1624,12 +1930,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_api_key_created_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "api_key.created",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::ApiKeyCreated.new(fixture.to_json)
     json = model.to_h
@@ -1647,6 +1953,7 @@ class ModelRoundTripTest < Minitest::Test
       "name" => "stub",
       "obfuscated_value" => "stub",
       "last_used_at" => nil,
+      "expires_at" => nil,
       "permissions" => [],
       "created_at" => "stub",
       "updated_at" => "stub"
@@ -1691,12 +1998,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_api_key_revoked_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "api_key.revoked",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::ApiKeyRevoked.new(fixture.to_json)
     json = model.to_h
@@ -1714,6 +2021,7 @@ class ModelRoundTripTest < Minitest::Test
       "name" => "stub",
       "obfuscated_value" => "stub",
       "last_used_at" => nil,
+      "expires_at" => nil,
       "permissions" => [],
       "created_at" => "stub",
       "updated_at" => "stub"
@@ -1758,12 +2066,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_authentication_email_verification_failed_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "authentication.email_verification_failed",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::AuthenticationEmailVerificationFailed.new(fixture.to_json)
     json = model.to_h
@@ -1808,12 +2116,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_authentication_email_verification_succeeded_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "authentication.email_verification_succeeded",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::AuthenticationEmailVerificationSucceeded.new(fixture.to_json)
     json = model.to_h
@@ -1844,12 +2152,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_authentication_magic_auth_failed_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "authentication.magic_auth_failed",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::AuthenticationMagicAuthFailed.new(fixture.to_json)
     json = model.to_h
@@ -1894,12 +2202,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_authentication_magic_auth_succeeded_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "authentication.magic_auth_succeeded",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::AuthenticationMagicAuthSucceeded.new(fixture.to_json)
     json = model.to_h
@@ -1930,12 +2238,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_authentication_mfa_failed_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "authentication.mfa_failed",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::AuthenticationMFAFailed.new(fixture.to_json)
     json = model.to_h
@@ -1980,12 +2288,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_authentication_mfa_succeeded_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "authentication.mfa_succeeded",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::AuthenticationMFASucceeded.new(fixture.to_json)
     json = model.to_h
@@ -2016,12 +2324,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_authentication_oauth_failed_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "authentication.oauth_failed",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::AuthenticationOAuthFailed.new(fixture.to_json)
     json = model.to_h
@@ -2066,12 +2374,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_authentication_oauth_succeeded_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "authentication.oauth_succeeded",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::AuthenticationOAuthSucceeded.new(fixture.to_json)
     json = model.to_h
@@ -2102,12 +2410,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_authentication_passkey_failed_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "authentication.passkey_failed",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::AuthenticationPasskeyFailed.new(fixture.to_json)
     json = model.to_h
@@ -2152,12 +2460,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_authentication_passkey_succeeded_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "authentication.passkey_succeeded",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::AuthenticationPasskeySucceeded.new(fixture.to_json)
     json = model.to_h
@@ -2188,12 +2496,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_authentication_password_failed_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "authentication.password_failed",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::AuthenticationPasswordFailed.new(fixture.to_json)
     json = model.to_h
@@ -2238,12 +2546,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_authentication_password_succeeded_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "authentication.password_succeeded",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::AuthenticationPasswordSucceeded.new(fixture.to_json)
     json = model.to_h
@@ -2274,12 +2582,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_authentication_radar_risk_detected_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "authentication.radar_risk_detected",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::AuthenticationRadarRiskDetected.new(fixture.to_json)
     json = model.to_h
@@ -2315,12 +2623,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_authentication_sso_failed_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "authentication.sso_failed",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::AuthenticationSSOFailed.new(fixture.to_json)
     json = model.to_h
@@ -2381,12 +2689,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_authentication_sso_started_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "authentication.sso_started",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::AuthenticationSSOStarted.new(fixture.to_json)
     json = model.to_h
@@ -2433,12 +2741,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_authentication_sso_succeeded_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "authentication.sso_succeeded",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::AuthenticationSSOSucceeded.new(fixture.to_json)
     json = model.to_h
@@ -2485,12 +2793,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_authentication_sso_timed_out_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "authentication.sso_timed_out",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::AuthenticationSSOTimedOut.new(fixture.to_json)
     json = model.to_h
@@ -2551,12 +2859,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_connection_activated_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "connection.activated",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::ConnectionActivated.new(fixture.to_json)
     json = model.to_h
@@ -2607,12 +2915,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_connection_deactivated_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "connection.deactivated",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::ConnectionDeactivated.new(fixture.to_json)
     json = model.to_h
@@ -2663,12 +2971,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_connection_deleted_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "connection.deleted",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::ConnectionDeleted.new(fixture.to_json)
     json = model.to_h
@@ -2701,12 +3009,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_connection_saml_certificate_renewal_required_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "connection.saml_certificate_renewal_required",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::ConnectionSAMLCertificateRenewalRequired.new(fixture.to_json)
     json = model.to_h
@@ -2757,12 +3065,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_connection_saml_certificate_renewed_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "connection.saml_certificate_renewed",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::ConnectionSAMLCertificateRenewed.new(fixture.to_json)
     json = model.to_h
@@ -2811,12 +3119,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_dsync_activated_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "dsync.activated",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::DsyncActivated.new(fixture.to_json)
     json = model.to_h
@@ -2866,12 +3174,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_dsync_deactivated_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "dsync.deactivated",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::DsyncDeactivated.new(fixture.to_json)
     json = model.to_h
@@ -2921,12 +3229,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_dsync_deleted_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "dsync.deleted",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::DsyncDeleted.new(fixture.to_json)
     json = model.to_h
@@ -2959,12 +3267,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_dsync_group_created_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "dsync.group.created",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::DsyncGroupCreated.new(fixture.to_json)
     json = model.to_h
@@ -2976,12 +3284,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_dsync_group_deleted_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "dsync.group.deleted",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::DsyncGroupDeleted.new(fixture.to_json)
     json = model.to_h
@@ -2993,12 +3301,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_dsync_group_updated_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "dsync.group.updated",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::DsyncGroupUpdated.new(fixture.to_json)
     json = model.to_h
@@ -3036,12 +3344,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_dsync_group_user_added_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "dsync.group.user_added",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::DsyncGroupUserAdded.new(fixture.to_json)
     json = model.to_h
@@ -3066,12 +3374,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_dsync_user_created_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "dsync.user.created",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::DsyncUserCreated.new(fixture.to_json)
     json = model.to_h
@@ -3083,12 +3391,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_dsync_user_deleted_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "dsync.user.deleted",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::DsyncUserDeleted.new(fixture.to_json)
     json = model.to_h
@@ -3100,12 +3408,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_dsync_group_user_removed_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "dsync.group.user_removed",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::DsyncGroupUserRemoved.new(fixture.to_json)
     json = model.to_h
@@ -3130,12 +3438,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_dsync_user_updated_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "dsync.user.updated",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::DsyncUserUpdated.new(fixture.to_json)
     json = model.to_h
@@ -3195,12 +3503,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_email_verification_created_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "email_verification.created",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::EmailVerificationCreated.new(fixture.to_json)
     json = model.to_h
@@ -3234,12 +3542,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_flag_created_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "flag.created",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::FlagCreated.new(fixture.to_json)
     json = model.to_h
@@ -3322,12 +3630,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_flag_deleted_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "flag.deleted",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::FlagDeleted.new(fixture.to_json)
     json = model.to_h
@@ -3410,12 +3718,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_flag_rule_updated_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "flag.rule_updated",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::FlagRuleUpdated.new(fixture.to_json)
     json = model.to_h
@@ -3608,12 +3916,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_flag_updated_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "flag.updated",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::FlagUpdated.new(fixture.to_json)
     json = model.to_h
@@ -3721,12 +4029,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_group_created_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "group.created",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::GroupCreated.new(fixture.to_json)
     json = model.to_h
@@ -3738,12 +4046,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_group_deleted_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "group.deleted",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::GroupDeleted.new(fixture.to_json)
     json = model.to_h
@@ -3755,12 +4063,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_group_member_added_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "group.member_added",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::GroupMemberAdded.new(fixture.to_json)
     json = model.to_h
@@ -3785,12 +4093,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_group_member_removed_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "group.member_removed",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::GroupMemberRemoved.new(fixture.to_json)
     json = model.to_h
@@ -3815,12 +4123,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_group_updated_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "group.updated",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::GroupUpdated.new(fixture.to_json)
     json = model.to_h
@@ -3832,12 +4140,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_invitation_accepted_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "invitation.accepted",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::InvitationAccepted.new(fixture.to_json)
     json = model.to_h
@@ -3882,12 +4190,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_invitation_created_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "invitation.created",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::InvitationCreated.new(fixture.to_json)
     json = model.to_h
@@ -3932,12 +4240,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_invitation_resent_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "invitation.resent",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::InvitationResent.new(fixture.to_json)
     json = model.to_h
@@ -3982,12 +4290,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_invitation_revoked_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "invitation.revoked",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::InvitationRevoked.new(fixture.to_json)
     json = model.to_h
@@ -4032,12 +4340,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_magic_auth_created_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "magic_auth.created",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::MagicAuthCreated.new(fixture.to_json)
     json = model.to_h
@@ -4071,12 +4379,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_organization_created_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "organization.created",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::OrganizationCreated.new(fixture.to_json)
     json = model.to_h
@@ -4135,12 +4443,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_organization_deleted_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "organization.deleted",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::OrganizationDeleted.new(fixture.to_json)
     json = model.to_h
@@ -4199,12 +4507,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_organization_domain_created_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "organization_domain.created",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::OrganizationDomainCreated.new(fixture.to_json)
     json = model.to_h
@@ -4240,12 +4548,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_organization_domain_deleted_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "organization_domain.deleted",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::OrganizationDomainDeleted.new(fixture.to_json)
     json = model.to_h
@@ -4281,12 +4589,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_organization_domain_updated_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "organization_domain.updated",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::OrganizationDomainUpdated.new(fixture.to_json)
     json = model.to_h
@@ -4322,12 +4630,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_organization_domain_verification_failed_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "organization_domain.verification_failed",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::OrganizationDomainVerificationFailed.new(fixture.to_json)
     json = model.to_h
@@ -4374,12 +4682,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_organization_domain_verified_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "organization_domain.verified",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::OrganizationDomainVerified.new(fixture.to_json)
     json = model.to_h
@@ -4415,12 +4723,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_organization_membership_created_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "organization_membership.created",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::OrganizationMembershipCreated.new(fixture.to_json)
     json = model.to_h
@@ -4458,12 +4766,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_organization_membership_deleted_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "organization_membership.deleted",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::OrganizationMembershipDeleted.new(fixture.to_json)
     json = model.to_h
@@ -4501,12 +4809,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_organization_membership_updated_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "organization_membership.updated",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::OrganizationMembershipUpdated.new(fixture.to_json)
     json = model.to_h
@@ -4544,12 +4852,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_organization_role_created_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "organization_role.created",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::OrganizationRoleCreated.new(fixture.to_json)
     json = model.to_h
@@ -4586,12 +4894,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_organization_role_deleted_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "organization_role.deleted",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::OrganizationRoleDeleted.new(fixture.to_json)
     json = model.to_h
@@ -4628,12 +4936,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_organization_role_updated_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "organization_role.updated",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::OrganizationRoleUpdated.new(fixture.to_json)
     json = model.to_h
@@ -4670,12 +4978,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_organization_updated_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "organization.updated",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::OrganizationUpdated.new(fixture.to_json)
     json = model.to_h
@@ -4734,12 +5042,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_password_reset_created_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "password_reset.created",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::PasswordResetCreated.new(fixture.to_json)
     json = model.to_h
@@ -4771,12 +5079,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_password_reset_succeeded_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "password_reset.succeeded",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::PasswordResetSucceeded.new(fixture.to_json)
     json = model.to_h
@@ -4808,12 +5116,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_permission_created_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "permission.created",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::PermissionCreated.new(fixture.to_json)
     json = model.to_h
@@ -4849,12 +5157,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_permission_deleted_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "permission.deleted",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::PermissionDeleted.new(fixture.to_json)
     json = model.to_h
@@ -4890,12 +5198,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_permission_updated_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "permission.updated",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::PermissionUpdated.new(fixture.to_json)
     json = model.to_h
@@ -4929,14 +5237,65 @@ class ModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_pipes_connected_account_connected_round_trip
+    fixture = {
+      "object" => "event",
+      "id" => "stub",
+      "event" => "pipes.connected_account.connected",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {}
+    }
+    model = WorkOS::PipesConnectedAccountConnected.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_pipes_connected_account_disconnected_round_trip
+    fixture = {
+      "object" => "event",
+      "id" => "stub",
+      "event" => "pipes.connected_account.disconnected",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {}
+    }
+    model = WorkOS::PipesConnectedAccountDisconnected.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_pipes_connected_account_reauthorization_needed_round_trip
+    fixture = {
+      "object" => "event",
+      "id" => "stub",
+      "event" => "pipes.connected_account.reauthorization_needed",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {}
+    }
+    model = WorkOS::PipesConnectedAccountReauthorizationNeeded.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_role_created_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "role.created",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::RoleCreated.new(fixture.to_json)
     json = model.to_h
@@ -4967,12 +5326,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_role_deleted_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "role.deleted",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::RoleDeleted.new(fixture.to_json)
     json = model.to_h
@@ -5003,12 +5362,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_role_updated_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "role.updated",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::RoleUpdated.new(fixture.to_json)
     json = model.to_h
@@ -5039,12 +5398,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_session_created_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "session.created",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::SessionCreated.new(fixture.to_json)
     json = model.to_h
@@ -5099,12 +5458,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_session_revoked_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "session.revoked",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::SessionRevoked.new(fixture.to_json)
     json = model.to_h
@@ -5159,12 +5518,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_user_created_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "user.created",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::UserCreated.new(fixture.to_json)
     json = model.to_h
@@ -5176,12 +5535,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_user_deleted_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "user.deleted",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::UserDeleted.new(fixture.to_json)
     json = model.to_h
@@ -5193,12 +5552,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_user_updated_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "user.updated",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::UserUpdated.new(fixture.to_json)
     json = model.to_h
@@ -5210,12 +5569,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_vault_byok_key_deleted_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "vault.byok_key.deleted",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::VaultByokKeyDeleted.new(fixture.to_json)
     json = model.to_h
@@ -5239,12 +5598,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_vault_byok_key_verification_completed_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "vault.byok_key.verification_completed",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::VaultByokKeyVerificationCompleted.new(fixture.to_json)
     json = model.to_h
@@ -5270,12 +5629,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_vault_data_created_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "vault.data.created",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::VaultDataCreated.new(fixture.to_json)
     json = model.to_h
@@ -5306,12 +5665,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_vault_data_deleted_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "vault.data.deleted",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::VaultDataDeleted.new(fixture.to_json)
     json = model.to_h
@@ -5339,12 +5698,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_vault_data_read_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "vault.data.read",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::VaultDataRead.new(fixture.to_json)
     json = model.to_h
@@ -5374,12 +5733,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_vault_data_updated_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "vault.data.updated",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::VaultDataUpdated.new(fixture.to_json)
     json = model.to_h
@@ -5410,12 +5769,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_vault_dek_decrypted_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "vault.dek.decrypted",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::VaultDekDecrypted.new(fixture.to_json)
     json = model.to_h
@@ -5443,12 +5802,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_vault_dek_read_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "vault.dek.read",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::VaultDekRead.new(fixture.to_json)
     json = model.to_h
@@ -5476,12 +5835,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_vault_kek_created_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "vault.kek.created",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::VaultKekCreated.new(fixture.to_json)
     json = model.to_h
@@ -5511,12 +5870,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_vault_metadata_read_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "vault.metadata.read",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::VaultMetadataRead.new(fixture.to_json)
     json = model.to_h
@@ -5544,12 +5903,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_vault_names_listed_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "vault.names.listed",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::VaultNamesListed.new(fixture.to_json)
     json = model.to_h
@@ -5575,12 +5934,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_waitlist_user_approved_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "waitlist_user.approved",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::WaitlistUserApproved.new(fixture.to_json)
     json = model.to_h
@@ -5592,12 +5951,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_waitlist_user_created_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "waitlist_user.created",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::WaitlistUserCreated.new(fixture.to_json)
     json = model.to_h
@@ -5609,12 +5968,12 @@ class ModelRoundTripTest < Minitest::Test
 
   def test_waitlist_user_denied_round_trip
     fixture = {
+      "object" => "event",
       "id" => "stub",
       "event" => "waitlist_user.denied",
       "data" => {},
       "created_at" => "stub",
-      "context" => {},
-      "object" => "event"
+      "context" => {}
     }
     model = WorkOS::WaitlistUserDenied.new(fixture.to_json)
     json = model.to_h
@@ -5684,6 +6043,7 @@ class ModelRoundTripTest < Minitest::Test
       "name" => "stub",
       "obfuscated_value" => "stub",
       "last_used_at" => nil,
+      "expires_at" => nil,
       "permissions" => [],
       "created_at" => "stub",
       "updated_at" => "stub"
@@ -5695,6 +6055,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["name"], json[:name]
     assert_equal fixture["obfuscated_value"], json[:obfuscated_value]
     assert_nil json[:last_used_at]
+    assert_nil json[:expires_at]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
@@ -5708,6 +6069,7 @@ class ModelRoundTripTest < Minitest::Test
       "name" => "stub",
       "obfuscated_value" => "stub",
       "last_used_at" => nil,
+      "expires_at" => nil,
       "permissions" => [],
       "created_at" => "stub",
       "updated_at" => "stub",
@@ -5720,6 +6082,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["name"], json[:name]
     assert_equal fixture["obfuscated_value"], json[:obfuscated_value]
     assert_nil json[:last_used_at]
+    assert_nil json[:expires_at]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
     assert_equal fixture["value"], json[:value]
@@ -5986,6 +6349,7 @@ class ModelRoundTripTest < Minitest::Test
       "name" => "stub",
       "obfuscated_value" => "stub",
       "last_used_at" => nil,
+      "expires_at" => nil,
       "permissions" => [],
       "created_at" => "stub",
       "updated_at" => "stub"
@@ -5997,6 +6361,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["name"], json[:name]
     assert_equal fixture["obfuscated_value"], json[:obfuscated_value]
     assert_nil json[:last_used_at]
+    assert_nil json[:expires_at]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
@@ -6010,6 +6375,7 @@ class ModelRoundTripTest < Minitest::Test
       "name" => "stub",
       "obfuscated_value" => "stub",
       "last_used_at" => nil,
+      "expires_at" => nil,
       "permissions" => [],
       "created_at" => "stub",
       "updated_at" => "stub",
@@ -6022,6 +6388,7 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["name"], json[:name]
     assert_equal fixture["obfuscated_value"], json[:obfuscated_value]
     assert_nil json[:last_used_at]
+    assert_nil json[:expires_at]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
     assert_equal fixture["value"], json[:value]
@@ -6161,7 +6528,7 @@ class ModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
-  def test_webhook_endpoint_json_round_trip
+  def test_webhook_endpoint_round_trip
     fixture = {
       "object" => "webhook_endpoint",
       "id" => "stub",
@@ -6172,7 +6539,7 @@ class ModelRoundTripTest < Minitest::Test
       "created_at" => "stub",
       "updated_at" => "stub"
     }
-    model = WorkOS::WebhookEndpointJson.new(fixture.to_json)
+    model = WorkOS::WebhookEndpoint.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
@@ -6695,22 +7062,22 @@ class ModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
-  def test_audit_log_schema_json_actor_round_trip
+  def test_audit_log_schema_actor_round_trip
     fixture = {
       "metadata" => {}
     }
-    model = WorkOS::AuditLogSchemaJsonActor.new(fixture.to_json)
+    model = WorkOS::AuditLogSchemaActor.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
-  def test_audit_log_schema_json_target_round_trip
+  def test_audit_log_schema_target_round_trip
     fixture = {
       "type" => "stub",
       "metadata" => {}
     }
-    model = WorkOS::AuditLogSchemaJsonTarget.new(fixture.to_json)
+    model = WorkOS::AuditLogSchemaTarget.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["type"], json[:type]
@@ -6900,9 +7267,7 @@ class ModelRoundTripTest < Minitest::Test
       "user_agent" => "stub",
       "email" => "stub",
       "auth_method" => "stub",
-      "action" => "stub",
-      "device_fingerprint" => "stub",
-      "bot_score" => "stub"
+      "action" => "stub"
     }
     model = WorkOS::RadarStandaloneAssessRequest.new(fixture.to_json)
     json = model.to_h

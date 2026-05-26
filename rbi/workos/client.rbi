@@ -16,7 +16,7 @@ module WorkOS
     def authorization; end
 
     sig { returns(WorkOS::SSO) }
-    def s_s_o; end
+    def sso; end
 
     sig { returns(WorkOS::Pipes) }
     def pipes; end
@@ -54,8 +54,11 @@ module WorkOS
     sig { returns(WorkOS::UserManagement) }
     def user_management; end
 
-    sig { returns(WorkOS::UserManagementOrganizationMembershipGroups) }
-    def user_management_organization_membership_groups; end
+    sig { returns(WorkOS::OrganizationMembershipService) }
+    def organization_membership; end
+
+    sig { returns(WorkOS::Vault) }
+    def vault; end
 
     sig { returns(WorkOS::Webhooks) }
     def webhooks; end

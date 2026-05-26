@@ -373,73 +373,6 @@ class UserManagementTest < Minitest::Test
     refute_nil result
   end
 
-  def test_list_organization_memberships_returns_expected_result
-    stub_request(:get, %r{\Ahttps://api\.workos\.com/user_management/organization_memberships(\?|\z)})
-      .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
-    result = @client.user_management.list_organization_memberships
-    assert_kind_of WorkOS::Types::ListStruct, result
-  end
-
-  def test_create_organization_membership_returns_expected_result
-    stub_request(:post, %r{\Ahttps://api\.workos\.com/user_management/organization_memberships(\?|\z)})
-      .with(body: hash_including("user_id" => "stub", "organization_id" => "stub", "role_slug" => "stub"))
-      .to_return(body: "{}", status: 200)
-    result = @client.user_management.create_organization_membership(user_id: "stub", organization_id: "stub", role: WorkOS::UserManagement::RoleSingle.new(role_slug: "stub"))
-    refute_nil result
-  end
-
-  def test_create_organization_membership_with_role_multiple_returns_expected_result
-    stub_request(:post, %r{\Ahttps://api\.workos\.com/user_management/organization_memberships(\?|\z)})
-      .with(body: hash_including("user_id" => "stub", "organization_id" => "stub", "role_slugs" => ["stub"]))
-      .to_return(body: "{}", status: 200)
-    result = @client.user_management.create_organization_membership(user_id: "stub", organization_id: "stub", role: WorkOS::UserManagement::RoleMultiple.new(role_slugs: ["stub"]))
-    refute_nil result
-  end
-
-  def test_get_organization_membership_returns_expected_result
-    stub_request(:get, %r{\Ahttps://api\.workos\.com/user_management/organization_memberships/stub(\?|\z)})
-      .to_return(body: "{}", status: 200)
-    result = @client.user_management.get_organization_membership(id: "stub")
-    refute_nil result
-  end
-
-  def test_update_organization_membership_returns_expected_result
-    stub_request(:put, %r{\Ahttps://api\.workos\.com/user_management/organization_memberships/stub(\?|\z)})
-      .with(body: hash_including("role_slug" => "stub"))
-      .to_return(body: "{}", status: 200)
-    result = @client.user_management.update_organization_membership(id: "stub", role: WorkOS::UserManagement::RoleSingle.new(role_slug: "stub"))
-    refute_nil result
-  end
-
-  def test_update_organization_membership_with_role_multiple_returns_expected_result
-    stub_request(:put, %r{\Ahttps://api\.workos\.com/user_management/organization_memberships/stub(\?|\z)})
-      .with(body: hash_including("role_slugs" => ["stub"]))
-      .to_return(body: "{}", status: 200)
-    result = @client.user_management.update_organization_membership(id: "stub", role: WorkOS::UserManagement::RoleMultiple.new(role_slugs: ["stub"]))
-    refute_nil result
-  end
-
-  def test_delete_organization_membership_returns_expected_result
-    stub_request(:delete, %r{\Ahttps://api\.workos\.com/user_management/organization_memberships/stub(\?|\z)})
-      .to_return(body: "{}", status: 200)
-    result = @client.user_management.delete_organization_membership(id: "stub")
-    assert_nil result
-  end
-
-  def test_deactivate_organization_membership_returns_expected_result
-    stub_request(:put, %r{\Ahttps://api\.workos\.com/user_management/organization_memberships/stub/deactivate(\?|\z)})
-      .to_return(body: "{}", status: 200)
-    result = @client.user_management.deactivate_organization_membership(id: "stub")
-    refute_nil result
-  end
-
-  def test_reactivate_organization_membership_returns_expected_result
-    stub_request(:put, %r{\Ahttps://api\.workos\.com/user_management/organization_memberships/stub/reactivate(\?|\z)})
-      .to_return(body: "{}", status: 200)
-    result = @client.user_management.reactivate_organization_membership(id: "stub")
-    refute_nil result
-  end
-
   def test_create_redirect_uri_returns_expected_result
     stub_request(:post, %r{\Ahttps://api\.workos\.com/user_management/redirect_uris(\?|\z)})
       .to_return(body: "{}", status: 200)
@@ -509,13 +442,6 @@ class UserManagementTest < Minitest::Test
     {name: :update_jwt_template, verb: :put, url: %r{\Ahttps://api\.workos\.com/user_management/jwt_template(\?|\z)}, args: {content: "stub"}},
     {name: :create_magic_auth, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/magic_auth(\?|\z)}, args: {email: "stub"}},
     {name: :get_magic_auth, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/magic_auth/stub(\?|\z)}, args: {id: "stub"}},
-    {name: :list_organization_memberships, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/organization_memberships(\?|\z)}},
-    {name: :create_organization_membership, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/organization_memberships(\?|\z)}, args: {user_id: "stub", organization_id: "stub", role: WorkOS::UserManagement::RoleSingle.new(role_slug: "stub")}},
-    {name: :get_organization_membership, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/organization_memberships/stub(\?|\z)}, args: {id: "stub"}},
-    {name: :update_organization_membership, verb: :put, url: %r{\Ahttps://api\.workos\.com/user_management/organization_memberships/stub(\?|\z)}, args: {id: "stub", role: WorkOS::UserManagement::RoleSingle.new(role_slug: "stub")}},
-    {name: :delete_organization_membership, verb: :delete, url: %r{\Ahttps://api\.workos\.com/user_management/organization_memberships/stub(\?|\z)}, args: {id: "stub"}},
-    {name: :deactivate_organization_membership, verb: :put, url: %r{\Ahttps://api\.workos\.com/user_management/organization_memberships/stub/deactivate(\?|\z)}, args: {id: "stub"}},
-    {name: :reactivate_organization_membership, verb: :put, url: %r{\Ahttps://api\.workos\.com/user_management/organization_memberships/stub/reactivate(\?|\z)}, args: {id: "stub"}},
     {name: :create_redirect_uri, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/redirect_uris(\?|\z)}, args: {uri: "stub"}},
     {name: :list_user_authorized_applications, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/users/stub/authorized_applications(\?|\z)}, args: {user_id: "stub"}},
     {name: :delete_user_authorized_application, verb: :delete, url: %r{\Ahttps://api\.workos\.com/user_management/users/stub/authorized_applications/stub(\?|\z)}, args: {application_id: "stub", user_id: "stub"}},

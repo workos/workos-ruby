@@ -5,21 +5,30 @@
 module WorkOS
   class AuditLogSchema < WorkOS::Types::BaseModel
     HASH_ATTRS = {
+      object: :object,
+      version: :version,
       actor: :actor,
       targets: :targets,
-      metadata: :metadata
+      metadata: :metadata,
+      created_at: :created_at
     }.freeze
 
     attr_accessor \
+      :object,
+      :version,
       :actor,
       :targets,
-      :metadata
+      :metadata,
+      :created_at
 
     def initialize(json)
       hash = self.class.normalize(json)
+      @object = hash[:object]
+      @version = hash[:version]
       @actor = hash[:actor] ? WorkOS::AuditLogSchemaActor.new(hash[:actor]) : nil
       @targets = (hash[:targets] || []).map { |item| item ? WorkOS::AuditLogSchemaTarget.new(item) : nil }
       @metadata = hash[:metadata] || {}
+      @created_at = hash[:created_at]
     end
   end
 end

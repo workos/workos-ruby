@@ -16,12 +16,10 @@ module WorkOS
         email: String,
         auth_method: String,
         action: String,
-        device_fingerprint: T.nilable(String),
-        bot_score: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::RadarStandaloneResponse)
     end
-    def create_attempt(ip_address:, user_agent:, email:, auth_method:, action:, device_fingerprint:, bot_score:, request_options:); end
+    def create_attempt(ip_address:, user_agent:, email:, auth_method:, action:, request_options:); end
 
     sig do
       params(

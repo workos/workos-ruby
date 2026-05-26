@@ -13,7 +13,7 @@ module WorkOS
     # Get Retention
     # @param id [String] Unique identifier of the Organization.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
-    # @return [WorkOS::AuditLogsRetentionJson]
+    # @return [WorkOS::AuditLogsRetention]
     def get_organization_audit_logs_retention(
       id:,
       request_options: {}
@@ -24,7 +24,7 @@ module WorkOS
         auth: true,
         request_options: request_options
       )
-      result = WorkOS::AuditLogsRetentionJson.new(response.body)
+      result = WorkOS::AuditLogsRetention.new(response.body)
       result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
       result
     end
@@ -33,7 +33,7 @@ module WorkOS
     # @param id [String] Unique identifier of the Organization.
     # @param retention_period_in_days [Integer] The number of days Audit Log events will be retained. Valid values are `30` and `365`.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
-    # @return [WorkOS::AuditLogsRetentionJson]
+    # @return [WorkOS::AuditLogsRetention]
     def update_organization_audit_logs_retention(
       id:,
       retention_period_in_days:,
@@ -49,7 +49,7 @@ module WorkOS
         body: body,
         request_options: request_options
       )
-      result = WorkOS::AuditLogsRetentionJson.new(response.body)
+      result = WorkOS::AuditLogsRetention.new(response.body)
       result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
       result
     end
@@ -60,7 +60,7 @@ module WorkOS
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
-    # @return [WorkOS::Types::ListStruct<WorkOS::AuditLogActionJson>]
+    # @return [WorkOS::Types::ListStruct<WorkOS::AuditLogAction>]
     def list_actions(
       before: nil,
       after: nil,
@@ -92,7 +92,7 @@ module WorkOS
       }
       WorkOS::Types::ListStruct.from_response(
         response,
-        model: WorkOS::AuditLogActionJson,
+        model: WorkOS::AuditLogAction,
         filters: {before: before, limit: limit, order: order},
         fetch_next: fetch_next
       )
@@ -105,7 +105,7 @@ module WorkOS
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
-    # @return [WorkOS::Types::ListStruct<WorkOS::AuditLogSchemaJson>]
+    # @return [WorkOS::Types::ListStruct<WorkOS::AuditLogSchema>]
     def list_action_schemas(
       action_name:,
       before: nil,
@@ -139,7 +139,7 @@ module WorkOS
       }
       WorkOS::Types::ListStruct.from_response(
         response,
-        model: WorkOS::AuditLogSchemaJson,
+        model: WorkOS::AuditLogSchema,
         filters: {action_name: action_name, before: before, limit: limit, order: order},
         fetch_next: fetch_next
       )
@@ -147,11 +147,11 @@ module WorkOS
 
     # Create Schema
     # @param action_name [String] The name of the Audit Log action.
-    # @param actor [WorkOS::AuditLogSchemaActor, nil] The metadata schema for the actor.
-    # @param targets [Array<WorkOS::AuditLogSchemaTarget>] The list of targets for the schema.
+    # @param actor [WorkOS::AuditLogSchemaActorInput, nil] The metadata schema for the actor.
+    # @param targets [Array<WorkOS::AuditLogSchemaTargetInput>] The list of targets for the schema.
     # @param metadata [Hash{String => Object}, nil] Optional JSON schema for event metadata.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
-    # @return [WorkOS::AuditLogSchemaJson]
+    # @return [WorkOS::AuditLogSchema]
     def create_schema(
       action_name:,
       targets:,
@@ -171,7 +171,7 @@ module WorkOS
         body: body,
         request_options: request_options
       )
-      result = WorkOS::AuditLogSchemaJson.new(response.body)
+      result = WorkOS::AuditLogSchema.new(response.body)
       result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
       result
     end
@@ -212,7 +212,7 @@ module WorkOS
     # @param actor_ids [Array<String>, nil] List of actor IDs to filter against.
     # @param targets [Array<String>, nil] List of target types to filter against.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
-    # @return [WorkOS::AuditLogExportJson]
+    # @return [WorkOS::AuditLogExport]
     def create_export(
       organization_id:,
       range_start:,
@@ -241,7 +241,7 @@ module WorkOS
         body: body,
         request_options: request_options
       )
-      result = WorkOS::AuditLogExportJson.new(response.body)
+      result = WorkOS::AuditLogExport.new(response.body)
       result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
       result
     end
@@ -249,7 +249,7 @@ module WorkOS
     # Get Export
     # @param audit_log_export_id [String] The unique ID of the Audit Log Export.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
-    # @return [WorkOS::AuditLogExportJson]
+    # @return [WorkOS::AuditLogExport]
     def get_export(
       audit_log_export_id:,
       request_options: {}
@@ -260,7 +260,7 @@ module WorkOS
         auth: true,
         request_options: request_options
       )
-      result = WorkOS::AuditLogExportJson.new(response.body)
+      result = WorkOS::AuditLogExport.new(response.body)
       result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
       result
     end

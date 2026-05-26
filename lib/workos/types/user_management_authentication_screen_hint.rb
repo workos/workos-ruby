@@ -4,10 +4,6 @@
 
 module WorkOS
   module Types
-    class UserManagementAuthenticationScreenHint
-      SIGN_UP = "sign-up"
-      SIGN_IN = "sign-in"
-      ALL = [SIGN_UP, SIGN_IN].freeze
-    end
+    UserManagementAuthenticationScreenHint = RadarStandaloneAssessRequestAction
   end
 end

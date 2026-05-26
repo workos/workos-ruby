@@ -6,132 +6,107 @@
 
 module WorkOS
   class Vault
-    DEFAULT_RESPONSE_LIMIT = T.let(10, Integer)
-
-    class DataKey < T::Struct
-      const :id, T.nilable(String)
-      const :key, T.nilable(String)
-
-      sig { params(hash: T::Hash[String, T.untyped]).returns(WorkOS::Vault::DataKey) }
-      def self.from_response(hash); end
-    end
-
-    class DataKeyPair < T::Struct
-      const :context, T.untyped
-      const :data_key, WorkOS::Vault::DataKey
-      const :encrypted_keys, T.nilable(String)
-
-      sig { params(hash: T::Hash[String, T.untyped]).returns(WorkOS::Vault::DataKeyPair) }
-      def self.from_response(hash); end
-    end
-
-    class ObjectUpdateBy < T::Struct
-      const :id, T.nilable(String)
-      const :name, T.nilable(String)
-
-      sig { params(hash: T.nilable(T::Hash[String, T.untyped])).returns(T.nilable(WorkOS::Vault::ObjectUpdateBy)) }
-      def self.from_hash(hash); end
-    end
-
-    class ObjectMetadata < T::Struct
-      const :context, T.untyped
-      const :environment_id, T.nilable(String)
-      const :id, T.nilable(String)
-      const :key_id, T.nilable(String)
-      const :updated_at, T.nilable(String)
-      const :updated_by, T.nilable(WorkOS::Vault::ObjectUpdateBy)
-      const :version_id, T.nilable(String)
-
-      sig { params(hash: T::Hash[String, T.untyped]).returns(WorkOS::Vault::ObjectMetadata) }
-      def self.from_hash(hash); end
-    end
-
-    class VaultObject < T::Struct
-      const :id, T.nilable(String)
-      const :name, T.nilable(String)
-      const :value, T.nilable(String)
-      const :metadata, T.nilable(WorkOS::Vault::ObjectMetadata)
-
-      sig { params(hash: T::Hash[String, T.untyped]).returns(WorkOS::Vault::VaultObject) }
-      def self.from_hash(hash); end
-    end
-
-    class ObjectDigest < T::Struct
-      const :id, T.nilable(String)
-      const :name, T.nilable(String)
-      const :updated_at, T.nilable(String)
-
-      sig { params(hash: T::Hash[String, T.untyped]).returns(WorkOS::Vault::ObjectDigest) }
-      def self.from_hash(hash); end
-    end
-
-    class ObjectVersion < T::Struct
-      const :id, T.nilable(String)
-      const :created_at, T.nilable(String)
-      const :current_version, T.nilable(T::Boolean)
-
-      sig { params(hash: T::Hash[String, T.untyped]).returns(WorkOS::Vault::ObjectVersion) }
-      def self.from_hash(hash); end
-    end
-
-    sig { params(client: WorkOS::Client).void }
+    sig { params(client: WorkOS::BaseClient).void }
     def initialize(client); end
-
-    sig { params(object_id: String, request_options: T::Hash[Symbol, T.untyped]).returns(WorkOS::Vault::VaultObject) }
-    def read_object(object_id:, request_options: {}); end
-
-    sig { params(name: String, request_options: T::Hash[Symbol, T.untyped]).returns(WorkOS::Vault::VaultObject) }
-    def read_object_by_name(name:, request_options: {}); end
-
-    sig { params(object_id: String, request_options: T::Hash[Symbol, T.untyped]).returns(WorkOS::Vault::VaultObject) }
-    def get_object_metadata(object_id:, request_options: {}); end
 
     sig do
       params(
-        limit: Integer,
+        context: T::Hash[String, String],
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::CreateDataKeyResponse)
+    end
+    def create_data_key(context:, request_options:); end
+
+    sig do
+      params(
+        keys: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::DecryptResponse)
+    end
+    def create_decrypt(keys:, request_options:); end
+
+    sig do
+      params(
+        context: T::Hash[String, String],
+        encrypted_keys: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::CreateDataKeyResponse)
+    end
+    def create_rekey(context:, encrypted_keys:, request_options:); end
+
+    sig do
+      params(
+        limit: T.nilable(Integer),
         before: T.nilable(String),
         after: T.nilable(String),
+        order: T.nilable(String),
+        search: T.nilable(String),
+        updated_after: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
-      ).returns(T::Array[WorkOS::Vault::ObjectDigest])
+      ).returns(WorkOS::Types::ListStruct)
     end
-    def list_objects(limit: DEFAULT_RESPONSE_LIMIT, before: nil, after: nil, request_options: {}); end
+    def list_kv(limit:, before:, after:, order:, search:, updated_after:, request_options:); end
 
-    sig { params(object_id: String, request_options: T::Hash[Symbol, T.untyped]).returns(T::Array[WorkOS::Vault::ObjectVersion]) }
-    def list_object_versions(object_id:, request_options: {}); end
+    sig do
+      params(
+        key_context: T::Hash[String, String],
+        name: String,
+        value: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::ObjectMetadata)
+    end
+    def create_kv(key_context:, name:, value:, request_options:); end
 
     sig do
       params(
         name: String,
-        value: String,
-        key_context: T::Hash[String, T.untyped],
         request_options: T::Hash[Symbol, T.untyped]
-      ).returns(WorkOS::Vault::ObjectMetadata)
+      ).returns(WorkOS::ObjectModel)
     end
-    def create_object(name:, value:, key_context:, request_options: {}); end
+    def get_name(name:, request_options:); end
 
     sig do
       params(
-        object_id: String,
+        id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::ObjectModel)
+    end
+    def get_kv(id:, request_options:); end
+
+    sig do
+      params(
+        id: String,
         value: String,
         version_check: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
-      ).returns(WorkOS::Vault::VaultObject)
+      ).returns(WorkOS::ObjectWithoutValue)
     end
-    def update_object(object_id:, value:, version_check: nil, request_options: {}); end
+    def update_kv(id:, value:, version_check:, request_options:); end
 
-    sig { params(object_id: String, request_options: T::Hash[Symbol, T.untyped]).void }
-    def delete_object(object_id:, request_options: {}); end
+    sig do
+      params(
+        id: String,
+        version_check: T.nilable(String),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::DeleteObjectResponse)
+    end
+    def delete_kv(id:, version_check:, request_options:); end
 
-    sig { params(key_context: T::Hash[String, T.untyped], request_options: T::Hash[Symbol, T.untyped]).returns(WorkOS::Vault::DataKeyPair) }
-    def create_data_key(key_context:, request_options: {}); end
+    sig do
+      params(
+        id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::ObjectWithoutValue)
+    end
+    def list_kv_metadata(id:, request_options:); end
 
-    sig { params(keys: String, request_options: T::Hash[Symbol, T.untyped]).returns(WorkOS::Vault::DataKey) }
-    def decrypt_data_key(keys:, request_options: {}); end
+    sig do
+      params(
+        id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::Types::ListStruct)
+    end
+    def list_kv_versions(id:, request_options:); end
 
-    sig { params(data: String, key_context: T::Hash[String, T.untyped], associated_data: T.nilable(String)).returns(String) }
-    def encrypt(data:, key_context:, associated_data: nil); end
-
-    sig { params(encrypted_data: String, associated_data: T.nilable(String)).returns(String) }
-    def decrypt(encrypted_data:, associated_data: nil); end
   end
 end

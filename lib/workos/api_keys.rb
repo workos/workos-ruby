@@ -61,17 +61,20 @@ module WorkOS
     # @param organization_id [String] Unique identifier of the Organization.
     # @param name [String] The name for the API key.
     # @param permissions [Array<String>, nil] The permission slugs to assign to the API key.
+    # @param expires_at [String, nil] The timestamp when the API key should expire. Must be a future timestamp. If omitted, the key does not expire.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::OrganizationApiKeyWithValue]
     def create_organization_api_key(
       organization_id:,
       name:,
       permissions: nil,
+      expires_at: nil,
       request_options: {}
     )
       body = {
         "name" => name,
-        "permissions" => permissions
+        "permissions" => permissions,
+        "expires_at" => expires_at
       }.compact
       response = @client.request(
         method: :post,

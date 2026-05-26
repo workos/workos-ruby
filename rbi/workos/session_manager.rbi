@@ -103,7 +103,7 @@ module WorkOS
     sig { returns(WorkOS::Client) }
     def client; end
 
-    sig { params(client: WorkOS::Client, encryptor: T.nilable(T.untyped)).void }
+    sig { params(client: WorkOS::Client, encryptor: T.untyped).void }
     def initialize(client, encryptor: nil); end
 
     sig { params(seal_data: String, cookie_password: String).returns(WorkOS::Session) }

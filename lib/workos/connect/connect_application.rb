@@ -14,6 +14,10 @@ module WorkOS
       created_at: :created_at,
       updated_at: :updated_at,
       application_type: :application_type,
+      redirect_uris: :redirect_uris,
+      uses_pkce: :uses_pkce,
+      is_first_party: :is_first_party,
+      was_dynamically_registered: :was_dynamically_registered,
       organization_id: :organization_id
     }.freeze
 
@@ -27,6 +31,10 @@ module WorkOS
       :created_at,
       :updated_at,
       :application_type,
+      :redirect_uris,
+      :uses_pkce,
+      :is_first_party,
+      :was_dynamically_registered,
       :organization_id
 
     def initialize(json)
@@ -40,6 +48,10 @@ module WorkOS
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
       @application_type = hash[:application_type]
+      @redirect_uris = (hash[:redirect_uris] || []).map { |item| item ? WorkOS::ConnectApplicationRedirectUri.new(item) : nil }
+      @uses_pkce = hash[:uses_pkce]
+      @is_first_party = hash[:is_first_party]
+      @was_dynamically_registered = hash[:was_dynamically_registered]
       @organization_id = hash[:organization_id]
     end
   end

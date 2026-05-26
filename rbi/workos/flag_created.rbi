@@ -10,6 +10,12 @@ module WorkOS
     def initialize(json); end
 
     sig { returns(String) }
+    def object; end
+
+    sig { params(value: String).returns(String) }
+    def object=(value); end
+
+    sig { returns(String) }
     def id; end
 
     sig { params(value: String).returns(String) }
@@ -38,12 +44,6 @@ module WorkOS
 
     sig { params(value: WorkOS::FlagCreatedContext).returns(WorkOS::FlagCreatedContext) }
     def context=(value); end
-
-    sig { returns(String) }
-    def object; end
-
-    sig { params(value: String).returns(String) }
-    def object=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end
