@@ -371,11 +371,5 @@ module WorkOS
       raise ArgumentError, "LEB128 not terminated"
     end
     # @oagen-ignore-end
-
-    # @oagen-ignore-start — client-side AES-GCM encrypt/decrypt requires
-    require "base64"
-    require "openssl"
-    require "securerandom"
-    # @oagen-ignore-end
   end
 end
