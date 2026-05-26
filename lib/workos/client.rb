@@ -90,10 +90,6 @@ module WorkOS
       @passwordless ||= WorkOS::Passwordless.new(self)
     end
 
-    def vault
-      @vault ||= WorkOS::Vault.new(self)
-    end
-
     def actions
       @actions ||= WorkOS::Actions
     end
