@@ -11,6 +11,7 @@ module WorkOS
       name: :name,
       obfuscated_value: :obfuscated_value,
       last_used_at: :last_used_at,
+      expires_at: :expires_at,
       permissions: :permissions,
       created_at: :created_at,
       updated_at: :updated_at,
@@ -24,6 +25,7 @@ module WorkOS
       :name,
       :obfuscated_value,
       :last_used_at,
+      :expires_at,
       :permissions,
       :created_at,
       :updated_at,
@@ -37,6 +39,7 @@ module WorkOS
       @name = hash[:name]
       @obfuscated_value = hash[:obfuscated_value]
       @last_used_at = hash[:last_used_at]
+      @expires_at = hash[:expires_at]
       @permissions = hash[:permissions] || []
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]

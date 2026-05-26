@@ -7,19 +7,22 @@ module WorkOS
     HASH_ATTRS = {
       name: :name,
       organization_id: :organization_id,
-      permissions: :permissions
+      permissions: :permissions,
+      expires_at: :expires_at
     }.freeze
 
     attr_accessor \
       :name,
       :organization_id,
-      :permissions
+      :permissions,
+      :expires_at
 
     def initialize(json)
       hash = self.class.normalize(json)
       @name = hash[:name]
       @organization_id = hash[:organization_id]
       @permissions = hash[:permissions] || []
+      @expires_at = hash[:expires_at]
     end
   end
 end
