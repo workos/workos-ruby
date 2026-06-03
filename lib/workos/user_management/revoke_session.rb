@@ -5,18 +5,14 @@
 module WorkOS
   class RevokeSession < WorkOS::Types::BaseModel
     HASH_ATTRS = {
-      session_id: :session_id,
-      return_to: :return_to
+      session_id: :session_id
     }.freeze
 
-    attr_accessor \
-      :session_id,
-      :return_to
+    attr_accessor :session_id
 
     def initialize(json)
       hash = self.class.normalize(json)
       @session_id = hash[:session_id]
-      @return_to = hash[:return_to]
     end
   end
 end

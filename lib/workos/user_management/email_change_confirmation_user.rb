@@ -9,6 +9,7 @@ module WorkOS
       id: :id,
       first_name: :first_name,
       last_name: :last_name,
+      name: :name,
       profile_picture_url: :profile_picture_url,
       email: :email,
       email_verified: :email_verified,
@@ -25,6 +26,7 @@ module WorkOS
       :id,
       :first_name,
       :last_name,
+      :name,
       :profile_picture_url,
       :email,
       :email_verified,
@@ -41,6 +43,7 @@ module WorkOS
       @id = hash[:id]
       @first_name = hash[:first_name]
       @last_name = hash[:last_name]
+      @name = hash[:name]
       @profile_picture_url = hash[:profile_picture_url]
       @email = hash[:email]
       @email_verified = hash[:email_verified]
