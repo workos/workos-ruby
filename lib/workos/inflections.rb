@@ -50,7 +50,6 @@ WORKOS_INFLECTIONS = {
   "create_oauth_application" => "CreateOAuthApplication",
   "jwt_template_response" => "JWTTemplateResponse",
   "mfa_totp_session_authenticate_request" => "MFATotpSessionAuthenticateRequest",
-  "object" => "ObjectModel",
   "pkce" => "PKCE",
   "sso" => "SSO",
   "sso_authorize_url_response" => "SSOAuthorizeUrlResponse",
