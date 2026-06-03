@@ -127,5 +127,30 @@ module WorkOS
       )
       nil
     end
+
+    # Expire an API key
+    # @param id [String] The unique ID of the API key.
+    # @param expires_at [String, nil] When the API key should expire. If omitted or in the past, the key expires immediately. Use null to clear a scheduled future expiration.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::ApiKey]
+    def create_api_key_expire(
+      id:,
+      expires_at: nil,
+      request_options: {}
+    )
+      body = {
+        "expires_at" => expires_at
+      }.compact
+      response = @client.request(
+        method: :post,
+        path: "/api_keys/#{WorkOS::Util.encode_path(id)}/expire",
+        auth: true,
+        body: body,
+        request_options: request_options
+      )
+      result = WorkOS::ApiKey.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
   end
 end
