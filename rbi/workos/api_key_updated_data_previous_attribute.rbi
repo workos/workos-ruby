@@ -5,15 +5,15 @@
 # typed: strong
 
 module WorkOS
-  class RevokeSession
+  class ApiKeyUpdatedDataPreviousAttribute
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
 
-    sig { returns(String) }
-    def session_id; end
+    sig { returns(T.nilable(String)) }
+    def expires_at; end
 
-    sig { params(value: String).returns(String) }
-    def session_id=(value); end
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def expires_at=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end

@@ -39,12 +39,20 @@ class ApiKeysTest < Minitest::Test
     assert_nil result
   end
 
+  def test_create_api_key_expire_returns_expected_result
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/api_keys/stub/expire(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.api_keys.create_api_key_expire(id: "stub")
+    refute_nil result
+  end
+
   # Parameterized authentication error tests (one per endpoint).
   [
     {name: :list_organization_api_keys, verb: :get, url: %r{\Ahttps://api\.workos\.com/organizations/stub/api_keys(\?|\z)}, args: {organization_id: "stub"}},
     {name: :create_organization_api_key, verb: :post, url: %r{\Ahttps://api\.workos\.com/organizations/stub/api_keys(\?|\z)}, args: {organization_id: "stub", name: "stub"}},
     {name: :create_validation, verb: :post, url: %r{\Ahttps://api\.workos\.com/api_keys/validations(\?|\z)}, args: {value: "stub"}},
-    {name: :delete_api_key, verb: :delete, url: %r{\Ahttps://api\.workos\.com/api_keys/stub(\?|\z)}, args: {id: "stub"}}
+    {name: :delete_api_key, verb: :delete, url: %r{\Ahttps://api\.workos\.com/api_keys/stub(\?|\z)}, args: {id: "stub"}},
+    {name: :create_api_key_expire, verb: :post, url: %r{\Ahttps://api\.workos\.com/api_keys/stub/expire(\?|\z)}, args: {id: "stub"}}
   ].each do |spec|
     define_method("test_#{spec[:name]}_raises_authentication_error_on_401") do
       stub_request(spec[:verb], spec[:url])

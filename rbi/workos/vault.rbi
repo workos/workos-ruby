@@ -61,7 +61,7 @@ module WorkOS
       params(
         name: String,
         request_options: T::Hash[Symbol, T.untyped]
-      ).returns(WorkOS::ObjectModel)
+      ).returns(WorkOS::VaultObject)
     end
     def get_name(name:, request_options:); end
 
@@ -69,7 +69,7 @@ module WorkOS
       params(
         id: String,
         request_options: T::Hash[Symbol, T.untyped]
-      ).returns(WorkOS::ObjectModel)
+      ).returns(WorkOS::VaultObject)
     end
     def get_kv(id:, request_options:); end
 
