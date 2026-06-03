@@ -7,13 +7,12 @@ module WorkOS
     class RadarStandaloneResponseControl
       BOT_DETECTION = "bot_detection"
       BRUTE_FORCE_ATTACK = "brute_force_attack"
-      DOMAIN_SIGN_UP_RATE_LIMIT = "domain_sign_up_rate_limit"
       IMPOSSIBLE_TRAVEL = "impossible_travel"
       REPEAT_SIGN_UP = "repeat_sign_up"
       STALE_ACCOUNT = "stale_account"
       UNRECOGNIZED_DEVICE = "unrecognized_device"
       RESTRICTION = "restriction"
-      ALL = [BOT_DETECTION, BRUTE_FORCE_ATTACK, DOMAIN_SIGN_UP_RATE_LIMIT, IMPOSSIBLE_TRAVEL, REPEAT_SIGN_UP, STALE_ACCOUNT, UNRECOGNIZED_DEVICE, RESTRICTION].freeze
+      ALL = [BOT_DETECTION, BRUTE_FORCE_ATTACK, IMPOSSIBLE_TRAVEL, REPEAT_SIGN_UP, STALE_ACCOUNT, UNRECOGNIZED_DEVICE, RESTRICTION].freeze
     end
   end
 end

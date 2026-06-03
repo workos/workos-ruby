@@ -10,8 +10,9 @@ module WorkOS
       GENERIC_HTTPS = "GenericHttps"
       GOOGLE_CLOUD_STORAGE = "GoogleCloudStorage"
       S_3 = "S3"
+      SNOWFLAKE = "Snowflake"
       SPLUNK = "Splunk"
-      ALL = [AZURE_SENTINEL, DATADOG, GENERIC_HTTPS, GOOGLE_CLOUD_STORAGE, S_3, SPLUNK].freeze
+      ALL = [AZURE_SENTINEL, DATADOG, GENERIC_HTTPS, GOOGLE_CLOUD_STORAGE, S_3, SNOWFLAKE, SPLUNK].freeze
     end
   end
 end
