@@ -86,6 +86,13 @@ class BaseClientTest < Minitest::Test
     @client = WorkOS::BaseClient.new(api_key: "sk_test_123", max_retries: 1)
   end
 
+  def teardown
+    super
+    # The connection cache lives in thread-local storage on whatever thread
+    # the test ran on, so clear it to avoid leaking connections between tests.
+    Thread.current[:workos_connections] = nil
+  end
+
   def test_request_dispatches_known_methods
     client = RecordingClient.new(api_key: "sk_test_123")
 
@@ -169,6 +176,55 @@ class BaseClientTest < Minitest::Test
     assert thread_connections.key?("https:other.workos.com:443:30")
     assert evict.finished
     refute keep.finished
+  end
+
+  # Regression test for https://github.com/workos/workos-ruby/issues/496
+  #
+  # The connection cache must be isolated per thread. A previous version
+  # keyed it on Fiber[] (inheritable fiber storage), which is inherited *by
+  # reference* by child threads — so a Net::HTTP socket warmed in a parent
+  # thread leaked into every worker thread spawned afterward (Solid Queue,
+  # Puma, etc.) and got driven concurrently, corrupting the stream.
+  def test_connection_cache_is_not_shared_with_threads_spawned_after_warming
+    # Warm a connection in the "parent" thread before spawning workers.
+    parent_cache = @client.send(:thread_connections)
+    warm = FakeConnection.new
+    parent_cache["https:api.workos.com:443:30"] = warm
+
+    results = Array.new(4) do
+      Thread.new do
+        cache = @client.send(:thread_connections)
+        {cache_id: cache.object_id, leaked: cache.value?(warm), size: cache.size}
+      end
+    end.map(&:value)
+
+    results.each do |r|
+      refute_equal parent_cache.object_id, r[:cache_id],
+        "worker thread must not share the parent thread's connection cache"
+      refute r[:leaked],
+        "parent thread's warmed connection leaked into a worker thread"
+      assert_equal 0, r[:size],
+        "worker thread should start with an empty, isolated cache"
+    end
+
+    # The parent's own cache is left intact.
+    assert_same warm, parent_cache["https:api.workos.com:443:30"]
+  end
+
+  # Exercises the real connection_for path (not just the storage helper):
+  # each thread must open and cache its *own* Net::HTTP connection rather
+  # than reusing one established on another thread.
+  def test_connection_for_opens_a_distinct_connection_per_thread
+    parent_conn = @client.send(:connection_for, "https://api.workos.com", 30)
+
+    worker_conns = Array.new(4) do
+      Thread.new { @client.send(:connection_for, "https://api.workos.com", 30).object_id }
+    end.map(&:value)
+
+    refute_includes worker_conns, parent_conn.object_id,
+      "a worker thread reused a connection opened on another thread"
+    assert_equal worker_conns.uniq.length, worker_conns.length,
+      "worker threads must each get a distinct connection"
   end
 
   def test_redact_path_strips_invitation_token_segment
