@@ -302,9 +302,9 @@ module WorkOS
       "#{uri.scheme}:#{uri.host}:#{uri.port}:#{timeout}"
     end
 
-    # Per-thread connection cache.
+    # Per-fiber connection cache (non-inherited).
     #
-    # This MUST use Thread.current[] (fiber-local storage) rather than
+    # Uses Thread.current[] (Ruby fiber-local storage) rather than
     # Fiber[] (inheritable fiber storage). Fiber[] is inherited *by
     # reference* by every child fiber and every child thread, so a live
     # Net::HTTP socket cached in a parent fiber would be shared across
@@ -312,8 +312,13 @@ module WorkOS
     # sockets are not thread-safe; concurrent use corrupts the stream and
     # surfaces as FrozenError on the SSLContext, Errno::EBADF, "stream
     # closed in another thread" (IOError), and Net::HTTPBadResponse.
-    # Thread.current[] is not inherited across threads, so each thread gets
-    # its own isolated cache.
+    # Thread.current[] is not inherited across threads, so each thread
+    # gets its own isolated cache.
+    #
+    # Note: Thread.current[] is fiber-local in Ruby — each Fiber within a
+    # thread has its own slot. In fiber-based servers (Async, Falcon) this
+    # means one connection cache per fiber rather than per OS thread, which
+    # is the desired behavior: each concurrent request gets its own sockets.
     def thread_connections
       Thread.current[:workos_connections] ||= {}
     end

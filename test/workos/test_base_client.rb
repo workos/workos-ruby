@@ -88,8 +88,9 @@ class BaseClientTest < Minitest::Test
 
   def teardown
     super
-    # The connection cache lives in thread-local storage on whatever thread
-    # the test ran on, so clear it to avoid leaking connections between tests.
+    # Close any open connections and clear the thread-local cache to avoid
+    # leaking sockets between tests.
+    @client.shutdown
     Thread.current[:workos_connections] = nil
   end
 
@@ -211,10 +212,15 @@ class BaseClientTest < Minitest::Test
     assert_same warm, parent_cache["https:api.workos.com:443:30"]
   end
 
-  # Exercises the real connection_for path (not just the storage helper):
+  # Exercises the connection_for path (not just the storage helper):
   # each thread must open and cache its *own* Net::HTTP connection rather
   # than reusing one established on another thread.
+  #
+  # Net::HTTP#start is stubbed to avoid real TCP+TLS connections.
   def test_connection_for_opens_a_distinct_connection_per_thread
+    original_start = Net::HTTP.instance_method(:start)
+    Net::HTTP.define_method(:start) { self }
+
     parent_conn = @client.send(:connection_for, "https://api.workos.com", 30)
 
     worker_conns = Array.new(4) do
@@ -223,8 +229,10 @@ class BaseClientTest < Minitest::Test
 
     refute_includes worker_conns, parent_conn.object_id,
       "a worker thread reused a connection opened on another thread"
-    assert_equal worker_conns.uniq.length, worker_conns.length,
+    assert_equal worker_conns.length, worker_conns.uniq.length,
       "worker threads must each get a distinct connection"
+  ensure
+    Net::HTTP.define_method(:start, original_start)
   end
 
   def test_redact_path_strips_invitation_token_segment
