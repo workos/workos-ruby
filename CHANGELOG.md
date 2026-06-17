@@ -2,28 +2,50 @@
 
 ## [10.0.0](https://github.com/workos/workos-ruby/compare/v9.0.0...v10.0.0) (2026-06-17)
 
-
-### ⚠ BREAKING CHANGES
-
-* **user_management:** Remove return_to param from revoke_session; add name field to user models ([#495](https://github.com/workos/workos-ruby/issues/495))
-* **user_management:** Add UserApiKeyUpdatedDataOwner model ([#495](https://github.com/workos/workos-ruby/issues/495))
-
-### Features
-
-* **api_keys:** Add API key expiration and update event support ([#495](https://github.com/workos/workos-ruby/issues/495)) ([5de0229](https://github.com/workos/workos-ruby/commit/5de02295143c502f103dd051e97fbe641e8c374b))
-* **connect:** Add name field to UserObject ([#495](https://github.com/workos/workos-ruby/issues/495)) ([5de0229](https://github.com/workos/workos-ruby/commit/5de02295143c502f103dd051e97fbe641e8c374b))
-* **directory_sync:** Remove DsyncDeactivated models; add DsyncToken events ([#495](https://github.com/workos/workos-ruby/issues/495)) ([5de0229](https://github.com/workos/workos-ruby/commit/5de02295143c502f103dd051e97fbe641e8c374b))
-* **groups:** Move UserOrganizationMembershipBaseListData from authorization to groups ([#495](https://github.com/workos/workos-ruby/issues/495)) ([5de0229](https://github.com/workos/workos-ruby/commit/5de02295143c502f103dd051e97fbe641e8c374b))
-* **types:** Add SNOWFLAKE log stream type; remove DOMAIN_SIGN_UP_RATE_LIMIT enum ([#495](https://github.com/workos/workos-ruby/issues/495)) ([5de0229](https://github.com/workos/workos-ruby/commit/5de02295143c502f103dd051e97fbe641e8c374b))
-* **user_management:** Add UserApiKeyUpdatedDataOwner model ([#495](https://github.com/workos/workos-ruby/issues/495)) ([5de0229](https://github.com/workos/workos-ruby/commit/5de02295143c502f103dd051e97fbe641e8c374b))
-* **user_management:** Remove return_to param from revoke_session; add name field to user models ([#495](https://github.com/workos/workos-ruby/issues/495)) ([5de0229](https://github.com/workos/workos-ruby/commit/5de02295143c502f103dd051e97fbe641e8c374b))
-* **vault:** Rename ObjectModel class to VaultObject ([#495](https://github.com/workos/workos-ruby/issues/495)) ([5de0229](https://github.com/workos/workos-ruby/commit/5de02295143c502f103dd051e97fbe641e8c374b))
-
-
 ### Bug Fixes
 
 * **renovate:** explicitly enable minor and patch updates ([#493](https://github.com/workos/workos-ruby/issues/493)) ([c6da3f3](https://github.com/workos/workos-ruby/commit/c6da3f3acdf4dd7a6a65b3ae6463102ff0c024e1))
 * Use Thread.current[] instead of Fiber[] for connection cache ([#499](https://github.com/workos/workos-ruby/issues/499)) ([a44d650](https://github.com/workos/workos-ruby/commit/a44d6500b29d05fe7a5a0ac7449d1a4bee88fd38))
+
+- [#495](https://github.com/workos/workos-ruby/pull/495) feat(generated)!: regenerate from spec (8 changes)
+
+  **⚠️ Breaking**
+  - **[api_keys](https://workos.com/docs/reference/authkit/api-keys)**:
+    - Made `expires_at` required in API key models
+  - **[directory_sync](https://workos.com/docs/reference/directory-sync)**:
+    - Removed model `DsyncDeactivated`
+    - Removed model `DsyncDeactivatedData`
+    - Removed model `DsyncDeactivatedDataDomain`
+    - Removed enum `DsyncDeactivatedDataType`
+    - Removed enum `DsyncDeactivatedDataState`
+  - **[radar](https://workos.com/docs/reference/radar)**:
+    - Removed `domain_sign_up_rate_limit` from `RadarStandaloneResponseControl`
+  - **[user_management](https://workos.com/docs/reference/authkit/user)**:
+    - Removed `return_to` from `RevokeSession`
+
+  **Features**
+  - **[api_keys](https://workos.com/docs/reference/authkit/api-keys)**:
+    - Added model `ExpireApiKey`
+    - Added model `ApiKeyUpdated`
+    - Added model `ApiKeyUpdatedData`
+    - Added model `ApiKeyUpdatedDataOwner`
+    - Added model `UserApiKeyUpdatedDataOwner`
+    - Added model `ApiKeyUpdatedDataPreviousAttribute`
+    - Added endpoint `POST /api_keys/{id}/expire`
+  - **[audit_logs](https://workos.com/docs/reference/audit-logs)**:
+    - Added `Snowflake` to `AuditLogConfigurationLogStreamType`
+  - **[connect](https://workos.com/docs/reference/workos-connect/standalone)**:
+    - Added `name` to `UserObject`
+  - **[directory_sync](https://workos.com/docs/reference/directory-sync)**:
+    - Added model `DsyncTokenCreated`
+    - Added model `DsyncTokenCreatedData`
+    - Added model `DsyncTokenRevoked`
+    - Added model `DsyncTokenRevokedData`
+  - **[user_management](https://workos.com/docs/reference/authkit/user)**:
+    - Added `name` to user management models
+  - **[webhooks](https://workos.com/docs/reference/webhooks)**:
+    - Added `api_key.updated` to `CreateWebhookEndpointEvents`
+    - Added `api_key.updated` to `UpdateWebhookEndpointEvents`
 
 ## [9.0.0](https://github.com/workos/workos-ruby/compare/v8.0.1...v9.0.0) (2026-05-26)
 
