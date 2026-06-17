@@ -42,13 +42,13 @@ module WorkOS
     end
 
     # Get an access token for a connected account
-    # @param slug [String] The identifier of the integration.
+    # @param provider [String] The identifier of the integration.
     # @param user_id [String] A [User](https://workos.com/docs/reference/authkit/user) identifier.
     # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter to scope the connection to a specific organization.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::DataIntegrationAccessTokenResponse]
-    def create_data_integration_token(
-      slug:,
+    def get_access_token(
+      provider:,
       user_id:,
       organization_id: nil,
       request_options: {}
@@ -59,7 +59,7 @@ module WorkOS
       }.compact
       response = @client.request(
         method: :post,
-        path: "/data-integrations/#{WorkOS::Util.encode_path(slug)}/token",
+        path: "/data-integrations/#{WorkOS::Util.encode_path(provider)}/token",
         auth: true,
         body: body,
         request_options: request_options
@@ -121,7 +121,7 @@ module WorkOS
       nil
     end
 
-    # List providers
+    # List providers for a user
     # @param user_id [String] A [User](https://workos.com/docs/reference/authkit/user) identifier to list providers and connected accounts for.
     # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter to filter connections for a specific organization.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)

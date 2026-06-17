@@ -18,10 +18,10 @@ class PipesTest < Minitest::Test
     refute_nil result
   end
 
-  def test_create_data_integration_token_returns_expected_result
+  def test_get_access_token_returns_expected_result
     stub_request(:post, %r{\Ahttps://api\.workos\.com/data-integrations/stub/token(\?|\z)})
       .to_return(body: "{}", status: 200)
-    result = @client.pipes.create_data_integration_token(slug: "stub", user_id: "stub")
+    result = @client.pipes.get_access_token(provider: "stub", user_id: "stub")
     refute_nil result
   end
 
@@ -49,7 +49,7 @@ class PipesTest < Minitest::Test
   # Parameterized authentication error tests (one per endpoint).
   [
     {name: :authorize_data_integration, verb: :post, url: %r{\Ahttps://api\.workos\.com/data-integrations/stub/authorize(\?|\z)}, args: {slug: "stub", user_id: "stub"}},
-    {name: :create_data_integration_token, verb: :post, url: %r{\Ahttps://api\.workos\.com/data-integrations/stub/token(\?|\z)}, args: {slug: "stub", user_id: "stub"}},
+    {name: :get_access_token, verb: :post, url: %r{\Ahttps://api\.workos\.com/data-integrations/stub/token(\?|\z)}, args: {provider: "stub", user_id: "stub"}},
     {name: :get_user_connected_account, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/users/stub/connected_accounts/stub(\?|\z)}, args: {user_id: "stub", slug: "stub"}},
     {name: :delete_user_connected_account, verb: :delete, url: %r{\Ahttps://api\.workos\.com/user_management/users/stub/connected_accounts/stub(\?|\z)}, args: {user_id: "stub", slug: "stub"}},
     {name: :list_user_data_providers, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/users/stub/data_providers(\?|\z)}, args: {user_id: "stub"}}

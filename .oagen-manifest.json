@@ -1,7 +1,7 @@
 {
   "version": 2,
   "language": "ruby",
-  "generatedAt": "2026-06-03T19:20:02.984Z",
+  "generatedAt": "2026-06-17T21:06:29.872Z",
   "files": [
     "lib/workos.rb",
     "lib/workos/admin_portal.rb",
@@ -56,8 +56,13 @@
     "lib/workos/authorization/check_authorization.rb",
     "lib/workos/authorization/create_authorization_permission.rb",
     "lib/workos/authorization/create_authorization_resource.rb",
+    "lib/workos/authorization/create_group_role_assignment.rb",
     "lib/workos/authorization/create_organization_role.rb",
     "lib/workos/authorization/create_role.rb",
+    "lib/workos/authorization/delete_group_role_assignments_by_criteria.rb",
+    "lib/workos/authorization/group_role_assignment.rb",
+    "lib/workos/authorization/group_role_assignment_list.rb",
+    "lib/workos/authorization/group_role_assignment_resource.rb",
     "lib/workos/authorization/permission.rb",
     "lib/workos/authorization/permission_created.rb",
     "lib/workos/authorization/permission_created_data.rb",
@@ -66,6 +71,8 @@
     "lib/workos/authorization/permission_updated.rb",
     "lib/workos/authorization/permission_updated_data.rb",
     "lib/workos/authorization/remove_role.rb",
+    "lib/workos/authorization/replace_group_role_assignment_entry.rb",
+    "lib/workos/authorization/replace_group_role_assignments.rb",
     "lib/workos/authorization/role.rb",
     "lib/workos/authorization/role_created.rb",
     "lib/workos/authorization/role_created_data.rb",
@@ -83,6 +90,9 @@
     "lib/workos/authorization/user_role_assignment.rb",
     "lib/workos/authorization/user_role_assignment_resource.rb",
     "lib/workos/client.rb",
+    "lib/workos/client_api.rb",
+    "lib/workos/client_api/client_api_token.rb",
+    "lib/workos/client_api/client_api_token_response.rb",
     "lib/workos/connect.rb",
     "lib/workos/connect/application_credentials_list_item.rb",
     "lib/workos/connect/connect_application.rb",
@@ -249,6 +259,11 @@
     "lib/workos/pipes/data_integrations_list_response.rb",
     "lib/workos/pipes/data_integrations_list_response_data.rb",
     "lib/workos/pipes/data_integrations_list_response_data_connected_account.rb",
+    "lib/workos/pipes_provider.rb",
+    "lib/workos/pipes_provider/configure_data_integration_body.rb",
+    "lib/workos/pipes_provider/data_integration_configuration_list_response.rb",
+    "lib/workos/pipes_provider/data_integration_configuration_response.rb",
+    "lib/workos/pipes_provider/data_integration_credentials.rb",
     "lib/workos/radar.rb",
     "lib/workos/radar/radar_list_entry_already_present_response.rb",
     "lib/workos/radar/radar_standalone_assess_request.rb",
@@ -315,6 +330,7 @@
     "lib/workos/types/authentication_factors_create_request_type.rb",
     "lib/workos/types/authentication_radar_risk_detected_data_action.rb",
     "lib/workos/types/authorization_assignment.rb",
+    "lib/workos/types/connected_account_auth_method.rb",
     "lib/workos/types/connected_account_state.rb",
     "lib/workos/types/connection_activated_data_connection_type.rb",
     "lib/workos/types/connection_activated_data_state.rb",
@@ -334,6 +350,9 @@
     "lib/workos/types/create_user_password_hash_type.rb",
     "lib/workos/types/create_webhook_endpoint_events.rb",
     "lib/workos/types/data_integration_access_token_response_error.rb",
+    "lib/workos/types/data_integration_credentials_credentials_type.rb",
+    "lib/workos/types/data_integrations_list_response_data_auth_methods.rb",
+    "lib/workos/types/data_integrations_list_response_data_connected_account_auth_method.rb",
     "lib/workos/types/data_integrations_list_response_data_connected_account_state.rb",
     "lib/workos/types/data_integrations_list_response_data_ownership.rb",
     "lib/workos/types/directory_state.rb",
@@ -714,6 +733,10 @@
     "rbi/workos/challenge_authentication_factor.rbi",
     "rbi/workos/check_authorization.rbi",
     "rbi/workos/client.rbi",
+    "rbi/workos/client_api.rbi",
+    "rbi/workos/client_api_token.rbi",
+    "rbi/workos/client_api_token_response.rbi",
+    "rbi/workos/configure_data_integration_body.rbi",
     "rbi/workos/confirm_email_change.rbi",
     "rbi/workos/connect.rbi",
     "rbi/workos/connect_application.rbi",
@@ -749,6 +772,7 @@
     "rbi/workos/create_data_key_response.rbi",
     "rbi/workos/create_group.rbi",
     "rbi/workos/create_group_membership.rbi",
+    "rbi/workos/create_group_role_assignment.rbi",
     "rbi/workos/create_m2m_application.rbi",
     "rbi/workos/create_magic_code_and_return.rbi",
     "rbi/workos/create_oauth_application.rbi",
@@ -768,6 +792,9 @@
     "rbi/workos/data_integration_access_token_response.rbi",
     "rbi/workos/data_integration_access_token_response_access_token.rbi",
     "rbi/workos/data_integration_authorize_url_response.rbi",
+    "rbi/workos/data_integration_configuration_list_response.rbi",
+    "rbi/workos/data_integration_configuration_response.rbi",
+    "rbi/workos/data_integration_credentials.rbi",
     "rbi/workos/data_integrations_get_data_integration_authorize_url_request.rbi",
     "rbi/workos/data_integrations_get_user_token_request.rbi",
     "rbi/workos/data_integrations_list_response.rbi",
@@ -775,6 +802,7 @@
     "rbi/workos/data_integrations_list_response_data_connected_account.rbi",
     "rbi/workos/decrypt_request.rbi",
     "rbi/workos/decrypt_response.rbi",
+    "rbi/workos/delete_group_role_assignments_by_criteria.rbi",
     "rbi/workos/delete_object_response.rbi",
     "rbi/workos/device_authorization_response.rbi",
     "rbi/workos/device_code_session_authenticate_request.rbi",
@@ -871,6 +899,8 @@
     "rbi/workos/group_member_added_data.rbi",
     "rbi/workos/group_member_removed.rbi",
     "rbi/workos/group_member_removed_data.rbi",
+    "rbi/workos/group_role_assignment.rbi",
+    "rbi/workos/group_role_assignment_resource.rbi",
     "rbi/workos/group_updated.rbi",
     "rbi/workos/groups.rbi",
     "rbi/workos/intent_options.rbi",
@@ -961,6 +991,7 @@
     "rbi/workos/pipes_connected_account_connected.rbi",
     "rbi/workos/pipes_connected_account_disconnected.rbi",
     "rbi/workos/pipes_connected_account_reauthorization_needed.rbi",
+    "rbi/workos/pipes_provider.rbi",
     "rbi/workos/portal_link_response.rbi",
     "rbi/workos/profile.rbi",
     "rbi/workos/radar.rbi",
@@ -975,6 +1006,8 @@
     "rbi/workos/refresh_token_session_authenticate_request.rbi",
     "rbi/workos/rekey_request.rbi",
     "rbi/workos/remove_role.rbi",
+    "rbi/workos/replace_group_role_assignment_entry.rbi",
+    "rbi/workos/replace_group_role_assignments.rbi",
     "rbi/workos/resend_user_invite_options.rbi",
     "rbi/workos/reset_password_response.rbi",
     "rbi/workos/revoke_session.rbi",
@@ -1083,6 +1116,7 @@
     "test/workos/test_api_keys.rb",
     "test/workos/test_audit_logs.rb",
     "test/workos/test_authorization.rb",
+    "test/workos/test_client_api.rb",
     "test/workos/test_connect.rb",
     "test/workos/test_directory_sync.rb",
     "test/workos/test_events.rb",
@@ -1094,6 +1128,7 @@
     "test/workos/test_organization_membership_service.rb",
     "test/workos/test_organizations.rb",
     "test/workos/test_pipes.rb",
+    "test/workos/test_pipes_provider.rb",
     "test/workos/test_radar.rb",
     "test/workos/test_sso.rb",
     "test/workos/test_user_management.rb",
@@ -1125,6 +1160,30 @@
     "POST /authkit/oauth2/complete": {
       "sdkMethod": "complete_oauth2",
       "service": "connect"
+    },
+    "GET /authorization/groups/{group_id}/role_assignments": {
+      "sdkMethod": "list_group_role_assignments",
+      "service": "authorization"
+    },
+    "POST /authorization/groups/{group_id}/role_assignments": {
+      "sdkMethod": "create_group_role_assignment",
+      "service": "authorization"
+    },
+    "PUT /authorization/groups/{group_id}/role_assignments": {
+      "sdkMethod": "update_group_role_assignments",
+      "service": "authorization"
+    },
+    "DELETE /authorization/groups/{group_id}/role_assignments": {
+      "sdkMethod": "delete_group_role_assignments",
+      "service": "authorization"
+    },
+    "GET /authorization/groups/{group_id}/role_assignments/{role_assignment_id}": {
+      "sdkMethod": "get_group_role_assignment",
+      "service": "authorization"
+    },
+    "DELETE /authorization/groups/{group_id}/role_assignments/{role_assignment_id}": {
+      "sdkMethod": "delete_group_role_assignment",
+      "service": "authorization"
     },
     "POST /authorization/organization_memberships/{organization_membership_id}/check": {
       "sdkMethod": "check",
@@ -1282,6 +1341,10 @@
       "sdkMethod": "delete_permission",
       "service": "authorization"
     },
+    "POST /client/token": {
+      "sdkMethod": "create_token",
+      "service": "client_api"
+    },
     "GET /connect/applications": {
       "sdkMethod": "list_applications",
       "service": "connect"
@@ -1338,8 +1401,8 @@
       "sdkMethod": "authorize_data_integration",
       "service": "pipes"
     },
-    "POST /data-integrations/{slug}/token": {
-      "sdkMethod": "create_data_integration_token",
+    "POST /data-integrations/{provider}/token": {
+      "sdkMethod": "get_access_token",
       "service": "pipes"
     },
     "GET /directories": {
@@ -1457,6 +1520,14 @@
     "POST /organizations/{organizationId}/api_keys": {
       "sdkMethod": "create_organization_api_key",
       "service": "api_keys"
+    },
+    "GET /organizations/{organizationId}/data_integration_configurations": {
+      "sdkMethod": "list_organization_data_integration_configurations",
+      "service": "pipes_provider"
+    },
+    "PUT /organizations/{organizationId}/data_integration_configurations/{slug}": {
+      "sdkMethod": "update_organization_data_integration_configuration",
+      "service": "pipes_provider"
     },
     "GET /organizations/{organizationId}/feature-flags": {
       "sdkMethod": "list_organization_feature_flags",
