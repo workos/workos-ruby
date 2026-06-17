@@ -1,5 +1,30 @@
 # Changelog
 
+## [10.0.0](https://github.com/workos/workos-ruby/compare/v9.0.0...v10.0.0) (2026-06-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* **user_management:** Remove return_to param from revoke_session; add name field to user models ([#495](https://github.com/workos/workos-ruby/issues/495))
+* **user_management:** Add UserApiKeyUpdatedDataOwner model ([#495](https://github.com/workos/workos-ruby/issues/495))
+
+### Features
+
+* **api_keys:** Add API key expiration and update event support ([#495](https://github.com/workos/workos-ruby/issues/495)) ([5de0229](https://github.com/workos/workos-ruby/commit/5de02295143c502f103dd051e97fbe641e8c374b))
+* **connect:** Add name field to UserObject ([#495](https://github.com/workos/workos-ruby/issues/495)) ([5de0229](https://github.com/workos/workos-ruby/commit/5de02295143c502f103dd051e97fbe641e8c374b))
+* **directory_sync:** Remove DsyncDeactivated models; add DsyncToken events ([#495](https://github.com/workos/workos-ruby/issues/495)) ([5de0229](https://github.com/workos/workos-ruby/commit/5de02295143c502f103dd051e97fbe641e8c374b))
+* **groups:** Move UserOrganizationMembershipBaseListData from authorization to groups ([#495](https://github.com/workos/workos-ruby/issues/495)) ([5de0229](https://github.com/workos/workos-ruby/commit/5de02295143c502f103dd051e97fbe641e8c374b))
+* **types:** Add SNOWFLAKE log stream type; remove DOMAIN_SIGN_UP_RATE_LIMIT enum ([#495](https://github.com/workos/workos-ruby/issues/495)) ([5de0229](https://github.com/workos/workos-ruby/commit/5de02295143c502f103dd051e97fbe641e8c374b))
+* **user_management:** Add UserApiKeyUpdatedDataOwner model ([#495](https://github.com/workos/workos-ruby/issues/495)) ([5de0229](https://github.com/workos/workos-ruby/commit/5de02295143c502f103dd051e97fbe641e8c374b))
+* **user_management:** Remove return_to param from revoke_session; add name field to user models ([#495](https://github.com/workos/workos-ruby/issues/495)) ([5de0229](https://github.com/workos/workos-ruby/commit/5de02295143c502f103dd051e97fbe641e8c374b))
+* **vault:** Rename ObjectModel class to VaultObject ([#495](https://github.com/workos/workos-ruby/issues/495)) ([5de0229](https://github.com/workos/workos-ruby/commit/5de02295143c502f103dd051e97fbe641e8c374b))
+
+
+### Bug Fixes
+
+* **renovate:** explicitly enable minor and patch updates ([#493](https://github.com/workos/workos-ruby/issues/493)) ([c6da3f3](https://github.com/workos/workos-ruby/commit/c6da3f3acdf4dd7a6a65b3ae6463102ff0c024e1))
+* Use Thread.current[] instead of Fiber[] for connection cache ([#499](https://github.com/workos/workos-ruby/issues/499)) ([a44d650](https://github.com/workos/workos-ruby/commit/a44d6500b29d05fe7a5a0ac7449d1a4bee88fd38))
+
 ## [9.0.0](https://github.com/workos/workos-ruby/compare/v8.0.1...v9.0.0) (2026-05-26)
 
 ### Bug Fixes
