@@ -13,6 +13,7 @@ module WorkOS
       integration_type: :integration_type,
       credentials_type: :credentials_type,
       scopes: :scopes,
+      auth_methods: :auth_methods,
       ownership: :ownership,
       created_at: :created_at,
       updated_at: :updated_at,
@@ -28,6 +29,7 @@ module WorkOS
       :integration_type,
       :credentials_type,
       :scopes,
+      :auth_methods,
       :ownership,
       :created_at,
       :updated_at,
@@ -43,6 +45,7 @@ module WorkOS
       @integration_type = hash[:integration_type]
       @credentials_type = hash[:credentials_type]
       @scopes = hash[:scopes] || []
+      @auth_methods = hash[:auth_methods] || []
       @ownership = hash[:ownership]
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
