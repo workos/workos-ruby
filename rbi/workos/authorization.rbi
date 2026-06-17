@@ -95,6 +95,69 @@ module WorkOS
 
     sig do
       params(
+        group_id: String,
+        before: T.nilable(String),
+        after: T.nilable(String),
+        limit: T.nilable(Integer),
+        order: T.nilable(String),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::Types::ListStruct)
+    end
+    def list_group_role_assignments(group_id:, before:, after:, limit:, order:, request_options:); end
+
+    sig do
+      params(
+        group_id: String,
+        role_slug: String,
+        resource_id: T.nilable(String),
+        resource_external_id: T.nilable(String),
+        resource_type_slug: T.nilable(String),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::GroupRoleAssignment)
+    end
+    def create_group_role_assignment(group_id:, role_slug:, resource_id:, resource_external_id:, resource_type_slug:, request_options:); end
+
+    sig do
+      params(
+        group_id: String,
+        role_assignments: T::Array[WorkOS::ReplaceGroupRoleAssignmentEntry],
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::Types::ListStruct)
+    end
+    def update_group_role_assignments(group_id:, role_assignments:, request_options:); end
+
+    sig do
+      params(
+        group_id: String,
+        role_slug: String,
+        resource_id: T.nilable(String),
+        resource_external_id: T.nilable(String),
+        resource_type_slug: T.nilable(String),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(NilClass)
+    end
+    def delete_group_role_assignments(group_id:, role_slug:, resource_id:, resource_external_id:, resource_type_slug:, request_options:); end
+
+    sig do
+      params(
+        group_id: String,
+        role_assignment_id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::GroupRoleAssignment)
+    end
+    def get_group_role_assignment(group_id:, role_assignment_id:, request_options:); end
+
+    sig do
+      params(
+        group_id: String,
+        role_assignment_id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(NilClass)
+    end
+    def delete_group_role_assignment(group_id:, role_assignment_id:, request_options:); end
+
+    sig do
+      params(
         organization_membership_id: String,
         permission_slug: String,
         resource_target: T.any(WorkOS::Authorization::ResourceTargetById, WorkOS::Authorization::ResourceTargetByExternalId),

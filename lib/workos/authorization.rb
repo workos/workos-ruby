@@ -52,6 +52,186 @@ module WorkOS
       @client = client
     end
 
+    # List role assignments for a group
+    # @param group_id [String] The ID of the group.
+    # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`.
+    # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
+    # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
+    # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records).
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::Types::ListStruct<WorkOS::GroupRoleAssignment>]
+    def list_group_role_assignments(
+      group_id:,
+      before: nil,
+      after: nil,
+      limit: 10,
+      order: "desc",
+      request_options: {}
+    )
+      params = {
+        "before" => before,
+        "after" => after,
+        "limit" => limit,
+        "order" => order
+      }.compact
+      response = @client.request(
+        method: :get,
+        path: "/authorization/groups/#{WorkOS::Util.encode_path(group_id)}/role_assignments",
+        auth: true,
+        params: params,
+        request_options: request_options
+      )
+      fetch_next = ->(cursor) {
+        list_group_role_assignments(
+          group_id: group_id,
+          before: before,
+          after: cursor,
+          limit: limit,
+          order: order,
+          request_options: request_options
+        )
+      }
+      WorkOS::Types::ListStruct.from_response(
+        response,
+        model: WorkOS::GroupRoleAssignment,
+        filters: {group_id: group_id, before: before, limit: limit, order: order},
+        fetch_next: fetch_next
+      )
+    end
+
+    # Assign a role to a group
+    # @param group_id [String] The ID of the group.
+    # @param role_slug [String] The slug of the role to assign to the group.
+    # @param resource_id [String, nil] The ID of the resource. Omit along with the external-id fields to target the organization itself.
+    # @param resource_external_id [String, nil] The external ID of the resource.
+    # @param resource_type_slug [String, nil] The resource type slug.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::GroupRoleAssignment]
+    def create_group_role_assignment(
+      group_id:,
+      role_slug:,
+      resource_id: nil,
+      resource_external_id: nil,
+      resource_type_slug: nil,
+      request_options: {}
+    )
+      body = {
+        "role_slug" => role_slug,
+        "resource_id" => resource_id,
+        "resource_external_id" => resource_external_id,
+        "resource_type_slug" => resource_type_slug
+      }.compact
+      response = @client.request(
+        method: :post,
+        path: "/authorization/groups/#{WorkOS::Util.encode_path(group_id)}/role_assignments",
+        auth: true,
+        body: body,
+        request_options: request_options
+      )
+      result = WorkOS::GroupRoleAssignment.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
+    # Replace all role assignments for a group
+    # @param group_id [String] The ID of the group.
+    # @param role_assignments [Array<WorkOS::ReplaceGroupRoleAssignmentEntry>] The list of role assignments that should exist for the group. All existing assignments will be replaced.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::Types::ListStruct<WorkOS::GroupRoleAssignment>]
+    def update_group_role_assignments(
+      group_id:,
+      role_assignments:,
+      request_options: {}
+    )
+      body = {
+        "role_assignments" => role_assignments
+      }
+      response = @client.request(
+        method: :put,
+        path: "/authorization/groups/#{WorkOS::Util.encode_path(group_id)}/role_assignments",
+        auth: true,
+        body: body,
+        request_options: request_options
+      )
+      WorkOS::Types::ListStruct.from_response(
+        response,
+        model: WorkOS::GroupRoleAssignment,
+        filters: {group_id: group_id, role_assignments: role_assignments}
+      )
+    end
+
+    # Remove group role assignments by criteria
+    # @param group_id [String] The ID of the group.
+    # @param role_slug [String] The slug of the role to remove assignments for.
+    # @param resource_id [String, nil] The ID of the resource. Mutually exclusive with `resource_external_id` and `resource_type_slug`.
+    # @param resource_external_id [String, nil] The external ID of the resource.
+    # @param resource_type_slug [String, nil] The resource type slug.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [void]
+    def delete_group_role_assignments(
+      group_id:,
+      role_slug:,
+      resource_id: nil,
+      resource_external_id: nil,
+      resource_type_slug: nil,
+      request_options: {}
+    )
+      body = {
+        "role_slug" => role_slug,
+        "resource_id" => resource_id,
+        "resource_external_id" => resource_external_id,
+        "resource_type_slug" => resource_type_slug
+      }.compact
+      @client.request(
+        method: :delete,
+        path: "/authorization/groups/#{WorkOS::Util.encode_path(group_id)}/role_assignments",
+        auth: true,
+        body: body,
+        request_options: request_options
+      )
+      nil
+    end
+
+    # Get a group role assignment
+    # @param group_id [String] The ID of the group.
+    # @param role_assignment_id [String] The ID of the group role assignment.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::GroupRoleAssignment]
+    def get_group_role_assignment(
+      group_id:,
+      role_assignment_id:,
+      request_options: {}
+    )
+      response = @client.request(
+        method: :get,
+        path: "/authorization/groups/#{WorkOS::Util.encode_path(group_id)}/role_assignments/#{WorkOS::Util.encode_path(role_assignment_id)}",
+        auth: true,
+        request_options: request_options
+      )
+      result = WorkOS::GroupRoleAssignment.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
+    # Remove a group role assignment
+    # @param group_id [String] The ID of the group.
+    # @param role_assignment_id [String] The ID of the group role assignment to remove.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [void]
+    def delete_group_role_assignment(
+      group_id:,
+      role_assignment_id:,
+      request_options: {}
+    )
+      @client.request(
+        method: :delete,
+        path: "/authorization/groups/#{WorkOS::Util.encode_path(group_id)}/role_assignments/#{WorkOS::Util.encode_path(role_assignment_id)}",
+        auth: true,
+        request_options: request_options
+      )
+      nil
+    end
+
     # Check authorization
     # @param organization_membership_id [String] The ID of the organization membership to check.
     # @param permission_slug [String] The slug of the permission to check.
