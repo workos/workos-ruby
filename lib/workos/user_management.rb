@@ -45,7 +45,7 @@ module WorkOS
 
     # Authenticate
     # @param client_id [String] The client ID of the application.
-    # @param client_secret [String, nil] The client secret of the application.
+    # @param client_secret [String, nil] The client secret of the application. May be omitted by public clients that authenticate through other means, such as a PKCE `code_verifier`.
     # @param grant_type [String]
     # @param code [String, nil] The authorization code received from the redirect.
     # @param code_verifier [String, nil] The PKCE code verifier used to derive the code challenge passed to the authorization URL.

@@ -48,9 +48,9 @@ module WorkOS
     sig do
       params(
         client_id: String,
-        client_secret: String,
         grant_type: String,
         code: String,
+        client_secret: T.nilable(String),
         code_verifier: T.nilable(String),
         invitation_token: T.nilable(String),
         ip_address: T.nilable(String),
@@ -59,7 +59,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AuthenticateResponse)
     end
-    def create_authenticate(client_id:, client_secret:, grant_type:, code:, code_verifier:, invitation_token:, ip_address:, device_id:, user_agent:, request_options:); end
+    def create_authenticate(client_id:, grant_type:, code:, client_secret:, code_verifier:, invitation_token:, ip_address:, device_id:, user_agent:, request_options:); end
 
     sig do
       params(
@@ -252,7 +252,7 @@ module WorkOS
         organization_id: T.nilable(String),
         email: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
-      ).returns(T::Array[WorkOS::UserInvite])
+      ).returns(WorkOS::Types::ListStruct)
     end
     def list_invitations(before:, after:, limit:, order:, organization_id:, email:, request_options:); end
 
