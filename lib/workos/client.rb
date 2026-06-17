@@ -16,6 +16,10 @@ module WorkOS
       @authorization ||= WorkOS::Authorization.new(self)
     end
 
+    def client_api
+      @client_api ||= WorkOS::ClientApi.new(self)
+    end
+
     def sso
       @sso ||= WorkOS::SSO.new(self)
     end
@@ -46,6 +50,10 @@ module WorkOS
 
     def api_keys
       @api_keys ||= WorkOS::ApiKeys.new(self)
+    end
+
+    def pipes_provider
+      @pipes_provider ||= WorkOS::PipesProvider.new(self)
     end
 
     def groups
