@@ -8,6 +8,7 @@ module WorkOS
       email: :email,
       first_name: :first_name,
       last_name: :last_name,
+      name: :name,
       email_verified: :email_verified,
       metadata: :metadata,
       external_id: :external_id,
@@ -21,6 +22,7 @@ module WorkOS
       :email,
       :first_name,
       :last_name,
+      :name,
       :email_verified,
       :metadata,
       :external_id,
@@ -34,6 +36,7 @@ module WorkOS
       @email = hash[:email]
       @first_name = hash[:first_name]
       @last_name = hash[:last_name]
+      @name = hash[:name]
       @email_verified = hash[:email_verified]
       @metadata = hash[:metadata] || {}
       @external_id = hash[:external_id]

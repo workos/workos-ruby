@@ -5,15 +5,9 @@
 # typed: strong
 
 module WorkOS
-  class DsyncDeactivatedDataDomain
+  class VaultObject
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
-
-    sig { returns(String) }
-    def object; end
-
-    sig { params(value: String).returns(String) }
-    def object=(value); end
 
     sig { returns(String) }
     def id; end
@@ -21,11 +15,23 @@ module WorkOS
     sig { params(value: String).returns(String) }
     def id=(value); end
 
+    sig { returns(WorkOS::ObjectMetadata) }
+    def metadata; end
+
+    sig { params(value: WorkOS::ObjectMetadata).returns(WorkOS::ObjectMetadata) }
+    def metadata=(value); end
+
     sig { returns(String) }
-    def domain; end
+    def name; end
 
     sig { params(value: String).returns(String) }
-    def domain=(value); end
+    def name=(value); end
+
+    sig { returns(String) }
+    def value; end
+
+    sig { params(value: String).returns(String) }
+    def value=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end

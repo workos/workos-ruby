@@ -169,7 +169,7 @@ module WorkOS
     # Read an object by name
     # @param name [String] Unique name of the object.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
-    # @return [WorkOS::ObjectModel]
+    # @return [WorkOS::VaultObject]
     def get_name(
       name:,
       request_options: {}
@@ -180,7 +180,7 @@ module WorkOS
         auth: true,
         request_options: request_options
       )
-      result = WorkOS::ObjectModel.new(response.body)
+      result = WorkOS::VaultObject.new(response.body)
       result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
       result
     end
@@ -188,7 +188,7 @@ module WorkOS
     # Read an object by ID
     # @param id [String] Unique identifier of the object.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
-    # @return [WorkOS::ObjectModel]
+    # @return [WorkOS::VaultObject]
     def get_kv(
       id:,
       request_options: {}
@@ -199,7 +199,7 @@ module WorkOS
         auth: true,
         request_options: request_options
       )
-      result = WorkOS::ObjectModel.new(response.body)
+      result = WorkOS::VaultObject.new(response.body)
       result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
       result
     end

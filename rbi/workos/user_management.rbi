@@ -72,11 +72,10 @@ module WorkOS
     sig do
       params(
         session_id: String,
-        return_to: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def revoke_session(session_id:, return_to:, request_options:); end
+    def revoke_session(session_id:, request_options:); end
 
     sig do
       params(
@@ -138,6 +137,7 @@ module WorkOS
         email: String,
         first_name: T.nilable(String),
         last_name: T.nilable(String),
+        name: T.nilable(String),
         email_verified: T.nilable(T::Boolean),
         metadata: T.nilable(T::Hash[String, String]),
         external_id: T.nilable(String),
@@ -145,7 +145,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::User)
     end
-    def create_user(email:, first_name:, last_name:, email_verified:, metadata:, external_id:, password:, request_options:); end
+    def create_user(email:, first_name:, last_name:, name:, email_verified:, metadata:, external_id:, password:, request_options:); end
 
     sig do
       params(
@@ -169,6 +169,7 @@ module WorkOS
         email: T.nilable(String),
         first_name: T.nilable(String),
         last_name: T.nilable(String),
+        name: T.nilable(String),
         email_verified: T.nilable(T::Boolean),
         metadata: T.nilable(T::Hash[String, String]),
         external_id: T.nilable(String),
@@ -177,7 +178,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::User)
     end
-    def update_user(id:, email:, first_name:, last_name:, email_verified:, metadata:, external_id:, locale:, password:, request_options:); end
+    def update_user(id:, email:, first_name:, last_name:, name:, email_verified:, metadata:, external_id:, locale:, password:, request_options:); end
 
     sig do
       params(

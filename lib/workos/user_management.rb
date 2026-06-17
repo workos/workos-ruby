@@ -432,18 +432,15 @@ module WorkOS
 
     # Revoke Session
     # @param session_id [String] The ID of the session to revoke. This can be extracted from the `sid` claim of the access token.
-    # @param return_to [String, nil] The URL to redirect the user to after session revocation.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [void]
     def revoke_session(
       session_id:,
-      return_to: nil,
       request_options: {}
     )
       body = {
-        "session_id" => session_id,
-        "return_to" => return_to
-      }.compact
+        "session_id" => session_id
+      }
       @client.request(
         method: :post,
         path: "/user_management/sessions/revoke",
@@ -568,7 +565,7 @@ module WorkOS
     # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`.
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
-    # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
+    # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records).
     # @param organization [String, nil] (deprecated) Filter users by the organization they are a member of. Deprecated in favor of `organization_id`.
     # @param organization_id [String, nil] Filter users by the organization they are a member of.
     # @param email [String, nil] Filter users by their email address.
@@ -624,6 +621,7 @@ module WorkOS
     # @param email [String] The email address of the user.
     # @param first_name [String, nil] The first name of the user.
     # @param last_name [String, nil] The last name of the user.
+    # @param name [String, nil] The user's full name.
     # @param email_verified [Boolean, nil] Whether the user's email has been verified.
     # @param metadata [Hash{String => String}, nil] Object containing metadata key/value pairs associated with the user.
     # @param external_id [String, nil] The external ID of the user.
@@ -634,6 +632,7 @@ module WorkOS
       email:,
       first_name: nil,
       last_name: nil,
+      name: nil,
       email_verified: nil,
       metadata: nil,
       external_id: nil,
@@ -644,6 +643,7 @@ module WorkOS
         "email" => email,
         "first_name" => first_name,
         "last_name" => last_name,
+        "name" => name,
         "email_verified" => email_verified,
         "metadata" => metadata,
         "external_id" => external_id
@@ -714,6 +714,7 @@ module WorkOS
     # @param email [String, nil] The email address of the user.
     # @param first_name [String, nil] The first name of the user.
     # @param last_name [String, nil] The last name of the user.
+    # @param name [String, nil] The user's full name.
     # @param email_verified [Boolean, nil] Whether the user's email has been verified.
     # @param metadata [Hash{String => String}, nil] Object containing metadata key/value pairs associated with the user.
     # @param external_id [String, nil] The external ID of the user.
@@ -726,6 +727,7 @@ module WorkOS
       email: nil,
       first_name: nil,
       last_name: nil,
+      name: nil,
       email_verified: nil,
       metadata: nil,
       external_id: nil,
@@ -737,6 +739,7 @@ module WorkOS
         "email" => email,
         "first_name" => first_name,
         "last_name" => last_name,
+        "name" => name,
         "email_verified" => email_verified,
         "metadata" => metadata,
         "external_id" => external_id,
@@ -899,7 +902,7 @@ module WorkOS
     # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`.
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
-    # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
+    # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records).
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::Types::ListStruct<WorkOS::UserSessionsListItem>]
     def list_sessions(
@@ -945,7 +948,7 @@ module WorkOS
     # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`.
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
-    # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
+    # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records).
     # @param organization_id [String, nil] The ID of the [organization](https://workos.com/docs/reference/organization) that the recipient will join.
     # @param email [String, nil] The email address of the recipient.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
@@ -1243,7 +1246,7 @@ module WorkOS
     # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`.
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
-    # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to descending.
+    # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records).
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::Types::ListStruct<WorkOS::AuthorizedConnectApplicationListData>]
     def list_user_authorized_applications(

@@ -5,15 +5,27 @@
 # typed: strong
 
 module WorkOS
-  class RevokeSession
+  class UserApiKeyUpdatedDataOwner
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
 
     sig { returns(String) }
-    def session_id; end
+    def type; end
 
     sig { params(value: String).returns(String) }
-    def session_id=(value); end
+    def type=(value); end
+
+    sig { returns(String) }
+    def id; end
+
+    sig { params(value: String).returns(String) }
+    def id=(value); end
+
+    sig { returns(String) }
+    def organization_id; end
+
+    sig { params(value: String).returns(String) }
+    def organization_id=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end

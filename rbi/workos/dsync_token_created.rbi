@@ -5,7 +5,7 @@
 # typed: strong
 
 module WorkOS
-  class DsyncDeactivated
+  class DsyncTokenCreated
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
 
@@ -27,10 +27,10 @@ module WorkOS
     sig { params(value: String).returns(String) }
     def event=(value); end
 
-    sig { returns(WorkOS::DsyncDeactivatedData) }
+    sig { returns(WorkOS::DsyncTokenCreatedData) }
     def data; end
 
-    sig { params(value: WorkOS::DsyncDeactivatedData).returns(WorkOS::DsyncDeactivatedData) }
+    sig { params(value: WorkOS::DsyncTokenCreatedData).returns(WorkOS::DsyncTokenCreatedData) }
     def data=(value); end
 
     sig { returns(String) }

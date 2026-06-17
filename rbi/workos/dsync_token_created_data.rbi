@@ -5,9 +5,15 @@
 # typed: strong
 
 module WorkOS
-  class ObjectModel
+  class DsyncTokenCreatedData
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
+
+    sig { returns(String) }
+    def object; end
+
+    sig { params(value: String).returns(String) }
+    def object=(value); end
 
     sig { returns(String) }
     def id; end
@@ -15,23 +21,29 @@ module WorkOS
     sig { params(value: String).returns(String) }
     def id=(value); end
 
-    sig { returns(WorkOS::ObjectMetadata) }
-    def metadata; end
-
-    sig { params(value: WorkOS::ObjectMetadata).returns(WorkOS::ObjectMetadata) }
-    def metadata=(value); end
-
     sig { returns(String) }
-    def name; end
+    def directory_id; end
 
     sig { params(value: String).returns(String) }
-    def name=(value); end
+    def directory_id=(value); end
+
+    sig { returns(T.nilable(String)) }
+    def organization_id; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def organization_id=(value); end
 
     sig { returns(String) }
-    def value; end
+    def token_suffix; end
 
     sig { params(value: String).returns(String) }
-    def value=(value); end
+    def token_suffix=(value); end
+
+    sig { returns(String) }
+    def created_at; end
+
+    sig { params(value: String).returns(String) }
+    def created_at=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end

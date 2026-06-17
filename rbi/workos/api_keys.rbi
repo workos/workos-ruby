@@ -48,5 +48,14 @@ module WorkOS
     end
     def delete_api_key(id:, request_options:); end
 
+    sig do
+      params(
+        id: String,
+        expires_at: T.nilable(String),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::ApiKey)
+    end
+    def create_api_key_expire(id:, expires_at:, request_options:); end
+
   end
 end

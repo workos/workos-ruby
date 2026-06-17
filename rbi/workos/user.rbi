@@ -34,6 +34,12 @@ module WorkOS
     def last_name=(value); end
 
     sig { returns(T.nilable(String)) }
+    def name; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def name=(value); end
+
+    sig { returns(T.nilable(String)) }
     def profile_picture_url; end
 
     sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
