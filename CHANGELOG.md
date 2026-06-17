@@ -1,27 +1,13 @@
 # Changelog
 
-## [10.0.0](https://github.com/workos/workos-ruby/compare/v9.0.0...v10.0.0) (2026-06-17)
+## [9.1.0](https://github.com/workos/workos-ruby/compare/v9.0.0...v9.1.0) (2026-06-17)
 
 ### Bug Fixes
 
 * **renovate:** explicitly enable minor and patch updates ([#493](https://github.com/workos/workos-ruby/issues/493)) ([c6da3f3](https://github.com/workos/workos-ruby/commit/c6da3f3acdf4dd7a6a65b3ae6463102ff0c024e1))
 * Use Thread.current[] instead of Fiber[] for connection cache ([#499](https://github.com/workos/workos-ruby/issues/499)) ([a44d650](https://github.com/workos/workos-ruby/commit/a44d6500b29d05fe7a5a0ac7449d1a4bee88fd38))
 
-- [#495](https://github.com/workos/workos-ruby/pull/495) feat(generated)!: regenerate from spec (8 changes)
-
-  **⚠️ Breaking**
-  - **[api_keys](https://workos.com/docs/reference/authkit/api-keys)**:
-    - Made `expires_at` required in API key models
-  - **[directory_sync](https://workos.com/docs/reference/directory-sync)**:
-    - Removed model `DsyncDeactivated`
-    - Removed model `DsyncDeactivatedData`
-    - Removed model `DsyncDeactivatedDataDomain`
-    - Removed enum `DsyncDeactivatedDataType`
-    - Removed enum `DsyncDeactivatedDataState`
-  - **[radar](https://workos.com/docs/reference/radar)**:
-    - Removed `domain_sign_up_rate_limit` from `RadarStandaloneResponseControl`
-  - **[user_management](https://workos.com/docs/reference/authkit/user)**:
-    - Removed `return_to` from `RevokeSession`
+- [#495](https://github.com/workos/workos-ruby/pull/495) feat(generated): regenerate from spec (8 changes)
 
   **Features**
   - **[api_keys](https://workos.com/docs/reference/authkit/api-keys)**:
