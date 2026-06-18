@@ -1,5 +1,23 @@
 # Changelog
 
+## [9.2.0](https://github.com/workos/workos-ruby/compare/v9.1.0...v9.2.0) (2026-06-18)
+
+
+### Features
+
+* **authorization:** Add authorization operations and models ([#501](https://github.com/workos/workos-ruby/issues/501)) ([26e75f7](https://github.com/workos/workos-ruby/commit/26e75f75db18442b19b351349461e3114e0ff5bd))
+* **client:** Add client API surface ([#501](https://github.com/workos/workos-ruby/issues/501)) ([26e75f7](https://github.com/workos/workos-ruby/commit/26e75f75db18442b19b351349461e3114e0ff5bd))
+* **connect:** Add Connect API surface ([#501](https://github.com/workos/workos-ruby/issues/501)) ([26e75f7](https://github.com/workos/workos-ruby/commit/26e75f75db18442b19b351349461e3114e0ff5bd))
+* **groups:** Add groups API surface ([#501](https://github.com/workos/workos-ruby/issues/501)) ([26e75f7](https://github.com/workos/workos-ruby/commit/26e75f75db18442b19b351349461e3114e0ff5bd))
+* **organization_membership:** Add organization membership API surface ([#501](https://github.com/workos/workos-ruby/issues/501)) ([26e75f7](https://github.com/workos/workos-ruby/commit/26e75f75db18442b19b351349461e3114e0ff5bd))
+* **organization_membership:** Change response for `UserManagementOrganizationMembership.list` ([#501](https://github.com/workos/workos-ruby/issues/501)) ([26e75f7](https://github.com/workos/workos-ruby/commit/26e75f75db18442b19b351349461e3114e0ff5bd))
+* **pipes:** Add Pipes API surface ([#501](https://github.com/workos/workos-ruby/issues/501)) ([26e75f7](https://github.com/workos/workos-ruby/commit/26e75f75db18442b19b351349461e3114e0ff5bd))
+* **pipes:** SDK surface change: Symbol "Pipes.create_data_integration_token" was removed ([#501](https://github.com/workos/workos-ruby/issues/501)) ([26e75f7](https://github.com/workos/workos-ruby/commit/26e75f75db18442b19b351349461e3114e0ff5bd))
+* **user_management:** Change response for `UserManagementInvitations.list` ([#501](https://github.com/workos/workos-ruby/issues/501)) ([26e75f7](https://github.com/workos/workos-ruby/commit/26e75f75db18442b19b351349461e3114e0ff5bd))
+* **user_management:** Update user management API surface ([#501](https://github.com/workos/workos-ruby/issues/501)) ([26e75f7](https://github.com/workos/workos-ruby/commit/26e75f75db18442b19b351349461e3114e0ff5bd))
+* **widgets:** Add `widgets:pipes:manage` to `WidgetSessionTokenScopes` ([#501](https://github.com/workos/workos-ruby/issues/501)) ([26e75f7](https://github.com/workos/workos-ruby/commit/26e75f75db18442b19b351349461e3114e0ff5bd))
+* **widgets:** SDK surface change: Symbol "WidgetSessionTokenResponse" was removed ([#501](https://github.com/workos/workos-ruby/issues/501)) ([26e75f7](https://github.com/workos/workos-ruby/commit/26e75f75db18442b19b351349461e3114e0ff5bd))
+
 ## [9.1.0](https://github.com/workos/workos-ruby/compare/v9.0.0...v9.1.0) (2026-06-17)
 
 ### Bug Fixes
