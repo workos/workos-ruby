@@ -2,21 +2,59 @@
 
 ## [9.2.0](https://github.com/workos/workos-ruby/compare/v9.1.0...v9.2.0) (2026-06-18)
 
+- [#501](https://github.com/workos/workos-ruby/pull/501) feat(generated)!: regenerate from spec (12 changes)
 
-### Features
+  **Features**
+  - **[authorization](https://workos.com/docs/reference/fga)**:
+    - Added model `ReplaceGroupRoleAssignmentEntry`
+    - Added model `ReplaceGroupRoleAssignments`
+    - Added model `DeleteGroupRoleAssignmentsByCriteria`
+    - Added endpoint `POST /authorization/groups/{group_id}/role_assignments`
+    - Added endpoint `PUT /authorization/groups/{group_id}/role_assignments`
+    - Added endpoint `DELETE /authorization/groups/{group_id}/role_assignments`
+    - Added endpoint `GET /authorization/groups/{group_id}/role_assignments/{role_assignment_id}`
+    - Added endpoint `DELETE /authorization/groups/{group_id}/role_assignments/{role_assignment_id}`
+  - **[client](https://workos.com/docs/reference)**:
+    - Added model `ClientApiToken`
+    - Added model `ClientApiTokenResponse`
+    - Added service `Client`
+  - **[connect](https://workos.com/docs/reference/workos-connect/standalone)**:
+    - Added `auth_method` to `ConnectedAccount`
+    - Added `api_key_last_4` to `ConnectedAccount`
+    - Added enum `ConnectedAccountAuthMethod`
+  - **[groups](https://workos.com/docs/reference/groups)**:
+    - Added model `CreateGroupRoleAssignment`
+    - Added model `GroupRoleAssignment`
+    - Added model `GroupRoleAssignmentList`
+    - Added model `GroupRoleAssignmentResource`
+  - **[organization_membership](https://workos.com/docs/reference/authkit/organization-membership)**:
+    - Added model `UserOrganizationMembershipList`
+    - Added model `UserOrganizationMembershipListListMetadata`
+  - **[pipes](https://workos.com/docs/reference/pipes)**:
+    - Added model `DataIntegrationCredentials`
+    - Added model `DataIntegrationConfigurationResponse`
+    - Added model `DataIntegrationConfigurationListResponse`
+    - Added model `ConfigureDataIntegrationBody`
+    - Added `auth_methods` to `DataIntegrationsListResponseData`
+    - Added `auth_method` to `DataIntegrationsListResponseDataConnectedAccount`
+    - Added `api_key_last_4` to `DataIntegrationsListResponseDataConnectedAccount`
+    - Added enum `DataIntegrationCredentialsCredentialsType`
+    - Added enum `DataIntegrationsListResponseDataAuthMethods`
+    - Added enum `DataIntegrationsListResponseDataConnectedAccountAuthMethod`
+    - Added service `PipesProvider`
+  - **[user_management](https://workos.com/docs/reference/authkit/user)**:
+    - Added model `UserInviteList`
+    - Added model `UserInviteListListMetadata`
+    - Made `AuthorizationCodeSessionAuthenticateRequest.client_secret` optional
+    - Made `RefreshTokenSessionAuthenticateRequest.client_secret` optional
+  - **[widgets](https://workos.com/docs/reference/widgets)**:
+    - Added `widgets:pipes:manage` to `WidgetSessionTokenScopes`
 
-* **authorization:** Add authorization operations and models ([#501](https://github.com/workos/workos-ruby/issues/501)) ([26e75f7](https://github.com/workos/workos-ruby/commit/26e75f75db18442b19b351349461e3114e0ff5bd))
-* **client:** Add client API surface ([#501](https://github.com/workos/workos-ruby/issues/501)) ([26e75f7](https://github.com/workos/workos-ruby/commit/26e75f75db18442b19b351349461e3114e0ff5bd))
-* **connect:** Add Connect API surface ([#501](https://github.com/workos/workos-ruby/issues/501)) ([26e75f7](https://github.com/workos/workos-ruby/commit/26e75f75db18442b19b351349461e3114e0ff5bd))
-* **groups:** Add groups API surface ([#501](https://github.com/workos/workos-ruby/issues/501)) ([26e75f7](https://github.com/workos/workos-ruby/commit/26e75f75db18442b19b351349461e3114e0ff5bd))
-* **organization_membership:** Add organization membership API surface ([#501](https://github.com/workos/workos-ruby/issues/501)) ([26e75f7](https://github.com/workos/workos-ruby/commit/26e75f75db18442b19b351349461e3114e0ff5bd))
-* **organization_membership:** Change response for `UserManagementOrganizationMembership.list` ([#501](https://github.com/workos/workos-ruby/issues/501)) ([26e75f7](https://github.com/workos/workos-ruby/commit/26e75f75db18442b19b351349461e3114e0ff5bd))
-* **pipes:** Add Pipes API surface ([#501](https://github.com/workos/workos-ruby/issues/501)) ([26e75f7](https://github.com/workos/workos-ruby/commit/26e75f75db18442b19b351349461e3114e0ff5bd))
-* **pipes:** SDK surface change: Symbol "Pipes.create_data_integration_token" was removed ([#501](https://github.com/workos/workos-ruby/issues/501)) ([26e75f7](https://github.com/workos/workos-ruby/commit/26e75f75db18442b19b351349461e3114e0ff5bd))
-* **user_management:** Change response for `UserManagementInvitations.list` ([#501](https://github.com/workos/workos-ruby/issues/501)) ([26e75f7](https://github.com/workos/workos-ruby/commit/26e75f75db18442b19b351349461e3114e0ff5bd))
-* **user_management:** Update user management API surface ([#501](https://github.com/workos/workos-ruby/issues/501)) ([26e75f7](https://github.com/workos/workos-ruby/commit/26e75f75db18442b19b351349461e3114e0ff5bd))
-* **widgets:** Add `widgets:pipes:manage` to `WidgetSessionTokenScopes` ([#501](https://github.com/workos/workos-ruby/issues/501)) ([26e75f7](https://github.com/workos/workos-ruby/commit/26e75f75db18442b19b351349461e3114e0ff5bd))
-* **widgets:** SDK surface change: Symbol "WidgetSessionTokenResponse" was removed ([#501](https://github.com/workos/workos-ruby/issues/501)) ([26e75f7](https://github.com/workos/workos-ruby/commit/26e75f75db18442b19b351349461e3114e0ff5bd))
+  **Fixes**
+  - **[organization_membership](https://workos.com/docs/reference/authkit/organization-membership)**:
+    - Changed response of `UserManagementOrganizationMembership.list` from `UserOrganizationMembership` to `UserOrganizationMembershipList`
+  - **[user_management](https://workos.com/docs/reference/authkit/user)**:
+    - Changed response of `UserManagementInvitations.list` from `UserInvite` to `UserInviteList`
 
 ## [9.1.0](https://github.com/workos/workos-ruby/compare/v9.0.0...v9.1.0) (2026-06-17)
 
