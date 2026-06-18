@@ -5,9 +5,9 @@
 module WorkOS
   module Types
     class DataIntegrationAccessTokenResponseError
-      NEEDS_REAUTHORIZATION = "needs_reauthorization"
       NOT_INSTALLED = "not_installed"
-      ALL = [NEEDS_REAUTHORIZATION, NOT_INSTALLED].freeze
+      NEEDS_REAUTHORIZATION = "needs_reauthorization"
+      ALL = [NOT_INSTALLED, NEEDS_REAUTHORIZATION].freeze
     end
   end
 end

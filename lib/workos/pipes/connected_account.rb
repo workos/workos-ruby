@@ -10,6 +10,8 @@ module WorkOS
       user_id: :user_id,
       organization_id: :organization_id,
       scopes: :scopes,
+      auth_method: :auth_method,
+      api_key_last_4: :api_key_last_4,
       state: :state,
       created_at: :created_at,
       updated_at: :updated_at
@@ -21,6 +23,8 @@ module WorkOS
       :user_id,
       :organization_id,
       :scopes,
+      :auth_method,
+      :api_key_last_4,
       :state,
       :created_at,
       :updated_at
@@ -32,6 +36,8 @@ module WorkOS
       @user_id = hash[:user_id]
       @organization_id = hash[:organization_id]
       @scopes = hash[:scopes] || []
+      @auth_method = hash[:auth_method]
+      @api_key_last_4 = hash[:api_key_last_4]
       @state = hash[:state]
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]

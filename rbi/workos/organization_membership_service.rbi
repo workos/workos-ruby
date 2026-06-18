@@ -43,7 +43,7 @@ module WorkOS
         statuses: T.nilable(T::Array[String]),
         user_id: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
-      ).returns(T::Array[WorkOS::UserOrganizationMembership])
+      ).returns(WorkOS::Types::ListStruct)
     end
     def list_organization_memberships(before:, after:, limit:, order:, organization_id:, statuses:, user_id:, request_options:); end
 

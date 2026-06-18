@@ -57,6 +57,12 @@ module WorkOS
     sig { params(value: T.nilable(T::Array[String])).returns(T.nilable(T::Array[String])) }
     def scopes=(value); end
 
+    sig { returns(T.nilable(T::Array[String])) }
+    def auth_methods; end
+
+    sig { params(value: T.nilable(T::Array[String])).returns(T.nilable(T::Array[String])) }
+    def auth_methods=(value); end
+
     sig { returns(String) }
     def ownership; end
 

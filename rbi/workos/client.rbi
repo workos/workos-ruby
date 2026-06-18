@@ -15,6 +15,9 @@ module WorkOS
     sig { returns(WorkOS::Authorization) }
     def authorization; end
 
+    sig { returns(WorkOS::ClientApi) }
+    def client_api; end
+
     sig { returns(WorkOS::SSO) }
     def sso; end
 
@@ -41,6 +44,9 @@ module WorkOS
 
     sig { returns(WorkOS::ApiKeys) }
     def api_keys; end
+
+    sig { returns(WorkOS::PipesProvider) }
+    def pipes_provider; end
 
     sig { returns(WorkOS::Groups) }
     def groups; end

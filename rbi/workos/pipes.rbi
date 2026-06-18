@@ -22,13 +22,13 @@ module WorkOS
 
     sig do
       params(
-        slug: String,
+        provider: String,
         user_id: String,
         organization_id: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::DataIntegrationAccessTokenResponse)
     end
-    def create_data_integration_token(slug:, user_id:, organization_id:, request_options:); end
+    def get_access_token(provider:, user_id:, organization_id:, request_options:); end
 
     sig do
       params(

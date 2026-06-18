@@ -21,7 +21,7 @@ class UserManagementTest < Minitest::Test
   def test_create_authenticate_returns_expected_result
     stub_request(:post, %r{\Ahttps://api\.workos\.com/user_management/authenticate(\?|\z)})
       .to_return(body: "{}", status: 200)
-    result = @client.user_management.create_authenticate(client_id: "stub", client_secret: "stub", grant_type: "authorization_code", code: "stub")
+    result = @client.user_management.create_authenticate(client_id: "stub", grant_type: "authorization_code", code: "stub")
     refute_nil result
   end
 
@@ -411,7 +411,7 @@ class UserManagementTest < Minitest::Test
   # Parameterized authentication error tests (one per endpoint).
   [
     {name: :get_jwks, verb: :get, url: %r{\Ahttps://api\.workos\.com/sso/jwks/stub(\?|\z)}, args: {client_id: "stub"}},
-    {name: :create_authenticate, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/authenticate(\?|\z)}, args: {client_id: "stub", client_secret: "stub", grant_type: "authorization_code", code: "stub"}},
+    {name: :create_authenticate, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/authenticate(\?|\z)}, args: {client_id: "stub", grant_type: "authorization_code", code: "stub"}},
     {name: :create_device, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/authorize/device(\?|\z)}, args: {client_id: "stub"}},
     {name: :revoke_session, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/sessions/revoke(\?|\z)}, args: {session_id: "stub"}},
     {name: :create_cors_origin, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/cors_origins(\?|\z)}, args: {origin: "stub"}},
