@@ -5452,6 +5452,51 @@ class ModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_pipes_connected_account_connection_failed_round_trip
+    fixture = {
+      "object" => "event",
+      "id" => "stub",
+      "event" => "pipes.connected_account.connection_failed",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {}
+    }
+    model = WorkOS::PipesConnectedAccountConnectionFailed.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_pipes_connected_account_connection_failed_data_round_trip
+    fixture = {
+      "object" => "connection_failed",
+      "data_integration_id" => "stub",
+      "provider_slug" => "stub",
+      "user_id" => nil,
+      "organization_id" => nil,
+      "error_code" => "stub",
+      "error_reason" => nil,
+      "provider_error" => nil,
+      "provider_error_description" => nil,
+      "created_at" => "stub"
+    }
+    model = WorkOS::PipesConnectedAccountConnectionFailedData.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["data_integration_id"], json[:data_integration_id]
+    assert_equal fixture["provider_slug"], json[:provider_slug]
+    assert_nil json[:user_id]
+    assert_nil json[:organization_id]
+    assert_equal fixture["error_code"], json[:error_code]
+    assert_nil json[:error_reason]
+    assert_nil json[:provider_error]
+    assert_nil json[:provider_error_description]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_pipes_connected_account_disconnected_round_trip
     fixture = {
       "object" => "event",
@@ -5647,6 +5692,66 @@ class ModelRoundTripTest < Minitest::Test
       "reason" => nil
     }
     model = WorkOS::SessionCreatedDataImpersonator.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["email"], json[:email]
+    assert_nil json[:reason]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_session_reauthenticated_round_trip
+    fixture = {
+      "object" => "event",
+      "id" => "stub",
+      "event" => "session.reauthenticated",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {}
+    }
+    model = WorkOS::SessionReauthenticated.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_session_reauthenticated_data_round_trip
+    fixture = {
+      "object" => "session",
+      "id" => "stub",
+      "impersonator" => {},
+      "ip_address" => nil,
+      "organization_id" => "stub",
+      "user_agent" => nil,
+      "user_id" => "stub",
+      "auth_method" => "stub",
+      "status" => "stub",
+      "expires_at" => "stub",
+      "ended_at" => nil,
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::SessionReauthenticatedData.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_nil json[:ip_address]
+    assert_nil json[:user_agent]
+    assert_equal fixture["user_id"], json[:user_id]
+    assert_equal fixture["expires_at"], json[:expires_at]
+    assert_nil json[:ended_at]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_session_reauthenticated_data_impersonator_round_trip
+    fixture = {
+      "email" => "stub",
+      "reason" => nil
+    }
+    model = WorkOS::SessionReauthenticatedDataImpersonator.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
@@ -6181,30 +6286,6 @@ class ModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
-  def test_organization_domain_stand_alone_round_trip
-    fixture = {
-      "object" => "organization_domain",
-      "id" => "stub",
-      "organization_id" => "stub",
-      "domain" => "stub",
-      "state" => "stub",
-      "verification_prefix" => "stub",
-      "verification_token" => "stub",
-      "verification_strategy" => "stub",
-      "created_at" => "stub",
-      "updated_at" => "stub"
-    }
-    model = WorkOS::OrganizationDomainStandAlone.new(fixture.to_json)
-    json = model.to_h
-    assert_kind_of Hash, json
-    assert_equal fixture["id"], json[:id]
-    assert_equal fixture["organization_id"], json[:organization_id]
-    assert_equal fixture["domain"], json[:domain]
-    assert_equal fixture["created_at"], json[:created_at]
-    assert_equal fixture["updated_at"], json[:updated_at]
-    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
-  end
-
   def test_flag_round_trip
     fixture = {
       "object" => "feature_flag",
@@ -6417,6 +6498,18 @@ class ModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_auth_method_mismatch_error_round_trip
+    fixture = {
+      "code" => "auth_method_mismatch",
+      "message" => "stub"
+    }
+    model = WorkOS::AuthMethodMismatchError.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_connected_account_round_trip
     fixture = {
       "object" => "connected_account",
@@ -6595,6 +6688,7 @@ class ModelRoundTripTest < Minitest::Test
       "created_at" => "stub",
       "updated_at" => "stub",
       "role" => {},
+      "roles" => [],
       "user" => {}
     }
     model = WorkOS::UserOrganizationMembership.new(fixture.to_json)
@@ -6938,6 +7032,30 @@ class ModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_organization_domain_round_trip
+    fixture = {
+      "object" => "organization_domain",
+      "id" => "stub",
+      "organization_id" => "stub",
+      "domain" => "stub",
+      "state" => "stub",
+      "verification_prefix" => "stub",
+      "verification_token" => "stub",
+      "verification_strategy" => "stub",
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::OrganizationDomain.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["organization_id"], json[:organization_id]
+    assert_equal fixture["domain"], json[:domain]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_jwks_response_keys_round_trip
     fixture = {
       "alg" => "RS256",
@@ -7096,30 +7214,6 @@ class ModelRoundTripTest < Minitest::Test
     assert_equal fixture["id"], json[:id]
     assert_nil json[:last_synced_at]
     assert_equal fixture["created_at"], json[:created_at]
-    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
-  end
-
-  def test_organization_domain_round_trip
-    fixture = {
-      "object" => "organization_domain",
-      "id" => "stub",
-      "organization_id" => "stub",
-      "domain" => "stub",
-      "state" => "stub",
-      "verification_prefix" => "stub",
-      "verification_token" => "stub",
-      "verification_strategy" => "stub",
-      "created_at" => "stub",
-      "updated_at" => "stub"
-    }
-    model = WorkOS::OrganizationDomain.new(fixture.to_json)
-    json = model.to_h
-    assert_kind_of Hash, json
-    assert_equal fixture["id"], json[:id]
-    assert_equal fixture["organization_id"], json[:organization_id]
-    assert_equal fixture["domain"], json[:domain]
-    assert_equal fixture["created_at"], json[:created_at]
-    assert_equal fixture["updated_at"], json[:updated_at]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
@@ -7831,6 +7925,7 @@ class ModelRoundTripTest < Minitest::Test
       "created_at" => "stub",
       "updated_at" => "stub",
       "role" => {},
+      "roles" => [],
       "user" => {}
     }
     model = WorkOS::OrganizationMembership.new(fixture.to_json)

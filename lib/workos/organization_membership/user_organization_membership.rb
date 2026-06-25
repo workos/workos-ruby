@@ -16,6 +16,7 @@ module WorkOS
       created_at: :created_at,
       updated_at: :updated_at,
       role: :role,
+      roles: :roles,
       user: :user
     }.freeze
 
@@ -31,6 +32,7 @@ module WorkOS
       :created_at,
       :updated_at,
       :role,
+      :roles,
       :user
 
     def initialize(json)
@@ -46,6 +48,7 @@ module WorkOS
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
       @role = hash[:role] ? WorkOS::SlimRole.new(hash[:role]) : nil
+      @roles = (hash[:roles] || []).map { |item| item ? WorkOS::SlimRole.new(item) : nil }
       @user = hash[:user] ? WorkOS::User.new(hash[:user]) : nil
     end
   end
