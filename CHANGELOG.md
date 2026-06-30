@@ -2,10 +2,11 @@
 
 ## [9.3.0](https://github.com/workos/workos-ruby/compare/v9.2.0...v9.3.0) (2026-06-30)
 
+* [#504](https://github.com/workos/workos-ruby/pull/504) fix(generated): regenerate from spec
 
-### Features
-
-* **generated:** OrganizationMembership (batch 4a353f07) ([#504](https://github.com/workos/workos-ruby/issues/504)) ([6e74008](https://github.com/workos/workos-ruby/commit/6e740081c3fff505e3283a22f1dfe8df5a5b85da))
+  **Fixes**
+  * **[organization_membership](https://workos.com/docs/reference/authkit/organization-membership)**:
+    * Added `roles` to organization membership models
 
 ## [9.2.0](https://github.com/workos/workos-ruby/compare/v9.1.0...v9.2.0) (2026-06-18)
 
