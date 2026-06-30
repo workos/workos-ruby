@@ -75,6 +75,12 @@ module WorkOS
     sig { params(value: WorkOS::SlimRole).returns(WorkOS::SlimRole) }
     def role=(value); end
 
+    sig { returns(T::Array[WorkOS::SlimRole]) }
+    def roles; end
+
+    sig { params(value: T::Array[WorkOS::SlimRole]).returns(T::Array[WorkOS::SlimRole]) }
+    def roles=(value); end
+
     sig { returns(WorkOS::User) }
     def user; end
 
