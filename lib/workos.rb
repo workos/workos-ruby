@@ -11,6 +11,7 @@ loader = Zeitwerk::Loader.for_gem
 require_relative "workos/inflections"
 loader.inflector.inflect(WORKOS_INFLECTIONS)
 loader.collapse("#{__dir__}/workos/admin_portal")
+loader.collapse("#{__dir__}/workos/agents")
 loader.collapse("#{__dir__}/workos/api_keys")
 loader.collapse("#{__dir__}/workos/audit_logs")
 loader.collapse("#{__dir__}/workos/authorization")

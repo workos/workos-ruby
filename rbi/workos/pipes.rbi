@@ -13,12 +13,33 @@ module WorkOS
       params(
         slug: String,
         user_id: String,
+        secret: String,
+        organization_id: T.nilable(String),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::ConnectedAccount)
+    end
+    def update_data_integration_api_key(slug:, user_id:, secret:, organization_id:, request_options:); end
+
+    sig do
+      params(
+        slug: String,
+        user_id: String,
         organization_id: T.nilable(String),
         return_to: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::DataIntegrationAuthorizeUrlResponse)
     end
     def authorize_data_integration(slug:, user_id:, organization_id:, return_to:, request_options:); end
+
+    sig do
+      params(
+        slug: String,
+        user_id: String,
+        organization_id: T.nilable(String),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::DataIntegrationCredentialsResponse)
+    end
+    def create_data_integration_credential(slug:, user_id:, organization_id:, request_options:); end
 
     sig do
       params(
