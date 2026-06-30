@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    workos (9.2.0)
+    workos (9.3.0)
       jwt (~> 3.1)
       logger (~> 1.7)
       zeitwerk (~> 2.6)
