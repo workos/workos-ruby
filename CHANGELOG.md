@@ -1,5 +1,13 @@
 # Changelog
 
+## [9.4.0](https://github.com/workos/workos-ruby/compare/v9.3.0...v9.4.0) (2026-07-01)
+
+
+### Features
+
+* **generated:** AdminPortal, Authorization, Webhooks, UserManagement, AuditLogs (batch 08085e9d) ([#510](https://github.com/workos/workos-ruby/issues/510)) ([fa3558b](https://github.com/workos/workos-ruby/commit/fa3558beed81c97dfc366bb188e5c8be7fa7f1e2))
+* **generated:** Pipes (batch 77e46600) ([#508](https://github.com/workos/workos-ruby/issues/508)) ([aded437](https://github.com/workos/workos-ruby/commit/aded437bb7fbc20e5e3506cca193f1c619c4584b))
+
 ## [9.3.0](https://github.com/workos/workos-ruby/compare/v9.2.0...v9.3.0) (2026-06-30)
 
 * [#504](https://github.com/workos/workos-ruby/pull/504) fix(generated): regenerate from spec
