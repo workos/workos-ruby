@@ -159,6 +159,13 @@ class UserManagementTest < Minitest::Test
     assert_nil result
   end
 
+  def test_list_cors_origins_returns_expected_result
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/user_management/cors_origins(\?|\z)})
+      .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
+    result = @client.user_management.list_cors_origins
+    assert_kind_of WorkOS::Types::ListStruct, result
+  end
+
   def test_create_cors_origin_returns_expected_result
     stub_request(:post, %r{\Ahttps://api\.workos\.com/user_management/cors_origins(\?|\z)})
       .to_return(body: "{}", status: 200)
@@ -373,6 +380,13 @@ class UserManagementTest < Minitest::Test
     refute_nil result
   end
 
+  def test_list_redirect_uris_returns_expected_result
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/user_management/redirect_uris(\?|\z)})
+      .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
+    result = @client.user_management.list_redirect_uris
+    assert_kind_of WorkOS::Types::ListStruct, result
+  end
+
   def test_create_redirect_uri_returns_expected_result
     stub_request(:post, %r{\Ahttps://api\.workos\.com/user_management/redirect_uris(\?|\z)})
       .to_return(body: "{}", status: 200)
@@ -414,6 +428,7 @@ class UserManagementTest < Minitest::Test
     {name: :create_authenticate, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/authenticate(\?|\z)}, args: {client_id: "stub", grant_type: "authorization_code", code: "stub"}},
     {name: :create_device, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/authorize/device(\?|\z)}, args: {client_id: "stub"}},
     {name: :revoke_session, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/sessions/revoke(\?|\z)}, args: {session_id: "stub"}},
+    {name: :list_cors_origins, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/cors_origins(\?|\z)}},
     {name: :create_cors_origin, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/cors_origins(\?|\z)}, args: {origin: "stub"}},
     {name: :get_email_verification, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/email_verification/stub(\?|\z)}, args: {id: "stub"}},
     {name: :reset_password, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/password_reset(\?|\z)}, args: {email: "stub"}},
@@ -442,6 +457,7 @@ class UserManagementTest < Minitest::Test
     {name: :update_jwt_template, verb: :put, url: %r{\Ahttps://api\.workos\.com/user_management/jwt_template(\?|\z)}, args: {content: "stub"}},
     {name: :create_magic_auth, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/magic_auth(\?|\z)}, args: {email: "stub"}},
     {name: :get_magic_auth, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/magic_auth/stub(\?|\z)}, args: {id: "stub"}},
+    {name: :list_redirect_uris, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/redirect_uris(\?|\z)}},
     {name: :create_redirect_uri, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/redirect_uris(\?|\z)}, args: {uri: "stub"}},
     {name: :list_user_authorized_applications, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/users/stub/authorized_applications(\?|\z)}, args: {user_id: "stub"}},
     {name: :delete_user_authorized_application, verb: :delete, url: %r{\Ahttps://api\.workos\.com/user_management/users/stub/authorized_applications/stub(\?|\z)}, args: {application_id: "stub", user_id: "stub"}},

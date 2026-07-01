@@ -33,12 +33,6 @@ module WorkOS
     sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
     def intent=(value); end
 
-    sig { returns(T.nilable(WorkOS::IntentOptions)) }
-    def intent_options; end
-
-    sig { params(value: T.nilable(WorkOS::IntentOptions)).returns(T.nilable(WorkOS::IntentOptions)) }
-    def intent_options=(value); end
-
     sig { returns(T.nilable(T::Array[String])) }
     def it_contact_emails; end
 

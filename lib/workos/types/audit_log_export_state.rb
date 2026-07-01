@@ -8,7 +8,8 @@ module WorkOS
       PENDING = "pending"
       READY = "ready"
       ERROR = "error"
-      ALL = [PENDING, READY, ERROR].freeze
+      EXPIRED = "expired"
+      ALL = [PENDING, READY, ERROR, EXPIRED].freeze
     end
   end
 end

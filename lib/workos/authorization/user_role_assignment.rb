@@ -10,6 +10,7 @@ module WorkOS
       organization_membership_id: :organization_membership_id,
       role: :role,
       resource: :resource,
+      source: :source,
       created_at: :created_at,
       updated_at: :updated_at
     }.freeze
@@ -20,6 +21,7 @@ module WorkOS
       :organization_membership_id,
       :role,
       :resource,
+      :source,
       :created_at,
       :updated_at
 
@@ -30,6 +32,7 @@ module WorkOS
       @organization_membership_id = hash[:organization_membership_id]
       @role = hash[:role] ? WorkOS::SlimRole.new(hash[:role]) : nil
       @resource = hash[:resource] ? WorkOS::UserRoleAssignmentResource.new(hash[:resource]) : nil
+      @source = hash[:source] ? WorkOS::UserRoleAssignmentSource.new(hash[:source]) : nil
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
     end

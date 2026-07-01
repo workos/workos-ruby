@@ -15,12 +15,11 @@ module WorkOS
         return_url: T.nilable(String),
         success_url: T.nilable(String),
         intent: T.nilable(String),
-        intent_options: T.nilable(WorkOS::IntentOptions),
         it_contact_emails: T.nilable(T::Array[String]),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::PortalLinkResponse)
     end
-    def generate_link(organization:, return_url:, success_url:, intent:, intent_options:, it_contact_emails:, request_options:); end
+    def generate_link(organization:, return_url:, success_url:, intent:, it_contact_emails:, request_options:); end
 
   end
 end

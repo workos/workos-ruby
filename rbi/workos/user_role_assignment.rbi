@@ -39,6 +39,12 @@ module WorkOS
     sig { params(value: WorkOS::UserRoleAssignmentResource).returns(WorkOS::UserRoleAssignmentResource) }
     def resource=(value); end
 
+    sig { returns(WorkOS::UserRoleAssignmentSource) }
+    def source; end
+
+    sig { params(value: WorkOS::UserRoleAssignmentSource).returns(WorkOS::UserRoleAssignmentSource) }
+    def source=(value); end
+
     sig { returns(String) }
     def created_at; end
 

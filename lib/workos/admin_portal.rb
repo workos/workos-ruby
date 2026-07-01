@@ -15,7 +15,6 @@ module WorkOS
     # @param success_url [String, nil] The URL to redirect the admin to when they finish setup. If not specified, the success URL configured on the [Redirects](https://dashboard.workos.com/redirects) page will be used.
     # @param organization [String] An [Organization](https://workos.com/docs/reference/organization) identifier.
     # @param intent [WorkOS::Types::GenerateLinkIntent, nil] The intent of the Admin Portal. - `sso` - Launch Admin Portal for creating SSO connections - `dsync` - Launch Admin Portal for creating Directory Sync connections - `audit_logs` - Launch Admin Portal for viewing Audit Logs - `log_streams` - Launch Admin Portal for creating Log Streams - `domain_verification` - Launch Admin Portal for Domain Verification - `certificate_renewal` - Launch Admin Portal for renewing SAML Certificates - `bring_your_own_key` - Launch Admin Portal for configuring Bring Your Own Key
-    # @param intent_options [WorkOS::IntentOptions, nil] Options to configure the Admin Portal based on the intent.
     # @param it_contact_emails [Array<String>, nil] The email addresses of the IT contacts to grant access to the Admin Portal for the given organization. Accepts up to 20 emails.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::PortalLinkResponse]
@@ -24,7 +23,6 @@ module WorkOS
       return_url: nil,
       success_url: nil,
       intent: nil,
-      intent_options: nil,
       it_contact_emails: nil,
       request_options: {}
     )
@@ -33,7 +31,6 @@ module WorkOS
         "success_url" => success_url,
         "organization" => organization,
         "intent" => intent,
-        "intent_options" => intent_options,
         "it_contact_emails" => it_contact_emails
       }.compact
       response = @client.request(
