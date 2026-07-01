@@ -10,6 +10,37 @@ module WorkOS
       @client = client
     end
 
+    # Upsert an API key for a connected account
+    # @param slug [String] The identifier of the integration.
+    # @param user_id [String] A [User](https://workos.com/docs/reference/authkit/user) identifier.
+    # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter to scope the connection to a specific organization.
+    # @param secret [String] The API key secret to store for this integration.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::ConnectedAccount]
+    def update_data_integration_api_key(
+      slug:,
+      user_id:,
+      secret:,
+      organization_id: nil,
+      request_options: {}
+    )
+      body = {
+        "user_id" => user_id,
+        "organization_id" => organization_id,
+        "secret" => secret
+      }.compact
+      response = @client.request(
+        method: :put,
+        path: "/data-integrations/#{WorkOS::Util.encode_path(slug)}/api-key",
+        auth: true,
+        body: body,
+        request_options: request_options
+      )
+      result = WorkOS::ConnectedAccount.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
     # Get authorization URL
     # @param slug [String] The slug identifier of the provider (e.g., `github`, `slack`, `notion`).
     # @param user_id [String] The ID of the user to authorize.
@@ -37,6 +68,34 @@ module WorkOS
         request_options: request_options
       )
       result = WorkOS::DataIntegrationAuthorizeUrlResponse.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
+    # Vend credentials for a connected account
+    # @param slug [String] The identifier of the integration.
+    # @param user_id [String] A [User](https://workos.com/docs/reference/authkit/user) identifier.
+    # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter to scope the connection to a specific organization.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::DataIntegrationCredentialsResponse]
+    def create_data_integration_credential(
+      slug:,
+      user_id:,
+      organization_id: nil,
+      request_options: {}
+    )
+      body = {
+        "user_id" => user_id,
+        "organization_id" => organization_id
+      }.compact
+      response = @client.request(
+        method: :post,
+        path: "/data-integrations/#{WorkOS::Util.encode_path(slug)}/credentials",
+        auth: true,
+        body: body,
+        request_options: request_options
+      )
+      result = WorkOS::DataIntegrationCredentialsResponse.new(response.body)
       result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
       result
     end
