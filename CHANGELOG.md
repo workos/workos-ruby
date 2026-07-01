@@ -2,11 +2,67 @@
 
 ## [9.4.0](https://github.com/workos/workos-ruby/compare/v9.3.0...v9.4.0) (2026-07-01)
 
+* [#508](https://github.com/workos/workos-ruby/pull/508) fix(generated): regenerate from spec
 
-### Features
+  **Features**
+  * **[pipes](https://workos.com/docs/reference/pipes)**:
+    * Added model `DataIntegrationCredentialsResponse`
+    * Added model `DataIntegrationCredentialsResponseCredential`
+    * Added model `DataIntegrationsUpsertApiKeyRequest`
+    * Added model `DataIntegrationsVendCredentialsRequest`
+    * Added enum `DataIntegrationCredentialsResponseError`
+    * Added endpoint `PUT /data-integrations/{slug}/api-key`
+    * Added endpoint `POST /data-integrations/{slug}/credentials`
 
-* **generated:** AdminPortal, Authorization, Webhooks, UserManagement, AuditLogs (batch 08085e9d) ([#510](https://github.com/workos/workos-ruby/issues/510)) ([fa3558b](https://github.com/workos/workos-ruby/commit/fa3558beed81c97dfc366bb188e5c8be7fa7f1e2))
-* **generated:** Pipes (batch 77e46600) ([#508](https://github.com/workos/workos-ruby/issues/508)) ([aded437](https://github.com/workos/workos-ruby/commit/aded437bb7fbc20e5e3506cca193f1c619c4584b))
+* [#510](https://github.com/workos/workos-ruby/pull/510) fix(generated): regenerate from spec
+
+  **⚠️ Breaking**
+  * **[user_management](https://workos.com/docs/reference/authkit/user)**:
+    * Removed model `SessionReauthenticated`
+    * Removed model `SessionReauthenticatedData`
+    * Removed model `SessionReauthenticatedDataImpersonator`
+    * Removed enum `SessionReauthenticatedDataAuthMethod`
+    * Removed enum `SessionReauthenticatedDataStatus`
+
+  **Features**
+  * **[webhooks](https://workos.com/docs/reference/webhooks)**:
+    * Added `agent.registration.created` to `CreateWebhookEndpointEvents`
+    * Added `agent.registration.claim.attempt.created` to `CreateWebhookEndpointEvents`
+    * Added `agent.registration.claim.completed` to `CreateWebhookEndpointEvents`
+    * Added `agent.registration.credential.issued` to `CreateWebhookEndpointEvents`
+    * Added `agent.registration.organization.switched` to `CreateWebhookEndpointEvents`
+    * Added `authentication.reauthentication_succeeded` to `CreateWebhookEndpointEvents`
+    * Added `agent.registration.created` to `UpdateWebhookEndpointEvents`
+    * Added `agent.registration.claim.attempt.created` to `UpdateWebhookEndpointEvents`
+    * Added `agent.registration.claim.completed` to `UpdateWebhookEndpointEvents`
+    * Added `agent.registration.credential.issued` to `UpdateWebhookEndpointEvents`
+    * Added `agent.registration.organization.switched` to `UpdateWebhookEndpointEvents`
+    * Added `authentication.reauthentication_succeeded` to `UpdateWebhookEndpointEvents`
+  * **[webhooks](https://workos.com/docs/reference/webhooks)**:
+    * Added `session.reauthenticated` to `CreateWebhookEndpointEvents`
+    * Added `session.reauthenticated` to `UpdateWebhookEndpointEvents`
+  * **[webhooks](https://workos.com/docs/reference/webhooks)**:
+    * Added `pipes.connected_account.connection_failed` to `CreateWebhookEndpointEvents`
+    * Added `pipes.connected_account.connection_failed` to `UpdateWebhookEndpointEvents`
+  * **[user_management](https://workos.com/docs/reference/authkit/user)**:
+    * Added model `UserRoleAssignmentSource`
+    * Added `source` to `UserRoleAssignment`
+    * Added enum `UserRoleAssignmentSourceType`
+    * Added parameter `UserManagementAuthentication.authorize.max_age`
+    * Added endpoint `GET /user_management/cors_origins`
+    * Added endpoint `GET /user_management/redirect_uris`
+  * **[audit_logs](https://workos.com/docs/reference/audit-logs)**:
+    * Changed the format of `AuditLogExportCreation.range_start`
+    * Changed the format of `AuditLogExportCreation.range_end`
+  * **[audit_logs](https://workos.com/docs/reference/audit-logs)**:
+    * Added `expired` to `AuditLogExportState`
+
+  **Fixes**
+  * **[admin_portal](https://workos.com/docs/reference/admin-portal)**:
+    * Removed `intent_options` from `GenerateLink`
+  * **[webhooks](https://workos.com/docs/reference/webhooks)**:
+    * Removed `session.reauthenticated` from `CreateWebhookEndpointEvents`
+    * Removed `session.reauthenticated` from `UpdateWebhookEndpointEvents`
 
 ## [9.3.0](https://github.com/workos/workos-ruby/compare/v9.2.0...v9.3.0) (2026-06-30)
 
