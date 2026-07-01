@@ -79,6 +79,17 @@ module WorkOS
 
     sig do
       params(
+        before: T.nilable(String),
+        after: T.nilable(String),
+        limit: T.nilable(Integer),
+        order: T.nilable(String),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(T::Array[WorkOS::CORSOriginResponse])
+    end
+    def list_cors_origins(before:, after:, limit:, order:, request_options:); end
+
+    sig do
+      params(
         origin: String,
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::CORSOriginResponse)
@@ -341,6 +352,17 @@ module WorkOS
       ).returns(WorkOS::MagicAuth)
     end
     def get_magic_auth(id:, request_options:); end
+
+    sig do
+      params(
+        before: T.nilable(String),
+        after: T.nilable(String),
+        limit: T.nilable(Integer),
+        order: T.nilable(String),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(T::Array[WorkOS::RedirectUri])
+    end
+    def list_redirect_uris(before:, after:, limit:, order:, request_options:); end
 
     sig do
       params(
