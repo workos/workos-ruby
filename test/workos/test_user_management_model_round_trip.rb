@@ -27,6 +27,23 @@ class UserManagementModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_send_radar_sms_challenge_round_trip
+    fixture = {
+      "user_id" => "stub",
+      "pending_authentication_token" => "stub",
+      "phone_number" => "stub",
+      "ip_address" => "stub",
+      "user_agent" => "stub"
+    }
+    model = WorkOS::SendRadarSmsChallenge.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["user_id"], json[:user_id]
+    assert_equal fixture["pending_authentication_token"], json[:pending_authentication_token]
+    assert_equal fixture["phone_number"], json[:phone_number]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_create_redirect_uri_round_trip
     fixture = {
       "uri" => "stub"
@@ -41,7 +58,11 @@ class UserManagementModelRoundTripTest < Minitest::Test
   def test_create_magic_code_and_return_round_trip
     fixture = {
       "email" => "stub",
-      "invitation_token" => "stub"
+      "invitation_token" => "stub",
+      "ip_address" => "stub",
+      "user_agent" => "stub",
+      "radar_auth_attempt_id" => "stub",
+      "signals_id" => "stub"
     }
     model = WorkOS::CreateMagicCodeAndReturn.new(fixture.to_json)
     json = model.to_h
@@ -100,6 +121,9 @@ class UserManagementModelRoundTripTest < Minitest::Test
       "email_verified" => nil,
       "metadata" => nil,
       "external_id" => nil,
+      "ip_address" => nil,
+      "user_agent" => nil,
+      "signals_id" => "stub",
       "password" => nil,
       "password_hash" => "stub",
       "password_hash_type" => "stub"
@@ -247,6 +271,19 @@ class UserManagementModelRoundTripTest < Minitest::Test
     assert_equal fixture["origin"], json[:origin]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_send_radar_sms_challenge_response_round_trip
+    fixture = {
+      "verification_id" => "stub",
+      "phone_number" => "stub"
+    }
+    model = WorkOS::SendRadarSmsChallengeResponse.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["verification_id"], json[:verification_id]
+    assert_equal fixture["phone_number"], json[:phone_number]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
@@ -634,7 +671,8 @@ class UserManagementModelRoundTripTest < Minitest::Test
       "invitation_token" => "stub",
       "ip_address" => "stub",
       "device_id" => "stub",
-      "user_agent" => "stub"
+      "user_agent" => "stub",
+      "signals_id" => "stub"
     }
     model = WorkOS::AuthorizationCodeSessionAuthenticateRequest.new(fixture.to_json)
     json = model.to_h
@@ -654,7 +692,9 @@ class UserManagementModelRoundTripTest < Minitest::Test
       "invitation_token" => "stub",
       "ip_address" => "stub",
       "device_id" => "stub",
-      "user_agent" => "stub"
+      "user_agent" => "stub",
+      "signals_id" => "stub",
+      "radar_auth_attempt_id" => "stub"
     }
     model = WorkOS::PasswordSessionAuthenticateRequest.new(fixture.to_json)
     json = model.to_h
@@ -695,7 +735,8 @@ class UserManagementModelRoundTripTest < Minitest::Test
       "invitation_token" => "stub",
       "ip_address" => "stub",
       "device_id" => "stub",
-      "user_agent" => "stub"
+      "user_agent" => "stub",
+      "radar_auth_attempt_id" => "stub"
     }
     model = WorkOS::MagicAuthCodeSessionAuthenticateRequest.new(fixture.to_json)
     json = model.to_h
@@ -772,6 +813,54 @@ class UserManagementModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_radar_email_challenge_code_session_authenticate_request_round_trip
+    fixture = {
+      "client_id" => "stub",
+      "client_secret" => "stub",
+      "grant_type" => "urn:workos:oauth:grant-type:radar-email-challenge:code",
+      "code" => "stub",
+      "radar_challenge_id" => "stub",
+      "pending_authentication_token" => "stub",
+      "ip_address" => "stub",
+      "device_id" => "stub",
+      "user_agent" => "stub"
+    }
+    model = WorkOS::RadarEmailChallengeCodeSessionAuthenticateRequest.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["client_id"], json[:client_id]
+    assert_equal fixture["client_secret"], json[:client_secret]
+    assert_equal fixture["code"], json[:code]
+    assert_equal fixture["radar_challenge_id"], json[:radar_challenge_id]
+    assert_equal fixture["pending_authentication_token"], json[:pending_authentication_token]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_radar_sms_challenge_code_session_authenticate_request_round_trip
+    fixture = {
+      "client_id" => "stub",
+      "client_secret" => "stub",
+      "grant_type" => "urn:workos:oauth:grant-type:radar-sms-challenge:code",
+      "code" => "stub",
+      "verification_id" => "stub",
+      "phone_number" => "stub",
+      "pending_authentication_token" => "stub",
+      "ip_address" => "stub",
+      "device_id" => "stub",
+      "user_agent" => "stub"
+    }
+    model = WorkOS::RadarSmsChallengeCodeSessionAuthenticateRequest.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["client_id"], json[:client_id]
+    assert_equal fixture["client_secret"], json[:client_secret]
+    assert_equal fixture["code"], json[:code]
+    assert_equal fixture["verification_id"], json[:verification_id]
+    assert_equal fixture["phone_number"], json[:phone_number]
+    assert_equal fixture["pending_authentication_token"], json[:pending_authentication_token]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_device_code_session_authenticate_request_round_trip
     fixture = {
       "client_id" => "stub",
@@ -834,6 +923,26 @@ class UserManagementModelRoundTripTest < Minitest::Test
     assert_equal fixture["updated_at"], json[:updated_at]
     assert_equal fixture["token"], json[:token]
     assert_equal fixture["accept_invitation_url"], json[:accept_invitation_url]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_magic_auth_send_magic_auth_code_and_return_response_round_trip
+    fixture = {
+      "radar_auth_attempt_id" => "stub"
+    }
+    model = WorkOS::MagicAuthSendMagicAuthCodeAndReturnResponse.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_user_create_response_round_trip
+    fixture = {
+      "radar_auth_attempt_id" => "stub"
+    }
+    model = WorkOS::UserCreateResponse.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
