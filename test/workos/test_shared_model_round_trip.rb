@@ -5,88 +5,15 @@
 require "test_helper"
 
 class SharedModelRoundTripTest < Minitest::Test
-  def test_connect_application_oauth_round_trip
+  def test_auth_method_mismatch_error_round_trip
     fixture = {
-      "object" => "connect_application",
-      "id" => "stub",
-      "client_id" => "stub",
-      "description" => nil,
-      "name" => "stub",
-      "scopes" => [],
-      "created_at" => "stub",
-      "updated_at" => "stub",
-      "application_type" => "oauth",
-      "redirect_uris" => [],
-      "uses_pkce" => true,
-      "is_first_party" => true,
-      "was_dynamically_registered" => true,
-      "organization_id" => "stub"
+      "code" => "auth_method_mismatch",
+      "message" => "stub"
     }
-    model = WorkOS::ConnectApplicationOAuth.new(fixture.to_json)
+    model = WorkOS::AuthMethodMismatchError.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
-    assert_equal fixture["id"], json[:id]
-    assert_equal fixture["client_id"], json[:client_id]
-    assert_nil json[:description]
-    assert_equal fixture["name"], json[:name]
-    assert_equal fixture["created_at"], json[:created_at]
-    assert_equal fixture["updated_at"], json[:updated_at]
-    assert_equal fixture["uses_pkce"], json[:uses_pkce]
-    assert_equal fixture["is_first_party"], json[:is_first_party]
-    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
-  end
-
-  def test_connect_application_oauth_redirect_uris_round_trip
-    fixture = {
-      "uri" => "stub",
-      "default" => true
-    }
-    model = WorkOS::ConnectApplicationOAuthRedirectUris.new(fixture.to_json)
-    json = model.to_h
-    assert_kind_of Hash, json
-    assert_equal fixture["uri"], json[:uri]
-    assert_equal fixture["default"], json[:default]
-    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
-  end
-
-  def test_connect_application_m2m_round_trip
-    fixture = {
-      "object" => "connect_application",
-      "id" => "stub",
-      "client_id" => "stub",
-      "description" => nil,
-      "name" => "stub",
-      "scopes" => [],
-      "created_at" => "stub",
-      "updated_at" => "stub",
-      "application_type" => "m2m",
-      "organization_id" => "stub"
-    }
-    model = WorkOS::ConnectApplicationM2M.new(fixture.to_json)
-    json = model.to_h
-    assert_kind_of Hash, json
-    assert_equal fixture["id"], json[:id]
-    assert_equal fixture["client_id"], json[:client_id]
-    assert_nil json[:description]
-    assert_equal fixture["name"], json[:name]
-    assert_equal fixture["created_at"], json[:created_at]
-    assert_equal fixture["updated_at"], json[:updated_at]
-    assert_equal fixture["organization_id"], json[:organization_id]
-    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
-  end
-
-  def test_authorized_connect_application_list_data_round_trip
-    fixture = {
-      "object" => "authorized_connect_application",
-      "id" => "stub",
-      "granted_scopes" => [],
-      "oauth_resource" => "stub",
-      "application" => {}
-    }
-    model = WorkOS::AuthorizedConnectApplicationListData.new(fixture.to_json)
-    json = model.to_h
-    assert_kind_of Hash, json
-    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["message"], json[:message]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 end

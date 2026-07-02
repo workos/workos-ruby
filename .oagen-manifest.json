@@ -1,7 +1,7 @@
 {
   "version": 2,
   "language": "ruby",
-  "generatedAt": "2026-07-01T18:19:13.490Z",
+  "generatedAt": "2026-07-02T14:59:01.941Z",
   "files": [
     "lib/workos.rb",
     "lib/workos/admin_portal.rb",
@@ -252,11 +252,18 @@
     "lib/workos/organizations/update_organization.rb",
     "lib/workos/pipes.rb",
     "lib/workos/pipes/connected_account.rb",
+    "lib/workos/pipes/connected_account_dto.rb",
+    "lib/workos/pipes/create_data_integration.rb",
+    "lib/workos/pipes/custom_provider_definition.rb",
+    "lib/workos/pipes/data_integration.rb",
     "lib/workos/pipes/data_integration_access_token_response.rb",
     "lib/workos/pipes/data_integration_access_token_response_access_token.rb",
     "lib/workos/pipes/data_integration_authorize_url_response.rb",
+    "lib/workos/pipes/data_integration_credential.rb",
+    "lib/workos/pipes/data_integration_credentials_dto.rb",
     "lib/workos/pipes/data_integration_credentials_response.rb",
     "lib/workos/pipes/data_integration_credentials_response_credential.rb",
+    "lib/workos/pipes/data_integration_custom_provider.rb",
     "lib/workos/pipes/data_integrations_get_data_integration_authorize_url_request.rb",
     "lib/workos/pipes/data_integrations_get_user_token_request.rb",
     "lib/workos/pipes/data_integrations_list_response.rb",
@@ -264,6 +271,8 @@
     "lib/workos/pipes/data_integrations_list_response_data_connected_account.rb",
     "lib/workos/pipes/data_integrations_upsert_api_key_request.rb",
     "lib/workos/pipes/data_integrations_vend_credentials_request.rb",
+    "lib/workos/pipes/update_custom_provider_definition.rb",
+    "lib/workos/pipes/update_data_integration.rb",
     "lib/workos/pipes_provider.rb",
     "lib/workos/pipes_provider/configure_data_integration_body.rb",
     "lib/workos/pipes_provider/data_integration_configuration_list_response.rb",
@@ -355,9 +364,14 @@
     "lib/workos/types/create_user_invite_options_locale.rb",
     "lib/workos/types/create_user_password_hash_type.rb",
     "lib/workos/types/create_webhook_endpoint_events.rb",
+    "lib/workos/types/custom_provider_definition_authenticate_via.rb",
     "lib/workos/types/data_integration_access_token_response_error.rb",
+    "lib/workos/types/data_integration_credential_type.rb",
     "lib/workos/types/data_integration_credentials_credentials_type.rb",
     "lib/workos/types/data_integration_credentials_response_error.rb",
+    "lib/workos/types/data_integration_credentials_type.rb",
+    "lib/workos/types/data_integration_custom_provider_authenticate_via.rb",
+    "lib/workos/types/data_integration_state.rb",
     "lib/workos/types/data_integrations_list_response_data_auth_methods.rb",
     "lib/workos/types/data_integrations_list_response_data_connected_account_auth_method.rb",
     "lib/workos/types/data_integrations_list_response_data_connected_account_state.rb",
@@ -427,6 +441,7 @@
     "lib/workos/types/session_revoked_data_auth_method.rb",
     "lib/workos/types/session_revoked_data_status.rb",
     "lib/workos/types/sso_provider.rb",
+    "lib/workos/types/update_custom_provider_definition_authenticate_via.rb",
     "lib/workos/types/update_user_password_hash_type.rb",
     "lib/workos/types/update_webhook_endpoint_events.rb",
     "lib/workos/types/update_webhook_endpoint_status.rb",
@@ -753,6 +768,7 @@
     "rbi/workos/connect_application_oauth.rbi",
     "rbi/workos/connect_application_oauth_redirect_uris.rbi",
     "rbi/workos/connected_account.rbi",
+    "rbi/workos/connected_account_dto.rbi",
     "rbi/workos/connection.rbi",
     "rbi/workos/connection_activated.rbi",
     "rbi/workos/connection_activated_data.rbi",
@@ -777,6 +793,7 @@
     "rbi/workos/create_authorization_permission.rbi",
     "rbi/workos/create_authorization_resource.rbi",
     "rbi/workos/create_cors_origin.rbi",
+    "rbi/workos/create_data_integration.rbi",
     "rbi/workos/create_data_key_request.rbi",
     "rbi/workos/create_data_key_response.rbi",
     "rbi/workos/create_group.rbi",
@@ -798,14 +815,19 @@
     "rbi/workos/create_user_invite_options.rbi",
     "rbi/workos/create_user_organization_membership.rbi",
     "rbi/workos/create_webhook_endpoint.rbi",
+    "rbi/workos/custom_provider_definition.rbi",
+    "rbi/workos/data_integration.rbi",
     "rbi/workos/data_integration_access_token_response.rbi",
     "rbi/workos/data_integration_access_token_response_access_token.rbi",
     "rbi/workos/data_integration_authorize_url_response.rbi",
     "rbi/workos/data_integration_configuration_list_response.rbi",
     "rbi/workos/data_integration_configuration_response.rbi",
+    "rbi/workos/data_integration_credential.rbi",
     "rbi/workos/data_integration_credentials.rbi",
+    "rbi/workos/data_integration_credentials_dto.rbi",
     "rbi/workos/data_integration_credentials_response.rbi",
     "rbi/workos/data_integration_credentials_response_credential.rbi",
+    "rbi/workos/data_integration_custom_provider.rbi",
     "rbi/workos/data_integrations_get_data_integration_authorize_url_request.rbi",
     "rbi/workos/data_integrations_get_user_token_request.rbi",
     "rbi/workos/data_integrations_list_response.rbi",
@@ -1054,6 +1076,8 @@
     "rbi/workos/update_audit_logs_retention.rbi",
     "rbi/workos/update_authorization_permission.rbi",
     "rbi/workos/update_authorization_resource.rbi",
+    "rbi/workos/update_custom_provider_definition.rbi",
+    "rbi/workos/update_data_integration.rbi",
     "rbi/workos/update_group.rbi",
     "rbi/workos/update_jwt_template.rbi",
     "rbi/workos/update_oauth_application.rbi",
@@ -1148,6 +1172,7 @@
     "test/workos/test_organizations.rb",
     "test/workos/test_organizations_model_round_trip.rb",
     "test/workos/test_pipes.rb",
+    "test/workos/test_pipes_model_round_trip.rb",
     "test/workos/test_pipes_provider.rb",
     "test/workos/test_radar.rb",
     "test/workos/test_shared_model_round_trip.rb",
@@ -1987,6 +2012,38 @@
     "GET /user_management/redirect_uris": {
       "sdkMethod": "list_redirect_uris",
       "service": "user_management"
+    },
+    "GET /data-integrations": {
+      "sdkMethod": "list_data_integrations",
+      "service": "pipes"
+    },
+    "POST /data-integrations": {
+      "sdkMethod": "create_data_integration",
+      "service": "pipes"
+    },
+    "GET /data-integrations/{slug}": {
+      "sdkMethod": "get_data_integration",
+      "service": "pipes"
+    },
+    "PUT /data-integrations/{slug}": {
+      "sdkMethod": "update_data_integration",
+      "service": "pipes"
+    },
+    "DELETE /data-integrations/{slug}": {
+      "sdkMethod": "delete_data_integration",
+      "service": "pipes"
+    },
+    "POST /user_management/radar_challenges": {
+      "sdkMethod": "create_radar_challenge",
+      "service": "user_management"
+    },
+    "POST /user_management/users/{user_id}/connected_accounts/{slug}": {
+      "sdkMethod": "create_user_connected_account",
+      "service": "pipes"
+    },
+    "PUT /user_management/users/{user_id}/connected_accounts/{slug}": {
+      "sdkMethod": "update_user_connected_account",
+      "service": "pipes"
     }
   }
 }
