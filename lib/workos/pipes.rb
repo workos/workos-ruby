@@ -10,6 +10,161 @@ module WorkOS
       @client = client
     end
 
+    # List data integrations
+    # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`.
+    # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
+    # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
+    # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records).
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::Types::ListStruct<WorkOS::DataIntegration>]
+    def list_data_integrations(
+      before: nil,
+      after: nil,
+      limit: 10,
+      order: "desc",
+      request_options: {}
+    )
+      params = {
+        "before" => before,
+        "after" => after,
+        "limit" => limit,
+        "order" => order
+      }.compact
+      response = @client.request(
+        method: :get,
+        path: "/data-integrations",
+        auth: true,
+        params: params,
+        request_options: request_options
+      )
+      fetch_next = ->(cursor) {
+        list_data_integrations(
+          before: before,
+          after: cursor,
+          limit: limit,
+          order: order,
+          request_options: request_options
+        )
+      }
+      WorkOS::Types::ListStruct.from_response(
+        response,
+        model: WorkOS::DataIntegration,
+        filters: {before: before, limit: limit, order: order},
+        fetch_next: fetch_next
+      )
+    end
+
+    # Create a data integration
+    # @param provider [String] The provider to create a Data Integration for. For a built-in provider use its slug (e.g. `github`, `slack`). For a custom provider, this is the new provider slug and `custom_provider` must be supplied. A custom provider slug cannot shadow an existing global provider slug.
+    # @param description [String, nil] An optional description of the Data Integration.
+    # @param enabled [Boolean, nil] Whether the Data Integration is enabled. Defaults to `false`.
+    # @param scopes [Array<String>, nil] The OAuth scopes to request for the Data Integration. Defaults to the provider's configured scopes when omitted.
+    # @param credentials [WorkOS::DataIntegrationCredentialsDto, nil] The credentials to configure for the Data Integration. Required for both built-in and custom providers.
+    # @param custom_provider [WorkOS::CustomProviderDefinition, nil] The OAuth definition for a custom provider. Supply this to define a custom provider; omit it to create an integration for a built-in provider.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::DataIntegration]
+    def create_data_integration(
+      provider:,
+      description: nil,
+      enabled: nil,
+      scopes: nil,
+      credentials: nil,
+      custom_provider: nil,
+      request_options: {}
+    )
+      body = {
+        "provider" => provider,
+        "description" => description,
+        "enabled" => enabled,
+        "scopes" => scopes,
+        "credentials" => credentials,
+        "custom_provider" => custom_provider
+      }.compact
+      response = @client.request(
+        method: :post,
+        path: "/data-integrations",
+        auth: true,
+        body: body,
+        request_options: request_options
+      )
+      result = WorkOS::DataIntegration.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
+    # Get a data integration
+    # @param slug [String] The slug identifier of the data integration.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::DataIntegration]
+    def get_data_integration(
+      slug:,
+      request_options: {}
+    )
+      response = @client.request(
+        method: :get,
+        path: "/data-integrations/#{WorkOS::Util.encode_path(slug)}",
+        auth: true,
+        request_options: request_options
+      )
+      result = WorkOS::DataIntegration.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
+    # Update a data integration
+    # @param slug [String] The slug identifier of the data integration.
+    # @param description [String, nil] An optional description of the Data Integration.
+    # @param enabled [Boolean, nil] Whether the Data Integration is enabled.
+    # @param scopes [Array<String>, nil] The OAuth scopes to request for the Data Integration. Pass `null` to reset to the provider's configured scopes.
+    # @param credentials [WorkOS::DataIntegrationCredentialsDto, nil] New credentials for the Data Integration. When provided, rotates the stored client secret.
+    # @param custom_provider [WorkOS::UpdateCustomProviderDefinition, nil] Updates to a custom provider's OAuth definition. Only valid for custom-provider integrations.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::DataIntegration]
+    def update_data_integration(
+      slug:,
+      description: nil,
+      enabled: nil,
+      scopes: nil,
+      credentials: nil,
+      custom_provider: nil,
+      request_options: {}
+    )
+      body = {
+        "description" => description,
+        "enabled" => enabled,
+        "scopes" => scopes,
+        "credentials" => credentials,
+        "custom_provider" => custom_provider
+      }.compact
+      response = @client.request(
+        method: :put,
+        path: "/data-integrations/#{WorkOS::Util.encode_path(slug)}",
+        auth: true,
+        body: body,
+        request_options: request_options
+      )
+      result = WorkOS::DataIntegration.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
+    # Delete a data integration
+    # @param slug [String] The slug identifier of the data integration.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [void]
+    def delete_data_integration(
+      slug:,
+      request_options: {}
+    )
+      @client.request(
+        method: :delete,
+        path: "/data-integrations/#{WorkOS::Util.encode_path(slug)}",
+        auth: true,
+        request_options: request_options
+      )
+      nil
+    end
+
     # Upsert an API key for a connected account
     # @param slug [String] The identifier of the integration.
     # @param user_id [String] A [User](https://workos.com/docs/reference/authkit/user) identifier.
@@ -148,6 +303,96 @@ module WorkOS
         path: "/user_management/users/#{WorkOS::Util.encode_path(user_id)}/connected_accounts/#{WorkOS::Util.encode_path(slug)}",
         auth: true,
         params: params,
+        request_options: request_options
+      )
+      result = WorkOS::ConnectedAccount.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
+    # Import a connected account
+    # @param user_id [String] A [User](https://workos.com/docs/reference/authkit/user) identifier.
+    # @param slug [String] The slug identifier of the provider (e.g., `github`, `slack`, `notion`).
+    # @param access_token [String, nil] The OAuth access token for the connected account.
+    # @param refresh_token [String, nil] The OAuth refresh token for the connected account.
+    # @param expires_at [String, nil] The ISO-8601 timestamp when the access token expires. Required when `access_token` is provided for tokens that expire.
+    # @param scopes [Array<String>, nil] The OAuth scopes granted for this connection.
+    # @param state [WorkOS::Types::ConnectedAccountState, nil] Explicitly set the state of the connected account. When omitted, the state is derived from the token combination provided.
+    # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter if the connection is scoped to an organization.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::ConnectedAccount]
+    def create_user_connected_account(
+      user_id:,
+      slug:,
+      access_token: nil,
+      refresh_token: nil,
+      expires_at: nil,
+      scopes: nil,
+      state: nil,
+      organization_id: nil,
+      request_options: {}
+    )
+      params = {
+        "organization_id" => organization_id
+      }.compact
+      body = {
+        "access_token" => access_token,
+        "refresh_token" => refresh_token,
+        "expires_at" => expires_at,
+        "scopes" => scopes,
+        "state" => state
+      }.compact
+      response = @client.request(
+        method: :post,
+        path: "/user_management/users/#{WorkOS::Util.encode_path(user_id)}/connected_accounts/#{WorkOS::Util.encode_path(slug)}",
+        auth: true,
+        params: params,
+        body: body,
+        request_options: request_options
+      )
+      result = WorkOS::ConnectedAccount.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
+    # Update a connected account
+    # @param user_id [String] A [User](https://workos.com/docs/reference/authkit/user) identifier.
+    # @param slug [String] The slug identifier of the provider (e.g., `github`, `slack`, `notion`).
+    # @param access_token [String, nil] The OAuth access token for the connected account.
+    # @param refresh_token [String, nil] The OAuth refresh token for the connected account.
+    # @param expires_at [String, nil] The ISO-8601 timestamp when the access token expires. Required when `access_token` is provided for tokens that expire.
+    # @param scopes [Array<String>, nil] The OAuth scopes granted for this connection.
+    # @param state [WorkOS::Types::ConnectedAccountState, nil] Explicitly set the state of the connected account. When omitted, the state is derived from the token combination provided.
+    # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter if the connection is scoped to an organization.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::ConnectedAccount]
+    def update_user_connected_account(
+      user_id:,
+      slug:,
+      access_token: nil,
+      refresh_token: nil,
+      expires_at: nil,
+      scopes: nil,
+      state: nil,
+      organization_id: nil,
+      request_options: {}
+    )
+      params = {
+        "organization_id" => organization_id
+      }.compact
+      body = {
+        "access_token" => access_token,
+        "refresh_token" => refresh_token,
+        "expires_at" => expires_at,
+        "scopes" => scopes,
+        "state" => state
+      }.compact
+      response = @client.request(
+        method: :put,
+        path: "/user_management/users/#{WorkOS::Util.encode_path(user_id)}/connected_accounts/#{WorkOS::Util.encode_path(slug)}",
+        auth: true,
+        params: params,
+        body: body,
         request_options: request_options
       )
       result = WorkOS::ConnectedAccount.new(response.body)
