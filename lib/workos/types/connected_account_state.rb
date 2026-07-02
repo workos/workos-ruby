@@ -7,8 +7,7 @@ module WorkOS
     class ConnectedAccountState
       CONNECTED = "connected"
       NEEDS_REAUTHORIZATION = "needs_reauthorization"
-      DISCONNECTED = "disconnected"
-      ALL = [CONNECTED, NEEDS_REAUTHORIZATION, DISCONNECTED].freeze
+      ALL = [CONNECTED, NEEDS_REAUTHORIZATION].freeze
     end
   end
 end

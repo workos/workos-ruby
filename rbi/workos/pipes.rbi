@@ -11,6 +11,59 @@ module WorkOS
 
     sig do
       params(
+        before: T.nilable(String),
+        after: T.nilable(String),
+        limit: T.nilable(Integer),
+        order: T.nilable(String),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::Types::ListStruct)
+    end
+    def list_data_integrations(before:, after:, limit:, order:, request_options:); end
+
+    sig do
+      params(
+        provider: String,
+        description: T.nilable(String),
+        enabled: T.nilable(T::Boolean),
+        scopes: T.nilable(T::Array[String]),
+        credentials: T.nilable(WorkOS::DataIntegrationCredentialsDto),
+        custom_provider: T.nilable(WorkOS::CustomProviderDefinition),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::DataIntegration)
+    end
+    def create_data_integration(provider:, description:, enabled:, scopes:, credentials:, custom_provider:, request_options:); end
+
+    sig do
+      params(
+        slug: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::DataIntegration)
+    end
+    def get_data_integration(slug:, request_options:); end
+
+    sig do
+      params(
+        slug: String,
+        description: T.nilable(String),
+        enabled: T.nilable(T::Boolean),
+        scopes: T.nilable(T::Array[String]),
+        credentials: T.nilable(WorkOS::DataIntegrationCredentialsDto),
+        custom_provider: T.nilable(WorkOS::UpdateCustomProviderDefinition),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::DataIntegration)
+    end
+    def update_data_integration(slug:, description:, enabled:, scopes:, credentials:, custom_provider:, request_options:); end
+
+    sig do
+      params(
+        slug: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(NilClass)
+    end
+    def delete_data_integration(slug:, request_options:); end
+
+    sig do
+      params(
         slug: String,
         user_id: String,
         secret: String,
@@ -60,6 +113,36 @@ module WorkOS
       ).returns(WorkOS::ConnectedAccount)
     end
     def get_user_connected_account(user_id:, slug:, organization_id:, request_options:); end
+
+    sig do
+      params(
+        user_id: String,
+        slug: String,
+        access_token: T.nilable(String),
+        refresh_token: T.nilable(String),
+        expires_at: T.nilable(String),
+        scopes: T.nilable(T::Array[String]),
+        state: T.nilable(String),
+        organization_id: T.nilable(String),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::ConnectedAccount)
+    end
+    def create_user_connected_account(user_id:, slug:, access_token:, refresh_token:, expires_at:, scopes:, state:, organization_id:, request_options:); end
+
+    sig do
+      params(
+        user_id: String,
+        slug: String,
+        access_token: T.nilable(String),
+        refresh_token: T.nilable(String),
+        expires_at: T.nilable(String),
+        scopes: T.nilable(T::Array[String]),
+        state: T.nilable(String),
+        organization_id: T.nilable(String),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::ConnectedAccount)
+    end
+    def update_user_connected_account(user_id:, slug:, access_token:, refresh_token:, expires_at:, scopes:, state:, organization_id:, request_options:); end
 
     sig do
       params(
