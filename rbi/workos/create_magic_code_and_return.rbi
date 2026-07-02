@@ -21,6 +21,30 @@ module WorkOS
     sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
     def invitation_token=(value); end
 
+    sig { returns(T.nilable(String)) }
+    def ip_address; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def ip_address=(value); end
+
+    sig { returns(T.nilable(String)) }
+    def user_agent; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def user_agent=(value); end
+
+    sig { returns(T.nilable(String)) }
+    def radar_auth_attempt_id; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def radar_auth_attempt_id=(value); end
+
+    sig { returns(T.nilable(String)) }
+    def signals_id; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def signals_id=(value); end
+
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end
 
