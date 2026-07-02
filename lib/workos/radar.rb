@@ -16,6 +16,7 @@ module WorkOS
     # @param email [String] The email address of the user making the request.
     # @param auth_method [WorkOS::Types::RadarStandaloneAssessRequestAuthMethod] The authentication method being used.
     # @param action [WorkOS::Types::RadarStandaloneAssessRequestAction] The action being performed.
+    # @param signals_id [String, nil] An optional Radar signals ID for the request.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::RadarStandaloneResponse]
     def create_attempt(
@@ -24,6 +25,7 @@ module WorkOS
       email:,
       auth_method:,
       action:,
+      signals_id: nil,
       request_options: {}
     )
       body = {
@@ -31,8 +33,9 @@ module WorkOS
         "user_agent" => user_agent,
         "email" => email,
         "auth_method" => auth_method,
-        "action" => action
-      }
+        "action" => action,
+        "signals_id" => signals_id
+      }.compact
       response = @client.request(
         method: :post,
         path: "/radar/attempts",

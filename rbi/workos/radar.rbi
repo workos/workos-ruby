@@ -16,10 +16,11 @@ module WorkOS
         email: String,
         auth_method: String,
         action: String,
+        signals_id: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::RadarStandaloneResponse)
     end
-    def create_attempt(ip_address:, user_agent:, email:, auth_method:, action:, request_options:); end
+    def create_attempt(ip_address:, user_agent:, email:, auth_method:, action:, signals_id:, request_options:); end
 
     sig do
       params(

@@ -9,7 +9,8 @@ module WorkOS
       user_agent: :user_agent,
       email: :email,
       auth_method: :auth_method,
-      action: :action
+      action: :action,
+      signals_id: :signals_id
     }.freeze
 
     attr_accessor \
@@ -17,7 +18,8 @@ module WorkOS
       :user_agent,
       :email,
       :auth_method,
-      :action
+      :action,
+      :signals_id
 
     def initialize(json)
       hash = self.class.normalize(json)
@@ -26,6 +28,7 @@ module WorkOS
       @email = hash[:email]
       @auth_method = hash[:auth_method]
       @action = hash[:action]
+      @signals_id = hash[:signals_id]
     end
   end
 end
