@@ -5,7 +5,7 @@
 # typed: strong
 
 module WorkOS
-  class MagicAuthCodeSessionAuthenticateRequest
+  class RadarEmailChallengeCodeSessionAuthenticateRequest
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
 
@@ -34,16 +34,16 @@ module WorkOS
     def code=(value); end
 
     sig { returns(String) }
-    def email; end
+    def radar_challenge_id; end
 
     sig { params(value: String).returns(String) }
-    def email=(value); end
+    def radar_challenge_id=(value); end
 
-    sig { returns(T.nilable(String)) }
-    def invitation_token; end
+    sig { returns(String) }
+    def pending_authentication_token; end
 
-    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
-    def invitation_token=(value); end
+    sig { params(value: String).returns(String) }
+    def pending_authentication_token=(value); end
 
     sig { returns(T.nilable(String)) }
     def ip_address; end
@@ -62,12 +62,6 @@ module WorkOS
 
     sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
     def user_agent=(value); end
-
-    sig { returns(T.nilable(String)) }
-    def radar_auth_attempt_id; end
-
-    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
-    def radar_auth_attempt_id=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end
