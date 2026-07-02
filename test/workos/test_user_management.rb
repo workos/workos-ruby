@@ -152,6 +152,13 @@ class UserManagementTest < Minitest::Test
     refute_nil result
   end
 
+  def test_create_radar_challenge_returns_expected_result
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/user_management/radar_challenges(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.user_management.create_radar_challenge(user_id: "stub", pending_authentication_token: "stub", phone_number: "stub")
+    refute_nil result
+  end
+
   def test_revoke_session_returns_expected_result
     stub_request(:post, %r{\Ahttps://api\.workos\.com/user_management/sessions/revoke(\?|\z)})
       .to_return(body: "{}", status: 200)
@@ -427,6 +434,7 @@ class UserManagementTest < Minitest::Test
     {name: :get_jwks, verb: :get, url: %r{\Ahttps://api\.workos\.com/sso/jwks/stub(\?|\z)}, args: {client_id: "stub"}},
     {name: :create_authenticate, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/authenticate(\?|\z)}, args: {client_id: "stub", grant_type: "authorization_code", code: "stub"}},
     {name: :create_device, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/authorize/device(\?|\z)}, args: {client_id: "stub"}},
+    {name: :create_radar_challenge, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/radar_challenges(\?|\z)}, args: {user_id: "stub", pending_authentication_token: "stub", phone_number: "stub"}},
     {name: :revoke_session, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/sessions/revoke(\?|\z)}, args: {session_id: "stub"}},
     {name: :list_cors_origins, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/cors_origins(\?|\z)}},
     {name: :create_cors_origin, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/cors_origins(\?|\z)}, args: {origin: "stub"}},

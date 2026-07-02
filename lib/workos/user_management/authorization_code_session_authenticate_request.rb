@@ -13,7 +13,8 @@ module WorkOS
       invitation_token: :invitation_token,
       ip_address: :ip_address,
       device_id: :device_id,
-      user_agent: :user_agent
+      user_agent: :user_agent,
+      signals_id: :signals_id
     }.freeze
 
     attr_accessor \
@@ -25,7 +26,8 @@ module WorkOS
       :invitation_token,
       :ip_address,
       :device_id,
-      :user_agent
+      :user_agent,
+      :signals_id
 
     def initialize(json)
       hash = self.class.normalize(json)
@@ -38,6 +40,7 @@ module WorkOS
       @ip_address = hash[:ip_address]
       @device_id = hash[:device_id]
       @user_agent = hash[:user_agent]
+      @signals_id = hash[:signals_id]
     end
   end
 end

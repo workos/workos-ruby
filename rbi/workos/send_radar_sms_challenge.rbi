@@ -5,45 +5,39 @@
 # typed: strong
 
 module WorkOS
-  class RadarStandaloneAssessRequest
+  class SendRadarSmsChallenge
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
 
     sig { returns(String) }
-    def ip_address; end
+    def user_id; end
 
     sig { params(value: String).returns(String) }
-    def ip_address=(value); end
+    def user_id=(value); end
 
     sig { returns(String) }
-    def user_agent; end
+    def pending_authentication_token; end
 
     sig { params(value: String).returns(String) }
-    def user_agent=(value); end
+    def pending_authentication_token=(value); end
 
     sig { returns(String) }
-    def email; end
+    def phone_number; end
 
     sig { params(value: String).returns(String) }
-    def email=(value); end
-
-    sig { returns(String) }
-    def auth_method; end
-
-    sig { params(value: String).returns(String) }
-    def auth_method=(value); end
-
-    sig { returns(String) }
-    def action; end
-
-    sig { params(value: String).returns(String) }
-    def action=(value); end
+    def phone_number=(value); end
 
     sig { returns(T.nilable(String)) }
-    def signals_id; end
+    def ip_address; end
 
     sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
-    def signals_id=(value); end
+    def ip_address=(value); end
+
+    sig { returns(T.nilable(String)) }
+    def user_agent; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def user_agent=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end

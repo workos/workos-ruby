@@ -5,7 +5,7 @@
 # typed: strong
 
 module WorkOS
-  class AuthorizationCodeSessionAuthenticateRequest
+  class RadarSmsChallengeCodeSessionAuthenticateRequest
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
 
@@ -15,10 +15,10 @@ module WorkOS
     sig { params(value: String).returns(String) }
     def client_id=(value); end
 
-    sig { returns(T.nilable(String)) }
+    sig { returns(String) }
     def client_secret; end
 
-    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    sig { params(value: String).returns(String) }
     def client_secret=(value); end
 
     sig { returns(String) }
@@ -33,17 +33,23 @@ module WorkOS
     sig { params(value: String).returns(String) }
     def code=(value); end
 
-    sig { returns(T.nilable(String)) }
-    def code_verifier; end
+    sig { returns(String) }
+    def verification_id; end
 
-    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
-    def code_verifier=(value); end
+    sig { params(value: String).returns(String) }
+    def verification_id=(value); end
 
-    sig { returns(T.nilable(String)) }
-    def invitation_token; end
+    sig { returns(String) }
+    def phone_number; end
 
-    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
-    def invitation_token=(value); end
+    sig { params(value: String).returns(String) }
+    def phone_number=(value); end
+
+    sig { returns(String) }
+    def pending_authentication_token; end
+
+    sig { params(value: String).returns(String) }
+    def pending_authentication_token=(value); end
 
     sig { returns(T.nilable(String)) }
     def ip_address; end
@@ -62,12 +68,6 @@ module WorkOS
 
     sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
     def user_agent=(value); end
-
-    sig { returns(T.nilable(String)) }
-    def signals_id; end
-
-    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
-    def signals_id=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end
