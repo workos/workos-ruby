@@ -52,6 +52,24 @@ module WorkOS
     def external_id=(value); end
 
     sig { returns(T.nilable(String)) }
+    def ip_address; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def ip_address=(value); end
+
+    sig { returns(T.nilable(String)) }
+    def user_agent; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def user_agent=(value); end
+
+    sig { returns(T.nilable(String)) }
+    def signals_id; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def signals_id=(value); end
+
+    sig { returns(T.nilable(String)) }
     def password; end
 
     sig { params(value: T.nilable(String)).returns(T.nilable(String)) }

@@ -56,10 +56,11 @@ module WorkOS
         ip_address: T.nilable(String),
         device_id: T.nilable(String),
         user_agent: T.nilable(String),
+        signals_id: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AuthenticateResponse)
     end
-    def create_authenticate(client_id:, grant_type:, code:, client_secret:, code_verifier:, invitation_token:, ip_address:, device_id:, user_agent:, request_options:); end
+    def create_authenticate(client_id:, grant_type:, code:, client_secret:, code_verifier:, invitation_token:, ip_address:, device_id:, user_agent:, signals_id:, request_options:); end
 
     sig do
       params(
@@ -68,6 +69,18 @@ module WorkOS
       ).returns(WorkOS::DeviceAuthorizationResponse)
     end
     def create_device(client_id:, request_options:); end
+
+    sig do
+      params(
+        user_id: String,
+        pending_authentication_token: String,
+        phone_number: String,
+        ip_address: T.nilable(String),
+        user_agent: T.nilable(String),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::SendRadarSmsChallengeResponse)
+    end
+    def create_radar_challenge(user_id:, pending_authentication_token:, phone_number:, ip_address:, user_agent:, request_options:); end
 
     sig do
       params(
@@ -152,11 +165,14 @@ module WorkOS
         email_verified: T.nilable(T::Boolean),
         metadata: T.nilable(T::Hash[String, String]),
         external_id: T.nilable(String),
+        ip_address: T.nilable(String),
+        user_agent: T.nilable(String),
+        signals_id: T.nilable(String),
         password: T.nilable(T.any(WorkOS::UserManagement::PasswordPlaintext, WorkOS::UserManagement::PasswordHashed)),
         request_options: T::Hash[Symbol, T.untyped]
-      ).returns(WorkOS::User)
+      ).returns(WorkOS::UserCreateResponse)
     end
-    def create_user(email:, first_name:, last_name:, name:, email_verified:, metadata:, external_id:, password:, request_options:); end
+    def create_user(email:, first_name:, last_name:, name:, email_verified:, metadata:, external_id:, ip_address:, user_agent:, signals_id:, password:, request_options:); end
 
     sig do
       params(
@@ -340,10 +356,14 @@ module WorkOS
       params(
         email: String,
         invitation_token: T.nilable(String),
+        ip_address: T.nilable(String),
+        user_agent: T.nilable(String),
+        radar_auth_attempt_id: T.nilable(String),
+        signals_id: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
-      ).returns(WorkOS::MagicAuth)
+      ).returns(WorkOS::MagicAuthSendMagicAuthCodeAndReturnResponse)
     end
-    def create_magic_auth(email:, invitation_token:, request_options:); end
+    def create_magic_auth(email:, invitation_token:, ip_address:, user_agent:, radar_auth_attempt_id:, signals_id:, request_options:); end
 
     sig do
       params(

@@ -53,12 +53,17 @@ module WorkOS
     # @param ip_address [String, nil] The IP address of the user's request.
     # @param device_id [String, nil] A unique identifier for the device.
     # @param user_agent [String, nil] The user agent string from the user's browser.
+    # @param signals_id [String, nil] An optional Radar signals ID to correlate client-side signals with this authentication attempt.
     # @param email [String, nil] The user's email address.
     # @param password [String, nil] The user's password.
+    # @param radar_auth_attempt_id [String, nil] The ID of an existing Radar authentication attempt to associate with this authentication.
     # @param refresh_token [String, nil] The refresh token to exchange for new tokens.
     # @param organization_id [String, nil] The ID of the organization to scope the session to.
     # @param pending_authentication_token [String, nil] The pending authentication token from a previous authentication attempt.
     # @param authentication_challenge_id [String, nil] The ID of the MFA authentication challenge.
+    # @param radar_challenge_id [String, nil] The ID of the Radar email challenge being verified.
+    # @param verification_id [String, nil] The ID of the Radar SMS verification being confirmed.
+    # @param phone_number [String, nil] The phone number the Radar SMS challenge was sent to.
     # @param device_code [String, nil] The device verification code.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::AuthenticateResponse]
@@ -72,12 +77,17 @@ module WorkOS
       ip_address: nil,
       device_id: nil,
       user_agent: nil,
+      signals_id: nil,
       email: nil,
       password: nil,
+      radar_auth_attempt_id: nil,
       refresh_token: nil,
       organization_id: nil,
       pending_authentication_token: nil,
       authentication_challenge_id: nil,
+      radar_challenge_id: nil,
+      verification_id: nil,
+      phone_number: nil,
       device_code: nil,
       request_options: {}
     )
@@ -91,12 +101,17 @@ module WorkOS
         "ip_address" => ip_address,
         "device_id" => device_id,
         "user_agent" => user_agent,
+        "signals_id" => signals_id,
         "email" => email,
         "password" => password,
+        "radar_auth_attempt_id" => radar_auth_attempt_id,
         "refresh_token" => refresh_token,
         "organization_id" => organization_id,
         "pending_authentication_token" => pending_authentication_token,
         "authentication_challenge_id" => authentication_challenge_id,
+        "radar_challenge_id" => radar_challenge_id,
+        "verification_id" => verification_id,
+        "phone_number" => phone_number,
         "device_code" => device_code
       }.compact
       response = @client.request(
@@ -430,6 +445,41 @@ module WorkOS
       result
     end
 
+    # Send a Radar SMS challenge
+    # @param user_id [String] The ID of the user to send the SMS challenge to.
+    # @param pending_authentication_token [String] The pending authentication token from a previous authentication attempt that triggered the Radar challenge.
+    # @param phone_number [String] The phone number to send the SMS verification code to.
+    # @param ip_address [String, nil] The IP address of the user's request.
+    # @param user_agent [String, nil] The user agent string from the user's request.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::SendRadarSmsChallengeResponse]
+    def create_radar_challenge(
+      user_id:,
+      pending_authentication_token:,
+      phone_number:,
+      ip_address: nil,
+      user_agent: nil,
+      request_options: {}
+    )
+      body = {
+        "user_id" => user_id,
+        "pending_authentication_token" => pending_authentication_token,
+        "phone_number" => phone_number,
+        "ip_address" => ip_address,
+        "user_agent" => user_agent
+      }.compact
+      response = @client.request(
+        method: :post,
+        path: "/user_management/radar_challenges",
+        auth: true,
+        body: body,
+        request_options: request_options
+      )
+      result = WorkOS::SendRadarSmsChallengeResponse.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
     # Revoke Session
     # @param session_id [String] The ID of the session to revoke. This can be extracted from the `sid` claim of the access token.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
@@ -669,9 +719,12 @@ module WorkOS
     # @param email_verified [Boolean, nil] Whether the user's email has been verified.
     # @param metadata [Hash{String => String}, nil] Object containing metadata key/value pairs associated with the user.
     # @param external_id [String, nil] The external ID of the user.
+    # @param ip_address [String, nil] The IP address of the user's request.
+    # @param user_agent [String, nil] The user agent string from the user's request.
+    # @param signals_id [String, nil] An optional Radar signals ID to correlate client-side signals with this request.
     # @param password [WorkOS::UserManagement::PasswordPlaintext, WorkOS::UserManagement::PasswordHashed, nil] Identifies the password.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
-    # @return [WorkOS::User]
+    # @return [WorkOS::UserCreateResponse]
     def create_user(
       email:,
       first_name: nil,
@@ -680,6 +733,9 @@ module WorkOS
       email_verified: nil,
       metadata: nil,
       external_id: nil,
+      ip_address: nil,
+      user_agent: nil,
+      signals_id: nil,
       password: nil,
       request_options: {}
     )
@@ -690,7 +746,10 @@ module WorkOS
         "name" => name,
         "email_verified" => email_verified,
         "metadata" => metadata,
-        "external_id" => external_id
+        "external_id" => external_id,
+        "ip_address" => ip_address,
+        "user_agent" => user_agent,
+        "signals_id" => signals_id
       }.compact
       if password
         case password
@@ -710,7 +769,7 @@ module WorkOS
         body: body,
         request_options: request_options
       )
-      result = WorkOS::User.new(response.body)
+      result = WorkOS::UserCreateResponse.new(response.body)
       result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
       result
     end
@@ -1220,16 +1279,28 @@ module WorkOS
     # Create a Magic Auth code
     # @param email [String] The email address to send the magic code to.
     # @param invitation_token [String, nil] The invitation token to associate with this magic code.
+    # @param ip_address [String, nil] The IP address of the user's request.
+    # @param user_agent [String, nil] The user agent string from the user's request.
+    # @param radar_auth_attempt_id [String, nil] The ID of an existing Radar authentication attempt to associate with this request.
+    # @param signals_id [String, nil] An optional Radar signals ID to correlate client-side signals with this request.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
-    # @return [WorkOS::MagicAuth]
+    # @return [WorkOS::MagicAuthSendMagicAuthCodeAndReturnResponse]
     def create_magic_auth(
       email:,
       invitation_token: nil,
+      ip_address: nil,
+      user_agent: nil,
+      radar_auth_attempt_id: nil,
+      signals_id: nil,
       request_options: {}
     )
       body = {
         "email" => email,
-        "invitation_token" => invitation_token
+        "invitation_token" => invitation_token,
+        "ip_address" => ip_address,
+        "user_agent" => user_agent,
+        "radar_auth_attempt_id" => radar_auth_attempt_id,
+        "signals_id" => signals_id
       }.compact
       response = @client.request(
         method: :post,
@@ -1238,7 +1309,7 @@ module WorkOS
         body: body,
         request_options: request_options
       )
-      result = WorkOS::MagicAuth.new(response.body)
+      result = WorkOS::MagicAuthSendMagicAuthCodeAndReturnResponse.new(response.body)
       result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
       result
     end

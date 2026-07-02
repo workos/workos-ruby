@@ -12,6 +12,9 @@ module WorkOS
       email_verified: :email_verified,
       metadata: :metadata,
       external_id: :external_id,
+      ip_address: :ip_address,
+      user_agent: :user_agent,
+      signals_id: :signals_id,
       password: :password,
       password_hash: :password_hash,
       password_hash_type: :password_hash_type
@@ -25,6 +28,9 @@ module WorkOS
       :email_verified,
       :metadata,
       :external_id,
+      :ip_address,
+      :user_agent,
+      :signals_id,
       :password,
       :password_hash,
       :password_hash_type
@@ -38,6 +44,9 @@ module WorkOS
       @email_verified = hash[:email_verified]
       @metadata = hash[:metadata] || {}
       @external_id = hash[:external_id]
+      @ip_address = hash[:ip_address]
+      @user_agent = hash[:user_agent]
+      @signals_id = hash[:signals_id]
       @password = hash[:password]
       @password_hash = hash[:password_hash]
       @password_hash_type = hash[:password_hash_type]

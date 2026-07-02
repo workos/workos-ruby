@@ -6,17 +6,29 @@ module WorkOS
   class CreateMagicCodeAndReturn < WorkOS::Types::BaseModel
     HASH_ATTRS = {
       email: :email,
-      invitation_token: :invitation_token
+      invitation_token: :invitation_token,
+      ip_address: :ip_address,
+      user_agent: :user_agent,
+      radar_auth_attempt_id: :radar_auth_attempt_id,
+      signals_id: :signals_id
     }.freeze
 
     attr_accessor \
       :email,
-      :invitation_token
+      :invitation_token,
+      :ip_address,
+      :user_agent,
+      :radar_auth_attempt_id,
+      :signals_id
 
     def initialize(json)
       hash = self.class.normalize(json)
       @email = hash[:email]
       @invitation_token = hash[:invitation_token]
+      @ip_address = hash[:ip_address]
+      @user_agent = hash[:user_agent]
+      @radar_auth_attempt_id = hash[:radar_auth_attempt_id]
+      @signals_id = hash[:signals_id]
     end
   end
 end
