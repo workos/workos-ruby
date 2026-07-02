@@ -39,6 +39,12 @@ module WorkOS
     sig { params(value: String).returns(String) }
     def action=(value); end
 
+    sig { returns(T.nilable(String)) }
+    def signals_id; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def signals_id=(value); end
+
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end
 
