@@ -2,5 +2,5 @@
 
 # @oagen-ignore-file
 module WorkOS
-  VERSION = "9.4.0"
+  VERSION = "9.5.0"
 end

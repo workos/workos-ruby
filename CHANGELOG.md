@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.5.0](https://github.com/workos/workos-ruby/compare/v9.4.0...v9.5.0) (2026-07-06)
+
+
+### Features
+
+* **generated:** UserManagement, Radar (batch f510ddfb) ([#514](https://github.com/workos/workos-ruby/issues/514)) ([200cafd](https://github.com/workos/workos-ruby/commit/200cafd3bda0d0fc7d600242ad3f662801db8f78))
+
 ## [9.4.0](https://github.com/workos/workos-ruby/compare/v9.3.0...v9.4.0) (2026-07-02)
 
 * [#508](https://github.com/workos/workos-ruby/pull/508) fix(generated): regenerate from spec
