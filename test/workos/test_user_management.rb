@@ -145,6 +145,36 @@ class UserManagementTest < Minitest::Test
     end
   end
 
+  def test_authenticate_with_radar_email_challenge_returns_expected_result
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/user_management/authenticate(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.user_management.authenticate_with_radar_email_challenge(code: "stub", radar_challenge_id: "stub", pending_authentication_token: "stub")
+    refute_nil result
+  end
+
+  def test_authenticate_with_radar_email_challenge_raises_authentication_error_on_401
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/user_management/authenticate(\?|\z)})
+      .to_return(body: '{"message": "Unauthorized"}', status: 401)
+    assert_raises(WorkOS::AuthenticationError) do
+      @client.user_management.authenticate_with_radar_email_challenge(code: "stub", radar_challenge_id: "stub", pending_authentication_token: "stub")
+    end
+  end
+
+  def test_authenticate_with_radar_sms_challenge_returns_expected_result
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/user_management/authenticate(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.user_management.authenticate_with_radar_sms_challenge(code: "stub", verification_id: "stub", phone_number: "stub", pending_authentication_token: "stub")
+    refute_nil result
+  end
+
+  def test_authenticate_with_radar_sms_challenge_raises_authentication_error_on_401
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/user_management/authenticate(\?|\z)})
+      .to_return(body: '{"message": "Unauthorized"}', status: 401)
+    assert_raises(WorkOS::AuthenticationError) do
+      @client.user_management.authenticate_with_radar_sms_challenge(code: "stub", verification_id: "stub", phone_number: "stub", pending_authentication_token: "stub")
+    end
+  end
+
   def test_create_device_returns_expected_result
     stub_request(:post, %r{\Ahttps://api\.workos\.com/user_management/authorize/device(\?|\z)})
       .to_return(body: "{}", status: 200)

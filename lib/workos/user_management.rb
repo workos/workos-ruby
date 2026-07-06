@@ -133,6 +133,8 @@ module WorkOS
     # @param ip_address [String, nil]
     # @param device_id [String, nil]
     # @param user_agent [String, nil]
+    # @param signals_id [String, nil]
+    # @param radar_auth_attempt_id [String, nil]
     # @param request_options [Hash] Per-request overrides.
     # @return [WorkOS::AuthenticateResponse]
     def authenticate_with_password(
@@ -142,6 +144,8 @@ module WorkOS
       ip_address: nil,
       device_id: nil,
       user_agent: nil,
+      signals_id: nil,
+      radar_auth_attempt_id: nil,
       request_options: {}
     )
       body = {
@@ -153,7 +157,9 @@ module WorkOS
         "invitation_token" => invitation_token,
         "ip_address" => ip_address,
         "device_id" => device_id,
-        "user_agent" => user_agent
+        "user_agent" => user_agent,
+        "signals_id" => signals_id,
+        "radar_auth_attempt_id" => radar_auth_attempt_id
       }.compact
       response = @client.request(
         method: :post,
@@ -172,6 +178,7 @@ module WorkOS
     # @param ip_address [String, nil]
     # @param device_id [String, nil]
     # @param user_agent [String, nil]
+    # @param signals_id [String, nil]
     # @param request_options [Hash] Per-request overrides.
     # @return [WorkOS::AuthenticateResponse]
     def authenticate_with_code(
@@ -181,6 +188,7 @@ module WorkOS
       ip_address: nil,
       device_id: nil,
       user_agent: nil,
+      signals_id: nil,
       request_options: {}
     )
       body = {
@@ -192,7 +200,8 @@ module WorkOS
         "invitation_token" => invitation_token,
         "ip_address" => ip_address,
         "device_id" => device_id,
-        "user_agent" => user_agent
+        "user_agent" => user_agent,
+        "signals_id" => signals_id
       }.compact
       response = @client.request(
         method: :post,
@@ -247,6 +256,7 @@ module WorkOS
     # @param ip_address [String, nil]
     # @param device_id [String, nil]
     # @param user_agent [String, nil]
+    # @param radar_auth_attempt_id [String, nil]
     # @param request_options [Hash] Per-request overrides.
     # @return [WorkOS::AuthenticateResponse]
     def authenticate_with_magic_auth(
@@ -256,6 +266,7 @@ module WorkOS
       ip_address: nil,
       device_id: nil,
       user_agent: nil,
+      radar_auth_attempt_id: nil,
       request_options: {}
     )
       body = {
@@ -267,7 +278,8 @@ module WorkOS
         "invitation_token" => invitation_token,
         "ip_address" => ip_address,
         "device_id" => device_id,
-        "user_agent" => user_agent
+        "user_agent" => user_agent,
+        "radar_auth_attempt_id" => radar_auth_attempt_id
       }.compact
       response = @client.request(
         method: :post,
@@ -408,6 +420,87 @@ module WorkOS
         "grant_type" => "urn:ietf:params:oauth:grant-type:device_code",
         "client_id" => @client.client_id,
         "device_code" => device_code,
+        "ip_address" => ip_address,
+        "device_id" => device_id,
+        "user_agent" => user_agent
+      }.compact
+      response = @client.request(
+        method: :post,
+        path: "/user_management/authenticate",
+        auth: true,
+        body: body,
+        request_options: request_options
+      )
+      WorkOS::AuthenticateResponse.new(response.body)
+    end
+
+    # Authenticate with radar email challenge.
+    # @param code [String]
+    # @param radar_challenge_id [String]
+    # @param pending_authentication_token [String]
+    # @param ip_address [String, nil]
+    # @param device_id [String, nil]
+    # @param user_agent [String, nil]
+    # @param request_options [Hash] Per-request overrides.
+    # @return [WorkOS::AuthenticateResponse]
+    def authenticate_with_radar_email_challenge(
+      code:,
+      radar_challenge_id:,
+      pending_authentication_token:,
+      ip_address: nil,
+      device_id: nil,
+      user_agent: nil,
+      request_options: {}
+    )
+      body = {
+        "grant_type" => "urn:workos:oauth:grant-type:radar-email-challenge:code",
+        "client_id" => @client.client_id,
+        "client_secret" => @client.api_key,
+        "code" => code,
+        "radar_challenge_id" => radar_challenge_id,
+        "pending_authentication_token" => pending_authentication_token,
+        "ip_address" => ip_address,
+        "device_id" => device_id,
+        "user_agent" => user_agent
+      }.compact
+      response = @client.request(
+        method: :post,
+        path: "/user_management/authenticate",
+        auth: true,
+        body: body,
+        request_options: request_options
+      )
+      WorkOS::AuthenticateResponse.new(response.body)
+    end
+
+    # Authenticate with radar sms challenge.
+    # @param code [String]
+    # @param verification_id [String]
+    # @param phone_number [String]
+    # @param pending_authentication_token [String]
+    # @param ip_address [String, nil]
+    # @param device_id [String, nil]
+    # @param user_agent [String, nil]
+    # @param request_options [Hash] Per-request overrides.
+    # @return [WorkOS::AuthenticateResponse]
+    def authenticate_with_radar_sms_challenge(
+      code:,
+      verification_id:,
+      phone_number:,
+      pending_authentication_token:,
+      ip_address: nil,
+      device_id: nil,
+      user_agent: nil,
+      request_options: {}
+    )
+      body = {
+        "grant_type" => "urn:workos:oauth:grant-type:radar-sms-challenge:code",
+        "client_id" => @client.client_id,
+        "client_secret" => @client.api_key,
+        "code" => code,
+        "verification_id" => verification_id,
+        "phone_number" => phone_number,
+        "pending_authentication_token" => pending_authentication_token,
         "ip_address" => ip_address,
         "device_id" => device_id,
         "user_agent" => user_agent

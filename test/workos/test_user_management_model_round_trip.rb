@@ -928,21 +928,60 @@ class UserManagementModelRoundTripTest < Minitest::Test
 
   def test_magic_auth_send_magic_auth_code_and_return_response_round_trip
     fixture = {
+      "object" => "magic_auth",
+      "id" => "stub",
+      "user_id" => "stub",
+      "email" => "stub",
+      "expires_at" => "stub",
+      "created_at" => "stub",
+      "updated_at" => "stub",
+      "code" => "stub",
       "radar_auth_attempt_id" => "stub"
     }
     model = WorkOS::MagicAuthSendMagicAuthCodeAndReturnResponse.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["user_id"], json[:user_id]
+    assert_equal fixture["email"], json[:email]
+    assert_equal fixture["expires_at"], json[:expires_at]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    assert_equal fixture["code"], json[:code]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
   def test_user_create_response_round_trip
     fixture = {
+      "object" => "user",
+      "id" => "stub",
+      "first_name" => nil,
+      "last_name" => nil,
+      "name" => nil,
+      "profile_picture_url" => nil,
+      "email" => "stub",
+      "email_verified" => true,
+      "external_id" => nil,
+      "metadata" => {},
+      "last_sign_in_at" => nil,
+      "locale" => nil,
+      "created_at" => "stub",
+      "updated_at" => "stub",
       "radar_auth_attempt_id" => "stub"
     }
     model = WorkOS::UserCreateResponse.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_nil json[:first_name]
+    assert_nil json[:last_name]
+    assert_nil json[:profile_picture_url]
+    assert_equal fixture["email"], json[:email]
+    assert_equal fixture["email_verified"], json[:email_verified]
+    assert_nil json[:external_id]
+    assert_nil json[:last_sign_in_at]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
