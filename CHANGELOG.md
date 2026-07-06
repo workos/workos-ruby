@@ -1,5 +1,21 @@
 # Changelog
 
+## [9.5.0](https://github.com/workos/workos-ruby/compare/v9.4.0...v9.5.0) (2026-07-06)
+
+* [#514](https://github.com/workos/workos-ruby/pull/514) fix(generated): regenerate from spec
+
+  **Features**
+  * **[user_management](https://workos.com/docs/reference/authkit/user)**:
+    * Added model `UserRoleAssignmentSource`
+    * Added `source` to `UserRoleAssignment`
+    * Added enum `UserRoleAssignmentSourceType`
+    * Added parameter `UserManagementAuthentication.authorize.max_age`
+    * Added endpoint `GET /user_management/cors_origins`
+    * Added endpoint `GET /user_management/redirect_uris`
+
+  **Fixes**
+  * Restore mistakenly removed CreateMagicAuth logic from previous release
+
 ## [9.4.0](https://github.com/workos/workos-ruby/compare/v9.3.0...v9.4.0) (2026-07-02)
 
 * [#508](https://github.com/workos/workos-ruby/pull/508) fix(generated): regenerate from spec
