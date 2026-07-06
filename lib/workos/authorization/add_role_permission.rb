@@ -8,7 +8,7 @@ module WorkOS
       slug: :slug
     }.freeze
 
-    attr_accessor :slug
+    attr_accessor :slug, :foobar
 
     def initialize(json)
       hash = self.class.normalize(json)
