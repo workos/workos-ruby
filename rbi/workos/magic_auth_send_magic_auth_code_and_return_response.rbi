@@ -9,6 +9,54 @@ module WorkOS
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
 
+    sig { returns(String) }
+    def object; end
+
+    sig { params(value: String).returns(String) }
+    def object=(value); end
+
+    sig { returns(String) }
+    def id; end
+
+    sig { params(value: String).returns(String) }
+    def id=(value); end
+
+    sig { returns(String) }
+    def user_id; end
+
+    sig { params(value: String).returns(String) }
+    def user_id=(value); end
+
+    sig { returns(String) }
+    def email; end
+
+    sig { params(value: String).returns(String) }
+    def email=(value); end
+
+    sig { returns(String) }
+    def expires_at; end
+
+    sig { params(value: String).returns(String) }
+    def expires_at=(value); end
+
+    sig { returns(String) }
+    def created_at; end
+
+    sig { params(value: String).returns(String) }
+    def created_at=(value); end
+
+    sig { returns(String) }
+    def updated_at; end
+
+    sig { params(value: String).returns(String) }
+    def updated_at=(value); end
+
+    sig { returns(String) }
+    def code; end
+
+    sig { params(value: String).returns(String) }
+    def code=(value); end
+
     sig { returns(T.nilable(String)) }
     def radar_auth_attempt_id; end
 

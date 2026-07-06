@@ -5,13 +5,38 @@
 module WorkOS
   class MagicAuthSendMagicAuthCodeAndReturnResponse < WorkOS::Types::BaseModel
     HASH_ATTRS = {
+      object: :object,
+      id: :id,
+      user_id: :user_id,
+      email: :email,
+      expires_at: :expires_at,
+      created_at: :created_at,
+      updated_at: :updated_at,
+      code: :code,
       radar_auth_attempt_id: :radar_auth_attempt_id
     }.freeze
 
-    attr_accessor :radar_auth_attempt_id
+    attr_accessor \
+      :object,
+      :id,
+      :user_id,
+      :email,
+      :expires_at,
+      :created_at,
+      :updated_at,
+      :code,
+      :radar_auth_attempt_id
 
     def initialize(json)
       hash = self.class.normalize(json)
+      @object = hash[:object]
+      @id = hash[:id]
+      @user_id = hash[:user_id]
+      @email = hash[:email]
+      @expires_at = hash[:expires_at]
+      @created_at = hash[:created_at]
+      @updated_at = hash[:updated_at]
+      @code = hash[:code]
       @radar_auth_attempt_id = hash[:radar_auth_attempt_id]
     end
   end

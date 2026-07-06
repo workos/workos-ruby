@@ -1,7 +1,6 @@
 {
   "version": 2,
   "language": "ruby",
-  "generatedAt": "2026-07-02T17:29:49.181Z",
   "files": [
     "lib/workos.rb",
     "lib/workos/admin_portal.rb",
@@ -2057,6 +2056,14 @@
     "PUT /user_management/users/{user_id}/connected_accounts/{slug}": {
       "sdkMethod": "update_user_connected_account",
       "service": "pipes"
+    },
+    "POST /user_management/authenticate#RadarEmailChallengeCodeSessionAuthenticateRequest": {
+      "sdkMethod": "authenticate_with_radar_email_challenge",
+      "service": "user_management"
+    },
+    "POST /user_management/authenticate#RadarSmsChallengeCodeSessionAuthenticateRequest": {
+      "sdkMethod": "authenticate_with_radar_sms_challenge",
+      "service": "user_management"
     }
   }
 }
