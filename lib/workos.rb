@@ -5,6 +5,16 @@
 require "zeitwerk"
 
 module WorkOS
+  # Sentinel default for nullable optional parameters. Distinguishes an
+  # omitted argument ("leave unchanged") from an explicit `nil`, which
+  # clears the field by sending JSON `null`.
+  OMIT = Object.new
+
+  def OMIT.inspect
+    "WorkOS::OMIT"
+  end
+
+  OMIT.freeze
 end
 
 loader = Zeitwerk::Loader.for_gem

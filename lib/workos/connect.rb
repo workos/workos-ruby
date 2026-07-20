@@ -101,24 +101,24 @@ module WorkOS
     def create_application(
       name:,
       application_type:,
-      description: nil,
-      scopes: nil,
-      redirect_uris: nil,
-      uses_pkce: nil,
+      description: WorkOS::OMIT,
+      scopes: WorkOS::OMIT,
+      redirect_uris: WorkOS::OMIT,
+      uses_pkce: WorkOS::OMIT,
       is_first_party: nil,
-      organization_id: nil,
+      organization_id: WorkOS::OMIT,
       request_options: {}
     )
       body = {
         "name" => name,
         "application_type" => application_type,
-        "description" => description,
-        "scopes" => scopes,
-        "redirect_uris" => redirect_uris,
-        "uses_pkce" => uses_pkce,
-        "is_first_party" => is_first_party,
-        "organization_id" => organization_id
+        "is_first_party" => is_first_party
       }.compact
+      body["description"] = description unless description.equal?(WorkOS::OMIT)
+      body["scopes"] = scopes unless scopes.equal?(WorkOS::OMIT)
+      body["redirect_uris"] = redirect_uris unless redirect_uris.equal?(WorkOS::OMIT)
+      body["uses_pkce"] = uses_pkce unless uses_pkce.equal?(WorkOS::OMIT)
+      body["organization_id"] = organization_id unless organization_id.equal?(WorkOS::OMIT)
       response = @client.request(
         method: :post,
         path: "/connect/applications",
@@ -232,17 +232,17 @@ module WorkOS
     def update_application(
       id:,
       name: nil,
-      description: nil,
-      scopes: nil,
-      redirect_uris: nil,
+      description: WorkOS::OMIT,
+      scopes: WorkOS::OMIT,
+      redirect_uris: WorkOS::OMIT,
       request_options: {}
     )
       body = {
-        "name" => name,
-        "description" => description,
-        "scopes" => scopes,
-        "redirect_uris" => redirect_uris
+        "name" => name
       }.compact
+      body["description"] = description unless description.equal?(WorkOS::OMIT)
+      body["scopes"] = scopes unless scopes.equal?(WorkOS::OMIT)
+      body["redirect_uris"] = redirect_uris unless redirect_uris.equal?(WorkOS::OMIT)
       response = @client.request(
         method: :put,
         path: "/connect/applications/#{WorkOS::Util.encode_path(id)}",

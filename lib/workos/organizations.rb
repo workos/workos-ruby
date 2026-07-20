@@ -76,18 +76,18 @@ module WorkOS
       allow_profiles_outside_organization: nil,
       domains: nil,
       domain_data: nil,
-      metadata: nil,
-      external_id: nil,
+      metadata: WorkOS::OMIT,
+      external_id: WorkOS::OMIT,
       request_options: {}
     )
       body = {
         "name" => name,
         "allow_profiles_outside_organization" => allow_profiles_outside_organization,
         "domains" => domains,
-        "domain_data" => domain_data,
-        "metadata" => metadata,
-        "external_id" => external_id
+        "domain_data" => domain_data
       }.compact
+      body["metadata"] = metadata unless metadata.equal?(WorkOS::OMIT)
+      body["external_id"] = external_id unless external_id.equal?(WorkOS::OMIT)
       response = @client.request(
         method: :post,
         path: "/organizations",
@@ -156,8 +156,8 @@ module WorkOS
       domains: nil,
       domain_data: nil,
       stripe_customer_id: nil,
-      metadata: nil,
-      external_id: nil,
+      metadata: WorkOS::OMIT,
+      external_id: WorkOS::OMIT,
       request_options: {}
     )
       body = {
@@ -165,10 +165,10 @@ module WorkOS
         "allow_profiles_outside_organization" => allow_profiles_outside_organization,
         "domains" => domains,
         "domain_data" => domain_data,
-        "stripe_customer_id" => stripe_customer_id,
-        "metadata" => metadata,
-        "external_id" => external_id
+        "stripe_customer_id" => stripe_customer_id
       }.compact
+      body["metadata"] = metadata unless metadata.equal?(WorkOS::OMIT)
+      body["external_id"] = external_id unless external_id.equal?(WorkOS::OMIT)
       response = @client.request(
         method: :put,
         path: "/organizations/#{WorkOS::Util.encode_path(id)}",

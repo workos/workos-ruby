@@ -65,21 +65,23 @@ module WorkOS
     # @return [WorkOS::DataIntegration]
     def create_data_integration(
       provider:,
-      description: nil,
+      description: WorkOS::OMIT,
       enabled: nil,
-      scopes: nil,
+      scopes: WorkOS::OMIT,
+      auth_methods: nil,
       credentials: nil,
       custom_provider: nil,
       request_options: {}
     )
       body = {
         "provider" => provider,
-        "description" => description,
         "enabled" => enabled,
-        "scopes" => scopes,
+        "auth_methods" => auth_methods,
         "credentials" => credentials,
         "custom_provider" => custom_provider
       }.compact
+      body["description"] = description unless description.equal?(WorkOS::OMIT)
+      body["scopes"] = scopes unless scopes.equal?(WorkOS::OMIT)
       response = @client.request(
         method: :post,
         path: "/data-integrations",
@@ -122,20 +124,20 @@ module WorkOS
     # @return [WorkOS::DataIntegration]
     def update_data_integration(
       slug:,
-      description: nil,
+      description: WorkOS::OMIT,
       enabled: nil,
-      scopes: nil,
+      scopes: WorkOS::OMIT,
       credentials: nil,
       custom_provider: nil,
       request_options: {}
     )
       body = {
-        "description" => description,
         "enabled" => enabled,
-        "scopes" => scopes,
         "credentials" => credentials,
         "custom_provider" => custom_provider
       }.compact
+      body["description"] = description unless description.equal?(WorkOS::OMIT)
+      body["scopes"] = scopes unless scopes.equal?(WorkOS::OMIT)
       response = @client.request(
         method: :put,
         path: "/data-integrations/#{WorkOS::Util.encode_path(slug)}",
@@ -264,13 +266,13 @@ module WorkOS
     def get_access_token(
       provider:,
       user_id:,
-      organization_id: nil,
+      organization_id: WorkOS::OMIT,
       request_options: {}
     )
       body = {
-        "user_id" => user_id,
-        "organization_id" => organization_id
-      }.compact
+        "user_id" => user_id
+      }
+      body["organization_id"] = organization_id unless organization_id.equal?(WorkOS::OMIT)
       response = @client.request(
         method: :post,
         path: "/data-integrations/#{WorkOS::Util.encode_path(provider)}/token",
