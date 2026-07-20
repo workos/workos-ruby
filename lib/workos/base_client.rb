@@ -7,6 +7,7 @@ require "net/http"
 require "securerandom"
 require "uri"
 require "workos/errors"
+require "workos/null"
 
 module WorkOS
   # Instance-scoped HTTP runtime that implements request execution,
