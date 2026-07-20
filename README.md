@@ -100,13 +100,15 @@ organization = WorkOS.client.organizations.get_organization(
   id: "org_123",
   request_options: {
     timeout: 10,
-    extra_headers: {"X-Request-Source" => "admin"},
-    idempotency_key: "org-create-123"
+    extra_headers: {"X-Request-Source" => "admin"}
   }
 )
 ```
 
 `Idempotency-Key` is only sent when you provide `request_options[:idempotency_key]`, or when the SDK retries a mutating request after a transient failure.
+
+> [!NOTE]
+> The WorkOS API currently honors `Idempotency-Key` only on the [Create Audit Log Event](https://workos.com/docs/reference/audit-logs/event) endpoint (`audit_logs.create_event`). Other endpoints accept the header but do not deduplicate requests, so a retried mutation elsewhere can still create a duplicate.
 
 ## Usage Examples
 
