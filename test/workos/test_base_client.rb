@@ -134,6 +134,18 @@ class BaseClientTest < Minitest::Test
     assert_equal({"external_id" => nil}, JSON.parse(request.body))
   end
 
+  def test_patch_request_serializes_explicit_nil_as_json_null
+    request = @client.patch_request(path: "/widgets/w_1", auth: true, body: {"external_id" => nil})
+
+    assert_equal({"external_id" => nil}, JSON.parse(request.body))
+  end
+
+  def test_delete_request_serializes_explicit_nil_as_json_null
+    request = @client.delete_request(path: "/widgets/w_1", auth: true, body: {"external_id" => nil})
+
+    assert_equal({"external_id" => nil}, JSON.parse(request.body))
+  end
+
   def test_retry_path_generates_idempotency_key_for_mutating_requests
     stub_request(:post, "https://api.workos.com/widgets")
       .to_return({status: 500, body: '{"message":"retry"}'}, {status: 200, body: "{}"})
