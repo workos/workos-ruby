@@ -119,6 +119,21 @@ class BaseClientTest < Minitest::Test
     assert_equal "idem_123", request["Idempotency-Key"]
   end
 
+  # The body is serialized verbatim (no `.compact`), so an explicit `nil` is
+  # sent as JSON `null` — this is what lets generated methods clear a nullable
+  # field. Omission is handled upstream in the generated method, not here.
+  def test_put_request_serializes_explicit_nil_as_json_null
+    request = @client.put_request(path: "/widgets/w_1", auth: true, body: {"external_id" => nil})
+
+    assert_equal({"external_id" => nil}, JSON.parse(request.body))
+  end
+
+  def test_post_request_serializes_explicit_nil_as_json_null
+    request = @client.post_request(path: "/widgets", auth: true, body: {"external_id" => nil})
+
+    assert_equal({"external_id" => nil}, JSON.parse(request.body))
+  end
+
   def test_retry_path_generates_idempotency_key_for_mutating_requests
     stub_request(:post, "https://api.workos.com/widgets")
       .to_return({status: 500, body: '{"message":"retry"}'}, {status: 200, body: "{}"})
