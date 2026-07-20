@@ -66,4 +66,17 @@ class NullableClearingTest < Minitest::Test
     refute body.key?("external_id")
     assert_equal "Ada", body["first_name"]
   end
+
+  def test_sentinel_never_leaks_into_body
+    raw = nil
+    url = %r{\Ahttps://api\.workos\.com/organizations/org_123(\?|\z)}
+    stub_request(:put, url)
+      .with { |req|
+        raw = req.body
+        true
+      }
+      .to_return(body: "{}", status: 200)
+    @client.organizations.update_organization(id: "org_123", name: "New Name")
+    refute_match(/OMIT/, raw)
+  end
 end
