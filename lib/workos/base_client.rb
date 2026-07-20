@@ -66,7 +66,7 @@ module WorkOS
     def post_request(path:, auth: false, body: {}, params: {}, request_options: nil)
       req = build_request(Net::HTTP::Post, append_query(path, params),
         auth: auth, request_options: request_options)
-      req.body = body.nil? ? "" : body.compact.to_json
+      req.body = encode_body(body)
       req["Content-Type"] = "application/json"
       inject_idempotency_key(req, request_options)
       req
@@ -75,7 +75,7 @@ module WorkOS
     def put_request(path:, auth: false, body: {}, params: {}, request_options: nil)
       req = build_request(Net::HTTP::Put, append_query(path, params),
         auth: auth, request_options: request_options)
-      req.body = body.nil? ? "" : body.compact.to_json
+      req.body = encode_body(body)
       req["Content-Type"] = "application/json"
       inject_idempotency_key(req, request_options)
       req
@@ -84,7 +84,7 @@ module WorkOS
     def patch_request(path:, auth: false, body: {}, params: {}, request_options: nil)
       req = build_request(Net::HTTP::Patch, append_query(path, params),
         auth: auth, request_options: request_options)
-      req.body = body.nil? ? "" : body.compact.to_json
+      req.body = encode_body(body)
       req["Content-Type"] = "application/json"
       inject_idempotency_key(req, request_options)
       req
@@ -94,7 +94,7 @@ module WorkOS
       req = build_request(Net::HTTP::Delete, append_query(path, params),
         auth: auth, request_options: request_options)
       if body
-        req.body = body.compact.to_json
+        req.body = encode_body(body)
         req["Content-Type"] = "application/json"
       end
       req
@@ -179,6 +179,30 @@ module WorkOS
     end
 
     private
+
+    # Serialize a request body to JSON.
+    #
+    # Keys whose value is `nil` are omitted entirely (the field is left
+    # unchanged by the API), while keys explicitly set to {WorkOS::Null} are
+    # sent as JSON `null` so that nullable fields can be cleared.
+    def encode_body(body)
+      return "" if body.nil?
+
+      materialize_nulls(body.compact).to_json
+    end
+
+    # Recursively replace {WorkOS::Null} sentinels with `nil` so they
+    # serialize to JSON `null` regardless of the JSON encoder in use.
+    def materialize_nulls(value)
+      case value
+      when Hash
+        value.each_with_object({}) { |(key, val), acc| acc[key] = materialize_nulls(val) }
+      when Array
+        value.map { |val| materialize_nulls(val) }
+      else
+        value.equal?(WorkOS::Null) ? nil : value
+      end
+    end
 
     # Redact path segments that carry bearer-equivalent tokens (e.g.
     # `/user_management/invitations/by_token/<token>`,

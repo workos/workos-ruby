@@ -108,6 +108,24 @@ organization = WorkOS.client.organizations.get_organization(
 
 `Idempotency-Key` is only sent when you provide `request_options[:idempotency_key]`, or when the SDK retries a mutating request after a transient failure.
 
+## Clearing nullable fields
+
+Optional parameters default to `nil`, and any parameter left as `nil` is
+**omitted** from the request so the field is left unchanged. To explicitly
+clear a nullable field, pass `WorkOS::Null`, which is serialized as JSON
+`null`:
+
+```ruby
+# Leaves external_id unchanged (external_id is omitted from the request):
+WorkOS.client.organizations.update_organization(id: "org_123", external_id: nil)
+
+# Clears external_id (sends {"external_id": null}):
+WorkOS.client.organizations.update_organization(id: "org_123", external_id: WorkOS::Null)
+
+# Works the same way for users:
+WorkOS.client.user_management.update_user(id: "user_123", external_id: WorkOS::Null)
+```
+
 ## Usage Examples
 
 ### List organizations
