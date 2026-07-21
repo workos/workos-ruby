@@ -4,11 +4,8 @@
   "files": [
     "lib/workos.rb",
     "lib/workos/admin_portal.rb",
-    "lib/workos/admin_portal/domain_verification_intent_options.rb",
     "lib/workos/admin_portal/generate_link.rb",
-    "lib/workos/admin_portal/intent_options.rb",
     "lib/workos/admin_portal/portal_link_response.rb",
-    "lib/workos/admin_portal/sso_intent_options.rb",
     "lib/workos/agents.rb",
     "lib/workos/agents/agent_admin_link_claim_attempt_to_external_user_request.rb",
     "lib/workos/agents/agent_admin_link_claim_attempt_to_external_user_request_user.rb",
@@ -217,7 +214,6 @@
     "lib/workos/organization_domains/organization_domain_created_data.rb",
     "lib/workos/organization_domains/organization_domain_deleted.rb",
     "lib/workos/organization_domains/organization_domain_deleted_data.rb",
-    "lib/workos/organization_domains/organization_domain_stand_alone.rb",
     "lib/workos/organization_domains/organization_domain_updated.rb",
     "lib/workos/organization_domains/organization_domain_updated_data.rb",
     "lib/workos/organization_domains/organization_domain_verification_failed.rb",
@@ -264,7 +260,6 @@
     "lib/workos/pipes.rb",
     "lib/workos/pipes/api_key_installation.rb",
     "lib/workos/pipes/connected_account.rb",
-    "lib/workos/pipes/connected_account_dto.rb",
     "lib/workos/pipes/connected_account_input.rb",
     "lib/workos/pipes/create_data_integration.rb",
     "lib/workos/pipes/custom_provider_definition.rb",
@@ -273,7 +268,6 @@
     "lib/workos/pipes/data_integration_access_token_response_access_token.rb",
     "lib/workos/pipes/data_integration_authorize_url_response.rb",
     "lib/workos/pipes/data_integration_credential.rb",
-    "lib/workos/pipes/data_integration_credentials_dto.rb",
     "lib/workos/pipes/data_integration_credentials_input.rb",
     "lib/workos/pipes/data_integration_credentials_response.rb",
     "lib/workos/pipes/data_integration_credentials_response_credential.rb",
@@ -358,7 +352,6 @@
     "lib/workos/sso/connection_deleted.rb",
     "lib/workos/sso/connection_deleted_data.rb",
     "lib/workos/sso/connection_domain.rb",
-    "lib/workos/sso/connection_option.rb",
     "lib/workos/sso/connection_saml_certificate_renewal_required.rb",
     "lib/workos/sso/connection_saml_certificate_renewal_required_data.rb",
     "lib/workos/sso/connection_saml_certificate_renewal_required_data_certificate.rb",
@@ -420,7 +413,6 @@
     "lib/workos/types/data_integration_credentials_credentials_type.rb",
     "lib/workos/types/data_integration_credentials_input_type.rb",
     "lib/workos/types/data_integration_credentials_response_error.rb",
-    "lib/workos/types/data_integration_credentials_type.rb",
     "lib/workos/types/data_integration_custom_provider_authenticate_via.rb",
     "lib/workos/types/data_integration_state.rb",
     "lib/workos/types/data_integrations_list_response_data_auth_methods.rb",
@@ -458,8 +450,6 @@
     "lib/workos/types/organization_domain_data_state.rb",
     "lib/workos/types/organization_domain_deleted_data_state.rb",
     "lib/workos/types/organization_domain_deleted_data_verification_strategy.rb",
-    "lib/workos/types/organization_domain_stand_alone_state.rb",
-    "lib/workos/types/organization_domain_stand_alone_verification_strategy.rb",
     "lib/workos/types/organization_domain_state.rb",
     "lib/workos/types/organization_domain_updated_data_state.rb",
     "lib/workos/types/organization_domain_updated_data_verification_strategy.rb",
@@ -865,7 +855,6 @@
     "rbi/workos/connect_application_oauth.rbi",
     "rbi/workos/connect_application_oauth_redirect_uris.rbi",
     "rbi/workos/connected_account.rbi",
-    "rbi/workos/connected_account_dto.rbi",
     "rbi/workos/connected_account_input.rbi",
     "rbi/workos/connection.rbi",
     "rbi/workos/connection_activated.rbi",
@@ -877,7 +866,6 @@
     "rbi/workos/connection_deleted.rbi",
     "rbi/workos/connection_deleted_data.rbi",
     "rbi/workos/connection_domain.rbi",
-    "rbi/workos/connection_option.rbi",
     "rbi/workos/connection_saml_certificate_renewal_required.rbi",
     "rbi/workos/connection_saml_certificate_renewal_required_data.rbi",
     "rbi/workos/connection_saml_certificate_renewal_required_data_certificate.rbi",
@@ -922,7 +910,6 @@
     "rbi/workos/data_integration_configuration_response.rbi",
     "rbi/workos/data_integration_credential.rbi",
     "rbi/workos/data_integration_credentials.rbi",
-    "rbi/workos/data_integration_credentials_dto.rbi",
     "rbi/workos/data_integration_credentials_input.rbi",
     "rbi/workos/data_integration_credentials_response.rbi",
     "rbi/workos/data_integration_credentials_response_credential.rbi",
@@ -950,7 +937,6 @@
     "rbi/workos/directory_user_email.rbi",
     "rbi/workos/directory_user_with_groups.rbi",
     "rbi/workos/directory_user_with_groups_email.rbi",
-    "rbi/workos/domain_verification_intent_options.rbi",
     "rbi/workos/dsync_activated.rbi",
     "rbi/workos/dsync_activated_data.rbi",
     "rbi/workos/dsync_activated_data_domain.rbi",
@@ -1038,7 +1024,6 @@
     "rbi/workos/group_role_assignment_resource.rbi",
     "rbi/workos/group_updated.rbi",
     "rbi/workos/groups.rbi",
-    "rbi/workos/intent_options.rbi",
     "rbi/workos/invitation.rbi",
     "rbi/workos/invitation_accepted.rbi",
     "rbi/workos/invitation_accepted_data.rbi",
@@ -1081,7 +1066,6 @@
     "rbi/workos/organization_domain_data.rbi",
     "rbi/workos/organization_domain_deleted.rbi",
     "rbi/workos/organization_domain_deleted_data.rbi",
-    "rbi/workos/organization_domain_stand_alone.rbi",
     "rbi/workos/organization_domain_updated.rbi",
     "rbi/workos/organization_domain_updated_data.rbi",
     "rbi/workos/organization_domain_verification_failed.rbi",
@@ -1178,7 +1162,6 @@
     "rbi/workos/sso.rbi",
     "rbi/workos/sso_authorize_url_response.rbi",
     "rbi/workos/sso_device_authorization_request.rbi",
-    "rbi/workos/sso_intent_options.rbi",
     "rbi/workos/sso_logout_authorize_request.rbi",
     "rbi/workos/sso_logout_authorize_response.rbi",
     "rbi/workos/sso_token_response.rbi",
@@ -1285,7 +1268,6 @@
     "test/workos/test_feature_flags_model_round_trip.rb",
     "test/workos/test_groups.rb",
     "test/workos/test_groups_model_round_trip.rb",
-    "test/workos/test_model_round_trip.rb",
     "test/workos/test_multi_factor_auth.rb",
     "test/workos/test_multi_factor_auth_model_round_trip.rb",
     "test/workos/test_organization_domains.rb",
@@ -1313,6 +1295,18 @@
     "test/workos/test_widgets_model_round_trip.rb"
   ],
   "operations": {
+    "PATCH /agents/claims/attempts": {
+      "sdkMethod": "update_attempts",
+      "service": "agents"
+    },
+    "POST /agents/credentials/validate": {
+      "sdkMethod": "create_validate",
+      "service": "agents"
+    },
+    "GET /agents/registrations/{id}": {
+      "sdkMethod": "get_registration",
+      "service": "agents"
+    },
     "POST /auth/challenges/{id}/verify": {
       "sdkMethod": "verify_challenge",
       "service": "multi_factor_auth"
@@ -1573,8 +1567,36 @@
       "sdkMethod": "delete_connection",
       "service": "sso"
     },
+    "GET /data-integrations": {
+      "sdkMethod": "list_data_integrations",
+      "service": "pipes"
+    },
+    "POST /data-integrations": {
+      "sdkMethod": "create_data_integration",
+      "service": "pipes"
+    },
+    "GET /data-integrations/{slug}": {
+      "sdkMethod": "get_data_integration",
+      "service": "pipes"
+    },
+    "PUT /data-integrations/{slug}": {
+      "sdkMethod": "update_data_integration",
+      "service": "pipes"
+    },
+    "DELETE /data-integrations/{slug}": {
+      "sdkMethod": "delete_data_integration",
+      "service": "pipes"
+    },
+    "PUT /data-integrations/{slug}/api-key": {
+      "sdkMethod": "update_data_integration_api_key",
+      "service": "pipes"
+    },
     "POST /data-integrations/{slug}/authorize": {
       "sdkMethod": "authorize_data_integration",
+      "service": "pipes"
+    },
+    "POST /data-integrations/{slug}/credentials": {
+      "sdkMethod": "create_data_integration_credential",
       "service": "pipes"
     },
     "POST /data-integrations/{provider}/token": {
@@ -1741,6 +1763,10 @@
       "sdkMethod": "delete_group_organization_membership",
       "service": "groups"
     },
+    "GET /organizations/{organization_id}/authorized_applications": {
+      "sdkMethod": "list_authorized_applications",
+      "service": "organizations"
+    },
     "POST /portal/generate_link": {
       "sdkMethod": "generate_link",
       "service": "admin_portal"
@@ -1821,6 +1847,14 @@
       "sdkMethod": "authenticate_with_device_code",
       "service": "user_management"
     },
+    "POST /user_management/authenticate#RadarEmailChallengeCodeSessionAuthenticateRequest": {
+      "sdkMethod": "authenticate_with_radar_email_challenge",
+      "service": "user_management"
+    },
+    "POST /user_management/authenticate#RadarSmsChallengeCodeSessionAuthenticateRequest": {
+      "sdkMethod": "authenticate_with_radar_sms_challenge",
+      "service": "user_management"
+    },
     "GET /user_management/authorize": {
       "sdkMethod": "get_authorization_url",
       "service": "user_management"
@@ -1829,12 +1863,24 @@
       "sdkMethod": "create_device",
       "service": "user_management"
     },
+    "POST /user_management/radar_challenges": {
+      "sdkMethod": "create_radar_challenge",
+      "service": "user_management"
+    },
+    "GET /user_management/radar_challenges/{id}": {
+      "sdkMethod": "get_radar_challenge",
+      "service": "user_management"
+    },
     "GET /user_management/sessions/logout": {
       "sdkMethod": "get_logout_url",
       "service": "user_management"
     },
     "POST /user_management/sessions/revoke": {
       "sdkMethod": "revoke_session",
+      "service": "user_management"
+    },
+    "GET /user_management/cors_origins": {
+      "sdkMethod": "list_cors_origins",
       "service": "user_management"
     },
     "POST /user_management/cors_origins": {
@@ -1981,8 +2027,16 @@
       "sdkMethod": "list_organization_membership_groups",
       "service": "organization_membership"
     },
+    "GET /user_management/redirect_uris": {
+      "sdkMethod": "list_redirect_uris",
+      "service": "user_management"
+    },
     "POST /user_management/redirect_uris": {
       "sdkMethod": "create_redirect_uri",
+      "service": "user_management"
+    },
+    "DELETE /user_management/redirect_uris/{id}": {
+      "sdkMethod": "delete_redirect_uris",
       "service": "user_management"
     },
     "GET /user_management/users/{userId}/feature-flags": {
@@ -1999,6 +2053,14 @@
     },
     "GET /user_management/users/{user_id}/connected_accounts/{slug}": {
       "sdkMethod": "get_user_connected_account",
+      "service": "pipes"
+    },
+    "POST /user_management/users/{user_id}/connected_accounts/{slug}": {
+      "sdkMethod": "create_user_connected_account",
+      "service": "pipes"
+    },
+    "PUT /user_management/users/{user_id}/connected_accounts/{slug}": {
+      "sdkMethod": "update_user_connected_account",
       "service": "pipes"
     },
     "DELETE /user_management/users/{user_id}/connected_accounts/{slug}": {
@@ -2124,86 +2186,6 @@
     "GET /audit_logs/exports/{auditLogExportId}": {
       "sdkMethod": "get_export",
       "service": "audit_logs"
-    },
-    "PUT /data-integrations/{slug}/api-key": {
-      "sdkMethod": "update_data_integration_api_key",
-      "service": "pipes"
-    },
-    "POST /data-integrations/{slug}/credentials": {
-      "sdkMethod": "create_data_integration_credential",
-      "service": "pipes"
-    },
-    "GET /user_management/cors_origins": {
-      "sdkMethod": "list_cors_origins",
-      "service": "user_management"
-    },
-    "GET /user_management/redirect_uris": {
-      "sdkMethod": "list_redirect_uris",
-      "service": "user_management"
-    },
-    "GET /data-integrations": {
-      "sdkMethod": "list_data_integrations",
-      "service": "pipes"
-    },
-    "POST /data-integrations": {
-      "sdkMethod": "create_data_integration",
-      "service": "pipes"
-    },
-    "GET /data-integrations/{slug}": {
-      "sdkMethod": "get_data_integration",
-      "service": "pipes"
-    },
-    "PUT /data-integrations/{slug}": {
-      "sdkMethod": "update_data_integration",
-      "service": "pipes"
-    },
-    "DELETE /data-integrations/{slug}": {
-      "sdkMethod": "delete_data_integration",
-      "service": "pipes"
-    },
-    "POST /user_management/radar_challenges": {
-      "sdkMethod": "create_radar_challenge",
-      "service": "user_management"
-    },
-    "POST /user_management/users/{user_id}/connected_accounts/{slug}": {
-      "sdkMethod": "create_user_connected_account",
-      "service": "pipes"
-    },
-    "PUT /user_management/users/{user_id}/connected_accounts/{slug}": {
-      "sdkMethod": "update_user_connected_account",
-      "service": "pipes"
-    },
-    "POST /user_management/authenticate#RadarEmailChallengeCodeSessionAuthenticateRequest": {
-      "sdkMethod": "authenticate_with_radar_email_challenge",
-      "service": "user_management"
-    },
-    "POST /user_management/authenticate#RadarSmsChallengeCodeSessionAuthenticateRequest": {
-      "sdkMethod": "authenticate_with_radar_sms_challenge",
-      "service": "user_management"
-    },
-    "PATCH /agents/claims/attempts": {
-      "sdkMethod": "update_attempts",
-      "service": "agents"
-    },
-    "POST /agents/credentials/validate": {
-      "sdkMethod": "create_validate",
-      "service": "agents"
-    },
-    "GET /agents/registrations/{id}": {
-      "sdkMethod": "get_registration",
-      "service": "agents"
-    },
-    "GET /organizations/{organization_id}/authorized_applications": {
-      "sdkMethod": "list_authorized_applications",
-      "service": "organizations"
-    },
-    "GET /user_management/radar_challenges/{id}": {
-      "sdkMethod": "get_radar_challenge",
-      "service": "user_management"
-    },
-    "DELETE /user_management/redirect_uris/{id}": {
-      "sdkMethod": "delete_redirect_uris",
-      "service": "user_management"
     }
   }
 }
