@@ -9,8 +9,6 @@ The WorkOS Ruby SDK provides convenient access to the WorkOS API from applicatio
 
 ## Installation
 
-This gem requires Ruby 3.3 or newer.
-
 Install the package with:
 
 ```sh
