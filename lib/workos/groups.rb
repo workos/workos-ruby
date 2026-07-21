@@ -66,13 +66,13 @@ module WorkOS
     def create_organization_group(
       organization_id:,
       name:,
-      description: nil,
+      description: WorkOS::OMIT,
       request_options: {}
     )
       body = {
-        "name" => name,
-        "description" => description
-      }.compact
+        "name" => name
+      }
+      body["description"] = description unless description.equal?(WorkOS::OMIT)
       response = @client.request(
         method: :post,
         path: "/organizations/#{WorkOS::Util.encode_path(organization_id)}/groups",
@@ -117,13 +117,13 @@ module WorkOS
       organization_id:,
       group_id:,
       name: nil,
-      description: nil,
+      description: WorkOS::OMIT,
       request_options: {}
     )
       body = {
-        "name" => name,
-        "description" => description
+        "name" => name
       }.compact
+      body["description"] = description unless description.equal?(WorkOS::OMIT)
       response = @client.request(
         method: :patch,
         path: "/organizations/#{WorkOS::Util.encode_path(organization_id)}/groups/#{WorkOS::Util.encode_path(group_id)}",

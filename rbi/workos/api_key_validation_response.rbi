@@ -15,6 +15,12 @@ module WorkOS
     sig { params(value: T.nilable(WorkOS::ApiKey)).returns(T.nilable(WorkOS::ApiKey)) }
     def api_key=(value); end
 
+    sig { returns(T.nilable(String)) }
+    def agent_registration_id; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def agent_registration_id=(value); end
+
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end
 

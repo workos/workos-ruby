@@ -27,11 +27,17 @@ module WorkOS
     sig { params(value: T.nilable(T::Array[String])).returns(T.nilable(T::Array[String])) }
     def scopes=(value); end
 
-    sig { returns(T.nilable(WorkOS::DataIntegrationCredentialsDto)) }
+    sig { returns(T.nilable(WorkOS::DataIntegrationCredentialsInput)) }
     def credentials; end
 
-    sig { params(value: T.nilable(WorkOS::DataIntegrationCredentialsDto)).returns(T.nilable(WorkOS::DataIntegrationCredentialsDto)) }
+    sig { params(value: T.nilable(WorkOS::DataIntegrationCredentialsInput)).returns(T.nilable(WorkOS::DataIntegrationCredentialsInput)) }
     def credentials=(value); end
+
+    sig { returns(T.nilable(WorkOS::ApiKeyInstallation)) }
+    def api_key; end
+
+    sig { params(value: T.nilable(WorkOS::ApiKeyInstallation)).returns(T.nilable(WorkOS::ApiKeyInstallation)) }
+    def api_key=(value); end
 
     sig { returns(T.nilable(WorkOS::UpdateCustomProviderDefinition)) }
     def custom_provider; end

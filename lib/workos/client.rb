@@ -4,6 +4,10 @@
 
 module WorkOS
   class Client < BaseClient
+    def agents
+      @agents ||= WorkOS::Agents.new(self)
+    end
+
     def multi_factor_auth
       @multi_factor_auth ||= WorkOS::MultiFactorAuth.new(self)
     end

@@ -16,6 +16,50 @@ class OrganizationsModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_organization_domain_data_round_trip
+    fixture = {
+      "domain" => "stub",
+      "state" => "stub"
+    }
+    model = WorkOS::OrganizationDomainData.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["domain"], json[:domain]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_input_round_trip
+    fixture = {
+      "name" => "stub",
+      "allow_profiles_outside_organization" => true,
+      "domains" => [],
+      "domain_data" => [],
+      "metadata" => nil,
+      "external_id" => nil
+    }
+    model = WorkOS::OrganizationInput.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["name"], json[:name]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_update_organization_round_trip
+    fixture = {
+      "name" => "stub",
+      "allow_profiles_outside_organization" => true,
+      "domains" => [],
+      "domain_data" => [],
+      "stripe_customer_id" => "stub",
+      "metadata" => nil,
+      "external_id" => nil
+    }
+    model = WorkOS::UpdateOrganization.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_audit_logs_retention_round_trip
     fixture = {
       "retention_period_in_days" => nil
@@ -24,6 +68,564 @@ class OrganizationsModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_nil json[:retention_period_in_days]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_created_round_trip
+    fixture = {
+      "object" => "event",
+      "id" => "stub",
+      "event" => "organization.created",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {}
+    }
+    model = WorkOS::OrganizationCreated.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_created_data_round_trip
+    fixture = {
+      "object" => "organization",
+      "id" => "stub",
+      "name" => "stub",
+      "domains" => [],
+      "metadata" => {},
+      "external_id" => nil,
+      "stripe_customer_id" => "stub",
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::OrganizationCreatedData.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["name"], json[:name]
+    assert_nil json[:external_id]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_created_data_domain_round_trip
+    fixture = {
+      "object" => "organization_domain",
+      "id" => "stub",
+      "organization_id" => "stub",
+      "domain" => "stub",
+      "state" => "stub",
+      "verification_prefix" => "stub",
+      "verification_token" => "stub",
+      "verification_strategy" => "stub",
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::OrganizationCreatedDataDomain.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["organization_id"], json[:organization_id]
+    assert_equal fixture["domain"], json[:domain]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_deleted_round_trip
+    fixture = {
+      "object" => "event",
+      "id" => "stub",
+      "event" => "organization.deleted",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {}
+    }
+    model = WorkOS::OrganizationDeleted.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_deleted_data_round_trip
+    fixture = {
+      "object" => "organization",
+      "id" => "stub",
+      "name" => "stub",
+      "domains" => [],
+      "metadata" => {},
+      "external_id" => nil,
+      "stripe_customer_id" => "stub",
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::OrganizationDeletedData.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["name"], json[:name]
+    assert_nil json[:external_id]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_deleted_data_domain_round_trip
+    fixture = {
+      "object" => "organization_domain",
+      "id" => "stub",
+      "organization_id" => "stub",
+      "domain" => "stub",
+      "state" => "stub",
+      "verification_prefix" => "stub",
+      "verification_token" => "stub",
+      "verification_strategy" => "stub",
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::OrganizationDeletedDataDomain.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["organization_id"], json[:organization_id]
+    assert_equal fixture["domain"], json[:domain]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_membership_created_round_trip
+    fixture = {
+      "object" => "event",
+      "id" => "stub",
+      "event" => "organization_membership.created",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {}
+    }
+    model = WorkOS::OrganizationMembershipCreated.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_membership_created_data_round_trip
+    fixture = {
+      "object" => "organization_membership",
+      "id" => "stub",
+      "user_id" => "stub",
+      "organization_id" => "stub",
+      "status" => "stub",
+      "role" => {},
+      "roles" => [],
+      "custom_attributes" => {},
+      "directory_managed" => true,
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::OrganizationMembershipCreatedData.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["user_id"], json[:user_id]
+    assert_equal fixture["organization_id"], json[:organization_id]
+    assert_equal fixture["directory_managed"], json[:directory_managed]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_membership_deleted_round_trip
+    fixture = {
+      "object" => "event",
+      "id" => "stub",
+      "event" => "organization_membership.deleted",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {}
+    }
+    model = WorkOS::OrganizationMembershipDeleted.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_membership_deleted_data_round_trip
+    fixture = {
+      "object" => "organization_membership",
+      "id" => "stub",
+      "user_id" => "stub",
+      "organization_id" => "stub",
+      "status" => "stub",
+      "role" => {},
+      "roles" => [],
+      "custom_attributes" => {},
+      "directory_managed" => true,
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::OrganizationMembershipDeletedData.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["user_id"], json[:user_id]
+    assert_equal fixture["organization_id"], json[:organization_id]
+    assert_equal fixture["directory_managed"], json[:directory_managed]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_membership_updated_round_trip
+    fixture = {
+      "object" => "event",
+      "id" => "stub",
+      "event" => "organization_membership.updated",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {}
+    }
+    model = WorkOS::OrganizationMembershipUpdated.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_membership_updated_data_round_trip
+    fixture = {
+      "object" => "organization_membership",
+      "id" => "stub",
+      "user_id" => "stub",
+      "organization_id" => "stub",
+      "status" => "stub",
+      "role" => {},
+      "roles" => [],
+      "custom_attributes" => {},
+      "directory_managed" => true,
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::OrganizationMembershipUpdatedData.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["user_id"], json[:user_id]
+    assert_equal fixture["organization_id"], json[:organization_id]
+    assert_equal fixture["directory_managed"], json[:directory_managed]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_role_created_round_trip
+    fixture = {
+      "object" => "event",
+      "id" => "stub",
+      "event" => "organization_role.created",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {}
+    }
+    model = WorkOS::OrganizationRoleCreated.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_role_created_data_round_trip
+    fixture = {
+      "object" => "organization_role",
+      "organization_id" => "stub",
+      "slug" => "stub",
+      "name" => "stub",
+      "description" => nil,
+      "resource_type_slug" => "stub",
+      "permissions" => [],
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::OrganizationRoleCreatedData.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["organization_id"], json[:organization_id]
+    assert_equal fixture["slug"], json[:slug]
+    assert_equal fixture["name"], json[:name]
+    assert_nil json[:description]
+    assert_equal fixture["resource_type_slug"], json[:resource_type_slug]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_role_deleted_round_trip
+    fixture = {
+      "object" => "event",
+      "id" => "stub",
+      "event" => "organization_role.deleted",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {}
+    }
+    model = WorkOS::OrganizationRoleDeleted.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_role_deleted_data_round_trip
+    fixture = {
+      "object" => "organization_role",
+      "organization_id" => "stub",
+      "slug" => "stub",
+      "name" => "stub",
+      "description" => nil,
+      "resource_type_slug" => "stub",
+      "permissions" => [],
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::OrganizationRoleDeletedData.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["organization_id"], json[:organization_id]
+    assert_equal fixture["slug"], json[:slug]
+    assert_equal fixture["name"], json[:name]
+    assert_nil json[:description]
+    assert_equal fixture["resource_type_slug"], json[:resource_type_slug]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_role_updated_round_trip
+    fixture = {
+      "object" => "event",
+      "id" => "stub",
+      "event" => "organization_role.updated",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {}
+    }
+    model = WorkOS::OrganizationRoleUpdated.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_role_updated_data_round_trip
+    fixture = {
+      "object" => "organization_role",
+      "organization_id" => "stub",
+      "slug" => "stub",
+      "name" => "stub",
+      "description" => nil,
+      "resource_type_slug" => "stub",
+      "permissions" => [],
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::OrganizationRoleUpdatedData.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["organization_id"], json[:organization_id]
+    assert_equal fixture["slug"], json[:slug]
+    assert_equal fixture["name"], json[:name]
+    assert_nil json[:description]
+    assert_equal fixture["resource_type_slug"], json[:resource_type_slug]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_updated_round_trip
+    fixture = {
+      "object" => "event",
+      "id" => "stub",
+      "event" => "organization.updated",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {}
+    }
+    model = WorkOS::OrganizationUpdated.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_updated_data_round_trip
+    fixture = {
+      "object" => "organization",
+      "id" => "stub",
+      "name" => "stub",
+      "domains" => [],
+      "metadata" => {},
+      "external_id" => nil,
+      "stripe_customer_id" => "stub",
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::OrganizationUpdatedData.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["name"], json[:name]
+    assert_nil json[:external_id]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_updated_data_domain_round_trip
+    fixture = {
+      "object" => "organization_domain",
+      "id" => "stub",
+      "organization_id" => "stub",
+      "domain" => "stub",
+      "state" => "stub",
+      "verification_prefix" => "stub",
+      "verification_token" => "stub",
+      "verification_strategy" => "stub",
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::OrganizationUpdatedDataDomain.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["organization_id"], json[:organization_id]
+    assert_equal fixture["domain"], json[:domain]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_api_key_round_trip
+    fixture = {
+      "object" => "api_key",
+      "id" => "stub",
+      "owner" => {},
+      "name" => "stub",
+      "obfuscated_value" => "stub",
+      "last_used_at" => nil,
+      "expires_at" => nil,
+      "permissions" => [],
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::OrganizationApiKey.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["name"], json[:name]
+    assert_equal fixture["obfuscated_value"], json[:obfuscated_value]
+    assert_nil json[:last_used_at]
+    assert_nil json[:expires_at]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_round_trip
+    fixture = {
+      "object" => "organization",
+      "id" => "stub",
+      "name" => "stub",
+      "domains" => [],
+      "metadata" => {},
+      "external_id" => nil,
+      "stripe_customer_id" => "stub",
+      "created_at" => "stub",
+      "updated_at" => "stub",
+      "allow_profiles_outside_organization" => true
+    }
+    model = WorkOS::Organization.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["name"], json[:name]
+    assert_nil json[:external_id]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_audit_log_configuration_round_trip
+    fixture = {
+      "organization_id" => "stub",
+      "retention_period_in_days" => 1,
+      "state" => "stub",
+      "log_stream" => {}
+    }
+    model = WorkOS::AuditLogConfiguration.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["organization_id"], json[:organization_id]
+    assert_equal fixture["retention_period_in_days"], json[:retention_period_in_days]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_audit_log_configuration_log_stream_round_trip
+    fixture = {
+      "id" => "stub",
+      "type" => "stub",
+      "state" => "stub",
+      "last_synced_at" => nil,
+      "created_at" => "stub"
+    }
+    model = WorkOS::AuditLogConfigurationLogStream.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_nil json[:last_synced_at]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_api_key_owner_round_trip
+    fixture = {
+      "type" => "organization",
+      "id" => "stub"
+    }
+    model = WorkOS::OrganizationApiKeyOwner.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_authorized_connect_application_list_data_round_trip
+    fixture = {
+      "object" => "authorized_connect_application",
+      "id" => "stub",
+      "granted_scopes" => [],
+      "oauth_resource" => "stub",
+      "application" => {},
+      "user_id" => "stub"
+    }
+    model = WorkOS::OrganizationAuthorizedConnectApplicationListData.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["user_id"], json[:user_id]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 end

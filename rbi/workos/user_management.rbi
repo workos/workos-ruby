@@ -84,6 +84,14 @@ module WorkOS
 
     sig do
       params(
+        id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::RadarChallenge)
+    end
+    def get_radar_challenge(id:, request_options:); end
+
+    sig do
+      params(
         session_id: String,
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
@@ -391,6 +399,14 @@ module WorkOS
       ).returns(WorkOS::RedirectUri)
     end
     def create_redirect_uri(uri:, request_options:); end
+
+    sig do
+      params(
+        id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(NilClass)
+    end
+    def delete_redirect_uris(id:, request_options:); end
 
     sig do
       params(

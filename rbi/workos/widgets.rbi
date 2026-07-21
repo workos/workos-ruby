@@ -11,7 +11,7 @@ module WorkOS
 
     sig do
       params(
-        organization_id: String,
+        organization_id: T.nilable(String),
         user_id: T.nilable(String),
         scopes: T.nilable(T::Array[String]),
         request_options: T::Hash[Symbol, T.untyped]

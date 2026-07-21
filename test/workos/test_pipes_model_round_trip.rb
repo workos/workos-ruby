@@ -5,15 +5,29 @@
 require "test_helper"
 
 class PipesModelRoundTripTest < Minitest::Test
-  def test_data_integration_credentials_dto_round_trip
+  def test_data_integration_credentials_input_round_trip
     fixture = {
       "type" => "stub",
       "client_id" => "stub",
       "client_secret" => "stub"
     }
-    model = WorkOS::DataIntegrationCredentialsDto.new(fixture.to_json)
+    model = WorkOS::DataIntegrationCredentialsInput.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_api_key_installation_round_trip
+    fixture = {
+      "secret" => "stub",
+      "user_id" => "stub",
+      "organization_id" => "stub"
+    }
+    model = WorkOS::ApiKeyInstallation.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["secret"], json[:secret]
+    assert_equal fixture["user_id"], json[:user_id]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
@@ -46,7 +60,9 @@ class PipesModelRoundTripTest < Minitest::Test
       "description" => nil,
       "enabled" => true,
       "scopes" => nil,
+      "auth_methods" => [],
       "credentials" => {},
+      "api_key" => {},
       "custom_provider" => {}
     }
     model = WorkOS::CreateDataIntegration.new(fixture.to_json)
@@ -82,6 +98,7 @@ class PipesModelRoundTripTest < Minitest::Test
       "enabled" => true,
       "scopes" => nil,
       "credentials" => {},
+      "api_key" => {},
       "custom_provider" => {}
     }
     model = WorkOS::UpdateDataIntegration.new(fixture.to_json)
@@ -90,7 +107,7 @@ class PipesModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
-  def test_connected_account_dto_round_trip
+  def test_connected_account_input_round_trip
     fixture = {
       "access_token" => "stub",
       "refresh_token" => "stub",
@@ -98,7 +115,7 @@ class PipesModelRoundTripTest < Minitest::Test
       "scopes" => [],
       "state" => "stub"
     }
-    model = WorkOS::ConnectedAccountDto.new(fixture.to_json)
+    model = WorkOS::ConnectedAccountInput.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
@@ -115,7 +132,9 @@ class PipesModelRoundTripTest < Minitest::Test
       "state" => "stub",
       "scopes" => nil,
       "redirect_uri" => "stub",
+      "auth_methods" => [],
       "credentials" => {},
+      "installation" => nil,
       "custom_provider" => nil,
       "created_at" => "stub",
       "updated_at" => "stub"
@@ -278,6 +297,23 @@ class PipesModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_nil json[:client_id]
     assert_nil json[:redacted_client_secret]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_data_integration_installation_round_trip
+    fixture = {
+      "id" => "stub",
+      "user_id" => "stub",
+      "organization_id" => nil,
+      "api_key_last_4" => nil
+    }
+    model = WorkOS::DataIntegrationInstallation.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["user_id"], json[:user_id]
+    assert_nil json[:organization_id]
+    assert_nil json[:api_key_last_4]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 

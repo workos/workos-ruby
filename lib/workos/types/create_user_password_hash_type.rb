@@ -8,10 +8,11 @@ module WorkOS
       BCRYPT = "bcrypt"
       FIREBASE_SCRYPT = "firebase-scrypt"
       SSHA = "ssha"
+      SSHA_256 = "ssha256"
       SCRYPT = "scrypt"
       PBKDF_2 = "pbkdf2"
       ARGON_2 = "argon2"
-      ALL = [BCRYPT, FIREBASE_SCRYPT, SSHA, SCRYPT, PBKDF_2, ARGON_2].freeze
+      ALL = [BCRYPT, FIREBASE_SCRYPT, SSHA, SSHA_256, SCRYPT, PBKDF_2, ARGON_2].freeze
     end
   end
 end
