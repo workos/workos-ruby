@@ -4,11 +4,6 @@
 
 module WorkOS
   module Types
-    class DataIntegrationsListResponseDataConnectedAccountState
-      CONNECTED = "connected"
-      NEEDS_REAUTHORIZATION = "needs_reauthorization"
-      DISCONNECTED = "disconnected"
-      ALL = [CONNECTED, NEEDS_REAUTHORIZATION, DISCONNECTED].freeze
-    end
+    DataIntegrationsListResponseDataConnectedAccountState = ConnectedAccountState
   end
 end
