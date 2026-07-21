@@ -5,14 +5,18 @@
 module WorkOS
   class ApiKeyValidationResponse < WorkOS::Types::BaseModel
     HASH_ATTRS = {
-      api_key: :api_key
+      api_key: :api_key,
+      agent_registration_id: :agent_registration_id
     }.freeze
 
-    attr_accessor :api_key
+    attr_accessor \
+      :api_key,
+      :agent_registration_id
 
     def initialize(json)
       hash = self.class.normalize(json)
       @api_key = hash[:api_key] ? WorkOS::ApiKey.new(hash[:api_key]) : nil
+      @agent_registration_id = hash[:agent_registration_id]
     end
   end
 end

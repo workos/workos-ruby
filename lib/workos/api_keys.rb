@@ -135,12 +135,11 @@ module WorkOS
     # @return [WorkOS::ApiKey]
     def create_api_key_expire(
       id:,
-      expires_at: nil,
+      expires_at: WorkOS::OMIT,
       request_options: {}
     )
-      body = {
-        "expires_at" => expires_at
-      }.compact
+      body = {}
+      body["expires_at"] = expires_at unless expires_at.equal?(WorkOS::OMIT)
       response = @client.request(
         method: :post,
         path: "/api_keys/#{WorkOS::Util.encode_path(id)}/expire",

@@ -573,6 +573,25 @@ module WorkOS
       result
     end
 
+    # Get Radar Challenge details
+    # @param id [String] The unique ID of the Radar Challenge.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::RadarChallenge]
+    def get_radar_challenge(
+      id:,
+      request_options: {}
+    )
+      response = @client.request(
+        method: :get,
+        path: "/user_management/radar_challenges/#{WorkOS::Util.encode_path(id)}",
+        auth: true,
+        request_options: request_options
+      )
+      result = WorkOS::RadarChallenge.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
     # Revoke Session
     # @param session_id [String] The ID of the session to revoke. This can be extracted from the `sid` claim of the access token.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
@@ -820,30 +839,30 @@ module WorkOS
     # @return [WorkOS::UserCreateResponse]
     def create_user(
       email:,
-      first_name: nil,
-      last_name: nil,
-      name: nil,
-      email_verified: nil,
-      metadata: nil,
-      external_id: nil,
-      ip_address: nil,
-      user_agent: nil,
+      first_name: WorkOS::OMIT,
+      last_name: WorkOS::OMIT,
+      name: WorkOS::OMIT,
+      email_verified: WorkOS::OMIT,
+      metadata: WorkOS::OMIT,
+      external_id: WorkOS::OMIT,
+      ip_address: WorkOS::OMIT,
+      user_agent: WorkOS::OMIT,
       signals_id: nil,
       password: nil,
       request_options: {}
     )
       body = {
         "email" => email,
-        "first_name" => first_name,
-        "last_name" => last_name,
-        "name" => name,
-        "email_verified" => email_verified,
-        "metadata" => metadata,
-        "external_id" => external_id,
-        "ip_address" => ip_address,
-        "user_agent" => user_agent,
         "signals_id" => signals_id
       }.compact
+      body["first_name"] = first_name unless first_name.equal?(WorkOS::OMIT)
+      body["last_name"] = last_name unless last_name.equal?(WorkOS::OMIT)
+      body["name"] = name unless name.equal?(WorkOS::OMIT)
+      body["email_verified"] = email_verified unless email_verified.equal?(WorkOS::OMIT)
+      body["metadata"] = metadata unless metadata.equal?(WorkOS::OMIT)
+      body["external_id"] = external_id unless external_id.equal?(WorkOS::OMIT)
+      body["ip_address"] = ip_address unless ip_address.equal?(WorkOS::OMIT)
+      body["user_agent"] = user_agent unless user_agent.equal?(WorkOS::OMIT)
       if password
         case password
         when WorkOS::UserManagement::PasswordPlaintext
@@ -925,9 +944,9 @@ module WorkOS
       last_name: nil,
       name: nil,
       email_verified: nil,
-      metadata: nil,
-      external_id: nil,
-      locale: nil,
+      metadata: WorkOS::OMIT,
+      external_id: WorkOS::OMIT,
+      locale: WorkOS::OMIT,
       password: nil,
       request_options: {}
     )
@@ -936,11 +955,11 @@ module WorkOS
         "first_name" => first_name,
         "last_name" => last_name,
         "name" => name,
-        "email_verified" => email_verified,
-        "metadata" => metadata,
-        "external_id" => external_id,
-        "locale" => locale
+        "email_verified" => email_verified
       }.compact
+      body["metadata"] = metadata unless metadata.equal?(WorkOS::OMIT)
+      body["external_id"] = external_id unless external_id.equal?(WorkOS::OMIT)
+      body["locale"] = locale unless locale.equal?(WorkOS::OMIT)
       if password
         case password
         when WorkOS::UserManagement::PasswordPlaintext
@@ -1491,6 +1510,23 @@ module WorkOS
       result = WorkOS::RedirectUri.new(response.body)
       result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
       result
+    end
+
+    # Delete a redirect URI
+    # @param id [String] The ID of the redirect URI to delete.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [void]
+    def delete_redirect_uris(
+      id:,
+      request_options: {}
+    )
+      @client.request(
+        method: :delete,
+        path: "/user_management/redirect_uris/#{WorkOS::Util.encode_path(id)}",
+        auth: true,
+        request_options: request_options
+      )
+      nil
     end
 
     # List authorized applications

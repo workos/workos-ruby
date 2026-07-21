@@ -13,7 +13,7 @@ module WorkOS
       state: :state,
       status: :status,
       domains: :domains,
-      options: :options,
+      callback_endpoint: :callback_endpoint,
       created_at: :created_at,
       updated_at: :updated_at
     }.freeze
@@ -29,7 +29,7 @@ module WorkOS
       :name,
       :state,
       :domains,
-      :options,
+      :callback_endpoint,
       :created_at,
       :updated_at
 
@@ -50,7 +50,7 @@ module WorkOS
       @state = hash[:state]
       @status = hash[:status]
       @domains = (hash[:domains] || []).map { |item| item ? WorkOS::ConnectionDomain.new(item) : nil }
-      @options = hash[:options] ? WorkOS::ConnectionOption.new(hash[:options]) : nil
+      @callback_endpoint = hash[:callback_endpoint]
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
     end

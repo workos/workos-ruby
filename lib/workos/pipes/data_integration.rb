@@ -14,7 +14,9 @@ module WorkOS
       state: :state,
       scopes: :scopes,
       redirect_uri: :redirect_uri,
+      auth_methods: :auth_methods,
       credentials: :credentials,
+      installation: :installation,
       custom_provider: :custom_provider,
       created_at: :created_at,
       updated_at: :updated_at
@@ -30,7 +32,9 @@ module WorkOS
       :state,
       :scopes,
       :redirect_uri,
+      :auth_methods,
       :credentials,
+      :installation,
       :custom_provider,
       :created_at,
       :updated_at
@@ -46,7 +50,9 @@ module WorkOS
       @state = hash[:state]
       @scopes = hash[:scopes] || []
       @redirect_uri = hash[:redirect_uri]
+      @auth_methods = hash[:auth_methods] || []
       @credentials = hash[:credentials] ? WorkOS::DataIntegrationCredential.new(hash[:credentials]) : nil
+      @installation = hash[:installation] ? WorkOS::DataIntegrationInstallation.new(hash[:installation]) : nil
       @custom_provider = hash[:custom_provider] ? WorkOS::DataIntegrationCustomProvider.new(hash[:custom_provider]) : nil
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]

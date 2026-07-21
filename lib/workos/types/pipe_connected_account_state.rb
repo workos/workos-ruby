@@ -4,10 +4,6 @@
 
 module WorkOS
   module Types
-    class PipeConnectedAccountState
-      CONNECTED = "connected"
-      NEEDS_REAUTHORIZATION = "needs_reauthorization"
-      ALL = [CONNECTED, NEEDS_REAUTHORIZATION].freeze
-    end
+    PipeConnectedAccountState = ConnectedAccountInputState
   end
 end

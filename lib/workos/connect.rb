@@ -44,6 +44,7 @@ module WorkOS
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records).
+    # @param registration_types [Array<WorkOS::Types::ApplicationsRegistrationTypes>, nil] Filter Connect Applications by registration type. Specify multiple as a comma-separated list (e.g. `registration_types=dynamic,authenticated`). Defaults to `authenticated` only when not specified.
     # @param organization_id [String, nil] Filter Connect Applications by organization ID.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::Types::ListStruct<WorkOS::ConnectApplication>]
@@ -52,6 +53,7 @@ module WorkOS
       after: nil,
       limit: 10,
       order: "desc",
+      registration_types: nil,
       organization_id: nil,
       request_options: {}
     )
@@ -60,6 +62,7 @@ module WorkOS
         "after" => after,
         "limit" => limit,
         "order" => order,
+        "registration_types" => registration_types,
         "organization_id" => organization_id
       }.compact
       response = @client.request(
@@ -75,6 +78,7 @@ module WorkOS
           after: cursor,
           limit: limit,
           order: order,
+          registration_types: registration_types,
           organization_id: organization_id,
           request_options: request_options
         )
@@ -82,7 +86,7 @@ module WorkOS
       WorkOS::Types::ListStruct.from_response(
         response,
         model: WorkOS::ConnectApplication,
-        filters: {before: before, limit: limit, order: order, organization_id: organization_id},
+        filters: {before: before, limit: limit, order: order, registration_types: registration_types, organization_id: organization_id},
         fetch_next: fetch_next
       )
     end
@@ -101,24 +105,24 @@ module WorkOS
     def create_application(
       name:,
       application_type:,
-      description: nil,
-      scopes: nil,
-      redirect_uris: nil,
-      uses_pkce: nil,
+      description: WorkOS::OMIT,
+      scopes: WorkOS::OMIT,
+      redirect_uris: WorkOS::OMIT,
+      uses_pkce: WorkOS::OMIT,
       is_first_party: nil,
-      organization_id: nil,
+      organization_id: WorkOS::OMIT,
       request_options: {}
     )
       body = {
         "name" => name,
         "application_type" => application_type,
-        "description" => description,
-        "scopes" => scopes,
-        "redirect_uris" => redirect_uris,
-        "uses_pkce" => uses_pkce,
-        "is_first_party" => is_first_party,
-        "organization_id" => organization_id
+        "is_first_party" => is_first_party
       }.compact
+      body["description"] = description unless description.equal?(WorkOS::OMIT)
+      body["scopes"] = scopes unless scopes.equal?(WorkOS::OMIT)
+      body["redirect_uris"] = redirect_uris unless redirect_uris.equal?(WorkOS::OMIT)
+      body["uses_pkce"] = uses_pkce unless uses_pkce.equal?(WorkOS::OMIT)
+      body["organization_id"] = organization_id unless organization_id.equal?(WorkOS::OMIT)
       response = @client.request(
         method: :post,
         path: "/connect/applications",
@@ -232,17 +236,17 @@ module WorkOS
     def update_application(
       id:,
       name: nil,
-      description: nil,
-      scopes: nil,
-      redirect_uris: nil,
+      description: WorkOS::OMIT,
+      scopes: WorkOS::OMIT,
+      redirect_uris: WorkOS::OMIT,
       request_options: {}
     )
       body = {
-        "name" => name,
-        "description" => description,
-        "scopes" => scopes,
-        "redirect_uris" => redirect_uris
+        "name" => name
       }.compact
+      body["description"] = description unless description.equal?(WorkOS::OMIT)
+      body["scopes"] = scopes unless scopes.equal?(WorkOS::OMIT)
+      body["redirect_uris"] = redirect_uris unless redirect_uris.equal?(WorkOS::OMIT)
       response = @client.request(
         method: :put,
         path: "/connect/applications/#{WorkOS::Util.encode_path(id)}",

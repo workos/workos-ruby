@@ -76,18 +76,18 @@ module WorkOS
       allow_profiles_outside_organization: nil,
       domains: nil,
       domain_data: nil,
-      metadata: nil,
-      external_id: nil,
+      metadata: WorkOS::OMIT,
+      external_id: WorkOS::OMIT,
       request_options: {}
     )
       body = {
         "name" => name,
         "allow_profiles_outside_organization" => allow_profiles_outside_organization,
         "domains" => domains,
-        "domain_data" => domain_data,
-        "metadata" => metadata,
-        "external_id" => external_id
+        "domain_data" => domain_data
       }.compact
+      body["metadata"] = metadata unless metadata.equal?(WorkOS::OMIT)
+      body["external_id"] = external_id unless external_id.equal?(WorkOS::OMIT)
       response = @client.request(
         method: :post,
         path: "/organizations",
@@ -156,8 +156,8 @@ module WorkOS
       domains: nil,
       domain_data: nil,
       stripe_customer_id: nil,
-      metadata: nil,
-      external_id: nil,
+      metadata: WorkOS::OMIT,
+      external_id: WorkOS::OMIT,
       request_options: {}
     )
       body = {
@@ -165,10 +165,10 @@ module WorkOS
         "allow_profiles_outside_organization" => allow_profiles_outside_organization,
         "domains" => domains,
         "domain_data" => domain_data,
-        "stripe_customer_id" => stripe_customer_id,
-        "metadata" => metadata,
-        "external_id" => external_id
+        "stripe_customer_id" => stripe_customer_id
       }.compact
+      body["metadata"] = metadata unless metadata.equal?(WorkOS::OMIT)
+      body["external_id"] = external_id unless external_id.equal?(WorkOS::OMIT)
       response = @client.request(
         method: :put,
         path: "/organizations/#{WorkOS::Util.encode_path(id)}",
@@ -215,6 +215,53 @@ module WorkOS
       result = WorkOS::AuditLogConfiguration.new(response.body)
       result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
       result
+    end
+
+    # List authorized applications
+    # @param organization_id [String] The ID of the organization.
+    # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`.
+    # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
+    # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
+    # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records).
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::Types::ListStruct<WorkOS::OrganizationAuthorizedConnectApplicationListData>]
+    def list_authorized_applications(
+      organization_id:,
+      before: nil,
+      after: nil,
+      limit: 10,
+      order: "desc",
+      request_options: {}
+    )
+      params = {
+        "before" => before,
+        "after" => after,
+        "limit" => limit,
+        "order" => order
+      }.compact
+      response = @client.request(
+        method: :get,
+        path: "/organizations/#{WorkOS::Util.encode_path(organization_id)}/authorized_applications",
+        auth: true,
+        params: params,
+        request_options: request_options
+      )
+      fetch_next = ->(cursor) {
+        list_authorized_applications(
+          organization_id: organization_id,
+          before: before,
+          after: cursor,
+          limit: limit,
+          order: order,
+          request_options: request_options
+        )
+      }
+      WorkOS::Types::ListStruct.from_response(
+        response,
+        model: WorkOS::OrganizationAuthorizedConnectApplicationListData,
+        filters: {organization_id: organization_id, before: before, limit: limit, order: order},
+        fetch_next: fetch_next
+      )
     end
   end
 end
