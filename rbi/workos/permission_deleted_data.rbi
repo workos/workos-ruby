@@ -46,6 +46,12 @@ module WorkOS
     def system=(value); end
 
     sig { returns(String) }
+    def resource_type_slug; end
+
+    sig { params(value: String).returns(String) }
+    def resource_type_slug=(value); end
+
+    sig { returns(String) }
     def created_at; end
 
     sig { params(value: String).returns(String) }
