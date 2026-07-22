@@ -1,5 +1,35 @@
 # Changelog
 
+## [10.0.0](https://github.com/workos/workos-ruby/compare/v9.5.0...v10.0.0) (2026-07-22)
+
+
+### ⚠ BREAKING CHANGES
+
+* **connect:** SDK surface change: Symbol "ConnectedAccountDto" was removed ([#527](https://github.com/workos/workos-ruby/issues/527))
+* **organization_domains:** SDK surface change: Symbol "DomainVerificationIntentOptions" was removed ([#527](https://github.com/workos/workos-ruby/issues/527))
+* **pipes:** SDK surface change: Symbol "DataIntegrationCredentialsDto" was removed ([#527](https://github.com/workos/workos-ruby/issues/527))
+* **sso:** SDK surface change: Symbol "SSOIntentOptions" was removed ([#527](https://github.com/workos/workos-ruby/issues/527))
+* **admin_portal:** SDK surface change: Symbol "IntentOptions" was removed ([#527](https://github.com/workos/workos-ruby/issues/527))
+* **connect:** SDK surface change: `Connection.options` was renamed to `Connection.callback_endpoint` ([#524](https://github.com/workos/workos-ruby/issues/524))
+* **pipes:** SDK surface change: Symbol "DataIntegrationsUpsertApiKeyRequest" was removed ([#524](https://github.com/workos/workos-ruby/issues/524))
+* **authorization:** SDK surface change: Symbol "PermissionCreatedData" was removed ([#524](https://github.com/workos/workos-ruby/issues/524))
+
+### Features
+
+* **admin_portal:** SDK surface change: Symbol "IntentOptions" was removed ([#527](https://github.com/workos/workos-ruby/issues/527)) ([057978e](https://github.com/workos/workos-ruby/commit/057978eb6d1faf4ab3486429c021eedc76557866))
+* **authorization:** SDK surface change: Symbol "PermissionCreatedData" was removed ([#524](https://github.com/workos/workos-ruby/issues/524)) ([e4c731c](https://github.com/workos/workos-ruby/commit/e4c731c41ad478525d3541e7625ea6e44eabd2f2))
+* **connect:** SDK surface change: `Connection.options` was renamed to `Connection.callback_endpoint` ([#524](https://github.com/workos/workos-ruby/issues/524)) ([e4c731c](https://github.com/workos/workos-ruby/commit/e4c731c41ad478525d3541e7625ea6e44eabd2f2))
+* **connect:** SDK surface change: Symbol "ConnectedAccountDto" was removed ([#527](https://github.com/workos/workos-ruby/issues/527)) ([057978e](https://github.com/workos/workos-ruby/commit/057978eb6d1faf4ab3486429c021eedc76557866))
+* **organization_domains:** SDK surface change: Symbol "DomainVerificationIntentOptions" was removed ([#527](https://github.com/workos/workos-ruby/issues/527)) ([057978e](https://github.com/workos/workos-ruby/commit/057978eb6d1faf4ab3486429c021eedc76557866))
+* **pipes:** SDK surface change: Symbol "DataIntegrationCredentialsDto" was removed ([#527](https://github.com/workos/workos-ruby/issues/527)) ([057978e](https://github.com/workos/workos-ruby/commit/057978eb6d1faf4ab3486429c021eedc76557866))
+* **pipes:** SDK surface change: Symbol "DataIntegrationsUpsertApiKeyRequest" was removed ([#524](https://github.com/workos/workos-ruby/issues/524)) ([e4c731c](https://github.com/workos/workos-ruby/commit/e4c731c41ad478525d3541e7625ea6e44eabd2f2))
+* **sso:** SDK surface change: Symbol "SSOIntentOptions" was removed ([#527](https://github.com/workos/workos-ruby/issues/527)) ([057978e](https://github.com/workos/workos-ruby/commit/057978eb6d1faf4ab3486429c021eedc76557866))
+
+
+### Bug Fixes
+
+* Preserve explicit nil in request bodies as JSON null ([#522](https://github.com/workos/workos-ruby/issues/522)) ([5b06e32](https://github.com/workos/workos-ruby/commit/5b06e329ffe25b97ac9299571586ce2ecdca4a96))
+
 ## [9.5.0](https://github.com/workos/workos-ruby/compare/v9.4.0...v9.5.0) (2026-07-06)
 
 * [#514](https://github.com/workos/workos-ruby/pull/514) fix(generated): regenerate from spec
