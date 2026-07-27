@@ -64,6 +64,28 @@ module WorkOS
 
     sig do
       params(
+        redirect_uri: String,
+        code_challenge_method: T.nilable(String),
+        code_challenge: T.nilable(String),
+        domain_hint: T.nilable(String),
+        connection_id: T.nilable(String),
+        provider_query_params: T.nilable(T::Hash[String, String]),
+        provider_scopes: T.nilable(T::Array[String]),
+        invitation_token: T.nilable(String),
+        max_age: T.nilable(Integer),
+        screen_hint: T.nilable(String),
+        login_hint: T.nilable(String),
+        provider: T.nilable(String),
+        prompt: T.nilable(String),
+        state: T.nilable(String),
+        organization_id: T.nilable(String),
+        client_id: T.nilable(String)
+      ).returns(String)
+    end
+    def get_authorization_url(redirect_uri:, code_challenge_method:, code_challenge:, domain_hint:, connection_id:, provider_query_params:, provider_scopes:, invitation_token:, max_age:, screen_hint:, login_hint:, provider:, prompt:, state:, organization_id:, client_id:); end
+
+    sig do
+      params(
         client_id: String,
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::DeviceAuthorizationResponse)
@@ -89,6 +111,14 @@ module WorkOS
       ).returns(WorkOS::RadarChallenge)
     end
     def get_radar_challenge(id:, request_options:); end
+
+    sig do
+      params(
+        session_id: String,
+        return_to: T.nilable(String)
+      ).returns(String)
+    end
+    def get_logout_url(session_id:, return_to:); end
 
     sig do
       params(

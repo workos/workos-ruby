@@ -26,19 +26,21 @@ class AuthKitHelpersTest < Minitest::Test
     assert_equal "/user_management/authorize", parsed.path
   end
 
-  def test_get_authorization_url_requires_client_id
+  def test_get_authorization_url_omits_client_id_when_unconfigured
     client = WorkOS::Client.new(api_key: "k", client_id: nil)
-    err = assert_raises(ArgumentError) do
-      client.user_management.get_authorization_url(redirect_uri: "x", provider: "GoogleOAuth")
-    end
-    assert_match(/client_id is required/, err.message)
+    url = client.user_management.get_authorization_url(redirect_uri: "x", provider: "GoogleOAuth")
+    params = URI.decode_www_form(URI.parse(url).query).to_h
+    refute params.key?("client_id")
   end
 
-  def test_get_authorization_url_requires_provider_or_connection_or_org
-    err = assert_raises(ArgumentError) do
-      @um.get_authorization_url(redirect_uri: "x")
-    end
-    assert_match(/provider, connection_id, or organization_id required/, err.message)
+  def test_get_authorization_url_explicit_client_id_overrides_configured
+    url = @um.get_authorization_url(
+      redirect_uri: "https://app.example.com/cb",
+      provider: "GoogleOAuth",
+      client_id: "client_override"
+    )
+    params = URI.decode_www_form(URI.parse(url).query).to_h
+    assert_equal "client_override", params["client_id"]
   end
 
   # H10
@@ -55,6 +57,16 @@ class AuthKitHelpersTest < Minitest::Test
     assert_equal "S256", params["code_challenge_method"]
     expected_challenge = WorkOS::PKCE.generate_code_challenge(verifier)
     assert_equal expected_challenge, params["code_challenge"]
+  end
+
+  def test_get_authorization_url_with_pkce_forwards_client_id_override
+    url, _verifier, _state = @um.get_authorization_url_with_pkce(
+      redirect_uri: "https://app.example.com/cb",
+      provider: "GoogleOAuth",
+      client_id: "client_override"
+    )
+    params = URI.decode_www_form(URI.parse(url).query).to_h
+    assert_equal "client_override", params["client_id"]
   end
 
   # H11

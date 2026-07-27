@@ -42,6 +42,32 @@ module WorkOS
 
     sig do
       params(
+        redirect_uri: String,
+        provider_scopes: T.nilable(T::Array[String]),
+        provider_query_params: T.nilable(T::Hash[String, String]),
+        client_id: T.nilable(String),
+        domain: T.nilable(String),
+        provider: T.nilable(String),
+        state: T.nilable(String),
+        connection: T.nilable(String),
+        organization: T.nilable(String),
+        domain_hint: T.nilable(String),
+        login_hint: T.nilable(String),
+        nonce: T.nilable(String),
+        prompt: T.nilable(String)
+      ).returns(String)
+    end
+    def get_authorization_url(redirect_uri:, provider_scopes:, provider_query_params:, client_id:, domain:, provider:, state:, connection:, organization:, domain_hint:, login_hint:, nonce:, prompt:); end
+
+    sig do
+      params(
+        token: String
+      ).returns(String)
+    end
+    def get_logout_url(token:); end
+
+    sig do
+      params(
         profile_id: String,
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::SSOLogoutAuthorizeResponse)
