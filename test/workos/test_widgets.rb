@@ -14,13 +14,13 @@ class WidgetsTest < Minitest::Test
   def test_create_token_returns_expected_result
     stub_request(:post, %r{\Ahttps://api\.workos\.com/widgets/token(\?|\z)})
       .to_return(body: "{}", status: 200)
-    result = @client.widgets.create_token(organization_id: "stub")
+    result = @client.widgets.create_token
     refute_nil result
   end
 
   # Parameterized authentication error tests (one per endpoint).
   [
-    {name: :create_token, verb: :post, url: %r{\Ahttps://api\.workos\.com/widgets/token(\?|\z)}, args: {organization_id: "stub"}}
+    {name: :create_token, verb: :post, url: %r{\Ahttps://api\.workos\.com/widgets/token(\?|\z)}}
   ].each do |spec|
     define_method("test_#{spec[:name]}_raises_authentication_error_on_401") do
       stub_request(spec[:verb], spec[:url])

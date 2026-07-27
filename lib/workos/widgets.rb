@@ -11,13 +11,13 @@ module WorkOS
     end
 
     # Generate a widget token
-    # @param organization_id [String] The ID of the organization to scope the widget session to.
+    # @param organization_id [String, nil] The ID of the organization to scope the widget session to. Required when scopes are provided. Optional when issuing a token for user-only widgets (e.g. `UserProfile`, `UserSecurity`) that do not require organization context.
     # @param user_id [String, nil] The ID of the user to issue the widget session token for.
     # @param scopes [Array<WorkOS::Types::WidgetSessionTokenScopes>, nil] The scopes to grant the widget session.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::WidgetSessionTokenResponse]
     def create_token(
-      organization_id:,
+      organization_id: nil,
       user_id: nil,
       scopes: nil,
       request_options: {}

@@ -26,12 +26,14 @@ module WorkOS
         description: T.nilable(String),
         enabled: T.nilable(T::Boolean),
         scopes: T.nilable(T::Array[String]),
-        credentials: T.nilable(WorkOS::DataIntegrationCredentialsDto),
+        auth_methods: T.nilable(T::Array[String]),
+        credentials: T.nilable(WorkOS::DataIntegrationCredentialsInput),
+        api_key: T.nilable(WorkOS::ApiKeyInstallation),
         custom_provider: T.nilable(WorkOS::CustomProviderDefinition),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::DataIntegration)
     end
-    def create_data_integration(provider:, description:, enabled:, scopes:, credentials:, custom_provider:, request_options:); end
+    def create_data_integration(provider:, description:, enabled:, scopes:, auth_methods:, credentials:, api_key:, custom_provider:, request_options:); end
 
     sig do
       params(
@@ -47,12 +49,13 @@ module WorkOS
         description: T.nilable(String),
         enabled: T.nilable(T::Boolean),
         scopes: T.nilable(T::Array[String]),
-        credentials: T.nilable(WorkOS::DataIntegrationCredentialsDto),
+        credentials: T.nilable(WorkOS::DataIntegrationCredentialsInput),
+        api_key: T.nilable(WorkOS::ApiKeyInstallation),
         custom_provider: T.nilable(WorkOS::UpdateCustomProviderDefinition),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::DataIntegration)
     end
-    def update_data_integration(slug:, description:, enabled:, scopes:, credentials:, custom_provider:, request_options:); end
+    def update_data_integration(slug:, description:, enabled:, scopes:, credentials:, api_key:, custom_provider:, request_options:); end
 
     sig do
       params(

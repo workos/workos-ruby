@@ -63,11 +63,23 @@ module WorkOS
     sig { params(value: String).returns(String) }
     def redirect_uri=(value); end
 
+    sig { returns(T::Array[String]) }
+    def auth_methods; end
+
+    sig { params(value: T::Array[String]).returns(T::Array[String]) }
+    def auth_methods=(value); end
+
     sig { returns(WorkOS::DataIntegrationCredential) }
     def credentials; end
 
     sig { params(value: WorkOS::DataIntegrationCredential).returns(WorkOS::DataIntegrationCredential) }
     def credentials=(value); end
+
+    sig { returns(T.nilable(WorkOS::DataIntegrationInstallation)) }
+    def installation; end
+
+    sig { params(value: T.nilable(WorkOS::DataIntegrationInstallation)).returns(T.nilable(WorkOS::DataIntegrationInstallation)) }
+    def installation=(value); end
 
     sig { returns(T.nilable(WorkOS::DataIntegrationCustomProvider)) }
     def custom_provider; end

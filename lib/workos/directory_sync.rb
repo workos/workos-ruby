@@ -180,6 +180,8 @@ module WorkOS
     # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records).
     # @param directory [String, nil] Unique identifier of the WorkOS Directory. This value can be obtained from the WorkOS dashboard or from the WorkOS API.
     # @param group [String, nil] Unique identifier of the WorkOS Directory Group. This value can be obtained from the WorkOS API.
+    # @param idp_id [String, nil] Filter Directory Users by the identity provider's unique identifier (`idp_id`). Requires the `directory` parameter to also be provided.
+    # @param email [String, nil] Filter Directory Users by their primary email address. Requires the `directory` parameter to also be provided.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::Types::ListStruct<WorkOS::DirectoryUserWithGroups>]
     def list_users(
@@ -189,6 +191,8 @@ module WorkOS
       order: "desc",
       directory: nil,
       group: nil,
+      idp_id: nil,
+      email: nil,
       request_options: {}
     )
       params = {
@@ -197,7 +201,9 @@ module WorkOS
         "limit" => limit,
         "order" => order,
         "directory" => directory,
-        "group" => group
+        "group" => group,
+        "idp_id" => idp_id,
+        "email" => email
       }.compact
       response = @client.request(
         method: :get,
@@ -214,13 +220,15 @@ module WorkOS
           order: order,
           directory: directory,
           group: group,
+          idp_id: idp_id,
+          email: email,
           request_options: request_options
         )
       }
       WorkOS::Types::ListStruct.from_response(
         response,
         model: WorkOS::DirectoryUserWithGroups,
-        filters: {before: before, limit: limit, order: order, directory: directory, group: group},
+        filters: {before: before, limit: limit, order: order, directory: directory, group: group, idp_id: idp_id, email: email},
         fetch_next: fetch_next
       )
     end

@@ -25,13 +25,7 @@ gem "workos"
 
 ## Configuration
 
-To use the library, provide your WorkOS API key as `WORKOS_API_KEY` and, for AuthKit and SSO flows, your client ID as `WORKOS_CLIENT_ID`:
-
-```sh
-WORKOS_API_KEY=sk_test_123 WORKOS_CLIENT_ID=client_123 ruby app.rb
-```
-
-Or configure the SDK in an initializer:
+Store your WorkOS API key (and, for AuthKit and SSO flows, your client ID) in environment variables such as `WORKOS_API_KEY` and `WORKOS_CLIENT_ID`, then pass them to the SDK explicitly. The SDK does not read these environment variables automatically — configure it in an initializer:
 
 ```ruby
 # /config/initializers/workos.rb
@@ -77,6 +71,7 @@ tenant_b.organizations.list_organizations
 ```ruby
 public_client = WorkOS::PublicClient.create(client_id: "client_123")
 url, verifier, state = public_client.user_management.get_authorization_url_with_pkce(
+  provider: "authkit",
   redirect_uri: "https://example.com/callback"
 )
 ```
@@ -93,20 +88,22 @@ on_worker_boot { WorkOS.reset_client }
 
 ## Per-request options
 
-Every API call accepts `request_options:` for per-call overrides:
+Every method that makes an HTTP request accepts `request_options:` for per-call overrides (local URL-building helpers such as `get_authorization_url` and `get_logout_url` do not):
 
 ```ruby
 organization = WorkOS.client.organizations.get_organization(
   id: "org_123",
   request_options: {
     timeout: 10,
-    extra_headers: {"X-Request-Source" => "admin"},
-    idempotency_key: "org-create-123"
+    extra_headers: {"X-Request-Source" => "admin"}
   }
 )
 ```
 
-`Idempotency-Key` is only sent when you provide `request_options[:idempotency_key]`, or when the SDK retries a mutating request after a transient failure.
+`Idempotency-Key` is only sent on `POST`, `PUT`, and `PATCH` requests — either when you provide `request_options[:idempotency_key]`, or auto-generated when the SDK retries one of those requests after a transient failure. It is never attached to `GET` or `DELETE` requests.
+
+> [!NOTE]
+> The WorkOS API currently honors `Idempotency-Key` only on the [Create Audit Log Event](https://workos.com/docs/reference/audit-logs/event) endpoint (`audit_logs.create_event`). Other endpoints accept the header but do not deduplicate requests, so a retried mutation elsewhere can still create a duplicate.
 
 ## Usage Examples
 
@@ -155,8 +152,8 @@ ruby -rsecurerandom -e 'puts SecureRandom.base64(32)'
 ```
 
 Anything shorter than 32 bytes (including `nil` or `""`) raises
-`ArgumentError` at SDK init time — sealing or unsealing will not silently
-proceed with a weakened key.
+`ArgumentError` as soon as you load, seal, or unseal a session — sealing or
+unsealing will not silently proceed with a weakened key.
 
 ### Verify a webhook
 
@@ -196,7 +193,9 @@ end
 
 ## Error Handling
 
-The SDK raises typed errors for API and transport failures.
+The SDK raises typed errors for API failures (`WorkOS::APIError` and
+subclasses) and transport failures (`WorkOS::APIConnectionError`). Both
+inherit from `WorkOS::Error`.
 
 ```ruby
 begin
@@ -204,6 +203,8 @@ begin
 rescue WorkOS::APIError => e
   warn "#{e.class}: #{e.message}"
   warn "status=#{e.http_status} request_id=#{e.request_id} code=#{e.code}"
+rescue WorkOS::APIConnectionError => e
+  warn "connection failure: #{e.message}"
 end
 ```
 

@@ -615,16 +615,16 @@ module WorkOS
       organization_id:,
       name:,
       slug: nil,
-      description: nil,
+      description: WorkOS::OMIT,
       resource_type_slug: nil,
       request_options: {}
     )
       body = {
         "slug" => slug,
         "name" => name,
-        "description" => description,
         "resource_type_slug" => resource_type_slug
       }.compact
+      body["description"] = description unless description.equal?(WorkOS::OMIT)
       response = @client.request(
         method: :post,
         path: "/authorization/organizations/#{WorkOS::Util.encode_path(organization_id)}/roles",
@@ -669,13 +669,13 @@ module WorkOS
       organization_id:,
       slug:,
       name: nil,
-      description: nil,
+      description: WorkOS::OMIT,
       request_options: {}
     )
       body = {
-        "name" => name,
-        "description" => description
+        "name" => name
       }.compact
+      body["description"] = description unless description.equal?(WorkOS::OMIT)
       response = @client.request(
         method: :patch,
         path: "/authorization/organizations/#{WorkOS::Util.encode_path(organization_id)}/roles/#{WorkOS::Util.encode_path(slug)}",
@@ -821,14 +821,14 @@ module WorkOS
       resource_type_slug:,
       external_id:,
       name: nil,
-      description: nil,
+      description: WorkOS::OMIT,
       parent_resource: nil,
       request_options: {}
     )
       body = {
-        "name" => name,
-        "description" => description
+        "name" => name
       }.compact
+      body["description"] = description unless description.equal?(WorkOS::OMIT)
       if parent_resource
         case parent_resource
         when WorkOS::Authorization::ParentResourceById
@@ -1081,17 +1081,17 @@ module WorkOS
       name:,
       resource_type_slug:,
       organization_id:,
-      description: nil,
+      description: WorkOS::OMIT,
       parent_resource: nil,
       request_options: {}
     )
       body = {
         "external_id" => external_id,
         "name" => name,
-        "description" => description,
         "resource_type_slug" => resource_type_slug,
         "organization_id" => organization_id
-      }.compact
+      }
+      body["description"] = description unless description.equal?(WorkOS::OMIT)
       if parent_resource
         case parent_resource
         when WorkOS::Authorization::ParentResourceById
@@ -1144,14 +1144,14 @@ module WorkOS
     def update_resource(
       resource_id:,
       name: nil,
-      description: nil,
+      description: WorkOS::OMIT,
       parent_resource: nil,
       request_options: {}
     )
       body = {
-        "name" => name,
-        "description" => description
+        "name" => name
       }.compact
+      body["description"] = description unless description.equal?(WorkOS::OMIT)
       if parent_resource
         case parent_resource
         when WorkOS::Authorization::ParentResourceById
@@ -1329,16 +1329,16 @@ module WorkOS
     def create_environment_role(
       slug:,
       name:,
-      description: nil,
+      description: WorkOS::OMIT,
       resource_type_slug: nil,
       request_options: {}
     )
       body = {
         "slug" => slug,
         "name" => name,
-        "description" => description,
         "resource_type_slug" => resource_type_slug
       }.compact
+      body["description"] = description unless description.equal?(WorkOS::OMIT)
       response = @client.request(
         method: :post,
         path: "/authorization/roles",
@@ -1379,13 +1379,13 @@ module WorkOS
     def update_environment_role(
       slug:,
       name: nil,
-      description: nil,
+      description: WorkOS::OMIT,
       request_options: {}
     )
       body = {
-        "name" => name,
-        "description" => description
+        "name" => name
       }.compact
+      body["description"] = description unless description.equal?(WorkOS::OMIT)
       response = @client.request(
         method: :patch,
         path: "/authorization/roles/#{WorkOS::Util.encode_path(slug)}",
@@ -1502,16 +1502,16 @@ module WorkOS
     def create_permission(
       slug:,
       name:,
-      description: nil,
+      description: WorkOS::OMIT,
       resource_type_slug: nil,
       request_options: {}
     )
       body = {
         "slug" => slug,
         "name" => name,
-        "description" => description,
         "resource_type_slug" => resource_type_slug
       }.compact
+      body["description"] = description unless description.equal?(WorkOS::OMIT)
       response = @client.request(
         method: :post,
         path: "/authorization/permissions",
@@ -1552,13 +1552,13 @@ module WorkOS
     def update_permission(
       slug:,
       name: nil,
-      description: nil,
+      description: WorkOS::OMIT,
       request_options: {}
     )
       body = {
-        "name" => name,
-        "description" => description
+        "name" => name
       }.compact
+      body["description"] = description unless description.equal?(WorkOS::OMIT)
       response = @client.request(
         method: :patch,
         path: "/authorization/permissions/#{WorkOS::Util.encode_path(slug)}",

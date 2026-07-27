@@ -5,6 +5,62 @@
 require "test_helper"
 
 class GroupsModelRoundTripTest < Minitest::Test
+  def test_create_group_membership_round_trip
+    fixture = {
+      "organization_membership_id" => "stub"
+    }
+    model = WorkOS::CreateGroupMembership.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["organization_membership_id"], json[:organization_membership_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_create_group_round_trip
+    fixture = {
+      "name" => "stub",
+      "description" => nil
+    }
+    model = WorkOS::CreateGroup.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["name"], json[:name]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_update_group_round_trip
+    fixture = {
+      "name" => "stub",
+      "description" => nil
+    }
+    model = WorkOS::UpdateGroup.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_group_round_trip
+    fixture = {
+      "object" => "group",
+      "id" => "stub",
+      "organization_id" => "stub",
+      "name" => "stub",
+      "description" => nil,
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::Group.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["organization_id"], json[:organization_id]
+    assert_equal fixture["name"], json[:name]
+    assert_nil json[:description]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_user_organization_membership_base_list_data_round_trip
     fixture = {
       "object" => "organization_membership",

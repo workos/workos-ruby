@@ -54,7 +54,6 @@ WORKOS_INFLECTIONS = {
   "sso" => "SSO",
   "sso_authorize_url_response" => "SSOAuthorizeUrlResponse",
   "sso_device_authorization_request" => "SSODeviceAuthorizationRequest",
-  "sso_intent_options" => "SSOIntentOptions",
   "sso_logout_authorize_request" => "SSOLogoutAuthorizeRequest",
   "sso_logout_authorize_response" => "SSOLogoutAuthorizeResponse",
   "sso_provider" => "SSOProvider",

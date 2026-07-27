@@ -25,11 +25,12 @@ module WorkOS
         after: T.nilable(String),
         limit: T.nilable(Integer),
         order: T.nilable(String),
+        registration_types: T.nilable(T::Array[String]),
         organization_id: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_applications(before:, after:, limit:, order:, organization_id:, request_options:); end
+    def list_applications(before:, after:, limit:, order:, registration_types:, organization_id:, request_options:); end
 
     sig do
       params(

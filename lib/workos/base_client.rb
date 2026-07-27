@@ -66,7 +66,7 @@ module WorkOS
     def post_request(path:, auth: false, body: {}, params: {}, request_options: nil)
       req = build_request(Net::HTTP::Post, append_query(path, params),
         auth: auth, request_options: request_options)
-      req.body = body.nil? ? "" : body.compact.to_json
+      req.body = body.nil? ? "" : body.to_json
       req["Content-Type"] = "application/json"
       inject_idempotency_key(req, request_options)
       req
@@ -75,7 +75,7 @@ module WorkOS
     def put_request(path:, auth: false, body: {}, params: {}, request_options: nil)
       req = build_request(Net::HTTP::Put, append_query(path, params),
         auth: auth, request_options: request_options)
-      req.body = body.nil? ? "" : body.compact.to_json
+      req.body = body.nil? ? "" : body.to_json
       req["Content-Type"] = "application/json"
       inject_idempotency_key(req, request_options)
       req
@@ -84,7 +84,7 @@ module WorkOS
     def patch_request(path:, auth: false, body: {}, params: {}, request_options: nil)
       req = build_request(Net::HTTP::Patch, append_query(path, params),
         auth: auth, request_options: request_options)
-      req.body = body.nil? ? "" : body.compact.to_json
+      req.body = body.nil? ? "" : body.to_json
       req["Content-Type"] = "application/json"
       inject_idempotency_key(req, request_options)
       req
@@ -94,7 +94,7 @@ module WorkOS
       req = build_request(Net::HTTP::Delete, append_query(path, params),
         auth: auth, request_options: request_options)
       if body
-        req.body = body.compact.to_json
+        req.body = body.to_json
         req["Content-Type"] = "application/json"
       end
       req

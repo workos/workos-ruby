@@ -42,17 +42,17 @@ module WorkOS
       organization_id:,
       slug:,
       enabled: nil,
-      scopes: nil,
+      scopes: WorkOS::OMIT,
       client_id: nil,
       client_secret: nil,
       request_options: {}
     )
       body = {
         "enabled" => enabled,
-        "scopes" => scopes,
         "client_id" => client_id,
         "client_secret" => client_secret
       }.compact
+      body["scopes"] = scopes unless scopes.equal?(WorkOS::OMIT)
       response = @client.request(
         method: :put,
         path: "/organizations/#{WorkOS::Util.encode_path(organization_id)}/data_integration_configurations/#{WorkOS::Util.encode_path(slug)}",

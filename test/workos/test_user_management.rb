@@ -189,6 +189,13 @@ class UserManagementTest < Minitest::Test
     refute_nil result
   end
 
+  def test_get_radar_challenge_returns_expected_result
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/user_management/radar_challenges/stub(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.user_management.get_radar_challenge(id: "stub")
+    refute_nil result
+  end
+
   def test_revoke_session_returns_expected_result
     stub_request(:post, %r{\Ahttps://api\.workos\.com/user_management/sessions/revoke(\?|\z)})
       .to_return(body: "{}", status: 200)
@@ -431,6 +438,13 @@ class UserManagementTest < Minitest::Test
     refute_nil result
   end
 
+  def test_delete_redirect_uris_returns_expected_result
+    stub_request(:delete, %r{\Ahttps://api\.workos\.com/user_management/redirect_uris/stub(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.user_management.delete_redirect_uris(id: "stub")
+    assert_nil result
+  end
+
   def test_list_user_authorized_applications_returns_expected_result
     stub_request(:get, %r{\Ahttps://api\.workos\.com/user_management/users/stub/authorized_applications(\?|\z)})
       .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
@@ -465,6 +479,7 @@ class UserManagementTest < Minitest::Test
     {name: :create_authenticate, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/authenticate(\?|\z)}, args: {client_id: "stub", grant_type: "authorization_code", code: "stub"}},
     {name: :create_device, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/authorize/device(\?|\z)}, args: {client_id: "stub"}},
     {name: :create_radar_challenge, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/radar_challenges(\?|\z)}, args: {user_id: "stub", pending_authentication_token: "stub", phone_number: "stub"}},
+    {name: :get_radar_challenge, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/radar_challenges/stub(\?|\z)}, args: {id: "stub"}},
     {name: :revoke_session, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/sessions/revoke(\?|\z)}, args: {session_id: "stub"}},
     {name: :list_cors_origins, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/cors_origins(\?|\z)}},
     {name: :create_cors_origin, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/cors_origins(\?|\z)}, args: {origin: "stub"}},
@@ -497,6 +512,7 @@ class UserManagementTest < Minitest::Test
     {name: :get_magic_auth, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/magic_auth/stub(\?|\z)}, args: {id: "stub"}},
     {name: :list_redirect_uris, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/redirect_uris(\?|\z)}},
     {name: :create_redirect_uri, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/redirect_uris(\?|\z)}, args: {uri: "stub"}},
+    {name: :delete_redirect_uris, verb: :delete, url: %r{\Ahttps://api\.workos\.com/user_management/redirect_uris/stub(\?|\z)}, args: {id: "stub"}},
     {name: :list_user_authorized_applications, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/users/stub/authorized_applications(\?|\z)}, args: {user_id: "stub"}},
     {name: :delete_user_authorized_application, verb: :delete, url: %r{\Ahttps://api\.workos\.com/user_management/users/stub/authorized_applications/stub(\?|\z)}, args: {application_id: "stub", user_id: "stub"}},
     {name: :list_user_api_keys, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/users/stub/api_keys(\?|\z)}, args: {user_id: "stub"}},

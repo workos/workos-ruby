@@ -22,7 +22,7 @@ module WorkOS
       params(
         id: String,
         request_options: T::Hash[Symbol, T.untyped]
-      ).returns(WorkOS::OrganizationDomainStandAlone)
+      ).returns(WorkOS::OrganizationDomain)
     end
     def get_organization_domain(id:, request_options:); end
 
@@ -38,7 +38,7 @@ module WorkOS
       params(
         id: String,
         request_options: T::Hash[Symbol, T.untyped]
-      ).returns(WorkOS::OrganizationDomainStandAlone)
+      ).returns(WorkOS::OrganizationDomain)
     end
     def verify_organization_domain(id:, request_options:); end
 

@@ -6,6 +6,9 @@
 
 module WorkOS
   class Client < BaseClient
+    sig { returns(WorkOS::Agents) }
+    def agents; end
+
     sig { returns(WorkOS::MultiFactorAuth) }
     def multi_factor_auth; end
 

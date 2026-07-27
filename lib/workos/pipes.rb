@@ -59,27 +59,33 @@ module WorkOS
     # @param description [String, nil] An optional description of the Data Integration.
     # @param enabled [Boolean, nil] Whether the Data Integration is enabled. Defaults to `false`.
     # @param scopes [Array<String>, nil] The OAuth scopes to request for the Data Integration. Defaults to the provider's configured scopes when omitted.
-    # @param credentials [WorkOS::DataIntegrationCredentialsDto, nil] The credentials to configure for the Data Integration. Required for both built-in and custom providers.
+    # @param auth_methods [Array<WorkOS::Types::CreateDataIntegrationAuthMethods>, nil] How accounts authenticate with the provider. Defaults to `["oauth"]`. Use `["api_key"]` to declare an API key integration; `credentials` is then not required and keys are supplied per-tenant (optionally via `api_key` on this request).
+    # @param credentials [WorkOS::DataIntegrationCredentialsInput, nil] The OAuth credentials to configure for the Data Integration. Required for OAuth integrations; omit when `auth_methods` is `["api_key"]`.
+    # @param api_key [WorkOS::ApiKeyInstallation, nil] An optional API key to install for the first tenant on an `api_key` integration. Omit to declare a keyless integration; tenants can be added later via the per-installation API key path.
     # @param custom_provider [WorkOS::CustomProviderDefinition, nil] The OAuth definition for a custom provider. Supply this to define a custom provider; omit it to create an integration for a built-in provider.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::DataIntegration]
     def create_data_integration(
       provider:,
-      description: nil,
+      description: WorkOS::OMIT,
       enabled: nil,
-      scopes: nil,
+      scopes: WorkOS::OMIT,
+      auth_methods: nil,
       credentials: nil,
+      api_key: nil,
       custom_provider: nil,
       request_options: {}
     )
       body = {
         "provider" => provider,
-        "description" => description,
         "enabled" => enabled,
-        "scopes" => scopes,
+        "auth_methods" => auth_methods,
         "credentials" => credentials,
+        "api_key" => api_key,
         "custom_provider" => custom_provider
       }.compact
+      body["description"] = description unless description.equal?(WorkOS::OMIT)
+      body["scopes"] = scopes unless scopes.equal?(WorkOS::OMIT)
       response = @client.request(
         method: :post,
         path: "/data-integrations",
@@ -116,26 +122,29 @@ module WorkOS
     # @param description [String, nil] An optional description of the Data Integration.
     # @param enabled [Boolean, nil] Whether the Data Integration is enabled.
     # @param scopes [Array<String>, nil] The OAuth scopes to request for the Data Integration. Pass `null` to reset to the provider's configured scopes.
-    # @param credentials [WorkOS::DataIntegrationCredentialsDto, nil] New credentials for the Data Integration. When provided, rotates the stored client secret.
+    # @param credentials [WorkOS::DataIntegrationCredentialsInput, nil] New OAuth credentials for the Data Integration. When provided, rotates the stored client secret. Mutually exclusive with `api_key`.
+    # @param api_key [WorkOS::ApiKeyInstallation, nil] An API key to install or rotate for a tenant on an `api_key` integration. Upserts the tenant installation identified by `user_id` (and optional `organization_id`).
     # @param custom_provider [WorkOS::UpdateCustomProviderDefinition, nil] Updates to a custom provider's OAuth definition. Only valid for custom-provider integrations.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::DataIntegration]
     def update_data_integration(
       slug:,
-      description: nil,
+      description: WorkOS::OMIT,
       enabled: nil,
-      scopes: nil,
+      scopes: WorkOS::OMIT,
       credentials: nil,
+      api_key: nil,
       custom_provider: nil,
       request_options: {}
     )
       body = {
-        "description" => description,
         "enabled" => enabled,
-        "scopes" => scopes,
         "credentials" => credentials,
+        "api_key" => api_key,
         "custom_provider" => custom_provider
       }.compact
+      body["description"] = description unless description.equal?(WorkOS::OMIT)
+      body["scopes"] = scopes unless scopes.equal?(WorkOS::OMIT)
       response = @client.request(
         method: :put,
         path: "/data-integrations/#{WorkOS::Util.encode_path(slug)}",
@@ -264,13 +273,13 @@ module WorkOS
     def get_access_token(
       provider:,
       user_id:,
-      organization_id: nil,
+      organization_id: WorkOS::OMIT,
       request_options: {}
     )
       body = {
-        "user_id" => user_id,
-        "organization_id" => organization_id
-      }.compact
+        "user_id" => user_id
+      }
+      body["organization_id"] = organization_id unless organization_id.equal?(WorkOS::OMIT)
       response = @client.request(
         method: :post,
         path: "/data-integrations/#{WorkOS::Util.encode_path(provider)}/token",
@@ -317,7 +326,7 @@ module WorkOS
     # @param refresh_token [String, nil] The OAuth refresh token for the connected account.
     # @param expires_at [String, nil] The ISO-8601 timestamp when the access token expires. Required when `access_token` is provided for tokens that expire.
     # @param scopes [Array<String>, nil] The OAuth scopes granted for this connection.
-    # @param state [WorkOS::Types::ConnectedAccountState, nil] Explicitly set the state of the connected account. When omitted, the state is derived from the token combination provided.
+    # @param state [WorkOS::Types::ConnectedAccountInputState, nil] Explicitly set the state of the connected account. When omitted, the state is derived from the token combination provided.
     # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter if the connection is scoped to an organization.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::ConnectedAccount]
@@ -362,7 +371,7 @@ module WorkOS
     # @param refresh_token [String, nil] The OAuth refresh token for the connected account.
     # @param expires_at [String, nil] The ISO-8601 timestamp when the access token expires. Required when `access_token` is provided for tokens that expire.
     # @param scopes [Array<String>, nil] The OAuth scopes granted for this connection.
-    # @param state [WorkOS::Types::ConnectedAccountState, nil] Explicitly set the state of the connected account. When omitted, the state is derived from the token combination provided.
+    # @param state [WorkOS::Types::ConnectedAccountInputState, nil] Explicitly set the state of the connected account. When omitted, the state is derived from the token combination provided.
     # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter if the connection is scoped to an organization.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::ConnectedAccount]

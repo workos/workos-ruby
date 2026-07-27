@@ -213,13 +213,13 @@ module WorkOS
     def update_kv(
       id:,
       value:,
-      version_check: nil,
+      version_check: WorkOS::OMIT,
       request_options: {}
     )
       body = {
-        "value" => value,
-        "version_check" => version_check
-      }.compact
+        "value" => value
+      }
+      body["version_check"] = version_check unless version_check.equal?(WorkOS::OMIT)
       response = @client.request(
         method: :put,
         path: "/vault/v1/kv/#{WorkOS::Util.encode_path(id)}",

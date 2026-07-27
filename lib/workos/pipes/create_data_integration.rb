@@ -9,7 +9,9 @@ module WorkOS
       description: :description,
       enabled: :enabled,
       scopes: :scopes,
+      auth_methods: :auth_methods,
       credentials: :credentials,
+      api_key: :api_key,
       custom_provider: :custom_provider
     }.freeze
 
@@ -18,7 +20,9 @@ module WorkOS
       :description,
       :enabled,
       :scopes,
+      :auth_methods,
       :credentials,
+      :api_key,
       :custom_provider
 
     def initialize(json)
@@ -27,7 +31,9 @@ module WorkOS
       @description = hash[:description]
       @enabled = hash[:enabled]
       @scopes = hash[:scopes] || []
-      @credentials = hash[:credentials] ? WorkOS::DataIntegrationCredentialsDto.new(hash[:credentials]) : nil
+      @auth_methods = hash[:auth_methods] || []
+      @credentials = hash[:credentials] ? WorkOS::DataIntegrationCredentialsInput.new(hash[:credentials]) : nil
+      @api_key = hash[:api_key] ? WorkOS::ApiKeyInstallation.new(hash[:api_key]) : nil
       @custom_provider = hash[:custom_provider] ? WorkOS::CustomProviderDefinition.new(hash[:custom_provider]) : nil
     end
   end

@@ -39,7 +39,7 @@ module WorkOS
     # Get an Organization Domain
     # @param id [String] Unique identifier of the organization domain.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
-    # @return [WorkOS::OrganizationDomainStandAlone]
+    # @return [WorkOS::OrganizationDomain]
     def get_organization_domain(
       id:,
       request_options: {}
@@ -50,7 +50,7 @@ module WorkOS
         auth: true,
         request_options: request_options
       )
-      result = WorkOS::OrganizationDomainStandAlone.new(response.body)
+      result = WorkOS::OrganizationDomain.new(response.body)
       result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
       result
     end
@@ -75,7 +75,7 @@ module WorkOS
     # Verify an Organization Domain
     # @param id [String] Unique identifier of the organization domain.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
-    # @return [WorkOS::OrganizationDomainStandAlone]
+    # @return [WorkOS::OrganizationDomain]
     def verify_organization_domain(
       id:,
       request_options: {}
@@ -86,7 +86,7 @@ module WorkOS
         auth: true,
         request_options: request_options
       )
-      result = WorkOS::OrganizationDomainStandAlone.new(response.body)
+      result = WorkOS::OrganizationDomain.new(response.body)
       result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
       result
     end

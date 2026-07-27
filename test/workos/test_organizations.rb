@@ -60,6 +60,13 @@ class OrganizationsTest < Minitest::Test
     refute_nil result
   end
 
+  def test_list_authorized_applications_returns_expected_result
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/organizations/stub/authorized_applications(\?|\z)})
+      .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
+    result = @client.organizations.list_authorized_applications(organization_id: "stub")
+    assert_kind_of WorkOS::Types::ListStruct, result
+  end
+
   # Parameterized authentication error tests (one per endpoint).
   [
     {name: :list_organizations, verb: :get, url: %r{\Ahttps://api\.workos\.com/organizations(\?|\z)}},
@@ -68,7 +75,8 @@ class OrganizationsTest < Minitest::Test
     {name: :get_organization, verb: :get, url: %r{\Ahttps://api\.workos\.com/organizations/stub(\?|\z)}, args: {id: "stub"}},
     {name: :update_organization, verb: :put, url: %r{\Ahttps://api\.workos\.com/organizations/stub(\?|\z)}, args: {id: "stub"}},
     {name: :delete_organization, verb: :delete, url: %r{\Ahttps://api\.workos\.com/organizations/stub(\?|\z)}, args: {id: "stub"}},
-    {name: :get_audit_log_configuration, verb: :get, url: %r{\Ahttps://api\.workos\.com/organizations/stub/audit_log_configuration(\?|\z)}, args: {id: "stub"}}
+    {name: :get_audit_log_configuration, verb: :get, url: %r{\Ahttps://api\.workos\.com/organizations/stub/audit_log_configuration(\?|\z)}, args: {id: "stub"}},
+    {name: :list_authorized_applications, verb: :get, url: %r{\Ahttps://api\.workos\.com/organizations/stub/authorized_applications(\?|\z)}, args: {organization_id: "stub"}}
   ].each do |spec|
     define_method("test_#{spec[:name]}_raises_authentication_error_on_401") do
       stub_request(spec[:verb], spec[:url])

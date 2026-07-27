@@ -68,10 +68,12 @@ module WorkOS
         order: T.nilable(String),
         directory: T.nilable(String),
         group: T.nilable(String),
+        idp_id: T.nilable(String),
+        email: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_users(before:, after:, limit:, order:, directory:, group:, request_options:); end
+    def list_users(before:, after:, limit:, order:, directory:, group:, idp_id:, email:, request_options:); end
 
     sig do
       params(
