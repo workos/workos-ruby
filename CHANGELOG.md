@@ -1,5 +1,14 @@
 # Changelog
 
+## [10.1.0](https://github.com/workos/workos-ruby/compare/v10.0.0...v10.1.0) (2026-07-28)
+
+
+### Features
+
+* **generated:** Pipes, PipesProvider, UserManagement (batch 6c21f6dc) ([#531](https://github.com/workos/workos-ruby/issues/531)) ([75c684f](https://github.com/workos/workos-ruby/commit/75c684f688774a8bb813ce43e4dba59e351591cb))
+* **generated:** SSO (batch 16283437) ([#532](https://github.com/workos/workos-ruby/issues/532)) ([b7bad42](https://github.com/workos/workos-ruby/commit/b7bad427870d8b6d9304e69e2261276d42788c5c))
+* replace hand-written URL builders with generated ones ([b162486](https://github.com/workos/workos-ruby/commit/b1624866137d8364dda1726b0302b70bed00a75c))
+
 ## [10.0.0](https://github.com/workos/workos-ruby/compare/v9.5.0...v10.0.0) (2026-07-22)
 
 ### Bug Fixes
