@@ -17,6 +17,7 @@ module WorkOS
       auth_methods: :auth_methods,
       credentials: :credentials,
       installation: :installation,
+      config: :config,
       custom_provider: :custom_provider,
       created_at: :created_at,
       updated_at: :updated_at
@@ -35,6 +36,7 @@ module WorkOS
       :auth_methods,
       :credentials,
       :installation,
+      :config,
       :custom_provider,
       :created_at,
       :updated_at
@@ -53,6 +55,7 @@ module WorkOS
       @auth_methods = hash[:auth_methods] || []
       @credentials = hash[:credentials] ? WorkOS::DataIntegrationCredential.new(hash[:credentials]) : nil
       @installation = hash[:installation] ? WorkOS::DataIntegrationInstallation.new(hash[:installation]) : nil
+      @config = hash[:config] || {}
       @custom_provider = hash[:custom_provider] ? WorkOS::DataIntegrationCustomProvider.new(hash[:custom_provider]) : nil
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]

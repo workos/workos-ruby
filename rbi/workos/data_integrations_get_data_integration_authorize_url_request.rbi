@@ -27,6 +27,12 @@ module WorkOS
     sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
     def return_to=(value); end
 
+    sig { returns(T.nilable(T::Hash[String, String])) }
+    def config; end
+
+    sig { params(value: T.nilable(T::Hash[String, String])).returns(T.nilable(T::Hash[String, String])) }
+    def config=(value); end
+
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end
 

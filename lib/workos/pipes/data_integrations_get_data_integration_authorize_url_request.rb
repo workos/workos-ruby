@@ -7,19 +7,22 @@ module WorkOS
     HASH_ATTRS = {
       user_id: :user_id,
       organization_id: :organization_id,
-      return_to: :return_to
+      return_to: :return_to,
+      config: :config
     }.freeze
 
     attr_accessor \
       :user_id,
       :organization_id,
-      :return_to
+      :return_to,
+      :config
 
     def initialize(json)
       hash = self.class.normalize(json)
       @user_id = hash[:user_id]
       @organization_id = hash[:organization_id]
       @return_to = hash[:return_to]
+      @config = hash[:config] || {}
     end
   end
 end

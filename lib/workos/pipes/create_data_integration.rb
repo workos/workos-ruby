@@ -10,6 +10,7 @@ module WorkOS
       enabled: :enabled,
       scopes: :scopes,
       auth_methods: :auth_methods,
+      config: :config,
       credentials: :credentials,
       api_key: :api_key,
       custom_provider: :custom_provider
@@ -21,6 +22,7 @@ module WorkOS
       :enabled,
       :scopes,
       :auth_methods,
+      :config,
       :credentials,
       :api_key,
       :custom_provider
@@ -32,6 +34,7 @@ module WorkOS
       @enabled = hash[:enabled]
       @scopes = hash[:scopes] || []
       @auth_methods = hash[:auth_methods] || []
+      @config = hash[:config] || {}
       @credentials = hash[:credentials] ? WorkOS::DataIntegrationCredentialsInput.new(hash[:credentials]) : nil
       @api_key = hash[:api_key] ? WorkOS::ApiKeyInstallation.new(hash[:api_key]) : nil
       @custom_provider = hash[:custom_provider] ? WorkOS::CustomProviderDefinition.new(hash[:custom_provider]) : nil

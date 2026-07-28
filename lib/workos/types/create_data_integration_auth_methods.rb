@@ -4,6 +4,10 @@
 
 module WorkOS
   module Types
-    CreateDataIntegrationAuthMethods = ConnectedAccountAuthMethod
+    class CreateDataIntegrationAuthMethods
+      OAUTH = "oauth"
+      API_KEY = "api_key"
+      ALL = [OAUTH, API_KEY].freeze
+    end
   end
 end
