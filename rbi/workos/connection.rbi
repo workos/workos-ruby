@@ -57,12 +57,6 @@ module WorkOS
     sig { params(value: T::Array[WorkOS::ConnectionDomain]).returns(T::Array[WorkOS::ConnectionDomain]) }
     def domains=(value); end
 
-    sig { returns(T.nilable(String)) }
-    def callback_endpoint; end
-
-    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
-    def callback_endpoint=(value); end
-
     sig { returns(String) }
     def created_at; end
 
