@@ -8,14 +8,16 @@ module WorkOS
       enabled: :enabled,
       scopes: :scopes,
       client_id: :client_id,
-      client_secret: :client_secret
+      client_secret: :client_secret,
+      config: :config
     }.freeze
 
     attr_accessor \
       :enabled,
       :scopes,
       :client_id,
-      :client_secret
+      :client_secret,
+      :config
 
     def initialize(json)
       hash = self.class.normalize(json)
@@ -23,6 +25,7 @@ module WorkOS
       @scopes = hash[:scopes] || []
       @client_id = hash[:client_id]
       @client_secret = hash[:client_secret]
+      @config = hash[:config] || {}
     end
   end
 end

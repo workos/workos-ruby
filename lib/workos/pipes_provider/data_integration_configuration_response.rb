@@ -12,6 +12,7 @@ module WorkOS
       name: :name,
       enabled: :enabled,
       scopes: :scopes,
+      config: :config,
       created_at: :created_at,
       updated_at: :updated_at,
       credentials: :credentials
@@ -25,6 +26,7 @@ module WorkOS
       :name,
       :enabled,
       :scopes,
+      :config,
       :created_at,
       :updated_at,
       :credentials
@@ -38,6 +40,7 @@ module WorkOS
       @name = hash[:name]
       @enabled = hash[:enabled]
       @scopes = hash[:scopes] || []
+      @config = hash[:config] || {}
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
       @credentials = hash[:credentials] ? WorkOS::DataIntegrationCredentials.new(hash[:credentials]) : nil

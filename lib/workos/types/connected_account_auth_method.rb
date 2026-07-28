@@ -7,7 +7,8 @@ module WorkOS
     class ConnectedAccountAuthMethod
       OAUTH = "oauth"
       API_KEY = "api_key"
-      ALL = [OAUTH, API_KEY].freeze
+      CLIENT_CREDENTIALS = "client_credentials"
+      ALL = [OAUTH, API_KEY, CLIENT_CREDENTIALS].freeze
     end
   end
 end

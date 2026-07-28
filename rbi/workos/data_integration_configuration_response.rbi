@@ -51,6 +51,12 @@ module WorkOS
     sig { params(value: T.nilable(T::Array[String])).returns(T.nilable(T::Array[String])) }
     def scopes=(value); end
 
+    sig { returns(T::Hash[String, String]) }
+    def config; end
+
+    sig { params(value: T::Hash[String, String]).returns(T::Hash[String, String]) }
+    def config=(value); end
+
     sig { returns(String) }
     def created_at; end
 

@@ -32,6 +32,7 @@ class PipesProviderModelRoundTripTest < Minitest::Test
       "name" => "stub",
       "enabled" => true,
       "scopes" => nil,
+      "config" => {},
       "created_at" => "stub",
       "updated_at" => "stub",
       "credentials" => {}
@@ -65,7 +66,8 @@ class PipesProviderModelRoundTripTest < Minitest::Test
       "enabled" => true,
       "scopes" => nil,
       "client_id" => "stub",
-      "client_secret" => "stub"
+      "client_secret" => "stub",
+      "config" => {}
     }
     model = WorkOS::ConfigureDataIntegrationBody.new(fixture.to_json)
     json = model.to_h

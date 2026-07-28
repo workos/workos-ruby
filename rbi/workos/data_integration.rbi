@@ -81,6 +81,12 @@ module WorkOS
     sig { params(value: T.nilable(WorkOS::DataIntegrationInstallation)).returns(T.nilable(WorkOS::DataIntegrationInstallation)) }
     def installation=(value); end
 
+    sig { returns(T::Hash[String, String]) }
+    def config; end
+
+    sig { params(value: T::Hash[String, String]).returns(T::Hash[String, String]) }
+    def config=(value); end
+
     sig { returns(T.nilable(WorkOS::DataIntegrationCustomProvider)) }
     def custom_provider; end
 

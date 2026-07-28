@@ -61,6 +61,7 @@ class PipesModelRoundTripTest < Minitest::Test
       "enabled" => true,
       "scopes" => nil,
       "auth_methods" => [],
+      "config" => {},
       "credentials" => {},
       "api_key" => {},
       "custom_provider" => {}
@@ -135,6 +136,7 @@ class PipesModelRoundTripTest < Minitest::Test
       "auth_methods" => [],
       "credentials" => {},
       "installation" => nil,
+      "config" => {},
       "custom_provider" => nil,
       "created_at" => "stub",
       "updated_at" => "stub"
@@ -364,7 +366,8 @@ class PipesModelRoundTripTest < Minitest::Test
     fixture = {
       "user_id" => "stub",
       "organization_id" => "stub",
-      "return_to" => "stub"
+      "return_to" => "stub",
+      "config" => {}
     }
     model = WorkOS::DataIntegrationsGetDataIntegrationAuthorizeUrlRequest.new(fixture.to_json)
     json = model.to_h

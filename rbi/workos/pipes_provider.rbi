@@ -25,10 +25,11 @@ module WorkOS
         scopes: T.nilable(T::Array[String]),
         client_id: T.nilable(String),
         client_secret: T.nilable(String),
+        config: T.nilable(T::Hash[String, String]),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::DataIntegrationConfigurationResponse)
     end
-    def update_organization_data_integration_configuration(organization_id:, slug:, enabled:, scopes:, client_id:, client_secret:, request_options:); end
+    def update_organization_data_integration_configuration(organization_id:, slug:, enabled:, scopes:, client_id:, client_secret:, config:, request_options:); end
 
   end
 end

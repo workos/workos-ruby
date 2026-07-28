@@ -36,6 +36,7 @@ module WorkOS
     # @param scopes [Array<String>, nil] The OAuth scopes to request for the organization. Pass `null` to inherit the provider scopes.
     # @param client_id [String, nil] The OAuth client ID of the organization's own application. Must be provided together with `client_secret`, and only for providers whose credentials are supplied by the organization.
     # @param client_secret [String, nil] The OAuth client secret of the organization's own application. Must be provided together with `client_id`.
+    # @param config [Hash{String => String}, nil] Provider-specific config values to set for the organization, keyed by config field. Only fields the provider declares are accepted, and each value must match that field's pattern. Accepted only for providers whose credentials are organization-managed; for shared or custom credential providers, config belongs on the integration itself (via the data-integrations API) and supplying it here is rejected.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::DataIntegrationConfigurationResponse]
     def update_organization_data_integration_configuration(
@@ -45,12 +46,14 @@ module WorkOS
       scopes: WorkOS::OMIT,
       client_id: nil,
       client_secret: nil,
+      config: nil,
       request_options: {}
     )
       body = {
         "enabled" => enabled,
         "client_id" => client_id,
-        "client_secret" => client_secret
+        "client_secret" => client_secret,
+        "config" => config
       }.compact
       body["scopes"] = scopes unless scopes.equal?(WorkOS::OMIT)
       response = @client.request(

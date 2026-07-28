@@ -60,6 +60,7 @@ module WorkOS
     # @param enabled [Boolean, nil] Whether the Data Integration is enabled. Defaults to `false`.
     # @param scopes [Array<String>, nil] The OAuth scopes to request for the Data Integration. Defaults to the provider's configured scopes when omitted.
     # @param auth_methods [Array<WorkOS::Types::CreateDataIntegrationAuthMethods>, nil] How accounts authenticate with the provider. Defaults to `["oauth"]`. Use `["api_key"]` to declare an API key integration; `credentials` is then not required and keys are supplied per-tenant (optionally via `api_key` on this request).
+    # @param config [Hash{String => String}, nil] Provider-specific config values (e.g. a Snowflake `account_identifier`), keyed by the config field. Only fields the built-in provider declares are accepted.
     # @param credentials [WorkOS::DataIntegrationCredentialsInput, nil] The OAuth credentials to configure for the Data Integration. Required for OAuth integrations; omit when `auth_methods` is `["api_key"]`.
     # @param api_key [WorkOS::ApiKeyInstallation, nil] An optional API key to install for the first tenant on an `api_key` integration. Omit to declare a keyless integration; tenants can be added later via the per-installation API key path.
     # @param custom_provider [WorkOS::CustomProviderDefinition, nil] The OAuth definition for a custom provider. Supply this to define a custom provider; omit it to create an integration for a built-in provider.
@@ -71,6 +72,7 @@ module WorkOS
       enabled: nil,
       scopes: WorkOS::OMIT,
       auth_methods: nil,
+      config: nil,
       credentials: nil,
       api_key: nil,
       custom_provider: nil,
@@ -80,6 +82,7 @@ module WorkOS
         "provider" => provider,
         "enabled" => enabled,
         "auth_methods" => auth_methods,
+        "config" => config,
         "credentials" => credentials,
         "api_key" => api_key,
         "custom_provider" => custom_provider
@@ -210,6 +213,7 @@ module WorkOS
     # @param user_id [String] The ID of the user to authorize.
     # @param organization_id [String, nil] An organization ID to scope the authorization to a specific organization.
     # @param return_to [String, nil] The URL to redirect the user to after authorization.
+    # @param config [Hash{String => String}, nil] Connect-time config values for the provider-declared `installation`-scope fields (e.g. a Zendesk `subdomain`), keyed by the config field. Only fields the provider declares may be supplied, and required fields must be provided unless already pinned on the integration.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::DataIntegrationAuthorizeUrlResponse]
     def authorize_data_integration(
@@ -217,12 +221,14 @@ module WorkOS
       user_id:,
       organization_id: nil,
       return_to: nil,
+      config: nil,
       request_options: {}
     )
       body = {
         "user_id" => user_id,
         "organization_id" => organization_id,
-        "return_to" => return_to
+        "return_to" => return_to,
+        "config" => config
       }.compact
       response = @client.request(
         method: :post,
