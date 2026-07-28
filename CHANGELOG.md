@@ -2,12 +2,34 @@
 
 ## [10.1.0](https://github.com/workos/workos-ruby/compare/v10.0.0...v10.1.0) (2026-07-28)
 
-
 ### Features
 
-* **generated:** Pipes, PipesProvider, UserManagement (batch 6c21f6dc) ([#531](https://github.com/workos/workos-ruby/issues/531)) ([75c684f](https://github.com/workos/workos-ruby/commit/75c684f688774a8bb813ce43e4dba59e351591cb))
-* **generated:** SSO (batch 16283437) ([#532](https://github.com/workos/workos-ruby/issues/532)) ([b7bad42](https://github.com/workos/workos-ruby/commit/b7bad427870d8b6d9304e69e2261276d42788c5c))
 * replace hand-written URL builders with generated ones ([b162486](https://github.com/workos/workos-ruby/commit/b1624866137d8364dda1726b0302b70bed00a75c))
+
+* [#531](https://github.com/workos/workos-ruby/pull/531) fix(generated): regenerate from spec
+
+  **Features**
+  * **[pipes](https://workos.com/docs/reference/pipes)**:
+    * Added `config` to `DataIntegrationsGetDataIntegrationAuthorizeUrlRequest`
+    * Added `client_credentials` to `DataIntegrationAuthMethods`
+    * Added `client_credentials` to `DataIntegrationsListResponseDataAuthMethods`
+    * Added `client_credentials` to `DataIntegrationsListResponseDataConnectedAccountAuthMethod`
+    * Added `config` to Pipes models
+  * **[connect](https://workos.com/docs/reference/workos-connect/standalone)**:
+    * Added `client_credentials` to `ConnectedAccountAuthMethod`
+
+  **Fixes**
+  * **[user_management](https://workos.com/docs/reference/authkit/user)**:
+    * Changed errors for endpoint `POST /user_management/invitations`
+    * Changed errors for endpoint `POST /user_management/invitations/{id}/resend`
+    * Changed errors for endpoint `POST /user_management/magic_auth`
+    * Changed errors for endpoint `POST /user_management/authenticate`
+
+* [#532](https://github.com/workos/workos-ruby/pull/532) fix(generated): regenerate from spec
+
+  **Fixes**
+  * **[sso](https://workos.com/docs/reference/sso)**:
+    * Removed `callback_endpoint` from `Connection`
 
 ## [10.0.0](https://github.com/workos/workos-ruby/compare/v9.5.0...v10.0.0) (2026-07-22)
 
