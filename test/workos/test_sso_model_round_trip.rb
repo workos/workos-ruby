@@ -31,7 +31,6 @@ class SsoModelRoundTripTest < Minitest::Test
       "state" => "stub",
       "status" => "stub",
       "domains" => [],
-      "callback_endpoint" => "stub",
       "created_at" => "stub",
       "updated_at" => "stub"
     }
