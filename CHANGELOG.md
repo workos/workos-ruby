@@ -1,5 +1,36 @@
 # Changelog
 
+## [10.1.0](https://github.com/workos/workos-ruby/compare/v10.0.0...v10.1.0) (2026-07-28)
+
+### Features
+
+* replace hand-written URL builders with generated ones ([b162486](https://github.com/workos/workos-ruby/commit/b1624866137d8364dda1726b0302b70bed00a75c))
+
+* [#531](https://github.com/workos/workos-ruby/pull/531) fix(generated): regenerate from spec
+
+  **Features**
+  * **[pipes](https://workos.com/docs/reference/pipes)**:
+    * Added `config` to `DataIntegrationsGetDataIntegrationAuthorizeUrlRequest`
+    * Added `client_credentials` to `DataIntegrationAuthMethods`
+    * Added `client_credentials` to `DataIntegrationsListResponseDataAuthMethods`
+    * Added `client_credentials` to `DataIntegrationsListResponseDataConnectedAccountAuthMethod`
+    * Added `config` to Pipes models
+  * **[connect](https://workos.com/docs/reference/workos-connect/standalone)**:
+    * Added `client_credentials` to `ConnectedAccountAuthMethod`
+
+  **Fixes**
+  * **[user_management](https://workos.com/docs/reference/authkit/user)**:
+    * Changed errors for endpoint `POST /user_management/invitations`
+    * Changed errors for endpoint `POST /user_management/invitations/{id}/resend`
+    * Changed errors for endpoint `POST /user_management/magic_auth`
+    * Changed errors for endpoint `POST /user_management/authenticate`
+
+* [#532](https://github.com/workos/workos-ruby/pull/532) fix(generated): regenerate from spec
+
+  **Fixes**
+  * **[sso](https://workos.com/docs/reference/sso)**:
+    * Removed `callback_endpoint` from `Connection`
+
 ## [10.0.0](https://github.com/workos/workos-ruby/compare/v9.5.0...v10.0.0) (2026-07-22)
 
 ### Bug Fixes
