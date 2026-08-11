@@ -19,7 +19,13 @@ module WorkOS
     #   @return [String]
     # @!attribute [r] password_hash_type
     #   @return [WorkOS::Types::CreateUserPasswordHashType]
-    PasswordHashed = Data.define(:password_hash, :password_hash_type)
+    # @!attribute [r] password_salt_position
+    #   @return [WorkOS::Types::CreateUserPasswordSaltPosition, nil]
+    PasswordHashed = Data.define(:password_hash, :password_hash_type, :password_salt_position) do
+      def initialize(password_hash:, password_hash_type:, password_salt_position: nil)
+        super
+      end
+    end
 
     def initialize(client)
       @client = client
@@ -63,8 +69,8 @@ module WorkOS
     # @param pending_authentication_token [String, nil] The pending authentication token from a previous authentication attempt.
     # @param authentication_challenge_id [String, nil] The ID of the MFA authentication challenge.
     # @param radar_challenge_id [String, nil] The ID of the Radar email challenge being verified.
-    # @param verification_id [String, nil] The ID of the Radar SMS verification being confirmed.
-    # @param phone_number [String, nil] The phone number the Radar SMS challenge was sent to.
+    # @param verification_id [String, nil] The ID of the Radar SMS verification being confirmed. Required for sign-up challenges; omitted for sign-in challenges, where the verification is resolved server-side.
+    # @param phone_number [String, nil] The phone number the Radar SMS challenge was sent to. Required for sign-up challenges; omitted for sign-in challenges, where the phone number on file is resolved server-side.
     # @param device_code [String, nil] The device verification code.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::AuthenticateResponse]
@@ -476,8 +482,8 @@ module WorkOS
 
     # Authenticate with radar sms challenge.
     # @param code [String]
-    # @param verification_id [String]
-    # @param phone_number [String]
+    # @param verification_id [String, nil]
+    # @param phone_number [String, nil]
     # @param pending_authentication_token [String]
     # @param ip_address [String, nil]
     # @param device_id [String, nil]
@@ -486,9 +492,9 @@ module WorkOS
     # @return [WorkOS::AuthenticateResponse]
     def authenticate_with_radar_sms_challenge(
       code:,
-      verification_id:,
-      phone_number:,
       pending_authentication_token:,
+      verification_id: nil,
+      phone_number: nil,
       ip_address: nil,
       device_id: nil,
       user_agent: nil,
@@ -953,6 +959,7 @@ module WorkOS
         when WorkOS::UserManagement::PasswordHashed
           body["password_hash"] = password.password_hash
           body["password_hash_type"] = password.password_hash_type
+          body["password_salt_position"] = password.password_salt_position unless password.password_salt_position.nil?
         else
           raise ArgumentError, "expected password to be one of: WorkOS::UserManagement::PasswordPlaintext, WorkOS::UserManagement::PasswordHashed, got #{password.class}"
         end
@@ -1050,6 +1057,7 @@ module WorkOS
         when WorkOS::UserManagement::PasswordHashed
           body["password_hash"] = password.password_hash
           body["password_hash_type"] = password.password_hash_type
+          body["password_salt_position"] = password.password_salt_position unless password.password_salt_position.nil?
         else
           raise ArgumentError, "expected password to be one of: WorkOS::UserManagement::PasswordPlaintext, WorkOS::UserManagement::PasswordHashed, got #{password.class}"
         end

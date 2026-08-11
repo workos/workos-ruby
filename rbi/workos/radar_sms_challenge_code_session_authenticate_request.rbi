@@ -33,16 +33,16 @@ module WorkOS
     sig { params(value: String).returns(String) }
     def code=(value); end
 
-    sig { returns(String) }
+    sig { returns(T.nilable(String)) }
     def verification_id; end
 
-    sig { params(value: String).returns(String) }
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
     def verification_id=(value); end
 
-    sig { returns(String) }
+    sig { returns(T.nilable(String)) }
     def phone_number; end
 
-    sig { params(value: String).returns(String) }
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
     def phone_number=(value); end
 
     sig { returns(String) }

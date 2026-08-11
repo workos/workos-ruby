@@ -126,7 +126,8 @@ class UserManagementModelRoundTripTest < Minitest::Test
       "signals_id" => "stub",
       "password" => nil,
       "password_hash" => "stub",
-      "password_hash_type" => "stub"
+      "password_hash_type" => "stub",
+      "password_salt_position" => "stub"
     }
     model = WorkOS::CreateUser.new(fixture.to_json)
     json = model.to_h
@@ -147,7 +148,8 @@ class UserManagementModelRoundTripTest < Minitest::Test
       "locale" => nil,
       "password" => "stub",
       "password_hash" => "stub",
-      "password_hash_type" => "stub"
+      "password_hash_type" => "stub",
+      "password_salt_position" => "stub"
     }
     model = WorkOS::UpdateUser.new(fixture.to_json)
     json = model.to_h
@@ -2356,8 +2358,6 @@ class UserManagementModelRoundTripTest < Minitest::Test
     assert_equal fixture["client_id"], json[:client_id]
     assert_equal fixture["client_secret"], json[:client_secret]
     assert_equal fixture["code"], json[:code]
-    assert_equal fixture["verification_id"], json[:verification_id]
-    assert_equal fixture["phone_number"], json[:phone_number]
     assert_equal fixture["pending_authentication_token"], json[:pending_authentication_token]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end

@@ -16,10 +16,11 @@ module WorkOS
         after: T.nilable(String),
         limit: T.nilable(Integer),
         order: T.nilable(String),
+        search: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_organization_groups(organization_id:, before:, after:, limit:, order:, request_options:); end
+    def list_organization_groups(organization_id:, before:, after:, limit:, order:, search:, request_options:); end
 
     sig do
       params(

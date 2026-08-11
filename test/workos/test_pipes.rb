@@ -60,6 +60,13 @@ class PipesTest < Minitest::Test
     refute_nil result
   end
 
+  def test_update_data_integration_client_credentials_returns_expected_result
+    stub_request(:put, %r{\Ahttps://api\.workos\.com/data-integrations/stub/client-credentials(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.pipes.update_data_integration_client_credentials(slug: "stub", user_id: "stub", client_id: "stub", client_secret: "stub")
+    refute_nil result
+  end
+
   def test_create_data_integration_credential_returns_expected_result
     stub_request(:post, %r{\Ahttps://api\.workos\.com/data-integrations/stub/credentials(\?|\z)})
       .to_return(body: "{}", status: 200)
@@ -118,6 +125,7 @@ class PipesTest < Minitest::Test
     {name: :delete_data_integration, verb: :delete, url: %r{\Ahttps://api\.workos\.com/data-integrations/stub(\?|\z)}, args: {slug: "stub"}},
     {name: :update_data_integration_api_key, verb: :put, url: %r{\Ahttps://api\.workos\.com/data-integrations/stub/api-key(\?|\z)}, args: {slug: "stub", user_id: "stub", secret: "stub"}},
     {name: :authorize_data_integration, verb: :post, url: %r{\Ahttps://api\.workos\.com/data-integrations/stub/authorize(\?|\z)}, args: {slug: "stub", user_id: "stub"}},
+    {name: :update_data_integration_client_credentials, verb: :put, url: %r{\Ahttps://api\.workos\.com/data-integrations/stub/client-credentials(\?|\z)}, args: {slug: "stub", user_id: "stub", client_id: "stub", client_secret: "stub"}},
     {name: :create_data_integration_credential, verb: :post, url: %r{\Ahttps://api\.workos\.com/data-integrations/stub/credentials(\?|\z)}, args: {slug: "stub", user_id: "stub"}},
     {name: :get_access_token, verb: :post, url: %r{\Ahttps://api\.workos\.com/data-integrations/stub/token(\?|\z)}, args: {provider: "stub", user_id: "stub"}},
     {name: :get_user_connected_account, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/users/stub/connected_accounts/stub(\?|\z)}, args: {user_id: "stub", slug: "stub"}},

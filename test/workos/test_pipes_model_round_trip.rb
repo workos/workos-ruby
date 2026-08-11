@@ -49,8 +49,6 @@ class PipesModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["name"], json[:name]
-    assert_equal fixture["authorization_url"], json[:authorization_url]
-    assert_equal fixture["token_url"], json[:token_url]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
@@ -134,7 +132,7 @@ class PipesModelRoundTripTest < Minitest::Test
       "scopes" => nil,
       "redirect_uri" => "stub",
       "auth_methods" => [],
-      "credentials" => {},
+      "credentials" => nil,
       "installation" => nil,
       "config" => {},
       "custom_provider" => nil,
@@ -199,6 +197,9 @@ class PipesModelRoundTripTest < Minitest::Test
       "scopes" => [],
       "auth_method" => "stub",
       "api_key_last_4" => nil,
+      "client_id" => nil,
+      "client_secret_last_4" => nil,
+      "config" => {},
       "state" => "stub",
       "created_at" => "stub",
       "updated_at" => "stub"
@@ -376,6 +377,23 @@ class PipesModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_data_integrations_upsert_client_credentials_request_round_trip
+    fixture = {
+      "user_id" => "stub",
+      "organization_id" => "stub",
+      "client_id" => "stub",
+      "client_secret" => "stub",
+      "config" => {}
+    }
+    model = WorkOS::DataIntegrationsUpsertClientCredentialsRequest.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["user_id"], json[:user_id]
+    assert_equal fixture["client_id"], json[:client_id]
+    assert_equal fixture["client_secret"], json[:client_secret]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_data_integrations_vend_credentials_request_round_trip
     fixture = {
       "user_id" => "stub",
@@ -409,6 +427,9 @@ class PipesModelRoundTripTest < Minitest::Test
       "scopes" => [],
       "auth_method" => "stub",
       "api_key_last_4" => nil,
+      "client_id" => nil,
+      "client_secret_last_4" => nil,
+      "config" => {},
       "state" => "stub",
       "created_at" => "stub",
       "updated_at" => "stub",

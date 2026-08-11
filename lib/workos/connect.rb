@@ -135,7 +135,7 @@ module WorkOS
       result
     end
 
-    # Create oauth application.
+    # Create OAuth application.
     # @param name [String]
     # @param is_first_party [Boolean]
     # @param description [String, nil]
@@ -175,7 +175,7 @@ module WorkOS
       WorkOS::ConnectApplication.new(response.body)
     end
 
-    # Create m2m application.
+    # Create M2M application.
     # @param name [String]
     # @param organization_id [String]
     # @param description [String, nil]

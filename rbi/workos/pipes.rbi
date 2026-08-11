@@ -93,6 +93,19 @@ module WorkOS
       params(
         slug: String,
         user_id: String,
+        client_id: String,
+        client_secret: String,
+        organization_id: T.nilable(String),
+        config: T.nilable(T::Hash[String, String]),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::ConnectedAccount)
+    end
+    def update_data_integration_client_credentials(slug:, user_id:, client_id:, client_secret:, organization_id:, config:, request_options:); end
+
+    sig do
+      params(
+        slug: String,
+        user_id: String,
         organization_id: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::DataIntegrationCredentialsResponse)

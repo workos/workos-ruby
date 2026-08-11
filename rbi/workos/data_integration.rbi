@@ -69,10 +69,10 @@ module WorkOS
     sig { params(value: T::Array[String]).returns(T::Array[String]) }
     def auth_methods=(value); end
 
-    sig { returns(WorkOS::DataIntegrationCredential) }
+    sig { returns(T.nilable(WorkOS::DataIntegrationCredential)) }
     def credentials; end
 
-    sig { params(value: WorkOS::DataIntegrationCredential).returns(WorkOS::DataIntegrationCredential) }
+    sig { params(value: T.nilable(WorkOS::DataIntegrationCredential)).returns(T.nilable(WorkOS::DataIntegrationCredential)) }
     def credentials=(value); end
 
     sig { returns(T.nilable(WorkOS::DataIntegrationInstallation)) }

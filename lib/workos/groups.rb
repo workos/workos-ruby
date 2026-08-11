@@ -16,6 +16,7 @@ module WorkOS
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records).
+    # @param search [String, nil] Search groups by name or by group ID.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::Types::ListStruct<WorkOS::Group>]
     def list_organization_groups(
@@ -24,13 +25,15 @@ module WorkOS
       after: nil,
       limit: 10,
       order: "desc",
+      search: nil,
       request_options: {}
     )
       params = {
         "before" => before,
         "after" => after,
         "limit" => limit,
-        "order" => order
+        "order" => order,
+        "search" => search
       }.compact
       response = @client.request(
         method: :get,
@@ -46,13 +49,14 @@ module WorkOS
           after: cursor,
           limit: limit,
           order: order,
+          search: search,
           request_options: request_options
         )
       }
       WorkOS::Types::ListStruct.from_response(
         response,
         model: WorkOS::Group,
-        filters: {organization_id: organization_id, before: before, limit: limit, order: order},
+        filters: {organization_id: organization_id, before: before, limit: limit, order: order, search: search},
         fetch_next: fetch_next
       )
     end

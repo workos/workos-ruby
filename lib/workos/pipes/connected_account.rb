@@ -12,6 +12,9 @@ module WorkOS
       scopes: :scopes,
       auth_method: :auth_method,
       api_key_last_4: :api_key_last_4,
+      client_id: :client_id,
+      client_secret_last_4: :client_secret_last_4,
+      config: :config,
       state: :state,
       created_at: :created_at,
       updated_at: :updated_at
@@ -25,6 +28,9 @@ module WorkOS
       :scopes,
       :auth_method,
       :api_key_last_4,
+      :client_id,
+      :client_secret_last_4,
+      :config,
       :state,
       :created_at,
       :updated_at
@@ -38,6 +44,9 @@ module WorkOS
       @scopes = hash[:scopes] || []
       @auth_method = hash[:auth_method]
       @api_key_last_4 = hash[:api_key_last_4]
+      @client_id = hash[:client_id]
+      @client_secret_last_4 = hash[:client_secret_last_4]
+      @config = hash[:config] || {}
       @state = hash[:state]
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
