@@ -14,13 +14,13 @@ class EventsTest < Minitest::Test
   def test_list_events_returns_expected_result
     stub_request(:get, %r{\Ahttps://api\.workos\.com/events(\?|\z)})
       .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
-    result = @client.events.list_events
+    result = @client.events.list_events(events: ["stub"])
     assert_kind_of WorkOS::Types::ListStruct, result
   end
 
   # Parameterized authentication error tests (one per endpoint).
   [
-    {name: :list_events, verb: :get, url: %r{\Ahttps://api\.workos\.com/events(\?|\z)}}
+    {name: :list_events, verb: :get, url: %r{\Ahttps://api\.workos\.com/events(\?|\z)}, args: {events: ["stub"]}}
   ].each do |spec|
     define_method("test_#{spec[:name]}_raises_authentication_error_on_401") do
       stub_request(spec[:verb], spec[:url])

@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    CreateDataIntegrationAuthMethods = ConnectedAccountAuthMethod
+    UpdateUserPasswordSaltPosition = CreateUserPasswordSaltPosition
   end
 end

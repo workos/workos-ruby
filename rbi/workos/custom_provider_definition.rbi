@@ -15,16 +15,16 @@ module WorkOS
     sig { params(value: String).returns(String) }
     def name=(value); end
 
-    sig { returns(String) }
+    sig { returns(T.nilable(String)) }
     def authorization_url; end
 
-    sig { params(value: String).returns(String) }
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
     def authorization_url=(value); end
 
-    sig { returns(String) }
+    sig { returns(T.nilable(String)) }
     def token_url; end
 
-    sig { params(value: String).returns(String) }
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
     def token_url=(value); end
 
     sig { returns(T.nilable(String)) }

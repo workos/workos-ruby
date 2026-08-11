@@ -10,6 +10,7 @@ module WorkOS
       email: :email,
       state: :state,
       approved_at: :approved_at,
+      waitlist_id: :waitlist_id,
       created_at: :created_at,
       updated_at: :updated_at
     }.freeze
@@ -20,6 +21,7 @@ module WorkOS
       :email,
       :state,
       :approved_at,
+      :waitlist_id,
       :created_at,
       :updated_at
 
@@ -30,6 +32,7 @@ module WorkOS
       @email = hash[:email]
       @state = hash[:state]
       @approved_at = hash[:approved_at]
+      @waitlist_id = hash[:waitlist_id]
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
     end

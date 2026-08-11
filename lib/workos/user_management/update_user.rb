@@ -15,7 +15,8 @@ module WorkOS
       locale: :locale,
       password: :password,
       password_hash: :password_hash,
-      password_hash_type: :password_hash_type
+      password_hash_type: :password_hash_type,
+      password_salt_position: :password_salt_position
     }.freeze
 
     attr_accessor \
@@ -29,7 +30,8 @@ module WorkOS
       :locale,
       :password,
       :password_hash,
-      :password_hash_type
+      :password_hash_type,
+      :password_salt_position
 
     def initialize(json)
       hash = self.class.normalize(json)
@@ -44,6 +46,7 @@ module WorkOS
       @password = hash[:password]
       @password_hash = hash[:password_hash]
       @password_hash_type = hash[:password_hash_type]
+      @password_salt_position = hash[:password_salt_position]
     end
   end
 end

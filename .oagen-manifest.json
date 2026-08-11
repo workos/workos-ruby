@@ -279,6 +279,7 @@
     "lib/workos/pipes/data_integrations_list_response_data.rb",
     "lib/workos/pipes/data_integrations_list_response_data_connected_account.rb",
     "lib/workos/pipes/data_integrations_upsert_api_key_request.rb",
+    "lib/workos/pipes/data_integrations_upsert_client_credentials_request.rb",
     "lib/workos/pipes/data_integrations_vend_credentials_request.rb",
     "lib/workos/pipes/update_custom_provider_definition.rb",
     "lib/workos/pipes/update_data_integration.rb",
@@ -312,6 +313,8 @@
     "lib/workos/shared/agent_registration_expired_data.rb",
     "lib/workos/shared/agent_registration_organization_switched.rb",
     "lib/workos/shared/agent_registration_organization_switched_data.rb",
+    "lib/workos/shared/agent_registration_refreshed.rb",
+    "lib/workos/shared/agent_registration_refreshed_data.rb",
     "lib/workos/shared/agent_registration_revoked.rb",
     "lib/workos/shared/agent_registration_revoked_data.rb",
     "lib/workos/shared/auth_method_mismatch_error.rb",
@@ -405,6 +408,7 @@
     "lib/workos/types/create_data_integration_auth_methods.rb",
     "lib/workos/types/create_user_invite_options_locale.rb",
     "lib/workos/types/create_user_password_hash_type.rb",
+    "lib/workos/types/create_user_password_salt_position.rb",
     "lib/workos/types/create_webhook_endpoint_events.rb",
     "lib/workos/types/custom_provider_definition_authenticate_via.rb",
     "lib/workos/types/data_integration_access_token_response_error.rb",
@@ -484,6 +488,7 @@
     "lib/workos/types/sso_provider.rb",
     "lib/workos/types/update_custom_provider_definition_authenticate_via.rb",
     "lib/workos/types/update_user_password_hash_type.rb",
+    "lib/workos/types/update_user_password_salt_position.rb",
     "lib/workos/types/update_webhook_endpoint_events.rb",
     "lib/workos/types/update_webhook_endpoint_status.rb",
     "lib/workos/types/user_identities_get_item_provider.rb",
@@ -732,6 +737,8 @@
     "rbi/workos/agent_registration_expired_data.rbi",
     "rbi/workos/agent_registration_organization_switched.rbi",
     "rbi/workos/agent_registration_organization_switched_data.rbi",
+    "rbi/workos/agent_registration_refreshed.rbi",
+    "rbi/workos/agent_registration_refreshed_data.rbi",
     "rbi/workos/agent_registration_revoked.rbi",
     "rbi/workos/agent_registration_revoked_data.rbi",
     "rbi/workos/agents.rbi",
@@ -921,6 +928,7 @@
     "rbi/workos/data_integrations_list_response_data.rbi",
     "rbi/workos/data_integrations_list_response_data_connected_account.rbi",
     "rbi/workos/data_integrations_upsert_api_key_request.rbi",
+    "rbi/workos/data_integrations_upsert_client_credentials_request.rbi",
     "rbi/workos/data_integrations_vend_credentials_request.rbi",
     "rbi/workos/decrypt_request.rbi",
     "rbi/workos/decrypt_response.rbi",
@@ -2186,6 +2194,10 @@
     "GET /audit_logs/exports/{auditLogExportId}": {
       "sdkMethod": "get_export",
       "service": "audit_logs"
+    },
+    "PUT /data-integrations/{slug}/client-credentials": {
+      "sdkMethod": "update_data_integration_client_credentials",
+      "service": "pipes"
     }
   }
 }

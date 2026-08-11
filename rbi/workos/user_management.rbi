@@ -25,13 +25,17 @@ module WorkOS
       sig { returns(String) }
       def password_hash_type; end
 
+      sig { returns(T.nilable(String)) }
+      def password_salt_position; end
+
       sig do
         params(
           password_hash: String,
-          password_hash_type: String
+          password_hash_type: String,
+          password_salt_position: T.nilable(String)
         ).returns(WorkOS::UserManagement::PasswordHashed)
       end
-      def self.new(password_hash:, password_hash_type:); end
+      def self.new(password_hash:, password_hash_type:, password_salt_position:); end
     end
 
     sig { params(client: WorkOS::BaseClient).void }

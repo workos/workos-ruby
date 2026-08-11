@@ -163,7 +163,7 @@ class UserManagementTest < Minitest::Test
   def test_authenticate_with_radar_sms_challenge_returns_expected_result
     stub_request(:post, %r{\Ahttps://api\.workos\.com/user_management/authenticate(\?|\z)})
       .to_return(body: "{}", status: 200)
-    result = @client.user_management.authenticate_with_radar_sms_challenge(code: "stub", verification_id: "stub", phone_number: "stub", pending_authentication_token: "stub")
+    result = @client.user_management.authenticate_with_radar_sms_challenge(code: "stub", pending_authentication_token: "stub")
     refute_nil result
   end
 
@@ -171,7 +171,7 @@ class UserManagementTest < Minitest::Test
     stub_request(:post, %r{\Ahttps://api\.workos\.com/user_management/authenticate(\?|\z)})
       .to_return(body: '{"message": "Unauthorized"}', status: 401)
     assert_raises(WorkOS::AuthenticationError) do
-      @client.user_management.authenticate_with_radar_sms_challenge(code: "stub", verification_id: "stub", phone_number: "stub", pending_authentication_token: "stub")
+      @client.user_management.authenticate_with_radar_sms_challenge(code: "stub", pending_authentication_token: "stub")
     end
   end
 
@@ -262,9 +262,9 @@ class UserManagementTest < Minitest::Test
 
   def test_create_user_with_password_hashed_returns_expected_result
     stub_request(:post, %r{\Ahttps://api\.workos\.com/user_management/users(\?|\z)})
-      .with(body: hash_including("email" => "stub", "password_hash" => "stub", "password_hash_type" => "stub"))
+      .with(body: hash_including("email" => "stub", "password_hash" => "stub", "password_hash_type" => "stub", "password_salt_position" => "stub"))
       .to_return(body: "{}", status: 200)
-    result = @client.user_management.create_user(email: "stub", password: WorkOS::UserManagement::PasswordHashed.new(password_hash: "stub", password_hash_type: "stub"))
+    result = @client.user_management.create_user(email: "stub", password: WorkOS::UserManagement::PasswordHashed.new(password_hash: "stub", password_hash_type: "stub", password_salt_position: "stub"))
     refute_nil result
   end
 
@@ -292,9 +292,9 @@ class UserManagementTest < Minitest::Test
 
   def test_update_user_with_password_hashed_returns_expected_result
     stub_request(:put, %r{\Ahttps://api\.workos\.com/user_management/users/stub(\?|\z)})
-      .with(body: hash_including("password_hash" => "stub", "password_hash_type" => "stub"))
+      .with(body: hash_including("password_hash" => "stub", "password_hash_type" => "stub", "password_salt_position" => "stub"))
       .to_return(body: "{}", status: 200)
-    result = @client.user_management.update_user(id: "stub", password: WorkOS::UserManagement::PasswordHashed.new(password_hash: "stub", password_hash_type: "stub"))
+    result = @client.user_management.update_user(id: "stub", password: WorkOS::UserManagement::PasswordHashed.new(password_hash: "stub", password_hash_type: "stub", password_salt_position: "stub"))
     refute_nil result
   end
 

@@ -87,6 +87,12 @@ module WorkOS
     sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
     def password_hash_type=(value); end
 
+    sig { returns(T.nilable(String)) }
+    def password_salt_position; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def password_salt_position=(value); end
+
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end
 

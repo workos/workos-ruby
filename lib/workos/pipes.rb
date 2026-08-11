@@ -59,8 +59,8 @@ module WorkOS
     # @param description [String, nil] An optional description of the Data Integration.
     # @param enabled [Boolean, nil] Whether the Data Integration is enabled. Defaults to `false`.
     # @param scopes [Array<String>, nil] The OAuth scopes to request for the Data Integration. Defaults to the provider's configured scopes when omitted.
-    # @param auth_methods [Array<WorkOS::Types::CreateDataIntegrationAuthMethods>, nil] How accounts authenticate with the provider. Defaults to `["oauth"]`. Use `["api_key"]` to declare an API key integration; `credentials` is then not required and keys are supplied per-tenant (optionally via `api_key` on this request).
-    # @param config [Hash{String => String}, nil] Provider-specific config values (e.g. a Snowflake `account_identifier`), keyed by the config field. Only fields the built-in provider declares are accepted.
+    # @param auth_methods [Array<WorkOS::Types::CreateDataIntegrationAuthMethods>, nil] How accounts authenticate with the provider. Defaults to `["oauth"]`. Use `["api_key"]` to declare an API key integration; `credentials` is then not required and keys are supplied per-tenant (optionally via `api_key` on this request). Use `["client_credentials"]` to declare a client-credentials integration; `credentials` is likewise not required and client credentials are supplied per-tenant.
+    # @param config [Hash{String => String}, nil] Provider-specific config values (e.g. a Snowflake `account`), keyed by the config field. Only fields the built-in provider declares are accepted.
     # @param credentials [WorkOS::DataIntegrationCredentialsInput, nil] The OAuth credentials to configure for the Data Integration. Required for OAuth integrations; omit when `auth_methods` is `["api_key"]`.
     # @param api_key [WorkOS::ApiKeyInstallation, nil] An optional API key to install for the first tenant on an `api_key` integration. Omit to declare a keyless integration; tenants can be added later via the per-installation API key path.
     # @param custom_provider [WorkOS::CustomProviderDefinition, nil] The OAuth definition for a custom provider. Supply this to define a custom provider; omit it to create an integration for a built-in provider.
@@ -238,6 +238,43 @@ module WorkOS
         request_options: request_options
       )
       result = WorkOS::DataIntegrationAuthorizeUrlResponse.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
+    # Upsert client credentials for a connected account
+    # @param slug [String] The identifier of the integration.
+    # @param user_id [String] A [User](https://workos.com/docs/reference/authkit/user) identifier.
+    # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter to scope the connection to a specific organization.
+    # @param client_id [String] The OAuth client ID to store for this integration.
+    # @param client_secret [String] The OAuth client secret to store for this integration.
+    # @param config [Hash{String => String}, nil] Provider-specific configuration values collected for this installation, keyed by the provider's config field descriptors.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::ConnectedAccount]
+    def update_data_integration_client_credentials(
+      slug:,
+      user_id:,
+      client_id:,
+      client_secret:,
+      organization_id: nil,
+      config: nil,
+      request_options: {}
+    )
+      body = {
+        "user_id" => user_id,
+        "organization_id" => organization_id,
+        "client_id" => client_id,
+        "client_secret" => client_secret,
+        "config" => config
+      }.compact
+      response = @client.request(
+        method: :put,
+        path: "/data-integrations/#{WorkOS::Util.encode_path(slug)}/client-credentials",
+        auth: true,
+        body: body,
+        request_options: request_options
+      )
+      result = WorkOS::ConnectedAccount.new(response.body)
       result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
       result
     end
