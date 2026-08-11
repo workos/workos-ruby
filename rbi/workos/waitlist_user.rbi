@@ -39,6 +39,12 @@ module WorkOS
     sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
     def approved_at=(value); end
 
+    sig { returns(T.nilable(String)) }
+    def waitlist_id; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def waitlist_id=(value); end
+
     sig { returns(String) }
     def created_at; end
 

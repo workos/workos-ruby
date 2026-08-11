@@ -15,18 +15,18 @@ module WorkOS
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records).
-    # @param events [Array<String>, nil] Filter events by one or more event types (e.g. `dsync.user.created`).
+    # @param events [Array<String>] Filter events by one or more event types (e.g. `dsync.user.created`).
     # @param range_start [String, nil] ISO-8601 date string to filter events created after this date.
     # @param range_end [String, nil] ISO-8601 date string to filter events created before this date.
     # @param organization_id [String, nil] Filter events by the [Organization](https://workos.com/docs/reference/organization) that the event is associated with.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::Types::ListStruct<WorkOS::EventSchema>]
     def list_events(
+      events:,
       before: nil,
       after: nil,
       limit: 10,
       order: "desc",
-      events: nil,
       range_start: nil,
       range_end: nil,
       organization_id: nil,
