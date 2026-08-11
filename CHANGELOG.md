@@ -1,5 +1,13 @@
 # Changelog
 
+## [10.2.0](https://github.com/workos/workos-ruby/compare/v10.1.0...v10.2.0) (2026-08-11)
+
+
+### Features
+
+* **events:** Change required status for parameter `Events.list.events` ([#533](https://github.com/workos/workos-ruby/issues/533)) ([acf83ea](https://github.com/workos/workos-ruby/commit/acf83eae44d08296fb6d3b4f10a76a8e0c6a26e5))
+* **pipes:** SDK surface change: Symbol "CreateDataIntegrationAuthMethods" was removed ([#533](https://github.com/workos/workos-ruby/issues/533)) ([acf83ea](https://github.com/workos/workos-ruby/commit/acf83eae44d08296fb6d3b4f10a76a8e0c6a26e5))
+
 ## [10.1.0](https://github.com/workos/workos-ruby/compare/v10.0.0...v10.1.0) (2026-07-28)
 
 ### Features
