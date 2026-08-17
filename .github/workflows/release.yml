@@ -22,10 +22,10 @@ jobs:
           role-to-assume: rg_oidc_akr_fn8dx45asckvmsnd2kka
 
       - name: Checkout
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # 6.0.3
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # 6.1.0
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@d45b1a4e94b71acab930e56e79c6aa188764e7f9 # 1.316.0
+        uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # 1.321.0
         with:
           bundler-cache: true
 
