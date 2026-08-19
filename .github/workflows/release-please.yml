@@ -3,7 +3,7 @@ name: Release Please
 on:
   push:
     branches:
-      - main
+      - v7.1.x
 
 permissions:
   contents: write
@@ -24,6 +24,7 @@ jobs:
         id: release
         with:
           token: ${{ steps.generate-token.outputs.token }}
+          target-branch: v7.1.x
 
       - name: Update Gemfile.lock on release PR
         if: steps.release.outputs.pr
