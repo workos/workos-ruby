@@ -3,10 +3,10 @@ name: Release Please
 on:
   push:
     branches:
-      - main
+      - v9.5.x
 
 concurrency:
-  group: release-please
+  group: release-please-v9.5.x
   cancel-in-progress: false
 
 permissions:
@@ -40,6 +40,7 @@ jobs:
         id: release
         with:
           token: ${{ steps.generate-token.outputs.token }}
+          target-branch: v9.5.x
 
   # While the release PR is open, enrich it before it merges. Runs as its
   # own job (gated on the PR existing) so a failure here can never block the
