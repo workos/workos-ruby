@@ -137,7 +137,20 @@ module WorkOS
         loggable_path = redact_path(request.path)
         log(:debug, "request start", method: request.method, path: loggable_path, attempt: attempt + 1)
         http = connection_for(base, timeout)
-        response = http.request(request)
+        request_completed = false
+        begin
+          response = http.request(request)
+          request_completed = true
+        ensure
+          # Any exit from #request other than a returned response can leave
+          # the socket mid-stream: a connection error the rescue below knows
+          # about, one it doesn't (OpenSSL::SSL::SSLError,
+          # Net::HTTPBadResponse), or a non-local exit such as an
+          # application-level Timeout.timeout or Thread#kill. A half-read
+          # socket handed back to the pool desyncs the *next* request on this
+          # thread, so drop it here rather than in the rescue.
+          evict_connection(base) unless request_completed
+        end
         return response if response.is_a?(Net::HTTPSuccess)
 
         if attempt < retries && retryable?(response)
