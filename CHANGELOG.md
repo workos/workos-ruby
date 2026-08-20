@@ -1,5 +1,12 @@
 # Changelog
 
+## [8.0.2](https://github.com/workos/workos-ruby/compare/v8.0.1...v8.0.2) (2026-08-20)
+
+
+### Bug Fixes
+
+* explicitly evict connections if request does not complete as success ([d79b839](https://github.com/workos/workos-ruby/commit/d79b8390690ce595896d1b6057cf68e5058b98da))
+
 ## [8.0.1](https://github.com/workos/workos-ruby/compare/v8.0.0...v8.0.1) (2026-05-12)
 
 
