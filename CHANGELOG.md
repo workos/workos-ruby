@@ -1,5 +1,12 @@
 # Changelog
 
+## [10.2.1](https://github.com/workos/workos-ruby/compare/v10.2.0...v10.2.1) (2026-08-20)
+
+
+### Bug Fixes
+
+* explicitly evict connections if request does not complete as success ([e792414](https://github.com/workos/workos-ruby/commit/e79241473e9cb0e8898632723200a7e23682ff24))
+
 ## [10.2.0](https://github.com/workos/workos-ruby/compare/v10.1.0...v10.2.0) (2026-08-11)
 
 * [#533](https://github.com/workos/workos-ruby/pull/533) feat(generated)!: regenerate from spec (2 changes)
