@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.1.3](https://github.com/workos/workos-ruby/compare/v7.1.2...v7.1.3) (2026-08-20)
+
+
+### Bug Fixes
+
+* explicitly evict connections if request does not complete as success ([853de67](https://github.com/workos/workos-ruby/commit/853de6740a8038bde3ac1625fde98a20ea87604e))
+
 ## [7.1.2](https://github.com/workos/workos-ruby/compare/v7.1.1...v7.1.2) (2026-05-06)
 
 
