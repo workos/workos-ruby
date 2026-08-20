@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.5.1](https://github.com/workos/workos-ruby/compare/v9.5.0...v9.5.1) (2026-08-20)
+
+
+### Bug Fixes
+
+* explicitly evict connections if request does not complete as success ([bfee53e](https://github.com/workos/workos-ruby/commit/bfee53efbd80a2156cbd15b70b483be66913e714))
+
 ## [9.5.0](https://github.com/workos/workos-ruby/compare/v9.4.0...v9.5.0) (2026-07-06)
 
 * [#514](https://github.com/workos/workos-ruby/pull/514) fix(generated): regenerate from spec
