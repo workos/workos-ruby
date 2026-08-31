@@ -225,6 +225,19 @@ class UserManagementModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_create_waitlist_entry_round_trip
+    fixture = {
+      "email" => "stub",
+      "additional_fields" => {},
+      "send_confirmation_email" => true
+    }
+    model = WorkOS::CreateWaitlistEntry.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["email"], json[:email]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_user_round_trip
     fixture = {
       "object" => "user",
@@ -2055,6 +2068,45 @@ class UserManagementModelRoundTripTest < Minitest::Test
     assert_equal fixture["user_code"], json[:user_code]
     assert_equal fixture["verification_uri"], json[:verification_uri]
     assert_equal fixture["expires_in"], json[:expires_in]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_waitlist_round_trip
+    fixture = {
+      "object" => "waitlist",
+      "id" => "stub",
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::Waitlist.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_waitlist_entry_round_trip
+    fixture = {
+      "id" => "stub",
+      "email" => "stub",
+      "state" => "stub",
+      "approved_at" => nil,
+      "additional_fields" => {},
+      "waitlist_id" => nil,
+      "created_at" => "stub",
+      "updated_at" => "stub",
+      "object" => "waitlist_entry"
+    }
+    model = WorkOS::WaitlistEntry.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["email"], json[:email]
+    assert_nil json[:approved_at]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
