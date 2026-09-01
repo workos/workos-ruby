@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    UserSessionsStatus = AgentInstanceSessionStatus
+    WaitlistEntryState = UserManagementWaitlistsState
   end
 end
