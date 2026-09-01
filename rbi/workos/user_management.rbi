@@ -465,6 +465,70 @@ module WorkOS
 
     sig do
       params(
+        id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(NilClass)
+    end
+    def delete_waitlist_entry(id:, request_options:); end
+
+    sig do
+      params(
+        id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::WaitlistEntry)
+    end
+    def create_waitlist_entry_approve(id:, request_options:); end
+
+    sig do
+      params(
+        id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::WaitlistEntry)
+    end
+    def create_waitlist_entry_deny(id:, request_options:); end
+
+    sig do
+      params(
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(T::Array[WorkOS::Waitlist])
+    end
+    def list_waitlists(request_options:); end
+
+    sig do
+      params(
+        id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::Waitlist)
+    end
+    def get_waitlist(id:, request_options:); end
+
+    sig do
+      params(
+        id: String,
+        before: T.nilable(String),
+        after: T.nilable(String),
+        limit: T.nilable(Integer),
+        order: T.nilable(String),
+        state: T.nilable(String),
+        email: T.nilable(String),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(T::Array[WorkOS::WaitlistEntry])
+    end
+    def list_waitlist_entries(id:, before:, after:, limit:, order:, state:, email:, request_options:); end
+
+    sig do
+      params(
+        id: String,
+        email: String,
+        additional_fields: T.nilable(T::Hash[String, String]),
+        send_confirmation_email: T.nilable(T::Boolean),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::WaitlistEntry)
+    end
+    def create_waitlist_entry(id:, email:, additional_fields:, send_confirmation_email:, request_options:); end
+
+    sig do
+      params(
         user_id: String,
         before: T.nilable(String),
         after: T.nilable(String),

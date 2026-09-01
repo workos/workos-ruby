@@ -68,6 +68,7 @@ module WorkOS
     # @param organization_id [String, nil] The ID of the organization to scope the session to.
     # @param pending_authentication_token [String, nil] The pending authentication token from a previous authentication attempt.
     # @param authentication_challenge_id [String, nil] The ID of the MFA authentication challenge.
+    # @param email_completion_token [String, nil] The token from the `email_completion_required` response.
     # @param radar_challenge_id [String, nil] The ID of the Radar email challenge being verified.
     # @param verification_id [String, nil] The ID of the Radar SMS verification being confirmed. Required for sign-up challenges; omitted for sign-in challenges, where the verification is resolved server-side.
     # @param phone_number [String, nil] The phone number the Radar SMS challenge was sent to. Required for sign-up challenges; omitted for sign-in challenges, where the phone number on file is resolved server-side.
@@ -92,6 +93,7 @@ module WorkOS
       organization_id: nil,
       pending_authentication_token: nil,
       authentication_challenge_id: nil,
+      email_completion_token: nil,
       radar_challenge_id: nil,
       verification_id: nil,
       phone_number: nil,
@@ -116,6 +118,7 @@ module WorkOS
         "organization_id" => organization_id,
         "pending_authentication_token" => pending_authentication_token,
         "authentication_challenge_id" => authentication_challenge_id,
+        "email_completion_token" => email_completion_token,
         "radar_challenge_id" => radar_challenge_id,
         "verification_id" => verification_id,
         "phone_number" => phone_number,
@@ -1684,6 +1687,179 @@ module WorkOS
         request_options: request_options
       )
       nil
+    end
+
+    # Delete a waitlist entry
+    # @param id [String] The unique ID of the waitlist entry.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [void]
+    def delete_waitlist_entry(
+      id:,
+      request_options: {}
+    )
+      @client.request(
+        method: :delete,
+        path: "/user_management/waitlist_entries/#{WorkOS::Util.encode_path(id)}",
+        auth: true,
+        request_options: request_options
+      )
+      nil
+    end
+
+    # Approve a waitlist entry
+    # @param id [String] The unique ID of the waitlist entry.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::WaitlistEntry]
+    def create_waitlist_entry_approve(
+      id:,
+      request_options: {}
+    )
+      response = @client.request(
+        method: :post,
+        path: "/user_management/waitlist_entries/#{WorkOS::Util.encode_path(id)}/approve",
+        auth: true,
+        request_options: request_options
+      )
+      result = WorkOS::WaitlistEntry.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
+    # Deny a waitlist entry
+    # @param id [String] The unique ID of the waitlist entry.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::WaitlistEntry]
+    def create_waitlist_entry_deny(
+      id:,
+      request_options: {}
+    )
+      response = @client.request(
+        method: :post,
+        path: "/user_management/waitlist_entries/#{WorkOS::Util.encode_path(id)}/deny",
+        auth: true,
+        request_options: request_options
+      )
+      result = WorkOS::WaitlistEntry.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
+    # List waitlists
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::Types::ListStruct<WorkOS::Waitlist>]
+    def list_waitlists(request_options: {})
+      response = @client.request(
+        method: :get,
+        path: "/user_management/waitlists",
+        auth: true,
+        request_options: request_options
+      )
+      WorkOS::Types::ListStruct.from_response(response, model: WorkOS::Waitlist)
+    end
+
+    # Get a waitlist
+    # @param id [String] The unique ID of the waitlist, or the literal `default` for the environment's default waitlist. The default waitlist is created when its first entry is added, so read requests for `default` return a `404` until then.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::Waitlist]
+    def get_waitlist(
+      id:,
+      request_options: {}
+    )
+      response = @client.request(
+        method: :get,
+        path: "/user_management/waitlists/#{WorkOS::Util.encode_path(id)}",
+        auth: true,
+        request_options: request_options
+      )
+      result = WorkOS::Waitlist.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
+    # List waitlist entries
+    # @param id [String] The unique ID of the waitlist, or the literal `default` for the environment's default waitlist. The default waitlist is created when its first entry is added, so read requests for `default` return a `404` until then.
+    # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`.
+    # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
+    # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
+    # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records).
+    # @param state [WorkOS::Types::UserManagementWaitlistsState, nil] Filter waitlist entries by their state.
+    # @param email [String, nil] Filter waitlist entries by their exact email address.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::Types::ListStruct<WorkOS::WaitlistEntry>]
+    def list_waitlist_entries(
+      id:,
+      before: nil,
+      after: nil,
+      limit: 10,
+      order: "desc",
+      state: nil,
+      email: nil,
+      request_options: {}
+    )
+      params = {
+        "before" => before,
+        "after" => after,
+        "limit" => limit,
+        "order" => order,
+        "state" => state,
+        "email" => email
+      }.compact
+      response = @client.request(
+        method: :get,
+        path: "/user_management/waitlists/#{WorkOS::Util.encode_path(id)}/entries",
+        auth: true,
+        params: params,
+        request_options: request_options
+      )
+      fetch_next = ->(cursor) {
+        list_waitlist_entries(
+          id: id,
+          before: before,
+          after: cursor,
+          limit: limit,
+          order: order,
+          state: state,
+          email: email,
+          request_options: request_options
+        )
+      }
+      WorkOS::Types::ListStruct.from_response(
+        response,
+        model: WorkOS::WaitlistEntry,
+        filters: {id: id, before: before, limit: limit, order: order, state: state, email: email},
+        fetch_next: fetch_next
+      )
+    end
+
+    # Create a waitlist entry
+    # @param id [String] The unique ID of the waitlist, or the literal `default` for the environment's default waitlist. Use `default` when adding the first entry — the default waitlist is created automatically.
+    # @param email [String] The email address of the user joining the waitlist.
+    # @param additional_fields [Hash{String => String}, nil] Object containing additional key/value pairs collected with the waitlist entry. Supports up to 50 string pairs, with keys up to 40 characters and values up to 600 characters. Values are user-provided — treat them as untrusted input when rendering or exporting.
+    # @param send_confirmation_email [Boolean, nil] Whether to send the waitlist confirmation email to the user. Defaults to `false`. No email is sent when the waitlist confirmation email is disabled in the environment, even if `send_confirmation_email` is `true`.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::WaitlistEntry]
+    def create_waitlist_entry(
+      id:,
+      email:,
+      additional_fields: nil,
+      send_confirmation_email: nil,
+      request_options: {}
+    )
+      body = {
+        "email" => email,
+        "additional_fields" => additional_fields,
+        "send_confirmation_email" => send_confirmation_email
+      }.compact
+      response = @client.request(
+        method: :post,
+        path: "/user_management/waitlists/#{WorkOS::Util.encode_path(id)}/entries",
+        auth: true,
+        body: body,
+        request_options: request_options
+      )
+      result = WorkOS::WaitlistEntry.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
     end
 
     # List API keys for a user
