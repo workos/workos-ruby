@@ -1,5 +1,25 @@
 # Changelog
 
+## [10.3.0](https://github.com/workos/workos-ruby/compare/v10.2.1...v10.3.0) (2026-09-01)
+
+
+### Features
+
+* **agents:** Add blueprint, instance, and session endpoints ([#546](https://github.com/workos/workos-ruby/issues/546)) ([9c5d7c8](https://github.com/workos/workos-ruby/commit/9c5d7c8fcac9d59e145485743ebb07dfaef22f7d))
+* **api_keys:** Alias ValidateApiKey and CreatePasswordResetToken to deduplicated models ([#546](https://github.com/workos/workos-ruby/issues/546)) ([9c5d7c8](https://github.com/workos/workos-ruby/commit/9c5d7c8fcac9d59e145485743ebb07dfaef22f7d))
+* **audit_logs:** Replace retention_period_in_days keyword with retention union supporting retention periods ([#546](https://github.com/workos/workos-ruby/issues/546)) ([9c5d7c8](https://github.com/workos/workos-ruby/commit/9c5d7c8fcac9d59e145485743ebb07dfaef22f7d))
+* **generated:** Agents (batch 13ebc8c1) ([#549](https://github.com/workos/workos-ruby/issues/549)) ([c5c5bb3](https://github.com/workos/workos-ruby/commit/c5c5bb3528e9758e4fdee25f16a591e98ba9f1e9))
+* **organizations:** Add IT contacts endpoints ([#546](https://github.com/workos/workos-ruby/issues/546)) ([9c5d7c8](https://github.com/workos/workos-ruby/commit/9c5d7c8fcac9d59e145485743ebb07dfaef22f7d))
+* **platform_teams:** Add Platform Teams service ([#546](https://github.com/workos/workos-ruby/issues/546)) ([9c5d7c8](https://github.com/workos/workos-ruby/commit/9c5d7c8fcac9d59e145485743ebb07dfaef22f7d))
+* **sso:** Add connection management and SAML certificate endpoints ([#546](https://github.com/workos/workos-ruby/issues/546)) ([9c5d7c8](https://github.com/workos/workos-ruby/commit/9c5d7c8fcac9d59e145485743ebb07dfaef22f7d))
+* **user_management:** Add email-completion grant and waitlist endpoints ([#546](https://github.com/workos/workos-ruby/issues/546)) ([9c5d7c8](https://github.com/workos/workos-ruby/commit/9c5d7c8fcac9d59e145485743ebb07dfaef22f7d))
+* **webhooks:** Add agent instance and blueprint webhook event types ([#546](https://github.com/workos/workos-ruby/issues/546)) ([9c5d7c8](https://github.com/workos/workos-ruby/commit/9c5d7c8fcac9d59e145485743ebb07dfaef22f7d))
+
+
+### Bug Fixes
+
+* **sso:** Remove DiscordOAuth, GrokOAuth, and XOAuth from connection type enums ([#546](https://github.com/workos/workos-ruby/issues/546)) ([9c5d7c8](https://github.com/workos/workos-ruby/commit/9c5d7c8fcac9d59e145485743ebb07dfaef22f7d))
+
 ## [10.2.1](https://github.com/workos/workos-ruby/compare/v10.2.0...v10.2.1) (2026-08-20)
 
 
