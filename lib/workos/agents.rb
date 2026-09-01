@@ -59,15 +59,15 @@ module WorkOS
     # @param description [String, nil] Human-readable description of the agent blueprint.
     # @param permissions [Array<String>, nil] Permission slugs forming the ceiling on what sessions minted from this blueprint may do. Each slug must exist in the environment.
     # @param invocable_by [WorkOS::AgentBlueprintsCreateRequestInvocableBy, nil] Who may mint sessions from this blueprint.
-    # @param session_settings [WorkOS::AgentBlueprintsCreateRequestSessionSetting] Token and session lifetimes for sessions minted from this blueprint.
+    # @param session_settings [WorkOS::AgentBlueprintsCreateRequestSessionSetting, nil] Token and session lifetimes for sessions minted from this blueprint.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::AgentBlueprint]
     def create_blueprint(
       name:,
-      session_settings:,
       description: nil,
       permissions: nil,
       invocable_by: nil,
+      session_settings: nil,
       request_options: {}
     )
       body = {
@@ -198,6 +198,31 @@ module WorkOS
         request_options: request_options
       )
       result = WorkOS::AgentToken.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
+    # Validate an agent token
+    # @param agent_blueprint_id [String] The unique ID of the agent blueprint.
+    # @param agent_access_token [String] The agent access token (a JWT) to validate.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::AgentTokenValidation]
+    def validate_blueprint_token(
+      agent_blueprint_id:,
+      agent_access_token:,
+      request_options: {}
+    )
+      body = {
+        "agent_access_token" => agent_access_token
+      }
+      response = @client.request(
+        method: :post,
+        path: "/agents/blueprints/#{WorkOS::Util.encode_path(agent_blueprint_id)}/tokens/validate",
+        auth: true,
+        body: body,
+        request_options: request_options
+      )
+      result = WorkOS::AgentTokenValidation.new(response.body)
       result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
       result
     end

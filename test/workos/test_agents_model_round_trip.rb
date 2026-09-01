@@ -125,6 +125,29 @@ class AgentsModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_agent_token_validation_round_trip
+    fixture = {
+      "valid" => true,
+      "agent_instance_id" => "stub",
+      "agent_instance_session_id" => "stub",
+      "organization_id" => "stub",
+      "permissions" => [],
+      "intent" => nil,
+      "acting_user_id" => nil,
+      "session_expires_at" => "stub"
+    }
+    model = WorkOS::AgentTokenValidation.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["agent_instance_id"], json[:agent_instance_id]
+    assert_equal fixture["agent_instance_session_id"], json[:agent_instance_session_id]
+    assert_equal fixture["organization_id"], json[:organization_id]
+    assert_nil json[:intent]
+    assert_nil json[:acting_user_id]
+    assert_equal fixture["session_expires_at"], json[:session_expires_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_agent_instance_session_round_trip
     fixture = {
       "object" => "agent_instance_session",
@@ -312,6 +335,17 @@ class AgentsModelRoundTripTest < Minitest::Test
     model = WorkOS::AgentBlueprintsTokenMintTokenRequest.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_blueprints_token_validate_token_request_round_trip
+    fixture = {
+      "agent_access_token" => "stub"
+    }
+    model = WorkOS::AgentBlueprintsTokenValidateTokenRequest.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["agent_access_token"], json[:agent_access_token]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 

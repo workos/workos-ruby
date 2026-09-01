@@ -17,6 +17,7 @@
     "lib/workos/agents/agent_blueprints_create_request_invocable_by.rb",
     "lib/workos/agents/agent_blueprints_create_request_session_setting.rb",
     "lib/workos/agents/agent_blueprints_token_mint_token_request.rb",
+    "lib/workos/agents/agent_blueprints_token_validate_token_request.rb",
     "lib/workos/agents/agent_blueprints_update_request.rb",
     "lib/workos/agents/agent_blueprints_update_request_invocable_by.rb",
     "lib/workos/agents/agent_blueprints_update_request_session_setting.rb",
@@ -28,6 +29,7 @@
     "lib/workos/agents/agent_registration_claim.rb",
     "lib/workos/agents/agent_registration_claim_claim_completion.rb",
     "lib/workos/agents/agent_token.rb",
+    "lib/workos/agents/agent_token_validation.rb",
     "lib/workos/agents/claim_view_response.rb",
     "lib/workos/agents/claim_view_response_organization.rb",
     "lib/workos/api_keys.rb",
@@ -819,6 +821,7 @@
     "rbi/workos/agent_blueprints_create_request_invocable_by.rbi",
     "rbi/workos/agent_blueprints_create_request_session_setting.rbi",
     "rbi/workos/agent_blueprints_token_mint_token_request.rbi",
+    "rbi/workos/agent_blueprints_token_validate_token_request.rbi",
     "rbi/workos/agent_blueprints_update_request.rbi",
     "rbi/workos/agent_blueprints_update_request_invocable_by.rbi",
     "rbi/workos/agent_blueprints_update_request_session_setting.rbi",
@@ -859,6 +862,7 @@
     "rbi/workos/agent_registration_revoked.rbi",
     "rbi/workos/agent_registration_revoked_data.rbi",
     "rbi/workos/agent_token.rbi",
+    "rbi/workos/agent_token_validation.rbi",
     "rbi/workos/agents.rbi",
     "rbi/workos/api_key.rbi",
     "rbi/workos/api_key_created.rbi",
@@ -2501,6 +2505,10 @@
     "POST /user_management/waitlists/{id}/entries": {
       "sdkMethod": "create_waitlist_entry",
       "service": "user_management"
+    },
+    "POST /agents/blueprints/{agent_blueprint_id}/tokens/validate": {
+      "sdkMethod": "validate_blueprint_token",
+      "service": "agents"
     }
   }
 }
