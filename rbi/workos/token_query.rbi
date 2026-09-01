@@ -21,10 +21,10 @@ module WorkOS
     sig { params(value: String).returns(String) }
     def client_secret=(value); end
 
-    sig { returns(String) }
+    sig { returns(T.nilable(String)) }
     def code; end
 
-    sig { params(value: String).returns(String) }
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
     def code=(value); end
 
     sig { returns(String) }
@@ -32,6 +32,24 @@ module WorkOS
 
     sig { params(value: String).returns(String) }
     def grant_type=(value); end
+
+    sig { returns(T.nilable(String)) }
+    def subject_token; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def subject_token=(value); end
+
+    sig { returns(T.nilable(String)) }
+    def subject_token_type; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def subject_token_type=(value); end
+
+    sig { returns(T.nilable(String)) }
+    def organization_id; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def organization_id=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end

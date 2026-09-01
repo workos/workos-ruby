@@ -11,6 +11,72 @@ module WorkOS
 
     sig do
       params(
+        before: T.nilable(String),
+        after: T.nilable(String),
+        limit: T.nilable(Integer),
+        order: T.nilable(String),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(T::Array[WorkOS::AgentBlueprint])
+    end
+    def list_blueprints(before:, after:, limit:, order:, request_options:); end
+
+    sig do
+      params(
+        name: String,
+        session_settings: WorkOS::AgentBlueprintsCreateRequestSessionSetting,
+        description: T.nilable(String),
+        permissions: T.nilable(T::Array[String]),
+        invocable_by: T.nilable(WorkOS::AgentBlueprintsCreateRequestInvocableBy),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::AgentBlueprint)
+    end
+    def create_blueprint(name:, session_settings:, description:, permissions:, invocable_by:, request_options:); end
+
+    sig do
+      params(
+        agent_blueprint_id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::AgentBlueprint)
+    end
+    def get_blueprint(agent_blueprint_id:, request_options:); end
+
+    sig do
+      params(
+        agent_blueprint_id: String,
+        name: T.nilable(String),
+        description: T.nilable(String),
+        permissions: T.nilable(T::Array[String]),
+        invocable_by: T.nilable(WorkOS::AgentBlueprintsUpdateRequestInvocableBy),
+        session_settings: T.nilable(WorkOS::AgentBlueprintsUpdateRequestSessionSetting),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::AgentBlueprint)
+    end
+    def update_blueprint(agent_blueprint_id:, name:, description:, permissions:, invocable_by:, session_settings:, request_options:); end
+
+    sig do
+      params(
+        agent_blueprint_id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(NilClass)
+    end
+    def delete_blueprint(agent_blueprint_id:, request_options:); end
+
+    sig do
+      params(
+        agent_blueprint_id: String,
+        type: String,
+        user_access_token: T.nilable(String),
+        intent: T.nilable(String),
+        organization_id: T.nilable(String),
+        agent_access_token: T.nilable(String),
+        refresh_token: T.nilable(String),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::AgentToken)
+    end
+    def create_blueprint_token(agent_blueprint_id:, type:, user_access_token:, intent:, organization_id:, agent_access_token:, refresh_token:, request_options:); end
+
+    sig do
+      params(
         type: String,
         claim_attempt_token: String,
         user: WorkOS::AgentAdminLinkClaimAttemptToExternalUserRequestUser,
@@ -37,6 +103,64 @@ module WorkOS
       ).returns(WorkOS::AgentRegistration)
     end
     def get_registration(id:, request_options:); end
+
+    sig do
+      params(
+        before: T.nilable(String),
+        after: T.nilable(String),
+        limit: T.nilable(Integer),
+        order: T.nilable(String),
+        organization_id: T.nilable(String),
+        agent_blueprint_id: T.nilable(String),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(T::Array[WorkOS::AgentInstance])
+    end
+    def list_instances(before:, after:, limit:, order:, organization_id:, agent_blueprint_id:, request_options:); end
+
+    sig do
+      params(
+        agent_instance_id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::AgentInstance)
+    end
+    def get_instance(agent_instance_id:, request_options:); end
+
+    sig do
+      params(
+        agent_instance_id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(NilClass)
+    end
+    def delete_instance(agent_instance_id:, request_options:); end
+
+    sig do
+      params(
+        before: T.nilable(String),
+        after: T.nilable(String),
+        limit: T.nilable(Integer),
+        order: T.nilable(String),
+        agent_blueprint_id: T.nilable(String),
+        agent_instance_id: T.nilable(String),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(T::Array[WorkOS::AgentInstanceSession])
+    end
+    def list_sessions(before:, after:, limit:, order:, agent_blueprint_id:, agent_instance_id:, request_options:); end
+
+    sig do
+      params(
+        agent_instance_session_id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::AgentInstanceSession)
+    end
+    def get_session(agent_instance_session_id:, request_options:); end
+
+    sig do
+      params(
+        agent_instance_session_id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::AgentInstanceSession)
+    end
+    def revoke_session(agent_instance_session_id:, request_options:); end
 
   end
 end

@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    UserSessionsStatus = SessionCreatedDataStatus
+    UserSessionsStatus = AgentInstanceSessionStatus
   end
 end

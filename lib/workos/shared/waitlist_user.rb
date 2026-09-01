@@ -5,36 +5,39 @@
 module WorkOS
   class WaitlistUser < WorkOS::Types::BaseModel
     HASH_ATTRS = {
-      object: :object,
       id: :id,
       email: :email,
       state: :state,
       approved_at: :approved_at,
+      additional_fields: :additional_fields,
       waitlist_id: :waitlist_id,
       created_at: :created_at,
-      updated_at: :updated_at
+      updated_at: :updated_at,
+      object: :object
     }.freeze
 
     attr_accessor \
-      :object,
       :id,
       :email,
       :state,
       :approved_at,
+      :additional_fields,
       :waitlist_id,
       :created_at,
-      :updated_at
+      :updated_at,
+      :object
 
     def initialize(json)
       hash = self.class.normalize(json)
-      @object = hash[:object]
       @id = hash[:id]
       @email = hash[:email]
       @state = hash[:state]
       @approved_at = hash[:approved_at]
+      @additional_fields = hash[:additional_fields] || {}
       @waitlist_id = hash[:waitlist_id]
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
+      @object = hash[:object]
     end
   end
 end

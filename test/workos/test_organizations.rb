@@ -67,6 +67,41 @@ class OrganizationsTest < Minitest::Test
     assert_kind_of WorkOS::Types::ListStruct, result
   end
 
+  def test_list_it_contacts_returns_expected_result
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/organizations/stub/it_contacts(\?|\z)})
+      .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
+    result = @client.organizations.list_it_contacts(organization_id: "stub")
+    assert_kind_of WorkOS::Types::ListStruct, result
+  end
+
+  def test_create_it_contact_returns_expected_result
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/organizations/stub/it_contacts(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.organizations.create_it_contact(organization_id: "stub", email: "stub")
+    refute_nil result
+  end
+
+  def test_delete_it_contact_returns_expected_result
+    stub_request(:delete, %r{\Ahttps://api\.workos\.com/organizations/stub/it_contacts/stub(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.organizations.delete_it_contact(organization_id: "stub", contact_id: "stub")
+    assert_nil result
+  end
+
+  def test_invite_it_contact_returns_expected_result
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/organizations/stub/it_contacts/stub/invite(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.organizations.invite_it_contact(organization_id: "stub", contact_id: "stub", intents: ["stub"])
+    assert_nil result
+  end
+
+  def test_revoke_it_contact_returns_expected_result
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/organizations/stub/it_contacts/stub/revoke(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.organizations.revoke_it_contact(organization_id: "stub", contact_id: "stub")
+    assert_nil result
+  end
+
   # Parameterized authentication error tests (one per endpoint).
   [
     {name: :list_organizations, verb: :get, url: %r{\Ahttps://api\.workos\.com/organizations(\?|\z)}},
@@ -76,7 +111,12 @@ class OrganizationsTest < Minitest::Test
     {name: :update_organization, verb: :put, url: %r{\Ahttps://api\.workos\.com/organizations/stub(\?|\z)}, args: {id: "stub"}},
     {name: :delete_organization, verb: :delete, url: %r{\Ahttps://api\.workos\.com/organizations/stub(\?|\z)}, args: {id: "stub"}},
     {name: :get_audit_log_configuration, verb: :get, url: %r{\Ahttps://api\.workos\.com/organizations/stub/audit_log_configuration(\?|\z)}, args: {id: "stub"}},
-    {name: :list_authorized_applications, verb: :get, url: %r{\Ahttps://api\.workos\.com/organizations/stub/authorized_applications(\?|\z)}, args: {organization_id: "stub"}}
+    {name: :list_authorized_applications, verb: :get, url: %r{\Ahttps://api\.workos\.com/organizations/stub/authorized_applications(\?|\z)}, args: {organization_id: "stub"}},
+    {name: :list_it_contacts, verb: :get, url: %r{\Ahttps://api\.workos\.com/organizations/stub/it_contacts(\?|\z)}, args: {organization_id: "stub"}},
+    {name: :create_it_contact, verb: :post, url: %r{\Ahttps://api\.workos\.com/organizations/stub/it_contacts(\?|\z)}, args: {organization_id: "stub", email: "stub"}},
+    {name: :delete_it_contact, verb: :delete, url: %r{\Ahttps://api\.workos\.com/organizations/stub/it_contacts/stub(\?|\z)}, args: {organization_id: "stub", contact_id: "stub"}},
+    {name: :invite_it_contact, verb: :post, url: %r{\Ahttps://api\.workos\.com/organizations/stub/it_contacts/stub/invite(\?|\z)}, args: {organization_id: "stub", contact_id: "stub", intents: ["stub"]}},
+    {name: :revoke_it_contact, verb: :post, url: %r{\Ahttps://api\.workos\.com/organizations/stub/it_contacts/stub/revoke(\?|\z)}, args: {organization_id: "stub", contact_id: "stub"}}
   ].each do |spec|
     define_method("test_#{spec[:name]}_raises_authentication_error_on_401") do
       stub_request(spec[:verb], spec[:url])

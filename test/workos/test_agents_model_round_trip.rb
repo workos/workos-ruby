@@ -56,6 +56,124 @@ class AgentsModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_agent_blueprint_round_trip
+    fixture = {
+      "object" => "agent_blueprint",
+      "id" => "stub",
+      "name" => "stub",
+      "description" => nil,
+      "permissions" => [],
+      "invocable_by" => {},
+      "session_settings" => {},
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::AgentBlueprint.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["name"], json[:name]
+    assert_nil json[:description]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_instance_round_trip
+    fixture = {
+      "object" => "agent_instance",
+      "id" => "stub",
+      "agent_blueprint_id" => "stub",
+      "organization_id" => "stub",
+      "organization_membership_id" => nil,
+      "type" => "stub",
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::AgentInstance.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["agent_blueprint_id"], json[:agent_blueprint_id]
+    assert_equal fixture["organization_id"], json[:organization_id]
+    assert_nil json[:organization_membership_id]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_token_round_trip
+    fixture = {
+      "access_token" => "stub",
+      "token_type" => "Bearer",
+      "expires_in" => 1,
+      "refresh_token" => "stub",
+      "agent_instance_id" => "stub",
+      "new_instance" => true,
+      "agent_instance_session_id" => "stub",
+      "permissions" => []
+    }
+    model = WorkOS::AgentToken.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["access_token"], json[:access_token]
+    assert_equal fixture["expires_in"], json[:expires_in]
+    assert_equal fixture["refresh_token"], json[:refresh_token]
+    assert_equal fixture["agent_instance_id"], json[:agent_instance_id]
+    assert_equal fixture["new_instance"], json[:new_instance]
+    assert_equal fixture["agent_instance_session_id"], json[:agent_instance_session_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_instance_session_round_trip
+    fixture = {
+      "object" => "agent_instance_session",
+      "id" => "stub",
+      "agent_instance_id" => "stub",
+      "status" => "stub",
+      "expires_at" => "stub",
+      "revoked_at" => nil,
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::AgentInstanceSession.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["agent_instance_id"], json[:agent_instance_id]
+    assert_equal fixture["expires_at"], json[:expires_at]
+    assert_nil json[:revoked_at]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_blueprint_invocable_by_round_trip
+    fixture = {
+      "role_slugs" => [],
+      "organization_ids" => []
+    }
+    model = WorkOS::AgentBlueprintInvocableBy.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_blueprint_session_setting_round_trip
+    fixture = {
+      "max_age_seconds" => 1,
+      "access_token_ttl_seconds" => 1,
+      "refresh_token_ttl_seconds" => 1
+    }
+    model = WorkOS::AgentBlueprintSessionSetting.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["max_age_seconds"], json[:max_age_seconds]
+    assert_equal fixture["access_token_ttl_seconds"], json[:access_token_ttl_seconds]
+    assert_equal fixture["refresh_token_ttl_seconds"], json[:refresh_token_ttl_seconds]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_claim_view_response_organization_round_trip
     fixture = {
       "id" => "stub",
@@ -101,6 +219,99 @@ class AgentsModelRoundTripTest < Minitest::Test
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
     assert_equal fixture["expires_at"], json[:expires_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_blueprints_create_request_round_trip
+    fixture = {
+      "name" => "stub",
+      "description" => "stub",
+      "permissions" => [],
+      "invocable_by" => {},
+      "session_settings" => {}
+    }
+    model = WorkOS::AgentBlueprintsCreateRequest.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["name"], json[:name]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_blueprints_create_request_invocable_by_round_trip
+    fixture = {
+      "role_slugs" => [],
+      "organization_ids" => []
+    }
+    model = WorkOS::AgentBlueprintsCreateRequestInvocableBy.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_blueprints_create_request_session_setting_round_trip
+    fixture = {
+      "max_age_seconds" => 1,
+      "access_token_ttl_seconds" => 1,
+      "refresh_token_ttl_seconds" => 1
+    }
+    model = WorkOS::AgentBlueprintsCreateRequestSessionSetting.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["max_age_seconds"], json[:max_age_seconds]
+    assert_equal fixture["access_token_ttl_seconds"], json[:access_token_ttl_seconds]
+    assert_equal fixture["refresh_token_ttl_seconds"], json[:refresh_token_ttl_seconds]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_blueprints_update_request_round_trip
+    fixture = {
+      "name" => "stub",
+      "description" => nil,
+      "permissions" => [],
+      "invocable_by" => {},
+      "session_settings" => {}
+    }
+    model = WorkOS::AgentBlueprintsUpdateRequest.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_blueprints_update_request_invocable_by_round_trip
+    fixture = {
+      "role_slugs" => [],
+      "organization_ids" => []
+    }
+    model = WorkOS::AgentBlueprintsUpdateRequestInvocableBy.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_blueprints_update_request_session_setting_round_trip
+    fixture = {
+      "max_age_seconds" => 1,
+      "access_token_ttl_seconds" => 1,
+      "refresh_token_ttl_seconds" => 1
+    }
+    model = WorkOS::AgentBlueprintsUpdateRequestSessionSetting.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_blueprints_token_mint_token_request_round_trip
+    fixture = {
+      "type" => "stub",
+      "user_access_token" => "stub",
+      "intent" => "stub",
+      "organization_id" => "stub",
+      "agent_access_token" => "stub",
+      "refresh_token" => "stub"
+    }
+    model = WorkOS::AgentBlueprintsTokenMintTokenRequest.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 

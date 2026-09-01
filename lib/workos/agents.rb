@@ -10,6 +10,198 @@ module WorkOS
       @client = client
     end
 
+    # List agent blueprints
+    # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`.
+    # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
+    # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
+    # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records).
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::Types::ListStruct<WorkOS::AgentBlueprint>]
+    def list_blueprints(
+      before: nil,
+      after: nil,
+      limit: 10,
+      order: "desc",
+      request_options: {}
+    )
+      params = {
+        "before" => before,
+        "after" => after,
+        "limit" => limit,
+        "order" => order
+      }.compact
+      response = @client.request(
+        method: :get,
+        path: "/agents/blueprints",
+        auth: true,
+        params: params,
+        request_options: request_options
+      )
+      fetch_next = ->(cursor) {
+        list_blueprints(
+          before: before,
+          after: cursor,
+          limit: limit,
+          order: order,
+          request_options: request_options
+        )
+      }
+      WorkOS::Types::ListStruct.from_response(
+        response,
+        model: WorkOS::AgentBlueprint,
+        filters: {before: before, limit: limit, order: order},
+        fetch_next: fetch_next
+      )
+    end
+
+    # Create an agent blueprint
+    # @param name [String] Human-readable name of the agent blueprint.
+    # @param description [String, nil] Human-readable description of the agent blueprint.
+    # @param permissions [Array<String>, nil] Permission slugs forming the ceiling on what sessions minted from this blueprint may do. Each slug must exist in the environment.
+    # @param invocable_by [WorkOS::AgentBlueprintsCreateRequestInvocableBy, nil] Who may mint sessions from this blueprint.
+    # @param session_settings [WorkOS::AgentBlueprintsCreateRequestSessionSetting] Token and session lifetimes for sessions minted from this blueprint.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::AgentBlueprint]
+    def create_blueprint(
+      name:,
+      session_settings:,
+      description: nil,
+      permissions: nil,
+      invocable_by: nil,
+      request_options: {}
+    )
+      body = {
+        "name" => name,
+        "description" => description,
+        "permissions" => permissions,
+        "invocable_by" => invocable_by,
+        "session_settings" => session_settings
+      }.compact
+      response = @client.request(
+        method: :post,
+        path: "/agents/blueprints",
+        auth: true,
+        body: body,
+        request_options: request_options
+      )
+      result = WorkOS::AgentBlueprint.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
+    # Get an agent blueprint
+    # @param agent_blueprint_id [String] The unique ID of the agent blueprint.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::AgentBlueprint]
+    def get_blueprint(
+      agent_blueprint_id:,
+      request_options: {}
+    )
+      response = @client.request(
+        method: :get,
+        path: "/agents/blueprints/#{WorkOS::Util.encode_path(agent_blueprint_id)}",
+        auth: true,
+        request_options: request_options
+      )
+      result = WorkOS::AgentBlueprint.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
+    # Update an agent blueprint
+    # @param agent_blueprint_id [String] The unique ID of the agent blueprint.
+    # @param name [String, nil] Human-readable name of the agent blueprint.
+    # @param description [String, nil] Human-readable description of the agent blueprint. Pass `null` to clear it.
+    # @param permissions [Array<String>, nil] Permission slugs forming the ceiling on what sessions minted from this blueprint may do. Each slug must exist in the environment.
+    # @param invocable_by [WorkOS::AgentBlueprintsUpdateRequestInvocableBy, nil] Who may mint sessions from this blueprint. Omitted lists are left unchanged.
+    # @param session_settings [WorkOS::AgentBlueprintsUpdateRequestSessionSetting, nil] Token and session lifetimes for sessions minted from this blueprint. Omitted fields are left unchanged.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::AgentBlueprint]
+    def update_blueprint(
+      agent_blueprint_id:,
+      name: nil,
+      description: WorkOS::OMIT,
+      permissions: nil,
+      invocable_by: nil,
+      session_settings: nil,
+      request_options: {}
+    )
+      body = {
+        "name" => name,
+        "permissions" => permissions,
+        "invocable_by" => invocable_by,
+        "session_settings" => session_settings
+      }.compact
+      body["description"] = description unless description.equal?(WorkOS::OMIT)
+      response = @client.request(
+        method: :patch,
+        path: "/agents/blueprints/#{WorkOS::Util.encode_path(agent_blueprint_id)}",
+        auth: true,
+        body: body,
+        request_options: request_options
+      )
+      result = WorkOS::AgentBlueprint.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
+    # Delete an agent blueprint
+    # @param agent_blueprint_id [String] The unique ID of the agent blueprint.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [void]
+    def delete_blueprint(
+      agent_blueprint_id:,
+      request_options: {}
+    )
+      @client.request(
+        method: :delete,
+        path: "/agents/blueprints/#{WorkOS::Util.encode_path(agent_blueprint_id)}",
+        auth: true,
+        request_options: request_options
+      )
+      nil
+    end
+
+    # Mint an agent token
+    # @param agent_blueprint_id [String] The unique ID of the agent blueprint.
+    # @param type [WorkOS::Types::AgentBlueprintsTokenMintTokenRequestType] How the session is minted: `user_delegated`, `autonomous`, `agent_delegated`, or `refresh`.
+    # @param user_access_token [String, nil] The access token of the user delegating to the agent. The token identifies the user and organization; effective permissions are resolved server-side.
+    # @param intent [String, nil] Optional caller-supplied context, echoed as an object with a `text` field in the `intent` claim of the minted access token.
+    # @param organization_id [String, nil] The organization the agent acts within when operating as itself.
+    # @param agent_access_token [String, nil] The agent's own access token to exchange for a new session on the same instance. The token must have been minted from this blueprint; permissions are re-derived from current authority.
+    # @param refresh_token [String, nil] The refresh token issued with a previous agent access token. Refresh tokens are single-use: each refresh rotates it.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::AgentToken]
+    def create_blueprint_token(
+      agent_blueprint_id:,
+      type:,
+      user_access_token: nil,
+      intent: nil,
+      organization_id: nil,
+      agent_access_token: nil,
+      refresh_token: nil,
+      request_options: {}
+    )
+      body = {
+        "type" => type,
+        "user_access_token" => user_access_token,
+        "intent" => intent,
+        "organization_id" => organization_id,
+        "agent_access_token" => agent_access_token,
+        "refresh_token" => refresh_token
+      }.compact
+      response = @client.request(
+        method: :post,
+        path: "/agents/blueprints/#{WorkOS::Util.encode_path(agent_blueprint_id)}/tokens",
+        auth: true,
+        body: body,
+        request_options: request_options
+      )
+      result = WorkOS::AgentToken.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
     # Link a claim attempt to an external user
     # @param type [String] The operation to perform on the claim attempt. Currently only `link_external_user` is supported.
     # @param claim_attempt_token [String] The token identifying the claim attempt.
@@ -86,6 +278,184 @@ module WorkOS
         request_options: request_options
       )
       result = WorkOS::AgentRegistration.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
+    # List agent instances
+    # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`.
+    # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
+    # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
+    # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records).
+    # @param organization_id [String, nil] Only return instances acting within this organization.
+    # @param agent_blueprint_id [String, nil] Only return instances minted from this blueprint.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::Types::ListStruct<WorkOS::AgentInstance>]
+    def list_instances(
+      before: nil,
+      after: nil,
+      limit: 10,
+      order: "desc",
+      organization_id: nil,
+      agent_blueprint_id: nil,
+      request_options: {}
+    )
+      params = {
+        "before" => before,
+        "after" => after,
+        "limit" => limit,
+        "order" => order,
+        "organization_id" => organization_id,
+        "agent_blueprint_id" => agent_blueprint_id
+      }.compact
+      response = @client.request(
+        method: :get,
+        path: "/agents/instances",
+        auth: true,
+        params: params,
+        request_options: request_options
+      )
+      fetch_next = ->(cursor) {
+        list_instances(
+          before: before,
+          after: cursor,
+          limit: limit,
+          order: order,
+          organization_id: organization_id,
+          agent_blueprint_id: agent_blueprint_id,
+          request_options: request_options
+        )
+      }
+      WorkOS::Types::ListStruct.from_response(
+        response,
+        model: WorkOS::AgentInstance,
+        filters: {before: before, limit: limit, order: order, organization_id: organization_id, agent_blueprint_id: agent_blueprint_id},
+        fetch_next: fetch_next
+      )
+    end
+
+    # Get an agent instance
+    # @param agent_instance_id [String] The unique ID of the agent instance.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::AgentInstance]
+    def get_instance(
+      agent_instance_id:,
+      request_options: {}
+    )
+      response = @client.request(
+        method: :get,
+        path: "/agents/instances/#{WorkOS::Util.encode_path(agent_instance_id)}",
+        auth: true,
+        request_options: request_options
+      )
+      result = WorkOS::AgentInstance.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
+    # Delete an agent instance
+    # @param agent_instance_id [String] The unique ID of the agent instance.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [void]
+    def delete_instance(
+      agent_instance_id:,
+      request_options: {}
+    )
+      @client.request(
+        method: :delete,
+        path: "/agents/instances/#{WorkOS::Util.encode_path(agent_instance_id)}",
+        auth: true,
+        request_options: request_options
+      )
+      nil
+    end
+
+    # List agent instance sessions
+    # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`.
+    # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
+    # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
+    # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records).
+    # @param agent_blueprint_id [String, nil] Only return sessions of instances minted from this blueprint.
+    # @param agent_instance_id [String, nil] Only return sessions belonging to this agent instance.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::Types::ListStruct<WorkOS::AgentInstanceSession>]
+    def list_sessions(
+      before: nil,
+      after: nil,
+      limit: 10,
+      order: "desc",
+      agent_blueprint_id: nil,
+      agent_instance_id: nil,
+      request_options: {}
+    )
+      params = {
+        "before" => before,
+        "after" => after,
+        "limit" => limit,
+        "order" => order,
+        "agent_blueprint_id" => agent_blueprint_id,
+        "agent_instance_id" => agent_instance_id
+      }.compact
+      response = @client.request(
+        method: :get,
+        path: "/agents/sessions",
+        auth: true,
+        params: params,
+        request_options: request_options
+      )
+      fetch_next = ->(cursor) {
+        list_sessions(
+          before: before,
+          after: cursor,
+          limit: limit,
+          order: order,
+          agent_blueprint_id: agent_blueprint_id,
+          agent_instance_id: agent_instance_id,
+          request_options: request_options
+        )
+      }
+      WorkOS::Types::ListStruct.from_response(
+        response,
+        model: WorkOS::AgentInstanceSession,
+        filters: {before: before, limit: limit, order: order, agent_blueprint_id: agent_blueprint_id, agent_instance_id: agent_instance_id},
+        fetch_next: fetch_next
+      )
+    end
+
+    # Get an agent instance session
+    # @param agent_instance_session_id [String] The unique ID of the agent instance session.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::AgentInstanceSession]
+    def get_session(
+      agent_instance_session_id:,
+      request_options: {}
+    )
+      response = @client.request(
+        method: :get,
+        path: "/agents/sessions/#{WorkOS::Util.encode_path(agent_instance_session_id)}",
+        auth: true,
+        request_options: request_options
+      )
+      result = WorkOS::AgentInstanceSession.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
+    # Revoke an agent instance session
+    # @param agent_instance_session_id [String] The unique ID of the agent instance session.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::AgentInstanceSession]
+    def revoke_session(
+      agent_instance_session_id:,
+      request_options: {}
+    )
+      response = @client.request(
+        method: :post,
+        path: "/agents/sessions/#{WorkOS::Util.encode_path(agent_instance_session_id)}/revoke",
+        auth: true,
+        request_options: request_options
+      )
+      result = WorkOS::AgentInstanceSession.new(response.body)
       result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
       result
     end

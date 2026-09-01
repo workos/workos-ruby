@@ -54,6 +54,9 @@ module WorkOS
     sig { returns(WorkOS::Groups) }
     def groups; end
 
+    sig { returns(WorkOS::PlatformTeams) }
+    def platform_teams; end
+
     sig { returns(WorkOS::AdminPortal) }
     def admin_portal; end
 

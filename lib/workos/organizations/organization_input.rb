@@ -13,13 +13,22 @@ module WorkOS
       external_id: :external_id
     }.freeze
 
+    # @!attribute domains
+    #   @deprecated The domains associated with the organization. Deprecated in favor of `domain_data`.
+
     attr_accessor \
       :name,
       :allow_profiles_outside_organization,
-      :domains,
       :domain_data,
       :metadata,
       :external_id
+
+    def domains
+      warn "[DEPRECATION] `domains` is deprecated and will be removed in a future version.", uplevel: 1
+      @domains
+    end
+
+    attr_writer :domains
 
     def initialize(json)
       hash = self.class.normalize(json)

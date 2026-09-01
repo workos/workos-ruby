@@ -176,14 +176,15 @@ class SharedModelRoundTripTest < Minitest::Test
 
   def test_waitlist_user_round_trip
     fixture = {
-      "object" => "waitlist_user",
       "id" => "stub",
       "email" => "stub",
       "state" => "stub",
       "approved_at" => nil,
+      "additional_fields" => {},
       "waitlist_id" => nil,
       "created_at" => "stub",
-      "updated_at" => "stub"
+      "updated_at" => "stub",
+      "object" => "waitlist_user"
     }
     model = WorkOS::WaitlistUser.new(fixture.to_json)
     json = model.to_h
@@ -211,6 +212,336 @@ class SharedModelRoundTripTest < Minitest::Test
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["event"], json[:event]
     assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_blueprint_created_round_trip
+    fixture = {
+      "object" => "event",
+      "id" => "stub",
+      "event" => "agent.blueprint.created",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {}
+    }
+    model = WorkOS::AgentBlueprintCreated.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_blueprint_created_data_round_trip
+    fixture = {
+      "object" => "agent_blueprint",
+      "id" => "stub",
+      "name" => "stub",
+      "description" => nil,
+      "permissions" => [],
+      "invocable_by" => {},
+      "session_settings" => {},
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::AgentBlueprintCreatedData.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["name"], json[:name]
+    assert_nil json[:description]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_blueprint_created_data_invocable_by_round_trip
+    fixture = {
+      "role_slugs" => [],
+      "organization_ids" => []
+    }
+    model = WorkOS::AgentBlueprintCreatedDataInvocableBy.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_blueprint_created_data_session_setting_round_trip
+    fixture = {
+      "max_age_seconds" => 1.0,
+      "access_token_ttl_seconds" => 1.0,
+      "refresh_token_ttl_seconds" => 1.0
+    }
+    model = WorkOS::AgentBlueprintCreatedDataSessionSetting.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["max_age_seconds"], json[:max_age_seconds]
+    assert_equal fixture["access_token_ttl_seconds"], json[:access_token_ttl_seconds]
+    assert_equal fixture["refresh_token_ttl_seconds"], json[:refresh_token_ttl_seconds]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_blueprint_deleted_round_trip
+    fixture = {
+      "object" => "event",
+      "id" => "stub",
+      "event" => "agent.blueprint.deleted",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {}
+    }
+    model = WorkOS::AgentBlueprintDeleted.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_blueprint_deleted_data_round_trip
+    fixture = {
+      "object" => "agent_blueprint",
+      "id" => "stub",
+      "name" => "stub",
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::AgentBlueprintDeletedData.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["name"], json[:name]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_blueprint_updated_round_trip
+    fixture = {
+      "object" => "event",
+      "id" => "stub",
+      "event" => "agent.blueprint.updated",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {}
+    }
+    model = WorkOS::AgentBlueprintUpdated.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_blueprint_updated_data_round_trip
+    fixture = {
+      "object" => "agent_blueprint",
+      "id" => "stub",
+      "name" => "stub",
+      "description" => nil,
+      "permissions" => [],
+      "invocable_by" => {},
+      "session_settings" => {},
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::AgentBlueprintUpdatedData.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["name"], json[:name]
+    assert_nil json[:description]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_blueprint_updated_data_invocable_by_round_trip
+    fixture = {
+      "role_slugs" => [],
+      "organization_ids" => []
+    }
+    model = WorkOS::AgentBlueprintUpdatedDataInvocableBy.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_blueprint_updated_data_session_setting_round_trip
+    fixture = {
+      "max_age_seconds" => 1.0,
+      "access_token_ttl_seconds" => 1.0,
+      "refresh_token_ttl_seconds" => 1.0
+    }
+    model = WorkOS::AgentBlueprintUpdatedDataSessionSetting.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["max_age_seconds"], json[:max_age_seconds]
+    assert_equal fixture["access_token_ttl_seconds"], json[:access_token_ttl_seconds]
+    assert_equal fixture["refresh_token_ttl_seconds"], json[:refresh_token_ttl_seconds]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_instance_created_round_trip
+    fixture = {
+      "object" => "event",
+      "id" => "stub",
+      "event" => "agent.instance.created",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {}
+    }
+    model = WorkOS::AgentInstanceCreated.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_instance_created_data_round_trip
+    fixture = {
+      "object" => "agent_instance",
+      "id" => "stub",
+      "agent_blueprint_id" => "stub",
+      "organization_id" => "stub",
+      "organization_membership_id" => nil,
+      "type" => "stub",
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::AgentInstanceCreatedData.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["agent_blueprint_id"], json[:agent_blueprint_id]
+    assert_equal fixture["organization_id"], json[:organization_id]
+    assert_nil json[:organization_membership_id]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_instance_deleted_round_trip
+    fixture = {
+      "object" => "event",
+      "id" => "stub",
+      "event" => "agent.instance.deleted",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {}
+    }
+    model = WorkOS::AgentInstanceDeleted.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_instance_deleted_data_round_trip
+    fixture = {
+      "object" => "agent_instance",
+      "id" => "stub",
+      "agent_blueprint_id" => "stub",
+      "organization_id" => "stub",
+      "organization_membership_id" => nil,
+      "type" => "stub",
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::AgentInstanceDeletedData.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["agent_blueprint_id"], json[:agent_blueprint_id]
+    assert_equal fixture["organization_id"], json[:organization_id]
+    assert_nil json[:organization_membership_id]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_instance_session_created_round_trip
+    fixture = {
+      "object" => "event",
+      "id" => "stub",
+      "event" => "agent.instance.session.created",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {}
+    }
+    model = WorkOS::AgentInstanceSessionCreated.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_instance_session_created_data_round_trip
+    fixture = {
+      "object" => "agent_instance_session",
+      "id" => "stub",
+      "agent_instance_id" => "stub",
+      "organization_id" => "stub",
+      "expires_at" => "stub",
+      "revoked_at" => nil,
+      "created_at" => "stub",
+      "updated_at" => "stub",
+      "permission_slugs" => []
+    }
+    model = WorkOS::AgentInstanceSessionCreatedData.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["agent_instance_id"], json[:agent_instance_id]
+    assert_equal fixture["organization_id"], json[:organization_id]
+    assert_equal fixture["expires_at"], json[:expires_at]
+    assert_nil json[:revoked_at]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_instance_session_revoked_round_trip
+    fixture = {
+      "object" => "event",
+      "id" => "stub",
+      "event" => "agent.instance.session.revoked",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {}
+    }
+    model = WorkOS::AgentInstanceSessionRevoked.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_instance_session_revoked_data_round_trip
+    fixture = {
+      "object" => "agent_instance_session",
+      "id" => "stub",
+      "agent_instance_id" => "stub",
+      "organization_id" => "stub",
+      "expires_at" => "stub",
+      "revoked_at" => nil,
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::AgentInstanceSessionRevokedData.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["agent_instance_id"], json[:agent_instance_id]
+    assert_equal fixture["organization_id"], json[:organization_id]
+    assert_equal fixture["expires_at"], json[:expires_at]
+    assert_nil json[:revoked_at]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
@@ -801,6 +1132,122 @@ class SharedModelRoundTripTest < Minitest::Test
     assert_equal fixture["radar_challenge_id"], json[:radar_challenge_id]
     assert_equal fixture["user_id"], json[:user_id]
     assert_equal fixture["email"], json[:email]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_resource_export_completed_round_trip
+    fixture = {
+      "object" => "event",
+      "id" => "stub",
+      "event" => "resource_export.completed",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {}
+    }
+    model = WorkOS::ResourceExportCompleted.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_resource_export_completed_data_round_trip
+    fixture = {
+      "id" => "stub",
+      "resource_type" => "stub"
+    }
+    model = WorkOS::ResourceExportCompletedData.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_resource_export_created_round_trip
+    fixture = {
+      "object" => "event",
+      "id" => "stub",
+      "event" => "resource_export.created",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {}
+    }
+    model = WorkOS::ResourceExportCreated.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_resource_export_created_data_round_trip
+    fixture = {
+      "id" => "stub",
+      "resource_type" => "stub"
+    }
+    model = WorkOS::ResourceExportCreatedData.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_resource_export_downloaded_round_trip
+    fixture = {
+      "object" => "event",
+      "id" => "stub",
+      "event" => "resource_export.downloaded",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {}
+    }
+    model = WorkOS::ResourceExportDownloaded.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_resource_export_downloaded_data_round_trip
+    fixture = {
+      "id" => "stub",
+      "resource_type" => "stub"
+    }
+    model = WorkOS::ResourceExportDownloadedData.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_resource_export_failed_round_trip
+    fixture = {
+      "object" => "event",
+      "id" => "stub",
+      "event" => "resource_export.failed",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {}
+    }
+    model = WorkOS::ResourceExportFailed.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_resource_export_failed_data_round_trip
+    fixture = {
+      "id" => "stub",
+      "resource_type" => "stub"
+    }
+    model = WorkOS::ResourceExportFailedData.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 

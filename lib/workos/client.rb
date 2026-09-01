@@ -64,6 +64,10 @@ module WorkOS
       @groups ||= WorkOS::Groups.new(self)
     end
 
+    def platform_teams
+      @platform_teams ||= WorkOS::PlatformTeams.new(self)
+    end
+
     def admin_portal
       @admin_portal ||= WorkOS::AdminPortal.new(self)
     end

@@ -94,5 +94,50 @@ module WorkOS
     end
     def list_authorized_applications(organization_id:, before:, after:, limit:, order:, request_options:); end
 
+    sig do
+      params(
+        organization_id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::Types::ListStruct)
+    end
+    def list_it_contacts(organization_id:, request_options:); end
+
+    sig do
+      params(
+        organization_id: String,
+        email: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::ItContact)
+    end
+    def create_it_contact(organization_id:, email:, request_options:); end
+
+    sig do
+      params(
+        organization_id: String,
+        contact_id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(NilClass)
+    end
+    def delete_it_contact(organization_id:, contact_id:, request_options:); end
+
+    sig do
+      params(
+        organization_id: String,
+        contact_id: String,
+        intents: T::Array[String],
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(NilClass)
+    end
+    def invite_it_contact(organization_id:, contact_id:, intents:, request_options:); end
+
+    sig do
+      params(
+        organization_id: String,
+        contact_id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(NilClass)
+    end
+    def revoke_it_contact(organization_id:, contact_id:, request_options:); end
+
   end
 end

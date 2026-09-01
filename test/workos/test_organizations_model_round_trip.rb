@@ -7,12 +7,33 @@ require "test_helper"
 class OrganizationsModelRoundTripTest < Minitest::Test
   def test_update_audit_logs_retention_round_trip
     fixture = {
+      "retention_period" => "stub",
       "retention_period_in_days" => 1
     }
     model = WorkOS::UpdateAuditLogsRetention.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
-    assert_equal fixture["retention_period_in_days"], json[:retention_period_in_days]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_create_it_contact_round_trip
+    fixture = {
+      "email" => "stub"
+    }
+    model = WorkOS::CreateItContact.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["email"], json[:email]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_invite_it_contact_round_trip
+    fixture = {
+      "intents" => []
+    }
+    model = WorkOS::InviteItContact.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
@@ -539,6 +560,24 @@ class OrganizationsModelRoundTripTest < Minitest::Test
     assert_equal fixture["obfuscated_value"], json[:obfuscated_value]
     assert_nil json[:last_used_at]
     assert_nil json[:expires_at]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_it_contact_round_trip
+    fixture = {
+      "object" => "it_contact",
+      "id" => "stub",
+      "email" => "stub",
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::ItContact.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["email"], json[:email]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }

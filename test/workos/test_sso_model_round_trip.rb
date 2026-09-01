@@ -5,19 +5,197 @@
 require "test_helper"
 
 class SsoModelRoundTripTest < Minitest::Test
+  def test_create_connection_key_pair_round_trip
+    fixture = {
+      "key" => "stub",
+      "cert" => "stub"
+    }
+    model = WorkOS::CreateConnectionKeyPair.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["key"], json[:key]
+    assert_equal fixture["cert"], json[:cert]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_create_connection_saml_options_round_trip
+    fixture = {
+      "idp_metadata_url" => "stub",
+      "acs_url" => "stub",
+      "sp_entity_id" => "stub",
+      "idp_entity_id" => "stub",
+      "idp_sso_url" => "stub",
+      "idp_signing_certs" => [],
+      "sp_signing_key_pair" => {},
+      "sp_encryption_key_pairs" => []
+    }
+    model = WorkOS::CreateConnectionSAMLOptions.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_create_connection_oidc_options_round_trip
+    fixture = {
+      "discovery_endpoint" => "stub",
+      "client_id" => "stub",
+      "client_secret" => "stub",
+      "redirect_uri" => "stub",
+      "pkce" => true,
+      "token_authentication_method" => "stub",
+      "jwt_signing_key_pair" => {},
+      "id_token_signature_algorithm" => "stub",
+      "fetch_user_info" => true
+    }
+    model = WorkOS::CreateConnectionOIDCOptions.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["discovery_endpoint"], json[:discovery_endpoint]
+    assert_equal fixture["client_id"], json[:client_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_create_connection_standard_attributes_round_trip
+    fixture = {
+      "idp_id" => "stub",
+      "email" => "stub",
+      "first_name" => "stub",
+      "last_name" => "stub",
+      "groups" => nil,
+      "name" => nil
+    }
+    model = WorkOS::CreateConnectionStandardAttributes.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_create_connection_attribute_maps_round_trip
+    fixture = {
+      "standard_attributes" => {},
+      "custom_attributes" => {}
+    }
+    model = WorkOS::CreateConnectionAttributeMaps.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_create_connection_round_trip
+    fixture = {
+      "organization_id" => "stub",
+      "name" => "stub",
+      "external_id" => "stub",
+      "connection_type" => "stub",
+      "attribute_maps" => {},
+      "saml_options" => {},
+      "oidc_options" => {}
+    }
+    model = WorkOS::CreateConnection.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["organization_id"], json[:organization_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_patch_connection_saml_options_round_trip
+    fixture = {
+      "idp_metadata_url" => nil,
+      "acs_url" => nil,
+      "sp_entity_id" => nil,
+      "idp_entity_id" => "stub",
+      "idp_sso_url" => "stub"
+    }
+    model = WorkOS::PatchConnectionSAMLOptions.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_patch_connection_oidc_options_round_trip
+    fixture = {
+      "discovery_endpoint" => "stub",
+      "client_id" => "stub",
+      "client_secret" => "stub",
+      "redirect_uri" => nil,
+      "pkce" => true,
+      "token_authentication_method" => "stub",
+      "id_token_signature_algorithm" => "stub",
+      "fetch_user_info" => true
+    }
+    model = WorkOS::PatchConnectionOIDCOptions.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_patch_connection_standard_attributes_round_trip
+    fixture = {
+      "idp_id" => "stub",
+      "email" => "stub",
+      "first_name" => "stub",
+      "last_name" => "stub",
+      "groups" => nil,
+      "name" => nil
+    }
+    model = WorkOS::PatchConnectionStandardAttributes.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_patch_connection_attribute_maps_round_trip
+    fixture = {
+      "standard_attributes" => {},
+      "custom_attributes" => {}
+    }
+    model = WorkOS::PatchConnectionAttributeMaps.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_patch_connection_round_trip
+    fixture = {
+      "name" => "stub",
+      "external_id" => nil,
+      "connection_type" => "stub",
+      "attribute_maps" => {},
+      "saml_options" => {},
+      "oidc_options" => {}
+    }
+    model = WorkOS::PatchConnection.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_create_saml_idp_signing_certificate_round_trip
+    fixture = {
+      "value" => "stub"
+    }
+    model = WorkOS::CreateSAMLIdpSigningCertificate.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["value"], json[:value]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_token_query_round_trip
     fixture = {
       "client_id" => "stub",
       "client_secret" => "stub",
       "code" => "stub",
-      "grant_type" => "authorization_code"
+      "grant_type" => "stub",
+      "subject_token" => "stub",
+      "subject_token_type" => "urn:ietf:params:oauth:token-type:id_token",
+      "organization_id" => "stub"
     }
     model = WorkOS::TokenQuery.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["client_id"], json[:client_id]
     assert_equal fixture["client_secret"], json[:client_secret]
-    assert_equal fixture["code"], json[:code]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
@@ -301,6 +479,88 @@ class SsoModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["expiry_date"], json[:expiry_date]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_saml_idp_signing_certificate_round_trip
+    fixture = {
+      "object" => "saml_idp_signing_certificate",
+      "id" => "stub",
+      "value" => "stub",
+      "not_before" => nil,
+      "not_after" => nil,
+      "created_at" => "stub"
+    }
+    model = WorkOS::SAMLIdpSigningCertificate.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["value"], json[:value]
+    assert_nil json[:not_before]
+    assert_nil json[:not_after]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_saml_idp_signing_certificate_list_round_trip
+    fixture = {
+      "object" => "list",
+      "data" => []
+    }
+    model = WorkOS::SAMLIdpSigningCertificateList.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_saml_sp_encryption_certificate_round_trip
+    fixture = {
+      "object" => "saml_sp_encryption_certificate",
+      "id" => "stub",
+      "value" => "stub",
+      "not_before" => nil,
+      "not_after" => nil,
+      "created_at" => "stub"
+    }
+    model = WorkOS::SAMLSpEncryptionCertificate.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["value"], json[:value]
+    assert_nil json[:not_before]
+    assert_nil json[:not_after]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_saml_sp_encryption_certificate_list_round_trip
+    fixture = {
+      "object" => "list",
+      "data" => []
+    }
+    model = WorkOS::SAMLSpEncryptionCertificateList.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_saml_sp_signing_certificate_round_trip
+    fixture = {
+      "object" => "saml_sp_signing_certificate",
+      "id" => "stub",
+      "value" => "stub",
+      "not_before" => nil,
+      "not_after" => nil,
+      "created_at" => "stub"
+    }
+    model = WorkOS::SAMLSpSigningCertificate.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["value"], json[:value]
+    assert_nil json[:not_before]
+    assert_nil json[:not_after]
+    assert_equal fixture["created_at"], json[:created_at]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 

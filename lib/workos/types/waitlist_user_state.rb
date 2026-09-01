@@ -4,11 +4,6 @@
 
 module WorkOS
   module Types
-    class WaitlistUserState
-      PENDING = "pending"
-      APPROVED = "approved"
-      DENIED = "denied"
-      ALL = [PENDING, APPROVED, DENIED].freeze
-    end
+    WaitlistUserState = UserManagementWaitlistsState
   end
 end

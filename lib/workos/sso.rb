@@ -7,6 +7,30 @@ require "uri"
 
 module WorkOS
   class SSO
+    # Identifies the protocol options (saml variant).
+    #
+    # @!attribute [r] saml_options
+    #   @return [WorkOS::CreateConnectionSAMLOptions]
+    CreateProtocolOptionsSAML = Data.define(:saml_options)
+
+    # Identifies the protocol options (oidc variant).
+    #
+    # @!attribute [r] oidc_options
+    #   @return [WorkOS::CreateConnectionOIDCOptions]
+    CreateProtocolOptionsOIDC = Data.define(:oidc_options)
+
+    # Identifies the protocol options (saml variant).
+    #
+    # @!attribute [r] saml_options
+    #   @return [WorkOS::PatchConnectionSAMLOptions]
+    PatchProtocolOptionsSAML = Data.define(:saml_options)
+
+    # Identifies the protocol options (oidc variant).
+    #
+    # @!attribute [r] oidc_options
+    #   @return [WorkOS::PatchConnectionOIDCOptions]
+    PatchProtocolOptionsOIDC = Data.define(:oidc_options)
+
     def initialize(client)
       @client = client
     end
@@ -71,6 +95,228 @@ module WorkOS
       )
     end
 
+    # Create a Connection
+    # @param organization_id [String] Unique identifier for the Organization in which the Connection resides.
+    # @param name [String, nil] A human-readable name for the Connection. This will most commonly be the organization's name.
+    # @param external_id [String, nil] The customer-owned identifier for the Connection.
+    # @param connection_type [String, nil] The type of the Connection. Only SAML and OIDC connection types may be created. When omitted, the type is inferred from the provided options.
+    # @param attribute_maps [WorkOS::CreateConnectionAttributeMaps, nil] How IdP attributes or claims map onto WorkOS profile fields. Provided fields override the defaults for the connection type.
+    # @param protocol_options [WorkOS::SSO::CreateProtocolOptionsSAML, WorkOS::SSO::CreateProtocolOptionsOIDC] Identifies the protocol options.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::Connection]
+    def create_connection(
+      organization_id:,
+      protocol_options:,
+      name: nil,
+      external_id: nil,
+      connection_type: nil,
+      attribute_maps: nil,
+      request_options: {}
+    )
+      body = {
+        "organization_id" => organization_id,
+        "name" => name,
+        "external_id" => external_id,
+        "connection_type" => connection_type,
+        "attribute_maps" => attribute_maps
+      }.compact
+      case protocol_options
+      when WorkOS::SSO::CreateProtocolOptionsSAML
+        body["saml_options"] = protocol_options.saml_options
+      when WorkOS::SSO::CreateProtocolOptionsOIDC
+        body["oidc_options"] = protocol_options.oidc_options
+      else
+        raise ArgumentError, "expected protocol_options to be one of: WorkOS::SSO::CreateProtocolOptionsSAML, WorkOS::SSO::CreateProtocolOptionsOIDC, got #{protocol_options.class}"
+      end
+      response = @client.request(
+        method: :post,
+        path: "/connections",
+        auth: true,
+        body: body,
+        request_options: request_options
+      )
+      result = WorkOS::Connection.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
+    # List IdP signing certificates
+    # @param connection_id [String] Unique identifier for the Connection.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::SAMLIdpSigningCertificateList]
+    def list_connection_saml_idp_signing_certs(
+      connection_id:,
+      request_options: {}
+    )
+      response = @client.request(
+        method: :get,
+        path: "/connections/#{WorkOS::Util.encode_path(connection_id)}/saml_idp_signing_certs",
+        auth: true,
+        request_options: request_options
+      )
+      result = WorkOS::SAMLIdpSigningCertificateList.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
+    # Create an IdP signing certificate
+    # @param connection_id [String] Unique identifier for the Connection.
+    # @param value [String] The PEM-encoded X.509 certificate.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::SAMLIdpSigningCertificate]
+    def create_connection_saml_idp_signing_cert(
+      connection_id:,
+      value:,
+      request_options: {}
+    )
+      body = {
+        "value" => value
+      }
+      response = @client.request(
+        method: :post,
+        path: "/connections/#{WorkOS::Util.encode_path(connection_id)}/saml_idp_signing_certs",
+        auth: true,
+        body: body,
+        request_options: request_options
+      )
+      result = WorkOS::SAMLIdpSigningCertificate.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
+    # Delete an IdP signing certificate
+    # @param connection_id [String] Unique identifier for the Connection.
+    # @param certificate_id [String] Unique identifier for the Identity Provider signing certificate.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [void]
+    def delete_connection_saml_idp_signing_cert(
+      connection_id:,
+      certificate_id:,
+      request_options: {}
+    )
+      @client.request(
+        method: :delete,
+        path: "/connections/#{WorkOS::Util.encode_path(connection_id)}/saml_idp_signing_certs/#{WorkOS::Util.encode_path(certificate_id)}",
+        auth: true,
+        request_options: request_options
+      )
+      nil
+    end
+
+    # List SP encryption certificates
+    # @param connection_id [String] Unique identifier for the Connection.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::SAMLSpEncryptionCertificateList]
+    def list_connection_saml_sp_encryption_certs(
+      connection_id:,
+      request_options: {}
+    )
+      response = @client.request(
+        method: :get,
+        path: "/connections/#{WorkOS::Util.encode_path(connection_id)}/saml_sp_encryption_certs",
+        auth: true,
+        request_options: request_options
+      )
+      result = WorkOS::SAMLSpEncryptionCertificateList.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
+    # Create an SP encryption certificate
+    # @param connection_id [String] Unique identifier for the Connection.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::SAMLSpEncryptionCertificate]
+    def create_connection_saml_sp_encryption_cert(
+      connection_id:,
+      request_options: {}
+    )
+      response = @client.request(
+        method: :post,
+        path: "/connections/#{WorkOS::Util.encode_path(connection_id)}/saml_sp_encryption_certs",
+        auth: true,
+        request_options: request_options
+      )
+      result = WorkOS::SAMLSpEncryptionCertificate.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
+    # Delete an SP encryption certificate
+    # @param connection_id [String] Unique identifier for the Connection.
+    # @param certificate_id [String] Unique identifier for the Service Provider encryption key pair. WorkOS holds the corresponding private key, which is never exposed.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [void]
+    def delete_connection_saml_sp_encryption_cert(
+      connection_id:,
+      certificate_id:,
+      request_options: {}
+    )
+      @client.request(
+        method: :delete,
+        path: "/connections/#{WorkOS::Util.encode_path(connection_id)}/saml_sp_encryption_certs/#{WorkOS::Util.encode_path(certificate_id)}",
+        auth: true,
+        request_options: request_options
+      )
+      nil
+    end
+
+    # Get the SP signing certificate
+    # @param connection_id [String] Unique identifier for the Connection.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::SAMLSpSigningCertificate]
+    def list_connection_saml_sp_signing_cert(
+      connection_id:,
+      request_options: {}
+    )
+      response = @client.request(
+        method: :get,
+        path: "/connections/#{WorkOS::Util.encode_path(connection_id)}/saml_sp_signing_cert",
+        auth: true,
+        request_options: request_options
+      )
+      result = WorkOS::SAMLSpSigningCertificate.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
+    # Create an SP signing certificate
+    # @param connection_id [String] Unique identifier for the Connection.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::SAMLSpSigningCertificate]
+    def create_connection_saml_sp_signing_cert(
+      connection_id:,
+      request_options: {}
+    )
+      response = @client.request(
+        method: :post,
+        path: "/connections/#{WorkOS::Util.encode_path(connection_id)}/saml_sp_signing_cert",
+        auth: true,
+        request_options: request_options
+      )
+      result = WorkOS::SAMLSpSigningCertificate.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
+    # Delete the SP signing certificate
+    # @param connection_id [String] Unique identifier for the Connection.
+    # @param certificate_id [String] Unique identifier for the Service Provider signing key pair. WorkOS holds the corresponding private key, which is never exposed.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [void]
+    def delete_connection_saml_sp_signing_cert(
+      connection_id:,
+      certificate_id:,
+      request_options: {}
+    )
+      @client.request(
+        method: :delete,
+        path: "/connections/#{WorkOS::Util.encode_path(connection_id)}/saml_sp_signing_cert/#{WorkOS::Util.encode_path(certificate_id)}",
+        auth: true,
+        request_options: request_options
+      )
+      nil
+    end
+
     # Get a Connection
     # @param id [String] Unique identifier for the Connection.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
@@ -83,6 +329,52 @@ module WorkOS
         method: :get,
         path: "/connections/#{WorkOS::Util.encode_path(id)}",
         auth: true,
+        request_options: request_options
+      )
+      result = WorkOS::Connection.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
+    # Update a Connection
+    # @param id [String] Unique identifier for the Connection.
+    # @param name [String, nil] A human-readable name for the Connection.
+    # @param external_id [String, nil] The customer-owned identifier for the Connection. Set to `null` to stop tracking one.
+    # @param connection_type [String, nil] The type of the Connection. Immutable after creation — it may be sent, but only with the Connection current type.
+    # @param attribute_maps [WorkOS::PatchConnectionAttributeMaps, nil] How IdP attributes or claims map onto WorkOS profile fields. Only the provided fields are updated.
+    # @param protocol_options [WorkOS::SSO::PatchProtocolOptionsSAML, WorkOS::SSO::PatchProtocolOptionsOIDC, nil] Identifies the protocol options.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::Connection]
+    def update_connection(
+      id:,
+      name: nil,
+      external_id: WorkOS::OMIT,
+      connection_type: nil,
+      attribute_maps: nil,
+      protocol_options: nil,
+      request_options: {}
+    )
+      body = {
+        "name" => name,
+        "connection_type" => connection_type,
+        "attribute_maps" => attribute_maps
+      }.compact
+      body["external_id"] = external_id unless external_id.equal?(WorkOS::OMIT)
+      if protocol_options
+        case protocol_options
+        when WorkOS::SSO::PatchProtocolOptionsSAML
+          body["saml_options"] = protocol_options.saml_options
+        when WorkOS::SSO::PatchProtocolOptionsOIDC
+          body["oidc_options"] = protocol_options.oidc_options
+        else
+          raise ArgumentError, "expected protocol_options to be one of: WorkOS::SSO::PatchProtocolOptionsSAML, WorkOS::SSO::PatchProtocolOptionsOIDC, got #{protocol_options.class}"
+        end
+      end
+      response = @client.request(
+        method: :patch,
+        path: "/connections/#{WorkOS::Util.encode_path(id)}",
+        auth: true,
+        body: body,
         request_options: request_options
       )
       result = WorkOS::Connection.new(response.body)
@@ -214,19 +506,28 @@ module WorkOS
     end
 
     # Get a Profile and Token
-    # @param code [String] The authorization code received from the authorization callback.
+    # @param code [String, nil] The authorization code received from the authorization callback. Required when `grant_type` is `authorization_code`.
+    # @param subject_token [String, nil] The OIDC ID token to exchange. Required when `grant_type` is `urn:ietf:params:oauth:grant-type:token-exchange`. Must be sent in the request body.
+    # @param subject_token_type [String, nil] The type of the subject token. Required when `grant_type` is `urn:ietf:params:oauth:grant-type:token-exchange`. Must be sent in the request body.
+    # @param organization_id [String, nil] The ID of the organization whose connection the subject token is validated against. Required when `grant_type` is `urn:ietf:params:oauth:grant-type:token-exchange`. Must be sent in the request body.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::SSOTokenResponse]
     def get_profile_and_token(
-      code:,
+      code: nil,
+      subject_token: nil,
+      subject_token_type: nil,
+      organization_id: nil,
       request_options: {}
     )
       body = {
         "grant_type" => "authorization_code",
         "client_id" => request_options[:client_id] || @client.client_id,
         "client_secret" => request_options[:api_key] || @client.api_key,
-        "code" => code
-      }
+        "code" => code,
+        "subject_token" => subject_token,
+        "subject_token_type" => subject_token_type,
+        "organization_id" => organization_id
+      }.compact
       response = @client.request(
         method: :post,
         path: "/sso/token",

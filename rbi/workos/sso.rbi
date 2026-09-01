@@ -6,6 +6,54 @@
 
 module WorkOS
   class SSO
+    class CreateProtocolOptionsSAML
+      sig { returns(WorkOS::CreateConnectionSAMLOptions) }
+      def saml_options; end
+
+      sig do
+        params(
+          saml_options: WorkOS::CreateConnectionSAMLOptions
+        ).returns(WorkOS::SSO::CreateProtocolOptionsSAML)
+      end
+      def self.new(saml_options:); end
+    end
+
+    class CreateProtocolOptionsOIDC
+      sig { returns(WorkOS::CreateConnectionOIDCOptions) }
+      def oidc_options; end
+
+      sig do
+        params(
+          oidc_options: WorkOS::CreateConnectionOIDCOptions
+        ).returns(WorkOS::SSO::CreateProtocolOptionsOIDC)
+      end
+      def self.new(oidc_options:); end
+    end
+
+    class PatchProtocolOptionsSAML
+      sig { returns(WorkOS::PatchConnectionSAMLOptions) }
+      def saml_options; end
+
+      sig do
+        params(
+          saml_options: WorkOS::PatchConnectionSAMLOptions
+        ).returns(WorkOS::SSO::PatchProtocolOptionsSAML)
+      end
+      def self.new(saml_options:); end
+    end
+
+    class PatchProtocolOptionsOIDC
+      sig { returns(WorkOS::PatchConnectionOIDCOptions) }
+      def oidc_options; end
+
+      sig do
+        params(
+          oidc_options: WorkOS::PatchConnectionOIDCOptions
+        ).returns(WorkOS::SSO::PatchProtocolOptionsOIDC)
+      end
+      def self.new(oidc_options:); end
+    end
+
     sig { params(client: WorkOS::BaseClient).void }
     def initialize(client); end
 
@@ -26,11 +74,113 @@ module WorkOS
 
     sig do
       params(
+        organization_id: String,
+        protocol_options: T.any(WorkOS::SSO::CreateProtocolOptionsSAML, WorkOS::SSO::CreateProtocolOptionsOIDC),
+        name: T.nilable(String),
+        external_id: T.nilable(String),
+        connection_type: T.nilable(String),
+        attribute_maps: T.nilable(WorkOS::CreateConnectionAttributeMaps),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::Connection)
+    end
+    def create_connection(organization_id:, protocol_options:, name:, external_id:, connection_type:, attribute_maps:, request_options:); end
+
+    sig do
+      params(
+        connection_id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::SAMLIdpSigningCertificateList)
+    end
+    def list_connection_saml_idp_signing_certs(connection_id:, request_options:); end
+
+    sig do
+      params(
+        connection_id: String,
+        value: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::SAMLIdpSigningCertificate)
+    end
+    def create_connection_saml_idp_signing_cert(connection_id:, value:, request_options:); end
+
+    sig do
+      params(
+        connection_id: String,
+        certificate_id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(NilClass)
+    end
+    def delete_connection_saml_idp_signing_cert(connection_id:, certificate_id:, request_options:); end
+
+    sig do
+      params(
+        connection_id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::SAMLSpEncryptionCertificateList)
+    end
+    def list_connection_saml_sp_encryption_certs(connection_id:, request_options:); end
+
+    sig do
+      params(
+        connection_id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::SAMLSpEncryptionCertificate)
+    end
+    def create_connection_saml_sp_encryption_cert(connection_id:, request_options:); end
+
+    sig do
+      params(
+        connection_id: String,
+        certificate_id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(NilClass)
+    end
+    def delete_connection_saml_sp_encryption_cert(connection_id:, certificate_id:, request_options:); end
+
+    sig do
+      params(
+        connection_id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::SAMLSpSigningCertificate)
+    end
+    def list_connection_saml_sp_signing_cert(connection_id:, request_options:); end
+
+    sig do
+      params(
+        connection_id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::SAMLSpSigningCertificate)
+    end
+    def create_connection_saml_sp_signing_cert(connection_id:, request_options:); end
+
+    sig do
+      params(
+        connection_id: String,
+        certificate_id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(NilClass)
+    end
+    def delete_connection_saml_sp_signing_cert(connection_id:, certificate_id:, request_options:); end
+
+    sig do
+      params(
         id: String,
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Connection)
     end
     def get_connection(id:, request_options:); end
+
+    sig do
+      params(
+        id: String,
+        name: T.nilable(String),
+        external_id: T.nilable(String),
+        connection_type: T.nilable(String),
+        attribute_maps: T.nilable(WorkOS::PatchConnectionAttributeMaps),
+        protocol_options: T.nilable(T.any(WorkOS::SSO::PatchProtocolOptionsSAML, WorkOS::SSO::PatchProtocolOptionsOIDC)),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::Connection)
+    end
+    def update_connection(id:, name:, external_id:, connection_type:, attribute_maps:, protocol_options:, request_options:); end
 
     sig do
       params(
@@ -83,11 +233,14 @@ module WorkOS
 
     sig do
       params(
-        code: String,
+        code: T.nilable(String),
+        subject_token: T.nilable(String),
+        subject_token_type: T.nilable(String),
+        organization_id: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::SSOTokenResponse)
     end
-    def get_profile_and_token(code:, request_options:); end
+    def get_profile_and_token(code:, subject_token:, subject_token_type:, organization_id:, request_options:); end
 
   end
 end

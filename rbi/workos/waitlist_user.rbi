@@ -10,12 +10,6 @@ module WorkOS
     def initialize(json); end
 
     sig { returns(String) }
-    def object; end
-
-    sig { params(value: String).returns(String) }
-    def object=(value); end
-
-    sig { returns(String) }
     def id; end
 
     sig { params(value: String).returns(String) }
@@ -39,6 +33,12 @@ module WorkOS
     sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
     def approved_at=(value); end
 
+    sig { returns(T.nilable(T::Hash[String, String])) }
+    def additional_fields; end
+
+    sig { params(value: T.nilable(T::Hash[String, String])).returns(T.nilable(T::Hash[String, String])) }
+    def additional_fields=(value); end
+
     sig { returns(T.nilable(String)) }
     def waitlist_id; end
 
@@ -56,6 +56,12 @@ module WorkOS
 
     sig { params(value: String).returns(String) }
     def updated_at=(value); end
+
+    sig { returns(String) }
+    def object; end
+
+    sig { params(value: String).returns(String) }
+    def object=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end
