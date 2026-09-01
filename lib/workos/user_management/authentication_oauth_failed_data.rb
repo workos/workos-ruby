@@ -11,7 +11,8 @@ module WorkOS
       user_agent: :user_agent,
       user_id: :user_id,
       email: :email,
-      error: :error
+      error: :error,
+      provider: :provider
     }.freeze
 
     attr_accessor \
@@ -21,7 +22,8 @@ module WorkOS
       :user_agent,
       :user_id,
       :email,
-      :error
+      :error,
+      :provider
 
     def initialize(json)
       hash = self.class.normalize(json)
@@ -32,6 +34,7 @@ module WorkOS
       @user_id = hash[:user_id]
       @email = hash[:email]
       @error = hash[:error] ? WorkOS::AuthenticationOAuthFailedDataError.new(hash[:error]) : nil
+      @provider = hash[:provider]
     end
   end
 end
