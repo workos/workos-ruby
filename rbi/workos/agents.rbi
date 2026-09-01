@@ -23,14 +23,14 @@ module WorkOS
     sig do
       params(
         name: String,
-        session_settings: WorkOS::AgentBlueprintsCreateRequestSessionSetting,
         description: T.nilable(String),
         permissions: T.nilable(T::Array[String]),
         invocable_by: T.nilable(WorkOS::AgentBlueprintsCreateRequestInvocableBy),
+        session_settings: T.nilable(WorkOS::AgentBlueprintsCreateRequestSessionSetting),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AgentBlueprint)
     end
-    def create_blueprint(name:, session_settings:, description:, permissions:, invocable_by:, request_options:); end
+    def create_blueprint(name:, description:, permissions:, invocable_by:, session_settings:, request_options:); end
 
     sig do
       params(
@@ -74,6 +74,15 @@ module WorkOS
       ).returns(WorkOS::AgentToken)
     end
     def create_blueprint_token(agent_blueprint_id:, type:, user_access_token:, intent:, organization_id:, agent_access_token:, refresh_token:, request_options:); end
+
+    sig do
+      params(
+        agent_blueprint_id: String,
+        agent_access_token: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::AgentTokenValidation)
+    end
+    def validate_blueprint_token(agent_blueprint_id:, agent_access_token:, request_options:); end
 
     sig do
       params(

@@ -33,10 +33,10 @@ module WorkOS
     sig { params(value: T.nilable(WorkOS::AgentBlueprintsCreateRequestInvocableBy)).returns(T.nilable(WorkOS::AgentBlueprintsCreateRequestInvocableBy)) }
     def invocable_by=(value); end
 
-    sig { returns(WorkOS::AgentBlueprintsCreateRequestSessionSetting) }
+    sig { returns(T.nilable(WorkOS::AgentBlueprintsCreateRequestSessionSetting)) }
     def session_settings; end
 
-    sig { params(value: WorkOS::AgentBlueprintsCreateRequestSessionSetting).returns(WorkOS::AgentBlueprintsCreateRequestSessionSetting) }
+    sig { params(value: T.nilable(WorkOS::AgentBlueprintsCreateRequestSessionSetting)).returns(T.nilable(WorkOS::AgentBlueprintsCreateRequestSessionSetting)) }
     def session_settings=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
