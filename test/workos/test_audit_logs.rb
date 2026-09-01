@@ -20,8 +20,17 @@ class AuditLogsTest < Minitest::Test
 
   def test_update_organization_audit_logs_retention_returns_expected_result
     stub_request(:put, %r{\Ahttps://api\.workos\.com/organizations/stub/audit_logs_retention(\?|\z)})
+      .with(body: hash_including("retention_period" => "stub"))
       .to_return(body: "{}", status: 200)
-    result = @client.audit_logs.update_organization_audit_logs_retention(id: "stub", retention_period_in_days: 1)
+    result = @client.audit_logs.update_organization_audit_logs_retention(id: "stub", retention: WorkOS::AuditLogs::RetentionPeriod.new(retention_period: "stub"))
+    refute_nil result
+  end
+
+  def test_update_organization_audit_logs_retention_with_retention_period_in_days_returns_expected_result
+    stub_request(:put, %r{\Ahttps://api\.workos\.com/organizations/stub/audit_logs_retention(\?|\z)})
+      .with(body: hash_including("retention_period_in_days" => 1))
+      .to_return(body: "{}", status: 200)
+    result = @client.audit_logs.update_organization_audit_logs_retention(id: "stub", retention: WorkOS::AuditLogs::RetentionPeriodInDays.new(retention_period_in_days: 1))
     refute_nil result
   end
 
@@ -70,7 +79,7 @@ class AuditLogsTest < Minitest::Test
   # Parameterized authentication error tests (one per endpoint).
   [
     {name: :get_organization_audit_logs_retention, verb: :get, url: %r{\Ahttps://api\.workos\.com/organizations/stub/audit_logs_retention(\?|\z)}, args: {id: "stub"}},
-    {name: :update_organization_audit_logs_retention, verb: :put, url: %r{\Ahttps://api\.workos\.com/organizations/stub/audit_logs_retention(\?|\z)}, args: {id: "stub", retention_period_in_days: 1}},
+    {name: :update_organization_audit_logs_retention, verb: :put, url: %r{\Ahttps://api\.workos\.com/organizations/stub/audit_logs_retention(\?|\z)}, args: {id: "stub", retention: WorkOS::AuditLogs::RetentionPeriod.new(retention_period: "stub")}},
     {name: :list_actions, verb: :get, url: %r{\Ahttps://api\.workos\.com/audit_logs/actions(\?|\z)}},
     {name: :list_action_schemas, verb: :get, url: %r{\Ahttps://api\.workos\.com/audit_logs/actions/stub/schemas(\?|\z)}, args: {action_name: "stub"}},
     {name: :create_schema, verb: :post, url: %r{\Ahttps://api\.workos\.com/audit_logs/actions/stub/schemas(\?|\z)}, args: {action_name: "stub", targets: [{}]}},

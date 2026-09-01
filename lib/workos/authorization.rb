@@ -834,8 +834,8 @@ module WorkOS
         when WorkOS::Authorization::ParentResourceById
           body["parent_resource_id"] = parent_resource.parent_resource_id
         when WorkOS::Authorization::ParentResourceByExternalId
-          body["parent_resource_external_id"] = parent_resource.parent_resource_external_id
           body["parent_resource_type_slug"] = parent_resource.parent_resource_type_slug
+          body["parent_resource_external_id"] = parent_resource.parent_resource_external_id
         else
           raise ArgumentError, "expected parent_resource to be one of: WorkOS::Authorization::ParentResourceById, WorkOS::Authorization::ParentResourceByExternalId, got #{parent_resource.class}"
         end
@@ -1097,8 +1097,8 @@ module WorkOS
         when WorkOS::Authorization::ParentResourceById
           body["parent_resource_id"] = parent_resource.parent_resource_id
         when WorkOS::Authorization::ParentResourceByExternalId
-          body["parent_resource_external_id"] = parent_resource.parent_resource_external_id
           body["parent_resource_type_slug"] = parent_resource.parent_resource_type_slug
+          body["parent_resource_external_id"] = parent_resource.parent_resource_external_id
         else
           raise ArgumentError, "expected parent_resource to be one of: WorkOS::Authorization::ParentResourceById, WorkOS::Authorization::ParentResourceByExternalId, got #{parent_resource.class}"
         end
@@ -1157,8 +1157,8 @@ module WorkOS
         when WorkOS::Authorization::ParentResourceById
           body["parent_resource_id"] = parent_resource.parent_resource_id
         when WorkOS::Authorization::ParentResourceByExternalId
-          body["parent_resource_external_id"] = parent_resource.parent_resource_external_id
           body["parent_resource_type_slug"] = parent_resource.parent_resource_type_slug
+          body["parent_resource_external_id"] = parent_resource.parent_resource_external_id
         else
           raise ArgumentError, "expected parent_resource to be one of: WorkOS::Authorization::ParentResourceById, WorkOS::Authorization::ParentResourceByExternalId, got #{parent_resource.class}"
         end

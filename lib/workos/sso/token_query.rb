@@ -8,14 +8,20 @@ module WorkOS
       client_id: :client_id,
       client_secret: :client_secret,
       code: :code,
-      grant_type: :grant_type
+      grant_type: :grant_type,
+      subject_token: :subject_token,
+      subject_token_type: :subject_token_type,
+      organization_id: :organization_id
     }.freeze
 
     attr_accessor \
       :client_id,
       :client_secret,
       :code,
-      :grant_type
+      :grant_type,
+      :subject_token,
+      :subject_token_type,
+      :organization_id
 
     def initialize(json)
       hash = self.class.normalize(json)
@@ -23,6 +29,9 @@ module WorkOS
       @client_secret = hash[:client_secret]
       @code = hash[:code]
       @grant_type = hash[:grant_type]
+      @subject_token = hash[:subject_token]
+      @subject_token_type = hash[:subject_token_type]
+      @organization_id = hash[:organization_id]
     end
   end
 end

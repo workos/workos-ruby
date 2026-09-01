@@ -11,6 +11,48 @@ class AgentsTest < Minitest::Test
     @client = WorkOS::Client.new(api_key: "sk_test_123")
   end
 
+  def test_list_blueprints_returns_expected_result
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/agents/blueprints(\?|\z)})
+      .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
+    result = @client.agents.list_blueprints
+    assert_kind_of WorkOS::Types::ListStruct, result
+  end
+
+  def test_create_blueprint_returns_expected_result
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/agents/blueprints(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.agents.create_blueprint(name: "stub", session_settings: {})
+    refute_nil result
+  end
+
+  def test_get_blueprint_returns_expected_result
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/agents/blueprints/stub(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.agents.get_blueprint(agent_blueprint_id: "stub")
+    refute_nil result
+  end
+
+  def test_update_blueprint_returns_expected_result
+    stub_request(:patch, %r{\Ahttps://api\.workos\.com/agents/blueprints/stub(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.agents.update_blueprint(agent_blueprint_id: "stub")
+    refute_nil result
+  end
+
+  def test_delete_blueprint_returns_expected_result
+    stub_request(:delete, %r{\Ahttps://api\.workos\.com/agents/blueprints/stub(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.agents.delete_blueprint(agent_blueprint_id: "stub")
+    assert_nil result
+  end
+
+  def test_create_blueprint_token_returns_expected_result
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/agents/blueprints/stub/tokens(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.agents.create_blueprint_token(agent_blueprint_id: "stub", type: "stub")
+    refute_nil result
+  end
+
   def test_update_attempts_returns_expected_result
     stub_request(:patch, %r{\Ahttps://api\.workos\.com/agents/claims/attempts(\?|\z)})
       .to_return(body: "{}", status: 200)
@@ -32,11 +74,65 @@ class AgentsTest < Minitest::Test
     refute_nil result
   end
 
+  def test_list_instances_returns_expected_result
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/agents/instances(\?|\z)})
+      .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
+    result = @client.agents.list_instances
+    assert_kind_of WorkOS::Types::ListStruct, result
+  end
+
+  def test_get_instance_returns_expected_result
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/agents/instances/stub(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.agents.get_instance(agent_instance_id: "stub")
+    refute_nil result
+  end
+
+  def test_delete_instance_returns_expected_result
+    stub_request(:delete, %r{\Ahttps://api\.workos\.com/agents/instances/stub(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.agents.delete_instance(agent_instance_id: "stub")
+    assert_nil result
+  end
+
+  def test_list_sessions_returns_expected_result
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/agents/sessions(\?|\z)})
+      .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
+    result = @client.agents.list_sessions
+    assert_kind_of WorkOS::Types::ListStruct, result
+  end
+
+  def test_get_session_returns_expected_result
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/agents/sessions/stub(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.agents.get_session(agent_instance_session_id: "stub")
+    refute_nil result
+  end
+
+  def test_revoke_session_returns_expected_result
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/agents/sessions/stub/revoke(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.agents.revoke_session(agent_instance_session_id: "stub")
+    refute_nil result
+  end
+
   # Parameterized authentication error tests (one per endpoint).
   [
+    {name: :list_blueprints, verb: :get, url: %r{\Ahttps://api\.workos\.com/agents/blueprints(\?|\z)}},
+    {name: :create_blueprint, verb: :post, url: %r{\Ahttps://api\.workos\.com/agents/blueprints(\?|\z)}, args: {name: "stub", session_settings: {}}},
+    {name: :get_blueprint, verb: :get, url: %r{\Ahttps://api\.workos\.com/agents/blueprints/stub(\?|\z)}, args: {agent_blueprint_id: "stub"}},
+    {name: :update_blueprint, verb: :patch, url: %r{\Ahttps://api\.workos\.com/agents/blueprints/stub(\?|\z)}, args: {agent_blueprint_id: "stub"}},
+    {name: :delete_blueprint, verb: :delete, url: %r{\Ahttps://api\.workos\.com/agents/blueprints/stub(\?|\z)}, args: {agent_blueprint_id: "stub"}},
+    {name: :create_blueprint_token, verb: :post, url: %r{\Ahttps://api\.workos\.com/agents/blueprints/stub/tokens(\?|\z)}, args: {agent_blueprint_id: "stub", type: "stub"}},
     {name: :update_attempts, verb: :patch, url: %r{\Ahttps://api\.workos\.com/agents/claims/attempts(\?|\z)}, args: {type: "link_external_user", claim_attempt_token: "stub", user: {}}},
     {name: :create_validate, verb: :post, url: %r{\Ahttps://api\.workos\.com/agents/credentials/validate(\?|\z)}, args: {type: "stub", credential: "stub"}},
-    {name: :get_registration, verb: :get, url: %r{\Ahttps://api\.workos\.com/agents/registrations/stub(\?|\z)}, args: {id: "stub"}}
+    {name: :get_registration, verb: :get, url: %r{\Ahttps://api\.workos\.com/agents/registrations/stub(\?|\z)}, args: {id: "stub"}},
+    {name: :list_instances, verb: :get, url: %r{\Ahttps://api\.workos\.com/agents/instances(\?|\z)}},
+    {name: :get_instance, verb: :get, url: %r{\Ahttps://api\.workos\.com/agents/instances/stub(\?|\z)}, args: {agent_instance_id: "stub"}},
+    {name: :delete_instance, verb: :delete, url: %r{\Ahttps://api\.workos\.com/agents/instances/stub(\?|\z)}, args: {agent_instance_id: "stub"}},
+    {name: :list_sessions, verb: :get, url: %r{\Ahttps://api\.workos\.com/agents/sessions(\?|\z)}},
+    {name: :get_session, verb: :get, url: %r{\Ahttps://api\.workos\.com/agents/sessions/stub(\?|\z)}, args: {agent_instance_session_id: "stub"}},
+    {name: :revoke_session, verb: :post, url: %r{\Ahttps://api\.workos\.com/agents/sessions/stub/revoke(\?|\z)}, args: {agent_instance_session_id: "stub"}}
   ].each do |spec|
     define_method("test_#{spec[:name]}_raises_authentication_error_on_401") do
       stub_request(spec[:verb], spec[:url])

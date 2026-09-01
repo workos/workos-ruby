@@ -18,10 +18,105 @@ class SSOTest < Minitest::Test
     assert_kind_of WorkOS::Types::ListStruct, result
   end
 
+  def test_create_connection_returns_expected_result
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/connections(\?|\z)})
+      .with(body: hash_including("organization_id" => "stub", "saml_options" => {}))
+      .to_return(body: "{}", status: 200)
+    result = @client.sso.create_connection(organization_id: "stub", protocol_options: WorkOS::SSO::CreateProtocolOptionsSAML.new(saml_options: {}))
+    refute_nil result
+  end
+
+  def test_create_connection_with_protocol_options_oidc_returns_expected_result
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/connections(\?|\z)})
+      .with(body: hash_including("organization_id" => "stub", "oidc_options" => {}))
+      .to_return(body: "{}", status: 200)
+    result = @client.sso.create_connection(organization_id: "stub", protocol_options: WorkOS::SSO::CreateProtocolOptionsOIDC.new(oidc_options: {}))
+    refute_nil result
+  end
+
+  def test_list_connection_saml_idp_signing_certs_returns_expected_result
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/connections/stub/saml_idp_signing_certs(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.sso.list_connection_saml_idp_signing_certs(connection_id: "stub")
+    refute_nil result
+  end
+
+  def test_create_connection_saml_idp_signing_cert_returns_expected_result
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/connections/stub/saml_idp_signing_certs(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.sso.create_connection_saml_idp_signing_cert(connection_id: "stub", value: "stub")
+    refute_nil result
+  end
+
+  def test_delete_connection_saml_idp_signing_cert_returns_expected_result
+    stub_request(:delete, %r{\Ahttps://api\.workos\.com/connections/stub/saml_idp_signing_certs/stub(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.sso.delete_connection_saml_idp_signing_cert(connection_id: "stub", certificate_id: "stub")
+    assert_nil result
+  end
+
+  def test_list_connection_saml_sp_encryption_certs_returns_expected_result
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/connections/stub/saml_sp_encryption_certs(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.sso.list_connection_saml_sp_encryption_certs(connection_id: "stub")
+    refute_nil result
+  end
+
+  def test_create_connection_saml_sp_encryption_cert_returns_expected_result
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/connections/stub/saml_sp_encryption_certs(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.sso.create_connection_saml_sp_encryption_cert(connection_id: "stub")
+    refute_nil result
+  end
+
+  def test_delete_connection_saml_sp_encryption_cert_returns_expected_result
+    stub_request(:delete, %r{\Ahttps://api\.workos\.com/connections/stub/saml_sp_encryption_certs/stub(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.sso.delete_connection_saml_sp_encryption_cert(connection_id: "stub", certificate_id: "stub")
+    assert_nil result
+  end
+
+  def test_list_connection_saml_sp_signing_cert_returns_expected_result
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/connections/stub/saml_sp_signing_cert(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.sso.list_connection_saml_sp_signing_cert(connection_id: "stub")
+    refute_nil result
+  end
+
+  def test_create_connection_saml_sp_signing_cert_returns_expected_result
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/connections/stub/saml_sp_signing_cert(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.sso.create_connection_saml_sp_signing_cert(connection_id: "stub")
+    refute_nil result
+  end
+
+  def test_delete_connection_saml_sp_signing_cert_returns_expected_result
+    stub_request(:delete, %r{\Ahttps://api\.workos\.com/connections/stub/saml_sp_signing_cert/stub(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.sso.delete_connection_saml_sp_signing_cert(connection_id: "stub", certificate_id: "stub")
+    assert_nil result
+  end
+
   def test_get_connection_returns_expected_result
     stub_request(:get, %r{\Ahttps://api\.workos\.com/connections/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.sso.get_connection(id: "stub")
+    refute_nil result
+  end
+
+  def test_update_connection_returns_expected_result
+    stub_request(:patch, %r{\Ahttps://api\.workos\.com/connections/stub(\?|\z)})
+      .with(body: hash_including("saml_options" => {}))
+      .to_return(body: "{}", status: 200)
+    result = @client.sso.update_connection(id: "stub", protocol_options: WorkOS::SSO::PatchProtocolOptionsSAML.new(saml_options: {}))
+    refute_nil result
+  end
+
+  def test_update_connection_with_protocol_options_oidc_returns_expected_result
+    stub_request(:patch, %r{\Ahttps://api\.workos\.com/connections/stub(\?|\z)})
+      .with(body: hash_including("oidc_options" => {}))
+      .to_return(body: "{}", status: 200)
+    result = @client.sso.update_connection(id: "stub", protocol_options: WorkOS::SSO::PatchProtocolOptionsOIDC.new(oidc_options: {}))
     refute_nil result
   end
 
@@ -49,18 +144,29 @@ class SSOTest < Minitest::Test
   def test_get_profile_and_token_returns_expected_result
     stub_request(:post, %r{\Ahttps://api\.workos\.com/sso/token(\?|\z)})
       .to_return(body: "{}", status: 200)
-    result = @client.sso.get_profile_and_token(code: "stub")
+    result = @client.sso.get_profile_and_token
     refute_nil result
   end
 
   # Parameterized authentication error tests (one per endpoint).
   [
     {name: :list_connections, verb: :get, url: %r{\Ahttps://api\.workos\.com/connections(\?|\z)}},
+    {name: :create_connection, verb: :post, url: %r{\Ahttps://api\.workos\.com/connections(\?|\z)}, args: {organization_id: "stub", protocol_options: WorkOS::SSO::CreateProtocolOptionsSAML.new(saml_options: {})}},
+    {name: :list_connection_saml_idp_signing_certs, verb: :get, url: %r{\Ahttps://api\.workos\.com/connections/stub/saml_idp_signing_certs(\?|\z)}, args: {connection_id: "stub"}},
+    {name: :create_connection_saml_idp_signing_cert, verb: :post, url: %r{\Ahttps://api\.workos\.com/connections/stub/saml_idp_signing_certs(\?|\z)}, args: {connection_id: "stub", value: "stub"}},
+    {name: :delete_connection_saml_idp_signing_cert, verb: :delete, url: %r{\Ahttps://api\.workos\.com/connections/stub/saml_idp_signing_certs/stub(\?|\z)}, args: {connection_id: "stub", certificate_id: "stub"}},
+    {name: :list_connection_saml_sp_encryption_certs, verb: :get, url: %r{\Ahttps://api\.workos\.com/connections/stub/saml_sp_encryption_certs(\?|\z)}, args: {connection_id: "stub"}},
+    {name: :create_connection_saml_sp_encryption_cert, verb: :post, url: %r{\Ahttps://api\.workos\.com/connections/stub/saml_sp_encryption_certs(\?|\z)}, args: {connection_id: "stub"}},
+    {name: :delete_connection_saml_sp_encryption_cert, verb: :delete, url: %r{\Ahttps://api\.workos\.com/connections/stub/saml_sp_encryption_certs/stub(\?|\z)}, args: {connection_id: "stub", certificate_id: "stub"}},
+    {name: :list_connection_saml_sp_signing_cert, verb: :get, url: %r{\Ahttps://api\.workos\.com/connections/stub/saml_sp_signing_cert(\?|\z)}, args: {connection_id: "stub"}},
+    {name: :create_connection_saml_sp_signing_cert, verb: :post, url: %r{\Ahttps://api\.workos\.com/connections/stub/saml_sp_signing_cert(\?|\z)}, args: {connection_id: "stub"}},
+    {name: :delete_connection_saml_sp_signing_cert, verb: :delete, url: %r{\Ahttps://api\.workos\.com/connections/stub/saml_sp_signing_cert/stub(\?|\z)}, args: {connection_id: "stub", certificate_id: "stub"}},
     {name: :get_connection, verb: :get, url: %r{\Ahttps://api\.workos\.com/connections/stub(\?|\z)}, args: {id: "stub"}},
+    {name: :update_connection, verb: :patch, url: %r{\Ahttps://api\.workos\.com/connections/stub(\?|\z)}, args: {id: "stub", protocol_options: WorkOS::SSO::PatchProtocolOptionsSAML.new(saml_options: {})}},
     {name: :delete_connection, verb: :delete, url: %r{\Ahttps://api\.workos\.com/connections/stub(\?|\z)}, args: {id: "stub"}},
     {name: :authorize_logout, verb: :post, url: %r{\Ahttps://api\.workos\.com/sso/logout/authorize(\?|\z)}, args: {profile_id: "stub"}},
     {name: :get_profile, verb: :get, url: %r{\Ahttps://api\.workos\.com/sso/profile(\?|\z)}},
-    {name: :get_profile_and_token, verb: :post, url: %r{\Ahttps://api\.workos\.com/sso/token(\?|\z)}, args: {code: "stub"}}
+    {name: :get_profile_and_token, verb: :post, url: %r{\Ahttps://api\.workos\.com/sso/token(\?|\z)}}
   ].each do |spec|
     define_method("test_#{spec[:name]}_raises_authentication_error_on_401") do
       stub_request(spec[:verb], spec[:url])

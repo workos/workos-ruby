@@ -225,6 +225,19 @@ class UserManagementModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_create_waitlist_entry_round_trip
+    fixture = {
+      "email" => "stub",
+      "additional_fields" => {},
+      "send_confirmation_email" => true
+    }
+    model = WorkOS::CreateWaitlistEntry.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["email"], json[:email]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_user_round_trip
     fixture = {
       "object" => "user",
@@ -683,7 +696,8 @@ class UserManagementModelRoundTripTest < Minitest::Test
       "user_agent" => nil,
       "user_id" => nil,
       "email" => nil,
-      "error" => {}
+      "error" => {},
+      "provider" => "stub"
     }
     model = WorkOS::AuthenticationOAuthFailedData.new(fixture.to_json)
     json = model.to_h
@@ -732,7 +746,8 @@ class UserManagementModelRoundTripTest < Minitest::Test
       "ip_address" => nil,
       "user_agent" => nil,
       "user_id" => nil,
-      "email" => "stub"
+      "email" => "stub",
+      "provider" => "stub"
     }
     model = WorkOS::AuthenticationOAuthSucceededData.new(fixture.to_json)
     json = model.to_h
@@ -2058,6 +2073,45 @@ class UserManagementModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_waitlist_round_trip
+    fixture = {
+      "object" => "waitlist",
+      "id" => "stub",
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::Waitlist.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_waitlist_entry_round_trip
+    fixture = {
+      "id" => "stub",
+      "email" => "stub",
+      "state" => "stub",
+      "approved_at" => nil,
+      "additional_fields" => {},
+      "waitlist_id" => nil,
+      "created_at" => "stub",
+      "updated_at" => "stub",
+      "object" => "waitlist_entry"
+    }
+    model = WorkOS::WaitlistEntry.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["email"], json[:email]
+    assert_nil json[:approved_at]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_jwks_response_round_trip
     fixture = {
       "keys" => []
@@ -2292,6 +2346,28 @@ class UserManagementModelRoundTripTest < Minitest::Test
     assert_equal fixture["code"], json[:code]
     assert_equal fixture["pending_authentication_token"], json[:pending_authentication_token]
     assert_equal fixture["authentication_challenge_id"], json[:authentication_challenge_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_email_completion_session_authenticate_request_round_trip
+    fixture = {
+      "client_id" => "stub",
+      "client_secret" => "stub",
+      "grant_type" => "urn:workos:oauth:grant-type:email-completion",
+      "email_completion_token" => "stub",
+      "email" => "stub",
+      "ip_address" => "stub",
+      "device_id" => "stub",
+      "user_agent" => "stub",
+      "signals_id" => "stub"
+    }
+    model = WorkOS::EmailCompletionSessionAuthenticateRequest.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["client_id"], json[:client_id]
+    assert_equal fixture["client_secret"], json[:client_secret]
+    assert_equal fixture["email_completion_token"], json[:email_completion_token]
+    assert_equal fixture["email"], json[:email]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 

@@ -6,6 +6,30 @@
 
 module WorkOS
   class AuditLogs
+    class RetentionPeriod
+      sig { returns(String) }
+      def retention_period; end
+
+      sig do
+        params(
+          retention_period: String
+        ).returns(WorkOS::AuditLogs::RetentionPeriod)
+      end
+      def self.new(retention_period:); end
+    end
+
+    class RetentionPeriodInDays
+      sig { returns(Integer) }
+      def retention_period_in_days; end
+
+      sig do
+        params(
+          retention_period_in_days: Integer
+        ).returns(WorkOS::AuditLogs::RetentionPeriodInDays)
+      end
+      def self.new(retention_period_in_days:); end
+    end
+
     sig { params(client: WorkOS::BaseClient).void }
     def initialize(client); end
 
@@ -20,11 +44,11 @@ module WorkOS
     sig do
       params(
         id: String,
-        retention_period_in_days: Integer,
+        retention: T.any(WorkOS::AuditLogs::RetentionPeriod, WorkOS::AuditLogs::RetentionPeriodInDays),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AuditLogsRetention)
     end
-    def update_organization_audit_logs_retention(id:, retention_period_in_days:, request_options:); end
+    def update_organization_audit_logs_retention(id:, retention:, request_options:); end
 
     sig do
       params(

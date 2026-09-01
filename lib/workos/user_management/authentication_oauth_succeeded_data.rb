@@ -10,7 +10,8 @@ module WorkOS
       ip_address: :ip_address,
       user_agent: :user_agent,
       user_id: :user_id,
-      email: :email
+      email: :email,
+      provider: :provider
     }.freeze
 
     attr_accessor \
@@ -19,7 +20,8 @@ module WorkOS
       :ip_address,
       :user_agent,
       :user_id,
-      :email
+      :email,
+      :provider
 
     def initialize(json)
       hash = self.class.normalize(json)
@@ -29,6 +31,7 @@ module WorkOS
       @user_agent = hash[:user_agent]
       @user_id = hash[:user_id]
       @email = hash[:email]
+      @provider = hash[:provider]
     end
   end
 end

@@ -45,6 +45,12 @@ module WorkOS
     sig { params(value: String).returns(String) }
     def email=(value); end
 
+    sig { returns(T.nilable(String)) }
+    def provider; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def provider=(value); end
+
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end
 

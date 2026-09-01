@@ -65,7 +65,7 @@ module WorkOS
     # Create an Organization
     # @param name [String] The name of the organization.
     # @param allow_profiles_outside_organization [Boolean, nil] Whether the organization allows profiles from outside the organization to sign in.
-    # @param domains [Array<String>, nil] The domains associated with the organization. Deprecated in favor of `domain_data`.
+    # @param domains [Array<String>, nil] (deprecated) The domains associated with the organization. Deprecated in favor of `domain_data`.
     # @param domain_data [Array<WorkOS::OrganizationDomainData>, nil] The domains associated with the organization, including verification state.
     # @param metadata [Hash{String => String}, nil] Object containing [metadata](https://workos.com/docs/authkit/metadata) key/value pairs associated with the Organization.
     # @param external_id [String, nil] An external identifier for the Organization.
@@ -262,6 +262,115 @@ module WorkOS
         filters: {organization_id: organization_id, before: before, limit: limit, order: order},
         fetch_next: fetch_next
       )
+    end
+
+    # List IT contacts
+    # @param organization_id [String] The ID of the organization.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::Types::ListStruct<WorkOS::ItContact>]
+    def list_it_contacts(
+      organization_id:,
+      request_options: {}
+    )
+      response = @client.request(
+        method: :get,
+        path: "/organizations/#{WorkOS::Util.encode_path(organization_id)}/it_contacts",
+        auth: true,
+        request_options: request_options
+      )
+      WorkOS::Types::ListStruct.from_response(
+        response,
+        model: WorkOS::ItContact,
+        filters: {organization_id: organization_id}
+      )
+    end
+
+    # Create an IT contact
+    # @param organization_id [String] The ID of the organization.
+    # @param email [String] The email address of the IT contact.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::ItContact]
+    def create_it_contact(
+      organization_id:,
+      email:,
+      request_options: {}
+    )
+      body = {
+        "email" => email
+      }
+      response = @client.request(
+        method: :post,
+        path: "/organizations/#{WorkOS::Util.encode_path(organization_id)}/it_contacts",
+        auth: true,
+        body: body,
+        request_options: request_options
+      )
+      result = WorkOS::ItContact.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
+    # Delete an IT contact
+    # @param organization_id [String] The ID of the organization.
+    # @param contact_id [String] The ID of the IT contact.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [void]
+    def delete_it_contact(
+      organization_id:,
+      contact_id:,
+      request_options: {}
+    )
+      @client.request(
+        method: :delete,
+        path: "/organizations/#{WorkOS::Util.encode_path(organization_id)}/it_contacts/#{WorkOS::Util.encode_path(contact_id)}",
+        auth: true,
+        request_options: request_options
+      )
+      nil
+    end
+
+    # Invite an IT contact
+    # @param organization_id [String] The ID of the organization.
+    # @param contact_id [String] The ID of the IT contact.
+    # @param intents [Array<WorkOS::Types::InviteItContactIntents>] The Admin Portal features that the IT contact can configure.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [void]
+    def invite_it_contact(
+      organization_id:,
+      contact_id:,
+      intents:,
+      request_options: {}
+    )
+      body = {
+        "intents" => intents
+      }
+      @client.request(
+        method: :post,
+        path: "/organizations/#{WorkOS::Util.encode_path(organization_id)}/it_contacts/#{WorkOS::Util.encode_path(contact_id)}/invite",
+        auth: true,
+        body: body,
+        request_options: request_options
+      )
+      nil
+    end
+
+    # Revoke an IT contact's invitation
+    # @param organization_id [String] The ID of the organization.
+    # @param contact_id [String] The ID of the IT contact.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [void]
+    def revoke_it_contact(
+      organization_id:,
+      contact_id:,
+      request_options: {}
+    )
+      @client.request(
+        method: :post,
+        path: "/organizations/#{WorkOS::Util.encode_path(organization_id)}/it_contacts/#{WorkOS::Util.encode_path(contact_id)}/revoke",
+        auth: true,
+        request_options: request_options
+      )
+      nil
     end
   end
 end
