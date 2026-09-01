@@ -9,10 +9,16 @@ module WorkOS
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
 
-    sig { returns(Integer) }
+    sig { returns(T.nilable(String)) }
+    def retention_period; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def retention_period=(value); end
+
+    sig { returns(T.nilable(Integer)) }
     def retention_period_in_days; end
 
-    sig { params(value: Integer).returns(Integer) }
+    sig { params(value: T.nilable(Integer)).returns(T.nilable(Integer)) }
     def retention_period_in_days=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }

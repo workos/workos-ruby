@@ -5,13 +5,25 @@
 module WorkOS
   class UpdateAuditLogsRetention < WorkOS::Types::BaseModel
     HASH_ATTRS = {
+      retention_period: :retention_period,
       retention_period_in_days: :retention_period_in_days
     }.freeze
 
-    attr_accessor :retention_period_in_days
+    # @!attribute retention_period_in_days
+    #   @deprecated The number of days Audit Log events will be retained. Valid values are `30` through `330` in 30-day increments and `365` through `3650` in 365-day increments. Deprecated: use `retention_period` instead. Mutually exclusive with `retention_period`.
+
+    attr_accessor :retention_period
+
+    def retention_period_in_days
+      warn "[DEPRECATION] `retention_period_in_days` is deprecated and will be removed in a future version.", uplevel: 1
+      @retention_period_in_days
+    end
+
+    attr_writer :retention_period_in_days
 
     def initialize(json)
       hash = self.class.normalize(json)
+      @retention_period = hash[:retention_period]
       @retention_period_in_days = hash[:retention_period_in_days]
     end
   end

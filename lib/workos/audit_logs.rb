@@ -6,6 +6,18 @@ require "json"
 
 module WorkOS
   class AuditLogs
+    # Identifies the retention (period variant).
+    #
+    # @!attribute [r] retention_period
+    #   @return [WorkOS::Types::UpdateAuditLogsRetentionRetentionPeriod]
+    RetentionPeriod = Data.define(:retention_period)
+
+    # Identifies the retention (period in days variant).
+    #
+    # @!attribute [r] retention_period_in_days
+    #   @return [Integer]
+    RetentionPeriodInDays = Data.define(:retention_period_in_days)
+
     def initialize(client)
       @client = client
     end
@@ -31,17 +43,23 @@ module WorkOS
 
     # Set Retention
     # @param id [String] Unique identifier of the Organization.
-    # @param retention_period_in_days [Integer] The number of days Audit Log events will be retained. Valid values are `30` and `365`.
+    # @param retention [WorkOS::AuditLogs::RetentionPeriod, WorkOS::AuditLogs::RetentionPeriodInDays] Identifies the retention.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::AuditLogsRetention]
     def update_organization_audit_logs_retention(
       id:,
-      retention_period_in_days:,
+      retention:,
       request_options: {}
     )
-      body = {
-        "retention_period_in_days" => retention_period_in_days
-      }
+      body = {}
+      case retention
+      when WorkOS::AuditLogs::RetentionPeriod
+        body["retention_period"] = retention.retention_period
+      when WorkOS::AuditLogs::RetentionPeriodInDays
+        body["retention_period_in_days"] = retention.retention_period_in_days
+      else
+        raise ArgumentError, "expected retention to be one of: WorkOS::AuditLogs::RetentionPeriod, WorkOS::AuditLogs::RetentionPeriodInDays, got #{retention.class}"
+      end
       response = @client.request(
         method: :put,
         path: "/organizations/#{WorkOS::Util.encode_path(id)}/audit_logs_retention",
