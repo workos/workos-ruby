@@ -459,6 +459,55 @@ class UserManagementTest < Minitest::Test
     assert_nil result
   end
 
+  def test_delete_waitlist_entry_returns_expected_result
+    stub_request(:delete, %r{\Ahttps://api\.workos\.com/user_management/waitlist_entries/stub(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.user_management.delete_waitlist_entry(id: "stub")
+    assert_nil result
+  end
+
+  def test_create_waitlist_entry_approve_returns_expected_result
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/user_management/waitlist_entries/stub/approve(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.user_management.create_waitlist_entry_approve(id: "stub")
+    refute_nil result
+  end
+
+  def test_create_waitlist_entry_deny_returns_expected_result
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/user_management/waitlist_entries/stub/deny(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.user_management.create_waitlist_entry_deny(id: "stub")
+    refute_nil result
+  end
+
+  def test_list_waitlists_returns_expected_result
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/user_management/waitlists(\?|\z)})
+      .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
+    result = @client.user_management.list_waitlists
+    assert_kind_of WorkOS::Types::ListStruct, result
+  end
+
+  def test_get_waitlist_returns_expected_result
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/user_management/waitlists/stub(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.user_management.get_waitlist(id: "stub")
+    refute_nil result
+  end
+
+  def test_list_waitlist_entries_returns_expected_result
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/user_management/waitlists/stub/entries(\?|\z)})
+      .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
+    result = @client.user_management.list_waitlist_entries(id: "stub")
+    assert_kind_of WorkOS::Types::ListStruct, result
+  end
+
+  def test_create_waitlist_entry_returns_expected_result
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/user_management/waitlists/stub/entries(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.user_management.create_waitlist_entry(id: "stub", email: "stub")
+    refute_nil result
+  end
+
   def test_list_user_api_keys_returns_expected_result
     stub_request(:get, %r{\Ahttps://api\.workos\.com/user_management/users/stub/api_keys(\?|\z)})
       .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
@@ -515,6 +564,13 @@ class UserManagementTest < Minitest::Test
     {name: :delete_redirect_uris, verb: :delete, url: %r{\Ahttps://api\.workos\.com/user_management/redirect_uris/stub(\?|\z)}, args: {id: "stub"}},
     {name: :list_user_authorized_applications, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/users/stub/authorized_applications(\?|\z)}, args: {user_id: "stub"}},
     {name: :delete_user_authorized_application, verb: :delete, url: %r{\Ahttps://api\.workos\.com/user_management/users/stub/authorized_applications/stub(\?|\z)}, args: {application_id: "stub", user_id: "stub"}},
+    {name: :delete_waitlist_entry, verb: :delete, url: %r{\Ahttps://api\.workos\.com/user_management/waitlist_entries/stub(\?|\z)}, args: {id: "stub"}},
+    {name: :create_waitlist_entry_approve, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/waitlist_entries/stub/approve(\?|\z)}, args: {id: "stub"}},
+    {name: :create_waitlist_entry_deny, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/waitlist_entries/stub/deny(\?|\z)}, args: {id: "stub"}},
+    {name: :list_waitlists, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/waitlists(\?|\z)}},
+    {name: :get_waitlist, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/waitlists/stub(\?|\z)}, args: {id: "stub"}},
+    {name: :list_waitlist_entries, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/waitlists/stub/entries(\?|\z)}, args: {id: "stub"}},
+    {name: :create_waitlist_entry, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/waitlists/stub/entries(\?|\z)}, args: {id: "stub", email: "stub"}},
     {name: :list_user_api_keys, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/users/stub/api_keys(\?|\z)}, args: {user_id: "stub"}},
     {name: :create_user_api_key, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/users/stub/api_keys(\?|\z)}, args: {user_id: "stub", name: "stub", organization_id: "stub"}}
   ].each do |spec|
