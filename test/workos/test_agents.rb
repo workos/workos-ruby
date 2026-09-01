@@ -21,7 +21,7 @@ class AgentsTest < Minitest::Test
   def test_create_blueprint_returns_expected_result
     stub_request(:post, %r{\Ahttps://api\.workos\.com/agents/blueprints(\?|\z)})
       .to_return(body: "{}", status: 200)
-    result = @client.agents.create_blueprint(name: "stub", session_settings: {})
+    result = @client.agents.create_blueprint(name: "stub")
     refute_nil result
   end
 
@@ -50,6 +50,13 @@ class AgentsTest < Minitest::Test
     stub_request(:post, %r{\Ahttps://api\.workos\.com/agents/blueprints/stub/tokens(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.agents.create_blueprint_token(agent_blueprint_id: "stub", type: "stub")
+    refute_nil result
+  end
+
+  def test_validate_blueprint_token_returns_expected_result
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/agents/blueprints/stub/tokens/validate(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.agents.validate_blueprint_token(agent_blueprint_id: "stub", agent_access_token: "stub")
     refute_nil result
   end
 
@@ -119,11 +126,12 @@ class AgentsTest < Minitest::Test
   # Parameterized authentication error tests (one per endpoint).
   [
     {name: :list_blueprints, verb: :get, url: %r{\Ahttps://api\.workos\.com/agents/blueprints(\?|\z)}},
-    {name: :create_blueprint, verb: :post, url: %r{\Ahttps://api\.workos\.com/agents/blueprints(\?|\z)}, args: {name: "stub", session_settings: {}}},
+    {name: :create_blueprint, verb: :post, url: %r{\Ahttps://api\.workos\.com/agents/blueprints(\?|\z)}, args: {name: "stub"}},
     {name: :get_blueprint, verb: :get, url: %r{\Ahttps://api\.workos\.com/agents/blueprints/stub(\?|\z)}, args: {agent_blueprint_id: "stub"}},
     {name: :update_blueprint, verb: :patch, url: %r{\Ahttps://api\.workos\.com/agents/blueprints/stub(\?|\z)}, args: {agent_blueprint_id: "stub"}},
     {name: :delete_blueprint, verb: :delete, url: %r{\Ahttps://api\.workos\.com/agents/blueprints/stub(\?|\z)}, args: {agent_blueprint_id: "stub"}},
     {name: :create_blueprint_token, verb: :post, url: %r{\Ahttps://api\.workos\.com/agents/blueprints/stub/tokens(\?|\z)}, args: {agent_blueprint_id: "stub", type: "stub"}},
+    {name: :validate_blueprint_token, verb: :post, url: %r{\Ahttps://api\.workos\.com/agents/blueprints/stub/tokens/validate(\?|\z)}, args: {agent_blueprint_id: "stub", agent_access_token: "stub"}},
     {name: :update_attempts, verb: :patch, url: %r{\Ahttps://api\.workos\.com/agents/claims/attempts(\?|\z)}, args: {type: "link_external_user", claim_attempt_token: "stub", user: {}}},
     {name: :create_validate, verb: :post, url: %r{\Ahttps://api\.workos\.com/agents/credentials/validate(\?|\z)}, args: {type: "stub", credential: "stub"}},
     {name: :get_registration, verb: :get, url: %r{\Ahttps://api\.workos\.com/agents/registrations/stub(\?|\z)}, args: {id: "stub"}},
