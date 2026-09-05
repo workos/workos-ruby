@@ -174,7 +174,10 @@ module WorkOS
     # Verify an access-token JWT against the WorkOS JWKS for this client.
     # Used by Session#authenticate; exposed publicly for advanced cases.
     #
-    # NOTE on iss/aud/required_claims: this method intentionally does not
+    # The `iss` claim is only checked when the client was built with
+    # `jwt_issuer:` (a String or an Array of accepted issuers).
+    #
+    # NOTE on iss/aud/required_claims: by default this method does not
     # enforce iss, aud, or required_claims. workos-node's `jose` call and
     # workos-php's `isset($exp) && $exp < time()` accept exp-less tokens, and
     # cross-SDK parity is required for the planned coordinated hardening of
@@ -182,15 +185,17 @@ module WorkOS
     # required_claims: ['exp'] tightening that was considered here.
     def decode_jwt(access_token, verify_expiration: true)
       jwks = fetch_jwks
-      JWT.decode(
-        access_token,
-        nil,
-        true,
+      options = {
         algorithms: JWK_ALGORITHMS,
         jwks: jwks,
         verify_aud: false,
         verify_expiration: verify_expiration
-      ).first
+      }
+      unless client.jwt_issuer.nil?
+        options[:iss] = client.jwt_issuer
+        options[:verify_iss] = true
+      end
+      JWT.decode(access_token, nil, true, options).first
     end
 
     private
