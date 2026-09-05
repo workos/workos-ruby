@@ -226,7 +226,9 @@ class SessionTest < Minitest::Test
     rsa, pub = signing_key_pair
     client = WorkOS::Client.new(api_key: "sk_test_session", client_id: "client_001", jwt_issuer: jwt_issuer)
     sm = client.session_manager
-    access_token = make_jwt({"sid" => "session_iss", "iss" => iss, "exp" => Time.now.to_i + 60}, rsa)
+    claims = {"sid" => "session_iss", "exp" => Time.now.to_i + 60}
+    claims["iss"] = iss unless iss.nil?
+    access_token = make_jwt(claims, rsa)
     sealed = sm.seal_data({"access_token" => access_token}, PASSWORD)
 
     stub_request(:get, "https://api.workos.com/sso/jwks/client_001")
