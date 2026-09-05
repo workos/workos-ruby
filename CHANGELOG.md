@@ -1,5 +1,12 @@
 # Changelog
 
+## [10.4.0](https://github.com/workos/workos-ruby/compare/v10.3.0...v10.4.0) (2026-09-05)
+
+
+### Features
+
+* **generated:** Pipes (batch 8ad8e447) ([#550](https://github.com/workos/workos-ruby/issues/550)) ([429d26d](https://github.com/workos/workos-ruby/commit/429d26d86fa5f60aa78d6873a411d6a2bf6353d1))
+
 ## [10.3.0](https://github.com/workos/workos-ruby/compare/v10.2.1...v10.3.0) (2026-09-01)
 
 * [#546](https://github.com/workos/workos-ruby/pull/546) feat(generated)!: regenerate from spec (5 changes)
