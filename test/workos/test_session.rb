@@ -220,6 +220,67 @@ class SessionTest < Minitest::Test
     assert_equal "session_expired", result.session_id
   end
 
+  # --- jwt_issuer -----------------------------------------------------------
+
+  def authenticate_with_issuer(jwt_issuer, iss)
+    rsa, pub = signing_key_pair
+    client = WorkOS::Client.new(api_key: "sk_test_session", client_id: "client_001", jwt_issuer: jwt_issuer)
+    sm = client.session_manager
+    access_token = make_jwt({"sid" => "session_iss", "iss" => iss, "exp" => Time.now.to_i + 60}, rsa)
+    sealed = sm.seal_data({"access_token" => access_token}, PASSWORD)
+
+    stub_request(:get, "https://api.workos.com/sso/jwks/client_001")
+      .to_return(status: 200, body: jwks_payload(pub).to_json)
+
+    sm.authenticate(seal_data: sealed, cookie_password: PASSWORD)
+  end
+
+  def test_authenticate_ignores_issuer_when_jwt_issuer_is_not_configured
+    result = authenticate_with_issuer(nil, "https://other.example.com")
+    assert_kind_of WorkOS::SessionManager::AuthSuccess, result
+    assert result.authenticated
+  end
+
+  def test_authenticate_accepts_matching_jwt_issuer
+    result = authenticate_with_issuer("https://api.workos.com", "https://api.workos.com")
+    assert_kind_of WorkOS::SessionManager::AuthSuccess, result
+    assert result.authenticated
+  end
+
+  def test_authenticate_rejects_mismatched_jwt_issuer
+    result = authenticate_with_issuer("https://api.workos.com", "https://other.example.com")
+    assert_kind_of WorkOS::SessionManager::AuthError, result
+    assert_equal WorkOS::SessionManager::INVALID_JWT, result.reason
+  end
+
+  def test_authenticate_rejects_missing_iss_when_jwt_issuer_is_configured
+    result = authenticate_with_issuer("https://api.workos.com", nil)
+    assert_kind_of WorkOS::SessionManager::AuthError, result
+    assert_equal WorkOS::SessionManager::INVALID_JWT, result.reason
+  end
+
+  def test_authenticate_accepts_any_listed_jwt_issuer
+    issuers = ["https://api.workos.com", "https://auth.example.com"]
+    result = authenticate_with_issuer(issuers, "https://auth.example.com")
+    assert_kind_of WorkOS::SessionManager::AuthSuccess, result
+    assert result.authenticated
+  end
+
+  def test_authenticate_rejects_all_tokens_when_jwt_issuer_list_is_empty
+    result = authenticate_with_issuer([], "https://api.workos.com")
+    assert_kind_of WorkOS::SessionManager::AuthError, result
+    assert_equal WorkOS::SessionManager::INVALID_JWT, result.reason
+  end
+
+  def test_global_configuration_passes_jwt_issuer_to_client
+    WorkOS.reset_client
+    WorkOS.configure { |config| config.jwt_issuer = "https://api.workos.com" }
+    assert_equal "https://api.workos.com", WorkOS.client.jwt_issuer
+  ensure
+    WorkOS.configuration.jwt_issuer = nil
+    WorkOS.reset_client
+  end
+
   # --- get_logout_url -------------------------------------------------------
 
   def test_get_logout_url_includes_session_id_from_authenticate

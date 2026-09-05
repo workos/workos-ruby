@@ -155,6 +155,29 @@ Anything shorter than 32 bytes (including `nil` or `""`) raises
 `ArgumentError` as soon as you load, seal, or unseal a session — sealing or
 unsealing will not silently proceed with a weakened key.
 
+### Validating the access token issuer
+
+By default the SDK verifies the signature and expiry of session access tokens
+but does not check the `iss` claim. To also require a specific issuer (or one
+of several), set `jwt_issuer` on the client — either a single string or an
+array of accepted issuers:
+
+```ruby
+WorkOS.configure do |config|
+  config.jwt_issuer = "https://api.workos.com/user_management/#{ENV["WORKOS_CLIENT_ID"]}"
+end
+
+# or per client
+client = WorkOS::Client.new(
+  api_key: ENV.fetch("WORKOS_API_KEY"),
+  client_id: ENV["WORKOS_CLIENT_ID"],
+  jwt_issuer: ["https://api.workos.com", "https://auth.example.com"]
+)
+```
+
+Tokens whose `iss` is not in the configured set fail authentication with
+reason `WorkOS::SessionManager::INVALID_JWT`.
+
 ### Verify a webhook
 
 ```ruby
