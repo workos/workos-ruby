@@ -283,17 +283,20 @@ module WorkOS
     # @param slug [String] The identifier of the integration.
     # @param user_id [String] A [User](https://workos.com/docs/reference/authkit/user) identifier.
     # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter to scope the connection to a specific organization.
+    # @param connected_account_id [String, nil] A [connected account](https://workos.com/docs/reference/pipes/connected-account) identifier. Use this to select a specific connection when the user has several for this provider.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::DataIntegrationCredentialsResponse]
     def create_data_integration_credential(
       slug:,
       user_id:,
       organization_id: nil,
+      connected_account_id: nil,
       request_options: {}
     )
       body = {
         "user_id" => user_id,
-        "organization_id" => organization_id
+        "organization_id" => organization_id,
+        "connected_account_id" => connected_account_id
       }.compact
       response = @client.request(
         method: :post,
@@ -311,17 +314,20 @@ module WorkOS
     # @param provider [String] The identifier of the integration.
     # @param user_id [String] A [User](https://workos.com/docs/reference/authkit/user) identifier.
     # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter to scope the connection to a specific organization.
+    # @param connected_account_id [String, nil] A [connected account](https://workos.com/docs/reference/pipes/connected-account) identifier. Use this to select a specific connection when the user has several for this provider.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::DataIntegrationAccessTokenResponse]
     def get_access_token(
       provider:,
       user_id:,
       organization_id: WorkOS::OMIT,
+      connected_account_id: nil,
       request_options: {}
     )
       body = {
-        "user_id" => user_id
-      }
+        "user_id" => user_id,
+        "connected_account_id" => connected_account_id
+      }.compact
       body["organization_id"] = organization_id unless organization_id.equal?(WorkOS::OMIT)
       response = @client.request(
         method: :post,
@@ -339,16 +345,19 @@ module WorkOS
     # @param user_id [String] A [User](https://workos.com/docs/reference/authkit/user) identifier.
     # @param slug [String] The slug identifier of the provider (e.g., `github`, `slack`, `notion`).
     # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter if the connection is scoped to an organization.
+    # @param connected_account_id [String, nil] A [connected account](https://workos.com/docs/reference/pipes/connected-account) identifier. Use this to select a specific connection when the user has several for this provider.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::ConnectedAccount]
     def get_user_connected_account(
       user_id:,
       slug:,
       organization_id: nil,
+      connected_account_id: nil,
       request_options: {}
     )
       params = {
-        "organization_id" => organization_id
+        "organization_id" => organization_id,
+        "connected_account_id" => connected_account_id
       }.compact
       response = @client.request(
         method: :get,
@@ -416,6 +425,7 @@ module WorkOS
     # @param scopes [Array<String>, nil] The OAuth scopes granted for this connection.
     # @param state [WorkOS::Types::ConnectedAccountInputState, nil] Explicitly set the state of the connected account. When omitted, the state is derived from the token combination provided.
     # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter if the connection is scoped to an organization.
+    # @param connected_account_id [String, nil] A [connected account](https://workos.com/docs/reference/pipes/connected-account) identifier. Use this to select the connection to update.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::ConnectedAccount]
     def update_user_connected_account(
@@ -427,10 +437,12 @@ module WorkOS
       scopes: nil,
       state: nil,
       organization_id: nil,
+      connected_account_id: nil,
       request_options: {}
     )
       params = {
-        "organization_id" => organization_id
+        "organization_id" => organization_id,
+        "connected_account_id" => connected_account_id
       }.compact
       body = {
         "access_token" => access_token,
@@ -456,16 +468,19 @@ module WorkOS
     # @param user_id [String] A [User](https://workos.com/docs/reference/authkit/user) identifier.
     # @param slug [String] The slug identifier of the provider (e.g., `github`, `slack`, `notion`).
     # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter if the connection is scoped to an organization.
+    # @param connected_account_id [String, nil] A [connected account](https://workos.com/docs/reference/pipes/connected-account) identifier. Use this to select the connection to delete.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [void]
     def delete_user_connected_account(
       user_id:,
       slug:,
       organization_id: nil,
+      connected_account_id: nil,
       request_options: {}
     )
       params = {
-        "organization_id" => organization_id
+        "organization_id" => organization_id,
+        "connected_account_id" => connected_account_id
       }.compact
       @client.request(
         method: :delete,

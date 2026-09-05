@@ -17,7 +17,8 @@ module WorkOS
       ownership: :ownership,
       created_at: :created_at,
       updated_at: :updated_at,
-      connected_account: :connected_account
+      connected_account: :connected_account,
+      connected_accounts: :connected_accounts
     }.freeze
 
     attr_accessor \
@@ -33,7 +34,8 @@ module WorkOS
       :ownership,
       :created_at,
       :updated_at,
-      :connected_account
+      :connected_account,
+      :connected_accounts
 
     def initialize(json)
       hash = self.class.normalize(json)
@@ -50,6 +52,7 @@ module WorkOS
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
       @connected_account = hash[:connected_account] ? WorkOS::DataIntegrationsListResponseDataConnectedAccount.new(hash[:connected_account]) : nil
+      @connected_accounts = (hash[:connected_accounts] || []).map { |item| item ? WorkOS::DataIntegrationsListResponseDataConnectedAccount.new(item) : nil }
     end
   end
 end

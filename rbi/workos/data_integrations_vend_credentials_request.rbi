@@ -21,6 +21,12 @@ module WorkOS
     sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
     def organization_id=(value); end
 
+    sig { returns(T.nilable(String)) }
+    def connected_account_id; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def connected_account_id=(value); end
+
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end
 
