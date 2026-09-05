@@ -87,6 +87,12 @@ module WorkOS
     sig { params(value: T.nilable(WorkOS::DataIntegrationsListResponseDataConnectedAccount)).returns(T.nilable(WorkOS::DataIntegrationsListResponseDataConnectedAccount)) }
     def connected_account=(value); end
 
+    sig { returns(T::Array[WorkOS::DataIntegrationsListResponseDataConnectedAccount]) }
+    def connected_accounts; end
+
+    sig { params(value: T::Array[WorkOS::DataIntegrationsListResponseDataConnectedAccount]).returns(T::Array[WorkOS::DataIntegrationsListResponseDataConnectedAccount]) }
+    def connected_accounts=(value); end
+
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end
 

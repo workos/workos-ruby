@@ -107,30 +107,33 @@ module WorkOS
         slug: String,
         user_id: String,
         organization_id: T.nilable(String),
+        connected_account_id: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::DataIntegrationCredentialsResponse)
     end
-    def create_data_integration_credential(slug:, user_id:, organization_id:, request_options:); end
+    def create_data_integration_credential(slug:, user_id:, organization_id:, connected_account_id:, request_options:); end
 
     sig do
       params(
         provider: String,
         user_id: String,
         organization_id: T.nilable(String),
+        connected_account_id: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::DataIntegrationAccessTokenResponse)
     end
-    def get_access_token(provider:, user_id:, organization_id:, request_options:); end
+    def get_access_token(provider:, user_id:, organization_id:, connected_account_id:, request_options:); end
 
     sig do
       params(
         user_id: String,
         slug: String,
         organization_id: T.nilable(String),
+        connected_account_id: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::ConnectedAccount)
     end
-    def get_user_connected_account(user_id:, slug:, organization_id:, request_options:); end
+    def get_user_connected_account(user_id:, slug:, organization_id:, connected_account_id:, request_options:); end
 
     sig do
       params(
@@ -157,20 +160,22 @@ module WorkOS
         scopes: T.nilable(T::Array[String]),
         state: T.nilable(String),
         organization_id: T.nilable(String),
+        connected_account_id: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::ConnectedAccount)
     end
-    def update_user_connected_account(user_id:, slug:, access_token:, refresh_token:, expires_at:, scopes:, state:, organization_id:, request_options:); end
+    def update_user_connected_account(user_id:, slug:, access_token:, refresh_token:, expires_at:, scopes:, state:, organization_id:, connected_account_id:, request_options:); end
 
     sig do
       params(
         user_id: String,
         slug: String,
         organization_id: T.nilable(String),
+        connected_account_id: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def delete_user_connected_account(user_id:, slug:, organization_id:, request_options:); end
+    def delete_user_connected_account(user_id:, slug:, organization_id:, connected_account_id:, request_options:); end
 
     sig do
       params(

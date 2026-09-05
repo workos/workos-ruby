@@ -6,17 +6,20 @@ module WorkOS
   class DataIntegrationsVendCredentialsRequest < WorkOS::Types::BaseModel
     HASH_ATTRS = {
       user_id: :user_id,
-      organization_id: :organization_id
+      organization_id: :organization_id,
+      connected_account_id: :connected_account_id
     }.freeze
 
     attr_accessor \
       :user_id,
-      :organization_id
+      :organization_id,
+      :connected_account_id
 
     def initialize(json)
       hash = self.class.normalize(json)
       @user_id = hash[:user_id]
       @organization_id = hash[:organization_id]
+      @connected_account_id = hash[:connected_account_id]
     end
   end
 end

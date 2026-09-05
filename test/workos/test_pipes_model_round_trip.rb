@@ -240,7 +240,8 @@ class PipesModelRoundTripTest < Minitest::Test
       "ownership" => "stub",
       "created_at" => "stub",
       "updated_at" => "stub",
-      "connected_account" => nil
+      "connected_account" => nil,
+      "connected_accounts" => []
     }
     model = WorkOS::DataIntegrationsListResponseData.new(fixture.to_json)
     json = model.to_h
@@ -397,7 +398,8 @@ class PipesModelRoundTripTest < Minitest::Test
   def test_data_integrations_vend_credentials_request_round_trip
     fixture = {
       "user_id" => "stub",
-      "organization_id" => "stub"
+      "organization_id" => "stub",
+      "connected_account_id" => "stub"
     }
     model = WorkOS::DataIntegrationsVendCredentialsRequest.new(fixture.to_json)
     json = model.to_h
@@ -409,7 +411,8 @@ class PipesModelRoundTripTest < Minitest::Test
   def test_data_integrations_get_user_token_request_round_trip
     fixture = {
       "user_id" => "stub",
-      "organization_id" => nil
+      "organization_id" => nil,
+      "connected_account_id" => "stub"
     }
     model = WorkOS::DataIntegrationsGetUserTokenRequest.new(fixture.to_json)
     json = model.to_h
