@@ -11,8 +11,8 @@ module WorkOS
     end
 
     # Generate a Portal Link
-    # @param return_url [String, nil] The URL to go to when an admin clicks on your logo in the Admin Portal. If not specified, the return URL configured on the [Redirects](https://dashboard.workos.com/redirects) page will be used.
-    # @param success_url [String, nil] The URL to redirect the admin to when they finish setup. If not specified, the success URL configured on the [Redirects](https://dashboard.workos.com/redirects) page will be used.
+    # @param return_url [String, nil] The URL to go to when an admin clicks on your logo in the Admin Portal. If not specified, the return URL configured on the [Admin Portal](https://dashboard.workos.com/admin-portal) page will be used.
+    # @param success_url [String, nil] The URL to redirect the admin to when they finish setup. If not specified, the success URL configured on the [Admin Portal](https://dashboard.workos.com/admin-portal) page will be used.
     # @param organization [String] An [Organization](https://workos.com/docs/reference/organization) identifier.
     # @param intent [WorkOS::Types::GenerateLinkIntent, nil] The intent of the Admin Portal. - `sso` - Launch Admin Portal for creating SSO connections - `dsync` - Launch Admin Portal for creating Directory Sync connections - `audit_logs` - Launch Admin Portal for viewing Audit Logs - `log_streams` - Launch Admin Portal for creating Log Streams - `domain_verification` - Launch Admin Portal for Domain Verification - `certificate_renewal` - Launch Admin Portal for renewing SAML Certificates - `bring_your_own_key` - Launch Admin Portal for configuring Bring Your Own Key
     # @param it_contact_emails [Array<String>, nil] The email addresses of the IT contacts to grant access to the Admin Portal for the given organization. Accepts up to 20 emails.

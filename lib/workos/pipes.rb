@@ -15,6 +15,7 @@ module WorkOS
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records).
+    # @param ownership [WorkOS::Types::PipesOwnership, nil] Only return Data Integrations with this ownership: `user` for the integrations users connect their own accounts to, or `organization` for the roots organizations connect to. Omit to return both.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::Types::ListStruct<WorkOS::DataIntegration>]
     def list_data_integrations(
@@ -22,13 +23,15 @@ module WorkOS
       after: nil,
       limit: 10,
       order: "desc",
+      ownership: nil,
       request_options: {}
     )
       params = {
         "before" => before,
         "after" => after,
         "limit" => limit,
-        "order" => order
+        "order" => order,
+        "ownership" => ownership
       }.compact
       response = @client.request(
         method: :get,
@@ -43,19 +46,21 @@ module WorkOS
           after: cursor,
           limit: limit,
           order: order,
+          ownership: ownership,
           request_options: request_options
         )
       }
       WorkOS::Types::ListStruct.from_response(
         response,
         model: WorkOS::DataIntegration,
-        filters: {before: before, limit: limit, order: order},
+        filters: {before: before, limit: limit, order: order, ownership: ownership},
         fetch_next: fetch_next
       )
     end
 
     # Create a data integration
     # @param provider [String] The provider to create a Data Integration for. For a built-in provider use its slug (e.g. `github`, `slack`). For a custom provider, this is the new provider slug and `custom_provider` must be supplied. A custom provider slug cannot shadow an existing global provider slug.
+    # @param ownership [WorkOS::Types::CreateDataIntegrationOwnership, nil] Who owns the Data Integration. `user` (the default) creates the integration users connect their own accounts to; `organization` creates the root organizations connect to. Ownership is fixed at creation, and one integration of each ownership may exist per provider. Independent of `credentials.type`.
     # @param description [String, nil] An optional description of the Data Integration.
     # @param enabled [Boolean, nil] Whether the Data Integration is enabled. Defaults to `false`.
     # @param scopes [Array<String>, nil] The OAuth scopes to request for the Data Integration. Defaults to the provider's configured scopes when omitted.
@@ -68,6 +73,7 @@ module WorkOS
     # @return [WorkOS::DataIntegration]
     def create_data_integration(
       provider:,
+      ownership: nil,
       description: WorkOS::OMIT,
       enabled: nil,
       scopes: WorkOS::OMIT,
@@ -80,6 +86,7 @@ module WorkOS
     )
       body = {
         "provider" => provider,
+        "ownership" => ownership,
         "enabled" => enabled,
         "auth_methods" => auth_methods,
         "config" => config,
@@ -180,7 +187,9 @@ module WorkOS
     # Upsert an API key for a connected account
     # @param slug [String] The identifier of the integration.
     # @param user_id [String] A [User](https://workos.com/docs/reference/authkit/user) identifier.
-    # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter to scope the connection to a specific organization.
+    # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter to scope the connection to a specific organization. Required when `connection_owner` is `organization`.
+    # @param connected_account_id [String, nil] A [connected account](https://workos.com/docs/reference/pipes/connected-account) identifier. Use this to rotate a specific existing connection.
+    # @param connection_owner [WorkOS::Types::DataIntegrationsUpsertApiKeyRequestConnectionOwner, nil] Whose connection to create or rotate. `user` (the default) addresses the connection owned by `user_id`. `organization` addresses the connection shared by every member of `organization_id`; `user_id` then identifies the member performing the request and must be an active member of the organization.
     # @param secret [String] The API key secret to store for this integration.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::ConnectedAccount]
@@ -189,11 +198,15 @@ module WorkOS
       user_id:,
       secret:,
       organization_id: nil,
+      connected_account_id: nil,
+      connection_owner: nil,
       request_options: {}
     )
       body = {
         "user_id" => user_id,
         "organization_id" => organization_id,
+        "connected_account_id" => connected_account_id,
+        "connection_owner" => connection_owner,
         "secret" => secret
       }.compact
       response = @client.request(
@@ -245,7 +258,9 @@ module WorkOS
     # Upsert client credentials for a connected account
     # @param slug [String] The identifier of the integration.
     # @param user_id [String] A [User](https://workos.com/docs/reference/authkit/user) identifier.
-    # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter to scope the connection to a specific organization.
+    # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter to scope the connection to a specific organization. Required when `connection_owner` is `organization`.
+    # @param connected_account_id [String, nil] A [connected account](https://workos.com/docs/reference/pipes/connected-account) identifier. Use this to rotate a specific existing connection.
+    # @param connection_owner [WorkOS::Types::DataIntegrationsUpsertClientCredentialsRequestConnectionOwner, nil] Whose connection to create or rotate. `user` (the default) addresses the connection owned by `user_id`. `organization` addresses the connection shared by every member of `organization_id`; `user_id` then identifies the member performing the request and must be an active member of the organization.
     # @param client_id [String] The OAuth client ID to store for this integration.
     # @param client_secret [String] The OAuth client secret to store for this integration.
     # @param config [Hash{String => String}, nil] Provider-specific configuration values collected for this installation, keyed by the provider's config field descriptors.
@@ -257,12 +272,16 @@ module WorkOS
       client_id:,
       client_secret:,
       organization_id: nil,
+      connected_account_id: nil,
+      connection_owner: nil,
       config: nil,
       request_options: {}
     )
       body = {
         "user_id" => user_id,
         "organization_id" => organization_id,
+        "connected_account_id" => connected_account_id,
+        "connection_owner" => connection_owner,
         "client_id" => client_id,
         "client_secret" => client_secret,
         "config" => config
@@ -281,9 +300,11 @@ module WorkOS
 
     # Vend credentials for a connected account
     # @param slug [String] The identifier of the integration.
-    # @param user_id [String] A [User](https://workos.com/docs/reference/authkit/user) identifier.
-    # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter to scope the connection to a specific organization.
+    # @param user_id [String] A [User](https://workos.com/docs/reference/authkit/user) identifier. When `connection_owner` is `organization`, this is the user the credentials are vended on behalf of; they must be an active member of the organization.
+    # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter to scope the connection to a specific organization. Required when `connection_owner` is `organization`.
     # @param connected_account_id [String, nil] A [connected account](https://workos.com/docs/reference/pipes/connected-account) identifier. Use this to select a specific connection when the user has several for this provider.
+    # @param connection_owner [WorkOS::Types::DataIntegrationsVendCredentialsRequestConnectionOwner, nil] Which connection to vend from. `user` (the default) vends the user's own connection and requires `user_id`. `organization` vends the organization's shared connection and requires `organization_id`.
+    # @param supports_multiple_connections [Boolean, nil] Set to `true` to use the plural connection contract. If no `connected_account_id` is supplied and several connections match, the request returns `account_selection_required`. When omitted or `false`, only the compatibility connection is considered.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::DataIntegrationCredentialsResponse]
     def create_data_integration_credential(
@@ -291,12 +312,16 @@ module WorkOS
       user_id:,
       organization_id: nil,
       connected_account_id: nil,
+      connection_owner: nil,
+      supports_multiple_connections: nil,
       request_options: {}
     )
       body = {
         "user_id" => user_id,
         "organization_id" => organization_id,
-        "connected_account_id" => connected_account_id
+        "connected_account_id" => connected_account_id,
+        "connection_owner" => connection_owner,
+        "supports_multiple_connections" => supports_multiple_connections
       }.compact
       response = @client.request(
         method: :post,
@@ -310,11 +335,89 @@ module WorkOS
       result
     end
 
+    # Get an organization-owned data integration
+    # @param slug [String] The slug identifier of the data integration.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::DataIntegration]
+    def list_data_integration_organization(
+      slug:,
+      request_options: {}
+    )
+      response = @client.request(
+        method: :get,
+        path: "/data-integrations/#{WorkOS::Util.encode_path(slug)}/organization",
+        auth: true,
+        request_options: request_options
+      )
+      result = WorkOS::DataIntegration.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
+    # Update an organization-owned data integration
+    # @param slug [String] The slug identifier of the data integration.
+    # @param description [String, nil] An optional description of the Data Integration.
+    # @param enabled [Boolean, nil] Whether the Data Integration is enabled.
+    # @param scopes [Array<String>, nil] The OAuth scopes to request for the Data Integration. Pass `null` to reset to the provider's configured scopes.
+    # @param credentials [WorkOS::DataIntegrationCredentialsInput, nil] New OAuth credentials for the Data Integration. When provided, rotates the stored client secret. Mutually exclusive with `api_key`.
+    # @param api_key [WorkOS::ApiKeyInstallation, nil] An API key to install or rotate for a tenant on an `api_key` integration. Upserts the tenant installation identified by `user_id` (and optional `organization_id`).
+    # @param custom_provider [WorkOS::UpdateCustomProviderDefinition, nil] Updates to a custom provider's OAuth definition. Only valid for custom-provider integrations.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::DataIntegration]
+    def update_data_integration_organization(
+      slug:,
+      description: WorkOS::OMIT,
+      enabled: nil,
+      scopes: WorkOS::OMIT,
+      credentials: nil,
+      api_key: nil,
+      custom_provider: nil,
+      request_options: {}
+    )
+      body = {
+        "enabled" => enabled,
+        "credentials" => credentials,
+        "api_key" => api_key,
+        "custom_provider" => custom_provider
+      }.compact
+      body["description"] = description unless description.equal?(WorkOS::OMIT)
+      body["scopes"] = scopes unless scopes.equal?(WorkOS::OMIT)
+      response = @client.request(
+        method: :put,
+        path: "/data-integrations/#{WorkOS::Util.encode_path(slug)}/organization",
+        auth: true,
+        body: body,
+        request_options: request_options
+      )
+      result = WorkOS::DataIntegration.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
+    # Delete an organization-owned data integration
+    # @param slug [String] The slug identifier of the data integration.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [void]
+    def delete_data_integration_organization(
+      slug:,
+      request_options: {}
+    )
+      @client.request(
+        method: :delete,
+        path: "/data-integrations/#{WorkOS::Util.encode_path(slug)}/organization",
+        auth: true,
+        request_options: request_options
+      )
+      nil
+    end
+
     # Get an access token for a connected account
     # @param provider [String] The identifier of the integration.
-    # @param user_id [String] A [User](https://workos.com/docs/reference/authkit/user) identifier.
-    # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter to scope the connection to a specific organization.
+    # @param user_id [String] A [User](https://workos.com/docs/reference/authkit/user) identifier. When `connection_owner` is `organization`, this is the user the credentials are vended on behalf of; they must be an active member of the organization.
+    # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter to scope the connection to a specific organization. Required when `connection_owner` is `organization`.
     # @param connected_account_id [String, nil] A [connected account](https://workos.com/docs/reference/pipes/connected-account) identifier. Use this to select a specific connection when the user has several for this provider.
+    # @param connection_owner [WorkOS::Types::DataIntegrationsGetUserTokenRequestConnectionOwner, nil] Which connection to vend from. `user` (the default) vends the user's own connection and requires `user_id`. `organization` vends the organization's shared connection and requires `organization_id`.
+    # @param supports_multiple_connections [Boolean, nil] Set to `true` to use the plural connection contract. If no `connected_account_id` is supplied and several connections match, the request returns `account_selection_required`. When omitted or `false`, only the compatibility connection is considered.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::DataIntegrationAccessTokenResponse]
     def get_access_token(
@@ -322,11 +425,15 @@ module WorkOS
       user_id:,
       organization_id: WorkOS::OMIT,
       connected_account_id: nil,
+      connection_owner: nil,
+      supports_multiple_connections: nil,
       request_options: {}
     )
       body = {
         "user_id" => user_id,
-        "connected_account_id" => connected_account_id
+        "connected_account_id" => connected_account_id,
+        "connection_owner" => connection_owner,
+        "supports_multiple_connections" => supports_multiple_connections
       }.compact
       body["organization_id"] = organization_id unless organization_id.equal?(WorkOS::OMIT)
       response = @client.request(
@@ -345,6 +452,7 @@ module WorkOS
     # @param user_id [String] A [User](https://workos.com/docs/reference/authkit/user) identifier.
     # @param slug [String] The slug identifier of the provider (e.g., `github`, `slack`, `notion`).
     # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter if the connection is scoped to an organization.
+    # @param supports_multiple_connections [Boolean, nil] Set to `true` to use the plural connection contract. When omitted or `false`, only the compatibility connection is considered.
     # @param connected_account_id [String, nil] A [connected account](https://workos.com/docs/reference/pipes/connected-account) identifier. Use this to select a specific connection when the user has several for this provider.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::ConnectedAccount]
@@ -352,11 +460,13 @@ module WorkOS
       user_id:,
       slug:,
       organization_id: nil,
+      supports_multiple_connections: nil,
       connected_account_id: nil,
       request_options: {}
     )
       params = {
         "organization_id" => organization_id,
+        "supports_multiple_connections" => supports_multiple_connections,
         "connected_account_id" => connected_account_id
       }.compact
       response = @client.request(
@@ -425,6 +535,7 @@ module WorkOS
     # @param scopes [Array<String>, nil] The OAuth scopes granted for this connection.
     # @param state [WorkOS::Types::ConnectedAccountInputState, nil] Explicitly set the state of the connected account. When omitted, the state is derived from the token combination provided.
     # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter if the connection is scoped to an organization.
+    # @param supports_multiple_connections [Boolean, nil] Set to `true` to use the plural connection contract. When omitted or `false`, only the compatibility connection is considered.
     # @param connected_account_id [String, nil] A [connected account](https://workos.com/docs/reference/pipes/connected-account) identifier. Use this to select the connection to update.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::ConnectedAccount]
@@ -437,11 +548,13 @@ module WorkOS
       scopes: nil,
       state: nil,
       organization_id: nil,
+      supports_multiple_connections: nil,
       connected_account_id: nil,
       request_options: {}
     )
       params = {
         "organization_id" => organization_id,
+        "supports_multiple_connections" => supports_multiple_connections,
         "connected_account_id" => connected_account_id
       }.compact
       body = {
@@ -468,6 +581,7 @@ module WorkOS
     # @param user_id [String] A [User](https://workos.com/docs/reference/authkit/user) identifier.
     # @param slug [String] The slug identifier of the provider (e.g., `github`, `slack`, `notion`).
     # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter if the connection is scoped to an organization.
+    # @param supports_multiple_connections [Boolean, nil] Set to `true` to use the plural connection contract. When omitted or `false`, only the compatibility connection is considered.
     # @param connected_account_id [String, nil] A [connected account](https://workos.com/docs/reference/pipes/connected-account) identifier. Use this to select the connection to delete.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [void]
@@ -475,11 +589,13 @@ module WorkOS
       user_id:,
       slug:,
       organization_id: nil,
+      supports_multiple_connections: nil,
       connected_account_id: nil,
       request_options: {}
     )
       params = {
         "organization_id" => organization_id,
+        "supports_multiple_connections" => supports_multiple_connections,
         "connected_account_id" => connected_account_id
       }.compact
       @client.request(
@@ -495,15 +611,18 @@ module WorkOS
     # List providers for a user
     # @param user_id [String] A [User](https://workos.com/docs/reference/authkit/user) identifier to list providers and connected accounts for.
     # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter to filter connections for a specific organization.
+    # @param supports_multiple_connections [Boolean, nil] Set to `true` to use the plural connection contract. When omitted or `false`, only the compatibility connection is considered.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::DataIntegrationsListResponse]
     def list_user_data_providers(
       user_id:,
       organization_id: nil,
+      supports_multiple_connections: nil,
       request_options: {}
     )
       params = {
-        "organization_id" => organization_id
+        "organization_id" => organization_id,
+        "supports_multiple_connections" => supports_multiple_connections
       }.compact
       response = @client.request(
         method: :get,

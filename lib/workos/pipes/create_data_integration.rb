@@ -6,6 +6,7 @@ module WorkOS
   class CreateDataIntegration < WorkOS::Types::BaseModel
     HASH_ATTRS = {
       provider: :provider,
+      ownership: :ownership,
       description: :description,
       enabled: :enabled,
       scopes: :scopes,
@@ -18,6 +19,7 @@ module WorkOS
 
     attr_accessor \
       :provider,
+      :ownership,
       :description,
       :enabled,
       :scopes,
@@ -30,6 +32,7 @@ module WorkOS
     def initialize(json)
       hash = self.class.normalize(json)
       @provider = hash[:provider]
+      @ownership = hash[:ownership]
       @description = hash[:description]
       @enabled = hash[:enabled]
       @scopes = hash[:scopes] || []

@@ -10,7 +10,8 @@ module WorkOS
       EVENTS = "events"
       SESSIONS = "sessions"
       AUDIT_LOG_EVENTS = "auditLogEvents"
-      ALL = [USERS, ORGANIZATIONS, EVENTS, SESSIONS, AUDIT_LOG_EVENTS].freeze
+      CONNECTIONS = "connections"
+      ALL = [USERS, ORGANIZATIONS, EVENTS, SESSIONS, AUDIT_LOG_EVENTS, CONNECTIONS].freeze
     end
   end
 end

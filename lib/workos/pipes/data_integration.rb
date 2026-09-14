@@ -9,6 +9,7 @@ module WorkOS
       id: :id,
       slug: :slug,
       integration_type: :integration_type,
+      ownership: :ownership,
       description: :description,
       enabled: :enabled,
       state: :state,
@@ -28,6 +29,7 @@ module WorkOS
       :id,
       :slug,
       :integration_type,
+      :ownership,
       :description,
       :enabled,
       :state,
@@ -47,6 +49,7 @@ module WorkOS
       @id = hash[:id]
       @slug = hash[:slug]
       @integration_type = hash[:integration_type]
+      @ownership = hash[:ownership]
       @description = hash[:description]
       @enabled = hash[:enabled]
       @state = hash[:state]

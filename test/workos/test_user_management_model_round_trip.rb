@@ -44,6 +44,18 @@ class UserManagementModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_create_authkit_oauth_resource_round_trip
+    fixture = {
+      "uri" => "stub",
+      "default" => true
+    }
+    model = WorkOS::CreateAuthkitOAuthResource.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["uri"], json[:uri]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_create_redirect_uri_round_trip
     fixture = {
       "uri" => "stub"
@@ -1802,6 +1814,26 @@ class UserManagementModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["verification_id"], json[:verification_id]
     assert_equal fixture["phone_number"], json[:phone_number]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_authkit_oauth_resource_round_trip
+    fixture = {
+      "object" => "authkit_oauth_resource",
+      "id" => "stub",
+      "uri" => "stub",
+      "default" => true,
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::AuthkitOAuthResource.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["uri"], json[:uri]
+    assert_equal fixture["default"], json[:default]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 

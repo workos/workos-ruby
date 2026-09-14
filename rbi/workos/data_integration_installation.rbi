@@ -15,10 +15,10 @@ module WorkOS
     sig { params(value: String).returns(String) }
     def id=(value); end
 
-    sig { returns(String) }
+    sig { returns(T.nilable(String)) }
     def user_id; end
 
-    sig { params(value: String).returns(String) }
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
     def user_id=(value); end
 
     sig { returns(T.nilable(String)) }

@@ -705,6 +705,93 @@ module WorkOS
       nil
     end
 
+    # List MCP resource indicators
+    # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`.
+    # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
+    # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
+    # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records).
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::Types::ListStruct<WorkOS::AuthkitOAuthResource>]
+    def list_authkit_oauth_resources(
+      before: nil,
+      after: nil,
+      limit: 10,
+      order: "desc",
+      request_options: {}
+    )
+      params = {
+        "before" => before,
+        "after" => after,
+        "limit" => limit,
+        "order" => order
+      }.compact
+      response = @client.request(
+        method: :get,
+        path: "/user_management/authkit_oauth_resources",
+        auth: true,
+        params: params,
+        request_options: request_options
+      )
+      fetch_next = ->(cursor) {
+        list_authkit_oauth_resources(
+          before: before,
+          after: cursor,
+          limit: limit,
+          order: order,
+          request_options: request_options
+        )
+      }
+      WorkOS::Types::ListStruct.from_response(
+        response,
+        model: WorkOS::AuthkitOAuthResource,
+        filters: {before: before, limit: limit, order: order},
+        fetch_next: fetch_next
+      )
+    end
+
+    # Create an MCP resource indicator
+    # @param uri [String] The resource URI. May be a wildcard pattern with a single `*` in the leftmost hostname label, where enabled for the environment.
+    # @param default [Boolean, nil] Whether the resource being created becomes the environment default, clearing any previous default. Applies at creation only — this API has no update endpoint yet, so changing the default on an existing resource is done from the dashboard. A wildcard pattern cannot be the default.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::AuthkitOAuthResource]
+    def create_authkit_oauth_resource(
+      uri:,
+      default: nil,
+      request_options: {}
+    )
+      body = {
+        "uri" => uri,
+        "default" => default
+      }.compact
+      response = @client.request(
+        method: :post,
+        path: "/user_management/authkit_oauth_resources",
+        auth: true,
+        body: body,
+        request_options: request_options
+      )
+      result = WorkOS::AuthkitOAuthResource.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
+    # Delete an MCP resource indicator
+    # @param id [String] The ID of the MCP resource indicator to delete.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [void]
+    def delete_authkit_oauth_resource(
+      id:,
+      request_options: {}
+    )
+      @client.request(
+        method: :delete,
+        path: "/user_management/authkit_oauth_resources/#{WorkOS::Util.encode_path(id)}",
+        auth: true,
+        request_options: request_options
+      )
+      nil
+    end
+
     # List CORS origins
     # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`.
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.

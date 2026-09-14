@@ -203,6 +203,27 @@ class UserManagementTest < Minitest::Test
     assert_nil result
   end
 
+  def test_list_authkit_oauth_resources_returns_expected_result
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/user_management/authkit_oauth_resources(\?|\z)})
+      .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
+    result = @client.user_management.list_authkit_oauth_resources
+    assert_kind_of WorkOS::Types::ListStruct, result
+  end
+
+  def test_create_authkit_oauth_resource_returns_expected_result
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/user_management/authkit_oauth_resources(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.user_management.create_authkit_oauth_resource(uri: "stub")
+    refute_nil result
+  end
+
+  def test_delete_authkit_oauth_resource_returns_expected_result
+    stub_request(:delete, %r{\Ahttps://api\.workos\.com/user_management/authkit_oauth_resources/stub(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.user_management.delete_authkit_oauth_resource(id: "stub")
+    assert_nil result
+  end
+
   def test_list_cors_origins_returns_expected_result
     stub_request(:get, %r{\Ahttps://api\.workos\.com/user_management/cors_origins(\?|\z)})
       .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
@@ -530,6 +551,9 @@ class UserManagementTest < Minitest::Test
     {name: :create_radar_challenge, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/radar_challenges(\?|\z)}, args: {user_id: "stub", pending_authentication_token: "stub", phone_number: "stub"}},
     {name: :get_radar_challenge, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/radar_challenges/stub(\?|\z)}, args: {id: "stub"}},
     {name: :revoke_session, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/sessions/revoke(\?|\z)}, args: {session_id: "stub"}},
+    {name: :list_authkit_oauth_resources, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/authkit_oauth_resources(\?|\z)}},
+    {name: :create_authkit_oauth_resource, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/authkit_oauth_resources(\?|\z)}, args: {uri: "stub"}},
+    {name: :delete_authkit_oauth_resource, verb: :delete, url: %r{\Ahttps://api\.workos\.com/user_management/authkit_oauth_resources/stub(\?|\z)}, args: {id: "stub"}},
     {name: :list_cors_origins, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/cors_origins(\?|\z)}},
     {name: :create_cors_origin, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/cors_origins(\?|\z)}, args: {origin: "stub"}},
     {name: :get_email_verification, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/email_verification/stub(\?|\z)}, args: {id: "stub"}},
