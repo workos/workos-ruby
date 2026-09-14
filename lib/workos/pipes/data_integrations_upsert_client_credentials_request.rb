@@ -7,6 +7,8 @@ module WorkOS
     HASH_ATTRS = {
       user_id: :user_id,
       organization_id: :organization_id,
+      connected_account_id: :connected_account_id,
+      connection_owner: :connection_owner,
       client_id: :client_id,
       client_secret: :client_secret,
       config: :config
@@ -15,6 +17,8 @@ module WorkOS
     attr_accessor \
       :user_id,
       :organization_id,
+      :connected_account_id,
+      :connection_owner,
       :client_id,
       :client_secret,
       :config
@@ -23,6 +27,8 @@ module WorkOS
       hash = self.class.normalize(json)
       @user_id = hash[:user_id]
       @organization_id = hash[:organization_id]
+      @connected_account_id = hash[:connected_account_id]
+      @connection_owner = hash[:connection_owner]
       @client_id = hash[:client_id]
       @client_secret = hash[:client_secret]
       @config = hash[:config] || {}

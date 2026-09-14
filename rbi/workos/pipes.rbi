@@ -15,14 +15,16 @@ module WorkOS
         after: T.nilable(String),
         limit: T.nilable(Integer),
         order: T.nilable(String),
+        ownership: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_data_integrations(before:, after:, limit:, order:, request_options:); end
+    def list_data_integrations(before:, after:, limit:, order:, ownership:, request_options:); end
 
     sig do
       params(
         provider: String,
+        ownership: T.nilable(String),
         description: T.nilable(String),
         enabled: T.nilable(T::Boolean),
         scopes: T.nilable(T::Array[String]),
@@ -34,7 +36,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::DataIntegration)
     end
-    def create_data_integration(provider:, description:, enabled:, scopes:, auth_methods:, config:, credentials:, api_key:, custom_provider:, request_options:); end
+    def create_data_integration(provider:, ownership:, description:, enabled:, scopes:, auth_methods:, config:, credentials:, api_key:, custom_provider:, request_options:); end
 
     sig do
       params(
@@ -72,10 +74,12 @@ module WorkOS
         user_id: String,
         secret: String,
         organization_id: T.nilable(String),
+        connected_account_id: T.nilable(String),
+        connection_owner: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::ConnectedAccount)
     end
-    def update_data_integration_api_key(slug:, user_id:, secret:, organization_id:, request_options:); end
+    def update_data_integration_api_key(slug:, user_id:, secret:, organization_id:, connected_account_id:, connection_owner:, request_options:); end
 
     sig do
       params(
@@ -96,11 +100,13 @@ module WorkOS
         client_id: String,
         client_secret: String,
         organization_id: T.nilable(String),
+        connected_account_id: T.nilable(String),
+        connection_owner: T.nilable(String),
         config: T.nilable(T::Hash[String, String]),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::ConnectedAccount)
     end
-    def update_data_integration_client_credentials(slug:, user_id:, client_id:, client_secret:, organization_id:, config:, request_options:); end
+    def update_data_integration_client_credentials(slug:, user_id:, client_id:, client_secret:, organization_id:, connected_account_id:, connection_owner:, config:, request_options:); end
 
     sig do
       params(
@@ -108,10 +114,42 @@ module WorkOS
         user_id: String,
         organization_id: T.nilable(String),
         connected_account_id: T.nilable(String),
+        connection_owner: T.nilable(String),
+        supports_multiple_connections: T.nilable(T::Boolean),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::DataIntegrationCredentialsResponse)
     end
-    def create_data_integration_credential(slug:, user_id:, organization_id:, connected_account_id:, request_options:); end
+    def create_data_integration_credential(slug:, user_id:, organization_id:, connected_account_id:, connection_owner:, supports_multiple_connections:, request_options:); end
+
+    sig do
+      params(
+        slug: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::DataIntegration)
+    end
+    def list_data_integration_organization(slug:, request_options:); end
+
+    sig do
+      params(
+        slug: String,
+        description: T.nilable(String),
+        enabled: T.nilable(T::Boolean),
+        scopes: T.nilable(T::Array[String]),
+        credentials: T.nilable(WorkOS::DataIntegrationCredentialsInput),
+        api_key: T.nilable(WorkOS::ApiKeyInstallation),
+        custom_provider: T.nilable(WorkOS::UpdateCustomProviderDefinition),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::DataIntegration)
+    end
+    def update_data_integration_organization(slug:, description:, enabled:, scopes:, credentials:, api_key:, custom_provider:, request_options:); end
+
+    sig do
+      params(
+        slug: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(NilClass)
+    end
+    def delete_data_integration_organization(slug:, request_options:); end
 
     sig do
       params(
@@ -119,21 +157,24 @@ module WorkOS
         user_id: String,
         organization_id: T.nilable(String),
         connected_account_id: T.nilable(String),
+        connection_owner: T.nilable(String),
+        supports_multiple_connections: T.nilable(T::Boolean),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::DataIntegrationAccessTokenResponse)
     end
-    def get_access_token(provider:, user_id:, organization_id:, connected_account_id:, request_options:); end
+    def get_access_token(provider:, user_id:, organization_id:, connected_account_id:, connection_owner:, supports_multiple_connections:, request_options:); end
 
     sig do
       params(
         user_id: String,
         slug: String,
         organization_id: T.nilable(String),
+        supports_multiple_connections: T.nilable(T::Boolean),
         connected_account_id: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::ConnectedAccount)
     end
-    def get_user_connected_account(user_id:, slug:, organization_id:, connected_account_id:, request_options:); end
+    def get_user_connected_account(user_id:, slug:, organization_id:, supports_multiple_connections:, connected_account_id:, request_options:); end
 
     sig do
       params(
@@ -160,31 +201,34 @@ module WorkOS
         scopes: T.nilable(T::Array[String]),
         state: T.nilable(String),
         organization_id: T.nilable(String),
+        supports_multiple_connections: T.nilable(T::Boolean),
         connected_account_id: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::ConnectedAccount)
     end
-    def update_user_connected_account(user_id:, slug:, access_token:, refresh_token:, expires_at:, scopes:, state:, organization_id:, connected_account_id:, request_options:); end
+    def update_user_connected_account(user_id:, slug:, access_token:, refresh_token:, expires_at:, scopes:, state:, organization_id:, supports_multiple_connections:, connected_account_id:, request_options:); end
 
     sig do
       params(
         user_id: String,
         slug: String,
         organization_id: T.nilable(String),
+        supports_multiple_connections: T.nilable(T::Boolean),
         connected_account_id: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def delete_user_connected_account(user_id:, slug:, organization_id:, connected_account_id:, request_options:); end
+    def delete_user_connected_account(user_id:, slug:, organization_id:, supports_multiple_connections:, connected_account_id:, request_options:); end
 
     sig do
       params(
         user_id: String,
         organization_id: T.nilable(String),
+        supports_multiple_connections: T.nilable(T::Boolean),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::DataIntegrationsListResponse)
     end
-    def list_user_data_providers(user_id:, organization_id:, request_options:); end
+    def list_user_data_providers(user_id:, organization_id:, supports_multiple_connections:, request_options:); end
 
   end
 end

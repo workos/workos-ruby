@@ -7,19 +7,25 @@ module WorkOS
     HASH_ATTRS = {
       user_id: :user_id,
       organization_id: :organization_id,
-      connected_account_id: :connected_account_id
+      connected_account_id: :connected_account_id,
+      connection_owner: :connection_owner,
+      supports_multiple_connections: :supports_multiple_connections
     }.freeze
 
     attr_accessor \
       :user_id,
       :organization_id,
-      :connected_account_id
+      :connected_account_id,
+      :connection_owner,
+      :supports_multiple_connections
 
     def initialize(json)
       hash = self.class.normalize(json)
       @user_id = hash[:user_id]
       @organization_id = hash[:organization_id]
       @connected_account_id = hash[:connected_account_id]
+      @connection_owner = hash[:connection_owner]
+      @supports_multiple_connections = hash[:supports_multiple_connections]
     end
   end
 end

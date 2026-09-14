@@ -55,6 +55,7 @@ class PipesModelRoundTripTest < Minitest::Test
   def test_create_data_integration_round_trip
     fixture = {
       "provider" => "stub",
+      "ownership" => "stub",
       "description" => nil,
       "enabled" => true,
       "scopes" => nil,
@@ -126,6 +127,7 @@ class PipesModelRoundTripTest < Minitest::Test
       "id" => "stub",
       "slug" => "stub",
       "integration_type" => "stub",
+      "ownership" => "stub",
       "description" => nil,
       "enabled" => true,
       "state" => "stub",
@@ -307,7 +309,7 @@ class PipesModelRoundTripTest < Minitest::Test
   def test_data_integration_installation_round_trip
     fixture = {
       "id" => "stub",
-      "user_id" => "stub",
+      "user_id" => nil,
       "organization_id" => nil,
       "api_key_last_4" => nil
     }
@@ -315,7 +317,7 @@ class PipesModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
-    assert_equal fixture["user_id"], json[:user_id]
+    assert_nil json[:user_id]
     assert_nil json[:organization_id]
     assert_nil json[:api_key_last_4]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
@@ -354,6 +356,8 @@ class PipesModelRoundTripTest < Minitest::Test
     fixture = {
       "user_id" => "stub",
       "organization_id" => "stub",
+      "connected_account_id" => "stub",
+      "connection_owner" => "stub",
       "secret" => "stub"
     }
     model = WorkOS::DataIntegrationsUpsertApiKeyRequest.new(fixture.to_json)
@@ -382,6 +386,8 @@ class PipesModelRoundTripTest < Minitest::Test
     fixture = {
       "user_id" => "stub",
       "organization_id" => "stub",
+      "connected_account_id" => "stub",
+      "connection_owner" => "stub",
       "client_id" => "stub",
       "client_secret" => "stub",
       "config" => {}
@@ -399,7 +405,9 @@ class PipesModelRoundTripTest < Minitest::Test
     fixture = {
       "user_id" => "stub",
       "organization_id" => "stub",
-      "connected_account_id" => "stub"
+      "connected_account_id" => "stub",
+      "connection_owner" => "stub",
+      "supports_multiple_connections" => true
     }
     model = WorkOS::DataIntegrationsVendCredentialsRequest.new(fixture.to_json)
     json = model.to_h
@@ -412,7 +420,9 @@ class PipesModelRoundTripTest < Minitest::Test
     fixture = {
       "user_id" => "stub",
       "organization_id" => nil,
-      "connected_account_id" => "stub"
+      "connected_account_id" => "stub",
+      "connection_owner" => "stub",
+      "supports_multiple_connections" => true
     }
     model = WorkOS::DataIntegrationsGetUserTokenRequest.new(fixture.to_json)
     json = model.to_h
