@@ -400,6 +400,7 @@ module WorkOS
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records).
+    # @param organization_id [String, nil] Only return sessions of instances acting within this organization.
     # @param agent_blueprint_id [String, nil] Only return sessions of instances minted from this blueprint.
     # @param agent_instance_id [String, nil] Only return sessions belonging to this agent instance.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
@@ -409,6 +410,7 @@ module WorkOS
       after: nil,
       limit: 10,
       order: "desc",
+      organization_id: nil,
       agent_blueprint_id: nil,
       agent_instance_id: nil,
       request_options: {}
@@ -418,6 +420,7 @@ module WorkOS
         "after" => after,
         "limit" => limit,
         "order" => order,
+        "organization_id" => organization_id,
         "agent_blueprint_id" => agent_blueprint_id,
         "agent_instance_id" => agent_instance_id
       }.compact
@@ -434,6 +437,7 @@ module WorkOS
           after: cursor,
           limit: limit,
           order: order,
+          organization_id: organization_id,
           agent_blueprint_id: agent_blueprint_id,
           agent_instance_id: agent_instance_id,
           request_options: request_options
@@ -442,7 +446,7 @@ module WorkOS
       WorkOS::Types::ListStruct.from_response(
         response,
         model: WorkOS::AgentInstanceSession,
-        filters: {before: before, limit: limit, order: order, agent_blueprint_id: agent_blueprint_id, agent_instance_id: agent_instance_id},
+        filters: {before: before, limit: limit, order: order, organization_id: organization_id, agent_blueprint_id: agent_blueprint_id, agent_instance_id: agent_instance_id},
         fetch_next: fetch_next
       )
     end

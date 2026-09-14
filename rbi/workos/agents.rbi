@@ -148,12 +148,13 @@ module WorkOS
         after: T.nilable(String),
         limit: T.nilable(Integer),
         order: T.nilable(String),
+        organization_id: T.nilable(String),
         agent_blueprint_id: T.nilable(String),
         agent_instance_id: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(T::Array[WorkOS::AgentInstanceSession])
     end
-    def list_sessions(before:, after:, limit:, order:, agent_blueprint_id:, agent_instance_id:, request_options:); end
+    def list_sessions(before:, after:, limit:, order:, organization_id:, agent_blueprint_id:, agent_instance_id:, request_options:); end
 
     sig do
       params(

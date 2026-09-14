@@ -33,6 +33,12 @@ module WorkOS
     sig { params(value: String).returns(String) }
     def integration_type=(value); end
 
+    sig { returns(String) }
+    def ownership; end
+
+    sig { params(value: String).returns(String) }
+    def ownership=(value); end
+
     sig { returns(T.nilable(String)) }
     def description; end
 

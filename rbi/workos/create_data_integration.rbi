@@ -16,6 +16,12 @@ module WorkOS
     def provider=(value); end
 
     sig { returns(T.nilable(String)) }
+    def ownership; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def ownership=(value); end
+
+    sig { returns(T.nilable(String)) }
     def description; end
 
     sig { params(value: T.nilable(String)).returns(T.nilable(String)) }

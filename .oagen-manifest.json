@@ -318,6 +318,7 @@
     "lib/workos/radar/radar_standalone_update_radar_attempt_request.rb",
     "lib/workos/radar/radar_standalone_update_radar_list_request.rb",
     "lib/workos/shared/access_token_agent_registration_credential_issued_data_detail.rb",
+    "lib/workos/shared/account_selection_required_error.rb",
     "lib/workos/shared/agent_blueprint_created.rb",
     "lib/workos/shared/agent_blueprint_created_data.rb",
     "lib/workos/shared/agent_blueprint_created_data_invocable_by.rb",
@@ -478,6 +479,7 @@
     "lib/workos/types/create_connection_oidc_options_id_token_signature_algorithm.rb",
     "lib/workos/types/create_connection_oidc_options_token_authentication_method.rb",
     "lib/workos/types/create_data_integration_auth_methods.rb",
+    "lib/workos/types/create_data_integration_ownership.rb",
     "lib/workos/types/create_user_invite_options_locale.rb",
     "lib/workos/types/create_user_password_hash_type.rb",
     "lib/workos/types/create_user_password_salt_position.rb",
@@ -490,11 +492,16 @@
     "lib/workos/types/data_integration_credentials_input_type.rb",
     "lib/workos/types/data_integration_credentials_response_error.rb",
     "lib/workos/types/data_integration_custom_provider_authenticate_via.rb",
+    "lib/workos/types/data_integration_ownership.rb",
     "lib/workos/types/data_integration_state.rb",
+    "lib/workos/types/data_integrations_get_user_token_request_connection_owner.rb",
     "lib/workos/types/data_integrations_list_response_data_auth_methods.rb",
     "lib/workos/types/data_integrations_list_response_data_connected_account_auth_method.rb",
     "lib/workos/types/data_integrations_list_response_data_connected_account_state.rb",
     "lib/workos/types/data_integrations_list_response_data_ownership.rb",
+    "lib/workos/types/data_integrations_upsert_api_key_request_connection_owner.rb",
+    "lib/workos/types/data_integrations_upsert_client_credentials_request_connection_owner.rb",
+    "lib/workos/types/data_integrations_vend_credentials_request_connection_owner.rb",
     "lib/workos/types/directory_state.rb",
     "lib/workos/types/directory_type.rb",
     "lib/workos/types/directory_user_state.rb",
@@ -546,6 +553,7 @@
     "lib/workos/types/patch_connection_oidc_options_id_token_signature_algorithm.rb",
     "lib/workos/types/patch_connection_oidc_options_token_authentication_method.rb",
     "lib/workos/types/pipe_connected_account_state.rb",
+    "lib/workos/types/pipes_ownership.rb",
     "lib/workos/types/profile_connection_type.rb",
     "lib/workos/types/radar_list_action.rb",
     "lib/workos/types/radar_list_type.rb",
@@ -657,10 +665,12 @@
     "lib/workos/user_management/authentication_sso_timed_out_data.rb",
     "lib/workos/user_management/authentication_sso_timed_out_data_error.rb",
     "lib/workos/user_management/authentication_sso_timed_out_data_sso.rb",
+    "lib/workos/user_management/authkit_oauth_resource.rb",
     "lib/workos/user_management/authorization_code_session_authenticate_request.rb",
     "lib/workos/user_management/authorized_connect_application_list_data.rb",
     "lib/workos/user_management/confirm_email_change.rb",
     "lib/workos/user_management/cors_origin_response.rb",
+    "lib/workos/user_management/create_authkit_oauth_resource.rb",
     "lib/workos/user_management/create_cors_origin.rb",
     "lib/workos/user_management/create_magic_code_and_return.rb",
     "lib/workos/user_management/create_password_reset.rb",
@@ -794,6 +804,7 @@
     "lib/workos/widgets/widget_session_token.rb",
     "lib/workos/widgets/widget_session_token_response.rb",
     "rbi/workos/access_token_agent_registration_credential_issued_data_detail.rbi",
+    "rbi/workos/account_selection_required_error.rbi",
     "rbi/workos/action_authentication_denied.rbi",
     "rbi/workos/action_authentication_denied_data.rbi",
     "rbi/workos/action_user_registration_denied.rbi",
@@ -962,6 +973,7 @@
     "rbi/workos/authentication_sso_timed_out_data.rbi",
     "rbi/workos/authentication_sso_timed_out_data_error.rbi",
     "rbi/workos/authentication_sso_timed_out_data_sso.rbi",
+    "rbi/workos/authkit_oauth_resource.rbi",
     "rbi/workos/authorization.rbi",
     "rbi/workos/authorization_check.rbi",
     "rbi/workos/authorization_code_session_authenticate_request.rbi",
@@ -1005,6 +1017,7 @@
     "rbi/workos/connection_saml_certificate_renewed_data_connection.rbi",
     "rbi/workos/cors_origin_response.rbi",
     "rbi/workos/create_application_secret.rbi",
+    "rbi/workos/create_authkit_oauth_resource.rbi",
     "rbi/workos/create_authorization_permission.rbi",
     "rbi/workos/create_authorization_resource.rbi",
     "rbi/workos/create_connection.rbi",
@@ -2509,6 +2522,30 @@
     "POST /agents/blueprints/{agent_blueprint_id}/tokens/validate": {
       "sdkMethod": "validate_blueprint_token",
       "service": "agents"
+    },
+    "GET /data-integrations/{slug}/organization": {
+      "sdkMethod": "list_data_integration_organization",
+      "service": "pipes"
+    },
+    "PUT /data-integrations/{slug}/organization": {
+      "sdkMethod": "update_data_integration_organization",
+      "service": "pipes"
+    },
+    "DELETE /data-integrations/{slug}/organization": {
+      "sdkMethod": "delete_data_integration_organization",
+      "service": "pipes"
+    },
+    "GET /user_management/authkit_oauth_resources": {
+      "sdkMethod": "list_authkit_oauth_resources",
+      "service": "user_management"
+    },
+    "POST /user_management/authkit_oauth_resources": {
+      "sdkMethod": "create_authkit_oauth_resource",
+      "service": "user_management"
+    },
+    "DELETE /user_management/authkit_oauth_resources/{id}": {
+      "sdkMethod": "delete_authkit_oauth_resource",
+      "service": "user_management"
     }
   }
 }

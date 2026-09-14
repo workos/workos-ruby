@@ -27,6 +27,18 @@ module WorkOS
     sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
     def connected_account_id=(value); end
 
+    sig { returns(T.nilable(String)) }
+    def connection_owner; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def connection_owner=(value); end
+
+    sig { returns(T.nilable(T::Boolean)) }
+    def supports_multiple_connections; end
+
+    sig { params(value: T.nilable(T::Boolean)).returns(T.nilable(T::Boolean)) }
+    def supports_multiple_connections=(value); end
+
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end
 
