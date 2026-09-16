@@ -64,6 +64,12 @@ module WorkOS
     def auth_methods=(value); end
 
     sig { returns(String) }
+    def connection_owner; end
+
+    sig { params(value: String).returns(String) }
+    def connection_owner=(value); end
+
+    sig { returns(String) }
     def ownership; end
 
     sig { params(value: String).returns(String) }

@@ -7,11 +7,16 @@ module WorkOS
     HASH_ATTRS = {
       object: :object,
       id: :id,
+      connection_role: :connection_role,
+      account_identifier: :account_identifier,
+      account_display_name: :account_display_name,
       data_integration_id: :data_integration_id,
       provider_slug: :provider_slug,
       user_id: :user_id,
       organization_id: :organization_id,
       scopes: :scopes,
+      auth_method: :auth_method,
+      api_key_last_4: :api_key_last_4,
       state: :state,
       created_at: :created_at,
       updated_at: :updated_at
@@ -20,11 +25,16 @@ module WorkOS
     attr_accessor \
       :object,
       :id,
+      :connection_role,
+      :account_identifier,
+      :account_display_name,
       :data_integration_id,
       :provider_slug,
       :user_id,
       :organization_id,
       :scopes,
+      :auth_method,
+      :api_key_last_4,
       :state,
       :created_at,
       :updated_at
@@ -33,11 +43,16 @@ module WorkOS
       hash = self.class.normalize(json)
       @object = hash[:object]
       @id = hash[:id]
+      @connection_role = hash[:connection_role]
+      @account_identifier = hash[:account_identifier]
+      @account_display_name = hash[:account_display_name]
       @data_integration_id = hash[:data_integration_id]
       @provider_slug = hash[:provider_slug]
       @user_id = hash[:user_id]
       @organization_id = hash[:organization_id]
       @scopes = hash[:scopes] || []
+      @auth_method = hash[:auth_method]
+      @api_key_last_4 = hash[:api_key_last_4]
       @state = hash[:state]
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]

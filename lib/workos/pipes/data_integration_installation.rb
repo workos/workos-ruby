@@ -6,6 +6,9 @@ module WorkOS
   class DataIntegrationInstallation < WorkOS::Types::BaseModel
     HASH_ATTRS = {
       id: :id,
+      connection_role: :connection_role,
+      account_identifier: :account_identifier,
+      account_display_name: :account_display_name,
       user_id: :user_id,
       organization_id: :organization_id,
       api_key_last_4: :api_key_last_4
@@ -13,6 +16,9 @@ module WorkOS
 
     attr_accessor \
       :id,
+      :connection_role,
+      :account_identifier,
+      :account_display_name,
       :user_id,
       :organization_id,
       :api_key_last_4
@@ -20,6 +26,9 @@ module WorkOS
     def initialize(json)
       hash = self.class.normalize(json)
       @id = hash[:id]
+      @connection_role = hash[:connection_role]
+      @account_identifier = hash[:account_identifier]
+      @account_display_name = hash[:account_display_name]
       @user_id = hash[:user_id]
       @organization_id = hash[:organization_id]
       @api_key_last_4 = hash[:api_key_last_4]

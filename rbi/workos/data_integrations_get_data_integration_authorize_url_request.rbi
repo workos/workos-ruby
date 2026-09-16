@@ -22,6 +22,12 @@ module WorkOS
     def organization_id=(value); end
 
     sig { returns(T.nilable(String)) }
+    def connection_owner; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def connection_owner=(value); end
+
+    sig { returns(T.nilable(String)) }
     def return_to; end
 
     sig { params(value: T.nilable(String)).returns(T.nilable(String)) }

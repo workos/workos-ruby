@@ -107,20 +107,6 @@ class PipesModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
-  def test_connected_account_input_round_trip
-    fixture = {
-      "access_token" => "stub",
-      "refresh_token" => "stub",
-      "expires_at" => "stub",
-      "scopes" => [],
-      "state" => "stub"
-    }
-    model = WorkOS::ConnectedAccountInput.new(fixture.to_json)
-    json = model.to_h
-    assert_kind_of Hash, json
-    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
-  end
-
   def test_data_integration_round_trip
     fixture = {
       "object" => "data_integration",
@@ -194,6 +180,9 @@ class PipesModelRoundTripTest < Minitest::Test
     fixture = {
       "object" => "connected_account",
       "id" => "stub",
+      "connection_role" => "stub",
+      "account_identifier" => nil,
+      "account_display_name" => nil,
       "user_id" => nil,
       "organization_id" => nil,
       "scopes" => [],
@@ -210,50 +199,10 @@ class PipesModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
+    assert_nil json[:account_identifier]
+    assert_nil json[:account_display_name]
     assert_nil json[:user_id]
     assert_nil json[:organization_id]
-    assert_equal fixture["created_at"], json[:created_at]
-    assert_equal fixture["updated_at"], json[:updated_at]
-    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
-  end
-
-  def test_data_integrations_list_response_round_trip
-    fixture = {
-      "object" => "list",
-      "data" => []
-    }
-    model = WorkOS::DataIntegrationsListResponse.new(fixture.to_json)
-    json = model.to_h
-    assert_kind_of Hash, json
-    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
-  end
-
-  def test_data_integrations_list_response_data_round_trip
-    fixture = {
-      "object" => "data_provider",
-      "id" => "stub",
-      "name" => "stub",
-      "description" => nil,
-      "slug" => "stub",
-      "integration_type" => "stub",
-      "credentials_type" => "stub",
-      "scopes" => nil,
-      "auth_methods" => [],
-      "ownership" => "stub",
-      "created_at" => "stub",
-      "updated_at" => "stub",
-      "connected_account" => nil,
-      "connected_accounts" => []
-    }
-    model = WorkOS::DataIntegrationsListResponseData.new(fixture.to_json)
-    json = model.to_h
-    assert_kind_of Hash, json
-    assert_equal fixture["id"], json[:id]
-    assert_equal fixture["name"], json[:name]
-    assert_nil json[:description]
-    assert_equal fixture["slug"], json[:slug]
-    assert_equal fixture["integration_type"], json[:integration_type]
-    assert_equal fixture["credentials_type"], json[:credentials_type]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
@@ -309,6 +258,9 @@ class PipesModelRoundTripTest < Minitest::Test
   def test_data_integration_installation_round_trip
     fixture = {
       "id" => "stub",
+      "connection_role" => "stub",
+      "account_identifier" => nil,
+      "account_display_name" => nil,
       "user_id" => nil,
       "organization_id" => nil,
       "api_key_last_4" => nil
@@ -317,6 +269,8 @@ class PipesModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
+    assert_nil json[:account_identifier]
+    assert_nil json[:account_display_name]
     assert_nil json[:user_id]
     assert_nil json[:organization_id]
     assert_nil json[:api_key_last_4]
@@ -372,6 +326,7 @@ class PipesModelRoundTripTest < Minitest::Test
     fixture = {
       "user_id" => "stub",
       "organization_id" => "stub",
+      "connection_owner" => "stub",
       "return_to" => "stub",
       "config" => {}
     }
@@ -428,6 +383,62 @@ class PipesModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["user_id"], json[:user_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_connected_account_input_round_trip
+    fixture = {
+      "access_token" => "stub",
+      "refresh_token" => "stub",
+      "expires_at" => "stub",
+      "scopes" => [],
+      "state" => "stub"
+    }
+    model = WorkOS::ConnectedAccountInput.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_data_integrations_list_response_round_trip
+    fixture = {
+      "object" => "list",
+      "data" => []
+    }
+    model = WorkOS::DataIntegrationsListResponse.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_data_integrations_list_response_data_round_trip
+    fixture = {
+      "object" => "data_provider",
+      "id" => "stub",
+      "name" => "stub",
+      "description" => nil,
+      "slug" => "stub",
+      "integration_type" => "stub",
+      "credentials_type" => "stub",
+      "scopes" => nil,
+      "auth_methods" => [],
+      "ownership" => "stub",
+      "created_at" => "stub",
+      "updated_at" => "stub",
+      "connected_account" => nil,
+      "connected_accounts" => []
+    }
+    model = WorkOS::DataIntegrationsListResponseData.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["name"], json[:name]
+    assert_nil json[:description]
+    assert_equal fixture["slug"], json[:slug]
+    assert_equal fixture["integration_type"], json[:integration_type]
+    assert_equal fixture["credentials_type"], json[:credentials_type]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 

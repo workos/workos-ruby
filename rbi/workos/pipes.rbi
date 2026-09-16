@@ -86,12 +86,13 @@ module WorkOS
         slug: String,
         user_id: String,
         organization_id: T.nilable(String),
+        connection_owner: T.nilable(String),
         return_to: T.nilable(String),
         config: T.nilable(T::Hash[String, String]),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::DataIntegrationAuthorizeUrlResponse)
     end
-    def authorize_data_integration(slug:, user_id:, organization_id:, return_to:, config:, request_options:); end
+    def authorize_data_integration(slug:, user_id:, organization_id:, connection_owner:, return_to:, config:, request_options:); end
 
     sig do
       params(

@@ -152,11 +152,16 @@ class SharedModelRoundTripTest < Minitest::Test
     fixture = {
       "object" => "connected_account",
       "id" => "stub",
+      "connection_role" => "stub",
+      "account_identifier" => nil,
+      "account_display_name" => nil,
       "data_integration_id" => "stub",
       "provider_slug" => "stub",
       "user_id" => nil,
       "organization_id" => nil,
       "scopes" => [],
+      "auth_method" => "stub",
+      "api_key_last_4" => nil,
       "state" => "stub",
       "created_at" => "stub",
       "updated_at" => "stub"
@@ -1006,6 +1011,149 @@ class SharedModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_pipes_account_connection_add_failed_round_trip
+    fixture = {
+      "object" => "event",
+      "id" => "stub",
+      "event" => "pipes.account_connection.add_failed",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {}
+    }
+    model = WorkOS::PipesAccountConnectionAddFailed.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_pipes_account_connection_add_failed_data_round_trip
+    fixture = {
+      "object" => "connection_failed",
+      "data_integration_id" => "stub",
+      "provider_slug" => "stub",
+      "user_id" => nil,
+      "organization_id" => nil,
+      "account_identifier" => nil,
+      "error_code" => "stub",
+      "error_reason" => nil,
+      "provider_error" => nil,
+      "provider_error_description" => nil,
+      "created_at" => "stub"
+    }
+    model = WorkOS::PipesAccountConnectionAddFailedData.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["data_integration_id"], json[:data_integration_id]
+    assert_equal fixture["provider_slug"], json[:provider_slug]
+    assert_nil json[:user_id]
+    assert_nil json[:organization_id]
+    assert_equal fixture["error_code"], json[:error_code]
+    assert_nil json[:error_reason]
+    assert_nil json[:provider_error]
+    assert_nil json[:provider_error_description]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_pipes_account_connection_connected_round_trip
+    fixture = {
+      "object" => "event",
+      "id" => "stub",
+      "event" => "pipes.account_connection.connected",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {}
+    }
+    model = WorkOS::PipesAccountConnectionConnected.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_pipes_account_connection_connection_failed_round_trip
+    fixture = {
+      "object" => "event",
+      "id" => "stub",
+      "event" => "pipes.account_connection.connection_failed",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {}
+    }
+    model = WorkOS::PipesAccountConnectionConnectionFailed.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_pipes_account_connection_connection_failed_data_round_trip
+    fixture = {
+      "object" => "connection_failed",
+      "data_integration_id" => "stub",
+      "provider_slug" => "stub",
+      "user_id" => nil,
+      "organization_id" => nil,
+      "account_identifier" => nil,
+      "error_code" => "stub",
+      "error_reason" => nil,
+      "provider_error" => nil,
+      "provider_error_description" => nil,
+      "created_at" => "stub"
+    }
+    model = WorkOS::PipesAccountConnectionConnectionFailedData.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["data_integration_id"], json[:data_integration_id]
+    assert_equal fixture["provider_slug"], json[:provider_slug]
+    assert_nil json[:user_id]
+    assert_nil json[:organization_id]
+    assert_equal fixture["error_code"], json[:error_code]
+    assert_nil json[:error_reason]
+    assert_nil json[:provider_error]
+    assert_nil json[:provider_error_description]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_pipes_account_connection_disconnected_round_trip
+    fixture = {
+      "object" => "event",
+      "id" => "stub",
+      "event" => "pipes.account_connection.disconnected",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {}
+    }
+    model = WorkOS::PipesAccountConnectionDisconnected.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_pipes_account_connection_reauthorization_needed_round_trip
+    fixture = {
+      "object" => "event",
+      "id" => "stub",
+      "event" => "pipes.account_connection.reauthorization_needed",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {}
+    }
+    model = WorkOS::PipesAccountConnectionReauthorizationNeeded.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_pipes_connected_account_connected_round_trip
     fixture = {
       "object" => "event",
@@ -1047,6 +1195,7 @@ class SharedModelRoundTripTest < Minitest::Test
       "provider_slug" => "stub",
       "user_id" => nil,
       "organization_id" => nil,
+      "account_identifier" => nil,
       "error_code" => "stub",
       "error_reason" => nil,
       "provider_error" => nil,
