@@ -108,7 +108,7 @@ module WorkOS
 
     # Challenge Factor
     # @param id [String] The unique ID of the Authentication Factor to be challenged.
-    # @param sms_template [String, nil] A custom template for the SMS message. Use the {{code}} placeholder to include the verification code.
+    # @param sms_template [String, nil] A custom template for the SMS message. Use the {{code}} placeholder to include the verification code. Must not contain URLs or domain names.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::AuthenticationChallenge]
     def challenge_factor(
