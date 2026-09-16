@@ -223,8 +223,9 @@ module WorkOS
 
     # Get authorization URL
     # @param slug [String] The slug identifier of the provider (e.g., `github`, `slack`, `notion`).
-    # @param user_id [String] The ID of the user to authorize.
-    # @param organization_id [String, nil] An organization ID to scope the authorization to a specific organization.
+    # @param user_id [String] The ID of the user to authorize. When `connection_owner` is `organization`, this is the user authorizing on behalf of the organization; they must be an active member of the organization and do not become the owner of the resulting connected account.
+    # @param organization_id [String, nil] An organization ID to scope the authorization to a specific organization. Required when `connection_owner` is `organization`.
+    # @param connection_owner [WorkOS::Types::DataIntegrationsGetDataIntegrationAuthorizeUrlRequestConnectionOwner, nil] Who will own the connected account. `user` (the default) connects the user's own account. `organization` connects the organization's shared account and requires `organization_id`.
     # @param return_to [String, nil] The URL to redirect the user to after authorization.
     # @param config [Hash{String => String}, nil] Connect-time config values for the provider-declared `installation`-scope fields (e.g. a Zendesk `subdomain`), keyed by the config field. Only fields the provider declares may be supplied, and required fields must be provided unless already pinned on the integration.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
@@ -233,6 +234,7 @@ module WorkOS
       slug:,
       user_id:,
       organization_id: nil,
+      connection_owner: nil,
       return_to: nil,
       config: nil,
       request_options: {}
@@ -240,6 +242,7 @@ module WorkOS
       body = {
         "user_id" => user_id,
         "organization_id" => organization_id,
+        "connection_owner" => connection_owner,
         "return_to" => return_to,
         "config" => config
       }.compact

@@ -11,7 +11,8 @@ module WorkOS
       SESSIONS = "sessions"
       AUDIT_LOG_EVENTS = "auditLogEvents"
       CONNECTIONS = "connections"
-      ALL = [USERS, ORGANIZATIONS, EVENTS, SESSIONS, AUDIT_LOG_EVENTS, CONNECTIONS].freeze
+      DIRECTORY_USERS = "directoryUsers"
+      ALL = [USERS, ORGANIZATIONS, EVENTS, SESSIONS, AUDIT_LOG_EVENTS, CONNECTIONS, DIRECTORY_USERS].freeze
     end
   end
 end

@@ -5,7 +5,7 @@
 # typed: strong
 
 module WorkOS
-  class PipesConnectedAccountConnectionFailedData
+  class PipesAccountConnectionConnectionFailedData
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
 

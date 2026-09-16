@@ -64,6 +64,10 @@ module WorkOS
       @groups ||= WorkOS::Groups.new(self)
     end
 
+    def organizations_data_providers
+      @organizations_data_providers ||= WorkOS::OrganizationsDataProviders.new(self)
+    end
+
     def platform_teams
       @platform_teams ||= WorkOS::PlatformTeams.new(self)
     end

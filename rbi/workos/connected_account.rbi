@@ -21,6 +21,24 @@ module WorkOS
     sig { params(value: String).returns(String) }
     def id=(value); end
 
+    sig { returns(String) }
+    def connection_role; end
+
+    sig { params(value: String).returns(String) }
+    def connection_role=(value); end
+
+    sig { returns(T.nilable(String)) }
+    def account_identifier; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def account_identifier=(value); end
+
+    sig { returns(T.nilable(String)) }
+    def account_display_name; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def account_display_name=(value); end
+
     sig { returns(T.nilable(String)) }
     def user_id; end
 

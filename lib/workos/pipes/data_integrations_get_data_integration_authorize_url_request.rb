@@ -7,6 +7,7 @@ module WorkOS
     HASH_ATTRS = {
       user_id: :user_id,
       organization_id: :organization_id,
+      connection_owner: :connection_owner,
       return_to: :return_to,
       config: :config
     }.freeze
@@ -14,6 +15,7 @@ module WorkOS
     attr_accessor \
       :user_id,
       :organization_id,
+      :connection_owner,
       :return_to,
       :config
 
@@ -21,6 +23,7 @@ module WorkOS
       hash = self.class.normalize(json)
       @user_id = hash[:user_id]
       @organization_id = hash[:organization_id]
+      @connection_owner = hash[:connection_owner]
       @return_to = hash[:return_to]
       @config = hash[:config] || {}
     end

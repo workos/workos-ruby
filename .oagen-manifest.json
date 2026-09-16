@@ -276,6 +276,11 @@
     "lib/workos/organizations/organization_updated_data_domain.rb",
     "lib/workos/organizations/update_audit_logs_retention.rb",
     "lib/workos/organizations/update_organization.rb",
+    "lib/workos/organizations_data_providers.rb",
+    "lib/workos/organizations_data_providers/connected_account_input.rb",
+    "lib/workos/organizations_data_providers/data_integrations_list_response.rb",
+    "lib/workos/organizations_data_providers/data_integrations_list_response_data.rb",
+    "lib/workos/organizations_data_providers/data_integrations_list_response_data_connected_account.rb",
     "lib/workos/pipes.rb",
     "lib/workos/pipes/api_key_installation.rb",
     "lib/workos/pipes/connected_account.rb",
@@ -374,6 +379,13 @@
     "lib/workos/shared/group_member_removed_data.rb",
     "lib/workos/shared/group_updated.rb",
     "lib/workos/shared/pipe_connected_account.rb",
+    "lib/workos/shared/pipes_account_connection_add_failed.rb",
+    "lib/workos/shared/pipes_account_connection_add_failed_data.rb",
+    "lib/workos/shared/pipes_account_connection_connected.rb",
+    "lib/workos/shared/pipes_account_connection_connection_failed.rb",
+    "lib/workos/shared/pipes_account_connection_connection_failed_data.rb",
+    "lib/workos/shared/pipes_account_connection_disconnected.rb",
+    "lib/workos/shared/pipes_account_connection_reauthorization_needed.rb",
     "lib/workos/shared/pipes_connected_account_connected.rb",
     "lib/workos/shared/pipes_connected_account_connection_failed.rb",
     "lib/workos/shared/pipes_connected_account_connection_failed_data.rb",
@@ -460,6 +472,7 @@
     "lib/workos/types/authorization_assignment.rb",
     "lib/workos/types/claim_view_response_status.rb",
     "lib/workos/types/connected_account_auth_method.rb",
+    "lib/workos/types/connected_account_connection_role.rb",
     "lib/workos/types/connected_account_input_state.rb",
     "lib/workos/types/connected_account_state.rb",
     "lib/workos/types/connection_activated_data_connection_type.rb",
@@ -492,12 +505,16 @@
     "lib/workos/types/data_integration_credentials_input_type.rb",
     "lib/workos/types/data_integration_credentials_response_error.rb",
     "lib/workos/types/data_integration_custom_provider_authenticate_via.rb",
+    "lib/workos/types/data_integration_installation_connection_role.rb",
     "lib/workos/types/data_integration_ownership.rb",
     "lib/workos/types/data_integration_state.rb",
+    "lib/workos/types/data_integrations_get_data_integration_authorize_url_request_connection_owner.rb",
     "lib/workos/types/data_integrations_get_user_token_request_connection_owner.rb",
     "lib/workos/types/data_integrations_list_response_data_auth_methods.rb",
     "lib/workos/types/data_integrations_list_response_data_connected_account_auth_method.rb",
+    "lib/workos/types/data_integrations_list_response_data_connected_account_connection_role.rb",
     "lib/workos/types/data_integrations_list_response_data_connected_account_state.rb",
+    "lib/workos/types/data_integrations_list_response_data_connection_owner.rb",
     "lib/workos/types/data_integrations_list_response_data_ownership.rb",
     "lib/workos/types/data_integrations_upsert_api_key_request_connection_owner.rb",
     "lib/workos/types/data_integrations_upsert_client_credentials_request_connection_owner.rb",
@@ -552,6 +569,8 @@
     "lib/workos/types/pagination_order.rb",
     "lib/workos/types/patch_connection_oidc_options_id_token_signature_algorithm.rb",
     "lib/workos/types/patch_connection_oidc_options_token_authentication_method.rb",
+    "lib/workos/types/pipe_connected_account_auth_method.rb",
+    "lib/workos/types/pipe_connected_account_connection_role.rb",
     "lib/workos/types/pipe_connected_account_state.rb",
     "lib/workos/types/pipes_ownership.rb",
     "lib/workos/types/profile_connection_type.rb",
@@ -1250,6 +1269,7 @@
     "rbi/workos/organization_updated_data.rbi",
     "rbi/workos/organization_updated_data_domain.rbi",
     "rbi/workos/organizations.rbi",
+    "rbi/workos/organizations_data_providers.rbi",
     "rbi/workos/password_reset.rbi",
     "rbi/workos/password_reset_created.rbi",
     "rbi/workos/password_reset_created_data.rbi",
@@ -1270,6 +1290,13 @@
     "rbi/workos/permission_updated_data.rbi",
     "rbi/workos/pipe_connected_account.rbi",
     "rbi/workos/pipes.rbi",
+    "rbi/workos/pipes_account_connection_add_failed.rbi",
+    "rbi/workos/pipes_account_connection_add_failed_data.rbi",
+    "rbi/workos/pipes_account_connection_connected.rbi",
+    "rbi/workos/pipes_account_connection_connection_failed.rbi",
+    "rbi/workos/pipes_account_connection_connection_failed_data.rbi",
+    "rbi/workos/pipes_account_connection_disconnected.rbi",
+    "rbi/workos/pipes_account_connection_reauthorization_needed.rbi",
     "rbi/workos/pipes_connected_account_connected.rbi",
     "rbi/workos/pipes_connected_account_connection_failed.rbi",
     "rbi/workos/pipes_connected_account_connection_failed_data.rbi",
@@ -1453,6 +1480,8 @@
     "test/workos/test_organization_membership_model_round_trip.rb",
     "test/workos/test_organization_membership_service.rb",
     "test/workos/test_organizations.rb",
+    "test/workos/test_organizations_data_providers.rb",
+    "test/workos/test_organizations_data_providers_model_round_trip.rb",
     "test/workos/test_organizations_model_round_trip.rb",
     "test/workos/test_pipes.rb",
     "test/workos/test_pipes_model_round_trip.rb",
@@ -2546,6 +2575,26 @@
     "DELETE /user_management/authkit_oauth_resources/{id}": {
       "sdkMethod": "delete_authkit_oauth_resource",
       "service": "user_management"
+    },
+    "GET /organizations/{organization_id}/connected_accounts/{slug}": {
+      "sdkMethod": "get_organization_connected_account",
+      "service": "organizations_data_providers"
+    },
+    "POST /organizations/{organization_id}/connected_accounts/{slug}": {
+      "sdkMethod": "create_organization_connected_account",
+      "service": "organizations_data_providers"
+    },
+    "PUT /organizations/{organization_id}/connected_accounts/{slug}": {
+      "sdkMethod": "update_organization_connected_account",
+      "service": "organizations_data_providers"
+    },
+    "DELETE /organizations/{organization_id}/connected_accounts/{slug}": {
+      "sdkMethod": "delete_organization_connected_account",
+      "service": "organizations_data_providers"
+    },
+    "GET /organizations/{organization_id}/data_providers": {
+      "sdkMethod": "list_organization_data_providers",
+      "service": "organizations_data_providers"
     }
   }
 }
