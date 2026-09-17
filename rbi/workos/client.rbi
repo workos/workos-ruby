@@ -54,9 +54,6 @@ module WorkOS
     sig { returns(WorkOS::Groups) }
     def groups; end
 
-    sig { returns(WorkOS::OrganizationsDataProviders) }
-    def organizations_data_providers; end
-
     sig { returns(WorkOS::PlatformTeams) }
     def platform_teams; end
 
