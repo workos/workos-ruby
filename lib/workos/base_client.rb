@@ -41,11 +41,14 @@ module WorkOS
       "v#{WorkOS::VERSION}"
     ].join("; ").freeze
 
-    attr_reader :api_key, :base_url, :client_id, :timeout, :max_retries, :logger, :log_level
+    attr_reader :api_key, :base_url, :client_id, :timeout, :max_retries, :logger, :log_level, :jwt_issuer
 
+    # @param jwt_issuer [String, Array<String>, nil] Expected `iss` claim of
+    #   session access tokens (one issuer or a list of accepted issuers).
+    #   When nil, the issuer is not validated.
     def initialize(api_key: nil, base_url: DEFAULT_BASE_URL, client_id: nil,
       timeout: DEFAULT_TIMEOUT, max_retries: DEFAULT_MAX_RETRIES,
-      logger: nil, log_level: nil, random: Random.new)
+      logger: nil, log_level: nil, jwt_issuer: nil, random: Random.new)
       @api_key = api_key
       @base_url = base_url
       @client_id = client_id
@@ -53,6 +56,7 @@ module WorkOS
       @max_retries = max_retries
       @logger = logger
       @log_level = log_level
+      @jwt_issuer = jwt_issuer
       @random = random
     end
 
