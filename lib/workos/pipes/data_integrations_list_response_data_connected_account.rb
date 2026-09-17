@@ -7,6 +7,9 @@ module WorkOS
     HASH_ATTRS = {
       object: :object,
       id: :id,
+      connection_role: :connection_role,
+      account_identifier: :account_identifier,
+      account_display_name: :account_display_name,
       user_id: :user_id,
       organization_id: :organization_id,
       scopes: :scopes,
@@ -27,6 +30,9 @@ module WorkOS
     attr_accessor \
       :object,
       :id,
+      :connection_role,
+      :account_identifier,
+      :account_display_name,
       :user_id,
       :organization_id,
       :scopes,
@@ -50,6 +56,9 @@ module WorkOS
       hash = self.class.normalize(json)
       @object = hash[:object]
       @id = hash[:id]
+      @connection_role = hash[:connection_role]
+      @account_identifier = hash[:account_identifier]
+      @account_display_name = hash[:account_display_name]
       @user_id = hash[:user_id]
       @organization_id = hash[:organization_id]
       @scopes = hash[:scopes] || []
