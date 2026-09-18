@@ -14,12 +14,16 @@ module WorkOS
       credentials_type: :credentials_type,
       scopes: :scopes,
       auth_methods: :auth_methods,
+      connection_owner: :connection_owner,
       ownership: :ownership,
       created_at: :created_at,
       updated_at: :updated_at,
       connected_account: :connected_account,
       connected_accounts: :connected_accounts
     }.freeze
+
+    # @!attribute ownership
+    #   @deprecated Use `connection_owner` instead. Legacy spelling of the same value: `userland_user` corresponds to `connection_owner: "user"` and `organization` to `connection_owner: "organization"`.
 
     attr_accessor \
       :object,
@@ -31,11 +35,18 @@ module WorkOS
       :credentials_type,
       :scopes,
       :auth_methods,
-      :ownership,
+      :connection_owner,
       :created_at,
       :updated_at,
       :connected_account,
       :connected_accounts
+
+    def ownership
+      warn "[DEPRECATION] `ownership` is deprecated and will be removed in a future version.", uplevel: 1
+      @ownership
+    end
+
+    attr_writer :ownership
 
     def initialize(json)
       hash = self.class.normalize(json)
@@ -48,6 +59,7 @@ module WorkOS
       @credentials_type = hash[:credentials_type]
       @scopes = hash[:scopes] || []
       @auth_methods = hash[:auth_methods] || []
+      @connection_owner = hash[:connection_owner]
       @ownership = hash[:ownership]
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]

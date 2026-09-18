@@ -102,6 +102,41 @@ class PipesTest < Minitest::Test
     refute_nil result
   end
 
+  def test_get_organization_connected_account_returns_expected_result
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/organizations/stub/connected_accounts/stub(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.pipes.get_organization_connected_account(organization_id: "stub", slug: "stub")
+    refute_nil result
+  end
+
+  def test_create_organization_connected_account_returns_expected_result
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/organizations/stub/connected_accounts/stub(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.pipes.create_organization_connected_account(organization_id: "stub", slug: "stub")
+    refute_nil result
+  end
+
+  def test_update_organization_connected_account_returns_expected_result
+    stub_request(:put, %r{\Ahttps://api\.workos\.com/organizations/stub/connected_accounts/stub(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.pipes.update_organization_connected_account(organization_id: "stub", slug: "stub")
+    refute_nil result
+  end
+
+  def test_delete_organization_connected_account_returns_expected_result
+    stub_request(:delete, %r{\Ahttps://api\.workos\.com/organizations/stub/connected_accounts/stub(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.pipes.delete_organization_connected_account(organization_id: "stub", slug: "stub")
+    assert_nil result
+  end
+
+  def test_list_organization_data_providers_returns_expected_result
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/organizations/stub/data_providers(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.pipes.list_organization_data_providers(organization_id: "stub")
+    refute_nil result
+  end
+
   def test_get_user_connected_account_returns_expected_result
     stub_request(:get, %r{\Ahttps://api\.workos\.com/user_management/users/stub/connected_accounts/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
@@ -152,6 +187,11 @@ class PipesTest < Minitest::Test
     {name: :update_data_integration_organization, verb: :put, url: %r{\Ahttps://api\.workos\.com/data-integrations/stub/organization(\?|\z)}, args: {slug: "stub"}},
     {name: :delete_data_integration_organization, verb: :delete, url: %r{\Ahttps://api\.workos\.com/data-integrations/stub/organization(\?|\z)}, args: {slug: "stub"}},
     {name: :get_access_token, verb: :post, url: %r{\Ahttps://api\.workos\.com/data-integrations/stub/token(\?|\z)}, args: {provider: "stub", user_id: "stub"}},
+    {name: :get_organization_connected_account, verb: :get, url: %r{\Ahttps://api\.workos\.com/organizations/stub/connected_accounts/stub(\?|\z)}, args: {organization_id: "stub", slug: "stub"}},
+    {name: :create_organization_connected_account, verb: :post, url: %r{\Ahttps://api\.workos\.com/organizations/stub/connected_accounts/stub(\?|\z)}, args: {organization_id: "stub", slug: "stub"}},
+    {name: :update_organization_connected_account, verb: :put, url: %r{\Ahttps://api\.workos\.com/organizations/stub/connected_accounts/stub(\?|\z)}, args: {organization_id: "stub", slug: "stub"}},
+    {name: :delete_organization_connected_account, verb: :delete, url: %r{\Ahttps://api\.workos\.com/organizations/stub/connected_accounts/stub(\?|\z)}, args: {organization_id: "stub", slug: "stub"}},
+    {name: :list_organization_data_providers, verb: :get, url: %r{\Ahttps://api\.workos\.com/organizations/stub/data_providers(\?|\z)}, args: {organization_id: "stub"}},
     {name: :get_user_connected_account, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/users/stub/connected_accounts/stub(\?|\z)}, args: {user_id: "stub", slug: "stub"}},
     {name: :create_user_connected_account, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/users/stub/connected_accounts/stub(\?|\z)}, args: {user_id: "stub", slug: "stub"}},
     {name: :update_user_connected_account, verb: :put, url: %r{\Ahttps://api\.workos\.com/user_management/users/stub/connected_accounts/stub(\?|\z)}, args: {user_id: "stub", slug: "stub"}},
