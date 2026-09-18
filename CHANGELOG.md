@@ -1,5 +1,24 @@
 # Changelog
 
+## [10.4.0](https://github.com/workos/workos-ruby/compare/v10.3.0...v10.4.0) (2026-09-18)
+
+
+### Features
+
+* Add optional jwt_issuer option for session token validation ([#552](https://github.com/workos/workos-ruby/issues/552)) ([841bf57](https://github.com/workos/workos-ruby/commit/841bf57ed103bf8f1d1a079f7a0d70edb9e7a854))
+* **agents:** Add parameter `AgentsSessions.list.organization_id` ([#553](https://github.com/workos/workos-ruby/issues/553)) ([f8fc90e](https://github.com/workos/workos-ruby/commit/f8fc90e646611251bbc55b2debec1e2ea63ab327))
+* **generated:** Pipes (batch 8ad8e447) ([#550](https://github.com/workos/workos-ruby/issues/550)) ([429d26d](https://github.com/workos/workos-ruby/commit/429d26d86fa5f60aa78d6873a411d6a2bf6353d1))
+* **pipes:** Update Pipes API surface ([#553](https://github.com/workos/workos-ruby/issues/553)) ([f8fc90e](https://github.com/workos/workos-ruby/commit/f8fc90e646611251bbc55b2debec1e2ea63ab327))
+* **user_management:** Add user management API surface ([#553](https://github.com/workos/workos-ruby/issues/553)) ([f8fc90e](https://github.com/workos/workos-ruby/commit/f8fc90e646611251bbc55b2debec1e2ea63ab327))
+
+
+### Bug Fixes
+
+* **multi_factor_auth:** Change errors for endpoint `POST /auth/factors/{id}/challenge` ([#556](https://github.com/workos/workos-ruby/issues/556)) ([427e733](https://github.com/workos/workos-ruby/commit/427e7339a12f220e991d2b701c8e383694c1498e))
+* **multi_factor_auth:** Change errors for endpoint `POST /auth/factors/{id}/challenge` ([#557](https://github.com/workos/workos-ruby/issues/557)) ([aabd31d](https://github.com/workos/workos-ruby/commit/aabd31d23e60484cd9bcbfbea2e109fcbda7597b))
+* **pipes:** Move organization connected-account operations onto Pipes ([#557](https://github.com/workos/workos-ruby/issues/557)) ([aabd31d](https://github.com/workos/workos-ruby/commit/aabd31d23e60484cd9bcbfbea2e109fcbda7597b))
+* **pipes:** Update Pipes API surface ([#553](https://github.com/workos/workos-ruby/issues/553)) ([f8fc90e](https://github.com/workos/workos-ruby/commit/f8fc90e646611251bbc55b2debec1e2ea63ab327))
+
 ## [10.3.0](https://github.com/workos/workos-ruby/compare/v10.2.1...v10.3.0) (2026-09-01)
 
 * [#546](https://github.com/workos/workos-ruby/pull/546) feat(generated)!: regenerate from spec (5 changes)
