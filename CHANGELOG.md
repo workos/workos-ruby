@@ -1,5 +1,12 @@
 # Changelog
 
+## [10.5.0](https://github.com/workos/workos-ruby/compare/v10.4.0...v10.5.0) (2026-09-24)
+
+
+### Features
+
+* **generated:** Authorization (batch c64ce1e7) ([#558](https://github.com/workos/workos-ruby/issues/558)) ([db38c4b](https://github.com/workos/workos-ruby/commit/db38c4b7a919a37c1fda67d49c520ff2dbbf4f8c))
+
 ## [10.4.0](https://github.com/workos/workos-ruby/compare/v10.3.0...v10.4.0) (2026-09-18)
 
 ### Features
