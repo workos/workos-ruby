@@ -2,10 +2,12 @@
 
 ## [10.5.0](https://github.com/workos/workos-ruby/compare/v10.4.0...v10.5.0) (2026-09-24)
 
+* [#558](https://github.com/workos/workos-ruby/pull/558) feat(generated): regenerate from spec
 
-### Features
-
-* **generated:** Authorization (batch c64ce1e7) ([#558](https://github.com/workos/workos-ruby/issues/558)) ([db38c4b](https://github.com/workos/workos-ruby/commit/db38c4b7a919a37c1fda67d49c520ff2dbbf4f8c))
+  **Features**
+  * **[user_management](https://workos.com/docs/reference/authkit/user)**:
+    * Added model `UserRoleAssignmentSourceGroup`
+    * Added `group` to `UserRoleAssignmentSource`
 
 ## [10.4.0](https://github.com/workos/workos-ruby/compare/v10.3.0...v10.4.0) (2026-09-18)
 
