@@ -21,6 +21,12 @@ module WorkOS
     sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
     def group_role_assignment_id=(value); end
 
+    sig { returns(T.nilable(WorkOS::UserRoleAssignmentSourceGroup)) }
+    def group; end
+
+    sig { params(value: T.nilable(WorkOS::UserRoleAssignmentSourceGroup)).returns(T.nilable(WorkOS::UserRoleAssignmentSourceGroup)) }
+    def group=(value); end
+
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end
 
