@@ -6,17 +6,20 @@ module WorkOS
   class UserRoleAssignmentSource < WorkOS::Types::BaseModel
     HASH_ATTRS = {
       type: :type,
-      group_role_assignment_id: :group_role_assignment_id
+      group_role_assignment_id: :group_role_assignment_id,
+      group: :group
     }.freeze
 
     attr_accessor \
       :type,
-      :group_role_assignment_id
+      :group_role_assignment_id,
+      :group
 
     def initialize(json)
       hash = self.class.normalize(json)
       @type = hash[:type]
       @group_role_assignment_id = hash[:group_role_assignment_id]
+      @group = hash[:group] ? WorkOS::UserRoleAssignmentSourceGroup.new(hash[:group]) : nil
     end
   end
 end

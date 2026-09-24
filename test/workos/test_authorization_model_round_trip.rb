@@ -641,7 +641,8 @@ class AuthorizationModelRoundTripTest < Minitest::Test
   def test_user_role_assignment_source_round_trip
     fixture = {
       "type" => "stub",
-      "group_role_assignment_id" => nil
+      "group_role_assignment_id" => nil,
+      "group" => nil
     }
     model = WorkOS::UserRoleAssignmentSource.new(fixture.to_json)
     json = model.to_h
@@ -688,6 +689,19 @@ class AuthorizationModelRoundTripTest < Minitest::Test
     assert_equal fixture["resource_type_slug"], json[:resource_type_slug]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_user_role_assignment_source_group_round_trip
+    fixture = {
+      "id" => "stub",
+      "name" => "stub"
+    }
+    model = WorkOS::UserRoleAssignmentSourceGroup.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["name"], json[:name]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 end
