@@ -1,5 +1,14 @@
 # Changelog
 
+## [10.5.0](https://github.com/workos/workos-ruby/compare/v10.4.0...v10.5.0) (2026-09-24)
+
+* [#558](https://github.com/workos/workos-ruby/pull/558) feat(generated): regenerate from spec
+
+  **Features**
+  * **[user_management](https://workos.com/docs/reference/authkit/user)**:
+    * Added model `UserRoleAssignmentSourceGroup`
+    * Added `group` to `UserRoleAssignmentSource`
+
 ## [10.4.0](https://github.com/workos/workos-ruby/compare/v10.3.0...v10.4.0) (2026-09-18)
 
 ### Features
