@@ -73,13 +73,25 @@ module WorkOS
         slug: String,
         user_id: String,
         secret: String,
+        connection_intent: String,
         organization_id: T.nilable(String),
-        connected_account_id: T.nilable(String),
         connection_owner: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::ConnectedAccount)
     end
-    def update_data_integration_api_key(slug:, user_id:, secret:, organization_id:, connected_account_id:, connection_owner:, request_options:); end
+    def create_data_integration_api_key(slug:, user_id:, secret:, connection_intent:, organization_id:, connection_owner:, request_options:); end
+
+    sig do
+      params(
+        slug: String,
+        user_id: String,
+        secret: String,
+        organization_id: T.nilable(String),
+        connection_owner: T.nilable(String),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::ConnectedAccount)
+    end
+    def update_data_integration_api_key(slug:, user_id:, secret:, organization_id:, connection_owner:, request_options:); end
 
     sig do
       params(
@@ -100,14 +112,28 @@ module WorkOS
         user_id: String,
         client_id: String,
         client_secret: String,
+        connection_intent: String,
         organization_id: T.nilable(String),
-        connected_account_id: T.nilable(String),
         connection_owner: T.nilable(String),
         config: T.nilable(T::Hash[String, String]),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::ConnectedAccount)
     end
-    def update_data_integration_client_credentials(slug:, user_id:, client_id:, client_secret:, organization_id:, connected_account_id:, connection_owner:, config:, request_options:); end
+    def create_data_integration_client_credential(slug:, user_id:, client_id:, client_secret:, connection_intent:, organization_id:, connection_owner:, config:, request_options:); end
+
+    sig do
+      params(
+        slug: String,
+        user_id: String,
+        client_id: String,
+        client_secret: String,
+        organization_id: T.nilable(String),
+        connection_owner: T.nilable(String),
+        config: T.nilable(T::Hash[String, String]),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::ConnectedAccount)
+    end
+    def update_data_integration_client_credentials(slug:, user_id:, client_id:, client_secret:, organization_id:, connection_owner:, config:, request_options:); end
 
     sig do
       params(
@@ -180,20 +206,23 @@ module WorkOS
       params(
         organization_id: String,
         slug: String,
+        user_id: String,
         access_token: T.nilable(String),
         refresh_token: T.nilable(String),
         expires_at: T.nilable(String),
         scopes: T.nilable(T::Array[String]),
         state: T.nilable(String),
+        connection_intent: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::ConnectedAccount)
     end
-    def create_organization_connected_account(organization_id:, slug:, access_token:, refresh_token:, expires_at:, scopes:, state:, request_options:); end
+    def create_organization_connected_account(organization_id:, slug:, user_id:, access_token:, refresh_token:, expires_at:, scopes:, state:, connection_intent:, request_options:); end
 
     sig do
       params(
         organization_id: String,
         slug: String,
+        user_id: String,
         access_token: T.nilable(String),
         refresh_token: T.nilable(String),
         expires_at: T.nilable(String),
@@ -201,10 +230,11 @@ module WorkOS
         state: T.nilable(String),
         supports_multiple_connections: T.nilable(T::Boolean),
         connected_account_id: T.nilable(String),
+        connection_intent: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::ConnectedAccount)
     end
-    def update_organization_connected_account(organization_id:, slug:, access_token:, refresh_token:, expires_at:, scopes:, state:, supports_multiple_connections:, connected_account_id:, request_options:); end
+    def update_organization_connected_account(organization_id:, slug:, user_id:, access_token:, refresh_token:, expires_at:, scopes:, state:, supports_multiple_connections:, connected_account_id:, connection_intent:, request_options:); end
 
     sig do
       params(
@@ -247,11 +277,12 @@ module WorkOS
         expires_at: T.nilable(String),
         scopes: T.nilable(T::Array[String]),
         state: T.nilable(String),
+        connection_intent: T.nilable(String),
         organization_id: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::ConnectedAccount)
     end
-    def create_user_connected_account(user_id:, slug:, access_token:, refresh_token:, expires_at:, scopes:, state:, organization_id:, request_options:); end
+    def create_user_connected_account(user_id:, slug:, access_token:, refresh_token:, expires_at:, scopes:, state:, connection_intent:, organization_id:, request_options:); end
 
     sig do
       params(
@@ -265,10 +296,11 @@ module WorkOS
         organization_id: T.nilable(String),
         supports_multiple_connections: T.nilable(T::Boolean),
         connected_account_id: T.nilable(String),
+        connection_intent: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::ConnectedAccount)
     end
-    def update_user_connected_account(user_id:, slug:, access_token:, refresh_token:, expires_at:, scopes:, state:, organization_id:, supports_multiple_connections:, connected_account_id:, request_options:); end
+    def update_user_connected_account(user_id:, slug:, access_token:, refresh_token:, expires_at:, scopes:, state:, organization_id:, supports_multiple_connections:, connected_account_id:, connection_intent:, request_options:); end
 
     sig do
       params(

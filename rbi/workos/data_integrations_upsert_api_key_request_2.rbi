@@ -5,7 +5,7 @@
 # typed: strong
 
 module WorkOS
-  class DataIntegrationsUpsertClientCredentialsRequest
+  class DataIntegrationsUpsertApiKeyRequest2
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
 
@@ -28,22 +28,16 @@ module WorkOS
     def connection_owner=(value); end
 
     sig { returns(String) }
-    def client_id; end
+    def secret; end
 
     sig { params(value: String).returns(String) }
-    def client_id=(value); end
+    def secret=(value); end
 
     sig { returns(String) }
-    def client_secret; end
+    def connected_account_id; end
 
     sig { params(value: String).returns(String) }
-    def client_secret=(value); end
-
-    sig { returns(T.nilable(T::Hash[String, String])) }
-    def config; end
-
-    sig { params(value: T.nilable(T::Hash[String, String])).returns(T.nilable(T::Hash[String, String])) }
-    def config=(value); end
+    def connected_account_id=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end
