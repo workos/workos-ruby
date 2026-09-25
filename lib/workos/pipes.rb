@@ -184,13 +184,51 @@ module WorkOS
       nil
     end
 
+    # Create another API key connected account
+    # @param slug [String] The identifier of the integration.
+    # @param user_id [String] A [User](https://workos.com/docs/reference/authkit/user) identifier.
+    # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter to scope the connection to a specific organization. Required when `connection_owner` is `organization`.
+    # @param connection_owner [WorkOS::Types::DataIntegrationsCreateApiKeyConnectionRequestConnectionOwner, nil] Whose connection to create or rotate. `user` (the default) addresses the connection owned by `user_id`. `organization` addresses the connection shared by every member of `organization_id`; `user_id` then identifies the member performing the request and must be an active member of the organization.
+    # @param secret [String] The API key secret to store for this integration.
+    # @param connection_intent [String] Must be `add`: this endpoint only creates another connection. The first connection for an owner shape fills the compatibility slot; later connections are standard. Creating an additional connection is not yet available: until it is, `add` succeeds only when the owner has no connection for this integration and otherwise returns 404 `multiple_connections_unavailable`.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::ConnectedAccount]
+    def create_data_integration_api_key(
+      slug:,
+      user_id:,
+      secret:,
+      connection_intent:,
+      organization_id: nil,
+      connection_owner: nil,
+      request_options: {}
+    )
+      body = {
+        "user_id" => user_id,
+        "organization_id" => organization_id,
+        "connection_owner" => connection_owner,
+        "secret" => secret,
+        "connection_intent" => connection_intent
+      }.compact
+      response = @client.request(
+        method: :post,
+        path: "/data-integrations/#{WorkOS::Util.encode_path(slug)}/api-key",
+        auth: true,
+        body: body,
+        request_options: request_options
+      )
+      result = WorkOS::ConnectedAccount.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
     # Upsert an API key for a connected account
     # @param slug [String] The identifier of the integration.
     # @param user_id [String] A [User](https://workos.com/docs/reference/authkit/user) identifier.
     # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter to scope the connection to a specific organization. Required when `connection_owner` is `organization`.
-    # @param connected_account_id [String, nil] A [connected account](https://workos.com/docs/reference/pipes/connected-account) identifier. Use this to rotate a specific existing connection.
     # @param connection_owner [WorkOS::Types::DataIntegrationsUpsertApiKeyRequestConnectionOwner, nil] Whose connection to create or rotate. `user` (the default) addresses the connection owned by `user_id`. `organization` addresses the connection shared by every member of `organization_id`; `user_id` then identifies the member performing the request and must be an active member of the organization.
     # @param secret [String] The API key secret to store for this integration.
+    # @param connection_intent [String, nil] Reauthorize exactly the connection named by `connected_account_id`.
+    # @param connected_account_id [String, nil] The exact connected account to reauthorize. Required with `connection_intent: reauthorize`.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::ConnectedAccount]
     def update_data_integration_api_key(
@@ -198,16 +236,18 @@ module WorkOS
       user_id:,
       secret:,
       organization_id: nil,
-      connected_account_id: nil,
       connection_owner: nil,
+      connection_intent: nil,
+      connected_account_id: nil,
       request_options: {}
     )
       body = {
         "user_id" => user_id,
         "organization_id" => organization_id,
-        "connected_account_id" => connected_account_id,
         "connection_owner" => connection_owner,
-        "secret" => secret
+        "secret" => secret,
+        "connection_intent" => connection_intent,
+        "connected_account_id" => connected_account_id
       }.compact
       response = @client.request(
         method: :put,
@@ -258,15 +298,59 @@ module WorkOS
       result
     end
 
+    # Create another client credentials connected account
+    # @param slug [String] The identifier of the integration.
+    # @param user_id [String] A [User](https://workos.com/docs/reference/authkit/user) identifier.
+    # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter to scope the connection to a specific organization. Required when `connection_owner` is `organization`.
+    # @param connection_owner [WorkOS::Types::DataIntegrationsCreateClientCredentialsConnectionRequestConnectionOwner, nil] Whose connection to create or rotate. `user` (the default) addresses the connection owned by `user_id`. `organization` addresses the connection shared by every member of `organization_id`; `user_id` then identifies the member performing the request and must be an active member of the organization.
+    # @param client_id [String] The OAuth client ID to store for this integration.
+    # @param client_secret [String] The OAuth client secret to store for this integration.
+    # @param config [Hash{String => String}, nil] Provider-specific configuration values collected for this installation, keyed by the provider's config field descriptors.
+    # @param connection_intent [String] Must be `add`: this endpoint only creates another connection. The first connection for an owner shape fills the compatibility slot; later connections are standard. Creating an additional connection is not yet available: until it is, `add` succeeds only when the owner has no connection for this integration and otherwise returns 404 `multiple_connections_unavailable`.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::ConnectedAccount]
+    def create_data_integration_client_credential(
+      slug:,
+      user_id:,
+      client_id:,
+      client_secret:,
+      connection_intent:,
+      organization_id: nil,
+      connection_owner: nil,
+      config: nil,
+      request_options: {}
+    )
+      body = {
+        "user_id" => user_id,
+        "organization_id" => organization_id,
+        "connection_owner" => connection_owner,
+        "client_id" => client_id,
+        "client_secret" => client_secret,
+        "config" => config,
+        "connection_intent" => connection_intent
+      }.compact
+      response = @client.request(
+        method: :post,
+        path: "/data-integrations/#{WorkOS::Util.encode_path(slug)}/client-credentials",
+        auth: true,
+        body: body,
+        request_options: request_options
+      )
+      result = WorkOS::ConnectedAccount.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
     # Upsert client credentials for a connected account
     # @param slug [String] The identifier of the integration.
     # @param user_id [String] A [User](https://workos.com/docs/reference/authkit/user) identifier.
     # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter to scope the connection to a specific organization. Required when `connection_owner` is `organization`.
-    # @param connected_account_id [String, nil] A [connected account](https://workos.com/docs/reference/pipes/connected-account) identifier. Use this to rotate a specific existing connection.
     # @param connection_owner [WorkOS::Types::DataIntegrationsUpsertClientCredentialsRequestConnectionOwner, nil] Whose connection to create or rotate. `user` (the default) addresses the connection owned by `user_id`. `organization` addresses the connection shared by every member of `organization_id`; `user_id` then identifies the member performing the request and must be an active member of the organization.
     # @param client_id [String] The OAuth client ID to store for this integration.
     # @param client_secret [String] The OAuth client secret to store for this integration.
     # @param config [Hash{String => String}, nil] Provider-specific configuration values collected for this installation, keyed by the provider's config field descriptors.
+    # @param connection_intent [String, nil] Reauthorize exactly the connection named by `connected_account_id`.
+    # @param connected_account_id [String, nil] The exact connected account to reauthorize. Required with `connection_intent: reauthorize`.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::ConnectedAccount]
     def update_data_integration_client_credentials(
@@ -275,19 +359,21 @@ module WorkOS
       client_id:,
       client_secret:,
       organization_id: nil,
-      connected_account_id: nil,
       connection_owner: nil,
       config: nil,
+      connection_intent: nil,
+      connected_account_id: nil,
       request_options: {}
     )
       body = {
         "user_id" => user_id,
         "organization_id" => organization_id,
-        "connected_account_id" => connected_account_id,
         "connection_owner" => connection_owner,
         "client_id" => client_id,
         "client_secret" => client_secret,
-        "config" => config
+        "config" => config,
+        "connection_intent" => connection_intent,
+        "connected_account_id" => connected_account_id
       }.compact
       response = @client.request(
         method: :put,
@@ -488,17 +574,21 @@ module WorkOS
     # @param refresh_token [String, nil] The OAuth refresh token for the connected account.
     # @param expires_at [String, nil] The ISO-8601 timestamp when the access token expires. Required when `access_token` is provided for tokens that expire.
     # @param scopes [Array<String>, nil] The OAuth scopes granted for this connection.
-    # @param state [WorkOS::Types::ConnectedAccountInputState, nil] Explicitly set the state of the connected account. When omitted, the state is derived from the token combination provided.
+    # @param state [WorkOS::Types::CreateOrganizationConnectedAccountState, nil] Explicitly set the state of the connected account. When omitted, the state is derived from the token combination provided.
+    # @param user_id [String] The [User](https://workos.com/docs/reference/authkit/user) identifier of the organization member on whose behalf the connected account is being imported or updated. The user must be an active member of the organization.
+    # @param connection_intent [String, nil] Set to `add` to create another connected account. Omit this field for permanent compatibility behavior. Creating an additional connection is not yet available: until it is, `add` succeeds only when the owner has no connection for this integration, which creates the compatibility connection, and otherwise returns 404 `multiple_connections_unavailable`.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::ConnectedAccount]
     def create_organization_connected_account(
       organization_id:,
       slug:,
+      user_id:,
       access_token: nil,
       refresh_token: nil,
       expires_at: nil,
       scopes: nil,
       state: nil,
+      connection_intent: nil,
       request_options: {}
     )
       body = {
@@ -506,7 +596,9 @@ module WorkOS
         "refresh_token" => refresh_token,
         "expires_at" => expires_at,
         "scopes" => scopes,
-        "state" => state
+        "state" => state,
+        "user_id" => user_id,
+        "connection_intent" => connection_intent
       }.compact
       response = @client.request(
         method: :post,
@@ -527,14 +619,17 @@ module WorkOS
     # @param refresh_token [String, nil] The OAuth refresh token for the connected account.
     # @param expires_at [String, nil] The ISO-8601 timestamp when the access token expires. Required when `access_token` is provided for tokens that expire.
     # @param scopes [Array<String>, nil] The OAuth scopes granted for this connection.
-    # @param state [WorkOS::Types::ConnectedAccountInputState, nil] Explicitly set the state of the connected account. When omitted, the state is derived from the token combination provided.
-    # @param supports_multiple_connections [Boolean, nil] Set to `true` to use the plural connection contract. When omitted or `false`, only the compatibility connection is considered.
+    # @param state [WorkOS::Types::OrganizationConnectedAccountState, nil] Explicitly set the state of the connected account. When omitted, the state is derived from the token combination provided.
+    # @param user_id [String] The [User](https://workos.com/docs/reference/authkit/user) identifier of the organization member on whose behalf the connected account is being imported or updated. The user must be an active member of the organization.
+    # @param supports_multiple_connections [Boolean, nil] Accepted for compatibility; does not change update targeting. Omit intent and selector to update the compatibility connection, or supply `connected_account_id` to update an exact connection.
     # @param connected_account_id [String, nil] A [connected account](https://workos.com/docs/reference/pipes/connected-account) identifier. Use this to select the connection to update.
+    # @param connection_intent [String, nil] Set to `reauthorize` with `connected_account_id` to update one exact connection. The intent may be omitted when supplying an ID. Omit both for permanent compatibility behavior.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::ConnectedAccount]
     def update_organization_connected_account(
       organization_id:,
       slug:,
+      user_id:,
       access_token: nil,
       refresh_token: nil,
       expires_at: nil,
@@ -542,18 +637,21 @@ module WorkOS
       state: nil,
       supports_multiple_connections: nil,
       connected_account_id: nil,
+      connection_intent: nil,
       request_options: {}
     )
       params = {
         "supports_multiple_connections" => supports_multiple_connections,
-        "connected_account_id" => connected_account_id
+        "connected_account_id" => connected_account_id,
+        "connection_intent" => connection_intent
       }.compact
       body = {
         "access_token" => access_token,
         "refresh_token" => refresh_token,
         "expires_at" => expires_at,
         "scopes" => scopes,
-        "state" => state
+        "state" => state,
+        "user_id" => user_id
       }.compact
       response = @client.request(
         method: :put,
@@ -661,7 +759,8 @@ module WorkOS
     # @param refresh_token [String, nil] The OAuth refresh token for the connected account.
     # @param expires_at [String, nil] The ISO-8601 timestamp when the access token expires. Required when `access_token` is provided for tokens that expire.
     # @param scopes [Array<String>, nil] The OAuth scopes granted for this connection.
-    # @param state [WorkOS::Types::ConnectedAccountInputState, nil] Explicitly set the state of the connected account. When omitted, the state is derived from the token combination provided.
+    # @param state [WorkOS::Types::CreateConnectedAccountState, nil] Explicitly set the state of the connected account. When omitted, the state is derived from the token combination provided.
+    # @param connection_intent [String, nil] Set to `add` to create another connected account. Omit this field for permanent compatibility behavior. Creating an additional connection is not yet available: until it is, `add` succeeds only when the owner has no connection for this integration, which creates the compatibility connection, and otherwise returns 404 `multiple_connections_unavailable`.
     # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter if the connection is scoped to an organization.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::ConnectedAccount]
@@ -673,6 +772,7 @@ module WorkOS
       expires_at: nil,
       scopes: nil,
       state: nil,
+      connection_intent: nil,
       organization_id: nil,
       request_options: {}
     )
@@ -684,7 +784,8 @@ module WorkOS
         "refresh_token" => refresh_token,
         "expires_at" => expires_at,
         "scopes" => scopes,
-        "state" => state
+        "state" => state,
+        "connection_intent" => connection_intent
       }.compact
       response = @client.request(
         method: :post,
@@ -708,8 +809,9 @@ module WorkOS
     # @param scopes [Array<String>, nil] The OAuth scopes granted for this connection.
     # @param state [WorkOS::Types::ConnectedAccountInputState, nil] Explicitly set the state of the connected account. When omitted, the state is derived from the token combination provided.
     # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter if the connection is scoped to an organization.
-    # @param supports_multiple_connections [Boolean, nil] Set to `true` to use the plural connection contract. When omitted or `false`, only the compatibility connection is considered.
+    # @param supports_multiple_connections [Boolean, nil] Accepted for compatibility; does not change update targeting. Omit intent and selector to update the compatibility connection, or supply `connected_account_id` to update an exact connection.
     # @param connected_account_id [String, nil] A [connected account](https://workos.com/docs/reference/pipes/connected-account) identifier. Use this to select the connection to update.
+    # @param connection_intent [String, nil] Set to `reauthorize` with `connected_account_id` to update one exact connection. The intent may be omitted when supplying an ID. Omit both for permanent compatibility behavior.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::ConnectedAccount]
     def update_user_connected_account(
@@ -723,12 +825,14 @@ module WorkOS
       organization_id: nil,
       supports_multiple_connections: nil,
       connected_account_id: nil,
+      connection_intent: nil,
       request_options: {}
     )
       params = {
         "organization_id" => organization_id,
         "supports_multiple_connections" => supports_multiple_connections,
-        "connected_account_id" => connected_account_id
+        "connected_account_id" => connected_account_id,
+        "connection_intent" => connection_intent
       }.compact
       body = {
         "access_token" => access_token,

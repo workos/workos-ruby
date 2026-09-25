@@ -5,7 +5,7 @@
 # typed: strong
 
 module WorkOS
-  class DataIntegrationsUpsertClientCredentialsRequest
+  class ReauthorizeDataIntegrationsUpsertClientCredentialsRequest
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
 
@@ -44,6 +44,18 @@ module WorkOS
 
     sig { params(value: T.nilable(T::Hash[String, String])).returns(T.nilable(T::Hash[String, String])) }
     def config=(value); end
+
+    sig { returns(String) }
+    def connection_intent; end
+
+    sig { params(value: String).returns(String) }
+    def connection_intent=(value); end
+
+    sig { returns(String) }
+    def connected_account_id; end
+
+    sig { params(value: String).returns(String) }
+    def connected_account_id=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end
