@@ -102,6 +102,25 @@ module WorkOS
       nil
     end
 
+    # Sync a Directory
+    # @param id [String] Unique identifier for the Directory.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::DirectorySyncResponse]
+    def sync_directory(
+      id:,
+      request_options: {}
+    )
+      response = @client.request(
+        method: :post,
+        path: "/directories/#{WorkOS::Util.encode_path(id)}/sync",
+        auth: true,
+        request_options: request_options
+      )
+      result = WorkOS::DirectorySyncResponse.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
     # List Directory Groups
     # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`.
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
