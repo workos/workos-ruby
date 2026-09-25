@@ -31,6 +31,30 @@ class DirectorySyncModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_directory_sync_response_round_trip
+    fixture = {
+      "status" => "queued"
+    }
+    model = WorkOS::DirectorySyncResponse.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_directory_sync_rate_limit_error_round_trip
+    fixture = {
+      "code" => "directory_sync_rate_limited",
+      "message" => "stub",
+      "retry_after_seconds" => 1
+    }
+    model = WorkOS::DirectorySyncRateLimitError.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    assert_equal fixture["retry_after_seconds"], json[:retry_after_seconds]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_directory_group_round_trip
     fixture = {
       "object" => "directory_group",

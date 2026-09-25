@@ -137,6 +137,8 @@
     "lib/workos/directory_sync/directory_group.rb",
     "lib/workos/directory_sync/directory_metadata.rb",
     "lib/workos/directory_sync/directory_metadata_user.rb",
+    "lib/workos/directory_sync/directory_sync_rate_limit_error.rb",
+    "lib/workos/directory_sync/directory_sync_response.rb",
     "lib/workos/directory_sync/directory_user.rb",
     "lib/workos/directory_sync/directory_user_email.rb",
     "lib/workos/directory_sync/directory_user_with_groups.rb",
@@ -1101,6 +1103,8 @@
     "rbi/workos/directory_metadata.rbi",
     "rbi/workos/directory_metadata_user.rbi",
     "rbi/workos/directory_sync.rbi",
+    "rbi/workos/directory_sync_rate_limit_error.rbi",
+    "rbi/workos/directory_sync_response.rbi",
     "rbi/workos/directory_user.rbi",
     "rbi/workos/directory_user_email.rbi",
     "rbi/workos/directory_user_with_groups.rbi",
@@ -2589,6 +2593,10 @@
     "GET /audit_logs/exports/{auditLogExportId}": {
       "sdkMethod": "get_export",
       "service": "audit_logs"
+    },
+    "POST /directories/{id}/sync": {
+      "sdkMethod": "sync_directory",
+      "service": "directory_sync"
     }
   }
 }
