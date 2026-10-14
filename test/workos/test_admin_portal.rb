@@ -18,9 +18,17 @@ class AdminPortalTest < Minitest::Test
     refute_nil result
   end
 
+  def test_create_revoke_link_returns_expected_result
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/portal/revoke_link(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.admin_portal.create_revoke_link(organization: "stub", external_user_id: "stub")
+    assert_nil result
+  end
+
   # Parameterized authentication error tests (one per endpoint).
   [
-    {name: :generate_link, verb: :post, url: %r{\Ahttps://api\.workos\.com/portal/generate_link(\?|\z)}, args: {organization: "stub"}}
+    {name: :generate_link, verb: :post, url: %r{\Ahttps://api\.workos\.com/portal/generate_link(\?|\z)}, args: {organization: "stub"}},
+    {name: :create_revoke_link, verb: :post, url: %r{\Ahttps://api\.workos\.com/portal/revoke_link(\?|\z)}, args: {organization: "stub", external_user_id: "stub"}}
   ].each do |spec|
     define_method("test_#{spec[:name]}_raises_authentication_error_on_401") do
       stub_request(spec[:verb], spec[:url])

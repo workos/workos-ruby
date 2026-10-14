@@ -4,10 +4,6 @@
 
 module WorkOS
   module Types
-    class AgentInstanceCreatedDataType
-      DELEGATED = "delegated"
-      AUTONOMOUS = "autonomous"
-      ALL = [DELEGATED, AUTONOMOUS].freeze
-    end
+    AgentInstanceCreatedDataType = AgentBlueprintCreatedDataInvocableAsInstanceTypes
   end
 end

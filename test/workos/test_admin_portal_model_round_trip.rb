@@ -10,6 +10,7 @@ class AdminPortalModelRoundTripTest < Minitest::Test
       "return_url" => "stub",
       "success_url" => "stub",
       "organization" => "stub",
+      "external_user_id" => "stub",
       "intent" => "stub",
       "it_contact_emails" => []
     }
@@ -17,6 +18,19 @@ class AdminPortalModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["organization"], json[:organization]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_revoke_link_round_trip
+    fixture = {
+      "organization" => "stub",
+      "external_user_id" => "stub"
+    }
+    model = WorkOS::RevokeLink.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["organization"], json[:organization]
+    assert_equal fixture["external_user_id"], json[:external_user_id]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 

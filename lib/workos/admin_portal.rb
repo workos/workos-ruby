@@ -14,6 +14,7 @@ module WorkOS
     # @param return_url [String, nil] The URL to go to when an admin clicks on your logo in the Admin Portal. If not specified, the return URL configured on the [Admin Portal](https://dashboard.workos.com/admin-portal) page will be used.
     # @param success_url [String, nil] The URL to redirect the admin to when they finish setup. If not specified, the success URL configured on the [Admin Portal](https://dashboard.workos.com/admin-portal) page will be used.
     # @param organization [String] An [Organization](https://workos.com/docs/reference/organization) identifier.
+    # @param external_user_id [String, nil] The ID of the user in your application the link is generated for. The link and any Admin Portal sessions started from it can later be revoked by this ID, for example when that user is deprovisioned from your application.
     # @param intent [WorkOS::Types::GenerateLinkIntent, nil] The intent of the Admin Portal. - `sso` - Launch Admin Portal for creating SSO connections - `dsync` - Launch Admin Portal for creating Directory Sync connections - `audit_logs` - Launch Admin Portal for viewing Audit Logs - `log_streams` - Launch Admin Portal for creating Log Streams - `domain_verification` - Launch Admin Portal for Domain Verification - `certificate_renewal` - Launch Admin Portal for renewing SAML Certificates - `bring_your_own_key` - Launch Admin Portal for configuring Bring Your Own Key
     # @param it_contact_emails [Array<String>, nil] The email addresses of the IT contacts to grant access to the Admin Portal for the given organization. Accepts up to 20 emails.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
@@ -22,6 +23,7 @@ module WorkOS
       organization:,
       return_url: nil,
       success_url: nil,
+      external_user_id: nil,
       intent: nil,
       it_contact_emails: nil,
       request_options: {}
@@ -30,6 +32,7 @@ module WorkOS
         "return_url" => return_url,
         "success_url" => success_url,
         "organization" => organization,
+        "external_user_id" => external_user_id,
         "intent" => intent,
         "it_contact_emails" => it_contact_emails
       }.compact
@@ -43,6 +46,30 @@ module WorkOS
       result = WorkOS::PortalLinkResponse.new(response.body)
       result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
       result
+    end
+
+    # Revoke Portal Links
+    # @param organization [String] An [Organization](https://workos.com/docs/reference/organization) identifier.
+    # @param external_user_id [String] The `external_user_id` the Portal Links were generated with for this organization. Every matching link is revoked, along with any Admin Portal sessions started from those links.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [void]
+    def create_revoke_link(
+      organization:,
+      external_user_id:,
+      request_options: {}
+    )
+      body = {
+        "organization" => organization,
+        "external_user_id" => external_user_id
+      }
+      @client.request(
+        method: :post,
+        path: "/portal/revoke_link",
+        auth: true,
+        body: body,
+        request_options: request_options
+      )
+      nil
     end
   end
 end
