@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    DataIntegrationsUpsertClientCredentialsRequestConnectionOwner = CreateDataIntegrationOwnership
+    DataIntegrationsUpsertClientCredentialsRequestConnectionOwner = AddDataIntegrationsGetDataIntegrationAuthorizeUrlRequestConnectionOwner
   end
 end
