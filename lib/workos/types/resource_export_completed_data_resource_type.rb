@@ -12,7 +12,8 @@ module WorkOS
       AUDIT_LOG_EVENTS = "auditLogEvents"
       CONNECTIONS = "connections"
       DIRECTORY_USERS = "directoryUsers"
-      ALL = [USERS, ORGANIZATIONS, EVENTS, SESSIONS, AUDIT_LOG_EVENTS, CONNECTIONS, DIRECTORY_USERS].freeze
+      SCIM_LOGS = "scimLogs"
+      ALL = [USERS, ORGANIZATIONS, EVENTS, SESSIONS, AUDIT_LOG_EVENTS, CONNECTIONS, DIRECTORY_USERS, SCIM_LOGS].freeze
     end
   end
 end
