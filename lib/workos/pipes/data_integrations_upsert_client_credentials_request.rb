@@ -5,9 +5,10 @@
 module WorkOS
   class DataIntegrationsUpsertClientCredentialsRequest < WorkOS::Types::BaseModel
     HASH_ATTRS = {
+      account_display_name: :account_display_name,
+      account_identifier: :account_identifier,
       user_id: :user_id,
       organization_id: :organization_id,
-      connected_account_id: :connected_account_id,
       connection_owner: :connection_owner,
       client_id: :client_id,
       client_secret: :client_secret,
@@ -15,9 +16,10 @@ module WorkOS
     }.freeze
 
     attr_accessor \
+      :account_display_name,
+      :account_identifier,
       :user_id,
       :organization_id,
-      :connected_account_id,
       :connection_owner,
       :client_id,
       :client_secret,
@@ -25,9 +27,10 @@ module WorkOS
 
     def initialize(json)
       hash = self.class.normalize(json)
+      @account_display_name = hash[:account_display_name]
+      @account_identifier = hash[:account_identifier]
       @user_id = hash[:user_id]
       @organization_id = hash[:organization_id]
-      @connected_account_id = hash[:connected_account_id]
       @connection_owner = hash[:connection_owner]
       @client_id = hash[:client_id]
       @client_secret = hash[:client_secret]

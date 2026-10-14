@@ -93,6 +93,18 @@ module WorkOS
     sig { params(value: String).returns(String) }
     def state=(value); end
 
+    sig { returns(T.nilable(String)) }
+    def established_by_user_id; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def established_by_user_id=(value); end
+
+    sig { returns(T.nilable(String)) }
+    def state_reason; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def state_reason=(value); end
+
     sig { returns(String) }
     def created_at; end
 

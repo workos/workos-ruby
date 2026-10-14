@@ -18,7 +18,7 @@ module WorkOS
     def initialize(json)
       hash = self.class.normalize(json)
       @active = hash[:active]
-      @credential = hash[:credential] ? WorkOS::DataIntegrationCredentialsResponseCredential.new(hash[:credential]) : nil
+      @credential = hash[:credential] ? WorkOS::DataIntegrationVendedCredential.new(hash[:credential]) : nil
       @error = hash[:error]
     end
   end

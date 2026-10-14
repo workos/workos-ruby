@@ -19,6 +19,8 @@ module WorkOS
       client_secret_last_4: :client_secret_last_4,
       config: :config,
       state: :state,
+      established_by_user_id: :established_by_user_id,
+      state_reason: :state_reason,
       created_at: :created_at,
       updated_at: :updated_at,
       userlandUserId: :userland_user_id
@@ -42,6 +44,8 @@ module WorkOS
       :client_secret_last_4,
       :config,
       :state,
+      :established_by_user_id,
+      :state_reason,
       :created_at,
       :updated_at
 
@@ -68,6 +72,8 @@ module WorkOS
       @client_secret_last_4 = hash[:client_secret_last_4]
       @config = hash[:config] || {}
       @state = hash[:state]
+      @established_by_user_id = hash[:established_by_user_id]
+      @state_reason = hash[:state_reason]
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
       @userland_user_id = hash[:userlandUserId]
