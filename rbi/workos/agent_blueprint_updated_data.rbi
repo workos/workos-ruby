@@ -45,6 +45,12 @@ module WorkOS
     sig { params(value: WorkOS::AgentBlueprintUpdatedDataInvocableBy).returns(WorkOS::AgentBlueprintUpdatedDataInvocableBy) }
     def invocable_by=(value); end
 
+    sig { returns(WorkOS::AgentBlueprintUpdatedDataInvocableAs) }
+    def invocable_as; end
+
+    sig { params(value: WorkOS::AgentBlueprintUpdatedDataInvocableAs).returns(WorkOS::AgentBlueprintUpdatedDataInvocableAs) }
+    def invocable_as=(value); end
+
     sig { returns(WorkOS::AgentBlueprintUpdatedDataSessionSetting) }
     def session_settings; end
 

@@ -435,6 +435,39 @@ class VaultModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_vault_dek_rekeyed_round_trip
+    fixture = {
+      "object" => "event",
+      "id" => "stub",
+      "event" => "vault.dek.rekeyed",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {}
+    }
+    model = WorkOS::VaultDekRekeyed.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_vault_dek_rekeyed_data_round_trip
+    fixture = {
+      "actor_id" => "stub",
+      "actor_source" => "stub",
+      "actor_name" => "stub",
+      "key_ids" => [],
+      "key_context" => {}
+    }
+    model = WorkOS::VaultDekRekeyedData.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["actor_id"], json[:actor_id]
+    assert_equal fixture["actor_name"], json[:actor_name]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_vault_kek_created_round_trip
     fixture = {
       "object" => "event",

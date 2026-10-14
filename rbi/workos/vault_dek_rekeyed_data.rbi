@@ -5,45 +5,39 @@
 # typed: strong
 
 module WorkOS
-  class DataIntegrationCredentialsResponseCredential
+  class VaultDekRekeyedData
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
 
     sig { returns(String) }
-    def object; end
+    def actor_id; end
 
     sig { params(value: String).returns(String) }
-    def object=(value); end
+    def actor_id=(value); end
 
     sig { returns(String) }
-    def auth_method; end
+    def actor_source; end
 
     sig { params(value: String).returns(String) }
-    def auth_method=(value); end
+    def actor_source=(value); end
 
     sig { returns(String) }
-    def value; end
+    def actor_name; end
 
     sig { params(value: String).returns(String) }
-    def value=(value); end
-
-    sig { returns(T.nilable(String)) }
-    def expires_at; end
-
-    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
-    def expires_at=(value); end
+    def actor_name=(value); end
 
     sig { returns(T::Array[String]) }
-    def scopes; end
+    def key_ids; end
 
     sig { params(value: T::Array[String]).returns(T::Array[String]) }
-    def scopes=(value); end
+    def key_ids=(value); end
 
-    sig { returns(T::Array[String]) }
-    def missing_scopes; end
+    sig { returns(T::Hash[String, String]) }
+    def key_context; end
 
-    sig { params(value: T::Array[String]).returns(T::Array[String]) }
-    def missing_scopes=(value); end
+    sig { params(value: T::Hash[String, String]).returns(T::Hash[String, String]) }
+    def key_context=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end

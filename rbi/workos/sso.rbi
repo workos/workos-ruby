@@ -234,13 +234,14 @@ module WorkOS
     sig do
       params(
         code: T.nilable(String),
+        code_verifier: T.nilable(String),
         subject_token: T.nilable(String),
         subject_token_type: T.nilable(String),
         organization_id: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::SSOTokenResponse)
     end
-    def get_profile_and_token(code:, subject_token:, subject_token_type:, organization_id:, request_options:); end
+    def get_profile_and_token(code:, code_verifier:, subject_token:, subject_token_type:, organization_id:, request_options:); end
 
   end
 end

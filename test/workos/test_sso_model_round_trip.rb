@@ -187,6 +187,7 @@ class SsoModelRoundTripTest < Minitest::Test
       "client_secret" => "stub",
       "code" => "stub",
       "grant_type" => "stub",
+      "code_verifier" => "stub",
       "subject_token" => "stub",
       "subject_token_type" => "urn:ietf:params:oauth:token-type:id_token",
       "organization_id" => "stub"

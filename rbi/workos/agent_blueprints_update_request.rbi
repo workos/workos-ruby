@@ -33,6 +33,12 @@ module WorkOS
     sig { params(value: T.nilable(WorkOS::AgentBlueprintsUpdateRequestInvocableBy)).returns(T.nilable(WorkOS::AgentBlueprintsUpdateRequestInvocableBy)) }
     def invocable_by=(value); end
 
+    sig { returns(T.nilable(WorkOS::AgentBlueprintsUpdateRequestInvocableAs)) }
+    def invocable_as; end
+
+    sig { params(value: T.nilable(WorkOS::AgentBlueprintsUpdateRequestInvocableAs)).returns(T.nilable(WorkOS::AgentBlueprintsUpdateRequestInvocableAs)) }
+    def invocable_as=(value); end
+
     sig { returns(T.nilable(WorkOS::AgentBlueprintsUpdateRequestSessionSetting)) }
     def session_settings; end
 

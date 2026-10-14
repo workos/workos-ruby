@@ -9,6 +9,7 @@ module WorkOS
       description: :description,
       permissions: :permissions,
       invocable_by: :invocable_by,
+      invocable_as: :invocable_as,
       session_settings: :session_settings
     }.freeze
 
@@ -17,6 +18,7 @@ module WorkOS
       :description,
       :permissions,
       :invocable_by,
+      :invocable_as,
       :session_settings
 
     def initialize(json)
@@ -25,6 +27,7 @@ module WorkOS
       @description = hash[:description]
       @permissions = hash[:permissions] || []
       @invocable_by = hash[:invocable_by] ? WorkOS::AgentBlueprintsUpdateRequestInvocableBy.new(hash[:invocable_by]) : nil
+      @invocable_as = hash[:invocable_as] ? WorkOS::AgentBlueprintsUpdateRequestInvocableAs.new(hash[:invocable_as]) : nil
       @session_settings = hash[:session_settings] ? WorkOS::AgentBlueprintsUpdateRequestSessionSetting.new(hash[:session_settings]) : nil
     end
   end

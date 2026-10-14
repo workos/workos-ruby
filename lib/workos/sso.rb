@@ -507,6 +507,7 @@ module WorkOS
 
     # Get a Profile and Token
     # @param code [String, nil] The authorization code received from the authorization callback. Required when `grant_type` is `authorization_code`.
+    # @param code_verifier [String, nil] The PKCE code verifier matching the `code_challenge` sent with the authorization request. Required when the authorization request included a `code_challenge`. Must be sent in the request body.
     # @param subject_token [String, nil] The OIDC ID token to exchange. Required when `grant_type` is `urn:ietf:params:oauth:grant-type:token-exchange`. Must be sent in the request body.
     # @param subject_token_type [String, nil] The type of the subject token. Required when `grant_type` is `urn:ietf:params:oauth:grant-type:token-exchange`. Must be sent in the request body.
     # @param organization_id [String, nil] The ID of the organization whose connection the subject token is validated against. Required when `grant_type` is `urn:ietf:params:oauth:grant-type:token-exchange`. Must be sent in the request body.
@@ -514,6 +515,7 @@ module WorkOS
     # @return [WorkOS::SSOTokenResponse]
     def get_profile_and_token(
       code: nil,
+      code_verifier: nil,
       subject_token: nil,
       subject_token_type: nil,
       organization_id: nil,
@@ -524,6 +526,7 @@ module WorkOS
         "client_id" => request_options[:client_id] || @client.client_id,
         "client_secret" => request_options[:api_key] || @client.api_key,
         "code" => code,
+        "code_verifier" => code_verifier,
         "subject_token" => subject_token,
         "subject_token_type" => subject_token_type,
         "organization_id" => organization_id

@@ -11,6 +11,7 @@ module WorkOS
       description: :description,
       permissions: :permissions,
       invocable_by: :invocable_by,
+      invocable_as: :invocable_as,
       session_settings: :session_settings,
       created_at: :created_at,
       updated_at: :updated_at
@@ -23,6 +24,7 @@ module WorkOS
       :description,
       :permissions,
       :invocable_by,
+      :invocable_as,
       :session_settings,
       :created_at,
       :updated_at
@@ -35,6 +37,7 @@ module WorkOS
       @description = hash[:description]
       @permissions = hash[:permissions] || []
       @invocable_by = hash[:invocable_by] ? WorkOS::AgentBlueprintInvocableBy.new(hash[:invocable_by]) : nil
+      @invocable_as = hash[:invocable_as] ? WorkOS::AgentBlueprintInvocableAs.new(hash[:invocable_as]) : nil
       @session_settings = hash[:session_settings] ? WorkOS::AgentBlueprintSessionSetting.new(hash[:session_settings]) : nil
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]

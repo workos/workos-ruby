@@ -163,6 +163,8 @@ class SharedModelRoundTripTest < Minitest::Test
       "auth_method" => "stub",
       "api_key_last_4" => nil,
       "state" => "stub",
+      "established_by_user_id" => nil,
+      "state_reason" => nil,
       "created_at" => "stub",
       "updated_at" => "stub"
     }
@@ -245,6 +247,7 @@ class SharedModelRoundTripTest < Minitest::Test
       "description" => nil,
       "permissions" => [],
       "invocable_by" => {},
+      "invocable_as" => {},
       "session_settings" => {},
       "created_at" => "stub",
       "updated_at" => "stub"
@@ -266,6 +269,16 @@ class SharedModelRoundTripTest < Minitest::Test
       "organization_ids" => []
     }
     model = WorkOS::AgentBlueprintCreatedDataInvocableBy.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_blueprint_created_data_invocable_as_round_trip
+    fixture = {
+      "instance_types" => []
+    }
+    model = WorkOS::AgentBlueprintCreatedDataInvocableAs.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
@@ -346,6 +359,7 @@ class SharedModelRoundTripTest < Minitest::Test
       "description" => nil,
       "permissions" => [],
       "invocable_by" => {},
+      "invocable_as" => {},
       "session_settings" => {},
       "created_at" => "stub",
       "updated_at" => "stub"
@@ -367,6 +381,16 @@ class SharedModelRoundTripTest < Minitest::Test
       "organization_ids" => []
     }
     model = WorkOS::AgentBlueprintUpdatedDataInvocableBy.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_blueprint_updated_data_invocable_as_round_trip
+    fixture = {
+      "instance_types" => []
+    }
+    model = WorkOS::AgentBlueprintUpdatedDataInvocableAs.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
@@ -1451,24 +1475,24 @@ class SharedModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
-  def test_account_selection_required_error_round_trip
-    fixture = {
-      "code" => "account_selection_required",
-      "message" => "stub"
-    }
-    model = WorkOS::AccountSelectionRequiredError.new(fixture.to_json)
-    json = model.to_h
-    assert_kind_of Hash, json
-    assert_equal fixture["message"], json[:message]
-    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
-  end
-
   def test_auth_method_mismatch_error_round_trip
     fixture = {
       "code" => "auth_method_mismatch",
       "message" => "stub"
     }
     model = WorkOS::AuthMethodMismatchError.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_account_selection_required_error_round_trip
+    fixture = {
+      "code" => "account_selection_required",
+      "message" => "stub"
+    }
+    model = WorkOS::AccountSelectionRequiredError.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["message"], json[:message]
