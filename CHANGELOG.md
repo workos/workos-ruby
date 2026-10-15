@@ -1,5 +1,28 @@
 # Changelog
 
+## [10.5.0](https://github.com/workos/workos-ruby/compare/v10.4.0...v10.5.0) (2026-10-15)
+
+
+### Features
+
+* **admin_portal:** SDK surface change: `AdminPortal.create_revoke_link` was renamed to `AdminPortal.revoke_link` ([#565](https://github.com/workos/workos-ruby/issues/565)) ([b3d8713](https://github.com/workos/workos-ruby/commit/b3d87136605d0538f0c81ef2d69db1b4ccf9ca6e))
+* **admin_portal:** Update admin portal API surface ([#562](https://github.com/workos/workos-ruby/issues/562)) ([30f8794](https://github.com/workos/workos-ruby/commit/30f8794981574354af09ff82121b0681bf5e87c3))
+* **audit_logs:** Update audit log API surface ([#562](https://github.com/workos/workos-ruby/issues/562)) ([30f8794](https://github.com/workos/workos-ruby/commit/30f8794981574354af09ff82121b0681bf5e87c3))
+* **authorization:** Update authorization API surface ([#562](https://github.com/workos/workos-ruby/issues/562)) ([30f8794](https://github.com/workos/workos-ruby/commit/30f8794981574354af09ff82121b0681bf5e87c3))
+* **feature_flags:** Update feature flag API surface ([#562](https://github.com/workos/workos-ruby/issues/562)) ([30f8794](https://github.com/workos/workos-ruby/commit/30f8794981574354af09ff82121b0681bf5e87c3))
+* **generated:** Authorization (batch c64ce1e7) ([#558](https://github.com/workos/workos-ruby/issues/558)) ([db38c4b](https://github.com/workos/workos-ruby/commit/db38c4b7a919a37c1fda67d49c520ff2dbbf4f8c))
+* **organizations:** Update organization API surface ([#562](https://github.com/workos/workos-ruby/issues/562)) ([30f8794](https://github.com/workos/workos-ruby/commit/30f8794981574354af09ff82121b0681bf5e87c3))
+* **pipes:** Change Pipes API surface ([#562](https://github.com/workos/workos-ruby/issues/562)) ([30f8794](https://github.com/workos/workos-ruby/commit/30f8794981574354af09ff82121b0681bf5e87c3))
+* **pipes:** Update Pipes API surface ([#562](https://github.com/workos/workos-ruby/issues/562)) ([30f8794](https://github.com/workos/workos-ruby/commit/30f8794981574354af09ff82121b0681bf5e87c3))
+* **radar:** Update radar API surface ([#562](https://github.com/workos/workos-ruby/issues/562)) ([30f8794](https://github.com/workos/workos-ruby/commit/30f8794981574354af09ff82121b0681bf5e87c3))
+* **user_management:** Update user management API surface ([#562](https://github.com/workos/workos-ruby/issues/562)) ([30f8794](https://github.com/workos/workos-ruby/commit/30f8794981574354af09ff82121b0681bf5e87c3))
+* **user_management:** Update user management API surface ([#565](https://github.com/workos/workos-ruby/issues/565)) ([b3d8713](https://github.com/workos/workos-ruby/commit/b3d87136605d0538f0c81ef2d69db1b4ccf9ca6e))
+
+
+### Bug Fixes
+
+* **user_management:** Change errors for endpoint `POST /user_management/authenticate` ([#565](https://github.com/workos/workos-ruby/issues/565)) ([b3d8713](https://github.com/workos/workos-ruby/commit/b3d87136605d0538f0c81ef2d69db1b4ccf9ca6e))
+
 ## [10.4.0](https://github.com/workos/workos-ruby/compare/v10.3.0...v10.4.0) (2026-09-18)
 
 ### Features
