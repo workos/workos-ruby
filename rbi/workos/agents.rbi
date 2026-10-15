@@ -26,11 +26,12 @@ module WorkOS
         description: T.nilable(String),
         permissions: T.nilable(T::Array[String]),
         invocable_by: T.nilable(WorkOS::AgentBlueprintsCreateRequestInvocableBy),
+        invocable_as: T.nilable(WorkOS::AgentBlueprintsCreateRequestInvocableAs),
         session_settings: T.nilable(WorkOS::AgentBlueprintsCreateRequestSessionSetting),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AgentBlueprint)
     end
-    def create_blueprint(name:, description:, permissions:, invocable_by:, session_settings:, request_options:); end
+    def create_blueprint(name:, description:, permissions:, invocable_by:, invocable_as:, session_settings:, request_options:); end
 
     sig do
       params(
@@ -47,11 +48,12 @@ module WorkOS
         description: T.nilable(String),
         permissions: T.nilable(T::Array[String]),
         invocable_by: T.nilable(WorkOS::AgentBlueprintsUpdateRequestInvocableBy),
+        invocable_as: T.nilable(WorkOS::AgentBlueprintsUpdateRequestInvocableAs),
         session_settings: T.nilable(WorkOS::AgentBlueprintsUpdateRequestSessionSetting),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AgentBlueprint)
     end
-    def update_blueprint(agent_blueprint_id:, name:, description:, permissions:, invocable_by:, session_settings:, request_options:); end
+    def update_blueprint(agent_blueprint_id:, name:, description:, permissions:, invocable_by:, invocable_as:, session_settings:, request_options:); end
 
     sig do
       params(

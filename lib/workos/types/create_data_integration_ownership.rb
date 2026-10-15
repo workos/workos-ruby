@@ -4,10 +4,6 @@
 
 module WorkOS
   module Types
-    class CreateDataIntegrationOwnership
-      USER = "user"
-      ORGANIZATION = "organization"
-      ALL = [USER, ORGANIZATION].freeze
-    end
+    CreateDataIntegrationOwnership = AddDataIntegrationsGetDataIntegrationAuthorizeUrlRequestConnectionOwner
   end
 end

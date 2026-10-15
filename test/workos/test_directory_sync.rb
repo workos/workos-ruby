@@ -32,6 +32,13 @@ class DirectorySyncTest < Minitest::Test
     assert_nil result
   end
 
+  def test_create_directory_sync_returns_expected_result
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/directories/stub/sync(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.directory_sync.create_directory_sync(id: "stub")
+    refute_nil result
+  end
+
   def test_list_groups_returns_expected_result
     stub_request(:get, %r{\Ahttps://api\.workos\.com/directory_groups(\?|\z)})
       .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
@@ -65,6 +72,7 @@ class DirectorySyncTest < Minitest::Test
     {name: :list_directories, verb: :get, url: %r{\Ahttps://api\.workos\.com/directories(\?|\z)}},
     {name: :get_directory, verb: :get, url: %r{\Ahttps://api\.workos\.com/directories/stub(\?|\z)}, args: {id: "stub"}},
     {name: :delete_directory, verb: :delete, url: %r{\Ahttps://api\.workos\.com/directories/stub(\?|\z)}, args: {id: "stub"}},
+    {name: :create_directory_sync, verb: :post, url: %r{\Ahttps://api\.workos\.com/directories/stub/sync(\?|\z)}, args: {id: "stub"}},
     {name: :list_groups, verb: :get, url: %r{\Ahttps://api\.workos\.com/directory_groups(\?|\z)}},
     {name: :get_group, verb: :get, url: %r{\Ahttps://api\.workos\.com/directory_groups/stub(\?|\z)}, args: {id: "stub"}},
     {name: :list_users, verb: :get, url: %r{\Ahttps://api\.workos\.com/directory_users(\?|\z)}},

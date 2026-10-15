@@ -15,10 +15,10 @@ module WorkOS
     sig { params(value: T.nilable(T::Boolean)).returns(T.nilable(T::Boolean)) }
     def active=(value); end
 
-    sig { returns(T.nilable(WorkOS::DataIntegrationCredentialsResponseCredential)) }
+    sig { returns(T.nilable(WorkOS::DataIntegrationVendedCredential)) }
     def credential; end
 
-    sig { params(value: T.nilable(WorkOS::DataIntegrationCredentialsResponseCredential)).returns(T.nilable(WorkOS::DataIntegrationCredentialsResponseCredential)) }
+    sig { params(value: T.nilable(WorkOS::DataIntegrationVendedCredential)).returns(T.nilable(WorkOS::DataIntegrationVendedCredential)) }
     def credential=(value); end
 
     sig { returns(T.nilable(String)) }

@@ -46,6 +46,13 @@ class PipesTest < Minitest::Test
     assert_nil result
   end
 
+  def test_create_data_integration_api_key_returns_expected_result
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/data-integrations/stub/api-key(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.pipes.create_data_integration_api_key(slug: "stub", user_id: "stub", secret: "stub", connection_intent: "add")
+    refute_nil result
+  end
+
   def test_update_data_integration_api_key_returns_expected_result
     stub_request(:put, %r{\Ahttps://api\.workos\.com/data-integrations/stub/api-key(\?|\z)})
       .to_return(body: "{}", status: 200)
@@ -57,6 +64,13 @@ class PipesTest < Minitest::Test
     stub_request(:post, %r{\Ahttps://api\.workos\.com/data-integrations/stub/authorize(\?|\z)})
       .to_return(body: "{}", status: 200)
     result = @client.pipes.authorize_data_integration(slug: "stub", user_id: "stub")
+    refute_nil result
+  end
+
+  def test_create_data_integration_client_credential_returns_expected_result
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/data-integrations/stub/client-credentials(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.pipes.create_data_integration_client_credential(slug: "stub", user_id: "stub", client_id: "stub", client_secret: "stub", connection_intent: "add")
     refute_nil result
   end
 
@@ -112,14 +126,14 @@ class PipesTest < Minitest::Test
   def test_create_organization_connected_account_returns_expected_result
     stub_request(:post, %r{\Ahttps://api\.workos\.com/organizations/stub/connected_accounts/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
-    result = @client.pipes.create_organization_connected_account(organization_id: "stub", slug: "stub")
+    result = @client.pipes.create_organization_connected_account(organization_id: "stub", slug: "stub", user_id: "stub")
     refute_nil result
   end
 
   def test_update_organization_connected_account_returns_expected_result
     stub_request(:put, %r{\Ahttps://api\.workos\.com/organizations/stub/connected_accounts/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
-    result = @client.pipes.update_organization_connected_account(organization_id: "stub", slug: "stub")
+    result = @client.pipes.update_organization_connected_account(organization_id: "stub", slug: "stub", user_id: "stub")
     refute_nil result
   end
 
@@ -179,8 +193,10 @@ class PipesTest < Minitest::Test
     {name: :get_data_integration, verb: :get, url: %r{\Ahttps://api\.workos\.com/data-integrations/stub(\?|\z)}, args: {slug: "stub"}},
     {name: :update_data_integration, verb: :put, url: %r{\Ahttps://api\.workos\.com/data-integrations/stub(\?|\z)}, args: {slug: "stub"}},
     {name: :delete_data_integration, verb: :delete, url: %r{\Ahttps://api\.workos\.com/data-integrations/stub(\?|\z)}, args: {slug: "stub"}},
+    {name: :create_data_integration_api_key, verb: :post, url: %r{\Ahttps://api\.workos\.com/data-integrations/stub/api-key(\?|\z)}, args: {slug: "stub", user_id: "stub", secret: "stub", connection_intent: "add"}},
     {name: :update_data_integration_api_key, verb: :put, url: %r{\Ahttps://api\.workos\.com/data-integrations/stub/api-key(\?|\z)}, args: {slug: "stub", user_id: "stub", secret: "stub"}},
     {name: :authorize_data_integration, verb: :post, url: %r{\Ahttps://api\.workos\.com/data-integrations/stub/authorize(\?|\z)}, args: {slug: "stub", user_id: "stub"}},
+    {name: :create_data_integration_client_credential, verb: :post, url: %r{\Ahttps://api\.workos\.com/data-integrations/stub/client-credentials(\?|\z)}, args: {slug: "stub", user_id: "stub", client_id: "stub", client_secret: "stub", connection_intent: "add"}},
     {name: :update_data_integration_client_credentials, verb: :put, url: %r{\Ahttps://api\.workos\.com/data-integrations/stub/client-credentials(\?|\z)}, args: {slug: "stub", user_id: "stub", client_id: "stub", client_secret: "stub"}},
     {name: :create_data_integration_credential, verb: :post, url: %r{\Ahttps://api\.workos\.com/data-integrations/stub/credentials(\?|\z)}, args: {slug: "stub", user_id: "stub"}},
     {name: :list_data_integration_organization, verb: :get, url: %r{\Ahttps://api\.workos\.com/data-integrations/stub/organization(\?|\z)}, args: {slug: "stub"}},
@@ -188,8 +204,8 @@ class PipesTest < Minitest::Test
     {name: :delete_data_integration_organization, verb: :delete, url: %r{\Ahttps://api\.workos\.com/data-integrations/stub/organization(\?|\z)}, args: {slug: "stub"}},
     {name: :get_access_token, verb: :post, url: %r{\Ahttps://api\.workos\.com/data-integrations/stub/token(\?|\z)}, args: {provider: "stub", user_id: "stub"}},
     {name: :get_organization_connected_account, verb: :get, url: %r{\Ahttps://api\.workos\.com/organizations/stub/connected_accounts/stub(\?|\z)}, args: {organization_id: "stub", slug: "stub"}},
-    {name: :create_organization_connected_account, verb: :post, url: %r{\Ahttps://api\.workos\.com/organizations/stub/connected_accounts/stub(\?|\z)}, args: {organization_id: "stub", slug: "stub"}},
-    {name: :update_organization_connected_account, verb: :put, url: %r{\Ahttps://api\.workos\.com/organizations/stub/connected_accounts/stub(\?|\z)}, args: {organization_id: "stub", slug: "stub"}},
+    {name: :create_organization_connected_account, verb: :post, url: %r{\Ahttps://api\.workos\.com/organizations/stub/connected_accounts/stub(\?|\z)}, args: {organization_id: "stub", slug: "stub", user_id: "stub"}},
+    {name: :update_organization_connected_account, verb: :put, url: %r{\Ahttps://api\.workos\.com/organizations/stub/connected_accounts/stub(\?|\z)}, args: {organization_id: "stub", slug: "stub", user_id: "stub"}},
     {name: :delete_organization_connected_account, verb: :delete, url: %r{\Ahttps://api\.workos\.com/organizations/stub/connected_accounts/stub(\?|\z)}, args: {organization_id: "stub", slug: "stub"}},
     {name: :list_organization_data_providers, verb: :get, url: %r{\Ahttps://api\.workos\.com/organizations/stub/data_providers(\?|\z)}, args: {organization_id: "stub"}},
     {name: :get_user_connected_account, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/users/stub/connected_accounts/stub(\?|\z)}, args: {user_id: "stub", slug: "stub"}},

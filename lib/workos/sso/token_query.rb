@@ -9,6 +9,7 @@ module WorkOS
       client_secret: :client_secret,
       code: :code,
       grant_type: :grant_type,
+      code_verifier: :code_verifier,
       subject_token: :subject_token,
       subject_token_type: :subject_token_type,
       organization_id: :organization_id
@@ -19,6 +20,7 @@ module WorkOS
       :client_secret,
       :code,
       :grant_type,
+      :code_verifier,
       :subject_token,
       :subject_token_type,
       :organization_id
@@ -29,6 +31,7 @@ module WorkOS
       @client_secret = hash[:client_secret]
       @code = hash[:code]
       @grant_type = hash[:grant_type]
+      @code_verifier = hash[:code_verifier]
       @subject_token = hash[:subject_token]
       @subject_token_type = hash[:subject_token_type]
       @organization_id = hash[:organization_id]

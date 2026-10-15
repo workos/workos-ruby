@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    AgentInstanceType = AgentInstanceCreatedDataType
+    AgentInstanceType = AgentBlueprintCreatedDataInvocableAsInstanceTypes
   end
 end

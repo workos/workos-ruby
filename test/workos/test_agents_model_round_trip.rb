@@ -64,6 +64,7 @@ class AgentsModelRoundTripTest < Minitest::Test
       "description" => nil,
       "permissions" => [],
       "invocable_by" => {},
+      "invocable_as" => {},
       "session_settings" => {},
       "created_at" => "stub",
       "updated_at" => "stub"
@@ -182,6 +183,16 @@ class AgentsModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_agent_blueprint_invocable_as_round_trip
+    fixture = {
+      "instance_types" => []
+    }
+    model = WorkOS::AgentBlueprintInvocableAs.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_agent_blueprint_session_setting_round_trip
     fixture = {
       "max_age_seconds" => 1,
@@ -251,6 +262,7 @@ class AgentsModelRoundTripTest < Minitest::Test
       "description" => "stub",
       "permissions" => [],
       "invocable_by" => {},
+      "invocable_as" => {},
       "session_settings" => {}
     }
     model = WorkOS::AgentBlueprintsCreateRequest.new(fixture.to_json)
@@ -266,6 +278,16 @@ class AgentsModelRoundTripTest < Minitest::Test
       "organization_ids" => []
     }
     model = WorkOS::AgentBlueprintsCreateRequestInvocableBy.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_blueprints_create_request_invocable_as_round_trip
+    fixture = {
+      "instance_types" => []
+    }
+    model = WorkOS::AgentBlueprintsCreateRequestInvocableAs.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
@@ -292,6 +314,7 @@ class AgentsModelRoundTripTest < Minitest::Test
       "description" => nil,
       "permissions" => [],
       "invocable_by" => {},
+      "invocable_as" => {},
       "session_settings" => {}
     }
     model = WorkOS::AgentBlueprintsUpdateRequest.new(fixture.to_json)
@@ -306,6 +329,16 @@ class AgentsModelRoundTripTest < Minitest::Test
       "organization_ids" => []
     }
     model = WorkOS::AgentBlueprintsUpdateRequestInvocableBy.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_blueprints_update_request_invocable_as_round_trip
+    fixture = {
+      "instance_types" => []
+    }
+    model = WorkOS::AgentBlueprintsUpdateRequestInvocableAs.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }

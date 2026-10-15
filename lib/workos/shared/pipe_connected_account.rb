@@ -18,6 +18,8 @@ module WorkOS
       auth_method: :auth_method,
       api_key_last_4: :api_key_last_4,
       state: :state,
+      established_by_user_id: :established_by_user_id,
+      state_reason: :state_reason,
       created_at: :created_at,
       updated_at: :updated_at
     }.freeze
@@ -36,6 +38,8 @@ module WorkOS
       :auth_method,
       :api_key_last_4,
       :state,
+      :established_by_user_id,
+      :state_reason,
       :created_at,
       :updated_at
 
@@ -54,6 +58,8 @@ module WorkOS
       @auth_method = hash[:auth_method]
       @api_key_last_4 = hash[:api_key_last_4]
       @state = hash[:state]
+      @established_by_user_id = hash[:established_by_user_id]
+      @state_reason = hash[:state_reason]
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
     end

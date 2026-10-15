@@ -28,6 +28,12 @@ module WorkOS
     def organization=(value); end
 
     sig { returns(T.nilable(String)) }
+    def external_user_id; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def external_user_id=(value); end
+
+    sig { returns(T.nilable(String)) }
     def intent; end
 
     sig { params(value: T.nilable(String)).returns(T.nilable(String)) }

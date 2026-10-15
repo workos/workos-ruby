@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    AgentInstanceDeletedDataType = AgentInstanceCreatedDataType
+    AgentInstanceDeletedDataType = AgentBlueprintCreatedDataInvocableAsInstanceTypes
   end
 end

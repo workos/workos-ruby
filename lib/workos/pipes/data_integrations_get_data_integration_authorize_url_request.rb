@@ -5,6 +5,7 @@
 module WorkOS
   class DataIntegrationsGetDataIntegrationAuthorizeUrlRequest < WorkOS::Types::BaseModel
     HASH_ATTRS = {
+      account_display_name: :account_display_name,
       user_id: :user_id,
       organization_id: :organization_id,
       connection_owner: :connection_owner,
@@ -13,6 +14,7 @@ module WorkOS
     }.freeze
 
     attr_accessor \
+      :account_display_name,
       :user_id,
       :organization_id,
       :connection_owner,
@@ -21,6 +23,7 @@ module WorkOS
 
     def initialize(json)
       hash = self.class.normalize(json)
+      @account_display_name = hash[:account_display_name]
       @user_id = hash[:user_id]
       @organization_id = hash[:organization_id]
       @connection_owner = hash[:connection_owner]

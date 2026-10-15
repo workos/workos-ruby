@@ -9,6 +9,12 @@ module WorkOS
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
 
+    sig { returns(T.nilable(String)) }
+    def account_display_name; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def account_display_name=(value); end
+
     sig { returns(String) }
     def user_id; end
 

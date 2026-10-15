@@ -59,6 +59,7 @@ module WorkOS
     # @param description [String, nil] Human-readable description of the agent blueprint.
     # @param permissions [Array<String>, nil] Permission slugs forming the ceiling on what sessions minted from this blueprint may do. Each slug must exist in the environment.
     # @param invocable_by [WorkOS::AgentBlueprintsCreateRequestInvocableBy, nil] Who may mint sessions from this blueprint.
+    # @param invocable_as [WorkOS::AgentBlueprintsCreateRequestInvocableAs, nil] How sessions may be minted from this blueprint.
     # @param session_settings [WorkOS::AgentBlueprintsCreateRequestSessionSetting, nil] Token and session lifetimes for sessions minted from this blueprint.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::AgentBlueprint]
@@ -67,6 +68,7 @@ module WorkOS
       description: nil,
       permissions: nil,
       invocable_by: nil,
+      invocable_as: nil,
       session_settings: nil,
       request_options: {}
     )
@@ -75,6 +77,7 @@ module WorkOS
         "description" => description,
         "permissions" => permissions,
         "invocable_by" => invocable_by,
+        "invocable_as" => invocable_as,
         "session_settings" => session_settings
       }.compact
       response = @client.request(
@@ -114,6 +117,7 @@ module WorkOS
     # @param description [String, nil] Human-readable description of the agent blueprint. Pass `null` to clear it.
     # @param permissions [Array<String>, nil] Permission slugs forming the ceiling on what sessions minted from this blueprint may do. Each slug must exist in the environment.
     # @param invocable_by [WorkOS::AgentBlueprintsUpdateRequestInvocableBy, nil] Who may mint sessions from this blueprint. Omitted lists are left unchanged.
+    # @param invocable_as [WorkOS::AgentBlueprintsUpdateRequestInvocableAs, nil] How sessions may be minted from this blueprint. Omitted lists are left unchanged.
     # @param session_settings [WorkOS::AgentBlueprintsUpdateRequestSessionSetting, nil] Token and session lifetimes for sessions minted from this blueprint. Omitted fields are left unchanged.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::AgentBlueprint]
@@ -123,6 +127,7 @@ module WorkOS
       description: WorkOS::OMIT,
       permissions: nil,
       invocable_by: nil,
+      invocable_as: nil,
       session_settings: nil,
       request_options: {}
     )
@@ -130,6 +135,7 @@ module WorkOS
         "name" => name,
         "permissions" => permissions,
         "invocable_by" => invocable_by,
+        "invocable_as" => invocable_as,
         "session_settings" => session_settings
       }.compact
       body["description"] = description unless description.equal?(WorkOS::OMIT)

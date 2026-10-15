@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    DataIntegrationsGetDataIntegrationAuthorizeUrlRequestConnectionOwner = CreateDataIntegrationOwnership
+    DataIntegrationsGetDataIntegrationAuthorizeUrlRequestConnectionOwner = AddDataIntegrationsGetDataIntegrationAuthorizeUrlRequestConnectionOwner
   end
 end

@@ -10,6 +10,18 @@ module WorkOS
     def initialize(json); end
 
     sig { returns(T.nilable(String)) }
+    def account_display_name; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def account_display_name=(value); end
+
+    sig { returns(T.nilable(String)) }
+    def account_identifier; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def account_identifier=(value); end
+
+    sig { returns(T.nilable(String)) }
     def access_token; end
 
     sig { params(value: T.nilable(String)).returns(T.nilable(String)) }

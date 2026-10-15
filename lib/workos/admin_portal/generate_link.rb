@@ -8,6 +8,7 @@ module WorkOS
       return_url: :return_url,
       success_url: :success_url,
       organization: :organization,
+      external_user_id: :external_user_id,
       intent: :intent,
       it_contact_emails: :it_contact_emails
     }.freeze
@@ -16,6 +17,7 @@ module WorkOS
       :return_url,
       :success_url,
       :organization,
+      :external_user_id,
       :intent,
       :it_contact_emails
 
@@ -24,6 +26,7 @@ module WorkOS
       @return_url = hash[:return_url]
       @success_url = hash[:success_url]
       @organization = hash[:organization]
+      @external_user_id = hash[:external_user_id]
       @intent = hash[:intent]
       @it_contact_emails = hash[:it_contact_emails] || []
     end

@@ -14,12 +14,22 @@ module WorkOS
         organization: String,
         return_url: T.nilable(String),
         success_url: T.nilable(String),
+        external_user_id: T.nilable(String),
         intent: T.nilable(String),
         it_contact_emails: T.nilable(T::Array[String]),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::PortalLinkResponse)
     end
-    def generate_link(organization:, return_url:, success_url:, intent:, it_contact_emails:, request_options:); end
+    def generate_link(organization:, return_url:, success_url:, external_user_id:, intent:, it_contact_emails:, request_options:); end
+
+    sig do
+      params(
+        organization: String,
+        external_user_id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(NilClass)
+    end
+    def create_revoke_link(organization:, external_user_id:, request_options:); end
 
   end
 end

@@ -34,6 +34,12 @@ module WorkOS
     def grant_type=(value); end
 
     sig { returns(T.nilable(String)) }
+    def code_verifier; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def code_verifier=(value); end
+
+    sig { returns(T.nilable(String)) }
     def subject_token; end
 
     sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
