@@ -53,7 +53,7 @@ module WorkOS
     # @param external_user_id [String] The `external_user_id` the Portal Links were generated with for this organization. Every matching link is revoked, along with any Admin Portal sessions started from those links.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [void]
-    def create_revoke_link(
+    def revoke_link(
       organization:,
       external_user_id:,
       request_options: {}

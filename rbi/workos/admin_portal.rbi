@@ -29,7 +29,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def create_revoke_link(organization:, external_user_id:, request_options:); end
+    def revoke_link(organization:, external_user_id:, request_options:); end
 
   end
 end
