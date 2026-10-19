@@ -117,6 +117,14 @@ module WorkOS
 
     sig do
       params(
+        id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::AgentRegistration)
+    end
+    def revoke_registration(id:, request_options:); end
+
+    sig do
+      params(
         before: T.nilable(String),
         after: T.nilable(String),
         limit: T.nilable(Integer),

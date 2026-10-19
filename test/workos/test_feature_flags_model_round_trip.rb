@@ -483,12 +483,28 @@ class FeatureFlagsModelRoundTripTest < Minitest::Test
       "name" => "stub",
       "description" => nil,
       "tags" => [],
+      "owner" => nil,
       "enabled" => true,
       "default_value" => true
     }
     model = WorkOS::FlagUpdatedContextPreviousAttributeData.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_flag_updated_context_previous_attribute_data_owner_round_trip
+    fixture = {
+      "email" => "stub",
+      "first_name" => nil,
+      "last_name" => nil
+    }
+    model = WorkOS::FlagUpdatedContextPreviousAttributeDataOwner.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["email"], json[:email]
+    assert_nil json[:first_name]
+    assert_nil json[:last_name]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 

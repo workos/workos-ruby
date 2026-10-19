@@ -27,6 +27,12 @@ module WorkOS
     sig { params(value: T.nilable(T::Array[String])).returns(T.nilable(T::Array[String])) }
     def tags=(value); end
 
+    sig { returns(T.nilable(WorkOS::FlagUpdatedContextPreviousAttributeDataOwner)) }
+    def owner; end
+
+    sig { params(value: T.nilable(WorkOS::FlagUpdatedContextPreviousAttributeDataOwner)).returns(T.nilable(WorkOS::FlagUpdatedContextPreviousAttributeDataOwner)) }
+    def owner=(value); end
+
     sig { returns(T.nilable(T::Boolean)) }
     def enabled; end
 

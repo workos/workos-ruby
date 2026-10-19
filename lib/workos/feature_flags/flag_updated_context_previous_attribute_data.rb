@@ -8,6 +8,7 @@ module WorkOS
       name: :name,
       description: :description,
       tags: :tags,
+      owner: :owner,
       enabled: :enabled,
       default_value: :default_value
     }.freeze
@@ -16,6 +17,7 @@ module WorkOS
       :name,
       :description,
       :tags,
+      :owner,
       :enabled,
       :default_value
 
@@ -24,6 +26,7 @@ module WorkOS
       @name = hash[:name]
       @description = hash[:description]
       @tags = hash[:tags] || []
+      @owner = hash[:owner] ? WorkOS::FlagUpdatedContextPreviousAttributeDataOwner.new(hash[:owner]) : nil
       @enabled = hash[:enabled]
       @default_value = hash[:default_value]
     end

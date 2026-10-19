@@ -48,7 +48,7 @@ module WorkOS
       result
     end
 
-    # Revoke Portal Links
+    # Revoke a Portal Link
     # @param organization [String] An [Organization](https://workos.com/docs/reference/organization) identifier.
     # @param external_user_id [String] The `external_user_id` the Portal Links were generated with for this organization. Every matching link is revoked, along with any Admin Portal sessions started from those links.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)

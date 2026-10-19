@@ -11,6 +11,7 @@ class AgentsModelRoundTripTest < Minitest::Test
       "agent_identity" => {},
       "organization_id" => "stub",
       "status" => "stub",
+      "revoked_at" => nil,
       "kind" => "stub",
       "claim" => nil,
       "created_at" => "stub",
@@ -21,6 +22,7 @@ class AgentsModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["organization_id"], json[:organization_id]
+    assert_nil json[:revoked_at]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
