@@ -206,6 +206,7 @@
     "lib/workos/feature_flags/flag_updated_context_actor.rb",
     "lib/workos/feature_flags/flag_updated_context_previous_attribute.rb",
     "lib/workos/feature_flags/flag_updated_context_previous_attribute_data.rb",
+    "lib/workos/feature_flags/flag_updated_context_previous_attribute_data_owner.rb",
     "lib/workos/feature_flags/flag_updated_data.rb",
     "lib/workos/feature_flags/flag_updated_data_owner.rb",
     "lib/workos/groups.rb",
@@ -1238,6 +1239,7 @@
     "rbi/workos/flag_updated_context_actor.rbi",
     "rbi/workos/flag_updated_context_previous_attribute.rbi",
     "rbi/workos/flag_updated_context_previous_attribute_data.rbi",
+    "rbi/workos/flag_updated_context_previous_attribute_data_owner.rbi",
     "rbi/workos/flag_updated_data.rbi",
     "rbi/workos/flag_updated_data_owner.rbi",
     "rbi/workos/generate_link.rbi",
@@ -1602,6 +1604,10 @@
     },
     "GET /agents/registrations/{id}": {
       "sdkMethod": "get_registration",
+      "service": "agents"
+    },
+    "POST /agents/registrations/{id}/revoke": {
+      "sdkMethod": "revoke_registration",
       "service": "agents"
     },
     "GET /agents/instances": {

@@ -33,6 +33,12 @@ module WorkOS
     sig { params(value: String).returns(String) }
     def status=(value); end
 
+    sig { returns(T.nilable(String)) }
+    def revoked_at; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def revoked_at=(value); end
+
     sig { returns(String) }
     def kind; end
 

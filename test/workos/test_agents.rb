@@ -81,6 +81,13 @@ class AgentsTest < Minitest::Test
     refute_nil result
   end
 
+  def test_revoke_registration_returns_expected_result
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/agents/registrations/stub/revoke(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.agents.revoke_registration(id: "stub")
+    refute_nil result
+  end
+
   def test_list_instances_returns_expected_result
     stub_request(:get, %r{\Ahttps://api\.workos\.com/agents/instances(\?|\z)})
       .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
@@ -135,6 +142,7 @@ class AgentsTest < Minitest::Test
     {name: :update_attempts, verb: :patch, url: %r{\Ahttps://api\.workos\.com/agents/claims/attempts(\?|\z)}, args: {type: "link_external_user", claim_attempt_token: "stub", user: {}}},
     {name: :create_validate, verb: :post, url: %r{\Ahttps://api\.workos\.com/agents/credentials/validate(\?|\z)}, args: {type: "stub", credential: "stub"}},
     {name: :get_registration, verb: :get, url: %r{\Ahttps://api\.workos\.com/agents/registrations/stub(\?|\z)}, args: {id: "stub"}},
+    {name: :revoke_registration, verb: :post, url: %r{\Ahttps://api\.workos\.com/agents/registrations/stub/revoke(\?|\z)}, args: {id: "stub"}},
     {name: :list_instances, verb: :get, url: %r{\Ahttps://api\.workos\.com/agents/instances(\?|\z)}},
     {name: :get_instance, verb: :get, url: %r{\Ahttps://api\.workos\.com/agents/instances/stub(\?|\z)}, args: {agent_instance_id: "stub"}},
     {name: :delete_instance, verb: :delete, url: %r{\Ahttps://api\.workos\.com/agents/instances/stub(\?|\z)}, args: {agent_instance_id: "stub"}},

@@ -9,6 +9,7 @@ module WorkOS
       agent_identity: :agent_identity,
       organization_id: :organization_id,
       status: :status,
+      revoked_at: :revoked_at,
       kind: :kind,
       claim: :claim,
       created_at: :created_at,
@@ -20,6 +21,7 @@ module WorkOS
       :agent_identity,
       :organization_id,
       :status,
+      :revoked_at,
       :kind,
       :claim,
       :created_at,
@@ -31,6 +33,7 @@ module WorkOS
       @agent_identity = hash[:agent_identity] ? WorkOS::AgentRegistrationAgentIdentity.new(hash[:agent_identity]) : nil
       @organization_id = hash[:organization_id]
       @status = hash[:status]
+      @revoked_at = hash[:revoked_at]
       @kind = hash[:kind]
       @claim = hash[:claim] ? WorkOS::AgentRegistrationClaim.new(hash[:claim]) : nil
       @created_at = hash[:created_at]
