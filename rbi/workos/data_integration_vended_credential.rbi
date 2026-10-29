@@ -45,17 +45,17 @@ module WorkOS
     sig { params(value: T.nilable(T::Array[String])).returns(T.nilable(T::Array[String])) }
     def missing_scopes=(value); end
 
-    sig { returns(T.nilable(T::Hash[String, String])) }
-    def config; end
-
-    sig { params(value: T.nilable(T::Hash[String, String])).returns(T.nilable(T::Hash[String, String])) }
-    def config=(value); end
-
     sig { returns(T.nilable(T::Hash[String, T.untyped])) }
     def metadata; end
 
     sig { params(value: T.nilable(T::Hash[String, T.untyped])).returns(T.nilable(T::Hash[String, T.untyped])) }
     def metadata=(value); end
+
+    sig { returns(T.nilable(T::Hash[String, String])) }
+    def config; end
+
+    sig { params(value: T.nilable(T::Hash[String, String])).returns(T.nilable(T::Hash[String, String])) }
+    def config=(value); end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end
