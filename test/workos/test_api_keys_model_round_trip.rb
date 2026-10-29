@@ -281,6 +281,20 @@ class ApiKeysModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_api_key_data_integration_vended_credential_round_trip
+    fixture = {
+      "object" => "credential",
+      "auth_method" => "api_key",
+      "value" => "stub",
+      "config" => {}
+    }
+    model = WorkOS::ApiKeyDataIntegrationVendedCredential.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["value"], json[:value]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_organization_api_key_with_value_owner_round_trip
     fixture = {
       "type" => "organization",
@@ -302,6 +316,62 @@ class ApiKeysModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_api_keys_validate_api_key_error_422_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::ApiKeysValidateApiKeyError422.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_api_keys_delete_error_404_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::ApiKeysDeleteError404.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_api_keys_expire_error_404_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::ApiKeysExpireError404.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_api_keys_expire_error_409_round_trip
+    fixture = {
+      "code" => "api_key_already_expired",
+      "message" => "stub"
+    }
+    model = WorkOS::ApiKeysExpireError409.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_api_keys_expire_error_422_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::ApiKeysExpireError422.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 end

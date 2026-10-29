@@ -18,7 +18,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(T::Array[WorkOS::AgentBlueprint])
     end
-    def list_blueprints(before:, after:, limit:, order:, request_options:); end
+    def list_blueprints(before: nil, after: nil, limit: nil, order: nil, request_options: {}); end
 
     sig do
       params(
@@ -31,7 +31,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AgentBlueprint)
     end
-    def create_blueprint(name:, description:, permissions:, invocable_by:, invocable_as:, session_settings:, request_options:); end
+    def create_blueprint(name:, description: nil, permissions: nil, invocable_by: nil, invocable_as: nil, session_settings: nil, request_options: {}); end
 
     sig do
       params(
@@ -39,7 +39,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AgentBlueprint)
     end
-    def get_blueprint(agent_blueprint_id:, request_options:); end
+    def get_blueprint(agent_blueprint_id:, request_options: {}); end
 
     sig do
       params(
@@ -53,7 +53,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AgentBlueprint)
     end
-    def update_blueprint(agent_blueprint_id:, name:, description:, permissions:, invocable_by:, invocable_as:, session_settings:, request_options:); end
+    def update_blueprint(agent_blueprint_id:, name: nil, description: nil, permissions: nil, invocable_by: nil, invocable_as: nil, session_settings: nil, request_options: {}); end
 
     sig do
       params(
@@ -61,7 +61,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def delete_blueprint(agent_blueprint_id:, request_options:); end
+    def delete_blueprint(agent_blueprint_id:, request_options: {}); end
 
     sig do
       params(
@@ -75,7 +75,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AgentToken)
     end
-    def create_blueprint_token(agent_blueprint_id:, type:, user_access_token:, intent:, organization_id:, agent_access_token:, refresh_token:, request_options:); end
+    def create_blueprint_token(agent_blueprint_id:, type:, user_access_token: nil, intent: nil, organization_id: nil, agent_access_token: nil, refresh_token: nil, request_options: {}); end
 
     sig do
       params(
@@ -84,7 +84,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AgentTokenValidation)
     end
-    def validate_blueprint_token(agent_blueprint_id:, agent_access_token:, request_options:); end
+    def validate_blueprint_token(agent_blueprint_id:, agent_access_token:, request_options: {}); end
 
     sig do
       params(
@@ -95,7 +95,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::ClaimViewResponse)
     end
-    def update_attempts(type:, claim_attempt_token:, user:, organization_id:, request_options:); end
+    def update_attempts(type:, claim_attempt_token:, user:, organization_id: nil, request_options: {}); end
 
     sig do
       params(
@@ -105,7 +105,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AgentCredentialValidation)
     end
-    def create_validate(type:, credential:, audience:, request_options:); end
+    def create_validate(type:, credential:, audience: nil, request_options: {}); end
 
     sig do
       params(
@@ -113,7 +113,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AgentRegistration)
     end
-    def get_registration(id:, request_options:); end
+    def get_registration(id:, request_options: {}); end
 
     sig do
       params(
@@ -121,7 +121,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AgentRegistration)
     end
-    def revoke_registration(id:, request_options:); end
+    def revoke_registration(id:, request_options: {}); end
 
     sig do
       params(
@@ -134,7 +134,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(T::Array[WorkOS::AgentInstance])
     end
-    def list_instances(before:, after:, limit:, order:, organization_id:, agent_blueprint_id:, request_options:); end
+    def list_instances(before: nil, after: nil, limit: nil, order: nil, organization_id: nil, agent_blueprint_id: nil, request_options: {}); end
 
     sig do
       params(
@@ -142,7 +142,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AgentInstance)
     end
-    def get_instance(agent_instance_id:, request_options:); end
+    def get_instance(agent_instance_id:, request_options: {}); end
 
     sig do
       params(
@@ -150,7 +150,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def delete_instance(agent_instance_id:, request_options:); end
+    def delete_instance(agent_instance_id:, request_options: {}); end
 
     sig do
       params(
@@ -164,7 +164,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(T::Array[WorkOS::AgentInstanceSession])
     end
-    def list_sessions(before:, after:, limit:, order:, organization_id:, agent_blueprint_id:, agent_instance_id:, request_options:); end
+    def list_sessions(before: nil, after: nil, limit: nil, order: nil, organization_id: nil, agent_blueprint_id: nil, agent_instance_id: nil, request_options: {}); end
 
     sig do
       params(
@@ -172,7 +172,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AgentInstanceSession)
     end
-    def get_session(agent_instance_session_id:, request_options:); end
+    def get_session(agent_instance_session_id:, request_options: {}); end
 
     sig do
       params(
@@ -180,7 +180,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AgentInstanceSession)
     end
-    def revoke_session(agent_instance_session_id:, request_options:); end
+    def revoke_session(agent_instance_session_id:, request_options: {}); end
 
   end
 end

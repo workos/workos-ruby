@@ -15,6 +15,7 @@ module WorkOS
       updated_at: :updated_at,
       application_type: :application_type,
       redirect_uris: :redirect_uris,
+      cors_origins: :cors_origins,
       uses_pkce: :uses_pkce,
       is_first_party: :is_first_party,
       was_dynamically_registered: :was_dynamically_registered,
@@ -32,6 +33,7 @@ module WorkOS
       :updated_at,
       :application_type,
       :redirect_uris,
+      :cors_origins,
       :uses_pkce,
       :is_first_party,
       :was_dynamically_registered,
@@ -49,6 +51,7 @@ module WorkOS
       @updated_at = hash[:updated_at]
       @application_type = hash[:application_type]
       @redirect_uris = (hash[:redirect_uris] || []).map { |item| item ? WorkOS::ConnectApplicationOAuthRedirectUris.new(item) : nil }
+      @cors_origins = hash[:cors_origins] || []
       @uses_pkce = hash[:uses_pkce]
       @is_first_party = hash[:is_first_party]
       @was_dynamically_registered = hash[:was_dynamically_registered]

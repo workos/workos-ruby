@@ -583,6 +583,18 @@ class OrganizationsModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_it_contact_list_round_trip
+    fixture = {
+      "object" => "list",
+      "data" => [],
+      "list_metadata" => {}
+    }
+    model = WorkOS::ItContactList.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_organization_round_trip
     fixture = {
       "object" => "organization",
@@ -639,6 +651,19 @@ class OrganizationsModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_it_contact_list_list_metadata_round_trip
+    fixture = {
+      "before" => nil,
+      "after" => nil
+    }
+    model = WorkOS::ItContactListListMetadata.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_nil json[:before]
+    assert_nil json[:after]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_organization_api_key_owner_round_trip
     fixture = {
       "type" => "organization",
@@ -665,6 +690,326 @@ class OrganizationsModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
     assert_equal fixture["user_id"], json[:user_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_not_found_agent_blueprints_create_error_422_round_trip
+    fixture = {
+      "code" => "organization_not_found",
+      "message" => "stub"
+    }
+    model = WorkOS::OrganizationNotFoundAgentBlueprintsCreateError422.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_not_found_agent_blueprints_update_error_422_round_trip
+    fixture = {
+      "code" => "organization_not_found",
+      "message" => "stub"
+    }
+    model = WorkOS::OrganizationNotFoundAgentBlueprintsUpdateError422.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_not_invocable_agent_blueprints_token_mint_token_error_403_round_trip
+    fixture = {
+      "code" => "organization_not_invocable",
+      "message" => "stub"
+    }
+    model = WorkOS::OrganizationNotInvocableAgentBlueprintsTokenMintTokenError403.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_list_error_422_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::OrganizationListError422.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_create_error_400_round_trip
+    fixture = {
+      "code" => "invalid_metadata",
+      "message" => "stub"
+    }
+    model = WorkOS::OrganizationCreateError400.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_create_error_409_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::OrganizationCreateError409.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_create_error_422_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::OrganizationCreateError422.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_get_error_404_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::OrganizationGetError404.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_find_error_404_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::OrganizationFindError404.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_update_organization_error_400_round_trip
+    fixture = {
+      "code" => "invalid_metadata",
+      "message" => "stub"
+    }
+    model = WorkOS::OrganizationUpdateOrganizationError400.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_update_organization_error_403_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::OrganizationUpdateOrganizationError403.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_update_organization_error_404_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::OrganizationUpdateOrganizationError404.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_update_organization_error_409_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::OrganizationUpdateOrganizationError409.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_update_organization_error_422_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::OrganizationUpdateOrganizationError422.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_delete_organization_error_403_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::OrganizationDeleteOrganizationError403.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_get_audit_log_configuration_error_404_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::OrganizationGetAuditLogConfigurationError404.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_api_keys_list_error_404_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::OrganizationApiKeysListError404.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_api_keys_create_error_404_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::OrganizationApiKeysCreateError404.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_api_keys_create_error_422_round_trip
+    fixture = {
+      "message" => "stub",
+      "errors" => []
+    }
+    model = WorkOS::OrganizationApiKeysCreateError422.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_api_keys_create_error_422_error_round_trip
+    fixture = {
+      "code" => "stub",
+      "field" => "stub"
+    }
+    model = WorkOS::OrganizationApiKeysCreateError422Error.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["code"], json[:code]
+    assert_equal fixture["field"], json[:field]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_feature_flags_list_error_404_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::OrganizationFeatureFlagsListError404.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_authorized_applications_list_error_404_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::OrganizationAuthorizedApplicationsListError404.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_authorized_applications_list_error_422_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::OrganizationAuthorizedApplicationsListError422.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_not_found_session_authenticate_error_400_variant_29_round_trip
+    fixture = {
+      "error" => "organization_not_found",
+      "error_description" => "stub"
+    }
+    model = WorkOS::OrganizationNotFoundSessionAuthenticateError400Variant29.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["error_description"], json[:error_description]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_membership_not_found_session_authenticate_error_400_variant_29_round_trip
+    fixture = {
+      "error" => "organization_membership_not_found",
+      "error_description" => "stub"
+    }
+    model = WorkOS::OrganizationMembershipNotFoundSessionAuthenticateError400Variant29.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["error_description"], json[:error_description]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_selection_required_session_authenticate_error_403_round_trip
+    fixture = {
+      "code" => "organization_selection_required",
+      "message" => "stub"
+    }
+    model = WorkOS::OrganizationSelectionRequiredSessionAuthenticateError403.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_blocked_from_sending_invites_user_invites_create_error_400_round_trip
+    fixture = {
+      "code" => "organization_blocked_from_sending_invites",
+      "message" => "stub"
+    }
+    model = WorkOS::OrganizationBlockedFromSendingInvitesUserInvitesCreateError400.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_membership_groups_list_groups_error_404_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::OrganizationMembershipGroupsListGroupsError404.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 end

@@ -16,8 +16,8 @@ module WorkOS
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
     # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records).
     # @param events [Array<String>] Filter events by one or more event types (e.g. `dsync.user.created`).
-    # @param range_start [String, nil] ISO-8601 date string to filter events created after this date.
-    # @param range_end [String, nil] ISO-8601 date string to filter events created before this date.
+    # @param range_start [String, nil] ISO 8601 UTC timestamp with a `Z` suffix to filter events created after this date. Timezone offsets such as `+00:00` are not accepted.
+    # @param range_end [String, nil] ISO 8601 UTC timestamp with a `Z` suffix to filter events created before this date. Timezone offsets such as `+00:00` are not accepted.
     # @param organization_id [String, nil] Filter events by the [Organization](https://workos.com/docs/reference/organization) that the event is associated with.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::Types::ListStruct<WorkOS::EventSchema>]

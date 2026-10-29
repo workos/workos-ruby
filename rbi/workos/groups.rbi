@@ -20,7 +20,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_organization_groups(organization_id:, before:, after:, limit:, order:, search:, request_options:); end
+    def list_organization_groups(organization_id:, before: nil, after: nil, limit: nil, order: nil, search: nil, request_options: {}); end
 
     sig do
       params(
@@ -30,7 +30,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Group)
     end
-    def create_organization_group(organization_id:, name:, description:, request_options:); end
+    def create_organization_group(organization_id:, name:, description: nil, request_options: {}); end
 
     sig do
       params(
@@ -39,7 +39,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Group)
     end
-    def get_organization_group(organization_id:, group_id:, request_options:); end
+    def get_organization_group(organization_id:, group_id:, request_options: {}); end
 
     sig do
       params(
@@ -50,7 +50,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Group)
     end
-    def update_organization_group(organization_id:, group_id:, name:, description:, request_options:); end
+    def update_organization_group(organization_id:, group_id:, name: nil, description: nil, request_options: {}); end
 
     sig do
       params(
@@ -59,7 +59,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def delete_organization_group(organization_id:, group_id:, request_options:); end
+    def delete_organization_group(organization_id:, group_id:, request_options: {}); end
 
     sig do
       params(
@@ -72,7 +72,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_group_organization_memberships(organization_id:, group_id:, before:, after:, limit:, order:, request_options:); end
+    def list_group_organization_memberships(organization_id:, group_id:, before: nil, after: nil, limit: nil, order: nil, request_options: {}); end
 
     sig do
       params(
@@ -82,7 +82,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Group)
     end
-    def create_group_organization_membership(organization_id:, group_id:, organization_membership_id:, request_options:); end
+    def create_group_organization_membership(organization_id:, group_id:, organization_membership_id:, request_options: {}); end
 
     sig do
       params(
@@ -92,7 +92,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def delete_group_organization_membership(organization_id:, group_id:, om_id:, request_options:); end
+    def delete_group_organization_membership(organization_id:, group_id:, om_id:, request_options: {}); end
 
   end
 end

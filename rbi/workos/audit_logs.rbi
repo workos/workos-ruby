@@ -39,7 +39,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AuditLogsRetention)
     end
-    def get_organization_audit_logs_retention(id:, request_options:); end
+    def get_organization_audit_logs_retention(id:, request_options: {}); end
 
     sig do
       params(
@@ -48,7 +48,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AuditLogsRetention)
     end
-    def update_organization_audit_logs_retention(id:, retention:, request_options:); end
+    def update_organization_audit_logs_retention(id:, retention:, request_options: {}); end
 
     sig do
       params(
@@ -59,7 +59,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(T::Array[WorkOS::AuditLogAction])
     end
-    def list_actions(before:, after:, limit:, order:, request_options:); end
+    def list_actions(before: nil, after: nil, limit: nil, order: nil, request_options: {}); end
 
     sig do
       params(
@@ -71,7 +71,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(T::Array[WorkOS::AuditLogSchema])
     end
-    def list_action_schemas(action_name:, before:, after:, limit:, order:, request_options:); end
+    def list_action_schemas(action_name:, before: nil, after: nil, limit: nil, order: nil, request_options: {}); end
 
     sig do
       params(
@@ -82,7 +82,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AuditLogSchema)
     end
-    def create_schema(action_name:, targets:, actor:, metadata:, request_options:); end
+    def create_schema(action_name:, targets:, actor: nil, metadata: nil, request_options: {}); end
 
     sig do
       params(
@@ -91,7 +91,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AuditLogEventCreateResponse)
     end
-    def create_event(organization_id:, event:, request_options:); end
+    def create_event(organization_id:, event:, request_options: {}); end
 
     sig do
       params(
@@ -106,7 +106,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AuditLogExport)
     end
-    def create_export(organization_id:, range_start:, range_end:, actions:, actors:, actor_names:, actor_ids:, targets:, request_options:); end
+    def create_export(organization_id:, range_start:, range_end:, actions: nil, actors: nil, actor_names: nil, actor_ids: nil, targets: nil, request_options: {}); end
 
     sig do
       params(
@@ -114,7 +114,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AuditLogExport)
     end
-    def get_export(audit_log_export_id:, request_options:); end
+    def get_export(audit_log_export_id:, request_options: {}); end
 
   end
 end

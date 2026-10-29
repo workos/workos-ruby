@@ -97,6 +97,7 @@ module WorkOS
     # @param description [String, nil] A description for the application.
     # @param scopes [Array<String>, nil] The OAuth scopes granted to the application.
     # @param redirect_uris [Array<WorkOS::RedirectUriInput>, nil] Redirect URIs for the application.
+    # @param cors_origins [Array<String>, nil] Origins allowed to call the OAuth token endpoint for this application from a browser.
     # @param uses_pkce [Boolean, nil] Whether the application uses PKCE (Proof Key for Code Exchange).
     # @param is_first_party [Boolean, nil] Whether this is a first-party application. Third-party applications require an organization_id.
     # @param organization_id [String, nil] The organization ID this application belongs to. Required when is_first_party is false.
@@ -108,6 +109,7 @@ module WorkOS
       description: WorkOS::OMIT,
       scopes: WorkOS::OMIT,
       redirect_uris: WorkOS::OMIT,
+      cors_origins: WorkOS::OMIT,
       uses_pkce: WorkOS::OMIT,
       is_first_party: nil,
       organization_id: WorkOS::OMIT,
@@ -121,6 +123,7 @@ module WorkOS
       body["description"] = description unless description.equal?(WorkOS::OMIT)
       body["scopes"] = scopes unless scopes.equal?(WorkOS::OMIT)
       body["redirect_uris"] = redirect_uris unless redirect_uris.equal?(WorkOS::OMIT)
+      body["cors_origins"] = cors_origins unless cors_origins.equal?(WorkOS::OMIT)
       body["uses_pkce"] = uses_pkce unless uses_pkce.equal?(WorkOS::OMIT)
       body["organization_id"] = organization_id unless organization_id.equal?(WorkOS::OMIT)
       response = @client.request(
@@ -231,6 +234,7 @@ module WorkOS
     # @param description [String, nil] A description for the application.
     # @param scopes [Array<String>, nil] The OAuth scopes granted to the application.
     # @param redirect_uris [Array<WorkOS::RedirectUriInput>, nil] Updated redirect URIs for the application. OAuth applications only.
+    # @param cors_origins [Array<String>, nil] Updated origins allowed to call the OAuth token endpoint for this application from a browser. Replaces the existing list. OAuth applications only.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::ConnectApplication]
     def update_application(
@@ -239,6 +243,7 @@ module WorkOS
       description: WorkOS::OMIT,
       scopes: WorkOS::OMIT,
       redirect_uris: WorkOS::OMIT,
+      cors_origins: WorkOS::OMIT,
       request_options: {}
     )
       body = {
@@ -247,6 +252,7 @@ module WorkOS
       body["description"] = description unless description.equal?(WorkOS::OMIT)
       body["scopes"] = scopes unless scopes.equal?(WorkOS::OMIT)
       body["redirect_uris"] = redirect_uris unless redirect_uris.equal?(WorkOS::OMIT)
+      body["cors_origins"] = cors_origins unless cors_origins.equal?(WorkOS::OMIT)
       response = @client.request(
         method: :put,
         path: "/connect/applications/#{WorkOS::Util.encode_path(id)}",

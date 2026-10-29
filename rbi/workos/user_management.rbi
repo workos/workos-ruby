@@ -47,24 +47,36 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::JwksResponse)
     end
-    def get_jwks(client_id:, request_options:); end
+    def get_jwks(client_id:, request_options: {}); end
 
     sig do
       params(
         client_id: String,
         grant_type: String,
-        code: String,
         client_secret: T.nilable(String),
+        code: T.nilable(String),
         code_verifier: T.nilable(String),
         invitation_token: T.nilable(String),
         ip_address: T.nilable(String),
         device_id: T.nilable(String),
         user_agent: T.nilable(String),
         signals_id: T.nilable(String),
+        email: T.nilable(String),
+        password: T.nilable(String),
+        radar_auth_attempt_id: T.nilable(String),
+        refresh_token: T.nilable(String),
+        organization_id: T.nilable(String),
+        pending_authentication_token: T.nilable(String),
+        authentication_challenge_id: T.nilable(String),
+        email_completion_token: T.nilable(String),
+        radar_challenge_id: T.nilable(String),
+        verification_id: T.nilable(String),
+        phone_number: T.nilable(String),
+        device_code: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AuthenticateResponse)
     end
-    def create_authenticate(client_id:, grant_type:, code:, client_secret:, code_verifier:, invitation_token:, ip_address:, device_id:, user_agent:, signals_id:, request_options:); end
+    def create_authenticate(client_id:, grant_type:, client_secret: nil, code: nil, code_verifier: nil, invitation_token: nil, ip_address: nil, device_id: nil, user_agent: nil, signals_id: nil, email: nil, password: nil, radar_auth_attempt_id: nil, refresh_token: nil, organization_id: nil, pending_authentication_token: nil, authentication_challenge_id: nil, email_completion_token: nil, radar_challenge_id: nil, verification_id: nil, phone_number: nil, device_code: nil, request_options: {}); end
 
     sig do
       params(
@@ -86,7 +98,7 @@ module WorkOS
         client_id: T.nilable(String)
       ).returns(String)
     end
-    def get_authorization_url(redirect_uri:, code_challenge_method:, code_challenge:, domain_hint:, connection_id:, provider_query_params:, provider_scopes:, invitation_token:, max_age:, screen_hint:, login_hint:, provider:, prompt:, state:, organization_id:, client_id:); end
+    def get_authorization_url(redirect_uri:, code_challenge_method: nil, code_challenge: nil, domain_hint: nil, connection_id: nil, provider_query_params: nil, provider_scopes: nil, invitation_token: nil, max_age: nil, screen_hint: nil, login_hint: nil, provider: nil, prompt: nil, state: nil, organization_id: nil, client_id: nil); end
 
     sig do
       params(
@@ -94,7 +106,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::DeviceAuthorizationResponse)
     end
-    def create_device(client_id:, request_options:); end
+    def create_device(client_id:, request_options: {}); end
 
     sig do
       params(
@@ -106,7 +118,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::SendRadarSmsChallengeResponse)
     end
-    def create_radar_challenge(user_id:, pending_authentication_token:, phone_number:, ip_address:, user_agent:, request_options:); end
+    def create_radar_challenge(user_id:, pending_authentication_token:, phone_number:, ip_address: nil, user_agent: nil, request_options: {}); end
 
     sig do
       params(
@@ -114,7 +126,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::RadarChallenge)
     end
-    def get_radar_challenge(id:, request_options:); end
+    def get_radar_challenge(id:, request_options: {}); end
 
     sig do
       params(
@@ -122,7 +134,7 @@ module WorkOS
         return_to: T.nilable(String)
       ).returns(String)
     end
-    def get_logout_url(session_id:, return_to:); end
+    def get_logout_url(session_id:, return_to: nil); end
 
     sig do
       params(
@@ -130,7 +142,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def revoke_session(session_id:, request_options:); end
+    def revoke_session(session_id:, request_options: {}); end
 
     sig do
       params(
@@ -141,7 +153,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(T::Array[WorkOS::AuthkitOAuthResource])
     end
-    def list_authkit_oauth_resources(before:, after:, limit:, order:, request_options:); end
+    def list_authkit_oauth_resources(before: nil, after: nil, limit: nil, order: nil, request_options: {}); end
 
     sig do
       params(
@@ -150,7 +162,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AuthkitOAuthResource)
     end
-    def create_authkit_oauth_resource(uri:, default:, request_options:); end
+    def create_authkit_oauth_resource(uri:, default: nil, request_options: {}); end
 
     sig do
       params(
@@ -158,7 +170,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def delete_authkit_oauth_resource(id:, request_options:); end
+    def delete_authkit_oauth_resource(id:, request_options: {}); end
 
     sig do
       params(
@@ -169,7 +181,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(T::Array[WorkOS::CORSOriginResponse])
     end
-    def list_cors_origins(before:, after:, limit:, order:, request_options:); end
+    def list_cors_origins(before: nil, after: nil, limit: nil, order: nil, request_options: {}); end
 
     sig do
       params(
@@ -177,7 +189,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::CORSOriginResponse)
     end
-    def create_cors_origin(origin:, request_options:); end
+    def create_cors_origin(origin:, request_options: {}); end
 
     sig do
       params(
@@ -185,15 +197,16 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::EmailVerification)
     end
-    def get_email_verification(id:, request_options:); end
+    def get_email_verification(id:, request_options: {}); end
 
     sig do
       params(
         email: String,
+        locale: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::PasswordReset)
     end
-    def reset_password(email:, request_options:); end
+    def reset_password(email:, locale: nil, request_options: {}); end
 
     sig do
       params(
@@ -202,7 +215,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::ResetPasswordResponse)
     end
-    def confirm_password_reset(token:, new_password:, request_options:); end
+    def confirm_password_reset(token:, new_password:, request_options: {}); end
 
     sig do
       params(
@@ -210,7 +223,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::PasswordReset)
     end
-    def get_password_reset(id:, request_options:); end
+    def get_password_reset(id:, request_options: {}); end
 
     sig do
       params(
@@ -224,7 +237,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_users(before:, after:, limit:, order:, organization:, organization_id:, email:, request_options:); end
+    def list_users(before: nil, after: nil, limit: nil, order: nil, organization: nil, organization_id: nil, email: nil, request_options: {}); end
 
     sig do
       params(
@@ -242,7 +255,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::UserCreateResponse)
     end
-    def create_user(email:, first_name:, last_name:, name:, email_verified:, metadata:, external_id:, ip_address:, user_agent:, signals_id:, password:, request_options:); end
+    def create_user(email:, first_name: nil, last_name: nil, name: nil, email_verified: nil, metadata: nil, external_id: nil, ip_address: nil, user_agent: nil, signals_id: nil, password: nil, request_options: {}); end
 
     sig do
       params(
@@ -250,7 +263,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::User)
     end
-    def get_user_by_external_id(external_id:, request_options:); end
+    def get_user_by_external_id(external_id:, request_options: {}); end
 
     sig do
       params(
@@ -258,7 +271,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::User)
     end
-    def get_user(id:, request_options:); end
+    def get_user(id:, request_options: {}); end
 
     sig do
       params(
@@ -275,7 +288,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::User)
     end
-    def update_user(id:, email:, first_name:, last_name:, name:, email_verified:, metadata:, external_id:, locale:, password:, request_options:); end
+    def update_user(id:, email: nil, first_name: nil, last_name: nil, name: nil, email_verified: nil, metadata: nil, external_id: nil, locale: nil, password: nil, request_options: {}); end
 
     sig do
       params(
@@ -283,7 +296,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def delete_user(id:, request_options:); end
+    def delete_user(id:, request_options: {}); end
 
     sig do
       params(
@@ -292,16 +305,17 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::EmailChangeConfirmation)
     end
-    def confirm_email_change(id:, code:, request_options:); end
+    def confirm_email_change(id:, code:, request_options: {}); end
 
     sig do
       params(
         id: String,
         new_email: String,
+        locale: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::EmailChange)
     end
-    def send_email_change(id:, new_email:, request_options:); end
+    def send_email_change(id:, new_email:, locale: nil, request_options: {}); end
 
     sig do
       params(
@@ -310,15 +324,16 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::VerifyEmailResponse)
     end
-    def verify_email(id:, code:, request_options:); end
+    def verify_email(id:, code:, request_options: {}); end
 
     sig do
       params(
         id: String,
+        locale: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::SendVerificationEmailResponse)
     end
-    def send_verification_email(id:, request_options:); end
+    def send_verification_email(id:, locale: nil, request_options: {}); end
 
     sig do
       params(
@@ -326,7 +341,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(T::Array[WorkOS::UserIdentitiesGetItem])
     end
-    def get_user_identities(id:, request_options:); end
+    def get_user_identities(id:, request_options: {}); end
 
     sig do
       params(
@@ -338,7 +353,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(T::Array[WorkOS::UserSessionsListItem])
     end
-    def list_sessions(id:, before:, after:, limit:, order:, request_options:); end
+    def list_sessions(id:, before: nil, after: nil, limit: nil, order: nil, request_options: {}); end
 
     sig do
       params(
@@ -351,7 +366,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_invitations(before:, after:, limit:, order:, organization_id:, email:, request_options:); end
+    def list_invitations(before: nil, after: nil, limit: nil, order: nil, organization_id: nil, email: nil, request_options: {}); end
 
     sig do
       params(
@@ -364,7 +379,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::UserInvite)
     end
-    def send_invitation(email:, organization_id:, role_slug:, expires_in_days:, inviter_user_id:, locale:, request_options:); end
+    def send_invitation(email:, organization_id: nil, role_slug: nil, expires_in_days: nil, inviter_user_id: nil, locale: nil, request_options: {}); end
 
     sig do
       params(
@@ -372,7 +387,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::UserInvite)
     end
-    def find_invitation_by_token(token:, request_options:); end
+    def find_invitation_by_token(token:, request_options: {}); end
 
     sig do
       params(
@@ -380,7 +395,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::UserInvite)
     end
-    def get_invitation(id:, request_options:); end
+    def get_invitation(id:, request_options: {}); end
 
     sig do
       params(
@@ -388,7 +403,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Invitation)
     end
-    def accept_invitation(id:, request_options:); end
+    def accept_invitation(id:, request_options: {}); end
 
     sig do
       params(
@@ -397,7 +412,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::UserInvite)
     end
-    def resend_invitation(id:, locale:, request_options:); end
+    def resend_invitation(id:, locale: nil, request_options: {}); end
 
     sig do
       params(
@@ -405,14 +420,14 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Invitation)
     end
-    def revoke_invitation(id:, request_options:); end
+    def revoke_invitation(id:, request_options: {}); end
 
     sig do
       params(
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::JWTTemplateResponse)
     end
-    def list_jwt_template(request_options:); end
+    def list_jwt_template(request_options: {}); end
 
     sig do
       params(
@@ -420,7 +435,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::JWTTemplateResponse)
     end
-    def update_jwt_template(content:, request_options:); end
+    def update_jwt_template(content:, request_options: {}); end
 
     sig do
       params(
@@ -430,10 +445,11 @@ module WorkOS
         user_agent: T.nilable(String),
         radar_auth_attempt_id: T.nilable(String),
         signals_id: T.nilable(String),
+        locale: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::MagicAuthSendMagicAuthCodeAndReturnResponse)
     end
-    def create_magic_auth(email:, invitation_token:, ip_address:, user_agent:, radar_auth_attempt_id:, signals_id:, request_options:); end
+    def create_magic_auth(email:, invitation_token: nil, ip_address: nil, user_agent: nil, radar_auth_attempt_id: nil, signals_id: nil, locale: nil, request_options: {}); end
 
     sig do
       params(
@@ -441,7 +457,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::MagicAuth)
     end
-    def get_magic_auth(id:, request_options:); end
+    def get_magic_auth(id:, request_options: {}); end
 
     sig do
       params(
@@ -452,7 +468,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(T::Array[WorkOS::RedirectUri])
     end
-    def list_redirect_uris(before:, after:, limit:, order:, request_options:); end
+    def list_redirect_uris(before: nil, after: nil, limit: nil, order: nil, request_options: {}); end
 
     sig do
       params(
@@ -460,7 +476,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::RedirectUri)
     end
-    def create_redirect_uri(uri:, request_options:); end
+    def create_redirect_uri(uri:, request_options: {}); end
 
     sig do
       params(
@@ -468,7 +484,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def delete_redirect_uris(id:, request_options:); end
+    def delete_redirect_uris(id:, request_options: {}); end
 
     sig do
       params(
@@ -480,7 +496,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_user_authorized_applications(user_id:, before:, after:, limit:, order:, request_options:); end
+    def list_user_authorized_applications(user_id:, before: nil, after: nil, limit: nil, order: nil, request_options: {}); end
 
     sig do
       params(
@@ -489,7 +505,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def delete_user_authorized_application(application_id:, user_id:, request_options:); end
+    def delete_user_authorized_application(application_id:, user_id:, request_options: {}); end
 
     sig do
       params(
@@ -497,7 +513,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def delete_waitlist_entry(id:, request_options:); end
+    def delete_waitlist_entry(id:, request_options: {}); end
 
     sig do
       params(
@@ -505,7 +521,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::WaitlistEntry)
     end
-    def create_waitlist_entry_approve(id:, request_options:); end
+    def create_waitlist_entry_approve(id:, request_options: {}); end
 
     sig do
       params(
@@ -513,14 +529,14 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::WaitlistEntry)
     end
-    def create_waitlist_entry_deny(id:, request_options:); end
+    def create_waitlist_entry_deny(id:, request_options: {}); end
 
     sig do
       params(
         request_options: T::Hash[Symbol, T.untyped]
-      ).returns(T::Array[WorkOS::Waitlist])
+      ).returns(WorkOS::Types::ListStruct)
     end
-    def list_waitlists(request_options:); end
+    def list_waitlists(request_options: {}); end
 
     sig do
       params(
@@ -528,7 +544,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Waitlist)
     end
-    def get_waitlist(id:, request_options:); end
+    def get_waitlist(id:, request_options: {}); end
 
     sig do
       params(
@@ -542,7 +558,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(T::Array[WorkOS::WaitlistEntry])
     end
-    def list_waitlist_entries(id:, before:, after:, limit:, order:, state:, email:, request_options:); end
+    def list_waitlist_entries(id:, before: nil, after: nil, limit: nil, order: nil, state: nil, email: nil, request_options: {}); end
 
     sig do
       params(
@@ -553,7 +569,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::WaitlistEntry)
     end
-    def create_waitlist_entry(id:, email:, additional_fields:, send_confirmation_email:, request_options:); end
+    def create_waitlist_entry(id:, email:, additional_fields: nil, send_confirmation_email: nil, request_options: {}); end
 
     sig do
       params(
@@ -566,7 +582,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_user_api_keys(user_id:, before:, after:, limit:, order:, organization_id:, request_options:); end
+    def list_user_api_keys(user_id:, before: nil, after: nil, limit: nil, order: nil, organization_id: nil, request_options: {}); end
 
     sig do
       params(
@@ -578,7 +594,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::UserApiKeyWithValue)
     end
-    def create_user_api_key(user_id:, name:, organization_id:, permissions:, expires_at:, request_options:); end
+    def create_user_api_key(user_id:, name:, organization_id:, permissions: nil, expires_at: nil, request_options: {}); end
 
   end
 end

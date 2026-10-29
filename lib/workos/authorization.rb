@@ -160,6 +160,32 @@ module WorkOS
       )
     end
 
+    # Update role assignments for a group
+    # @param group_id [String] The ID of the group.
+    # @param add [Array<WorkOS::ReplaceGroupRoleAssignmentEntry>, nil] Role assignments to add to the group. Assignments that already exist are skipped.
+    # @param remove [Array<WorkOS::ReplaceGroupRoleAssignmentEntry>, nil] Role assignments to remove from the group. Entries that match no assignment are skipped.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [void]
+    def patch_group_role_assignments(
+      group_id:,
+      add: nil,
+      remove: nil,
+      request_options: {}
+    )
+      body = {
+        "add" => add,
+        "remove" => remove
+      }.compact
+      @client.request(
+        method: :patch,
+        path: "/authorization/groups/#{WorkOS::Util.encode_path(group_id)}/role_assignments",
+        auth: true,
+        body: body,
+        request_options: request_options
+      )
+      nil
+    end
+
     # Remove group role assignments by criteria
     # @param group_id [String] The ID of the group.
     # @param role_slug [String] The slug of the role to remove assignments for.

@@ -588,6 +588,229 @@ class DirectorySyncModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_directory_list_error_403_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::DirectoryListError403.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_directory_list_error_422_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::DirectoryListError422.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_directory_find_error_403_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::DirectoryFindError403.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_directory_find_error_404_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::DirectoryFindError404.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_directory_delete_directory_error_403_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::DirectoryDeleteDirectoryError403.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_directory_sync_directory_error_403_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::DirectorySyncDirectoryError403.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_directory_sync_directory_error_404_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::DirectorySyncDirectoryError404.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_directory_sync_directory_error_409_round_trip
+    fixture = {
+      "code" => "directory_sync_in_progress",
+      "message" => "stub"
+    }
+    model = WorkOS::DirectorySyncDirectoryError409.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_directory_sync_directory_error_422_round_trip
+    fixture = {
+      "code" => "directory_sync_unsupported",
+      "message" => "stub"
+    }
+    model = WorkOS::DirectorySyncDirectoryError422.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_directory_sync_directory_error_503_round_trip
+    fixture = {
+      "code" => "directory_sync_disabled",
+      "message" => "stub"
+    }
+    model = WorkOS::DirectorySyncDirectoryError503.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_directory_groups_list_error_403_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::DirectoryGroupsListError403.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_directory_groups_list_error_404_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::DirectoryGroupsListError404.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_directory_groups_list_error_422_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::DirectoryGroupsListError422.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_directory_groups_find_error_403_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::DirectoryGroupsFindError403.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_directory_groups_find_error_404_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::DirectoryGroupsFindError404.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_directory_users_list_error_403_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::DirectoryUsersListError403.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_directory_users_list_error_404_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::DirectoryUsersListError404.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_directory_users_list_error_422_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::DirectoryUsersListError422.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_directory_users_find_error_403_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::DirectoryUsersFindError403.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_directory_users_find_error_404_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::DirectoryUsersFindError404.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_directory_metadata_user_round_trip
     fixture = {
       "active" => 1,

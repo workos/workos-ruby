@@ -19,7 +19,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_organization_api_keys(organization_id:, before:, after:, limit:, order:, request_options:); end
+    def list_organization_api_keys(organization_id:, before: nil, after: nil, limit: nil, order: nil, request_options: {}); end
 
     sig do
       params(
@@ -30,7 +30,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::OrganizationApiKeyWithValue)
     end
-    def create_organization_api_key(organization_id:, name:, permissions:, expires_at:, request_options:); end
+    def create_organization_api_key(organization_id:, name:, permissions: nil, expires_at: nil, request_options: {}); end
 
     sig do
       params(
@@ -38,7 +38,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::ApiKeyValidationResponse)
     end
-    def create_validation(value:, request_options:); end
+    def create_validation(value:, request_options: {}); end
 
     sig do
       params(
@@ -46,7 +46,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def delete_api_key(id:, request_options:); end
+    def delete_api_key(id:, request_options: {}); end
 
     sig do
       params(
@@ -55,7 +55,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::ApiKey)
     end
-    def create_api_key_expire(id:, expires_at:, request_options:); end
+    def create_api_key_expire(id:, expires_at: nil, request_options: {}); end
 
   end
 end

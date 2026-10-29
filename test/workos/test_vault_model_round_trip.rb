@@ -131,6 +131,25 @@ class VaultModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_object_version_round_trip
+    fixture = {
+      "created_at" => "stub",
+      "current_version" => true,
+      "etag" => "stub",
+      "id" => "stub",
+      "size" => 1
+    }
+    model = WorkOS::ObjectVersion.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["current_version"], json[:current_version]
+    assert_equal fixture["etag"], json[:etag]
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["size"], json[:size]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_object_without_value_round_trip
     fixture = {
       "id" => "stub",
@@ -166,6 +185,17 @@ class VaultModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["value"], json[:value]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_version_list_response_round_trip
+    fixture = {
+      "data" => [],
+      "list_metadata" => {}
+    }
+    model = WorkOS::VersionListResponse.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 

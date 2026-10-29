@@ -16,7 +16,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::ClientApiTokenResponse)
     end
-    def create_token(organization_id:, user_id:, request_options:); end
+    def create_token(organization_id:, user_id:, request_options: {}); end
 
   end
 end

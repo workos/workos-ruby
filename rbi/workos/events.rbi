@@ -22,7 +22,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_events(events:, before:, after:, limit:, order:, range_start:, range_end:, organization_id:, request_options:); end
+    def list_events(events:, before: nil, after: nil, limit: nil, order: nil, range_start: nil, range_end: nil, organization_id: nil, request_options: {}); end
 
   end
 end

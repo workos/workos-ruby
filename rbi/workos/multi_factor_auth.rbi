@@ -16,7 +16,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AuthenticationChallengeVerifyResponse)
     end
-    def verify_challenge(id:, code:, request_options:); end
+    def verify_challenge(id:, code:, request_options: {}); end
 
     sig do
       params(
@@ -28,7 +28,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AuthenticationFactorEnrolled)
     end
-    def enroll_factor(type:, phone_number:, totp_issuer:, totp_user:, user_id:, request_options:); end
+    def enroll_factor(type:, phone_number: nil, totp_issuer: nil, totp_user: nil, user_id: nil, request_options: {}); end
 
     sig do
       params(
@@ -36,7 +36,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AuthenticationFactor)
     end
-    def get_factor(id:, request_options:); end
+    def get_factor(id:, request_options: {}); end
 
     sig do
       params(
@@ -44,7 +44,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def delete_factor(id:, request_options:); end
+    def delete_factor(id:, request_options: {}); end
 
     sig do
       params(
@@ -53,7 +53,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AuthenticationChallenge)
     end
-    def challenge_factor(id:, sms_template:, request_options:); end
+    def challenge_factor(id:, sms_template: nil, request_options: {}); end
 
     sig do
       params(
@@ -65,7 +65,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_user_auth_factors(userland_user_id:, before:, after:, limit:, order:, request_options:); end
+    def list_user_auth_factors(userland_user_id:, before: nil, after: nil, limit: nil, order: nil, request_options: {}); end
 
     sig do
       params(
@@ -77,7 +77,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::UserAuthenticationFactorEnrollResponse)
     end
-    def create_user_auth_factor(userland_user_id:, type:, totp_issuer:, totp_user:, totp_secret:, request_options:); end
+    def create_user_auth_factor(userland_user_id:, type:, totp_issuer: nil, totp_user: nil, totp_secret: nil, request_options: {}); end
 
   end
 end

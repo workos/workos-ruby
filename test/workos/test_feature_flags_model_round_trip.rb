@@ -593,4 +593,72 @@ class FeatureFlagsModelRoundTripTest < Minitest::Test
     assert_nil json[:last_name]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
+
+  def test_flag_targets_create_target_error_400_round_trip
+    fixture = {
+      "message" => "stub",
+      "code" => "stub",
+      "statusCode" => 1.0
+    }
+    model = WorkOS::FlagTargetsCreateTargetError400.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_flag_targets_create_target_error_403_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::FlagTargetsCreateTargetError403.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_flag_targets_create_target_error_404_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::FlagTargetsCreateTargetError404.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_flag_targets_delete_target_error_400_round_trip
+    fixture = {
+      "message" => "stub",
+      "code" => "stub",
+      "statusCode" => 1.0
+    }
+    model = WorkOS::FlagTargetsDeleteTargetError400.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_flag_targets_delete_target_error_403_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::FlagTargetsDeleteTargetError403.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_flag_targets_delete_target_error_404_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::FlagTargetsDeleteTargetError404.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
 end

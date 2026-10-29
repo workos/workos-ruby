@@ -20,7 +20,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::RadarStandaloneResponse)
     end
-    def create_attempt(ip_address:, user_agent:, email:, auth_method:, action:, signals_id:, request_options:); end
+    def create_attempt(ip_address:, user_agent:, email:, auth_method:, action:, signals_id: nil, request_options: {}); end
 
     sig do
       params(
@@ -30,7 +30,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def update_attempt(id:, challenge_status:, attempt_status:, request_options:); end
+    def update_attempt(id:, challenge_status: nil, attempt_status: nil, request_options: {}); end
 
     sig do
       params(
@@ -40,7 +40,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::RadarListEntryAlreadyPresentResponse)
     end
-    def add_list_entry(type:, action:, entry:, request_options:); end
+    def add_list_entry(type:, action:, entry:, request_options: {}); end
 
     sig do
       params(
@@ -50,7 +50,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def remove_list_entry(type:, action:, entry:, request_options:); end
+    def remove_list_entry(type:, action:, entry:, request_options: {}); end
 
   end
 end

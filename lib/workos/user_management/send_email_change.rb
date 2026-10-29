@@ -5,14 +5,18 @@
 module WorkOS
   class SendEmailChange < WorkOS::Types::BaseModel
     HASH_ATTRS = {
-      new_email: :new_email
+      new_email: :new_email,
+      locale: :locale
     }.freeze
 
-    attr_accessor :new_email
+    attr_accessor \
+      :new_email,
+      :locale
 
     def initialize(json)
       hash = self.class.normalize(json)
       @new_email = hash[:new_email]
+      @locale = hash[:locale]
     end
   end
 end

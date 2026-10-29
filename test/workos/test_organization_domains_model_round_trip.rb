@@ -257,4 +257,50 @@ class OrganizationDomainsModelRoundTripTest < Minitest::Test
     assert_equal fixture["updated_at"], json[:updated_at]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
+
+  def test_organization_domains_create_error_409_round_trip
+    fixture = {
+      "code" => "domain_already_exists",
+      "message" => "stub"
+    }
+    model = WorkOS::OrganizationDomainsCreateError409.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_domains_get_error_404_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::OrganizationDomainsGetError404.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_domains_delete_error_404_round_trip
+    fixture = {
+      "message" => "stub"
+    }
+    model = WorkOS::OrganizationDomainsDeleteError404.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_organization_domains_verify_error_400_round_trip
+    fixture = {
+      "code" => "domain_already_verified",
+      "message" => "stub"
+    }
+    model = WorkOS::OrganizationDomainsVerifyError400.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
 end

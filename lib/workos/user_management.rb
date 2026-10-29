@@ -880,15 +880,18 @@ module WorkOS
 
     # Create a password reset token
     # @param email [String] The email address of the user requesting a password reset.
+    # @param locale [WorkOS::Types::CreatePasswordResetTokenLocale, nil] The locale to use when rendering the password reset email. Defaults to the environment's default locale. See [supported locales](https://workos.com/docs/authkit/hosted-ui#localization).
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::PasswordReset]
     def reset_password(
       email:,
+      locale: nil,
       request_options: {}
     )
       body = {
-        "email" => email
-      }
+        "email" => email,
+        "locale" => locale
+      }.compact
       response = @client.request(
         method: :post,
         path: "/user_management/password_reset",
@@ -1209,16 +1212,19 @@ module WorkOS
     # Send email change code
     # @param id [String] The unique ID of the user.
     # @param new_email [String] The new email address to change to.
+    # @param locale [WorkOS::Types::SendEmailChangeLocale, nil] The locale to use when rendering the email change email. Defaults to the environment's default locale. See [supported locales](https://workos.com/docs/authkit/hosted-ui#localization).
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::EmailChange]
     def send_email_change(
       id:,
       new_email:,
+      locale: nil,
       request_options: {}
     )
       body = {
-        "new_email" => new_email
-      }
+        "new_email" => new_email,
+        "locale" => locale
+      }.compact
       response = @client.request(
         method: :post,
         path: "/user_management/users/#{WorkOS::Util.encode_path(id)}/email_change/send",
@@ -1258,16 +1264,22 @@ module WorkOS
 
     # Send verification email
     # @param id [String] The ID of the user.
+    # @param locale [WorkOS::Types::SendVerificationEmailLocale, nil] The locale to use when rendering the verification email. Defaults to the environment's default locale. See [supported locales](https://workos.com/docs/authkit/hosted-ui#localization).
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::SendVerificationEmailResponse]
     def send_verification_email(
       id:,
+      locale: nil,
       request_options: {}
     )
+      body = {
+        "locale" => locale
+      }.compact
       response = @client.request(
         method: :post,
         path: "/user_management/users/#{WorkOS::Util.encode_path(id)}/email_verification/send",
         auth: true,
+        body: body,
         request_options: request_options
       )
       result = WorkOS::SendVerificationEmailResponse.new(response.body)
@@ -1398,7 +1410,7 @@ module WorkOS
     # @param role_slug [String, nil] The [role](https://workos.com/docs/authkit/roles) that the recipient will receive when they join the organization in the invitation.
     # @param expires_in_days [Integer, nil] How many days the invitations will be valid for. Must be between 1 and 30 days. Defaults to 7 days if not specified.
     # @param inviter_user_id [String, nil] The ID of the [user](https://workos.com/docs/reference/authkit/user) who invites the recipient. The invitation email will mention the name of this user.
-    # @param locale [WorkOS::Types::CreateUserInviteOptionsLocale, nil] The locale to use when rendering the invitation email. See [supported locales](https://workos.com/docs/authkit/hosted-ui/localization).
+    # @param locale [WorkOS::Types::CreateUserInviteOptionsLocale, nil] The locale to use when rendering the invitation email. Defaults to the environment's default locale. See [supported locales](https://workos.com/docs/authkit/hosted-ui#localization).
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::UserInvite]
     def send_invitation(
@@ -1489,7 +1501,7 @@ module WorkOS
 
     # Resend an invitation
     # @param id [String] The unique ID of the invitation.
-    # @param locale [WorkOS::Types::ResendUserInviteOptionsLocale, nil] The locale to use when rendering the invitation email. See [supported locales](https://workos.com/docs/authkit/hosted-ui/localization).
+    # @param locale [WorkOS::Types::ResendUserInviteOptionsLocale, nil] The locale to use when rendering the invitation email. Defaults to the environment's default locale. See [supported locales](https://workos.com/docs/authkit/hosted-ui#localization).
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::UserInvite]
     def resend_invitation(
@@ -1576,6 +1588,7 @@ module WorkOS
     # @param user_agent [String, nil] The user agent string from the user's request.
     # @param radar_auth_attempt_id [String, nil] The ID of an existing Radar authentication attempt to associate with this request.
     # @param signals_id [String, nil] An optional Radar signals ID to correlate client-side signals with this request.
+    # @param locale [WorkOS::Types::CreateMagicCodeAndReturnLocale, nil] The locale to use when rendering the Magic Auth email. Defaults to the environment's default locale. See [supported locales](https://workos.com/docs/authkit/hosted-ui#localization).
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::MagicAuthSendMagicAuthCodeAndReturnResponse]
     def create_magic_auth(
@@ -1585,6 +1598,7 @@ module WorkOS
       user_agent: nil,
       radar_auth_attempt_id: nil,
       signals_id: nil,
+      locale: nil,
       request_options: {}
     )
       body = {
@@ -1593,7 +1607,8 @@ module WorkOS
         "ip_address" => ip_address,
         "user_agent" => user_agent,
         "radar_auth_attempt_id" => radar_auth_attempt_id,
-        "signals_id" => signals_id
+        "signals_id" => signals_id,
+        "locale" => locale
       }.compact
       response = @client.request(
         method: :post,

@@ -15,7 +15,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::CreateDataKeyResponse)
     end
-    def create_data_key(context:, request_options:); end
+    def create_data_key(context:, request_options: {}); end
 
     sig do
       params(
@@ -23,7 +23,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::DecryptResponse)
     end
-    def create_decrypt(keys:, request_options:); end
+    def create_decrypt(keys:, request_options: {}); end
 
     sig do
       params(
@@ -32,7 +32,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::CreateDataKeyResponse)
     end
-    def create_rekey(context:, encrypted_keys:, request_options:); end
+    def create_rekey(context:, encrypted_keys:, request_options: {}); end
 
     sig do
       params(
@@ -45,7 +45,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_kv(limit:, before:, after:, order:, search:, updated_after:, request_options:); end
+    def list_kv(limit: nil, before: nil, after: nil, order: nil, search: nil, updated_after: nil, request_options: {}); end
 
     sig do
       params(
@@ -55,7 +55,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::ObjectMetadata)
     end
-    def create_kv(key_context:, name:, value:, request_options:); end
+    def create_kv(key_context:, name:, value:, request_options: {}); end
 
     sig do
       params(
@@ -63,7 +63,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::VaultObject)
     end
-    def get_name(name:, request_options:); end
+    def get_name(name:, request_options: {}); end
 
     sig do
       params(
@@ -71,7 +71,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::VaultObject)
     end
-    def get_kv(id:, request_options:); end
+    def get_kv(id:, request_options: {}); end
 
     sig do
       params(
@@ -81,7 +81,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::ObjectWithoutValue)
     end
-    def update_kv(id:, value:, version_check:, request_options:); end
+    def update_kv(id:, value:, version_check: nil, request_options: {}); end
 
     sig do
       params(
@@ -90,7 +90,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::DeleteObjectResponse)
     end
-    def delete_kv(id:, version_check:, request_options:); end
+    def delete_kv(id:, version_check: nil, request_options: {}); end
 
     sig do
       params(
@@ -98,7 +98,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::ObjectWithoutValue)
     end
-    def list_kv_metadata(id:, request_options:); end
+    def list_kv_metadata(id:, request_options: {}); end
 
     sig do
       params(
@@ -106,7 +106,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_kv_versions(id:, request_options:); end
+    def list_kv_versions(id:, request_options: {}); end
 
   end
 end
