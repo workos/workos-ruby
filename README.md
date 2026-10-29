@@ -100,10 +100,10 @@ organization = WorkOS.client.organizations.get_organization(
 )
 ```
 
-`Idempotency-Key` is only sent on `POST`, `PUT`, and `PATCH` requests — either when you provide `request_options[:idempotency_key]`, or auto-generated when the SDK retries one of those requests after a transient failure. It is never attached to `GET` or `DELETE` requests.
+`Idempotency-Key` is only sent on `POST`, `PUT`, and `PATCH` requests, and never on `GET` or `DELETE`. Every `POST` carries one: the key you provide in `request_options[:idempotency_key]`, or one the SDK generates before the first attempt and reuses on every retry. `PUT` and `PATCH` requests carry one when you provide it, or when the SDK retries them after a transient failure.
 
 > [!NOTE]
-> The WorkOS API currently honors `Idempotency-Key` only on the [Create Audit Log Event](https://workos.com/docs/reference/audit-logs/event) endpoint (`audit_logs.create_event`). Other endpoints accept the header but do not deduplicate requests, so a retried mutation elsewhere can still create a duplicate.
+> The WorkOS API currently honors `Idempotency-Key` only on the [Create Audit Log Event](https://workos.com/docs/reference/audit-logs/event) endpoint (`audit_logs.create_event`) and on Pipes explicit adds (`pipes.create_data_integration_api_key`, `pipes.create_data_integration_client_credential`, and `pipes.create_user_connected_account` / `pipes.create_organization_connected_account` with `connection_intent: "add"`). Other endpoints accept the header but do not deduplicate requests, so a retried mutation elsewhere can still create a duplicate.
 
 ## Usage Examples
 

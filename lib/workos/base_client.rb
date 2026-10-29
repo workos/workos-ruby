@@ -73,6 +73,9 @@ module WorkOS
       req.body = body.nil? ? "" : body.to_json
       req["Content-Type"] = "application/json"
       inject_idempotency_key(req, request_options)
+      # Keyed before the first attempt, so a retry after a lost response
+      # carries the key the server already saw.
+      req["Idempotency-Key"] ||= SecureRandom.uuid
       req
     end
 

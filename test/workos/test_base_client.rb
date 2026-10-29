@@ -164,15 +164,16 @@ class BaseClientTest < Minitest::Test
     assert_equal({"external_id" => nil}, JSON.parse(request.body))
   end
 
-  def test_retry_path_generates_idempotency_key_for_mutating_requests
+  def test_post_sends_one_idempotency_key_on_the_first_attempt_and_its_retries
     stub_request(:post, "https://api.workos.com/widgets")
       .to_return({status: 500, body: '{"message":"retry"}'}, {status: 200, body: "{}"})
 
     @client.singleton_class.define_method(:sleep) { |_duration| nil }
     @client.request(method: :post, path: "/widgets", body: {name: "widget"})
 
-    assert_requested(:post, "https://api.workos.com/widgets", times: 2)
-    assert_requested(:post, "https://api.workos.com/widgets", headers: {"Idempotency-Key" => /.+/}, times: 1)
+    assert_requested(:post, "https://api.workos.com/widgets", headers: {"Idempotency-Key" => /.+/}, times: 2)
+    keys = WebMock::RequestRegistry.instance.requested_signatures.hash.keys.map { |signature| signature.headers["Idempotency-Key"] }
+    assert_equal 1, keys.uniq.size
   end
 
   def test_409_idempotency_error_raises_specific_error
