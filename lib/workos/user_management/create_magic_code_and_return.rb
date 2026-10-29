@@ -10,7 +10,8 @@ module WorkOS
       ip_address: :ip_address,
       user_agent: :user_agent,
       radar_auth_attempt_id: :radar_auth_attempt_id,
-      signals_id: :signals_id
+      signals_id: :signals_id,
+      locale: :locale
     }.freeze
 
     attr_accessor \
@@ -19,7 +20,8 @@ module WorkOS
       :ip_address,
       :user_agent,
       :radar_auth_attempt_id,
-      :signals_id
+      :signals_id,
+      :locale
 
     def initialize(json)
       hash = self.class.normalize(json)
@@ -29,6 +31,7 @@ module WorkOS
       @user_agent = hash[:user_agent]
       @radar_auth_attempt_id = hash[:radar_auth_attempt_id]
       @signals_id = hash[:signals_id]
+      @locale = hash[:locale]
     end
   end
 end

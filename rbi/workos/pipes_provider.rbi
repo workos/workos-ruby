@@ -15,7 +15,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::DataIntegrationConfigurationListResponse)
     end
-    def list_organization_data_integration_configurations(organization_id:, request_options:); end
+    def list_organization_data_integration_configurations(organization_id:, request_options: {}); end
 
     sig do
       params(
@@ -29,7 +29,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::DataIntegrationConfigurationResponse)
     end
-    def update_organization_data_integration_configuration(organization_id:, slug:, enabled:, scopes:, client_id:, client_secret:, config:, request_options:); end
+    def update_organization_data_integration_configuration(organization_id:, slug:, enabled: nil, scopes: nil, client_id: nil, client_secret: nil, config: nil, request_options: {}); end
 
   end
 end

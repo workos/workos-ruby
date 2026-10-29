@@ -23,6 +23,7 @@ module WorkOS
       state_reason: :state_reason,
       created_at: :created_at,
       updated_at: :updated_at,
+      warnings: :warnings,
       userlandUserId: :userland_user_id
     }.freeze
 
@@ -47,7 +48,8 @@ module WorkOS
       :established_by_user_id,
       :state_reason,
       :created_at,
-      :updated_at
+      :updated_at,
+      :warnings
 
     def userland_user_id
       warn "[DEPRECATION] `userland_user_id` is deprecated and will be removed in a future version.", uplevel: 1
@@ -76,6 +78,7 @@ module WorkOS
       @state_reason = hash[:state_reason]
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
+      @warnings = (hash[:warnings] || []).map { |item| item ? WorkOS::DataIntegrationsListResponseDataConnectedAccountWarning.new(item) : nil }
       @userland_user_id = hash[:userlandUserId]
     end
   end

@@ -11,8 +11,8 @@ module WorkOS
       expires_at: :expires_at,
       scopes: :scopes,
       missing_scopes: :missing_scopes,
-      config: :config,
-      metadata: :metadata
+      metadata: :metadata,
+      config: :config
     }.freeze
 
     attr_accessor \
@@ -22,8 +22,8 @@ module WorkOS
       :expires_at,
       :scopes,
       :missing_scopes,
-      :config,
-      :metadata
+      :metadata,
+      :config
 
     def initialize(json)
       hash = self.class.normalize(json)
@@ -33,8 +33,8 @@ module WorkOS
       @expires_at = hash[:expires_at]
       @scopes = hash[:scopes] || []
       @missing_scopes = hash[:missing_scopes] || []
-      @config = hash[:config] || {}
       @metadata = hash[:metadata] || {}
+      @config = hash[:config] || {}
     end
   end
 end

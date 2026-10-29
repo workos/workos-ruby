@@ -25,6 +25,13 @@ class PipesTest < Minitest::Test
     refute_nil result
   end
 
+  def test_create_finish_returns_expected_result
+    stub_request(:post, %r{\Ahttps://api\.workos\.com/data-integrations/finish(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.pipes.create_finish(connect_code: "stub", code_verifier: "stub")
+    refute_nil result
+  end
+
   def test_get_data_integration_returns_expected_result
     stub_request(:get, %r{\Ahttps://api\.workos\.com/data-integrations/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
@@ -190,6 +197,7 @@ class PipesTest < Minitest::Test
   [
     {name: :list_data_integrations, verb: :get, url: %r{\Ahttps://api\.workos\.com/data-integrations(\?|\z)}},
     {name: :create_data_integration, verb: :post, url: %r{\Ahttps://api\.workos\.com/data-integrations(\?|\z)}, args: {provider: "stub"}},
+    {name: :create_finish, verb: :post, url: %r{\Ahttps://api\.workos\.com/data-integrations/finish(\?|\z)}, args: {connect_code: "stub", code_verifier: "stub"}},
     {name: :get_data_integration, verb: :get, url: %r{\Ahttps://api\.workos\.com/data-integrations/stub(\?|\z)}, args: {slug: "stub"}},
     {name: :update_data_integration, verb: :put, url: %r{\Ahttps://api\.workos\.com/data-integrations/stub(\?|\z)}, args: {slug: "stub"}},
     {name: :delete_data_integration, verb: :delete, url: %r{\Ahttps://api\.workos\.com/data-integrations/stub(\?|\z)}, args: {slug: "stub"}},
