@@ -1,5 +1,12 @@
 # Changelog
 
+## [10.5.1](https://github.com/workos/workos-ruby/compare/v10.5.0...v10.5.1) (2026-10-29)
+
+
+### Bug Fixes
+
+* Send Idempotency-Key on the first POST attempt ([#567](https://github.com/workos/workos-ruby/issues/567)) ([fc5fb6c](https://github.com/workos/workos-ruby/commit/fc5fb6cfab255969203a7285d1308053cb72998e))
+
 ## [10.5.0](https://github.com/workos/workos-ruby/compare/v10.4.0...v10.5.0) (2026-10-19)
 
 * [#558](https://github.com/workos/workos-ruby/pull/558) feat(generated): regenerate from spec
