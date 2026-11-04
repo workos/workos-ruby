@@ -33,5 +33,9 @@ module WorkOS
       @metadata = hash[:metadata] || {}
       @version = hash[:version]
     end
+
+    def to_h
+      super.reject { |key, value| value.nil? && [:occurred_at].include?(key) }
+    end
   end
 end
