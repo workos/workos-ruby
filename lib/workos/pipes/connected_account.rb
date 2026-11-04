@@ -22,7 +22,8 @@ module WorkOS
       established_by_user_id: :established_by_user_id,
       state_reason: :state_reason,
       created_at: :created_at,
-      updated_at: :updated_at
+      updated_at: :updated_at,
+      warnings: :warnings
     }.freeze
 
     attr_accessor \
@@ -43,7 +44,8 @@ module WorkOS
       :established_by_user_id,
       :state_reason,
       :created_at,
-      :updated_at
+      :updated_at,
+      :warnings
 
     def initialize(json)
       hash = self.class.normalize(json)
@@ -65,6 +67,7 @@ module WorkOS
       @state_reason = hash[:state_reason]
       @created_at = hash[:created_at]
       @updated_at = hash[:updated_at]
+      @warnings = (hash[:warnings] || []).map { |item| item ? WorkOS::ConnectedAccountWarning.new(item) : nil }
     end
   end
 end

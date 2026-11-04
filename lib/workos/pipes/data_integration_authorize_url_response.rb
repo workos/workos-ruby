@@ -5,14 +5,21 @@
 module WorkOS
   class DataIntegrationAuthorizeUrlResponse < WorkOS::Types::BaseModel
     HASH_ATTRS = {
-      url: :url
+      url: :url,
+      state: :state,
+      completion: :completion
     }.freeze
 
-    attr_accessor :url
+    attr_accessor \
+      :url,
+      :state,
+      :completion
 
     def initialize(json)
       hash = self.class.normalize(json)
       @url = hash[:url]
+      @state = hash[:state]
+      @completion = hash[:completion]
     end
   end
 end
