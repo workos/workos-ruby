@@ -104,7 +104,10 @@ class SessionTest < Minitest::Test
   [
     {"sub_profile" => "ai_agent"},
     {"sub_type" => "authkit"},
-    {"auth_time" => nil}
+    {"auth_time" => nil},
+    {"auth_time" => "1700000000"},
+    {"sid" => nil},
+    {"sid" => 123}
   ].each_with_index do |claims, index|
     define_method(:"test_authenticate_rejects_non_user_access_token_#{index}") do
       rsa, pub = signing_key_pair
