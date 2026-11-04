@@ -5,6 +5,113 @@
 require "test_helper"
 
 class FeatureFlagsModelRoundTripTest < Minitest::Test
+  def test_flag_rule_round_trip
+    fixture = {
+      "object" => "flag_rule",
+      "id" => "stub",
+      "flag_id" => "stub",
+      "flag_slug" => "stub",
+      "environment_id" => "stub",
+      "target_type" => nil,
+      "position" => 1,
+      "value_type" => "boolean",
+      "value" => true,
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::FlagRule.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["flag_id"], json[:flag_id]
+    assert_equal fixture["flag_slug"], json[:flag_slug]
+    assert_equal fixture["environment_id"], json[:environment_id]
+    assert_nil json[:target_type]
+    assert_equal fixture["position"], json[:position]
+    assert_equal fixture["value"], json[:value]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_flag_target_round_trip
+    fixture = {
+      "object" => "flag_target",
+      "id" => "stub",
+      "flag_id" => "stub",
+      "flag_slug" => "stub",
+      "environment_id" => "stub",
+      "target_type" => "stub",
+      "target_id" => "stub",
+      "created_at" => "stub",
+      "updated_at" => "stub",
+      "rule_id" => "stub",
+      "value_type" => "boolean",
+      "value" => true
+    }
+    model = WorkOS::FlagTarget.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_flag_target_with_rule_id_round_trip
+    fixture = {
+      "object" => "flag_target",
+      "id" => "stub",
+      "flag_id" => "stub",
+      "flag_slug" => "stub",
+      "environment_id" => "stub",
+      "target_type" => "stub",
+      "target_id" => "stub",
+      "created_at" => "stub",
+      "updated_at" => "stub",
+      "rule_id" => "stub"
+    }
+    model = WorkOS::FlagTargetWithRuleId.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["flag_id"], json[:flag_id]
+    assert_equal fixture["flag_slug"], json[:flag_slug]
+    assert_equal fixture["environment_id"], json[:environment_id]
+    assert_equal fixture["target_type"], json[:target_type]
+    assert_equal fixture["target_id"], json[:target_id]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    assert_equal fixture["rule_id"], json[:rule_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_flag_target_with_value_type_round_trip
+    fixture = {
+      "object" => "flag_target",
+      "id" => "stub",
+      "flag_id" => "stub",
+      "flag_slug" => "stub",
+      "environment_id" => "stub",
+      "target_type" => "stub",
+      "target_id" => "stub",
+      "value_type" => "boolean",
+      "value" => true,
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::FlagTargetWithValueType.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["flag_id"], json[:flag_id]
+    assert_equal fixture["flag_slug"], json[:flag_slug]
+    assert_equal fixture["environment_id"], json[:environment_id]
+    assert_equal fixture["target_type"], json[:target_type]
+    assert_equal fixture["target_id"], json[:target_id]
+    assert_equal fixture["value"], json[:value]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_flag_created_round_trip
     fixture = {
       "object" => "event",

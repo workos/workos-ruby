@@ -18,7 +18,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_feature_flags(before:, after:, limit:, order:, request_options:); end
+    def list_feature_flags(before: nil, after: nil, limit: nil, order: nil, request_options: {}); end
 
     sig do
       params(
@@ -26,7 +26,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Flag)
     end
-    def get_feature_flag(slug:, request_options:); end
+    def get_feature_flag(slug:, request_options: {}); end
 
     sig do
       params(
@@ -34,7 +34,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::FeatureFlag)
     end
-    def disable_feature_flag(slug:, request_options:); end
+    def disable_feature_flag(slug:, request_options: {}); end
 
     sig do
       params(
@@ -42,7 +42,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::FeatureFlag)
     end
-    def enable_feature_flag(slug:, request_options:); end
+    def enable_feature_flag(slug:, request_options: {}); end
 
     sig do
       params(
@@ -51,7 +51,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def add_flag_target(resource_id:, slug:, request_options:); end
+    def add_flag_target(resource_id:, slug:, request_options: {}); end
 
     sig do
       params(
@@ -60,7 +60,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def remove_flag_target(resource_id:, slug:, request_options:); end
+    def remove_flag_target(resource_id:, slug:, request_options: {}); end
 
     sig do
       params(
@@ -72,7 +72,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_organization_feature_flags(organization_id:, before:, after:, limit:, order:, request_options:); end
+    def list_organization_feature_flags(organization_id:, before: nil, after: nil, limit: nil, order: nil, request_options: {}); end
 
     sig do
       params(
@@ -84,7 +84,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_user_feature_flags(user_id:, before:, after:, limit:, order:, request_options:); end
+    def list_user_feature_flags(user_id:, before: nil, after: nil, limit: nil, order: nil, request_options: {}); end
 
   end
 end
