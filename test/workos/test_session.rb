@@ -122,6 +122,18 @@ class SessionTest < Minitest::Test
     end
   end
 
+  def test_authenticate_rejects_expired_non_user_access_token_when_include_expired_is_true
+    rsa, pub = signing_key_pair
+    access_token = make_jwt({"sid" => "session_42", "sub_profile" => "ai_agent", "exp" => Time.now.to_i - 60}, rsa)
+    sealed = @sm.seal_data({"access_token" => access_token}, PASSWORD)
+    stub_request(:get, "https://api.workos.com/sso/jwks/client_001")
+      .to_return(status: 200, body: jwks_payload(pub).to_json)
+
+    result = @sm.authenticate(seal_data: sealed, cookie_password: PASSWORD, include_expired: true)
+    assert_kind_of WorkOS::SessionManager::AuthError, result
+    assert_equal WorkOS::SessionManager::INVALID_JWT, result.reason
+  end
+
   def test_authenticate_accepts_user_sub_profile
     rsa, pub = signing_key_pair
     access_token = make_jwt({"sid" => "session_42", "sub_profile" => "user", "exp" => Time.now.to_i + 60}, rsa)
