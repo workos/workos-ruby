@@ -1,5 +1,21 @@
 # Changelog
 
+## [10.6.0](https://github.com/workos/workos-ruby/compare/v10.5.0...v10.6.0) (2026-11-04)
+
+
+### Features
+
+* **events:** Change events API surface ([#572](https://github.com/workos/workos-ruby/issues/572)) ([440a2fd](https://github.com/workos/workos-ruby/commit/440a2fdbed5631aaa4763326fcccc8cfac3643cd))
+* **feature_flags:** Add feature flag API surface ([#572](https://github.com/workos/workos-ruby/issues/572)) ([440a2fd](https://github.com/workos/workos-ruby/commit/440a2fdbed5631aaa4763326fcccc8cfac3643cd))
+* **pipes:** Change Pipes API surface ([#572](https://github.com/workos/workos-ruby/issues/572)) ([440a2fd](https://github.com/workos/workos-ruby/commit/440a2fdbed5631aaa4763326fcccc8cfac3643cd))
+* **webhooks:** Add webhook API surface ([#572](https://github.com/workos/workos-ruby/issues/572)) ([440a2fd](https://github.com/workos/workos-ruby/commit/440a2fdbed5631aaa4763326fcccc8cfac3643cd))
+
+
+### Bug Fixes
+
+* **events:** Updated model `EventSchema` ([#572](https://github.com/workos/workos-ruby/issues/572)) ([440a2fd](https://github.com/workos/workos-ruby/commit/440a2fdbed5631aaa4763326fcccc8cfac3643cd))
+* Send Idempotency-Key on the first POST attempt ([#567](https://github.com/workos/workos-ruby/issues/567)) ([fc5fb6c](https://github.com/workos/workos-ruby/commit/fc5fb6cfab255969203a7285d1308053cb72998e))
+
 ## [10.5.0](https://github.com/workos/workos-ruby/compare/v10.4.0...v10.5.0) (2026-10-19)
 
 * [#558](https://github.com/workos/workos-ruby/pull/558) feat(generated): regenerate from spec
