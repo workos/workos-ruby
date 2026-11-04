@@ -18,7 +18,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_webhook_endpoints(before:, after:, limit:, order:, request_options:); end
+    def list_webhook_endpoints(before: nil, after: nil, limit: nil, order: nil, request_options: {}); end
 
     sig do
       params(
@@ -27,7 +27,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::WebhookEndpoint)
     end
-    def create_webhook_endpoint(endpoint_url:, events:, request_options:); end
+    def create_webhook_endpoint(endpoint_url:, events:, request_options: {}); end
 
     sig do
       params(
@@ -38,7 +38,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::WebhookEndpoint)
     end
-    def update_webhook_endpoint(id:, endpoint_url:, status:, events:, request_options:); end
+    def update_webhook_endpoint(id:, endpoint_url: nil, status: nil, events: nil, request_options: {}); end
 
     sig do
       params(
@@ -46,7 +46,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def delete_webhook_endpoint(id:, request_options:); end
+    def delete_webhook_endpoint(id:, request_options: {}); end
 
   end
 end
