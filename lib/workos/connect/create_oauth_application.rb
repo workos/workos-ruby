@@ -10,6 +10,7 @@ module WorkOS
       description: :description,
       scopes: :scopes,
       redirect_uris: :redirect_uris,
+      cors_origins: :cors_origins,
       uses_pkce: :uses_pkce,
       is_first_party: :is_first_party,
       organization_id: :organization_id
@@ -21,6 +22,7 @@ module WorkOS
       :description,
       :scopes,
       :redirect_uris,
+      :cors_origins,
       :uses_pkce,
       :is_first_party,
       :organization_id
@@ -32,6 +34,7 @@ module WorkOS
       @description = hash[:description]
       @scopes = hash[:scopes] || []
       @redirect_uris = (hash[:redirect_uris] || []).map { |item| item ? WorkOS::RedirectUriInput.new(item) : nil }
+      @cors_origins = hash[:cors_origins] || []
       @uses_pkce = hash[:uses_pkce]
       @is_first_party = hash[:is_first_party]
       @organization_id = hash[:organization_id]

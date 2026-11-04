@@ -60,6 +60,13 @@ class GroupsTest < Minitest::Test
     refute_nil result
   end
 
+  def test_update_group_organization_memberships_returns_expected_result
+    stub_request(:patch, %r{\Ahttps://api\.workos\.com/organizations/stub/groups/stub/organization-memberships(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.groups.update_group_organization_memberships(organization_id: "stub", group_id: "stub")
+    assert_nil result
+  end
+
   def test_delete_group_organization_membership_returns_expected_result
     stub_request(:delete, %r{\Ahttps://api\.workos\.com/organizations/stub/groups/stub/organization-memberships/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
@@ -76,6 +83,7 @@ class GroupsTest < Minitest::Test
     {name: :delete_organization_group, verb: :delete, url: %r{\Ahttps://api\.workos\.com/organizations/stub/groups/stub(\?|\z)}, args: {organization_id: "stub", group_id: "stub"}},
     {name: :list_group_organization_memberships, verb: :get, url: %r{\Ahttps://api\.workos\.com/organizations/stub/groups/stub/organization-memberships(\?|\z)}, args: {organization_id: "stub", group_id: "stub"}},
     {name: :create_group_organization_membership, verb: :post, url: %r{\Ahttps://api\.workos\.com/organizations/stub/groups/stub/organization-memberships(\?|\z)}, args: {organization_id: "stub", group_id: "stub", organization_membership_id: "stub"}},
+    {name: :update_group_organization_memberships, verb: :patch, url: %r{\Ahttps://api\.workos\.com/organizations/stub/groups/stub/organization-memberships(\?|\z)}, args: {organization_id: "stub", group_id: "stub"}},
     {name: :delete_group_organization_membership, verb: :delete, url: %r{\Ahttps://api\.workos\.com/organizations/stub/groups/stub/organization-memberships/stub(\?|\z)}, args: {organization_id: "stub", group_id: "stub", om_id: "stub"}}
   ].each do |spec|
     define_method("test_#{spec[:name]}_raises_authentication_error_on_401") do

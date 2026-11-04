@@ -69,6 +69,12 @@ module WorkOS
     sig { params(value: T::Array[WorkOS::ConnectApplicationOAuthRedirectUris]).returns(T::Array[WorkOS::ConnectApplicationOAuthRedirectUris]) }
     def redirect_uris=(value); end
 
+    sig { returns(T::Array[String]) }
+    def cors_origins; end
+
+    sig { params(value: T::Array[String]).returns(T::Array[String]) }
+    def cors_origins=(value); end
+
     sig { returns(T::Boolean) }
     def uses_pkce; end
 

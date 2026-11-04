@@ -33,6 +33,12 @@ module WorkOS
     sig { params(value: T.nilable(T::Array[WorkOS::RedirectUriInput])).returns(T.nilable(T::Array[WorkOS::RedirectUriInput])) }
     def redirect_uris=(value); end
 
+    sig { returns(T.nilable(T::Array[String])) }
+    def cors_origins; end
+
+    sig { params(value: T.nilable(T::Array[String])).returns(T.nilable(T::Array[String])) }
+    def cors_origins=(value); end
+
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end
 

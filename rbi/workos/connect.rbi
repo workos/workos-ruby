@@ -17,7 +17,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::ExternalAuthCompleteResponse)
     end
-    def complete_oauth2(external_auth_id:, user:, user_consent_options:, request_options:); end
+    def complete_oauth2(external_auth_id:, user:, user_consent_options: nil, request_options: {}); end
 
     sig do
       params(
@@ -30,22 +30,23 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_applications(before:, after:, limit:, order:, registration_types:, organization_id:, request_options:); end
+    def list_applications(before: nil, after: nil, limit: nil, order: nil, registration_types: nil, organization_id: nil, request_options: {}); end
 
     sig do
       params(
         name: String,
         application_type: String,
-        is_first_party: T::Boolean,
         description: T.nilable(String),
         scopes: T.nilable(T::Array[String]),
         redirect_uris: T.nilable(T::Array[WorkOS::RedirectUriInput]),
+        cors_origins: T.nilable(T::Array[String]),
         uses_pkce: T.nilable(T::Boolean),
+        is_first_party: T.nilable(T::Boolean),
         organization_id: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::ConnectApplication)
     end
-    def create_application(name:, application_type:, is_first_party:, description:, scopes:, redirect_uris:, uses_pkce:, organization_id:, request_options:); end
+    def create_application(name:, application_type:, description: nil, scopes: nil, redirect_uris: nil, cors_origins: nil, uses_pkce: nil, is_first_party: nil, organization_id: nil, request_options: {}); end
 
     sig do
       params(
@@ -53,7 +54,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::ConnectApplication)
     end
-    def get_application(id:, request_options:); end
+    def get_application(id:, request_options: {}); end
 
     sig do
       params(
@@ -62,10 +63,11 @@ module WorkOS
         description: T.nilable(String),
         scopes: T.nilable(T::Array[String]),
         redirect_uris: T.nilable(T::Array[WorkOS::RedirectUriInput]),
+        cors_origins: T.nilable(T::Array[String]),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::ConnectApplication)
     end
-    def update_application(id:, name:, description:, scopes:, redirect_uris:, request_options:); end
+    def update_application(id:, name: nil, description: nil, scopes: nil, redirect_uris: nil, cors_origins: nil, request_options: {}); end
 
     sig do
       params(
@@ -73,7 +75,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def delete_application(id:, request_options:); end
+    def delete_application(id:, request_options: {}); end
 
     sig do
       params(
@@ -81,7 +83,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(T::Array[WorkOS::ApplicationCredentialsListItem])
     end
-    def list_application_client_secrets(id:, request_options:); end
+    def list_application_client_secrets(id:, request_options: {}); end
 
     sig do
       params(
@@ -89,7 +91,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::NewConnectApplicationSecret)
     end
-    def create_application_client_secret(id:, request_options:); end
+    def create_application_client_secret(id:, request_options: {}); end
 
     sig do
       params(
@@ -97,7 +99,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def delete_client_secret(id:, request_options:); end
+    def delete_client_secret(id:, request_options: {}); end
 
   end
 end

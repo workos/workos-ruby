@@ -5,6 +5,17 @@
 require "test_helper"
 
 class AgentsModelRoundTripTest < Minitest::Test
+  def test_list_metadata_round_trip
+    fixture = {
+      "after" => nil,
+      "before" => nil
+    }
+    model = WorkOS::ListMetadata.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_agent_registration_round_trip
     fixture = {
       "id" => "stub",

@@ -16,7 +16,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Team)
     end
-    def create_team(admin_email:, name:, request_options:); end
+    def create_team(admin_email:, name:, request_options: {}); end
 
     sig do
       params(
@@ -24,7 +24,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Team)
     end
-    def get_team(team_id:, request_options:); end
+    def get_team(team_id:, request_options: {}); end
 
   end
 end

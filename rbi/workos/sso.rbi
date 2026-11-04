@@ -70,7 +70,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_connections(before:, after:, limit:, order:, connection_type:, domain:, organization_id:, search:, request_options:); end
+    def list_connections(before: nil, after: nil, limit: nil, order: nil, connection_type: nil, domain: nil, organization_id: nil, search: nil, request_options: {}); end
 
     sig do
       params(
@@ -83,7 +83,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Connection)
     end
-    def create_connection(organization_id:, protocol_options:, name:, external_id:, connection_type:, attribute_maps:, request_options:); end
+    def create_connection(organization_id:, protocol_options:, name: nil, external_id: nil, connection_type: nil, attribute_maps: nil, request_options: {}); end
 
     sig do
       params(
@@ -91,7 +91,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::SAMLIdpSigningCertificateList)
     end
-    def list_connection_saml_idp_signing_certs(connection_id:, request_options:); end
+    def list_connection_saml_idp_signing_certs(connection_id:, request_options: {}); end
 
     sig do
       params(
@@ -100,7 +100,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::SAMLIdpSigningCertificate)
     end
-    def create_connection_saml_idp_signing_cert(connection_id:, value:, request_options:); end
+    def create_connection_saml_idp_signing_cert(connection_id:, value:, request_options: {}); end
 
     sig do
       params(
@@ -109,7 +109,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def delete_connection_saml_idp_signing_cert(connection_id:, certificate_id:, request_options:); end
+    def delete_connection_saml_idp_signing_cert(connection_id:, certificate_id:, request_options: {}); end
 
     sig do
       params(
@@ -117,7 +117,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::SAMLSpEncryptionCertificateList)
     end
-    def list_connection_saml_sp_encryption_certs(connection_id:, request_options:); end
+    def list_connection_saml_sp_encryption_certs(connection_id:, request_options: {}); end
 
     sig do
       params(
@@ -125,7 +125,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::SAMLSpEncryptionCertificate)
     end
-    def create_connection_saml_sp_encryption_cert(connection_id:, request_options:); end
+    def create_connection_saml_sp_encryption_cert(connection_id:, request_options: {}); end
 
     sig do
       params(
@@ -134,7 +134,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def delete_connection_saml_sp_encryption_cert(connection_id:, certificate_id:, request_options:); end
+    def delete_connection_saml_sp_encryption_cert(connection_id:, certificate_id:, request_options: {}); end
 
     sig do
       params(
@@ -142,7 +142,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::SAMLSpSigningCertificate)
     end
-    def list_connection_saml_sp_signing_cert(connection_id:, request_options:); end
+    def list_connection_saml_sp_signing_cert(connection_id:, request_options: {}); end
 
     sig do
       params(
@@ -150,7 +150,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::SAMLSpSigningCertificate)
     end
-    def create_connection_saml_sp_signing_cert(connection_id:, request_options:); end
+    def create_connection_saml_sp_signing_cert(connection_id:, request_options: {}); end
 
     sig do
       params(
@@ -159,7 +159,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def delete_connection_saml_sp_signing_cert(connection_id:, certificate_id:, request_options:); end
+    def delete_connection_saml_sp_signing_cert(connection_id:, certificate_id:, request_options: {}); end
 
     sig do
       params(
@@ -167,7 +167,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Connection)
     end
-    def get_connection(id:, request_options:); end
+    def get_connection(id:, request_options: {}); end
 
     sig do
       params(
@@ -180,7 +180,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Connection)
     end
-    def update_connection(id:, name:, external_id:, connection_type:, attribute_maps:, protocol_options:, request_options:); end
+    def update_connection(id:, name: nil, external_id: nil, connection_type: nil, attribute_maps: nil, protocol_options: nil, request_options: {}); end
 
     sig do
       params(
@@ -188,7 +188,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def delete_connection(id:, request_options:); end
+    def delete_connection(id:, request_options: {}); end
 
     sig do
       params(
@@ -207,7 +207,7 @@ module WorkOS
         prompt: T.nilable(String)
       ).returns(String)
     end
-    def get_authorization_url(redirect_uri:, provider_scopes:, provider_query_params:, client_id:, domain:, provider:, state:, connection:, organization:, domain_hint:, login_hint:, nonce:, prompt:); end
+    def get_authorization_url(redirect_uri:, provider_scopes: nil, provider_query_params: nil, client_id: nil, domain: nil, provider: nil, state: nil, connection: nil, organization: nil, domain_hint: nil, login_hint: nil, nonce: nil, prompt: nil); end
 
     sig do
       params(
@@ -222,14 +222,14 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::SSOLogoutAuthorizeResponse)
     end
-    def authorize_logout(profile_id:, request_options:); end
+    def authorize_logout(profile_id:, request_options: {}); end
 
     sig do
       params(
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Profile)
     end
-    def get_profile(request_options:); end
+    def get_profile(request_options: {}); end
 
     sig do
       params(
@@ -241,7 +241,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::SSOTokenResponse)
     end
-    def get_profile_and_token(code:, code_verifier:, subject_token:, subject_token_type:, organization_id:, request_options:); end
+    def get_profile_and_token(code: nil, code_verifier: nil, subject_token: nil, subject_token_type: nil, organization_id: nil, request_options: {}); end
 
   end
 end

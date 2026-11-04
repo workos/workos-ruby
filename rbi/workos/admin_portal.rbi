@@ -20,7 +20,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::PortalLinkResponse)
     end
-    def generate_link(organization:, return_url:, success_url:, external_user_id:, intent:, it_contact_emails:, request_options:); end
+    def generate_link(organization:, return_url: nil, success_url: nil, external_user_id: nil, intent: nil, it_contact_emails: nil, request_options: {}); end
 
     sig do
       params(
@@ -29,7 +29,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def revoke_link(organization:, external_user_id:, request_options:); end
+    def revoke_link(organization:, external_user_id:, request_options: {}); end
 
   end
 end

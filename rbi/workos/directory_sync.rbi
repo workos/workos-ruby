@@ -21,7 +21,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_directories(before:, after:, limit:, order:, organization_id:, search:, domain:, request_options:); end
+    def list_directories(before: nil, after: nil, limit: nil, order: nil, organization_id: nil, search: nil, domain: nil, request_options: {}); end
 
     sig do
       params(
@@ -29,7 +29,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Directory)
     end
-    def get_directory(id:, request_options:); end
+    def get_directory(id:, request_options: {}); end
 
     sig do
       params(
@@ -37,7 +37,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def delete_directory(id:, request_options:); end
+    def delete_directory(id:, request_options: {}); end
 
     sig do
       params(
@@ -45,7 +45,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::DirectorySyncResponse)
     end
-    def create_directory_sync(id:, request_options:); end
+    def create_directory_sync(id:, request_options: {}); end
 
     sig do
       params(
@@ -58,7 +58,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_groups(before:, after:, limit:, order:, directory:, user:, request_options:); end
+    def list_groups(before: nil, after: nil, limit: nil, order: nil, directory: nil, user: nil, request_options: {}); end
 
     sig do
       params(
@@ -66,7 +66,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::DirectoryGroup)
     end
-    def get_group(id:, request_options:); end
+    def get_group(id:, request_options: {}); end
 
     sig do
       params(
@@ -81,7 +81,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_users(before:, after:, limit:, order:, directory:, group:, idp_id:, email:, request_options:); end
+    def list_users(before: nil, after: nil, limit: nil, order: nil, directory: nil, group: nil, idp_id: nil, email: nil, request_options: {}); end
 
     sig do
       params(
@@ -89,7 +89,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::DirectoryUserWithGroups)
     end
-    def get_user(id:, request_options:); end
+    def get_user(id:, request_options: {}); end
 
   end
 end

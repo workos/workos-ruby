@@ -281,6 +281,20 @@ class ApiKeysModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_api_key_data_integration_vended_credential_round_trip
+    fixture = {
+      "object" => "credential",
+      "auth_method" => "api_key",
+      "value" => "stub",
+      "config" => {}
+    }
+    model = WorkOS::ApiKeyDataIntegrationVendedCredential.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["value"], json[:value]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_organization_api_key_with_value_owner_round_trip
     fixture = {
       "type" => "organization",

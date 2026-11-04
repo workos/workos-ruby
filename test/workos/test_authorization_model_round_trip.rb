@@ -47,6 +47,17 @@ class AuthorizationModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_patch_group_role_assignments_round_trip
+    fixture = {
+      "add" => [],
+      "remove" => []
+    }
+    model = WorkOS::PatchGroupRoleAssignments.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_replace_group_role_assignments_round_trip
     fixture = {
       "role_assignments" => []
@@ -325,6 +336,18 @@ class AuthorizationModelRoundTripTest < Minitest::Test
     assert_equal fixture["group_id"], json[:group_id]
     assert_equal fixture["created_at"], json[:created_at]
     assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_group_role_assignment_list_round_trip
+    fixture = {
+      "object" => "list",
+      "data" => [],
+      "list_metadata" => {}
+    }
+    model = WorkOS::GroupRoleAssignmentList.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 

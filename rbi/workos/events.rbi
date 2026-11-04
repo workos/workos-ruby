@@ -12,17 +12,15 @@ module WorkOS
     sig do
       params(
         events: T::Array[String],
-        before: T.nilable(String),
         after: T.nilable(String),
         limit: T.nilable(Integer),
-        order: T.nilable(String),
         range_start: T.nilable(String),
         range_end: T.nilable(String),
         organization_id: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_events(events:, before:, after:, limit:, order:, range_start:, range_end:, organization_id:, request_options:); end
+    def list_events(events:, after: nil, limit: nil, range_start: nil, range_end: nil, organization_id: nil, request_options: {}); end
 
   end
 end

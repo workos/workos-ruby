@@ -16,7 +16,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::OrganizationDomain)
     end
-    def create_organization_domain(domain:, organization_id:, request_options:); end
+    def create_organization_domain(domain:, organization_id:, request_options: {}); end
 
     sig do
       params(
@@ -24,7 +24,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::OrganizationDomain)
     end
-    def get_organization_domain(id:, request_options:); end
+    def get_organization_domain(id:, request_options: {}); end
 
     sig do
       params(
@@ -32,7 +32,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def delete_organization_domain(id:, request_options:); end
+    def delete_organization_domain(id:, request_options: {}); end
 
     sig do
       params(
@@ -40,7 +40,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::OrganizationDomain)
     end
-    def verify_organization_domain(id:, request_options:); end
+    def verify_organization_domain(id:, request_options: {}); end
 
   end
 end

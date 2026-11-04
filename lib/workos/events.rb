@@ -11,32 +11,26 @@ module WorkOS
     end
 
     # List events
-    # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`.
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
-    # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records).
     # @param events [Array<String>] Filter events by one or more event types (e.g. `dsync.user.created`).
-    # @param range_start [String, nil] ISO-8601 date string to filter events created after this date.
-    # @param range_end [String, nil] ISO-8601 date string to filter events created before this date.
+    # @param range_start [String, nil] ISO 8601 UTC timestamp with a `Z` suffix to filter events created after this date. Timezone offsets such as `+00:00` are not accepted.
+    # @param range_end [String, nil] ISO 8601 UTC timestamp with a `Z` suffix to filter events created before this date. Timezone offsets such as `+00:00` are not accepted.
     # @param organization_id [String, nil] Filter events by the [Organization](https://workos.com/docs/reference/organization) that the event is associated with.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::Types::ListStruct<WorkOS::EventSchema>]
     def list_events(
       events:,
-      before: nil,
       after: nil,
       limit: 10,
-      order: "desc",
       range_start: nil,
       range_end: nil,
       organization_id: nil,
       request_options: {}
     )
       params = {
-        "before" => before,
         "after" => after,
         "limit" => limit,
-        "order" => order,
         "events" => events,
         "range_start" => range_start,
         "range_end" => range_end,
@@ -51,10 +45,8 @@ module WorkOS
       )
       fetch_next = ->(cursor) {
         list_events(
-          before: before,
           after: cursor,
           limit: limit,
-          order: order,
           events: events,
           range_start: range_start,
           range_end: range_end,
@@ -65,7 +57,7 @@ module WorkOS
       WorkOS::Types::ListStruct.from_response(
         response,
         model: WorkOS::EventSchema,
-        filters: {before: before, limit: limit, order: order, events: events, range_start: range_start, range_end: range_end, organization_id: organization_id},
+        filters: {limit: limit, events: events, range_start: range_start, range_end: range_end, organization_id: organization_id},
         fetch_next: fetch_next
       )
     end
