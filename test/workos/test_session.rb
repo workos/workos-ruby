@@ -76,7 +76,7 @@ class SessionTest < Minitest::Test
   end
 
   def make_jwt(claims, rsa, kid: "test-key")
-    JWT.encode(claims, rsa, "RS256", {kid: kid})
+    JWT.encode({"auth_time" => Time.now.to_i}.merge(claims), rsa, "RS256", {kid: kid})
   end
 
   def jwks_payload(public_key, kid: "test-key")
@@ -99,6 +99,36 @@ class SessionTest < Minitest::Test
     assert_equal "session_42", result.session_id
     assert_equal "org_1", result.organization_id
     assert_equal "u_1", result.user["id"]
+  end
+
+  [
+    {"sub_profile" => "ai_agent"},
+    {"sub_type" => "authkit"},
+    {"auth_time" => nil}
+  ].each_with_index do |claims, index|
+    define_method(:"test_authenticate_rejects_non_user_access_token_#{index}") do
+      rsa, pub = signing_key_pair
+      access_token = make_jwt({"sid" => "session_42", "exp" => Time.now.to_i + 60}.merge(claims), rsa)
+      sealed = @sm.seal_data({"access_token" => access_token}, PASSWORD)
+      stub_request(:get, "https://api.workos.com/sso/jwks/client_001")
+        .to_return(status: 200, body: jwks_payload(pub).to_json)
+
+      result = @sm.authenticate(seal_data: sealed, cookie_password: PASSWORD)
+      assert_kind_of WorkOS::SessionManager::AuthError, result
+      assert_equal WorkOS::SessionManager::INVALID_JWT, result.reason
+    end
+  end
+
+  def test_authenticate_accepts_user_sub_profile
+    rsa, pub = signing_key_pair
+    access_token = make_jwt({"sid" => "session_42", "sub_profile" => "user", "exp" => Time.now.to_i + 60}, rsa)
+    sealed = @sm.seal_data({"access_token" => access_token}, PASSWORD)
+    stub_request(:get, "https://api.workos.com/sso/jwks/client_001")
+      .to_return(status: 200, body: jwks_payload(pub).to_json)
+
+    result = @sm.authenticate(seal_data: sealed, cookie_password: PASSWORD)
+    assert_kind_of WorkOS::SessionManager::AuthSuccess, result
+    assert result.authenticated
   end
 
   def test_authenticate_reads_legacy_v6_sealed_session
