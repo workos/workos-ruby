@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    PipesOwnership = AddDataIntegrationsGetDataIntegrationAuthorizeUrlRequestConnectionOwner
+    PipesOwnership = CreateDataIntegrationOwnership
   end
 end

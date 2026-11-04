@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    ResendUserInviteOptionsLocale = CreateUserInviteOptionsLocale
+    ResendUserInviteOptionsLocale = CreateMagicCodeAndReturnLocale
   end
 end

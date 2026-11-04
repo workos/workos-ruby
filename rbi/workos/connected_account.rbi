@@ -117,6 +117,12 @@ module WorkOS
     sig { params(value: String).returns(String) }
     def updated_at=(value); end
 
+    sig { returns(T.nilable(T::Array[WorkOS::ConnectedAccountWarning])) }
+    def warnings; end
+
+    sig { params(value: T.nilable(T::Array[WorkOS::ConnectedAccountWarning])).returns(T.nilable(T::Array[WorkOS::ConnectedAccountWarning])) }
+    def warnings=(value); end
+
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end
 

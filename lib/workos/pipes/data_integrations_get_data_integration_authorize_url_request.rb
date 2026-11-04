@@ -10,7 +10,11 @@ module WorkOS
       organization_id: :organization_id,
       connection_owner: :connection_owner,
       return_to: :return_to,
-      config: :config
+      code_challenge: :code_challenge,
+      code_challenge_method: :code_challenge_method,
+      config: :config,
+      connection_intent: :connection_intent,
+      connected_account_id: :connected_account_id
     }.freeze
 
     attr_accessor \
@@ -19,7 +23,11 @@ module WorkOS
       :organization_id,
       :connection_owner,
       :return_to,
-      :config
+      :code_challenge,
+      :code_challenge_method,
+      :config,
+      :connection_intent,
+      :connected_account_id
 
     def initialize(json)
       hash = self.class.normalize(json)
@@ -28,7 +36,11 @@ module WorkOS
       @organization_id = hash[:organization_id]
       @connection_owner = hash[:connection_owner]
       @return_to = hash[:return_to]
+      @code_challenge = hash[:code_challenge]
+      @code_challenge_method = hash[:code_challenge_method]
       @config = hash[:config] || {}
+      @connection_intent = hash[:connection_intent]
+      @connected_account_id = hash[:connected_account_id]
     end
   end
 end

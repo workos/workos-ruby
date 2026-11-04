@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    DataIntegrationsUpsertApiKeyRequestConnectionOwner = AddDataIntegrationsGetDataIntegrationAuthorizeUrlRequestConnectionOwner
+    DataIntegrationsUpsertApiKeyRequestConnectionOwner = CreateDataIntegrationOwnership
   end
 end

@@ -20,7 +20,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_organizations(before:, after:, limit:, order:, domains:, search:, request_options:); end
+    def list_organizations(before: nil, after: nil, limit: nil, order: nil, domains: nil, search: nil, request_options: {}); end
 
     sig do
       params(
@@ -33,7 +33,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Organization)
     end
-    def create_organization(name:, allow_profiles_outside_organization:, domains:, domain_data:, metadata:, external_id:, request_options:); end
+    def create_organization(name:, allow_profiles_outside_organization: nil, domains: nil, domain_data: nil, metadata: nil, external_id: nil, request_options: {}); end
 
     sig do
       params(
@@ -41,7 +41,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Organization)
     end
-    def get_organization_by_external_id(external_id:, request_options:); end
+    def get_organization_by_external_id(external_id:, request_options: {}); end
 
     sig do
       params(
@@ -49,7 +49,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Organization)
     end
-    def get_organization(id:, request_options:); end
+    def get_organization(id:, request_options: {}); end
 
     sig do
       params(
@@ -64,7 +64,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Organization)
     end
-    def update_organization(id:, name:, allow_profiles_outside_organization:, domains:, domain_data:, stripe_customer_id:, metadata:, external_id:, request_options:); end
+    def update_organization(id:, name: nil, allow_profiles_outside_organization: nil, domains: nil, domain_data: nil, stripe_customer_id: nil, metadata: nil, external_id: nil, request_options: {}); end
 
     sig do
       params(
@@ -72,7 +72,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def delete_organization(id:, request_options:); end
+    def delete_organization(id:, request_options: {}); end
 
     sig do
       params(
@@ -80,7 +80,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::AuditLogConfiguration)
     end
-    def get_audit_log_configuration(id:, request_options:); end
+    def get_audit_log_configuration(id:, request_options: {}); end
 
     sig do
       params(
@@ -92,7 +92,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_authorized_applications(organization_id:, before:, after:, limit:, order:, request_options:); end
+    def list_authorized_applications(organization_id:, before: nil, after: nil, limit: nil, order: nil, request_options: {}); end
 
     sig do
       params(
@@ -100,7 +100,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_it_contacts(organization_id:, request_options:); end
+    def list_it_contacts(organization_id:, request_options: {}); end
 
     sig do
       params(
@@ -109,7 +109,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::ItContact)
     end
-    def create_it_contact(organization_id:, email:, request_options:); end
+    def create_it_contact(organization_id:, email:, request_options: {}); end
 
     sig do
       params(
@@ -118,7 +118,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def delete_it_contact(organization_id:, contact_id:, request_options:); end
+    def delete_it_contact(organization_id:, contact_id:, request_options: {}); end
 
     sig do
       params(
@@ -128,7 +128,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def invite_it_contact(organization_id:, contact_id:, intents:, request_options:); end
+    def invite_it_contact(organization_id:, contact_id:, intents:, request_options: {}); end
 
     sig do
       params(
@@ -137,7 +137,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(NilClass)
     end
-    def revoke_it_contact(organization_id:, contact_id:, request_options:); end
+    def revoke_it_contact(organization_id:, contact_id:, request_options: {}); end
 
   end
 end

@@ -117,6 +117,12 @@ module WorkOS
     sig { params(value: String).returns(String) }
     def updated_at=(value); end
 
+    sig { returns(T.nilable(T::Array[WorkOS::DataIntegrationsListResponseDataConnectedAccountWarning])) }
+    def warnings; end
+
+    sig { params(value: T.nilable(T::Array[WorkOS::DataIntegrationsListResponseDataConnectedAccountWarning])).returns(T.nilable(T::Array[WorkOS::DataIntegrationsListResponseDataConnectedAccountWarning])) }
+    def warnings=(value); end
+
     sig { returns(T.nilable(String)) }
     def userland_user_id; end
 

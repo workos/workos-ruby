@@ -12,7 +12,9 @@ module WorkOS
       connection_owner: :connection_owner,
       client_id: :client_id,
       client_secret: :client_secret,
-      config: :config
+      config: :config,
+      connection_intent: :connection_intent,
+      connected_account_id: :connected_account_id
     }.freeze
 
     attr_accessor \
@@ -23,7 +25,9 @@ module WorkOS
       :connection_owner,
       :client_id,
       :client_secret,
-      :config
+      :config,
+      :connection_intent,
+      :connected_account_id
 
     def initialize(json)
       hash = self.class.normalize(json)
@@ -35,6 +39,8 @@ module WorkOS
       @client_id = hash[:client_id]
       @client_secret = hash[:client_secret]
       @config = hash[:config] || {}
+      @connection_intent = hash[:connection_intent]
+      @connected_account_id = hash[:connected_account_id]
     end
   end
 end

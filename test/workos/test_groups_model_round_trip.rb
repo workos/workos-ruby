@@ -16,6 +16,17 @@ class GroupsModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_patch_group_memberships_round_trip
+    fixture = {
+      "add" => [],
+      "remove" => []
+    }
+    model = WorkOS::PatchGroupMemberships.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_create_group_round_trip
     fixture = {
       "name" => "stub",

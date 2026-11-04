@@ -32,6 +32,13 @@ class AuthorizationTest < Minitest::Test
     assert_kind_of WorkOS::Types::ListStruct, result
   end
 
+  def test_patch_group_role_assignments_returns_expected_result
+    stub_request(:patch, %r{\Ahttps://api\.workos\.com/authorization/groups/stub/role_assignments(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.authorization.patch_group_role_assignments(group_id: "stub")
+    assert_nil result
+  end
+
   def test_delete_group_role_assignments_returns_expected_result
     stub_request(:delete, %r{\Ahttps://api\.workos\.com/authorization/groups/stub/role_assignments(\?|\z)})
       .to_return(body: "{}", status: 200)
@@ -397,6 +404,7 @@ class AuthorizationTest < Minitest::Test
     {name: :list_group_role_assignments, verb: :get, url: %r{\Ahttps://api\.workos\.com/authorization/groups/stub/role_assignments(\?|\z)}, args: {group_id: "stub"}},
     {name: :create_group_role_assignment, verb: :post, url: %r{\Ahttps://api\.workos\.com/authorization/groups/stub/role_assignments(\?|\z)}, args: {group_id: "stub", role_slug: "stub"}},
     {name: :update_group_role_assignments, verb: :put, url: %r{\Ahttps://api\.workos\.com/authorization/groups/stub/role_assignments(\?|\z)}, args: {group_id: "stub", role_assignments: [{}]}},
+    {name: :patch_group_role_assignments, verb: :patch, url: %r{\Ahttps://api\.workos\.com/authorization/groups/stub/role_assignments(\?|\z)}, args: {group_id: "stub"}},
     {name: :delete_group_role_assignments, verb: :delete, url: %r{\Ahttps://api\.workos\.com/authorization/groups/stub/role_assignments(\?|\z)}, args: {group_id: "stub", role_slug: "stub"}},
     {name: :get_group_role_assignment, verb: :get, url: %r{\Ahttps://api\.workos\.com/authorization/groups/stub/role_assignments/stub(\?|\z)}, args: {group_id: "stub", role_assignment_id: "stub"}},
     {name: :delete_group_role_assignment, verb: :delete, url: %r{\Ahttps://api\.workos\.com/authorization/groups/stub/role_assignments/stub(\?|\z)}, args: {group_id: "stub", role_assignment_id: "stub"}},

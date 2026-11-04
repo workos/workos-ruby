@@ -200,6 +200,66 @@ class SsoModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_connection_finish_error_body_round_trip
+    fixture = {
+      "code" => "stub",
+      "message" => "stub"
+    }
+    model = WorkOS::ConnectionFinishErrorBody.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_connection_creation_not_found_error_body_round_trip
+    fixture = {
+      "code" => "stub",
+      "message" => "stub"
+    }
+    model = WorkOS::ConnectionCreationNotFoundErrorBody.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_connection_creation_conflict_error_body_round_trip
+    fixture = {
+      "code" => "stub",
+      "message" => "stub"
+    }
+    model = WorkOS::ConnectionCreationConflictErrorBody.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_connection_could_not_be_verified_error_body_round_trip
+    fixture = {
+      "code" => "connection_could_not_be_verified",
+      "message" => "stub"
+    }
+    model = WorkOS::ConnectionCouldNotBeVerifiedErrorBody.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_connection_type_not_updatable_error_body_round_trip
+    fixture = {
+      "code" => "connection_type_not_updatable",
+      "message" => "stub"
+    }
+    model = WorkOS::ConnectionTypeNotUpdatableErrorBody.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_connection_round_trip
     fixture = {
       "object" => "connection",

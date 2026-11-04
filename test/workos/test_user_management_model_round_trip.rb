@@ -74,7 +74,8 @@ class UserManagementModelRoundTripTest < Minitest::Test
       "ip_address" => "stub",
       "user_agent" => "stub",
       "radar_auth_attempt_id" => "stub",
-      "signals_id" => "stub"
+      "signals_id" => "stub",
+      "locale" => "stub"
     }
     model = WorkOS::CreateMagicCodeAndReturn.new(fixture.to_json)
     json = model.to_h
@@ -169,6 +170,16 @@ class UserManagementModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_send_verification_email_round_trip
+    fixture = {
+      "locale" => "stub"
+    }
+    model = WorkOS::SendVerificationEmail.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_verify_email_address_round_trip
     fixture = {
       "code" => "stub"
@@ -182,7 +193,8 @@ class UserManagementModelRoundTripTest < Minitest::Test
 
   def test_create_password_reset_token_round_trip
     fixture = {
-      "email" => "stub"
+      "email" => "stub",
+      "locale" => "stub"
     }
     model = WorkOS::CreatePasswordResetToken.new(fixture.to_json)
     json = model.to_h
@@ -206,7 +218,8 @@ class UserManagementModelRoundTripTest < Minitest::Test
 
   def test_send_email_change_round_trip
     fixture = {
-      "new_email" => "stub"
+      "new_email" => "stub",
+      "locale" => "stub"
     }
     model = WorkOS::SendEmailChange.new(fixture.to_json)
     json = model.to_h
@@ -247,6 +260,262 @@ class UserManagementModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_user_connected_account_import_error_body_round_trip
+    fixture = {
+      "code" => "stub",
+      "message" => "stub"
+    }
+    model = WorkOS::UserConnectedAccountImportErrorBody.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_email_completion_required_error_body_with_email_completion_token_round_trip
+    fixture = {
+      "code" => "email_completion_required",
+      "message" => "stub",
+      "email_completion_token" => "stub"
+    }
+    model = WorkOS::EmailCompletionRequiredErrorBodyWithEmailCompletionToken.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    assert_equal fixture["email_completion_token"], json[:email_completion_token]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_user_consent_options_not_supported_error_body_round_trip
+    fixture = {
+      "code" => "user_consent_options_not_supported",
+      "message" => "stub"
+    }
+    model = WorkOS::UserConsentOptionsNotSupportedErrorBody.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_email_change_not_allowed_error_body_round_trip
+    fixture = {
+      "code" => "email_change_not_allowed",
+      "message" => "stub"
+    }
+    model = WorkOS::EmailChangeNotAllowedErrorBody.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_email_not_available_error_body_round_trip
+    fixture = {
+      "code" => "email_not_available",
+      "message" => "stub"
+    }
+    model = WorkOS::EmailNotAvailableErrorBody.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_email_already_in_use_error_body_round_trip
+    fixture = {
+      "code" => "email_already_in_use",
+      "message" => "stub"
+    }
+    model = WorkOS::EmailAlreadyInUseErrorBody.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_invitation_invalid_oauth_error_body_round_trip
+    fixture = {
+      "error" => "invitation_invalid",
+      "error_description" => "stub"
+    }
+    model = WorkOS::InvitationInvalidOAuthErrorBody.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["error_description"], json[:error_description]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_authentication_method_not_allowed_oauth_error_body_round_trip
+    fixture = {
+      "error" => "authentication_method_not_allowed",
+      "error_description" => "stub"
+    }
+    model = WorkOS::AuthenticationMethodNotAllowedOAuthErrorBody.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["error_description"], json[:error_description]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_email_domain_not_deliverable_error_body_round_trip
+    fixture = {
+      "code" => "email_domain_not_deliverable",
+      "message" => "stub"
+    }
+    model = WorkOS::EmailDomainNotDeliverableErrorBody.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_password_strength_error_error_body_with_errors_round_trip
+    fixture = {
+      "code" => "password_strength_error",
+      "message" => "stub",
+      "errors" => []
+    }
+    model = WorkOS::PasswordStrengthErrorErrorBodyWithErrors.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_user_creation_error_error_body_with_errors_round_trip
+    fixture = {
+      "code" => "user_creation_error",
+      "message" => "stub",
+      "errors" => []
+    }
+    model = WorkOS::UserCreationErrorErrorBodyWithErrors.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_password_and_password_hash_provided_error_body_round_trip
+    fixture = {
+      "code" => "password_and_password_hash_provided",
+      "message" => "stub"
+    }
+    model = WorkOS::PasswordAndPasswordHashProvidedErrorBody.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_password_and_password_hash_type_provided_error_body_round_trip
+    fixture = {
+      "code" => "password_and_password_hash_type_provided",
+      "message" => "stub"
+    }
+    model = WorkOS::PasswordAndPasswordHashTypeProvidedErrorBody.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_password_salt_position_requires_password_hash_error_body_round_trip
+    fixture = {
+      "code" => "password_salt_position_requires_password_hash",
+      "message" => "stub"
+    }
+    model = WorkOS::PasswordSaltPositionRequiresPasswordHashErrorBody.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_email_already_verified_error_body_round_trip
+    fixture = {
+      "code" => "email_already_verified",
+      "message" => "stub"
+    }
+    model = WorkOS::EmailAlreadyVerifiedErrorBody.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_user_mismatch_error_body_round_trip
+    fixture = {
+      "code" => "user_mismatch",
+      "message" => "stub"
+    }
+    model = WorkOS::UserMismatchErrorBody.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_invitation_cannot_be_used_for_email_oauth_error_body_round_trip
+    fixture = {
+      "error" => "invitation_cannot_be_used_for_email",
+      "error_description" => "stub"
+    }
+    model = WorkOS::InvitationCannotBeUsedForEmailOAuthErrorBody.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["error_description"], json[:error_description]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_authentication_method_not_allowed_error_body_round_trip
+    fixture = {
+      "code" => "authentication_method_not_allowed",
+      "message" => "stub"
+    }
+    model = WorkOS::AuthenticationMethodNotAllowedErrorBody.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_email_verification_required_error_body_round_trip
+    fixture = {
+      "code" => "email_verification_required",
+      "message" => "stub"
+    }
+    model = WorkOS::EmailVerificationRequiredErrorBody.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_email_password_auth_disabled_error_body_round_trip
+    fixture = {
+      "code" => "email_password_auth_disabled",
+      "message" => "stub"
+    }
+    model = WorkOS::EmailPasswordAuthDisabledErrorBody.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_action_denied_error_body_round_trip
+    fixture = {
+      "code" => "action_denied",
+      "message" => "stub"
+    }
+    model = WorkOS::ActionDeniedErrorBody.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
@@ -2691,6 +2960,31 @@ class UserManagementModelRoundTripTest < Minitest::Test
     assert_kind_of Hash, json
     assert_equal fixture["email"], json[:email]
     assert_nil json[:reason]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_waitlist_list_response_round_trip
+    fixture = {
+      "object" => "list",
+      "data" => [],
+      "list_metadata" => {}
+    }
+    model = WorkOS::WaitlistListResponse.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_waitlist_list_response_list_metadata_round_trip
+    fixture = {
+      "before" => nil,
+      "after" => nil
+    }
+    model = WorkOS::WaitlistListResponseListMetadata.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_nil json[:before]
+    assert_nil json[:after]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 end

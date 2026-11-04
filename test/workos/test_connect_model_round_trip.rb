@@ -69,6 +69,7 @@ class ConnectModelRoundTripTest < Minitest::Test
       "description" => nil,
       "scopes" => nil,
       "redirect_uris" => nil,
+      "cors_origins" => nil,
       "uses_pkce" => nil,
       "is_first_party" => true,
       "organization_id" => nil
@@ -102,7 +103,8 @@ class ConnectModelRoundTripTest < Minitest::Test
       "name" => "stub",
       "description" => nil,
       "scopes" => nil,
-      "redirect_uris" => nil
+      "redirect_uris" => nil,
+      "cors_origins" => nil
     }
     model = WorkOS::UpdateOAuthApplication.new(fixture.to_json)
     json = model.to_h

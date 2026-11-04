@@ -45,6 +45,12 @@ module WorkOS
     sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
     def signals_id=(value); end
 
+    sig { returns(T.nilable(String)) }
+    def locale; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def locale=(value); end
+
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end
 

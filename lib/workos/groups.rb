@@ -236,6 +236,34 @@ module WorkOS
       result
     end
 
+    # Update Group members
+    # @param organization_id [String] Unique identifier of the Organization.
+    # @param group_id [String] Unique identifier of the Group.
+    # @param add [Array<String>, nil] The IDs of the organization memberships to add to the group. Adding a membership that's already in the group has no effect.
+    # @param remove [Array<String>, nil] The IDs of the organization memberships to remove from the group. Removing a membership that isn't in the group has no effect.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [void]
+    def update_group_organization_memberships(
+      organization_id:,
+      group_id:,
+      add: nil,
+      remove: nil,
+      request_options: {}
+    )
+      body = {
+        "add" => add,
+        "remove" => remove
+      }.compact
+      @client.request(
+        method: :patch,
+        path: "/organizations/#{WorkOS::Util.encode_path(organization_id)}/groups/#{WorkOS::Util.encode_path(group_id)}/organization-memberships",
+        auth: true,
+        body: body,
+        request_options: request_options
+      )
+      nil
+    end
+
     # Remove a member from a Group
     # @param organization_id [String] Unique identifier of the Organization.
     # @param group_id [String] Unique identifier of the Group.
