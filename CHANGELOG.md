@@ -1,5 +1,12 @@
 # Changelog
 
+## [10.6.1](https://github.com/workos/workos-ruby/compare/v10.6.0...v10.6.1) (2026-11-06)
+
+
+### Bug Fixes
+
+* **session:** Reject non-user access tokens in session cookies ([#573](https://github.com/workos/workos-ruby/issues/573)) ([94be822](https://github.com/workos/workos-ruby/commit/94be82279e19a25d7e0fe4f1a6ce0aaad5c9dfaf))
+
 ## [10.6.0](https://github.com/workos/workos-ruby/compare/v10.5.0...v10.6.0) (2026-11-04)
 
 ### Bug Fixes
