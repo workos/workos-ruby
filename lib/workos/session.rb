@@ -64,6 +64,7 @@ module WorkOS
       rescue JWT::DecodeError
         return SessionManager::AuthError.new(authenticated: false, reason: SessionManager::INVALID_JWT)
       end
+      return SessionManager::AuthError.new(authenticated: false, reason: SessionManager::INVALID_JWT) unless user_access_token?(decoded)
 
       is_expired = decoded["exp"].nil? || decoded["exp"] < Time.now.to_i
 
@@ -162,6 +163,17 @@ module WorkOS
       uri = URI.join(base, "/user_management/sessions/logout")
       uri.query = URI.encode_www_form(params)
       uri.to_s
+    end
+
+    private
+
+    # Other token types signed by the same environment key (agent and widget
+    # tokens) must not authenticate a session cookie.
+    def user_access_token?(claims)
+      claims["sid"].is_a?(String) &&
+        claims["auth_time"].is_a?(Numeric) &&
+        [nil, "user"].include?(claims["sub_profile"]) &&
+        claims["sub_type"].nil?
     end
   end
 end
