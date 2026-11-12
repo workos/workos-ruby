@@ -14,6 +14,7 @@
       "component": "workos-workload-identity-github-actions",
       "package-name": "workos-workload-identity-github-actions",
       "version-file": "lib/workos/workload_identity/github_actions/version.rb",
+      "initial-version": "0.1.0",
       "changelog-path": "CHANGELOG.md",
       "include-component-in-tag": true
     },
@@ -22,6 +23,7 @@
       "component": "workos-workload-identity-gcp",
       "package-name": "workos-workload-identity-gcp",
       "version-file": "lib/workos/workload_identity/gcp/version.rb",
+      "initial-version": "0.1.0",
       "changelog-path": "CHANGELOG.md",
       "include-component-in-tag": true
     },
@@ -30,6 +32,7 @@
       "component": "workos-workload-identity-aws",
       "package-name": "workos-workload-identity-aws",
       "version-file": "lib/workos/workload_identity/aws/version.rb",
+      "initial-version": "0.1.0",
       "changelog-path": "CHANGELOG.md",
       "include-component-in-tag": true
     }
