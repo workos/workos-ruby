@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
     "changelog_uri" => "https://github.com/workos/workos-ruby/blob/main/gems/workos-workload-identity-aws/CHANGELOG.md"
   }
 
-  spec.files = Dir.chdir(__dir__) { Dir["lib/**/*.rb", "CHANGELOG.md", "LICENSE", "README.md"] }
+  spec.files = Dir.chdir(__dir__) { Dir["lib/**/*.rb", "rbi/**/*.rbi", "CHANGELOG.md", "LICENSE", "README.md"] }
   spec.require_paths = ["lib"]
 
   # The AWS SDK lives here and only here; the WorkOS SDK gem never depends on
