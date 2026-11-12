@@ -117,7 +117,7 @@ client.organizations.list_organizations
 WorkOS.configure { |config| config.credentials = credentials }
 ```
 
-`client_id`, `token_url` and `environment_id` are required; each falls back to its environment variable when you leave it out. `scope` (default `WORKOS_WIF_SCOPE`) and `resource` (default `https://api.workos.com`) are optional. Passing both `api_key` and `credentials` raises, and credentials that fail never fall back to an API key.
+`client_id`, `token_url` and `environment_id` are required; each falls back to its environment variable when you leave it out. `scope` (default `WORKOS_WIF_SCOPE`) and `resource` (default `https://api.workos.com`) are optional. Passing both `api_key` and `credentials` raises `ArgumentError`, and credentials that fail never fall back to an API key.
 
 ### Providers
 

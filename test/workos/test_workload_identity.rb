@@ -575,12 +575,11 @@ class WorkloadIdentityTest < Minitest::Test
     stub_token_endpoint
     stub_api
 
-    error = assert_raises(WorkOS::WorkloadIdentityError) do
+    error = assert_raises(ArgumentError) do
       WorkOS::Client.new(api_key: "sk_test_123", credentials: credentials)
     end
 
-    assert_equal "invalid_configuration", error.code
-    assert_includes error.message, "api_key and credentials"
+    assert_equal "api_key and credentials were both given; pass one or the other", error.message
     assert_empty @token_requests
     assert_empty @api_requests
     assert_not_requested :any, /.*/

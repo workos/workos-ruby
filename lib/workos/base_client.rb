@@ -74,20 +74,18 @@ module WorkOS
 
     # @param credentials [#resolve, #invalidate, nil] Credentials to
     #   authenticate with in place of an API key, such as
-    #   {WorkOS::WorkloadIdentity::Credentials}. Passing both `api_key` and
-    #   `credentials` is an error.
+    #   {WorkOS::WorkloadIdentity::Credentials}.
     # @param jwt_issuer [String, Array<String>, nil] Expected `iss` claim of
     #   session access tokens (one issuer or a list of accepted issuers).
     #   When nil, the issuer is not validated.
+    # @raise [ArgumentError] when both `api_key` and `credentials` are given,
+    #   or when `credentials` does not respond to `resolve` and `invalidate`.
     def initialize(api_key: nil, credentials: nil, base_url: DEFAULT_BASE_URL, client_id: nil,
       timeout: DEFAULT_TIMEOUT, max_retries: DEFAULT_MAX_RETRIES,
       logger: nil, log_level: nil, jwt_issuer: nil, random: Random.new)
       if credentials
         if api_key && !api_key.empty?
-          raise WorkOS::WorkloadIdentityError.new(
-            code: "invalid_configuration",
-            description: "api_key and credentials were both given; pass one or the other"
-          )
+          raise ArgumentError, "api_key and credentials were both given; pass one or the other"
         end
         unless credentials.respond_to?(:resolve) && credentials.respond_to?(:invalidate)
           raise ArgumentError, "credentials must respond to resolve and invalidate"
