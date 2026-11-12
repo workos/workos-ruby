@@ -84,7 +84,7 @@ class GCPTest < Minitest::Test
     assert_includes error.message, "could not be reached"
   end
 
-  def test_a_configured_proxy_is_never_used
+  def test_WIF_GCP_03_a_configured_proxy_is_never_used
     server = mock { [200, {}, "gcp-jwt"] }
     ENV["http_proxy"] = "http://127.0.0.1:1"
 
