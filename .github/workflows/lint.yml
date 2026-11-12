@@ -23,3 +23,11 @@ jobs:
       - name: Run Standardrb
         run: |
           bundle exec standardrb
+
+      # Checks the signatures under rbi/ (the SDK's and each provider
+      # gem's) against the code. See sorbet/config.
+      - name: Type check
+        env:
+          SRB_SKIP_GEM_RBIS: '1'
+        run: |
+          bundle exec srb tc

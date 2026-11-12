@@ -17,14 +17,14 @@ module WorkOS
     sig { returns(T::Boolean) }
     def recoverable; end
 
-    sig { params(headers: T::Hash[String, String], generation: T.untyped, recoverable: T::Boolean).void }
-    def initialize(headers:, generation:, recoverable:); end
+    # No `initialize` here: the class is a `Data.define`, which takes its
+    # members by position or by keyword. Sorbet models that itself and
+    # rejects a keyword-only redefinition.
 
     sig { returns(String) }
     def inspect; end
 
-    sig { returns(String) }
-    def to_s; end
+    alias_method :to_s, :inspect
 
     sig { params(printer: T.untyped).void }
     def pretty_print(printer); end

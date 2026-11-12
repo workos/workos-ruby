@@ -1,0 +1,47 @@
+# Type check for the signatures this repo ships under rbi/ (the SDK's and
+# each provider gem's). script/ci runs it:
+#
+#   SRB_SKIP_GEM_RBIS=1 bundle exec srb tc
+#
+# Without SRB_SKIP_GEM_RBIS, `srb` also reads the signatures that other gems
+# in the bundle ship, and reports their errors as well.
+#
+# lib/ is read without a `# typed:` sigil, so Sorbet checks that constants
+# resolve and that a signature in rbi/ agrees with the method or class it
+# describes when lib/ defines one (same parameters, same superclass). It
+# does not check method bodies. sorbet/usage/ holds strictly typed callers
+# of the hand-maintained signatures, so the types those callers use are
+# checked too; sorbet/rbi/ holds stand-ins for other gems' constants.
+#
+# Two mistakes still pass: a signature for a method that lib/ no longer
+# defines, and a wrong type on a signature that sorbet/usage/ never calls.
+--dir=lib
+--dir=rbi
+--dir=gems/workos-workload-identity-aws/lib
+--dir=gems/workos-workload-identity-aws/rbi
+--dir=gems/workos-workload-identity-gcp/lib
+--dir=gems/workos-workload-identity-gcp/rbi
+--dir=gems/workos-workload-identity-github-actions/lib
+--dir=gems/workos-workload-identity-github-actions/rbi
+--dir=sorbet
+
+# Known errors in generated files. They cannot be fixed in this repo; the
+# fix belongs in the generator (workos/oagen-emitters). Remove each line
+# once a regeneration makes it unnecessary.
+#
+# When a regeneration brings a new error in a generated file, this check
+# fails on that pull request. Fix the generator, or add an `--ignore` line
+# here for that one .rbi file (the path after rbi/, with a leading slash)
+# and say why.
+#
+# 4022: an alias model is `Alias = Original` in lib/ and a full `class
+# Alias` in rbi/ (106 files).
+--suppress-error-code=4022
+# The signatures of add_organization_role_permission and
+# add_environment_role_permission lack the `body_slug:` keyword that the
+# methods require.
+--ignore=/workos/authorization.rbi
+# Three result classes are declared as T::Struct; in lib/ they are Struct.
+# The file has the generated header, so it is not edited here, although it
+# describes a hand-maintained class and the generator no longer writes it.
+--ignore=/workos/session_manager.rbi

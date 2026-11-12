@@ -20,8 +20,9 @@ Gem::Specification.new do |spec|
   }
 
   # gems/ holds the workload identity provider gems. Each is packaged and
-  # released on its own and is not part of this gem.
-  spec.files = `git ls-files`.split($INPUT_RECORD_SEPARATOR).reject { |file| file.start_with?("gems/") }
+  # released on its own and is not part of this gem. sorbet/ holds the type
+  # check's own files, which are used in development only.
+  spec.files = `git ls-files`.split($INPUT_RECORD_SEPARATOR).reject { |file| file.start_with?("gems/", "sorbet/") }
   spec.require_paths = ["lib"]
 
   spec.add_dependency "jwt", "~> 3.1"

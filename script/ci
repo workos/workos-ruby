@@ -6,9 +6,13 @@ cd "$(dirname "$0")/.."
 echo "==> standardrb (lint)"
 bundle exec standardrb
 
-# Ruby has no separate type-check step here. The gems ship Sorbet signatures
-# under rbi/, but Sorbet is not a dependency of this repo, so nothing checks
-# them. To change that, run `srb tc` here.
+# The gems ship Sorbet signatures under rbi/. This checks that they agree
+# with the code in lib/ (the SDK's and each provider gem's). What it covers,
+# and the known errors in generated files that it leaves out, is in
+# sorbet/config. SRB_SKIP_GEM_RBIS keeps the signatures that other gems in
+# the bundle ship out of the check, so their mistakes cannot fail it.
+echo "==> srb tc (type check)"
+SRB_SKIP_GEM_RBIS=1 bundle exec srb tc
 
 echo "==> rake test"
 bundle exec rake test

@@ -68,6 +68,11 @@ GEM
       rubocop (>= 1.75.0, < 2.0)
       rubocop-ast (>= 1.47.1, < 2.0)
     ruby-progressbar (1.13.0)
+    sorbet (0.6.13672)
+      sorbet-static (= 0.6.13672)
+    sorbet-static (0.6.13672-aarch64-linux)
+    sorbet-static (0.6.13672-universal-darwin)
+    sorbet-static (0.6.13672-x86_64-linux)
     standard (1.54.0)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.0)
@@ -98,13 +103,15 @@ GEM
     zeitwerk (2.7.5)
 
 PLATFORMS
+  aarch64-linux
   arm64-darwin-25
-  ruby
+  x86_64-linux
 
 DEPENDENCIES
   bundler (>= 2.0.1)
   minitest (~> 6.0)
   rake
+  sorbet
   standard (~> 1.49)
   webmock (~> 3.26)
   webrick
@@ -144,6 +151,10 @@ CHECKSUMS
   rubocop-ast (1.49.1) sha256=4412f3ee70f6fe4546cc489548e0f6fcf76cafcfa80fa03af67098ffed755035
   rubocop-performance (1.26.1) sha256=cd19b936ff196df85829d264b522fd4f98b6c89ad271fa52744a8c11b8f71834
   ruby-progressbar (1.13.0) sha256=80fc9c47a9b640d6834e0dc7b3c94c9df37f08cb072b7761e4a71e22cff29b33
+  sorbet (0.6.13672) sha256=ea2f3d4d20b928119c69110614810e6cf0ba9b47aa7e77313f8251c563be733f
+  sorbet-static (0.6.13672-aarch64-linux) sha256=9cb020c7bb81a5353f909c75ca7a9601ea2838f19dbf17f0245e49f1f3dfbd5d
+  sorbet-static (0.6.13672-universal-darwin) sha256=41faabce1d9137bb753302727bc9897c0e7a549563e380d22f80e9ef32ac2eac
+  sorbet-static (0.6.13672-x86_64-linux) sha256=08b105d91b5518690910be6cbcd6a54e54e74f68e11f771923717b37e88f2377
   standard (1.54.0) sha256=7a4b08f83d9893083c8f03bc486f0feeb6a84d48233b40829c03ef4767ea0100
   standard-custom (1.0.2) sha256=424adc84179a074f1a2a309bb9cf7cd6bfdb2b6541f20c6bf9436c0ba22a652b
   standard-performance (1.9.0) sha256=49483d31be448292951d80e5e67cdcb576c2502103c7b40aec6f1b6e9c88e3f2
