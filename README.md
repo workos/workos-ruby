@@ -25,7 +25,7 @@ gem "workos"
 
 ## Configuration
 
-Store your WorkOS API key (and, for AuthKit and SSO flows, your client ID) in environment variables such as `WORKOS_API_KEY` and `WORKOS_CLIENT_ID`, then pass them to the SDK explicitly. The SDK does not read these environment variables automatically — configure it in an initializer:
+Store your WorkOS API key (and, for AuthKit and SSO flows, your client ID) in environment variables such as `WORKOS_API_KEY` and `WORKOS_CLIENT_ID`, then pass them to the SDK explicitly. The SDK does not read these environment variables automatically — configure it in an initializer. (The one exception is [workload identity](#workload-identity) credentials, whose settings default from the environment.)
 
 ```ruby
 # /config/initializers/workos.rb
@@ -84,6 +84,84 @@ The SDK caches persistent connections per fiber. After forking, call
 ```ruby
 # config/puma.rb
 on_worker_boot { WorkOS.reset_client }
+```
+
+## Workload identity
+
+Workload identity federation lets code running on GitHub Actions, Google Cloud or AWS call the WorkOS API without a stored API key. The SDK exchanges the platform's short-lived identity token for a WorkOS access token, caches it, and refreshes it before it expires.
+
+Install the provider gem for your platform next to `workos`:
+
+```ruby
+gem "workos"
+gem "workos-workload-identity-github-actions" # or workos-workload-identity-gcp, or workos-workload-identity-aws
+```
+
+Build credentials around a provider and pass them to the client in place of an API key:
+
+```ruby
+require "workos"
+require "workos-workload-identity-github-actions"
+
+credentials = WorkOS::WorkloadIdentity::Credentials.new(
+  client_id: "client_...",                           # default: WORKOS_CLIENT_ID
+  token_url: "https://auth.example.com/oauth2/token", # default: WORKOS_WIF_TOKEN_URL
+  environment_id: "environment_...",                 # default: WORKOS_ENVIRONMENT_ID
+  identity_token_provider: WorkOS::WorkloadIdentity::GitHubActions.github_actions("https://api.workos.com")
+)
+
+client = WorkOS::Client.new(credentials: credentials)
+client.organizations.list_organizations
+
+# Or, for the singleton client:
+WorkOS.configure { |config| config.credentials = credentials }
+```
+
+`client_id`, `token_url` and `environment_id` are required; each falls back to its environment variable when you leave it out. `scope` (default `WORKOS_WIF_SCOPE`) and `resource` (default `https://api.workos.com`) are optional. Passing both `api_key` and `credentials` raises, and credentials that fail never fall back to an API key.
+
+### Providers
+
+Each platform provider is its own gem and takes the audience to request the token for, which must match the audience of the trust rule on your WorkOS application.
+
+```ruby
+# GitHub Actions. The job needs `permissions: id-token: write`.
+require "workos-workload-identity-github-actions"
+WorkOS::WorkloadIdentity::GitHubActions.github_actions("https://api.workos.com")
+
+# Google Cloud: Compute Engine, GKE, Cloud Run, Cloud Functions.
+require "workos-workload-identity-gcp"
+WorkOS::WorkloadIdentity::GCP.gcp_metadata("https://api.workos.com")
+
+# AWS. The region is optional when the AWS SDK can resolve one (AWS_REGION).
+require "workos-workload-identity-aws"
+WorkOS::WorkloadIdentity::AWS.aws_sts("https://api.workos.com", "us-east-1")
+```
+
+### Custom providers
+
+A provider is anything that responds to `call` and returns the identity token (a JWT) as a string. The SDK calls it once per exchange attempt, so it can return a fresh token each time.
+
+```ruby
+# Any callable
+identity_token_provider: -> { MyPlatform.fetch_identity_token }
+
+# A file, read again on every exchange (for example a projected Kubernetes service account token)
+identity_token_provider: WorkOS::WorkloadIdentity.token_file("/var/run/secrets/tokens/workos")
+
+# An environment variable, read again on every exchange
+identity_token_provider: WorkOS::WorkloadIdentity.token_env("MY_IDENTITY_TOKEN")
+```
+
+### Errors
+
+A failed exchange raises `WorkOS::WorkloadIdentityError`. Its `code` is the OAuth error code from the token endpoint (such as `invalid_grant`) or one of `exchange_failed`, `invalid_response`, `provider_failed` and `invalid_configuration`; `description` carries the server's detail; and `hint` says what to check.
+
+```ruby
+begin
+  client.organizations.list_organizations
+rescue WorkOS::WorkloadIdentityError => e
+  warn "#{e.code}: #{e.hint}"
+end
 ```
 
 ## Per-request options

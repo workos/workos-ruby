@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 # @oagen-ignore-file — hand-maintained runtime
+
+# Loaded here, eagerly, and not left to Zeitwerk: a workload identity provider
+# gem required before this one has already defined WorkOS::WorkloadIdentity,
+# and Zeitwerk skips a file whose constant exists.
+require "workos/workload_identity"
+
 module WorkOS
   # Global configuration holder for `WorkOS.configure`.
   #
@@ -11,8 +17,15 @@ module WorkOS
   #     config.logger = Logger.new($stdout)
   #     config.log_level = :info
   #   end
+  #
+  # @example Workload identity in place of an API key
+  #   WorkOS.configure do |config|
+  #     config.credentials = WorkOS::WorkloadIdentity::Credentials.new(
+  #       identity_token_provider: WorkOS::WorkloadIdentity.token_file("/var/run/secrets/workos/token")
+  #     )
+  #   end
   class Configuration
-    attr_accessor :api_key, :base_url, :client_id, :timeout, :max_retries, :logger, :log_level, :jwt_issuer
+    attr_accessor :api_key, :credentials, :base_url, :client_id, :timeout, :max_retries, :logger, :log_level, :jwt_issuer
 
     def initialize
       @base_url = WorkOS::BaseClient::DEFAULT_BASE_URL
@@ -42,6 +55,7 @@ module WorkOS
     def client
       @client ||= Client.new(
         api_key: configuration.api_key,
+        credentials: configuration.credentials,
         base_url: configuration.base_url,
         client_id: configuration.client_id,
         timeout: configuration.timeout,

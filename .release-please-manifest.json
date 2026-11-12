@@ -1,3 +1,6 @@
 {
-  ".": "10.6.0"
+  ".": "10.6.0",
+  "gems/workos-workload-identity-github-actions": "0.0.0",
+  "gems/workos-workload-identity-gcp": "0.0.0",
+  "gems/workos-workload-identity-aws": "0.0.0"
 }

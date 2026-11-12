@@ -13,4 +13,18 @@ bundle exec standardrb
 echo "==> rake test"
 bundle exec rake test
 
+# Each workload identity provider gem is released on its own, so each is
+# linted and tested on its own, with its own bundle and without the SDK.
+for gem_dir in gems/*/; do
+  echo "==> ${gem_dir%/}: standardrb (lint) + rake test"
+  (
+    cd "$gem_dir"
+    # Never the root bundle, even when this script itself runs under one.
+    export BUNDLE_GEMFILE="$PWD/Gemfile"
+    bundle check > /dev/null 2>&1 || bundle install --quiet
+    bundle exec standardrb
+    bundle exec rake test
+  )
+done
+
 echo "==> All checks passed."

@@ -19,7 +19,9 @@ Gem::Specification.new do |spec|
     "documentation_uri" => "https://docs.workos.com/sdk/ruby"
   }
 
-  spec.files = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
+  # gems/ holds the workload identity provider gems. Each is packaged and
+  # released on its own and is not part of this gem.
+  spec.files = `git ls-files`.split($INPUT_RECORD_SEPARATOR).reject { |file| file.start_with?("gems/") }
   spec.require_paths = ["lib"]
 
   spec.add_dependency "jwt", "~> 3.1"

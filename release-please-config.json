@@ -1,5 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "separate-pull-requests": true,
   "packages": {
     ".": {
       "release-type": "ruby",
@@ -7,6 +8,30 @@
       "version-file": "lib/workos/version.rb",
       "changelog-path": "CHANGELOG.md",
       "include-component-in-tag": false
+    },
+    "gems/workos-workload-identity-github-actions": {
+      "release-type": "ruby",
+      "component": "workos-workload-identity-github-actions",
+      "package-name": "workos-workload-identity-github-actions",
+      "version-file": "lib/workos/workload_identity/github_actions/version.rb",
+      "changelog-path": "CHANGELOG.md",
+      "include-component-in-tag": true
+    },
+    "gems/workos-workload-identity-gcp": {
+      "release-type": "ruby",
+      "component": "workos-workload-identity-gcp",
+      "package-name": "workos-workload-identity-gcp",
+      "version-file": "lib/workos/workload_identity/gcp/version.rb",
+      "changelog-path": "CHANGELOG.md",
+      "include-component-in-tag": true
+    },
+    "gems/workos-workload-identity-aws": {
+      "release-type": "ruby",
+      "component": "workos-workload-identity-aws",
+      "package-name": "workos-workload-identity-aws",
+      "version-file": "lib/workos/workload_identity/aws/version.rb",
+      "changelog-path": "CHANGELOG.md",
+      "include-component-in-tag": true
     }
   }
 }
