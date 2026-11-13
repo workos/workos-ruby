@@ -39,6 +39,34 @@ class DirectorySyncTest < Minitest::Test
     refute_nil result
   end
 
+  def test_list_directory_groups_returns_expected_result
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/directories/stub/groups(\?|\z)})
+      .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
+    result = @client.directory_sync.list_directory_groups(directory_id: "stub")
+    assert_kind_of WorkOS::Types::ListStruct, result
+  end
+
+  def test_get_directory_group_returns_expected_result
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/directories/stub/groups/stub(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.directory_sync.get_directory_group(directory_id: "stub", group_id: "stub")
+    refute_nil result
+  end
+
+  def test_list_directory_users_returns_expected_result
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/directories/stub/users(\?|\z)})
+      .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
+    result = @client.directory_sync.list_directory_users(directory_id: "stub")
+    assert_kind_of WorkOS::Types::ListStruct, result
+  end
+
+  def test_get_directory_user_returns_expected_result
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/directories/stub/users/stub(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.directory_sync.get_directory_user(directory_id: "stub", user_id: "stub")
+    refute_nil result
+  end
+
   def test_list_groups_returns_expected_result
     stub_request(:get, %r{\Ahttps://api\.workos\.com/directory_groups(\?|\z)})
       .to_return(body: '{"data": [], "list_metadata": {}}', status: 200)
@@ -73,6 +101,10 @@ class DirectorySyncTest < Minitest::Test
     {name: :get_directory, verb: :get, url: %r{\Ahttps://api\.workos\.com/directories/stub(\?|\z)}, args: {id: "stub"}},
     {name: :delete_directory, verb: :delete, url: %r{\Ahttps://api\.workos\.com/directories/stub(\?|\z)}, args: {id: "stub"}},
     {name: :create_directory_sync, verb: :post, url: %r{\Ahttps://api\.workos\.com/directories/stub/sync(\?|\z)}, args: {id: "stub"}},
+    {name: :list_directory_groups, verb: :get, url: %r{\Ahttps://api\.workos\.com/directories/stub/groups(\?|\z)}, args: {directory_id: "stub"}},
+    {name: :get_directory_group, verb: :get, url: %r{\Ahttps://api\.workos\.com/directories/stub/groups/stub(\?|\z)}, args: {directory_id: "stub", group_id: "stub"}},
+    {name: :list_directory_users, verb: :get, url: %r{\Ahttps://api\.workos\.com/directories/stub/users(\?|\z)}, args: {directory_id: "stub"}},
+    {name: :get_directory_user, verb: :get, url: %r{\Ahttps://api\.workos\.com/directories/stub/users/stub(\?|\z)}, args: {directory_id: "stub", user_id: "stub"}},
     {name: :list_groups, verb: :get, url: %r{\Ahttps://api\.workos\.com/directory_groups(\?|\z)}},
     {name: :get_group, verb: :get, url: %r{\Ahttps://api\.workos\.com/directory_groups/stub(\?|\z)}, args: {id: "stub"}},
     {name: :list_users, verb: :get, url: %r{\Ahttps://api\.workos\.com/directory_users(\?|\z)}},

@@ -21,6 +21,12 @@ module WorkOS
     sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
     def account_identifier=(value); end
 
+    sig { returns(T.nilable(T::Hash[String, String])) }
+    def config; end
+
+    sig { params(value: T.nilable(T::Hash[String, String])).returns(T.nilable(T::Hash[String, String])) }
+    def config=(value); end
+
     sig { returns(T.nilable(String)) }
     def access_token; end
 

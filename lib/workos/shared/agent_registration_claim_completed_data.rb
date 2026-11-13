@@ -8,6 +8,7 @@ module WorkOS
       object: :object,
       id: :id,
       agent_registration_id: :agent_registration_id,
+      organization_id: :organization_id,
       completed_by_attempt_id: :completed_by_attempt_id,
       claimed_by: :claimed_by,
       completed_at: :completed_at,
@@ -19,6 +20,7 @@ module WorkOS
       :object,
       :id,
       :agent_registration_id,
+      :organization_id,
       :completed_by_attempt_id,
       :claimed_by,
       :completed_at,
@@ -30,6 +32,7 @@ module WorkOS
       @object = hash[:object]
       @id = hash[:id]
       @agent_registration_id = hash[:agent_registration_id]
+      @organization_id = hash[:organization_id]
       @completed_by_attempt_id = hash[:completed_by_attempt_id]
       @claimed_by = hash[:claimed_by] ? WorkOS::AgentRegistrationClaimCompletedDataClaimedBy.new(hash[:claimed_by]) : nil
       @completed_at = hash[:completed_at]

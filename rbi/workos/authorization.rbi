@@ -314,10 +314,11 @@ module WorkOS
       params(
         organization_id: String,
         slug: String,
+        body_slug: String,
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Role)
     end
-    def add_organization_role_permission(organization_id:, slug:, request_options: {}); end
+    def add_organization_role_permission(organization_id:, slug:, body_slug:, request_options: {}); end
 
     sig do
       params(
@@ -526,10 +527,11 @@ module WorkOS
     sig do
       params(
         slug: String,
+        body_slug: String,
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Role)
     end
-    def add_environment_role_permission(slug:, request_options: {}); end
+    def add_environment_role_permission(slug:, body_slug:, request_options: {}); end
 
     sig do
       params(

@@ -236,16 +236,18 @@ module WorkOS
         user_id: String,
         account_display_name: T.nilable(String),
         account_identifier: T.nilable(String),
+        config: T.nilable(T::Hash[String, String]),
         access_token: T.nilable(String),
         refresh_token: T.nilable(String),
         expires_at: T.nilable(String),
         scopes: T.nilable(T::Array[String]),
         state: T.nilable(String),
+        metadata: T.nilable(T::Hash[String, T.untyped]),
         connection_intent: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::ConnectedAccount)
     end
-    def create_organization_connected_account(organization_id:, slug:, user_id:, account_display_name: nil, account_identifier: nil, access_token: nil, refresh_token: nil, expires_at: nil, scopes: nil, state: nil, connection_intent: nil, request_options: {}); end
+    def create_organization_connected_account(organization_id:, slug:, user_id:, account_display_name: nil, account_identifier: nil, config: nil, access_token: nil, refresh_token: nil, expires_at: nil, scopes: nil, state: nil, metadata: nil, connection_intent: nil, request_options: {}); end
 
     sig do
       params(
@@ -254,6 +256,7 @@ module WorkOS
         user_id: String,
         account_display_name: T.nilable(String),
         account_identifier: T.nilable(String),
+        config: T.nilable(T::Hash[String, String]),
         access_token: T.nilable(String),
         refresh_token: T.nilable(String),
         expires_at: T.nilable(String),
@@ -265,7 +268,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::ConnectedAccount)
     end
-    def update_organization_connected_account(organization_id:, slug:, user_id:, account_display_name: nil, account_identifier: nil, access_token: nil, refresh_token: nil, expires_at: nil, scopes: nil, state: nil, supports_multiple_connections: nil, connected_account_id: nil, connection_intent: nil, request_options: {}); end
+    def update_organization_connected_account(organization_id:, slug:, user_id:, account_display_name: nil, account_identifier: nil, config: nil, access_token: nil, refresh_token: nil, expires_at: nil, scopes: nil, state: nil, supports_multiple_connections: nil, connected_account_id: nil, connection_intent: nil, request_options: {}); end
 
     sig do
       params(
@@ -305,17 +308,19 @@ module WorkOS
         slug: String,
         account_display_name: T.nilable(String),
         account_identifier: T.nilable(String),
+        config: T.nilable(T::Hash[String, String]),
         access_token: T.nilable(String),
         refresh_token: T.nilable(String),
         expires_at: T.nilable(String),
         scopes: T.nilable(T::Array[String]),
         state: T.nilable(String),
+        metadata: T.nilable(T::Hash[String, T.untyped]),
         connection_intent: T.nilable(String),
         organization_id: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::ConnectedAccount)
     end
-    def create_user_connected_account(user_id:, slug:, account_display_name: nil, account_identifier: nil, access_token: nil, refresh_token: nil, expires_at: nil, scopes: nil, state: nil, connection_intent: nil, organization_id: nil, request_options: {}); end
+    def create_user_connected_account(user_id:, slug:, account_display_name: nil, account_identifier: nil, config: nil, access_token: nil, refresh_token: nil, expires_at: nil, scopes: nil, state: nil, metadata: nil, connection_intent: nil, organization_id: nil, request_options: {}); end
 
     sig do
       params(
@@ -323,6 +328,7 @@ module WorkOS
         slug: String,
         account_display_name: T.nilable(String),
         account_identifier: T.nilable(String),
+        config: T.nilable(T::Hash[String, String]),
         access_token: T.nilable(String),
         refresh_token: T.nilable(String),
         expires_at: T.nilable(String),
@@ -335,7 +341,7 @@ module WorkOS
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::ConnectedAccount)
     end
-    def update_user_connected_account(user_id:, slug:, account_display_name: nil, account_identifier: nil, access_token: nil, refresh_token: nil, expires_at: nil, scopes: nil, state: nil, organization_id: nil, supports_multiple_connections: nil, connected_account_id: nil, connection_intent: nil, request_options: {}); end
+    def update_user_connected_account(user_id:, slug:, account_display_name: nil, account_identifier: nil, config: nil, access_token: nil, refresh_token: nil, expires_at: nil, scopes: nil, state: nil, organization_id: nil, supports_multiple_connections: nil, connected_account_id: nil, connection_intent: nil, request_options: {}); end
 
     sig do
       params(

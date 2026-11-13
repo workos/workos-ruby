@@ -49,6 +49,52 @@ module WorkOS
 
     sig do
       params(
+        directory_id: String,
+        before: T.nilable(String),
+        after: T.nilable(String),
+        limit: T.nilable(Integer),
+        order: T.nilable(String),
+        user: T.nilable(String),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::Types::ListStruct)
+    end
+    def list_directory_groups(directory_id:, before: nil, after: nil, limit: nil, order: nil, user: nil, request_options: {}); end
+
+    sig do
+      params(
+        directory_id: String,
+        group_id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::DirectoryGroup)
+    end
+    def get_directory_group(directory_id:, group_id:, request_options: {}); end
+
+    sig do
+      params(
+        directory_id: String,
+        before: T.nilable(String),
+        after: T.nilable(String),
+        limit: T.nilable(Integer),
+        order: T.nilable(String),
+        group: T.nilable(String),
+        idp_id: T.nilable(String),
+        email: T.nilable(String),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::Types::ListStruct)
+    end
+    def list_directory_users(directory_id:, before: nil, after: nil, limit: nil, order: nil, group: nil, idp_id: nil, email: nil, request_options: {}); end
+
+    sig do
+      params(
+        directory_id: String,
+        user_id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::DirectoryUser)
+    end
+    def get_directory_user(directory_id:, user_id:, request_options: {}); end
+
+    sig do
+      params(
         before: T.nilable(String),
         after: T.nilable(String),
         limit: T.nilable(Integer),
