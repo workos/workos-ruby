@@ -80,6 +80,41 @@ class DirectorySyncModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_directory_user_round_trip
+    fixture = {
+      "object" => "directory_user",
+      "id" => "stub",
+      "directory_id" => "stub",
+      "organization_id" => "stub",
+      "idp_id" => "stub",
+      "email" => nil,
+      "first_name" => nil,
+      "last_name" => nil,
+      "name" => nil,
+      "emails" => [],
+      "job_title" => nil,
+      "username" => nil,
+      "state" => "stub",
+      "raw_attributes" => {},
+      "custom_attributes" => {},
+      "role" => {},
+      "roles" => [],
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::DirectoryUser.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["directory_id"], json[:directory_id]
+    assert_equal fixture["organization_id"], json[:organization_id]
+    assert_equal fixture["idp_id"], json[:idp_id]
+    assert_nil json[:email]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_directory_user_with_groups_round_trip
     fixture = {
       "object" => "directory_user",
@@ -104,41 +139,6 @@ class DirectorySyncModelRoundTripTest < Minitest::Test
       "groups" => []
     }
     model = WorkOS::DirectoryUserWithGroups.new(fixture.to_json)
-    json = model.to_h
-    assert_kind_of Hash, json
-    assert_equal fixture["id"], json[:id]
-    assert_equal fixture["directory_id"], json[:directory_id]
-    assert_equal fixture["organization_id"], json[:organization_id]
-    assert_equal fixture["idp_id"], json[:idp_id]
-    assert_nil json[:email]
-    assert_equal fixture["created_at"], json[:created_at]
-    assert_equal fixture["updated_at"], json[:updated_at]
-    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
-  end
-
-  def test_directory_user_round_trip
-    fixture = {
-      "object" => "directory_user",
-      "id" => "stub",
-      "directory_id" => "stub",
-      "organization_id" => "stub",
-      "idp_id" => "stub",
-      "email" => nil,
-      "first_name" => nil,
-      "last_name" => nil,
-      "name" => nil,
-      "emails" => [],
-      "job_title" => nil,
-      "username" => nil,
-      "state" => "stub",
-      "raw_attributes" => {},
-      "custom_attributes" => {},
-      "role" => {},
-      "roles" => [],
-      "created_at" => "stub",
-      "updated_at" => "stub"
-    }
-    model = WorkOS::DirectoryUser.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["id"], json[:id]
@@ -552,18 +552,6 @@ class DirectorySyncModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
-  def test_directory_user_email_round_trip
-    fixture = {
-      "primary" => true,
-      "type" => "stub",
-      "value" => nil
-    }
-    model = WorkOS::DirectoryUserEmail.new(fixture.to_json)
-    json = model.to_h
-    assert_kind_of Hash, json
-    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
-  end
-
   def test_directory_user_with_groups_email_round_trip
     fixture = {
       "primary" => true,
@@ -571,6 +559,18 @@ class DirectorySyncModelRoundTripTest < Minitest::Test
       "value" => nil
     }
     model = WorkOS::DirectoryUserWithGroupsEmail.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_directory_user_email_round_trip
+    fixture = {
+      "primary" => true,
+      "type" => "stub",
+      "value" => nil
+    }
+    model = WorkOS::DirectoryUserEmail.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }

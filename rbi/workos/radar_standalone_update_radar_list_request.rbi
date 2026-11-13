@@ -5,20 +5,5 @@
 # typed: strong
 
 module WorkOS
-  class RadarStandaloneUpdateRadarListRequest
-    sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
-    def initialize(json); end
-
-    sig { returns(String) }
-    def entry; end
-
-    sig { params(value: String).returns(String) }
-    def entry=(value); end
-
-    sig { returns(T::Hash[Symbol, T.untyped]) }
-    def to_h; end
-
-    sig { params(args: T.untyped).returns(String) }
-    def to_json(*args); end
-  end
+  RadarStandaloneUpdateRadarListRequest = RadarStandaloneDeleteRadarListEntryRequest
 end

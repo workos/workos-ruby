@@ -6,17 +6,20 @@ module WorkOS
   class PolicyDeniedErrorBody < WorkOS::Types::BaseModel
     HASH_ATTRS = {
       code: :code,
-      message: :message
+      message: :message,
+      radar_detection_id: :radar_detection_id
     }.freeze
 
     attr_accessor \
       :code,
-      :message
+      :message,
+      :radar_detection_id
 
     def initialize(json)
       hash = self.class.normalize(json)
       @code = hash[:code]
       @message = hash[:message]
+      @radar_detection_id = hash[:radar_detection_id]
     end
   end
 end

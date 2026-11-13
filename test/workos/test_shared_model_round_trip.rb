@@ -292,6 +292,19 @@ class SharedModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_policy_denied_error_body_round_trip
+    fixture = {
+      "code" => "policy_denied",
+      "message" => "stub",
+      "radar_detection_id" => "stub"
+    }
+    model = WorkOS::PolicyDeniedErrorBody.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_sub_resource_scoped_role_not_allowed_error_body_with_role_slug_round_trip
     fixture = {
       "message" => "stub",
@@ -933,18 +946,6 @@ class SharedModelRoundTripTest < Minitest::Test
       "message" => "stub"
     }
     model = WorkOS::ApplicationConsentRequiredErrorBody.new(fixture.to_json)
-    json = model.to_h
-    assert_kind_of Hash, json
-    assert_equal fixture["message"], json[:message]
-    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
-  end
-
-  def test_policy_denied_error_body_round_trip
-    fixture = {
-      "code" => "policy_denied",
-      "message" => "stub"
-    }
-    model = WorkOS::PolicyDeniedErrorBody.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["message"], json[:message]
@@ -1601,6 +1602,7 @@ class SharedModelRoundTripTest < Minitest::Test
       "object" => "agent_registration_claim",
       "id" => "stub",
       "agent_registration_id" => "stub",
+      "organization_id" => "stub",
       "completed_by_attempt_id" => "stub",
       "claimed_by" => {},
       "completed_at" => "stub",
@@ -3141,7 +3143,7 @@ class SharedModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
-  def test_sso_required_oauth_error_body_with_connection_ids_list_email_pending_authentication_token_round_trip
+  def test_sso_required_oauth_error_body_with_connection_ids_list_email_round_trip
     fixture = {
       "error" => "sso_required",
       "error_description" => "stub",
@@ -3149,7 +3151,7 @@ class SharedModelRoundTripTest < Minitest::Test
       "email" => "stub",
       "pending_authentication_token" => "stub"
     }
-    model = WorkOS::SSORequiredOAuthErrorBodyWithConnectionIdsListEmailPendingAuthenticationToken.new(fixture.to_json)
+    model = WorkOS::SSORequiredOAuthErrorBodyWithConnectionIdsListEmail.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["error_description"], json[:error_description]

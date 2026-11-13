@@ -544,7 +544,7 @@
     "lib/workos/shared/slow_down_oauth_error_body.rb",
     "lib/workos/shared/sms_challenge_quota_reached_error_body.rb",
     "lib/workos/shared/sms_challenge_rate_limited_error_body.rb",
-    "lib/workos/shared/sso_required_oauth_error_body_with_connection_ids_list_email_pending_authentication_token.rb",
+    "lib/workos/shared/sso_required_oauth_error_body_with_connection_ids_list_email.rb",
     "lib/workos/shared/sub_resource_scoped_role_not_allowed_error_body_with_role_slug.rb",
     "lib/workos/shared/token_too_big_oauth_error_body.rb",
     "lib/workos/shared/too_many_failed_verification_attempts_error_body_with_retry_after.rb",
@@ -684,6 +684,7 @@
     "lib/workos/types/data_integration_installation_connection_role.rb",
     "lib/workos/types/data_integration_ownership.rb",
     "lib/workos/types/data_integration_state.rb",
+    "lib/workos/types/data_integration_vended_credential_auth_method.rb",
     "lib/workos/types/data_integrations_create_api_key_connection_request_connection_owner.rb",
     "lib/workos/types/data_integrations_create_client_credentials_connection_request_connection_owner.rb",
     "lib/workos/types/data_integrations_get_data_integration_authorize_url_request_connection_intent.rb",
@@ -763,6 +764,7 @@
     "lib/workos/types/pipe_connected_account_connection_role.rb",
     "lib/workos/types/pipe_connected_account_state.rb",
     "lib/workos/types/pipes_ownership.rb",
+    "lib/workos/types/pipes_provider_ownership.rb",
     "lib/workos/types/profile_connection_type.rb",
     "lib/workos/types/radar_list_action.rb",
     "lib/workos/types/radar_list_type.rb",
@@ -1254,6 +1256,7 @@
     "rbi/workos/connect_application_m2m.rbi",
     "rbi/workos/connect_application_oauth.rbi",
     "rbi/workos/connect_application_oauth_redirect_uris.rbi",
+    "rbi/workos/connect_application_redirect_uri.rbi",
     "rbi/workos/connected_account.rbi",
     "rbi/workos/connected_account_input.rbi",
     "rbi/workos/connected_account_limit_reached_error_body.rbi",
@@ -1758,7 +1761,7 @@
     "rbi/workos/sso_device_authorization_request.rbi",
     "rbi/workos/sso_logout_authorize_request.rbi",
     "rbi/workos/sso_logout_authorize_response.rbi",
-    "rbi/workos/sso_required_oauth_error_body_with_connection_ids_list_email_pending_authentication_token.rbi",
+    "rbi/workos/sso_required_oauth_error_body_with_connection_ids_list_email.rbi",
     "rbi/workos/sso_token_response.rbi",
     "rbi/workos/sso_token_response_oauth_token.rbi",
     "rbi/workos/sub_resource_scoped_role_not_allowed_error_body_with_role_slug.rbi",
@@ -2372,20 +2375,20 @@
       "sdkMethod": "create_directory_sync",
       "service": "directory_sync"
     },
-    "GET /directory_groups": {
-      "sdkMethod": "list_groups",
+    "GET /directories/{directoryId}/groups": {
+      "sdkMethod": "list_directory_groups",
       "service": "directory_sync"
     },
-    "GET /directory_groups/{id}": {
-      "sdkMethod": "get_group",
+    "GET /directories/{directoryId}/groups/{groupId}": {
+      "sdkMethod": "get_directory_group",
       "service": "directory_sync"
     },
-    "GET /directory_users": {
-      "sdkMethod": "list_users",
+    "GET /directories/{directoryId}/users": {
+      "sdkMethod": "list_directory_users",
       "service": "directory_sync"
     },
-    "GET /directory_users/{id}": {
-      "sdkMethod": "get_user",
+    "GET /directories/{directoryId}/users/{userId}": {
+      "sdkMethod": "get_directory_user",
       "service": "directory_sync"
     },
     "GET /events": {
@@ -3039,6 +3042,22 @@
     "GET /audit_logs/exports/{auditLogExportId}": {
       "sdkMethod": "get_export",
       "service": "audit_logs"
+    },
+    "GET /directory_groups": {
+      "sdkMethod": "list_groups",
+      "service": "directory_sync"
+    },
+    "GET /directory_groups/{id}": {
+      "sdkMethod": "get_group",
+      "service": "directory_sync"
+    },
+    "GET /directory_users": {
+      "sdkMethod": "list_users",
+      "service": "directory_sync"
+    },
+    "GET /directory_users/{id}": {
+      "sdkMethod": "get_user",
+      "service": "directory_sync"
     }
   }
 }

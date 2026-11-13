@@ -5,7 +5,7 @@
 # typed: strong
 
 module WorkOS
-  class SSORequiredOAuthErrorBodyWithConnectionIdsListEmailPendingAuthenticationToken
+  class SSORequiredOAuthErrorBodyWithConnectionIdsListEmail
     sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
     def initialize(json); end
 

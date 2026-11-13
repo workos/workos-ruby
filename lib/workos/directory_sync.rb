@@ -121,7 +121,160 @@ module WorkOS
       result
     end
 
+    # List Groups for a Directory
+    # @param directory_id [String] Unique identifier of the Directory.
+    # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`.
+    # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
+    # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
+    # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records).
+    # @param user [String, nil] Filter Directory Groups to those this Directory User belongs to.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::Types::ListStruct<WorkOS::DirectoryGroup>]
+    def list_directory_groups(
+      directory_id:,
+      before: nil,
+      after: nil,
+      limit: 10,
+      order: "desc",
+      user: nil,
+      request_options: {}
+    )
+      params = {
+        "before" => before,
+        "after" => after,
+        "limit" => limit,
+        "order" => order,
+        "user" => user
+      }.compact
+      response = @client.request(
+        method: :get,
+        path: "/directories/#{WorkOS::Util.encode_path(directory_id)}/groups",
+        auth: true,
+        params: params,
+        request_options: request_options
+      )
+      fetch_next = ->(cursor) {
+        list_directory_groups(
+          directory_id: directory_id,
+          before: before,
+          after: cursor,
+          limit: limit,
+          order: order,
+          user: user,
+          request_options: request_options
+        )
+      }
+      WorkOS::Types::ListStruct.from_response(
+        response,
+        model: WorkOS::DirectoryGroup,
+        filters: {directory_id: directory_id, before: before, limit: limit, order: order, user: user},
+        fetch_next: fetch_next
+      )
+    end
+
+    # Get a Group for a Directory
+    # @param directory_id [String] Unique identifier of the Directory.
+    # @param group_id [String] Unique identifier for the Directory Group.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::DirectoryGroup]
+    def get_directory_group(
+      directory_id:,
+      group_id:,
+      request_options: {}
+    )
+      response = @client.request(
+        method: :get,
+        path: "/directories/#{WorkOS::Util.encode_path(directory_id)}/groups/#{WorkOS::Util.encode_path(group_id)}",
+        auth: true,
+        request_options: request_options
+      )
+      result = WorkOS::DirectoryGroup.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
+    # List Users for a Directory
+    # @param directory_id [String] Unique identifier of the Directory.
+    # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`.
+    # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
+    # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
+    # @param order [WorkOS::Types::PaginationOrder, nil] Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records).
+    # @param group [String, nil] Filter Directory Users to the members of this Directory Group.
+    # @param idp_id [String, nil] Filter Directory Users by the identity provider's unique identifier (`idp_id`).
+    # @param email [String, nil] Filter Directory Users by their primary email address.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::Types::ListStruct<WorkOS::DirectoryUser>]
+    def list_directory_users(
+      directory_id:,
+      before: nil,
+      after: nil,
+      limit: 10,
+      order: "desc",
+      group: nil,
+      idp_id: nil,
+      email: nil,
+      request_options: {}
+    )
+      params = {
+        "before" => before,
+        "after" => after,
+        "limit" => limit,
+        "order" => order,
+        "group" => group,
+        "idp_id" => idp_id,
+        "email" => email
+      }.compact
+      response = @client.request(
+        method: :get,
+        path: "/directories/#{WorkOS::Util.encode_path(directory_id)}/users",
+        auth: true,
+        params: params,
+        request_options: request_options
+      )
+      fetch_next = ->(cursor) {
+        list_directory_users(
+          directory_id: directory_id,
+          before: before,
+          after: cursor,
+          limit: limit,
+          order: order,
+          group: group,
+          idp_id: idp_id,
+          email: email,
+          request_options: request_options
+        )
+      }
+      WorkOS::Types::ListStruct.from_response(
+        response,
+        model: WorkOS::DirectoryUser,
+        filters: {directory_id: directory_id, before: before, limit: limit, order: order, group: group, idp_id: idp_id, email: email},
+        fetch_next: fetch_next
+      )
+    end
+
+    # Get a User for a Directory
+    # @param directory_id [String] Unique identifier of the Directory.
+    # @param user_id [String] Unique identifier for the Directory User.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::DirectoryUser]
+    def get_directory_user(
+      directory_id:,
+      user_id:,
+      request_options: {}
+    )
+      response = @client.request(
+        method: :get,
+        path: "/directories/#{WorkOS::Util.encode_path(directory_id)}/users/#{WorkOS::Util.encode_path(user_id)}",
+        auth: true,
+        request_options: request_options
+      )
+      result = WorkOS::DirectoryUser.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
     # List Directory Groups
+    # @deprecated
     # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`.
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
@@ -139,6 +292,7 @@ module WorkOS
       user: nil,
       request_options: {}
     )
+      warn "[DEPRECATION] `list_groups` is deprecated.", uplevel: 1
       params = {
         "before" => before,
         "after" => after,
@@ -174,6 +328,7 @@ module WorkOS
     end
 
     # Get a Directory Group
+    # @deprecated
     # @param id [String] Unique identifier for the Directory Group.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::DirectoryGroup]
@@ -181,6 +336,7 @@ module WorkOS
       id:,
       request_options: {}
     )
+      warn "[DEPRECATION] `get_group` is deprecated.", uplevel: 1
       response = @client.request(
         method: :get,
         path: "/directory_groups/#{WorkOS::Util.encode_path(id)}",
@@ -193,6 +349,7 @@ module WorkOS
     end
 
     # List Directory Users
+    # @deprecated
     # @param before [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`.
     # @param after [String, nil] An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`.
     # @param limit [Integer, nil] Upper limit on the number of objects to return, between `1` and `100`.
@@ -214,6 +371,7 @@ module WorkOS
       email: nil,
       request_options: {}
     )
+      warn "[DEPRECATION] `list_users` is deprecated.", uplevel: 1
       params = {
         "before" => before,
         "after" => after,
@@ -253,6 +411,7 @@ module WorkOS
     end
 
     # Get a Directory User
+    # @deprecated
     # @param id [String] Unique identifier for the Directory User.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::DirectoryUserWithGroups]
@@ -260,6 +419,7 @@ module WorkOS
       id:,
       request_options: {}
     )
+      warn "[DEPRECATION] `get_user` is deprecated.", uplevel: 1
       response = @client.request(
         method: :get,
         path: "/directory_users/#{WorkOS::Util.encode_path(id)}",

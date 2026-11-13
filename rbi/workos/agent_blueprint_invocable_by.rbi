@@ -5,26 +5,5 @@
 # typed: strong
 
 module WorkOS
-  class AgentBlueprintInvocableBy
-    sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
-    def initialize(json); end
-
-    sig { returns(T::Array[String]) }
-    def role_slugs; end
-
-    sig { params(value: T::Array[String]).returns(T::Array[String]) }
-    def role_slugs=(value); end
-
-    sig { returns(T::Array[String]) }
-    def organization_ids; end
-
-    sig { params(value: T::Array[String]).returns(T::Array[String]) }
-    def organization_ids=(value); end
-
-    sig { returns(T::Hash[Symbol, T.untyped]) }
-    def to_h; end
-
-    sig { params(args: T.untyped).returns(String) }
-    def to_json(*args); end
-  end
+  AgentBlueprintInvocableBy = AgentBlueprintCreatedDataInvocableBy
 end

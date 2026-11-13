@@ -5,20 +5,5 @@
 # typed: strong
 
 module WorkOS
-  class FlagUpdatedContextPreviousAttribute
-    sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
-    def initialize(json); end
-
-    sig { returns(T.nilable(WorkOS::FlagUpdatedContextPreviousAttributeData)) }
-    def data; end
-
-    sig { params(value: T.nilable(WorkOS::FlagUpdatedContextPreviousAttributeData)).returns(T.nilable(WorkOS::FlagUpdatedContextPreviousAttributeData)) }
-    def data=(value); end
-
-    sig { returns(T::Hash[Symbol, T.untyped]) }
-    def to_h; end
-
-    sig { params(args: T.untyped).returns(String) }
-    def to_json(*args); end
-  end
+  FlagUpdatedContextPreviousAttribute = FeatureFlagsFlagUpdatedContextPreviousAttribute
 end
