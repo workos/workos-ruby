@@ -1,5 +1,18 @@
 # Changelog
 
+## [10.7.0](https://github.com/workos/workos-ruby/compare/v10.6.0...v10.7.0) (2026-11-13)
+
+
+### Features
+
+* **pipes:** Update Pipes API surface ([#576](https://github.com/workos/workos-ruby/issues/576)) ([e2ecd97](https://github.com/workos/workos-ruby/commit/e2ecd97f6bc61fa34c6b65da1dbdd2b936063619))
+* **sso:** Update SSO API surface ([#577](https://github.com/workos/workos-ruby/issues/577)) ([67a4245](https://github.com/workos/workos-ruby/commit/67a42452fb0e199cc1472962c28519fc9feed621))
+
+
+### Bug Fixes
+
+* **session:** Reject non-user access tokens in session cookies ([#573](https://github.com/workos/workos-ruby/issues/573)) ([94be822](https://github.com/workos/workos-ruby/commit/94be82279e19a25d7e0fe4f1a6ce0aaad5c9dfaf))
+
 ## [10.6.0](https://github.com/workos/workos-ruby/compare/v10.5.0...v10.6.0) (2026-11-04)
 
 ### Bug Fixes
