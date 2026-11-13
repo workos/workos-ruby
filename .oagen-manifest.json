@@ -659,6 +659,7 @@
     "lib/workos/types/connection_status.rb",
     "lib/workos/types/connection_type.rb",
     "lib/workos/types/connections_connection_type.rb",
+    "lib/workos/types/connections_state.rb",
     "lib/workos/types/create_connected_account_state.rb",
     "lib/workos/types/create_connection_oidc_options_id_token_signature_algorithm.rb",
     "lib/workos/types/create_connection_oidc_options_token_authentication_method.rb",
