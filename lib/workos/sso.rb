@@ -44,6 +44,7 @@ module WorkOS
     # @param domain [String, nil] Filter Connections by their associated domain.
     # @param organization_id [String, nil] Filter Connections by their associated organization.
     # @param search [String, nil] Searchable text to match against Connection names.
+    # @param state [WorkOS::Types::ConnectionsState, nil] Filter Connections by their state.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::Types::ListStruct<WorkOS::Connection>]
     def list_connections(
@@ -55,6 +56,7 @@ module WorkOS
       domain: nil,
       organization_id: nil,
       search: nil,
+      state: nil,
       request_options: {}
     )
       params = {
@@ -65,7 +67,8 @@ module WorkOS
         "connection_type" => connection_type,
         "domain" => domain,
         "organization_id" => organization_id,
-        "search" => search
+        "search" => search,
+        "state" => state
       }.compact
       response = @client.request(
         method: :get,
@@ -84,13 +87,14 @@ module WorkOS
           domain: domain,
           organization_id: organization_id,
           search: search,
+          state: state,
           request_options: request_options
         )
       }
       WorkOS::Types::ListStruct.from_response(
         response,
         model: WorkOS::Connection,
-        filters: {before: before, limit: limit, order: order, connection_type: connection_type, domain: domain, organization_id: organization_id, search: search},
+        filters: {before: before, limit: limit, order: order, connection_type: connection_type, domain: domain, organization_id: organization_id, search: search, state: state},
         fetch_next: fetch_next
       )
     end
