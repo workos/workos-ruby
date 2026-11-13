@@ -12,16 +12,22 @@ module WorkOS
 
     # List providers for an organization
     # @param organization_id [String] An [Organization](https://workos.com/docs/reference/organization) identifier to list provider configurations for.
+    # @param ownership [WorkOS::Types::PipesProviderOwnership, nil] Select the provider configuration for `user` connections or `organization` shared connections. Defaults to `user`; never falls back to the other ownership.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::DataIntegrationConfigurationListResponse]
     def list_organization_data_integration_configurations(
       organization_id:,
+      ownership: "user",
       request_options: {}
     )
+      params = {
+        "ownership" => ownership
+      }.compact
       response = @client.request(
         method: :get,
         path: "/organizations/#{WorkOS::Util.encode_path(organization_id)}/data_integration_configurations",
         auth: true,
+        params: params,
         request_options: request_options
       )
       result = WorkOS::DataIntegrationConfigurationListResponse.new(response.body)
@@ -37,6 +43,7 @@ module WorkOS
     # @param client_id [String, nil] The OAuth client ID of the organization's own application. Must be provided together with `client_secret`, and only for providers whose credentials are supplied by the organization.
     # @param client_secret [String, nil] The OAuth client secret of the organization's own application. Must be provided together with `client_id`.
     # @param config [Hash{String => String}, nil] Provider-specific config values to set for the organization, keyed by config field. Only fields the provider declares are accepted, and each value must match that field's pattern. Accepted only for providers whose credentials are organization-managed; for shared or custom credential providers, config belongs on the integration itself (via the data-integrations API) and supplying it here is rejected.
+    # @param ownership [WorkOS::Types::PipesProviderOwnership, nil] Select the provider configuration for `user` connections or `organization` shared connections. Defaults to `user`; never falls back to the other ownership.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::DataIntegrationConfigurationResponse]
     def update_organization_data_integration_configuration(
@@ -47,8 +54,12 @@ module WorkOS
       client_id: nil,
       client_secret: nil,
       config: nil,
+      ownership: "user",
       request_options: {}
     )
+      params = {
+        "ownership" => ownership
+      }.compact
       body = {
         "enabled" => enabled,
         "client_id" => client_id,
@@ -60,6 +71,7 @@ module WorkOS
         method: :put,
         path: "/organizations/#{WorkOS::Util.encode_path(organization_id)}/data_integration_configurations/#{WorkOS::Util.encode_path(slug)}",
         auth: true,
+        params: params,
         body: body,
         request_options: request_options
       )

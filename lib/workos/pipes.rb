@@ -640,12 +640,14 @@ module WorkOS
     # @param slug [String] The slug identifier of the provider (e.g., `github`, `slack`, `notion`).
     # @param account_display_name [String, nil] A mutable, non-unique connection label; null clears it. Not an account identifier.
     # @param account_identifier [String, nil] A developer-attested account identifier; null clears it.
+    # @param config [Hash{String => String}, nil] Installation-scoped provider configuration for this connection, such as Salesforce salesforce_host. Imports apply supplied values over installation-scoped integration pins and inherit other config from the credential source. Credential-bearing imports must satisfy required configuration even when config is omitted or {}. On update, a supplied object replaces installation-scoped values; omitted config preserves the stored snapshot. Stored integration-scoped values remain bound to the OAuth client and cannot be overridden or replaced with current integration pins. Replacements must satisfy required configuration; {} and empty-string values clear installation-scoped values only when the result is valid. Provider defaults count toward completeness but are resolved at read time, not stored. Only tokenless needs_reauthorization placeholders may remain incomplete; attaching their first tokens validates configuration even when config is omitted. Unrelated updates do not revalidate unchanged configuration. Clearing salesforce_host falls back to login.salesforce.com, which may not work for sandbox or My Domain-only connections.
     # @param access_token [String, nil] The OAuth access token for the connected account.
     # @param refresh_token [String, nil] The OAuth refresh token for the connected account.
     # @param expires_at [String, nil] The ISO-8601 timestamp when the access token expires. Required when `access_token` is provided for tokens that expire.
     # @param scopes [Array<String>, nil] The OAuth scopes granted for this connection.
     # @param state [WorkOS::Types::CreateOrganizationConnectedAccountState, nil] Explicitly set the state of the connected account. When omitted, the state is derived from the token combination provided.
     # @param user_id [String] The [User](https://workos.com/docs/reference/authkit/user) identifier of the organization member on whose behalf the connected account is being imported or updated. The user must be an active member of the organization.
+    # @param metadata [Hash{String => Object}, nil] Provider token-response metadata to preserve during import, such as Salesforce instance_url. Only allowlisted, non-sensitive scalar fields from this provider are accepted, including nested fields. Provider refresh responses can update these values. Not accepted on update.
     # @param connection_intent [String, nil] Set to `add` to create another connected account. Omit this field for permanent compatibility behavior.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::ConnectedAccount]
@@ -655,21 +657,25 @@ module WorkOS
       user_id:,
       account_display_name: WorkOS::OMIT,
       account_identifier: WorkOS::OMIT,
+      config: nil,
       access_token: nil,
       refresh_token: nil,
       expires_at: nil,
       scopes: nil,
       state: nil,
+      metadata: nil,
       connection_intent: nil,
       request_options: {}
     )
       body = {
+        "config" => config,
         "access_token" => access_token,
         "refresh_token" => refresh_token,
         "expires_at" => expires_at,
         "scopes" => scopes,
         "state" => state,
         "user_id" => user_id,
+        "metadata" => metadata,
         "connection_intent" => connection_intent
       }.compact
       body["account_display_name"] = account_display_name unless account_display_name.equal?(WorkOS::OMIT)
@@ -691,6 +697,7 @@ module WorkOS
     # @param slug [String] The slug identifier of the provider (e.g., `github`, `slack`, `notion`).
     # @param account_display_name [String, nil] A mutable, non-unique connection label; null clears it. Not an account identifier.
     # @param account_identifier [String, nil] A developer-attested account identifier; null clears it.
+    # @param config [Hash{String => String}, nil] Installation-scoped provider configuration for this connection, such as Salesforce salesforce_host. Imports apply supplied values over installation-scoped integration pins and inherit other config from the credential source. Credential-bearing imports must satisfy required configuration even when config is omitted or {}. On update, a supplied object replaces installation-scoped values; omitted config preserves the stored snapshot. Stored integration-scoped values remain bound to the OAuth client and cannot be overridden or replaced with current integration pins. Replacements must satisfy required configuration; {} and empty-string values clear installation-scoped values only when the result is valid. Provider defaults count toward completeness but are resolved at read time, not stored. Only tokenless needs_reauthorization placeholders may remain incomplete; attaching their first tokens validates configuration even when config is omitted. Unrelated updates do not revalidate unchanged configuration. Clearing salesforce_host falls back to login.salesforce.com, which may not work for sandbox or My Domain-only connections.
     # @param access_token [String, nil] The OAuth access token for the connected account.
     # @param refresh_token [String, nil] The OAuth refresh token for the connected account.
     # @param expires_at [String, nil] The ISO-8601 timestamp when the access token expires. Required when `access_token` is provided for tokens that expire.
@@ -708,6 +715,7 @@ module WorkOS
       user_id:,
       account_display_name: WorkOS::OMIT,
       account_identifier: WorkOS::OMIT,
+      config: nil,
       access_token: nil,
       refresh_token: nil,
       expires_at: nil,
@@ -724,6 +732,7 @@ module WorkOS
         "connection_intent" => connection_intent
       }.compact
       body = {
+        "config" => config,
         "access_token" => access_token,
         "refresh_token" => refresh_token,
         "expires_at" => expires_at,
@@ -837,11 +846,13 @@ module WorkOS
     # @param slug [String] The slug identifier of the provider (e.g., `github`, `slack`, `notion`).
     # @param account_display_name [String, nil] A mutable, non-unique connection label; null clears it. Not an account identifier.
     # @param account_identifier [String, nil] A developer-attested account identifier; null clears it.
+    # @param config [Hash{String => String}, nil] Installation-scoped provider configuration for this connection, such as Salesforce salesforce_host. Imports apply supplied values over installation-scoped integration pins and inherit other config from the credential source. Credential-bearing imports must satisfy required configuration even when config is omitted or {}. On update, a supplied object replaces installation-scoped values; omitted config preserves the stored snapshot. Stored integration-scoped values remain bound to the OAuth client and cannot be overridden or replaced with current integration pins. Replacements must satisfy required configuration; {} and empty-string values clear installation-scoped values only when the result is valid. Provider defaults count toward completeness but are resolved at read time, not stored. Only tokenless needs_reauthorization placeholders may remain incomplete; attaching their first tokens validates configuration even when config is omitted. Unrelated updates do not revalidate unchanged configuration. Clearing salesforce_host falls back to login.salesforce.com, which may not work for sandbox or My Domain-only connections.
     # @param access_token [String, nil] The OAuth access token for the connected account.
     # @param refresh_token [String, nil] The OAuth refresh token for the connected account.
     # @param expires_at [String, nil] The ISO-8601 timestamp when the access token expires. Required when `access_token` is provided for tokens that expire.
     # @param scopes [Array<String>, nil] The OAuth scopes granted for this connection.
     # @param state [WorkOS::Types::CreateConnectedAccountState, nil] Explicitly set the state of the connected account. When omitted, the state is derived from the token combination provided.
+    # @param metadata [Hash{String => Object}, nil] Provider token-response metadata to preserve during import, such as Salesforce instance_url. Only allowlisted, non-sensitive scalar fields from this provider are accepted, including nested fields. Provider refresh responses can update these values. Not accepted on update.
     # @param connection_intent [String, nil] Set to `add` to create another connected account. Omit this field for permanent compatibility behavior.
     # @param organization_id [String, nil] An [Organization](https://workos.com/docs/reference/organization) identifier. Optional parameter if the connection is scoped to an organization.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
@@ -851,11 +862,13 @@ module WorkOS
       slug:,
       account_display_name: WorkOS::OMIT,
       account_identifier: WorkOS::OMIT,
+      config: nil,
       access_token: nil,
       refresh_token: nil,
       expires_at: nil,
       scopes: nil,
       state: nil,
+      metadata: nil,
       connection_intent: nil,
       organization_id: nil,
       request_options: {}
@@ -864,11 +877,13 @@ module WorkOS
         "organization_id" => organization_id
       }.compact
       body = {
+        "config" => config,
         "access_token" => access_token,
         "refresh_token" => refresh_token,
         "expires_at" => expires_at,
         "scopes" => scopes,
         "state" => state,
+        "metadata" => metadata,
         "connection_intent" => connection_intent
       }.compact
       body["account_display_name"] = account_display_name unless account_display_name.equal?(WorkOS::OMIT)
@@ -891,6 +906,7 @@ module WorkOS
     # @param slug [String] The slug identifier of the provider (e.g., `github`, `slack`, `notion`).
     # @param account_display_name [String, nil] A mutable, non-unique connection label; null clears it. Not an account identifier.
     # @param account_identifier [String, nil] A developer-attested account identifier; null clears it.
+    # @param config [Hash{String => String}, nil] Installation-scoped provider configuration for this connection, such as Salesforce salesforce_host. Imports apply supplied values over installation-scoped integration pins and inherit other config from the credential source. Credential-bearing imports must satisfy required configuration even when config is omitted or {}. On update, a supplied object replaces installation-scoped values; omitted config preserves the stored snapshot. Stored integration-scoped values remain bound to the OAuth client and cannot be overridden or replaced with current integration pins. Replacements must satisfy required configuration; {} and empty-string values clear installation-scoped values only when the result is valid. Provider defaults count toward completeness but are resolved at read time, not stored. Only tokenless needs_reauthorization placeholders may remain incomplete; attaching their first tokens validates configuration even when config is omitted. Unrelated updates do not revalidate unchanged configuration. Clearing salesforce_host falls back to login.salesforce.com, which may not work for sandbox or My Domain-only connections.
     # @param access_token [String, nil] The OAuth access token for the connected account.
     # @param refresh_token [String, nil] The OAuth refresh token for the connected account.
     # @param expires_at [String, nil] The ISO-8601 timestamp when the access token expires. Required when `access_token` is provided for tokens that expire.
@@ -907,6 +923,7 @@ module WorkOS
       slug:,
       account_display_name: WorkOS::OMIT,
       account_identifier: WorkOS::OMIT,
+      config: nil,
       access_token: nil,
       refresh_token: nil,
       expires_at: nil,
@@ -925,6 +942,7 @@ module WorkOS
         "connection_intent" => connection_intent
       }.compact
       body = {
+        "config" => config,
         "access_token" => access_token,
         "refresh_token" => refresh_token,
         "expires_at" => expires_at,

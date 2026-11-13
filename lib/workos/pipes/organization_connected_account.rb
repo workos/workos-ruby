@@ -7,6 +7,7 @@ module WorkOS
     HASH_ATTRS = {
       account_display_name: :account_display_name,
       account_identifier: :account_identifier,
+      config: :config,
       access_token: :access_token,
       refresh_token: :refresh_token,
       expires_at: :expires_at,
@@ -18,6 +19,7 @@ module WorkOS
     attr_accessor \
       :account_display_name,
       :account_identifier,
+      :config,
       :access_token,
       :refresh_token,
       :expires_at,
@@ -29,6 +31,7 @@ module WorkOS
       hash = self.class.normalize(json)
       @account_display_name = hash[:account_display_name]
       @account_identifier = hash[:account_identifier]
+      @config = hash[:config] || {}
       @access_token = hash[:access_token]
       @refresh_token = hash[:refresh_token]
       @expires_at = hash[:expires_at]

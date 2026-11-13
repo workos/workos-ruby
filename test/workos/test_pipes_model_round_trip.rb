@@ -111,12 +111,14 @@ class PipesModelRoundTripTest < Minitest::Test
     fixture = {
       "account_display_name" => nil,
       "account_identifier" => nil,
+      "config" => {},
       "access_token" => "stub",
       "refresh_token" => "stub",
       "expires_at" => "stub",
       "scopes" => [],
       "state" => "stub",
       "user_id" => "stub",
+      "metadata" => {},
       "connection_intent" => "add"
     }
     model = WorkOS::CreateOrganizationConnectedAccount.new(fixture.to_json)
@@ -130,6 +132,7 @@ class PipesModelRoundTripTest < Minitest::Test
     fixture = {
       "account_display_name" => nil,
       "account_identifier" => nil,
+      "config" => {},
       "access_token" => "stub",
       "refresh_token" => "stub",
       "expires_at" => "stub",
@@ -148,11 +151,13 @@ class PipesModelRoundTripTest < Minitest::Test
     fixture = {
       "account_display_name" => nil,
       "account_identifier" => nil,
+      "config" => {},
       "access_token" => "stub",
       "refresh_token" => "stub",
       "expires_at" => "stub",
       "scopes" => [],
       "state" => "stub",
+      "metadata" => {},
       "connection_intent" => "add"
     }
     model = WorkOS::CreateConnectedAccount.new(fixture.to_json)
@@ -165,6 +170,7 @@ class PipesModelRoundTripTest < Minitest::Test
     fixture = {
       "account_display_name" => nil,
       "account_identifier" => nil,
+      "config" => {},
       "access_token" => "stub",
       "refresh_token" => "stub",
       "expires_at" => "stub",
@@ -285,7 +291,7 @@ class PipesModelRoundTripTest < Minitest::Test
   def test_data_integration_vended_credential_round_trip
     fixture = {
       "object" => "credential",
-      "auth_method" => "oauth",
+      "auth_method" => "stub",
       "value" => "stub",
       "expires_at" => nil,
       "scopes" => [],

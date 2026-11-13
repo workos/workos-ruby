@@ -12,10 +12,11 @@ module WorkOS
     sig do
       params(
         organization_id: String,
+        ownership: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::DataIntegrationConfigurationListResponse)
     end
-    def list_organization_data_integration_configurations(organization_id:, request_options: {}); end
+    def list_organization_data_integration_configurations(organization_id:, ownership: nil, request_options: {}); end
 
     sig do
       params(
@@ -26,10 +27,11 @@ module WorkOS
         client_id: T.nilable(String),
         client_secret: T.nilable(String),
         config: T.nilable(T::Hash[String, String]),
+        ownership: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::DataIntegrationConfigurationResponse)
     end
-    def update_organization_data_integration_configuration(organization_id:, slug:, enabled: nil, scopes: nil, client_id: nil, client_secret: nil, config: nil, request_options: {}); end
+    def update_organization_data_integration_configuration(organization_id:, slug:, enabled: nil, scopes: nil, client_id: nil, client_secret: nil, config: nil, ownership: nil, request_options: {}); end
 
   end
 end
