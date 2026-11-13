@@ -13,7 +13,9 @@ module WorkOS
       sig { returns(String) }
       def token_url; end
 
-      sig { returns(String) }
+      # Optional: nil when no environment ID was passed and
+      # `WORKOS_ENVIRONMENT_ID` is unset or empty.
+      sig { returns(T.nilable(String)) }
       def environment_id; end
 
       sig { returns(String) }

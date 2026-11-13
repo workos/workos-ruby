@@ -23,7 +23,8 @@ module WorkOS
   # `workos/configuration` requires this file explicitly for that reason:
   # Zeitwerk skips a file whose constant is already defined.
   module WorkloadIdentity
-    # Sent on every API request made with workload identity credentials.
+    # Sent on every API request made with workload identity credentials that
+    # have an environment ID. Left out when they have none.
     ENVIRONMENT_HEADER = "x-url-environment-id"
     GRANT_TYPE = "urn:ietf:params:oauth:grant-type:jwt-bearer"
     DEFAULT_RESOURCE = "https://api.workos.com"

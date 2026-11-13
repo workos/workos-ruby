@@ -106,7 +106,7 @@ require "workos-workload-identity-github-actions"
 credentials = WorkOS::WorkloadIdentity::Credentials.new(
   client_id: "client_...",                           # default: WORKOS_CLIENT_ID
   token_url: "https://auth.example.com/oauth2/token", # default: WORKOS_WIF_TOKEN_URL
-  environment_id: "environment_...",                 # default: WORKOS_ENVIRONMENT_ID
+  environment_id: "environment_...",                 # optional; default: WORKOS_ENVIRONMENT_ID
   identity_token_provider: WorkOS::WorkloadIdentity::GitHubActions.github_actions("https://api.workos.com")
 )
 
@@ -117,7 +117,9 @@ client.organizations.list_organizations
 WorkOS.configure { |config| config.credentials = credentials }
 ```
 
-`client_id`, `token_url` and `environment_id` are required; each falls back to its environment variable when you leave it out. `scope` (default `WORKOS_WIF_SCOPE`) and `resource` (default `https://api.workos.com`) are optional. Passing both `api_key` and `credentials` raises `ArgumentError`, and credentials that fail never fall back to an API key.
+`client_id` and `token_url` are required; each falls back to its environment variable when you leave it out. `environment_id` (default `WORKOS_ENVIRONMENT_ID`), `scope` (default `WORKOS_WIF_SCOPE`) and `resource` (default `https://api.workos.com`) are optional. Passing both `api_key` and `credentials` raises `ArgumentError`, and credentials that fail never fall back to an API key.
+
+`environment_id` is optional because WorkOS binds a workload identity application to exactly one environment and takes the environment from that binding, so the ID selects nothing. Setting it is a safety check: the SDK sends it as the `x-url-environment-id` header on every API request, and a value that names a different environment gets `403 environment_mismatch`. When it is not set, the header is not sent.
 
 ### Providers
 
@@ -151,6 +153,8 @@ identity_token_provider: WorkOS::WorkloadIdentity.token_file("/var/run/secrets/t
 # An environment variable, read again on every exchange
 identity_token_provider: WorkOS::WorkloadIdentity.token_env("MY_IDENTITY_TOKEN")
 ```
+
+The server accepts an identity token for one exchange. The SDK exchanges again about every four minutes, and if the file or variable still holds the same token then, that exchange fails with `invalid_grant`. So use `token_file` and `token_env` for a source that something rewrites before each exchange, or for a job shorter than five minutes. The platform providers (GitHub Actions, GCP, AWS) fetch a new token every time.
 
 ### Errors
 

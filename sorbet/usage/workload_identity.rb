@@ -21,6 +21,7 @@ credentials = WorkOS::WorkloadIdentity::Credentials.new(
   scope: "widgets:read"
 )
 T.assert_type!(credentials.client_id, String)
+T.assert_type!(credentials.environment_id, T.nilable(String))
 T.assert_type!(credentials.scope, T.nilable(String))
 
 snapshot = credentials.resolve(timeout: 5)

@@ -215,15 +215,16 @@ class WorkloadIdentityTest < Minitest::Test
     refute_includes post.body, "client_secret"
     refute_includes post.body, "scope"
 
-    get_widgets(client_for(credentials(scope: "organizations:write")))
+    get_widgets(client_for(credentials(scope: "orgs:write")))
 
     assert_equal 2, @token_requests.size
     scoped = @token_requests.last
-    assert_equal "organizations:write", form_of(scoped)["scope"]
+    assert_equal "orgs:write", form_of(scoped)["scope"]
     refute form_of(scoped).key?("client_secret")
     assert_nil header(scoped, "Authorization")
   end
 
+  # WIF-02 (a): with an environment ID.
   def test_WIF_02_api_request_carries_the_access_token_and_environment_header
     stub_token_endpoint
     stub_api
@@ -233,6 +234,24 @@ class WorkloadIdentityTest < Minitest::Test
     request = @api_requests.first
     assert_equal "Bearer access-1", header(request, "Authorization")
     assert_equal "environment_wif_test", header(request, "x-url-environment-id")
+  end
+
+  # WIF-02 (b): without one. The server takes the environment from the
+  # application's binding, so the header is optional and is left out.
+  def test_WIF_02_api_request_without_an_environment_id_sends_no_environment_header
+    stub_token_endpoint
+    stub_api
+
+    with_env("WORKOS_ENVIRONMENT_ID" => nil) do
+      creds = credentials(environment_id: nil)
+      assert_nil creds.environment_id
+
+      get_widgets(client_for(creds))
+    end
+
+    request = @api_requests.first
+    assert_equal "Bearer access-1", header(request, "Authorization")
+    refute(request.headers.keys.any? { |name| name.casecmp?("x-url-environment-id") }, "the environment header was sent")
   end
 
   def test_WIF_03_second_request_within_the_lifetime_reuses_the_cached_token
@@ -861,7 +880,6 @@ class WorkloadIdentityTest < Minitest::Test
     {
       client_id: "client_id is required (or set WORKOS_CLIENT_ID)",
       token_url: "token_url is required (or set WORKOS_WIF_TOKEN_URL)",
-      environment_id: "environment_id is required (or set WORKOS_ENVIRONMENT_ID)",
       identity_token_provider: "identity_token_provider is required and must respond to call"
     }.each do |field, description|
       error = assert_raises(WorkOS::WorkloadIdentityError) { credentials(field => nil) }
@@ -873,6 +891,21 @@ class WorkloadIdentityTest < Minitest::Test
 
     error = assert_raises(WorkOS::WorkloadIdentityError) { credentials(token_url: "not a url") }
     assert_equal "token_url must be an http or https URL", error.description
+  end
+
+  def test_an_empty_environment_id_counts_as_not_set
+    stub_token_endpoint
+    stub_api
+
+    get_widgets(client_for(credentials(environment_id: "")))
+    with_env("WORKOS_ENVIRONMENT_ID" => "") do
+      get_widgets(client_for(credentials(environment_id: nil)))
+    end
+
+    assert_equal ["Bearer access-1", "Bearer access-2"], bearers
+    @api_requests.each do |request|
+      refute(request.headers.keys.any? { |name| name.casecmp?("x-url-environment-id") }, "the environment header was sent")
+    end
   end
 
   def test_explicit_empty_scope_beats_the_environment_scope
