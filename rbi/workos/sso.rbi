@@ -67,10 +67,11 @@ module WorkOS
         domain: T.nilable(String),
         organization_id: T.nilable(String),
         search: T.nilable(String),
+        state: T.nilable(String),
         request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::Types::ListStruct)
     end
-    def list_connections(before: nil, after: nil, limit: nil, order: nil, connection_type: nil, domain: nil, organization_id: nil, search: nil, request_options: {}); end
+    def list_connections(before: nil, after: nil, limit: nil, order: nil, connection_type: nil, domain: nil, organization_id: nil, search: nil, state: nil, request_options: {}); end
 
     sig do
       params(
