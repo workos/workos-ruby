@@ -49,12 +49,12 @@ module WorkOS
       #   Defaults to `WORKOS_CLIENT_ID`.
       # @param token_url [String, nil] The token exchange endpoint. Defaults
       #   to `WORKOS_WIF_TOKEN_URL`; there is no built-in default.
-      # @param environment_id [String, nil] Optional. Defaults to
-      #   `WORKOS_ENVIRONMENT_ID`; an empty string counts as not set. The
-      #   server binds a workload identity client to exactly one environment
-      #   and takes the environment from that binding, so this selects
-      #   nothing. Setting it is a safety check: it is sent as the
-      #   `x-url-environment-id` header on every API request, and a value
+      # @param environment_id [String, nil] Optional, and set only here: no
+      #   environment variable is read for it. Nil or an empty string counts
+      #   as not set. The server binds a workload identity client to exactly
+      #   one environment and takes the environment from that binding, so
+      #   this selects nothing. Setting it is a safety check: it is sent as
+      #   the `x-url-environment-id` header on every API request, and a value
       #   that names a different environment gets `403 environment_mismatch`.
       #   When it is not set, the header is not sent.
       # @param resource [String, nil] Defaults to `https://api.workos.com`.
@@ -71,7 +71,7 @@ module WorkOS
         clock: nil, sleeper: nil, random: Random.new)
         @client_id = required("client_id", client_id, "WORKOS_CLIENT_ID")
         @token_url = required("token_url", token_url, "WORKOS_WIF_TOKEN_URL")
-        @environment_id = presence(environment_id.nil? ? ENV["WORKOS_ENVIRONMENT_ID"] : environment_id)&.dup&.freeze
+        @environment_id = presence(environment_id)&.dup&.freeze
         @resource = (presence(resource) || DEFAULT_RESOURCE).dup.freeze
         @scope = presence(scope.nil? ? ENV["WORKOS_WIF_SCOPE"] : scope)&.dup&.freeze
         @token_uri = parse_token_url(@token_url)

@@ -17,7 +17,7 @@ class WorkloadIdentityTest < Minitest::Test
   TOKEN_URL = "https://auth.workos.test/oauth2/token"
   CLIENT_ID = "client_wif_test"
   ENVIRONMENT_ID = "environment_wif_test"
-  WIF_ENV = %w[WORKOS_CLIENT_ID WORKOS_WIF_TOKEN_URL WORKOS_WIF_SCOPE WORKOS_ENVIRONMENT_ID WORKOS_API_KEY].freeze
+  WIF_ENV = %w[WORKOS_CLIENT_ID WORKOS_WIF_TOKEN_URL WORKOS_WIF_SCOPE WORKOS_API_KEY].freeze
   EXCHANGE_THREAD = "workos-workload-identity-exchange"
 
   class FakeClock
@@ -237,12 +237,14 @@ class WorkloadIdentityTest < Minitest::Test
   end
 
   # WIF-02 (b): without one. The server takes the environment from the
-  # application's binding, so the header is optional and is left out.
+  # application's binding, so the header is optional and is left out. The
+  # environment ID comes only from the caller's code: the variable set here
+  # is not read.
   def test_WIF_02_api_request_without_an_environment_id_sends_no_environment_header
     stub_token_endpoint
     stub_api
 
-    with_env("WORKOS_ENVIRONMENT_ID" => nil) do
+    with_env("WORKOS_ENVIRONMENT_ID" => "environment_env") do
       creds = credentials(environment_id: nil)
       assert_nil creds.environment_id
 
@@ -696,8 +698,7 @@ class WorkloadIdentityTest < Minitest::Test
     environment = {
       "WORKOS_CLIENT_ID" => "client_env",
       "WORKOS_WIF_TOKEN_URL" => env_token_url,
-      "WORKOS_WIF_SCOPE" => "scope_env",
-      "WORKOS_ENVIRONMENT_ID" => "environment_env"
+      "WORKOS_WIF_SCOPE" => "scope_env"
     }
     stub_token_endpoint(url: env_token_url)
     stub_api
@@ -711,21 +712,18 @@ class WorkloadIdentityTest < Minitest::Test
       assert_equal "client_env", form["client_id"]
       assert_equal "scope_env", form["scope"]
       assert_equal "https://api.workos.com", form["resource"]
-      assert_equal "environment_env", header(@api_requests.last, "x-url-environment-id")
 
       # (d) Same environment, explicit values.
       explicit = WorkOS::WorkloadIdentity::Credentials.new(
         identity_token_provider: -> { "assertion-1" },
         client_id: "client_explicit",
-        scope: "scope_explicit",
-        environment_id: "environment_explicit"
+        scope: "scope_explicit"
       )
       get_widgets(client_for(explicit))
 
       form = form_of(@token_requests.last)
       assert_equal "client_explicit", form["client_id"]
       assert_equal "scope_explicit", form["scope"]
-      assert_equal "environment_explicit", header(@api_requests.last, "x-url-environment-id")
       assert_equal 2, @token_requests.size
     end
   end
@@ -896,16 +894,13 @@ class WorkloadIdentityTest < Minitest::Test
   def test_an_empty_environment_id_counts_as_not_set
     stub_token_endpoint
     stub_api
+    creds = credentials(environment_id: "")
 
-    get_widgets(client_for(credentials(environment_id: "")))
-    with_env("WORKOS_ENVIRONMENT_ID" => "") do
-      get_widgets(client_for(credentials(environment_id: nil)))
-    end
+    get_widgets(client_for(creds))
 
-    assert_equal ["Bearer access-1", "Bearer access-2"], bearers
-    @api_requests.each do |request|
-      refute(request.headers.keys.any? { |name| name.casecmp?("x-url-environment-id") }, "the environment header was sent")
-    end
+    assert_nil creds.environment_id
+    assert_equal ["Bearer access-1"], bearers
+    refute(@api_requests.first.headers.keys.any? { |name| name.casecmp?("x-url-environment-id") }, "the environment header was sent")
   end
 
   def test_explicit_empty_scope_beats_the_environment_scope
