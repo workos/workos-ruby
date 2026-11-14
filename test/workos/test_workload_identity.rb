@@ -17,7 +17,7 @@ class WorkloadIdentityTest < Minitest::Test
   TOKEN_URL = "https://auth.workos.test/oauth2/token"
   CLIENT_ID = "client_wif_test"
   ENVIRONMENT_ID = "environment_wif_test"
-  WIF_ENV = %w[WORKOS_CLIENT_ID WORKOS_API_KEY].freeze
+  WIF_ENV = %w[WORKOS_API_KEY].freeze
   EXCHANGE_THREAD = "workos-workload-identity-exchange"
 
   class FakeClock
@@ -693,7 +693,7 @@ class WorkloadIdentityTest < Minitest::Test
     assert_equal %w[assertion-env assertion-cb], @token_requests.map { |request| form_of(request)["assertion"] }
   end
 
-  def test_WIF_22_only_client_id_defaults_from_the_environment_and_an_explicit_value_wins
+  def test_WIF_22_no_setting_defaults_from_the_environment
     ignored_token_url = "https://ignored.example.test/oauth2/token"
     environment = {
       "WORKOS_CLIENT_ID" => "client_env",
@@ -704,22 +704,8 @@ class WorkloadIdentityTest < Minitest::Test
     stub_api
 
     with_env(environment) do
-      # (c) A provider and the token URL, and nothing else. The token URL
-      # and scope variables set above are not read.
-      from_env = WorkOS::WorkloadIdentity::Credentials.new(
-        identity_token_provider: -> { "assertion-1" },
-        token_url: TOKEN_URL
-      )
-      get_widgets(client_for(from_env))
-
-      assert_equal 1, @token_requests.size, "the POST did not go to the mock"
-      form = form_of(@token_requests.last)
-      assert_equal "client_env", form["client_id"]
-      refute form.key?("scope")
-      assert_equal "https://api.workos.com", form["resource"]
-      assert_not_requested :any, ignored_token_url
-
-      # (d) Same environment, an explicit client ID.
+      # (c) A provider, the token URL and the client ID. None of the three
+      # variables set above is read.
       explicit = WorkOS::WorkloadIdentity::Credentials.new(
         identity_token_provider: -> { "assertion-1" },
         token_url: TOKEN_URL,
@@ -727,12 +713,29 @@ class WorkloadIdentityTest < Minitest::Test
       )
       get_widgets(client_for(explicit))
 
-      assert_equal 2, @token_requests.size
-      assert_equal "client_explicit", form_of(@token_requests.last)["client_id"]
+      assert_equal 1, @token_requests.size, "the POST did not go to the mock"
+      form = form_of(@token_requests.last)
+      assert_equal "client_explicit", form["client_id"]
+      refute form.key?("scope")
+      assert_equal "https://api.workos.com", form["resource"]
+      assert_not_requested :any, ignored_token_url
+
+      # (d) Same environment, no client ID.
+      error = assert_raises(WorkOS::WorkloadIdentityError) do
+        WorkOS::WorkloadIdentity::Credentials.new(
+          identity_token_provider: -> { "assertion-1" },
+          token_url: TOKEN_URL
+        )
+      end
+      assert_equal "invalid_configuration", error.code
+      assert_equal "client_id is required", error.description
 
       # (e) Same environment, no token URL.
       error = assert_raises(WorkOS::WorkloadIdentityError) do
-        WorkOS::WorkloadIdentity::Credentials.new(identity_token_provider: -> { "assertion-1" })
+        WorkOS::WorkloadIdentity::Credentials.new(
+          identity_token_provider: -> { "assertion-1" },
+          client_id: "client_explicit"
+        )
       end
       assert_equal "invalid_configuration", error.code
       assert_equal "token_url is required", error.description
@@ -885,9 +888,9 @@ class WorkloadIdentityTest < Minitest::Test
     WorkOS.configuration.api_key = saved_key
   end
 
-  def test_missing_settings_are_configuration_errors_naming_the_field_and_variable
+  def test_missing_settings_are_configuration_errors_naming_the_field
     {
-      client_id: "client_id is required (or set WORKOS_CLIENT_ID)",
+      client_id: "client_id is required",
       token_url: "token_url is required",
       identity_token_provider: "identity_token_provider is required and must respond to call"
     }.each do |field, description|

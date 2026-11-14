@@ -26,6 +26,7 @@ module WorkOS
   # @example Authenticate with workload identity in place of an API key
   #   client = WorkOS::Client.new(
   #     credentials: WorkOS::WorkloadIdentity::Credentials.new(
+  #       client_id: "client_...",
   #       token_url: "https://.../oauth2/token",
   #       identity_token_provider: WorkOS::WorkloadIdentity.token_file("/run/workos/identity-token")
   #     )

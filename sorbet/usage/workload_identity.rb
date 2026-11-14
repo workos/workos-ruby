@@ -78,6 +78,7 @@ end
   T.assert_type!(platform_provider.call, String)
   WorkOS::WorkloadIdentity::Credentials.new(
     identity_token_provider: platform_provider,
+    client_id: "client_123",
     token_url: "https://auth.example.test/oauth2/token"
   )
 end

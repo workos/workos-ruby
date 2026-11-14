@@ -45,9 +45,8 @@ module WorkOS
 
       # @param identity_token_provider [#call] Returns the workload's JWT as
       #   a String. Called once per exchange attempt.
-      # @param client_id [String, nil] The M2M application's client ID.
-      #   Defaults to `WORKOS_CLIENT_ID`, the only setting read from the
-      #   environment.
+      # @param client_id [String] The M2M application's client ID. Required,
+      #   and set only here: no environment variable is read for it.
       # @param token_url [String] The token exchange endpoint. Required, and
       #   set only here: there is no built-in default and no environment
       #   variable is read for it.
@@ -72,7 +71,7 @@ module WorkOS
       def initialize(identity_token_provider: nil, client_id: nil, token_url: nil,
         environment_id: nil, resource: nil, scope: nil,
         clock: nil, sleeper: nil, random: Random.new)
-        @client_id = required("client_id", client_id, "WORKOS_CLIENT_ID")
+        @client_id = required("client_id", client_id)
         @token_url = required("token_url", token_url)
         @environment_id = presence(environment_id)&.dup&.freeze
         @resource = (presence(resource) || DEFAULT_RESOURCE).dup.freeze
@@ -136,13 +135,10 @@ module WorkOS
 
       # -- Configuration ----------------------------------------------------
 
-      # `env_name` is the variable that fills in the field when the caller
-      # leaves it out. Only `client_id` has one.
-      def required(field, explicit, env_name = nil)
-        value = presence((explicit.nil? && env_name) ? ENV[env_name] : explicit)
-        if value.nil?
-          raise invalid_configuration(env_name ? "#{field} is required (or set #{env_name})" : "#{field} is required")
-        end
+      # Every setting comes from the caller: no environment variable is read.
+      def required(field, explicit)
+        value = presence(explicit)
+        raise invalid_configuration("#{field} is required") if value.nil?
 
         value.dup.freeze
       end
