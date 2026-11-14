@@ -46,9 +46,11 @@ module WorkOS
       # @param identity_token_provider [#call] Returns the workload's JWT as
       #   a String. Called once per exchange attempt.
       # @param client_id [String, nil] The M2M application's client ID.
-      #   Defaults to `WORKOS_CLIENT_ID`.
-      # @param token_url [String, nil] The token exchange endpoint. Defaults
-      #   to `WORKOS_WIF_TOKEN_URL`; there is no built-in default.
+      #   Defaults to `WORKOS_CLIENT_ID`, the only setting read from the
+      #   environment.
+      # @param token_url [String] The token exchange endpoint. Required, and
+      #   set only here: there is no built-in default and no environment
+      #   variable is read for it.
       # @param environment_id [String, nil] Optional, and set only here: no
       #   environment variable is read for it. Nil or an empty string counts
       #   as not set. The server binds a workload identity client to exactly
@@ -58,8 +60,9 @@ module WorkOS
       #   that names a different environment gets `403 environment_mismatch`.
       #   When it is not set, the header is not sent.
       # @param resource [String, nil] Defaults to `https://api.workos.com`.
-      # @param scope [String, nil] Defaults to `WORKOS_WIF_SCOPE`; left out
-      #   of the exchange when empty.
+      # @param scope [String, nil] Optional, and set only here: no
+      #   environment variable is read for it. Left out of the exchange when
+      #   nil or empty.
       # @param clock [#call] Returns the current time in seconds. For tests.
       # @param sleeper [#call] Waits the given number of seconds between
       #   exchange attempts. For tests.
@@ -70,10 +73,10 @@ module WorkOS
         environment_id: nil, resource: nil, scope: nil,
         clock: nil, sleeper: nil, random: Random.new)
         @client_id = required("client_id", client_id, "WORKOS_CLIENT_ID")
-        @token_url = required("token_url", token_url, "WORKOS_WIF_TOKEN_URL")
+        @token_url = required("token_url", token_url)
         @environment_id = presence(environment_id)&.dup&.freeze
         @resource = (presence(resource) || DEFAULT_RESOURCE).dup.freeze
-        @scope = presence(scope.nil? ? ENV["WORKOS_WIF_SCOPE"] : scope)&.dup&.freeze
+        @scope = presence(scope)&.dup&.freeze
         @token_uri = parse_token_url(@token_url)
         unless identity_token_provider.respond_to?(:call)
           raise invalid_configuration("identity_token_provider is required and must respond to call")
@@ -133,9 +136,13 @@ module WorkOS
 
       # -- Configuration ----------------------------------------------------
 
-      def required(field, explicit, env_name)
-        value = presence(explicit.nil? ? ENV[env_name] : explicit)
-        raise invalid_configuration("#{field} is required (or set #{env_name})") if value.nil?
+      # `env_name` is the variable that fills in the field when the caller
+      # leaves it out. Only `client_id` has one.
+      def required(field, explicit, env_name = nil)
+        value = presence((explicit.nil? && env_name) ? ENV[env_name] : explicit)
+        if value.nil?
+          raise invalid_configuration(env_name ? "#{field} is required (or set #{env_name})" : "#{field} is required")
+        end
 
         value.dup.freeze
       end

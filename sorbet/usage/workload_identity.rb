@@ -9,7 +9,7 @@
 # that uses Sorbet would call them. If a signature changes in a way that
 # breaks such a caller, `srb tc` fails here.
 
-provider = WorkOS::WorkloadIdentity.token_file("/var/run/secrets/workos/token")
+provider = WorkOS::WorkloadIdentity.token_file("/run/workos/identity-token")
 T.assert_type!(provider.call, String)
 T.assert_type!(WorkOS::WorkloadIdentity.token_env("WORKOS_IDENTITY_TOKEN").call, String)
 
@@ -76,5 +76,8 @@ end
   WorkOS::WorkloadIdentity::AWS.aws_sts("https://api.workos.com", "us-east-1")
 ].each do |platform_provider|
   T.assert_type!(platform_provider.call, String)
-  WorkOS::WorkloadIdentity::Credentials.new(identity_token_provider: platform_provider)
+  WorkOS::WorkloadIdentity::Credentials.new(
+    identity_token_provider: platform_provider,
+    token_url: "https://auth.example.test/oauth2/token"
+  )
 end

@@ -13,7 +13,7 @@ module WorkOS
   #     client_id: "client_...",
   #     token_url: "https://.../oauth2/token",
   #     environment_id: "environment_...",
-  #     identity_token_provider: WorkOS::WorkloadIdentity.token_file("/var/run/secrets/workos/token")
+  #     identity_token_provider: WorkOS::WorkloadIdentity.token_file("/run/workos/identity-token")
   #   )
   #   client = WorkOS::Client.new(credentials: credentials)
   #

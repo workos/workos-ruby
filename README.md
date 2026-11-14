@@ -25,7 +25,7 @@ gem "workos"
 
 ## Configuration
 
-Store your WorkOS API key (and, for AuthKit and SSO flows, your client ID) in environment variables such as `WORKOS_API_KEY` and `WORKOS_CLIENT_ID`, then pass them to the SDK explicitly. The SDK does not read these environment variables automatically — configure it in an initializer. (The one exception is [workload identity](#workload-identity) credentials, whose settings default from the environment.)
+Store your WorkOS API key (and, for AuthKit and SSO flows, your client ID) in environment variables such as `WORKOS_API_KEY` and `WORKOS_CLIENT_ID`, then pass them to the SDK explicitly. The SDK does not read these environment variables automatically — configure it in an initializer. (The one exception is [workload identity](#workload-identity) credentials, whose client ID defaults from `WORKOS_CLIENT_ID`.)
 
 ```ruby
 # /config/initializers/workos.rb
@@ -105,7 +105,7 @@ require "workos-workload-identity-github-actions"
 
 credentials = WorkOS::WorkloadIdentity::Credentials.new(
   client_id: "client_...",                           # default: WORKOS_CLIENT_ID
-  token_url: "https://auth.example.com/oauth2/token", # default: WORKOS_WIF_TOKEN_URL
+  token_url: "https://auth.example.com/oauth2/token", # required
   environment_id: "environment_...",                 # optional
   identity_token_provider: WorkOS::WorkloadIdentity::GitHubActions.github_actions("https://api.workos.com")
 )
@@ -117,7 +117,7 @@ client.organizations.list_organizations
 WorkOS.configure { |config| config.credentials = credentials }
 ```
 
-`client_id` and `token_url` are required; each falls back to its environment variable when you leave it out. `scope` (default `WORKOS_WIF_SCOPE`), `resource` (default `https://api.workos.com`) and `environment_id` are optional. Passing both `api_key` and `credentials` raises `ArgumentError`, and credentials that fail never fall back to an API key.
+`client_id` and `token_url` are required. `client_id` falls back to `WORKOS_CLIENT_ID` when you leave it out. That is the only environment variable the credentials read: every other setting, `token_url` included, is passed in code. `scope`, `resource` (default `https://api.workos.com`) and `environment_id` are optional. Passing both `api_key` and `credentials` raises `ArgumentError`, and credentials that fail never fall back to an API key.
 
 `environment_id` is optional because WorkOS binds a workload identity application to exactly one environment and takes the environment from that binding, so the ID selects nothing. Setting it is a safety check: the SDK sends it as the `x-url-environment-id` header on every API request, and a value that names a different environment gets `403 environment_mismatch`. When it is not set, the header is not sent. It is set only in code: no environment variable fills it.
 
@@ -149,7 +149,7 @@ identity_token_provider: -> { MyPlatform.fetch_identity_token }
 
 # A file that another process writes, such as a sidecar or an earlier CI step that fetches a new token.
 # It is read again on every exchange.
-identity_token_provider: WorkOS::WorkloadIdentity.token_file("/var/run/secrets/tokens/workos")
+identity_token_provider: WorkOS::WorkloadIdentity.token_file("/run/workos/identity-token")
 
 # An environment variable, read again on every exchange
 identity_token_provider: WorkOS::WorkloadIdentity.token_env("MY_IDENTITY_TOKEN")

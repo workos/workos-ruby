@@ -21,7 +21,8 @@ module WorkOS
   # @example Workload identity in place of an API key
   #   WorkOS.configure do |config|
   #     config.credentials = WorkOS::WorkloadIdentity::Credentials.new(
-  #       identity_token_provider: WorkOS::WorkloadIdentity.token_file("/var/run/secrets/workos/token")
+  #       token_url: "https://.../oauth2/token",
+  #       identity_token_provider: WorkOS::WorkloadIdentity.token_file("/run/workos/identity-token")
   #     )
   #   end
   class Configuration
