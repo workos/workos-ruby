@@ -49,7 +49,10 @@ module WorkOS
       #   and set only here: no environment variable is read for it.
       # @param token_url [String] The token exchange endpoint. Required, and
       #   set only here: there is no built-in default and no environment
-      #   variable is read for it.
+      #   variable is read for it. Must be an absolute `https` URL: the
+      #   request carries the workload's identity token and the response
+      #   carries the access token, so an `http` URL is refused, for
+      #   `localhost` and loopback addresses too.
       # @param environment_id [String, nil] Optional, and set only here: no
       #   environment variable is read for it. Nil or an empty string counts
       #   as not set. The server binds a workload identity client to exactly
@@ -67,7 +70,8 @@ module WorkOS
       #   exchange attempts. For tests.
       # @param random [Random] Source of backoff jitter. For tests.
       # @raise [WorkOS::WorkloadIdentityError] with code
-      #   `invalid_configuration` when a required setting is missing.
+      #   `invalid_configuration` when a required setting is missing, or when
+      #   `token_url` is not an absolute `https` URL.
       def initialize(identity_token_provider: nil, client_id: nil, token_url: nil,
         environment_id: nil, resource: nil, scope: nil,
         clock: nil, sleeper: nil, random: Random.new)
@@ -150,14 +154,17 @@ module WorkOS
         value.empty? ? nil : value
       end
 
+      # https only, with no exception for localhost or loopback addresses: the
+      # POST carries the workload's identity token and the response carries
+      # the access token. The scheme is compared without regard to case.
       def parse_token_url(token_url)
         uri = begin
           URI.parse(token_url)
         rescue URI::InvalidURIError
           nil
         end
-        unless uri.is_a?(URI::HTTP) && uri.hostname && !uri.hostname.empty?
-          raise invalid_configuration("token_url must be an http or https URL")
+        unless uri && uri.scheme.to_s.downcase == "https" && !uri.hostname.to_s.empty?
+          raise invalid_configuration("token_url must be an absolute https URL")
         end
 
         uri
@@ -353,7 +360,8 @@ module WorkOS
 
         timeout = time_left.clamp(0.001, BaseClient::DEFAULT_TIMEOUT)
         http = Net::HTTP.new(@token_uri.hostname, @token_uri.port)
-        http.use_ssl = (@token_uri.scheme == "https")
+        # Always TLS: the token URL is https, checked at construction.
+        http.use_ssl = true
         http.open_timeout = timeout
         http.read_timeout = timeout
         http.write_timeout = timeout

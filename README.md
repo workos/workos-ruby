@@ -104,9 +104,9 @@ require "workos"
 require "workos-workload-identity-github-actions"
 
 credentials = WorkOS::WorkloadIdentity::Credentials.new(
-  client_id: "client_...",                           # required
-  token_url: "https://auth.example.com/oauth2/token", # required
-  environment_id: "environment_...",                 # optional
+  client_id: "client_...",                            # required
+  token_url: "https://auth.example.com/oauth2/token", # required, must be https
+  environment_id: "environment_...",                  # optional
   identity_token_provider: WorkOS::WorkloadIdentity::GitHubActions.github_actions("https://api.workos.com")
 )
 
@@ -118,6 +118,8 @@ WorkOS.configure { |config| config.credentials = credentials }
 ```
 
 `client_id` and `token_url` are required. The credentials read no environment variable: every setting is passed in code. `scope`, `resource` (default `https://api.workos.com`) and `environment_id` are optional. Passing both `api_key` and `credentials` raises `ArgumentError`, and credentials that fail never fall back to an API key.
+
+`token_url` must be an absolute `https` URL. The request to it carries the workload's identity token and the response carries the access token, so any other URL, including an `http` URL for `localhost` or a loopback address, raises `WorkOS::WorkloadIdentityError` with the code `invalid_configuration` when the credentials are built.
 
 `environment_id` is optional because WorkOS binds a workload identity application to exactly one environment and takes the environment from that binding, so the ID selects nothing. Setting it is a safety check: the SDK sends it as the `x-url-environment-id` header on every API request, and a value that names a different environment gets `403 environment_mismatch`. When it is not set, the header is not sent. It is set only in code: no environment variable fills it.
 

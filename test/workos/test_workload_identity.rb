@@ -902,7 +902,65 @@ class WorkloadIdentityTest < Minitest::Test
     end
 
     error = assert_raises(WorkOS::WorkloadIdentityError) { credentials(token_url: "not a url") }
-    assert_equal "token_url must be an http or https URL", error.description
+    assert_equal "token_url must be an absolute https URL", error.description
+  end
+
+  # -- The token URL is https only -----------------------------------------
+  #
+  # The POST carries the workload's identity token and the response carries
+  # the access token, so nothing but https is accepted, on any host.
+
+  def assert_token_url_rejected(token_url)
+    error = assert_raises(WorkOS::WorkloadIdentityError, "#{token_url.inspect} was accepted") do
+      credentials(token_url: token_url)
+    end
+
+    assert_equal "invalid_configuration", error.code, token_url
+    assert_equal "token_url must be an absolute https URL", error.description, token_url
+    assert_equal "invalid_configuration: Workload identity credentials are missing a required setting. token_url must be an absolute https URL", error.message, token_url
+  end
+
+  def test_an_http_token_url_is_a_configuration_error
+    assert_token_url_rejected("http://example.com/oauth2/token")
+    assert_token_url_rejected("HTTP://example.com/oauth2/token")
+  end
+
+  def test_an_http_token_url_is_refused_for_localhost_too
+    assert_token_url_rejected("http://localhost:8080/oauth2/token")
+  end
+
+  def test_an_http_token_url_is_refused_for_loopback_addresses_too
+    assert_token_url_rejected("http://127.0.0.1/oauth2/token")
+    assert_token_url_rejected("http://127.0.0.1:8080/oauth2/token")
+    assert_token_url_rejected("http://[::1]/oauth2/token")
+  end
+
+  def test_a_token_url_with_no_host_is_a_configuration_error
+    assert_token_url_rejected("https:///oauth2/token")
+    assert_token_url_rejected("https://:443/oauth2/token")
+    assert_token_url_rejected("https:/oauth2/token")
+    assert_token_url_rejected("https:example.com/oauth2/token")
+  end
+
+  def test_a_token_url_with_no_scheme_or_another_scheme_is_a_configuration_error
+    assert_token_url_rejected("example.com/oauth2/token")
+    assert_token_url_rejected("//example.com/oauth2/token")
+    assert_token_url_rejected("/oauth2/token")
+    assert_token_url_rejected("ftp://example.com/oauth2/token")
+    assert_token_url_rejected("wss://example.com/oauth2/token")
+  end
+
+  def test_an_https_token_url_in_upper_case_is_accepted
+    stub_token_endpoint
+    stub_api
+    creds = credentials(token_url: "HTTPS://AUTH.WORKOS.TEST/oauth2/token")
+
+    get_widgets(client_for(creds))
+
+    assert_equal "HTTPS://AUTH.WORKOS.TEST/oauth2/token", creds.token_url
+    assert_equal 1, @token_requests.size
+    assert_equal "https", @token_requests.first.uri.scheme
+    assert_equal ["Bearer access-1"], bearers
   end
 
   def test_an_empty_environment_id_counts_as_not_set
