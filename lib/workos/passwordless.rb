@@ -12,7 +12,7 @@ module WorkOS
   #   session = client.passwordless.create_session(email: "user@example.com")
   #   client.passwordless.send_session(session.id)
   class Passwordless
-    PasswordlessSession = Struct.new(:id, :email, :expires_at, :link, :object, keyword_init: true) do
+    PasswordlessSession = Struct.new(:id, :email, :expires_at, :link, :object) do
       def self.from_hash(hash)
         new(
           id: hash["id"],
