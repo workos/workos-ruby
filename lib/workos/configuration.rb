@@ -12,7 +12,7 @@ module WorkOS
   #     config.log_level = :info
   #   end
   class Configuration
-    attr_accessor :api_key, :base_url, :client_id, :timeout, :max_retries, :logger, :log_level, :jwt_issuer
+    attr_accessor :api_key, :base_url, :client_id, :timeout, :max_retries, :logger, :log_level, :jwt_issuer, :proxy
 
     def initialize
       @base_url = WorkOS::BaseClient::DEFAULT_BASE_URL
@@ -48,7 +48,8 @@ module WorkOS
         max_retries: configuration.max_retries,
         logger: configuration.logger,
         log_level: configuration.log_level,
-        jwt_issuer: configuration.jwt_issuer
+        jwt_issuer: configuration.jwt_issuer,
+        proxy: configuration.proxy
       )
     end
 
