@@ -395,6 +395,210 @@ class BaseClientTest < Minitest::Test
     assert_same warm, parent_cache["https:api.workos.com:443:30"]
   end
 
+  def test_proxy_defaults_to_nil
+    assert_nil @client.proxy
+  end
+
+  # Without an explicit proxy, Net::HTTP must keep reading http_proxy from
+  # the environment exactly as it did before the option existed.
+  def test_connection_without_proxy_still_reads_proxy_from_env
+    with_stubbed_start do
+      with_env("http_proxy" => "http://env-proxy.example.com:3128", "no_proxy" => nil) do
+        conn = @client.send(:connection_for, "https://api.workos.com", 30)
+
+        assert conn.proxy_from_env?
+        assert conn.proxy?
+        assert_equal "env-proxy.example.com", conn.proxy_address
+        assert_equal 3128, conn.proxy_port
+      end
+    end
+  end
+
+  def test_connection_without_proxy_or_env_is_direct
+    with_stubbed_start do
+      with_env("http_proxy" => nil, "HTTP_PROXY" => nil) do
+        conn = @client.send(:connection_for, "https://api.workos.com", 30)
+
+        refute conn.proxy?
+      end
+    end
+  end
+
+  def test_connection_without_proxy_keeps_the_existing_cache_key
+    uri = URI("https://api.workos.com")
+
+    assert_equal "https:api.workos.com:443:30", @client.send(:connection_key, uri, 30)
+  end
+
+  def test_explicit_proxy_is_used_for_connections
+    client = WorkOS::BaseClient.new(api_key: "sk_test_123", proxy: "http://proxy.example.com:8080")
+
+    with_stubbed_start do
+      conn = client.send(:connection_for, "https://api.workos.com", 30)
+
+      refute conn.proxy_from_env?
+      assert conn.proxy?
+      assert_equal "proxy.example.com", conn.proxy_address
+      assert_equal 8080, conn.proxy_port
+      assert_nil conn.proxy_user
+      assert_nil conn.proxy_pass
+      assert conn.use_ssl?
+      assert_equal "api.workos.com", conn.address
+    end
+  end
+
+  def test_explicit_proxy_takes_precedence_over_env
+    client = WorkOS::BaseClient.new(api_key: "sk_test_123", proxy: "http://proxy.example.com:8080")
+
+    with_stubbed_start do
+      with_env("http_proxy" => "http://env-proxy.example.com:3128", "no_proxy" => "api.workos.com") do
+        conn = client.send(:connection_for, "https://api.workos.com", 30)
+
+        assert conn.proxy?
+        assert_equal "proxy.example.com", conn.proxy_address
+        assert_equal 8080, conn.proxy_port
+      end
+    end
+  end
+
+  def test_explicit_proxy_credentials_are_percent_decoded
+    client = WorkOS::BaseClient.new(api_key: "sk_test_123", proxy: "http://us%40er:p%3Ass+word@proxy.example.com:8080")
+
+    with_stubbed_start do
+      conn = client.send(:connection_for, "https://api.workos.com", 30)
+
+      assert_equal "us@er", conn.proxy_user
+      assert_equal "p:ss+word", conn.proxy_pass
+    end
+  end
+
+  def test_explicit_proxy_accepts_a_uri_and_defaults_the_port
+    client = WorkOS::BaseClient.new(api_key: "sk_test_123", proxy: URI("http://proxy.example.com"))
+
+    with_stubbed_start do
+      conn = client.send(:connection_for, "https://api.workos.com", 30)
+
+      assert_equal "proxy.example.com", conn.proxy_address
+      assert_equal 80, conn.proxy_port
+    end
+  end
+
+  def test_proxy_reader_returns_the_configured_value
+    client = WorkOS::BaseClient.new(api_key: "sk_test_123", proxy: "http://proxy.example.com:8080")
+
+    assert_equal "http://proxy.example.com:8080", client.proxy
+  end
+
+  def test_invalid_proxy_raises_argument_error
+    ["", "proxy.example.com:8080", "https://proxy.example.com", "socks5://proxy.example.com:1080", "http://", "http://bad host", 8080].each do |proxy|
+      assert_raises(ArgumentError, "expected #{proxy.inspect} to be rejected") do
+        WorkOS::BaseClient.new(api_key: "sk_test_123", proxy: proxy)
+      end
+    end
+  end
+
+  def test_invalid_proxy_error_does_not_leak_credentials
+    error = assert_raises(ArgumentError) do
+      WorkOS::BaseClient.new(api_key: "sk_test_123", proxy: "https://user:s3cret@proxy.example.com")
+    end
+
+    refute_includes error.message, "s3cret"
+    refute_includes error.message, "user"
+  end
+
+  # Clients that differ only by proxy must not reuse each other's pooled
+  # connection, otherwise traffic would silently take the wrong route.
+  def test_clients_with_different_proxies_do_not_share_connections
+    proxied = WorkOS::BaseClient.new(api_key: "sk_test_123", proxy: "http://proxy-a.example.com:8080")
+    other = WorkOS::BaseClient.new(api_key: "sk_test_123", proxy: "http://proxy-b.example.com:8080")
+    same = WorkOS::BaseClient.new(api_key: "sk_test_123", proxy: "http://proxy-a.example.com:8080")
+
+    with_stubbed_start do
+      with_env("http_proxy" => nil, "HTTP_PROXY" => nil) do
+        direct_conn = @client.send(:connection_for, "https://api.workos.com", 30)
+        proxied_conn = proxied.send(:connection_for, "https://api.workos.com", 30)
+        other_conn = other.send(:connection_for, "https://api.workos.com", 30)
+
+        refute direct_conn.proxy?
+        assert_equal "proxy-a.example.com", proxied_conn.proxy_address
+        assert_equal "proxy-b.example.com", other_conn.proxy_address
+        assert_equal 3, [direct_conn, proxied_conn, other_conn].map(&:object_id).uniq.length
+        assert_equal 3, Thread.current[:workos_connections].size
+
+        # Asking again reuses each pooled connection, and a client configured
+        # with the same proxy shares the entry.
+        assert_same proxied_conn, proxied.send(:connection_for, "https://api.workos.com", 30)
+        assert_same proxied_conn, same.send(:connection_for, "https://api.workos.com", 30)
+        assert_same other_conn, other.send(:connection_for, "https://api.workos.com", 30)
+        assert_same direct_conn, @client.send(:connection_for, "https://api.workos.com", 30)
+        assert_equal 3, Thread.current[:workos_connections].size
+      end
+    end
+  end
+
+  def test_proxy_credentials_are_part_of_the_cache_key_but_not_stored_in_it
+    uri = URI("https://api.workos.com")
+    first = WorkOS::BaseClient.new(proxy: "http://user:s3cret@proxy.example.com:8080")
+    second = WorkOS::BaseClient.new(proxy: "http://user:other@proxy.example.com:8080")
+
+    first_key = first.send(:connection_key, uri, 30)
+
+    refute_equal first_key, second.send(:connection_key, uri, 30)
+    refute_includes first_key, "s3cret"
+    assert first_key.start_with?("https:api.workos.com:443:30:")
+  end
+
+  def test_evict_connection_removes_proxied_connections
+    client = WorkOS::BaseClient.new(api_key: "sk_test_123", proxy: "http://proxy.example.com:8080")
+    key = client.send(:connection_key, URI("https://api.workos.com"), 30)
+    conn = FakeConnection.new
+    Thread.current[:workos_connections] = {key => conn}
+
+    client.send(:evict_connection, "https://api.workos.com")
+
+    assert_empty Thread.current[:workos_connections]
+    assert conn.finished
+  end
+
+  def test_requests_through_a_proxied_client_never_log_proxy_credentials
+    io = StringIO.new
+    client = WorkOS::BaseClient.new(
+      api_key: "sk_test_123",
+      proxy: "http://user:s3cret@proxy.example.com:8080",
+      logger: Logger.new(io),
+      log_level: :debug,
+      max_retries: 0
+    )
+    stub_request(:get, "https://api.workos.com/organizations").to_return(status: 500, body: "{}")
+
+    assert_raises(WorkOS::APIError) { client.request(method: :get, path: "/organizations") }
+
+    refute_empty io.string
+    refute_includes io.string, "s3cret"
+    refute_includes io.string, "proxy.example.com"
+  end
+
+  # Stubs Net::HTTP#start to avoid real TCP+TLS connections while still
+  # marking the connection as started, so pooled reuse is exercised.
+  def with_stubbed_start
+    original_start = Net::HTTP.instance_method(:start)
+    Net::HTTP.define_method(:start) do
+      @started = true
+      self
+    end
+    yield
+  ensure
+    Net::HTTP.define_method(:start, original_start)
+  end
+
+  def with_env(overrides)
+    saved = overrides.to_h { |name, _| [name, ENV[name]] }
+    overrides.each { |name, value| ENV[name] = value }
+    yield
+  ensure
+    saved.each { |name, value| ENV[name] = value }
+  end
+
   # Exercises the connection_for path (not just the storage helper):
   # each thread must open and cache its *own* Net::HTTP connection rather
   # than reusing one established on another thread.

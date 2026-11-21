@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # @oagen-ignore-file — hand-maintained runtime
+require "digest"
 require "json"
 require "logger"
 require "net/http"
@@ -23,6 +24,12 @@ module WorkOS
   #     log_level: :info
   #   )
   #
+  # @example Route this client's requests through an HTTP proxy
+  #   client = WorkOS::Client.new(
+  #     api_key: "sk_...",
+  #     proxy: "http://user:pass@proxy.example.com:8080"
+  #   )
+  #
   # @example Shut down connections before forking
   #   client.shutdown
   class BaseClient
@@ -41,14 +48,21 @@ module WorkOS
       "v#{WorkOS::VERSION}"
     ].join("; ").freeze
 
-    attr_reader :api_key, :base_url, :client_id, :timeout, :max_retries, :logger, :log_level, :jwt_issuer
+    attr_reader :api_key, :base_url, :client_id, :timeout, :max_retries, :logger, :log_level, :jwt_issuer, :proxy
 
+    # @param proxy [String, URI::HTTP, nil] URL of an HTTP proxy to send this
+    #   client's requests through, e.g. `"http://user:pass@proxy.example.com:8080"`.
+    #   Only `http://` proxy URLs are supported; HTTPS API traffic is tunneled
+    #   through the proxy with CONNECT. An explicit proxy is always used, so
+    #   the `no_proxy` environment variable does not apply to it. When nil
+    #   (the default), Net::HTTP keeps reading the proxy from the
+    #   `http_proxy` / `no_proxy` environment variables.
     # @param jwt_issuer [String, Array<String>, nil] Expected `iss` claim of
     #   session access tokens (one issuer or a list of accepted issuers).
     #   When nil, the issuer is not validated.
     def initialize(api_key: nil, base_url: DEFAULT_BASE_URL, client_id: nil,
       timeout: DEFAULT_TIMEOUT, max_retries: DEFAULT_MAX_RETRIES,
-      logger: nil, log_level: nil, jwt_issuer: nil, random: Random.new)
+      logger: nil, log_level: nil, jwt_issuer: nil, random: Random.new, proxy: nil)
       @api_key = api_key
       @base_url = base_url
       @client_id = client_id
@@ -58,6 +72,9 @@ module WorkOS
       @log_level = log_level
       @jwt_issuer = jwt_issuer
       @random = random
+      @proxy = proxy
+      @proxy_uri = parse_proxy(proxy)
+      @proxy_cache_key = @proxy_uri && Digest::SHA256.hexdigest(@proxy_uri.to_s)
     end
 
     # -- Request builders -------------------------------------------------
@@ -285,7 +302,7 @@ module WorkOS
         return conn
       end
 
-      http = Net::HTTP.new(uri.host, uri.port)
+      http = build_http(uri)
       http.use_ssl = (uri.scheme == "https")
       http.read_timeout = timeout
       http.open_timeout = timeout
@@ -295,6 +312,42 @@ module WorkOS
       cache[key] = http
       evict_lru_connections(cache) if cache.size > MAX_CACHED_CONNECTIONS
       http
+    end
+
+    # Only pass proxy arguments when a proxy was configured. Passing an
+    # explicit nil proxy address would turn off Net::HTTP's default lookup
+    # of the `http_proxy` environment variable.
+    def build_http(uri)
+      return Net::HTTP.new(uri.host, uri.port) unless @proxy_uri
+
+      Net::HTTP.new(
+        uri.host,
+        uri.port,
+        @proxy_uri.hostname,
+        @proxy_uri.port,
+        decode_proxy_credential(@proxy_uri.user),
+        decode_proxy_credential(@proxy_uri.password)
+      )
+    end
+
+    # Error messages never echo the proxy URL because it can hold credentials.
+    def parse_proxy(proxy)
+      return nil if proxy.nil?
+
+      uri = begin
+        URI(proxy.to_s)
+      rescue URI::InvalidURIError
+        nil
+      end
+      unless uri.is_a?(URI::HTTP) && uri.scheme == "http" && uri.hostname && !uri.hostname.empty?
+        raise ArgumentError, "proxy must be an http:// URL such as \"http://proxy.example.com:8080\""
+      end
+
+      uri
+    end
+
+    def decode_proxy_credential(value)
+      value && URI.decode_uri_component(value)
     end
 
     def evict_connection(base_url)
@@ -319,7 +372,10 @@ module WorkOS
     end
 
     def connection_key(uri, timeout)
-      "#{uri.scheme}:#{uri.host}:#{uri.port}:#{timeout}"
+      key = "#{uri.scheme}:#{uri.host}:#{uri.port}:#{timeout}"
+      # Clients with different proxies must never share a pooled connection.
+      # The proxy is hashed so its credentials are not stored in the key.
+      @proxy_cache_key ? "#{key}:proxy=#{@proxy_cache_key}" : key
     end
 
     # Per-fiber connection cache (non-inherited).
