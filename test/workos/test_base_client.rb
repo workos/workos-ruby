@@ -525,9 +525,13 @@ class BaseClientTest < Minitest::Test
         assert_equal 3, [direct_conn, proxied_conn, other_conn].map(&:object_id).uniq.length
         assert_equal 3, Thread.current[:workos_connections].size
 
-        # Clients configured with the same proxy still share a pool entry.
-        uri = URI("https://api.workos.com")
-        assert_equal proxied.send(:connection_key, uri, 30), same.send(:connection_key, uri, 30)
+        # Asking again reuses each pooled connection, and a client configured
+        # with the same proxy shares the entry.
+        assert_same proxied_conn, proxied.send(:connection_for, "https://api.workos.com", 30)
+        assert_same proxied_conn, same.send(:connection_for, "https://api.workos.com", 30)
+        assert_same other_conn, other.send(:connection_for, "https://api.workos.com", 30)
+        assert_same direct_conn, @client.send(:connection_for, "https://api.workos.com", 30)
+        assert_equal 3, Thread.current[:workos_connections].size
       end
     end
   end
@@ -574,9 +578,14 @@ class BaseClientTest < Minitest::Test
     refute_includes io.string, "proxy.example.com"
   end
 
+  # Stubs Net::HTTP#start to avoid real TCP+TLS connections while still
+  # marking the connection as started, so pooled reuse is exercised.
   def with_stubbed_start
     original_start = Net::HTTP.instance_method(:start)
-    Net::HTTP.define_method(:start) { self }
+    Net::HTTP.define_method(:start) do
+      @started = true
+      self
+    end
     yield
   ensure
     Net::HTTP.define_method(:start, original_start)
