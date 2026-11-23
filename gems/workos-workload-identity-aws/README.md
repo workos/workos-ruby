@@ -34,4 +34,4 @@ Requirements on the AWS side:
 - Outbound identity federation is enabled for the account.
 - The workload's IAM principal is allowed to call `sts:GetWebIdentityToken`.
 
-Each call makes one `GetWebIdentityToken` request with `RS256`, through the AWS SDK's default credential chain, on the regional STS endpoint. The provider keeps no cache and does not retry (the AWS SDK's own retries are turned off); the SDK does both.
+Each call makes one `GetWebIdentityToken` request with `RS256`, through the AWS SDK's default credential chain, on the regional STS endpoint. The provider keeps no cache and does not retry (the AWS SDK's own retries are turned off); the SDK does both. The request has 10 seconds to connect and 10 seconds to wait for an answer.

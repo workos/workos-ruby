@@ -27,6 +27,47 @@ class AWSTest < Minitest::Test
     end
   end
 
+  # A stand-in for the STS endpoint on 127.0.0.1, for the tests that are
+  # about what goes over the wire. It answers every request with the given
+  # error and counts the requests that arrive.
+  class FailingSTS
+    attr_reader :requests
+
+    def initialize(status, code)
+      @status = status
+      @body = "<ErrorResponse><Error><Type>Sender</Type><Code>#{code}</Code><Message>from the stand-in</Message></Error></ErrorResponse>"
+      @requests = 0
+      @server = TCPServer.new("127.0.0.1", 0)
+      @thread = Thread.new { loop { handle(@server.accept) } }
+      @thread.report_on_exception = false
+    end
+
+    def url
+      "http://127.0.0.1:#{@server.addr[1]}"
+    end
+
+    def close
+      @thread.kill
+      @thread.join
+      @server.close
+    end
+
+    private
+
+    def handle(socket)
+      @requests += 1
+      length = 0
+      while (line = socket.gets) && line != "\r\n"
+        name, value = line.chomp.split(": ", 2)
+        length = value.to_i if name.casecmp?("content-length")
+      end
+      socket.read(length)
+      socket.write("HTTP/1.1 #{@status} Stand-in\r\nContent-Type: text/xml\r\nContent-Length: #{@body.bytesize}\r\nConnection: close\r\n\r\n#{@body}")
+    ensure
+      socket.close
+    end
+  end
+
   def provider_with(sts, region = "us-east-1")
     AWS.const_get(:Provider).new(AUDIENCE, region, sts_client: sts)
   end
@@ -133,6 +174,34 @@ class AWSTest < Minitest::Test
 
     assert_equal 1, config.max_attempts
     assert_equal 0, config.retry_limit
+  end
+
+  # The same on the wire, with the client the factory builds: STS throttles or
+  # fails, and one provider call is still one request.
+  def test_one_call_is_one_sts_request_when_sts_throttles_or_fails
+    {"Throttling" => 400, "InternalFailure" => 500, "ServiceUnavailable" => 503}.each do |code, status|
+      sts = FailingSTS.new(status, code)
+      error = with_env("AWS_ENDPOINT_URL_STS" => sts.url) do
+        assert_raises(AWS::Error) { AWS.aws_sts(AUDIENCE, "us-east-1").call }
+      end
+
+      assert_includes error.message, "sts:GetWebIdentityToken failed with #{code}"
+      assert_equal 1, sts.requests, "#{code}: the AWS SDK retried"
+    ensure
+      sts&.close
+    end
+  end
+
+  def test_the_sts_request_has_the_ten_second_limits_the_other_providers_use
+    defaults = Aws::STS::Client.new(region: "us-east-1").config
+    assert_operator defaults.http_open_timeout, :>, 10
+    assert_operator defaults.http_read_timeout, :>, 10
+
+    config = sts_client_of(AWS.aws_sts(AUDIENCE, "us-east-1")).config
+
+    assert_equal 10, AWS::HTTP_TIMEOUT
+    assert_equal 10, config.http_open_timeout
+    assert_equal 10, config.http_read_timeout
   end
 
   def test_no_duration_is_sent_so_sts_applies_its_default

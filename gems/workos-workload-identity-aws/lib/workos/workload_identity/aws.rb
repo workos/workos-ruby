@@ -23,6 +23,8 @@ module WorkOS
       class Error < StandardError; end
 
       SIGNING_ALGORITHM = "RS256"
+      # Seconds allowed for connecting to STS, and for STS to answer.
+      HTTP_TIMEOUT = 10
 
       # Builds the STS client once, from the AWS SDK's default credential
       # chain. Fails here, not on first use, when there is no region.
@@ -77,9 +79,17 @@ module WorkOS
         # the client is pinned to the regional endpoint of its region, even
         # where the environment asks for the legacy global one. The AWS SDK's
         # own retries are off (in every retry mode): a provider makes one
-        # request per call, and the WorkOS SDK retries the provider.
+        # request per call, and the WorkOS SDK retries the provider. That one
+        # request gets the time limit the other providers use, in place of
+        # the AWS SDK's 15 seconds to connect and 60 to read.
         def build_client(region)
-          options = {sts_regional_endpoints: "regional", max_attempts: 1, retry_limit: 0}
+          options = {
+            sts_regional_endpoints: "regional",
+            max_attempts: 1,
+            retry_limit: 0,
+            http_open_timeout: HTTP_TIMEOUT,
+            http_read_timeout: HTTP_TIMEOUT
+          }
           options[:region] = region.to_s unless region.nil? || region.to_s.strip.empty?
           client = ::Aws::STS::Client.new(**options)
           if client.config.region.end_with?("-global")

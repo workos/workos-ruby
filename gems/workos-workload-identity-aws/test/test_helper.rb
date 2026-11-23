@@ -5,6 +5,7 @@ $LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
 
 require "minitest/autorun"
 require "fileutils"
+require "socket"
 require "tmpdir"
 
 # No test may reach AWS, and none may depend on the machine it runs on. All of
@@ -20,5 +21,9 @@ ENV["AWS_EC2_METADATA_DISABLED"] = "true"
 ENV["AWS_ACCESS_KEY_ID"] = "test-access-key-id"
 ENV["AWS_SECRET_ACCESS_KEY"] = "test-secret-access-key"
 %w[AWS_PROFILE AWS_SESSION_TOKEN AWS_REGION AWS_DEFAULT_REGION AMAZON_REGION AWS_STS_REGIONAL_ENDPOINTS].each { |name| ENV.delete(name) }
+# Some tests point the STS client at a stand-in on 127.0.0.1. Only they choose
+# the endpoint, and a developer's proxy must not see them.
+%w[AWS_ENDPOINT_URL AWS_ENDPOINT_URL_STS AWS_IGNORE_CONFIGURED_ENDPOINT_URLS].each { |name| ENV.delete(name) }
+%w[http_proxy HTTP_PROXY https_proxy HTTPS_PROXY].each { |name| ENV.delete(name) }
 
 require "workos-workload-identity-aws"

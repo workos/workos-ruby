@@ -11,6 +11,7 @@ module WorkOS
 
       VERSION = T.let(T.unsafe(nil), String)
       SIGNING_ALGORITHM = T.let(T.unsafe(nil), String)
+      HTTP_TIMEOUT = T.let(T.unsafe(nil), Integer)
 
       sig { params(audience: String, region: T.nilable(String)).returns(Provider) }
       def self.aws_sts(audience, region = nil); end
