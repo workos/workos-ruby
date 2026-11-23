@@ -6,6 +6,7 @@ require "json"
 require "logger"
 require "net/http"
 require "securerandom"
+require "time"
 require "uri"
 require "workos/errors"
 
@@ -477,14 +478,26 @@ module WorkOS
     end
 
     def retry_delay(response, attempt)
-      if response
-        retry_after = response["Retry-After"]
-        return retry_after.to_f if retry_after&.to_f&.positive?
-      end
+      retry_after = retry_after_seconds(response)
+      return retry_after if retry_after
 
       base = RETRY_BACKOFF_BASE * (2**(attempt - 1))
       jitter = @random.rand * 0.25 * base
       base + jitter
+    end
+
+    # Retry-After is either a number of seconds or an HTTP-date (RFC 9110,
+    # section 10.2.3). Returns nil when the header is missing, is neither
+    # form, or does not point to the future, so the caller uses its backoff.
+    def retry_after_seconds(response)
+      value = response && response["Retry-After"]
+      return nil unless value
+
+      seconds = value.to_f
+      seconds = Time.httpdate(value) - Time.now unless seconds.positive?
+      seconds if seconds.positive?
+    rescue ArgumentError
+      nil
     end
 
     def handle_error_response(response)

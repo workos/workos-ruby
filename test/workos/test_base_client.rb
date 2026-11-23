@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "test_helper"
+require "time"
 
 class BaseClientTest < Minitest::Test
   class RecordingClient < WorkOS::BaseClient
@@ -174,6 +175,44 @@ class BaseClientTest < Minitest::Test
     assert_requested(:post, "https://api.workos.com/widgets", headers: {"Idempotency-Key" => /.+/}, times: 2)
     keys = WebMock::RequestRegistry.instance.requested_signatures.hash.keys.map { |signature| signature.headers["Idempotency-Key"] }
     assert_equal 1, keys.uniq.size
+  end
+
+  # Retry-After is either a number of seconds or an HTTP-date. A date used to
+  # be ignored, so the client retried on its normal backoff and could run out
+  # of attempts before the server was ready.
+  def test_retry_waits_until_an_http_date_retry_after
+    stub_request(:get, "https://api.workos.com/widgets")
+      .to_return(
+        {status: 503, headers: {"Retry-After" => (Time.now + 120).httpdate}, body: "{}"},
+        {status: 200, body: "{}"}
+      )
+    sleeps = []
+    @client.singleton_class.define_method(:sleep) { |duration| sleeps << duration }
+
+    @client.request(method: :get, path: "/widgets")
+
+    assert_equal 1, sleeps.size
+    assert_in_delta 120, sleeps.first, 2
+  end
+
+  def test_retry_delay_reads_retry_after_in_seconds
+    assert_equal 7.0, @client.send(:retry_delay, response_with_retry_after("7"), 1)
+  end
+
+  def test_retry_delay_falls_back_to_backoff_for_an_unusable_retry_after
+    client = WorkOS::BaseClient.new(api_key: "sk_test_123", random: Struct.new(:rand).new(0.0))
+
+    [(Time.now - 60).httpdate, "soon", "0", "-5", nil].each do |value|
+      delay = client.send(:retry_delay, response_with_retry_after(value), 1)
+
+      assert_equal WorkOS::BaseClient::RETRY_BACKOFF_BASE, delay, "expected Retry-After #{value.inspect} to be ignored"
+    end
+  end
+
+  def response_with_retry_after(value)
+    response = Net::HTTPServiceUnavailable.new("1.1", "503", "Service Unavailable")
+    response["Retry-After"] = value if value
+    response
   end
 
   def test_409_idempotency_error_raises_specific_error
