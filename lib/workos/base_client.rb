@@ -75,7 +75,7 @@ module WorkOS
       @random = random
       @proxy = proxy
       @proxy_uri = BaseClient.parse_proxy(proxy)
-      @proxy_cache_key = @proxy_uri && Digest::SHA256.hexdigest(@proxy_uri.to_s)
+      @proxy_key_suffix = @proxy_uri && "#{PROXY_KEY_MARKER}#{Digest::SHA256.hexdigest(@proxy_uri.to_s)}"
     end
 
     # Parses a proxy setting into a URI, or returns nil when none is set.
@@ -364,15 +364,25 @@ module WorkOS
       value && URI.decode_uri_component(value)
     end
 
+    # Evicts this client's pooled connections to the host, at every timeout.
+    # Clients on another route (a different proxy, or none) hold their own
+    # sockets to the same host, so their connections stay pooled.
     def evict_connection(base_url)
       uri = URI(base_url)
-      keys = thread_connections.keys.select { |key| key.start_with?("#{uri.scheme}:#{uri.host}:#{uri.port}:") }
+      prefix = "#{uri.scheme}:#{uri.host}:#{uri.port}:"
+      keys = thread_connections.keys.select { |key| key.start_with?(prefix) && own_route?(key) }
       keys.each do |key|
         connection = thread_connections.delete(key)
         connection&.finish if connection&.started?
       end
     rescue IOError
       # Already closed, ignore
+    end
+
+    # Whether a cache key belongs to the route this client uses: its own
+    # proxy, or no explicit proxy.
+    def own_route?(key)
+      @proxy_key_suffix ? key.end_with?(@proxy_key_suffix) : !key.include?(PROXY_KEY_MARKER)
     end
 
     def evict_lru_connections(cache)
@@ -385,11 +395,15 @@ module WorkOS
       # Already closed, ignore
     end
 
+    # Marks the part of a cache key that names an explicit proxy.
+    PROXY_KEY_MARKER = ":proxy="
+    private_constant :PROXY_KEY_MARKER
+
+    # Clients with different proxies must never share a pooled connection, so
+    # an explicit proxy is part of the key. It is hashed so that its
+    # credentials are not stored there. Without one the key is unchanged.
     def connection_key(uri, timeout)
-      key = "#{uri.scheme}:#{uri.host}:#{uri.port}:#{timeout}"
-      # Clients with different proxies must never share a pooled connection.
-      # The proxy is hashed so its credentials are not stored in the key.
-      @proxy_cache_key ? "#{key}:proxy=#{@proxy_cache_key}" : key
+      "#{uri.scheme}:#{uri.host}:#{uri.port}:#{timeout}#{@proxy_key_suffix}"
     end
 
     # Per-fiber connection cache (non-inherited).

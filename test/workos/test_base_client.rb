@@ -601,6 +601,51 @@ class BaseClientTest < Minitest::Test
     assert conn.finished
   end
 
+  # Clients on different routes to the same host hold separate sockets, so a
+  # failure on one route is no reason to close the others.
+  def test_evict_connection_leaves_other_routes_pooled
+    uri = URI("https://api.workos.com")
+    proxied = WorkOS::BaseClient.new(api_key: "sk_test_123", proxy: "http://proxy-a.example.com:8080")
+    other = WorkOS::BaseClient.new(api_key: "sk_test_123", proxy: "http://proxy-b.example.com:8080")
+    cache = {
+      @client.send(:connection_key, uri, 30) => FakeConnection.new,
+      proxied.send(:connection_key, uri, 30) => FakeConnection.new,
+      proxied.send(:connection_key, uri, 60) => FakeConnection.new,
+      other.send(:connection_key, uri, 30) => FakeConnection.new
+    }
+    direct_conn, proxied_conn, proxied_slow_conn, other_conn = cache.values
+    Thread.current[:workos_connections] = cache
+
+    proxied.send(:evict_connection, "https://api.workos.com")
+
+    assert_equal [direct_conn, other_conn], cache.values
+    assert proxied_conn.finished
+    assert proxied_slow_conn.finished
+    refute direct_conn.finished
+    refute other_conn.finished
+
+    @client.send(:evict_connection, "https://api.workos.com")
+
+    assert_equal [other_conn], cache.values
+    assert direct_conn.finished
+    refute other_conn.finished
+  end
+
+  def test_failed_request_on_a_proxied_client_keeps_a_direct_clients_connection_pooled
+    uri = URI("https://api.workos.com")
+    proxied = WorkOS::BaseClient.new(api_key: "sk_test_123", proxy: "http://proxy.example.com:8080", max_retries: 0)
+    direct_key = @client.send(:connection_key, uri, 30)
+    direct_conn = FakeConnection.new
+    failing_conn = StubConnection.new(error: Errno::ECONNRESET.new)
+    Thread.current[:workos_connections] = {direct_key => direct_conn, proxied.send(:connection_key, uri, 30) => failing_conn}
+
+    assert_raises(WorkOS::APIConnectionError) { proxied.execute_request(request: Net::HTTP::Get.new("/things")) }
+
+    assert_equal({direct_key => direct_conn}, Thread.current[:workos_connections])
+    refute direct_conn.finished
+    assert failing_conn.finished
+  end
+
   def test_requests_through_a_proxied_client_never_log_proxy_credentials
     io = StringIO.new
     client = WorkOS::BaseClient.new(
