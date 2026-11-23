@@ -57,8 +57,10 @@ T.assert_type!(
 )
 client.shutdown
 
-key_client = WorkOS::Client.new(api_key: "sk_test_123", jwt_issuer: ["https://issuer.example.test"])
+key_client = WorkOS::Client.new(api_key: "sk_test_123", jwt_issuer: ["https://issuer.example.test"], proxy: "http://proxy.example.test:8080")
 T.assert_type!(key_client.client_secret("authenticate_with_password"), T.nilable(String))
+T.assert_type!(key_client.proxy, T.nilable(T.any(String, URI::HTTP)))
+T.assert_type!(WorkOS::BaseClient.parse_proxy("http://proxy.example.test:8080"), T.nilable(URI::HTTP))
 T.assert_type!(WorkOS::StaticKeyCredentials.new("sk_test_123").resolve, WorkOS::CredentialSnapshot)
 
 begin

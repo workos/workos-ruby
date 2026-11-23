@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
 # @oagen-ignore-file — hand-maintained runtime
+require "digest"
 require "json"
 require "logger"
 require "net/http"
 require "securerandom"
+require "time"
 require "uri"
 require "workos/errors"
 
@@ -32,6 +34,12 @@ module WorkOS
   #     )
   #   )
   #
+  # @example Route this client's requests through an HTTP proxy
+  #   client = WorkOS::Client.new(
+  #     api_key: "sk_...",
+  #     proxy: "http://user:pass@proxy.example.com:8080"
+  #   )
+  #
   # @example Shut down connections before forking
   #   client.shutdown
   class BaseClient
@@ -56,27 +64,47 @@ module WorkOS
     CLIENT_CREDENTIALS = :@workos_client_credentials
     private_constant :CLIENT_CREDENTIALS
 
-    attr_reader :api_key, :credentials, :base_url, :client_id, :timeout, :max_retries, :logger, :log_level, :jwt_issuer
+    attr_reader :api_key, :credentials, :base_url, :client_id, :timeout, :max_retries, :logger, :log_level, :jwt_issuer, :proxy
 
     # Delay before retry number `attempt`: the server's `Retry-After` when it
-    # sends a positive one, otherwise exponential backoff with jitter. The
+    # sends a usable one, otherwise exponential backoff with jitter. The
     # workload identity token exchange calls this too, so both retry alike.
     #
     # @api private
     def self.retry_delay(response, attempt, random)
-      if response
-        retry_after = response["Retry-After"]
-        return retry_after.to_f if retry_after&.to_f&.positive?
-      end
+      retry_after = retry_after_seconds(response)
+      return retry_after if retry_after
 
       base = RETRY_BACKOFF_BASE * (2**(attempt - 1))
       jitter = random.rand * 0.25 * base
       base + jitter
     end
 
+    # Retry-After is either a number of seconds or an HTTP-date (RFC 9110,
+    # section 10.2.3). Returns nil when the header is missing, is neither
+    # form, or does not point to the future, so the caller uses its backoff.
+    def self.retry_after_seconds(response)
+      value = response && response["Retry-After"]
+      return nil unless value
+
+      seconds = value.to_f
+      seconds = Time.httpdate(value) - Time.now unless seconds.positive?
+      seconds if seconds.positive?
+    rescue ArgumentError
+      nil
+    end
+    private_class_method :retry_after_seconds
+
     # @param credentials [#resolve, #invalidate, nil] Credentials to
     #   authenticate with in place of an API key, such as
     #   {WorkOS::WorkloadIdentity::Credentials}.
+    # @param proxy [String, URI::HTTP, nil] URL of an HTTP proxy to send this
+    #   client's requests through, e.g. `"http://user:pass@proxy.example.com:8080"`.
+    #   Only `http://` proxy URLs are supported; HTTPS API traffic is tunneled
+    #   through the proxy with CONNECT. An explicit proxy is always used, so
+    #   the `no_proxy` environment variable does not apply to it. When nil
+    #   (the default), Net::HTTP keeps reading the proxy from the
+    #   `http_proxy` / `no_proxy` environment variables.
     # @param jwt_issuer [String, Array<String>, nil] Expected `iss` claim of
     #   session access tokens (one issuer or a list of accepted issuers).
     #   When nil, the issuer is not validated.
@@ -84,7 +112,7 @@ module WorkOS
     #   or when `credentials` does not respond to `resolve` and `invalidate`.
     def initialize(api_key: nil, credentials: nil, base_url: DEFAULT_BASE_URL, client_id: nil,
       timeout: DEFAULT_TIMEOUT, max_retries: DEFAULT_MAX_RETRIES,
-      logger: nil, log_level: nil, jwt_issuer: nil, random: Random.new)
+      logger: nil, log_level: nil, jwt_issuer: nil, random: Random.new, proxy: nil)
       if credentials
         if api_key && !api_key.empty?
           raise ArgumentError, "api_key and credentials were both given; pass one or the other"
@@ -103,6 +131,31 @@ module WorkOS
       @log_level = log_level
       @jwt_issuer = jwt_issuer
       @random = random
+      @proxy = proxy
+      @proxy_uri = BaseClient.parse_proxy(proxy)
+      @proxy_key_suffix = @proxy_uri && "#{PROXY_KEY_MARKER}#{Digest::SHA256.hexdigest(@proxy_uri.to_s)}"
+    end
+
+    # Parses a proxy setting into a URI, or returns nil when none is set.
+    # {WorkOS::Configuration#proxy=} calls it too, so that a bad value is
+    # reported where it is set. Error messages never echo the proxy URL
+    # because it can hold credentials.
+    #
+    # @api private
+    # @raise [ArgumentError] if the value is not an `http://` URL with a host
+    def self.parse_proxy(proxy)
+      return nil if proxy.nil?
+
+      uri = begin
+        URI(proxy.to_s)
+      rescue URI::InvalidURIError
+        nil
+      end
+      unless uri.is_a?(URI::HTTP) && uri.scheme == "http" && uri.hostname && !uri.hostname.empty?
+        raise ArgumentError, "proxy must be an http:// URL such as \"http://proxy.example.com:8080\""
+      end
+
+      uri
     end
 
     # The API key, for a request that sends it in the body as `client_secret`:
@@ -242,17 +295,24 @@ module WorkOS
         handle_error_response(response)
       rescue Net::OpenTimeout, Net::ReadTimeout,
         Errno::ECONNRESET, Errno::ECONNREFUSED,
-        IOError, Errno::EPIPE => e
+        IOError, Errno::EPIPE, Net::HTTPExceptions => e
         evict_connection(base)
-        if attempt < retries
+        # Net::HTTP raises a Net::HTTPExceptions error in one case only: a
+        # proxy answered CONNECT with a non-2xx status, so the request never
+        # left this process. The proxy's status decides whether another
+        # attempt can help: a 503 may clear up, a 407 for bad credentials
+        # will not.
+        proxy_response = e.response if e.is_a?(Net::HTTPExceptions)
+        if attempt < retries && (proxy_response.nil? || retryable?(proxy_response))
           attempt += 1
           inject_retry_idempotency_key(request)
           log(:info, "request retry", method: request.method, path: loggable_path, attempt: attempt + 1, error: e.class.name)
-          sleep(retry_delay(nil, attempt))
+          sleep(retry_delay(proxy_response, attempt))
           next
         end
-        log(:warn, "connection error", method: request.method, path: loggable_path, error: e.class.name, message: e.message)
-        raise WorkOS::APIConnectionError.new(message: e.message)
+        message = proxy_response ? "Proxy rejected the connection: #{e.message}" : e.message
+        log(:warn, "connection error", method: request.method, path: loggable_path, error: e.class.name, message: message)
+        raise WorkOS::APIConnectionError.new(message: message)
       end
     end
 
@@ -356,7 +416,7 @@ module WorkOS
         return conn
       end
 
-      http = Net::HTTP.new(uri.host, uri.port)
+      http = build_http(uri)
       http.use_ssl = (uri.scheme == "https")
       http.read_timeout = timeout
       http.open_timeout = timeout
@@ -368,15 +428,45 @@ module WorkOS
       http
     end
 
+    # Only pass proxy arguments when a proxy was configured. Passing an
+    # explicit nil proxy address would turn off Net::HTTP's default lookup
+    # of the `http_proxy` environment variable.
+    def build_http(uri)
+      return Net::HTTP.new(uri.host, uri.port) unless @proxy_uri
+
+      Net::HTTP.new(
+        uri.host,
+        uri.port,
+        @proxy_uri.hostname,
+        @proxy_uri.port,
+        decode_proxy_credential(@proxy_uri.user),
+        decode_proxy_credential(@proxy_uri.password)
+      )
+    end
+
+    def decode_proxy_credential(value)
+      value && URI.decode_uri_component(value)
+    end
+
+    # Evicts this client's pooled connections to the host, at every timeout.
+    # Clients on another route (a different proxy, or none) hold their own
+    # sockets to the same host, so their connections stay pooled.
     def evict_connection(base_url)
       uri = URI(base_url)
-      keys = thread_connections.keys.select { |key| key.start_with?("#{uri.scheme}:#{uri.host}:#{uri.port}:") }
+      prefix = "#{uri.scheme}:#{uri.host}:#{uri.port}:"
+      keys = thread_connections.keys.select { |key| key.start_with?(prefix) && own_route?(key) }
       keys.each do |key|
         connection = thread_connections.delete(key)
         connection&.finish if connection&.started?
       end
     rescue IOError
       # Already closed, ignore
+    end
+
+    # Whether a cache key belongs to the route this client uses: its own
+    # proxy, or no explicit proxy.
+    def own_route?(key)
+      @proxy_key_suffix ? key.end_with?(@proxy_key_suffix) : !key.include?(PROXY_KEY_MARKER)
     end
 
     def evict_lru_connections(cache)
@@ -389,8 +479,15 @@ module WorkOS
       # Already closed, ignore
     end
 
+    # Marks the part of a cache key that names an explicit proxy.
+    PROXY_KEY_MARKER = ":proxy="
+    private_constant :PROXY_KEY_MARKER
+
+    # Clients with different proxies must never share a pooled connection, so
+    # an explicit proxy is part of the key. It is hashed so that its
+    # credentials are not stored there. Without one the key is unchanged.
     def connection_key(uri, timeout)
-      "#{uri.scheme}:#{uri.host}:#{uri.port}:#{timeout}"
+      "#{uri.scheme}:#{uri.host}:#{uri.port}:#{timeout}#{@proxy_key_suffix}"
     end
 
     # Per-fiber connection cache (non-inherited).

@@ -46,8 +46,17 @@ module WorkOS
     sig { returns(T.nilable(T.any(String, T::Array[String]))) }
     def jwt_issuer; end
 
+    # The proxy setting, as it was passed in.
+    sig { returns(T.nilable(T.any(String, URI::HTTP))) }
+    def proxy; end
+
     sig { params(response: T.nilable(Net::HTTPResponse), attempt: Integer, random: Random).returns(Float) }
     def self.retry_delay(response, attempt, random); end
+
+    # Raises ArgumentError unless the value is nil or an `http://` URL with a
+    # host.
+    sig { params(proxy: T.nilable(T.any(String, URI::HTTP))).returns(T.nilable(URI::HTTP)) }
+    def self.parse_proxy(proxy); end
 
     sig do
       params(
@@ -60,10 +69,11 @@ module WorkOS
         logger: T.untyped,
         log_level: T.nilable(Symbol),
         jwt_issuer: T.nilable(T.any(String, T::Array[String])),
-        random: Random
+        random: Random,
+        proxy: T.nilable(T.any(String, URI::HTTP))
       ).void
     end
-    def initialize(api_key: nil, credentials: nil, base_url: DEFAULT_BASE_URL, client_id: nil, timeout: DEFAULT_TIMEOUT, max_retries: DEFAULT_MAX_RETRIES, logger: nil, log_level: nil, jwt_issuer: nil, random: Random.new); end
+    def initialize(api_key: nil, credentials: nil, base_url: DEFAULT_BASE_URL, client_id: nil, timeout: DEFAULT_TIMEOUT, max_retries: DEFAULT_MAX_RETRIES, logger: nil, log_level: nil, jwt_issuer: nil, random: Random.new, proxy: nil); end
 
     # For the SDK's own methods that send the API key as `client_secret`.
     # Raises ArgumentError when the client authenticates with credentials.

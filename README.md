@@ -43,6 +43,24 @@ end
 client = WorkOS.client
 ```
 
+### Proxy
+
+By default the SDK uses the proxy from the `http_proxy` environment variable, which applies to every `Net::HTTP` client in the process. To route only WorkOS requests through a proxy, or only some clients, pass `proxy`:
+
+```ruby
+WorkOS.configure do |config|
+  config.api_key = ENV.fetch("WORKOS_API_KEY")
+  config.proxy = "http://user:pass@proxy.example.com:8080"
+end
+
+# Or per client
+proxied = WorkOS::Client.new(api_key: "sk_...", proxy: "http://proxy.example.com:8080")
+```
+
+Only `http://` proxy URLs are supported, and any other value raises `ArgumentError` when it is set. Requests to the WorkOS API stay encrypted end to end through the proxy. When `proxy` is set it is always used, so `no_proxy` does not apply to it. When it is not set, the environment variables behave as before.
+
+If the proxy refuses the connection, for example with a 407 for bad credentials, the SDK raises `WorkOS::APIConnectionError`. A response that may clear up, such as a 503, is retried first.
+
 ## Client patterns
 
 ### Singleton (recommended for most apps)

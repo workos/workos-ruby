@@ -1046,6 +1046,20 @@ class WorkloadIdentityTest < Minitest::Test
     end
   end
 
+  # The exchange waits the way an API request does: BaseClient.retry_delay
+  # serves both, so a Retry-After given as an HTTP-date is honored here too.
+  def test_the_exchange_honors_a_retry_after_given_as_an_http_date
+    stub_token_endpoint do |count|
+      (count == 1) ? {status: 503, headers: {"Retry-After" => (Time.now + 20).httpdate}, body: ""} : issue_token
+    end
+
+    credentials.resolve
+
+    assert_equal 2, @token_requests.size
+    assert_equal 1, @sleeps.size
+    assert_in_delta 20, @sleeps.first, 2
+  end
+
   def test_exhausted_retries_report_the_oauth_code_when_the_body_has_one
     stub_token_endpoint { {status: 503, body: JSON.generate(error: "temporarily_unavailable", error_description: "try later")} }
 
