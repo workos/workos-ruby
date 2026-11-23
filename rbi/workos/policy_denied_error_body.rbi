@@ -21,6 +21,12 @@ module WorkOS
     sig { params(value: String).returns(String) }
     def message=(value); end
 
+    sig { returns(T.nilable(String)) }
+    def radar_detection_id; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def radar_detection_id=(value); end
+
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end
 

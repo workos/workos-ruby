@@ -37,5 +37,5 @@ T.assert_type!(refresh_success.sealed_session, T.nilable(String))
 T.assert_type!(refresh_success.roles, T.nilable(T::Array[String]))
 refresh_success.role = "admin"
 
-# Every member of a keyword_init Struct is optional.
+# Only `authenticated` is required; the other members default to nil.
 WorkOS::SessionManager::RefreshSuccess.new(authenticated: true)

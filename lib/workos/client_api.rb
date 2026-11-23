@@ -10,9 +10,9 @@ module WorkOS
       @client = client
     end
 
-    # Generate a Client API token
-    # @param organization_id [String] The ID of the organization to scope the Client API token to.
-    # @param user_id [String] The ID of the user to issue the Client API token for.
+    # Generate a Widgets API token
+    # @param organization_id [String] The ID of the organization to scope the Widgets API token to.
+    # @param user_id [String] The ID of the user to issue the Widgets API token for.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::ClientApiTokenResponse]
     def create_token(

@@ -7,36 +7,42 @@ module WorkOS
     HASH_ATTRS = {
       account_display_name: :account_display_name,
       account_identifier: :account_identifier,
+      config: :config,
       access_token: :access_token,
       refresh_token: :refresh_token,
       expires_at: :expires_at,
       scopes: :scopes,
       state: :state,
       user_id: :user_id,
+      metadata: :metadata,
       connection_intent: :connection_intent
     }.freeze
 
     attr_accessor \
       :account_display_name,
       :account_identifier,
+      :config,
       :access_token,
       :refresh_token,
       :expires_at,
       :scopes,
       :state,
       :user_id,
+      :metadata,
       :connection_intent
 
     def initialize(json)
       hash = self.class.normalize(json)
       @account_display_name = hash[:account_display_name]
       @account_identifier = hash[:account_identifier]
+      @config = hash[:config] || {}
       @access_token = hash[:access_token]
       @refresh_token = hash[:refresh_token]
       @expires_at = hash[:expires_at]
       @scopes = hash[:scopes] || []
       @state = hash[:state]
       @user_id = hash[:user_id]
+      @metadata = hash[:metadata] || {}
       @connection_intent = hash[:connection_intent]
     end
   end

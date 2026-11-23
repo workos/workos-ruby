@@ -734,7 +734,8 @@ class UserManagementModelRoundTripTest < Minitest::Test
   def test_authentication_email_verification_failed_data_error_round_trip
     fixture = {
       "code" => "stub",
-      "message" => "stub"
+      "message" => "stub",
+      "radar_detection_id" => "stub"
     }
     model = WorkOS::AuthenticationEmailVerificationFailedDataError.new(fixture.to_json)
     json = model.to_h
@@ -820,7 +821,8 @@ class UserManagementModelRoundTripTest < Minitest::Test
   def test_authentication_magic_auth_failed_data_error_round_trip
     fixture = {
       "code" => "stub",
-      "message" => "stub"
+      "message" => "stub",
+      "radar_detection_id" => "stub"
     }
     model = WorkOS::AuthenticationMagicAuthFailedDataError.new(fixture.to_json)
     json = model.to_h
@@ -906,7 +908,8 @@ class UserManagementModelRoundTripTest < Minitest::Test
   def test_authentication_mfa_failed_data_error_round_trip
     fixture = {
       "code" => "stub",
-      "message" => "stub"
+      "message" => "stub",
+      "radar_detection_id" => "stub"
     }
     model = WorkOS::AuthenticationMFAFailedDataError.new(fixture.to_json)
     json = model.to_h
@@ -993,7 +996,8 @@ class UserManagementModelRoundTripTest < Minitest::Test
   def test_authentication_oauth_failed_data_error_round_trip
     fixture = {
       "code" => "stub",
-      "message" => "stub"
+      "message" => "stub",
+      "radar_detection_id" => "stub"
     }
     model = WorkOS::AuthenticationOAuthFailedDataError.new(fixture.to_json)
     json = model.to_h
@@ -1080,7 +1084,8 @@ class UserManagementModelRoundTripTest < Minitest::Test
   def test_authentication_passkey_failed_data_error_round_trip
     fixture = {
       "code" => "stub",
-      "message" => "stub"
+      "message" => "stub",
+      "radar_detection_id" => "stub"
     }
     model = WorkOS::AuthenticationPasskeyFailedDataError.new(fixture.to_json)
     json = model.to_h
@@ -1166,7 +1171,8 @@ class UserManagementModelRoundTripTest < Minitest::Test
   def test_authentication_password_failed_data_error_round_trip
     fixture = {
       "code" => "stub",
-      "message" => "stub"
+      "message" => "stub",
+      "radar_detection_id" => "stub"
     }
     model = WorkOS::AuthenticationPasswordFailedDataError.new(fixture.to_json)
     json = model.to_h
@@ -1238,7 +1244,8 @@ class UserManagementModelRoundTripTest < Minitest::Test
       "ip_address" => nil,
       "user_agent" => nil,
       "user_id" => "stub",
-      "email" => "stub"
+      "email" => "stub",
+      "radar_detection_id" => "stub"
     }
     model = WorkOS::AuthenticationRadarRiskDetectedData.new(fixture.to_json)
     json = model.to_h
@@ -1345,7 +1352,8 @@ class UserManagementModelRoundTripTest < Minitest::Test
   def test_authentication_sso_failed_data_error_round_trip
     fixture = {
       "code" => "stub",
-      "message" => "stub"
+      "message" => "stub",
+      "radar_detection_id" => "stub"
     }
     model = WorkOS::AuthenticationSSOFailedDataError.new(fixture.to_json)
     json = model.to_h
@@ -1515,7 +1523,8 @@ class UserManagementModelRoundTripTest < Minitest::Test
   def test_authentication_sso_timed_out_data_error_round_trip
     fixture = {
       "code" => "stub",
-      "message" => "stub"
+      "message" => "stub",
+      "radar_detection_id" => "stub"
     }
     model = WorkOS::AuthenticationSSOTimedOutDataError.new(fixture.to_json)
     json = model.to_h

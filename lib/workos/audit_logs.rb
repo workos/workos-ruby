@@ -222,8 +222,8 @@ module WorkOS
 
     # Create Export
     # @param organization_id [String] The unique ID of the Organization.
-    # @param range_start [String] ISO-8601 value for start of the export range.
-    # @param range_end [String] ISO-8601 value for end of the export range.
+    # @param range_start [String] ISO-8601 value for start of the export range. The range must span no more than 31 days.
+    # @param range_end [String] ISO-8601 value for end of the export range. Must be no more than 31 days after the start.
     # @param actions [Array<String>, nil] List of actions to filter against.
     # @param actors [Array<String>, nil] (deprecated) Deprecated. Use `actor_names` instead.
     # @param actor_names [Array<String>, nil] List of actor names to filter against.

@@ -100,14 +100,13 @@ module WorkOS
         claims.freeze
       end
     end
-    AuthError = Struct.new(:authenticated, :reason, keyword_init: true)
+    AuthError = Struct.new(:authenticated, :reason)
 
     RefreshSuccess = Struct.new(
       :authenticated, :sealed_session, :session_id, :organization_id, :role,
-      :roles, :permissions, :entitlements, :user, :impersonator, :feature_flags,
-      keyword_init: true
+      :roles, :permissions, :entitlements, :user, :impersonator, :feature_flags
     )
-    RefreshError = Struct.new(:authenticated, :reason, :sealed_session, keyword_init: true)
+    RefreshError = Struct.new(:authenticated, :reason, :sealed_session)
 
     # Failure reason constants
     NO_SESSION_COOKIE_PROVIDED = "no_session_cookie_provided"

@@ -76,9 +76,12 @@ module WorkOS
       def to_h; end
     end
 
-    # The three result classes below are `Struct.new(..., keyword_init: true)`
-    # in lib/: every member is an optional keyword of `new`, and has a reader
-    # and a writer.
+    # The three result classes below are `Struct.new(...)` in lib/, which
+    # builds them with keywords. Every member has a reader and a writer.
+    #
+    # `authenticated` is a required keyword of `new` here. Ruby itself accepts
+    # `new` without it and sets the member to nil, which the reader's Boolean
+    # type does not allow. The other members are optional and default to nil.
     class AuthError
       sig { returns(T::Boolean) }
       def authenticated; end
@@ -93,7 +96,7 @@ module WorkOS
       def reason=(value); end
 
       sig { params(authenticated: T::Boolean, reason: T.nilable(String)).void }
-      def initialize(authenticated: T.unsafe(nil), reason: T.unsafe(nil)); end
+      def initialize(authenticated:, reason: T.unsafe(nil)); end
     end
 
     class RefreshSuccess
@@ -178,7 +181,7 @@ module WorkOS
           feature_flags: T.untyped
         ).void
       end
-      def initialize(authenticated: T.unsafe(nil), sealed_session: T.unsafe(nil), session_id: T.unsafe(nil), organization_id: T.unsafe(nil), role: T.unsafe(nil), roles: T.unsafe(nil), permissions: T.unsafe(nil), entitlements: T.unsafe(nil), user: T.unsafe(nil), impersonator: T.unsafe(nil), feature_flags: T.unsafe(nil)); end
+      def initialize(authenticated:, sealed_session: T.unsafe(nil), session_id: T.unsafe(nil), organization_id: T.unsafe(nil), role: T.unsafe(nil), roles: T.unsafe(nil), permissions: T.unsafe(nil), entitlements: T.unsafe(nil), user: T.unsafe(nil), impersonator: T.unsafe(nil), feature_flags: T.unsafe(nil)); end
     end
 
     class RefreshError
@@ -194,8 +197,9 @@ module WorkOS
       sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
       def reason=(value); end
 
-      # The cookie the refresh was attempted with, when the failure leaves it
-      # usable.
+      # The newly rotated cookie. It is set only when the server issued new
+      # tokens and the new access token then failed to decode. Save it: the
+      # refresh token in the old cookie no longer works.
       sig { returns(T.nilable(String)) }
       def sealed_session; end
 
@@ -203,7 +207,7 @@ module WorkOS
       def sealed_session=(value); end
 
       sig { params(authenticated: T::Boolean, reason: T.nilable(String), sealed_session: T.nilable(String)).void }
-      def initialize(authenticated: T.unsafe(nil), reason: T.unsafe(nil), sealed_session: T.unsafe(nil)); end
+      def initialize(authenticated:, reason: T.unsafe(nil), sealed_session: T.unsafe(nil)); end
     end
 
     sig { returns(WorkOS::Client) }
@@ -212,22 +216,27 @@ module WorkOS
     sig { params(client: WorkOS::Client, encryptor: T.untyped).void }
     def initialize(client, encryptor: nil); end
 
-    sig { params(seal_data: String, cookie_password: String).returns(WorkOS::Session) }
+    # In `load`, `authenticate` and `refresh`, `seal_data` is the session
+    # cookie and may be nil: a request that has no cookie gets a failure result
+    # (`AuthError` or `RefreshError`), not an exception.
+    sig { params(seal_data: T.nilable(String), cookie_password: String).returns(WorkOS::Session) }
     def load(seal_data:, cookie_password:); end
 
+    # The claim extractor may return its claims under String or Symbol keys;
+    # the keys are converted to Symbols.
     sig do
       params(
-        seal_data: String,
+        seal_data: T.nilable(String),
         cookie_password: String,
         include_expired: T::Boolean,
-        claim_extractor: T.nilable(T.proc.params(decoded: T::Hash[String, T.untyped]).returns(T.nilable(T::Hash[Symbol, T.untyped])))
+        claim_extractor: T.nilable(T.proc.params(decoded: T::Hash[String, T.untyped]).returns(T.nilable(T::Hash[T.any(String, Symbol), T.untyped])))
       ).returns(T.any(WorkOS::SessionManager::AuthSuccess, WorkOS::SessionManager::AuthError))
     end
     def authenticate(seal_data:, cookie_password:, include_expired: false, &claim_extractor); end
 
     sig do
       params(
-        seal_data: String,
+        seal_data: T.nilable(String),
         cookie_password: String,
         organization_id: T.nilable(String)
       ).returns(T.any(WorkOS::SessionManager::RefreshSuccess, WorkOS::SessionManager::RefreshError))
@@ -253,6 +262,8 @@ module WorkOS
 
     sig { params(access_token: String, verify_expiration: T::Boolean).returns(T::Hash[String, T.untyped]) }
     def decode_jwt(access_token, verify_expiration: true); end
+
+    private
 
     sig { params(now: Time).returns(T::Hash[String, T.untyped]) }
     def fetch_jwks(now: Time.now); end

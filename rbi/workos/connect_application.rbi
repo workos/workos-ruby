@@ -57,6 +57,48 @@ module WorkOS
     sig { params(value: String).returns(String) }
     def updated_at=(value); end
 
+    sig { returns(T.nilable(String)) }
+    def application_type; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def application_type=(value); end
+
+    sig { returns(T.nilable(T::Array[WorkOS::ConnectApplicationRedirectUri])) }
+    def redirect_uris; end
+
+    sig { params(value: T.nilable(T::Array[WorkOS::ConnectApplicationRedirectUri])).returns(T.nilable(T::Array[WorkOS::ConnectApplicationRedirectUri])) }
+    def redirect_uris=(value); end
+
+    sig { returns(T.nilable(T::Array[String])) }
+    def cors_origins; end
+
+    sig { params(value: T.nilable(T::Array[String])).returns(T.nilable(T::Array[String])) }
+    def cors_origins=(value); end
+
+    sig { returns(T.nilable(T::Boolean)) }
+    def uses_pkce; end
+
+    sig { params(value: T.nilable(T::Boolean)).returns(T.nilable(T::Boolean)) }
+    def uses_pkce=(value); end
+
+    sig { returns(T.nilable(T::Boolean)) }
+    def is_first_party; end
+
+    sig { params(value: T.nilable(T::Boolean)).returns(T.nilable(T::Boolean)) }
+    def is_first_party=(value); end
+
+    sig { returns(T.nilable(T::Boolean)) }
+    def was_dynamically_registered; end
+
+    sig { params(value: T.nilable(T::Boolean)).returns(T.nilable(T::Boolean)) }
+    def was_dynamically_registered=(value); end
+
+    sig { returns(T.nilable(String)) }
+    def organization_id; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def organization_id=(value); end
+
     sig { returns(T::Hash[Symbol, T.untyped]) }
     def to_h; end
 

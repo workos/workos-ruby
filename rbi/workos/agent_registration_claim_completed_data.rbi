@@ -27,6 +27,12 @@ module WorkOS
     sig { params(value: String).returns(String) }
     def agent_registration_id=(value); end
 
+    sig { returns(T.nilable(String)) }
+    def organization_id; end
+
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
+    def organization_id=(value); end
+
     sig { returns(String) }
     def completed_by_attempt_id; end
 

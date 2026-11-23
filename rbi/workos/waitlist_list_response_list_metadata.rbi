@@ -5,26 +5,5 @@
 # typed: strong
 
 module WorkOS
-  class WaitlistListResponseListMetadata
-    sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
-    def initialize(json); end
-
-    sig { returns(T.nilable(String)) }
-    def before; end
-
-    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
-    def before=(value); end
-
-    sig { returns(T.nilable(String)) }
-    def after; end
-
-    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
-    def after=(value); end
-
-    sig { returns(T::Hash[Symbol, T.untyped]) }
-    def to_h; end
-
-    sig { params(args: T.untyped).returns(String) }
-    def to_json(*args); end
-  end
+  WaitlistListResponseListMetadata = ItContactListListMetadata
 end

@@ -5,26 +5,5 @@
 # typed: strong
 
 module WorkOS
-  class AuthenticationSSOTimedOutDataError
-    sig { params(json: T.any(String, T::Hash[Symbol, T.untyped])).void }
-    def initialize(json); end
-
-    sig { returns(String) }
-    def code; end
-
-    sig { params(value: String).returns(String) }
-    def code=(value); end
-
-    sig { returns(String) }
-    def message; end
-
-    sig { params(value: String).returns(String) }
-    def message=(value); end
-
-    sig { returns(T::Hash[Symbol, T.untyped]) }
-    def to_h; end
-
-    sig { params(args: T.untyped).returns(String) }
-    def to_json(*args); end
-  end
+  AuthenticationSSOTimedOutDataError = AuthenticationEmailVerificationFailedDataError
 end
