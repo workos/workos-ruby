@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "test_helper"
+require "time"
 
 class BaseClientTest < Minitest::Test
   class RecordingClient < WorkOS::BaseClient
@@ -176,6 +177,44 @@ class BaseClientTest < Minitest::Test
     assert_equal 1, keys.uniq.size
   end
 
+  # Retry-After is either a number of seconds or an HTTP-date. A date used to
+  # be ignored, so the client retried on its normal backoff and could run out
+  # of attempts before the server was ready.
+  def test_retry_waits_until_an_http_date_retry_after
+    stub_request(:get, "https://api.workos.com/widgets")
+      .to_return(
+        {status: 503, headers: {"Retry-After" => (Time.now + 120).httpdate}, body: "{}"},
+        {status: 200, body: "{}"}
+      )
+    sleeps = []
+    @client.singleton_class.define_method(:sleep) { |duration| sleeps << duration }
+
+    @client.request(method: :get, path: "/widgets")
+
+    assert_equal 1, sleeps.size
+    assert_in_delta 120, sleeps.first, 2
+  end
+
+  def test_retry_delay_reads_retry_after_in_seconds
+    assert_equal 7.0, @client.send(:retry_delay, response_with_retry_after("7"), 1)
+  end
+
+  def test_retry_delay_falls_back_to_backoff_for_an_unusable_retry_after
+    client = WorkOS::BaseClient.new(api_key: "sk_test_123", random: Struct.new(:rand).new(0.0))
+
+    [(Time.now - 60).httpdate, "soon", "0", "-5", nil].each do |value|
+      delay = client.send(:retry_delay, response_with_retry_after(value), 1)
+
+      assert_equal WorkOS::BaseClient::RETRY_BACKOFF_BASE, delay, "expected Retry-After #{value.inspect} to be ignored"
+    end
+  end
+
+  def response_with_retry_after(value)
+    response = Net::HTTPServiceUnavailable.new("1.1", "503", "Service Unavailable")
+    response["Retry-After"] = value if value
+    response
+  end
+
   def test_409_idempotency_error_raises_specific_error
     stub_request(:post, "https://api.workos.com/widgets")
       .to_return(status: 409, body: '{"code":"idempotency_error","message":"conflict"}')
@@ -342,12 +381,14 @@ class BaseClientTest < Minitest::Test
     WebMock.enable!
   end
 
+  # Reads one request's head off the socket and returns its request line.
   def read_http_request(socket)
-    socket.gets # request line
+    request_line = socket.gets
     loop do
       line = socket.gets
       break if line.nil? || line == "\r\n"
     end
+    request_line
   end
 
   def write_http_response(socket, body)
@@ -393,6 +434,352 @@ class BaseClientTest < Minitest::Test
 
     # The parent's own cache is left intact.
     assert_same warm, parent_cache["https:api.workos.com:443:30"]
+  end
+
+  def test_proxy_defaults_to_nil
+    assert_nil @client.proxy
+  end
+
+  # Without an explicit proxy, Net::HTTP must keep reading http_proxy from
+  # the environment exactly as it did before the option existed.
+  def test_connection_without_proxy_still_reads_proxy_from_env
+    with_stubbed_start do
+      with_env("http_proxy" => "http://env-proxy.example.com:3128", "no_proxy" => nil) do
+        conn = @client.send(:connection_for, "https://api.workos.com", 30)
+
+        assert conn.proxy_from_env?
+        assert conn.proxy?
+        assert_equal "env-proxy.example.com", conn.proxy_address
+        assert_equal 3128, conn.proxy_port
+      end
+    end
+  end
+
+  def test_connection_without_proxy_or_env_is_direct
+    with_stubbed_start do
+      with_env("http_proxy" => nil, "HTTP_PROXY" => nil) do
+        conn = @client.send(:connection_for, "https://api.workos.com", 30)
+
+        refute conn.proxy?
+      end
+    end
+  end
+
+  def test_connection_without_proxy_keeps_the_existing_cache_key
+    uri = URI("https://api.workos.com")
+
+    assert_equal "https:api.workos.com:443:30", @client.send(:connection_key, uri, 30)
+  end
+
+  def test_explicit_proxy_is_used_for_connections
+    client = WorkOS::BaseClient.new(api_key: "sk_test_123", proxy: "http://proxy.example.com:8080")
+
+    with_stubbed_start do
+      conn = client.send(:connection_for, "https://api.workos.com", 30)
+
+      refute conn.proxy_from_env?
+      assert conn.proxy?
+      assert_equal "proxy.example.com", conn.proxy_address
+      assert_equal 8080, conn.proxy_port
+      assert_nil conn.proxy_user
+      assert_nil conn.proxy_pass
+      assert conn.use_ssl?
+      assert_equal "api.workos.com", conn.address
+    end
+  end
+
+  def test_explicit_proxy_takes_precedence_over_env
+    client = WorkOS::BaseClient.new(api_key: "sk_test_123", proxy: "http://proxy.example.com:8080")
+
+    with_stubbed_start do
+      with_env("http_proxy" => "http://env-proxy.example.com:3128", "no_proxy" => "api.workos.com") do
+        conn = client.send(:connection_for, "https://api.workos.com", 30)
+
+        assert conn.proxy?
+        assert_equal "proxy.example.com", conn.proxy_address
+        assert_equal 8080, conn.proxy_port
+      end
+    end
+  end
+
+  def test_explicit_proxy_credentials_are_percent_decoded
+    client = WorkOS::BaseClient.new(api_key: "sk_test_123", proxy: "http://us%40er:p%3Ass+word@proxy.example.com:8080")
+
+    with_stubbed_start do
+      conn = client.send(:connection_for, "https://api.workos.com", 30)
+
+      assert_equal "us@er", conn.proxy_user
+      assert_equal "p:ss+word", conn.proxy_pass
+    end
+  end
+
+  def test_explicit_proxy_accepts_a_uri_and_defaults_the_port
+    client = WorkOS::BaseClient.new(api_key: "sk_test_123", proxy: URI("http://proxy.example.com"))
+
+    with_stubbed_start do
+      conn = client.send(:connection_for, "https://api.workos.com", 30)
+
+      assert_equal "proxy.example.com", conn.proxy_address
+      assert_equal 80, conn.proxy_port
+    end
+  end
+
+  def test_proxy_reader_returns_the_configured_value
+    client = WorkOS::BaseClient.new(api_key: "sk_test_123", proxy: "http://proxy.example.com:8080")
+
+    assert_equal "http://proxy.example.com:8080", client.proxy
+  end
+
+  def test_invalid_proxy_raises_argument_error
+    ["", "proxy.example.com:8080", "https://proxy.example.com", "socks5://proxy.example.com:1080", "http://", "http://bad host", 8080].each do |proxy|
+      assert_raises(ArgumentError, "expected #{proxy.inspect} to be rejected") do
+        WorkOS::BaseClient.new(api_key: "sk_test_123", proxy: proxy)
+      end
+    end
+  end
+
+  def test_invalid_proxy_error_does_not_leak_credentials
+    error = assert_raises(ArgumentError) do
+      WorkOS::BaseClient.new(api_key: "sk_test_123", proxy: "https://user:s3cret@proxy.example.com")
+    end
+
+    refute_includes error.message, "s3cret"
+    refute_includes error.message, "user"
+  end
+
+  # Clients that differ only by proxy must not reuse each other's pooled
+  # connection, otherwise traffic would silently take the wrong route.
+  def test_clients_with_different_proxies_do_not_share_connections
+    proxied = WorkOS::BaseClient.new(api_key: "sk_test_123", proxy: "http://proxy-a.example.com:8080")
+    other = WorkOS::BaseClient.new(api_key: "sk_test_123", proxy: "http://proxy-b.example.com:8080")
+    same = WorkOS::BaseClient.new(api_key: "sk_test_123", proxy: "http://proxy-a.example.com:8080")
+
+    with_stubbed_start do
+      with_env("http_proxy" => nil, "HTTP_PROXY" => nil) do
+        direct_conn = @client.send(:connection_for, "https://api.workos.com", 30)
+        proxied_conn = proxied.send(:connection_for, "https://api.workos.com", 30)
+        other_conn = other.send(:connection_for, "https://api.workos.com", 30)
+
+        refute direct_conn.proxy?
+        assert_equal "proxy-a.example.com", proxied_conn.proxy_address
+        assert_equal "proxy-b.example.com", other_conn.proxy_address
+        assert_equal 3, [direct_conn, proxied_conn, other_conn].map(&:object_id).uniq.length
+        assert_equal 3, Thread.current[:workos_connections].size
+
+        # Asking again reuses each pooled connection, and a client configured
+        # with the same proxy shares the entry.
+        assert_same proxied_conn, proxied.send(:connection_for, "https://api.workos.com", 30)
+        assert_same proxied_conn, same.send(:connection_for, "https://api.workos.com", 30)
+        assert_same other_conn, other.send(:connection_for, "https://api.workos.com", 30)
+        assert_same direct_conn, @client.send(:connection_for, "https://api.workos.com", 30)
+        assert_equal 3, Thread.current[:workos_connections].size
+      end
+    end
+  end
+
+  def test_proxy_credentials_are_part_of_the_cache_key_but_not_stored_in_it
+    uri = URI("https://api.workos.com")
+    first = WorkOS::BaseClient.new(proxy: "http://user:s3cret@proxy.example.com:8080")
+    second = WorkOS::BaseClient.new(proxy: "http://user:other@proxy.example.com:8080")
+
+    first_key = first.send(:connection_key, uri, 30)
+
+    refute_equal first_key, second.send(:connection_key, uri, 30)
+    refute_includes first_key, "s3cret"
+    assert first_key.start_with?("https:api.workos.com:443:30:")
+  end
+
+  def test_evict_connection_removes_proxied_connections
+    client = WorkOS::BaseClient.new(api_key: "sk_test_123", proxy: "http://proxy.example.com:8080")
+    key = client.send(:connection_key, URI("https://api.workos.com"), 30)
+    conn = FakeConnection.new
+    Thread.current[:workos_connections] = {key => conn}
+
+    client.send(:evict_connection, "https://api.workos.com")
+
+    assert_empty Thread.current[:workos_connections]
+    assert conn.finished
+  end
+
+  # Clients on different routes to the same host hold separate sockets, so a
+  # failure on one route is no reason to close the others.
+  def test_evict_connection_leaves_other_routes_pooled
+    uri = URI("https://api.workos.com")
+    proxied = WorkOS::BaseClient.new(api_key: "sk_test_123", proxy: "http://proxy-a.example.com:8080")
+    other = WorkOS::BaseClient.new(api_key: "sk_test_123", proxy: "http://proxy-b.example.com:8080")
+    cache = {
+      @client.send(:connection_key, uri, 30) => FakeConnection.new,
+      proxied.send(:connection_key, uri, 30) => FakeConnection.new,
+      proxied.send(:connection_key, uri, 60) => FakeConnection.new,
+      other.send(:connection_key, uri, 30) => FakeConnection.new
+    }
+    direct_conn, proxied_conn, proxied_slow_conn, other_conn = cache.values
+    Thread.current[:workos_connections] = cache
+
+    proxied.send(:evict_connection, "https://api.workos.com")
+
+    assert_equal [direct_conn, other_conn], cache.values
+    assert proxied_conn.finished
+    assert proxied_slow_conn.finished
+    refute direct_conn.finished
+    refute other_conn.finished
+
+    @client.send(:evict_connection, "https://api.workos.com")
+
+    assert_equal [other_conn], cache.values
+    assert direct_conn.finished
+    refute other_conn.finished
+  end
+
+  def test_failed_request_on_a_proxied_client_keeps_a_direct_clients_connection_pooled
+    uri = URI("https://api.workos.com")
+    proxied = WorkOS::BaseClient.new(api_key: "sk_test_123", proxy: "http://proxy.example.com:8080", max_retries: 0)
+    direct_key = @client.send(:connection_key, uri, 30)
+    direct_conn = FakeConnection.new
+    failing_conn = StubConnection.new(error: Errno::ECONNRESET.new)
+    Thread.current[:workos_connections] = {direct_key => direct_conn, proxied.send(:connection_key, uri, 30) => failing_conn}
+
+    assert_raises(WorkOS::APIConnectionError) { proxied.execute_request(request: Net::HTTP::Get.new("/things")) }
+
+    assert_equal({direct_key => direct_conn}, Thread.current[:workos_connections])
+    refute direct_conn.finished
+    assert failing_conn.finished
+  end
+
+  def test_requests_through_a_proxied_client_never_log_proxy_credentials
+    io = StringIO.new
+    client = WorkOS::BaseClient.new(
+      api_key: "sk_test_123",
+      proxy: "http://user:s3cret@proxy.example.com:8080",
+      logger: Logger.new(io),
+      log_level: :debug,
+      max_retries: 0
+    )
+    stub_request(:get, "https://api.workos.com/organizations").to_return(status: 500, body: "{}")
+
+    assert_raises(WorkOS::APIError) { client.request(method: :get, path: "/organizations") }
+
+    refute_empty io.string
+    refute_includes io.string, "s3cret"
+    refute_includes io.string, "proxy.example.com"
+  end
+
+  # A reserved name that never resolves. The tests below reach it only through
+  # a local proxy, so a request that skipped the proxy fails instead of
+  # leaving the machine.
+  UNREACHABLE_BASE_URL = "https://workos.invalid"
+
+  # A proxy that answers CONNECT with an error never tunnels the request, and
+  # Net::HTTP raises while opening the connection. Callers must get the
+  # documented transport error, not a raw Net::HTTP exception.
+  def test_proxy_rejecting_connect_raises_api_connection_error_without_retrying
+    with_rejecting_proxy("407 Proxy Authentication Required") do |proxy_url, connects|
+      io = StringIO.new
+      client = WorkOS::BaseClient.new(
+        api_key: "sk_test_123",
+        base_url: UNREACHABLE_BASE_URL,
+        proxy: proxy_url,
+        logger: Logger.new(io),
+        log_level: :debug,
+        timeout: 5,
+        max_retries: 2
+      )
+
+      error = assert_raises(WorkOS::APIConnectionError) { client.request(method: :get, path: "/organizations") }
+
+      assert_equal 'Proxy rejected the connection: 407 "Proxy Authentication Required"', error.message
+      assert_kind_of Net::HTTPClientException, error.cause
+      assert_equal ["CONNECT workos.invalid:443 HTTP/1.1\r\n"], connects, "bad proxy credentials must not be retried"
+      assert_includes io.string, "Proxy rejected the connection"
+      refute_includes io.string, "s3cret"
+      assert_empty client.send(:thread_connections)
+    end
+  end
+
+  def test_proxy_503_on_connect_is_retried_before_raising
+    with_rejecting_proxy("503 Service Unavailable") do |proxy_url, connects|
+      client = WorkOS::BaseClient.new(api_key: "sk_test_123", base_url: UNREACHABLE_BASE_URL, proxy: proxy_url, timeout: 5, max_retries: 2)
+      client.singleton_class.define_method(:sleep) { |_duration| nil }
+
+      error = assert_raises(WorkOS::APIConnectionError) { client.request(method: :get, path: "/organizations") }
+
+      assert_equal 'Proxy rejected the connection: 503 "Service Unavailable"', error.message
+      assert_equal 3, connects.size
+    end
+  end
+
+  def test_proxy_retry_after_on_connect_is_honored
+    with_rejecting_proxy("429 Too Many Requests", "Retry-After" => "7") do |proxy_url, connects|
+      sleeps = []
+      client = WorkOS::BaseClient.new(api_key: "sk_test_123", base_url: UNREACHABLE_BASE_URL, proxy: proxy_url, timeout: 5, max_retries: 1)
+      client.singleton_class.define_method(:sleep) { |duration| sleeps << duration }
+
+      assert_raises(WorkOS::APIConnectionError) { client.request(method: :get, path: "/organizations") }
+
+      assert_equal [7.0], sleeps
+      assert_equal 2, connects.size
+    end
+  end
+
+  # Clients that take their proxy from the environment, which is every client
+  # that does not pass the proxy option, go through the same code.
+  def test_env_proxy_rejecting_connect_raises_api_connection_error
+    with_rejecting_proxy("403 Forbidden") do |proxy_url, connects|
+      with_env("http_proxy" => proxy_url, "no_proxy" => nil, "NO_PROXY" => nil) do
+        client = WorkOS::BaseClient.new(api_key: "sk_test_123", base_url: UNREACHABLE_BASE_URL, timeout: 5, max_retries: 0)
+
+        error = assert_raises(WorkOS::APIConnectionError) { client.request(method: :get, path: "/organizations") }
+
+        assert_equal 'Proxy rejected the connection: 403 "Forbidden"', error.message
+        assert_equal 1, connects.size
+      end
+    end
+  end
+
+  # Runs a local stand-in for an HTTP proxy that answers every CONNECT with
+  # +status+ and never tunnels anything. Yields the proxy's URL and the list
+  # of CONNECT request lines it has received. WebMock is switched off so that
+  # Net::HTTP really opens the socket.
+  def with_rejecting_proxy(status, headers = {})
+    WebMock.disable!
+    server = TCPServer.new("127.0.0.1", 0)
+    connects = []
+    extra_headers = headers.map { |name, value| "#{name}: #{value}\r\n" }.join
+    server_thread = Thread.new do
+      loop do
+        socket = server.accept
+        connects << read_http_request(socket)
+        socket.write("HTTP/1.1 #{status}\r\n#{extra_headers}Content-Length: 0\r\n\r\n")
+        socket.close
+      end
+    end
+
+    yield "http://user:s3cret@127.0.0.1:#{server.addr[1]}", connects
+  ensure
+    server_thread&.kill
+    server&.close
+    WebMock.enable!
+  end
+
+  # Stubs Net::HTTP#start to avoid real TCP+TLS connections while still
+  # marking the connection as started, so pooled reuse is exercised.
+  def with_stubbed_start
+    original_start = Net::HTTP.instance_method(:start)
+    Net::HTTP.define_method(:start) do
+      @started = true
+      self
+    end
+    yield
+  ensure
+    Net::HTTP.define_method(:start, original_start)
+  end
+
+  def with_env(overrides)
+    saved = overrides.to_h { |name, _| [name, ENV[name]] }
+    overrides.each { |name, value| ENV[name] = value }
+    yield
+  ensure
+    saved.each { |name, value| ENV[name] = value }
   end
 
   # Exercises the connection_for path (not just the storage helper):
