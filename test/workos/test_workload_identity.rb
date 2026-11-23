@@ -555,6 +555,28 @@ class WorkloadIdentityTest < Minitest::Test
     end
     assert_equal "provider_failed", errors.last.code
 
+    # A 400 whose description repeats the assertion.
+    repeated = JSON.generate(error: "invalid_grant", error_description: "JWT #{assertion} failed validation")
+    assert_equal '{"error":"invalid_grant","error_description":"JWT SECRET-ASSERTION-VALUE failed validation"}', repeated
+    reset_mocks
+    stub_token_endpoint { {status: 400, headers: {"Content-Type" => "application/json"}, body: repeated} }
+    stub_api
+    errors << assert_raises(WorkOS::WorkloadIdentityError) { get_widgets(build.call) }
+    assert_equal "invalid_grant", errors.last.code
+    assert_equal "JWT [redacted] failed validation", errors.last.description
+    assert_equal "invalid_grant: #{errors.last.hint} JWT [redacted] failed validation", errors.last.message
+    assert_equal 1, @token_requests.size
+
+    # A 503 with the same body until retries run out. The last failure keeps
+    # the server's text, with the assertion taken out the same way.
+    reset_mocks
+    stub_token_endpoint { {status: 503, headers: {"Content-Type" => "application/json"}, body: repeated} }
+    stub_api
+    errors << assert_raises(WorkOS::WorkloadIdentityError) { get_widgets(build.call) }
+    assert_equal "invalid_grant", errors.last.code
+    assert_equal "JWT [redacted] failed validation", errors.last.description
+    assert_equal 1 + WorkOS::BaseClient::DEFAULT_MAX_RETRIES, @token_requests.size
+
     # A second 401 from the API, with a real access token in play.
     reset_mocks
     stub_token_endpoint { issue_token(access_token: access_token) }
@@ -565,7 +587,7 @@ class WorkloadIdentityTest < Minitest::Test
     end
     assert_equal ["Bearer #{access_token}"] * 2, bearers
 
-    assert_equal 4, errors.size
+    assert_equal 6, errors.size
     snapshot = creds.resolve
     seen = errors.flat_map { |error| renderings(error) } +
       [log.string, creds.inspect, PP.pp(creds, +""), snapshot.inspect, snapshot.to_s, PP.pp(snapshot, +"")]
@@ -1052,6 +1074,27 @@ class WorkloadIdentityTest < Minitest::Test
     error = assert_raises(WorkOS::WorkloadIdentityError) { credentials.resolve }
 
     assert_equal 500, error.description.size
+  end
+
+  # The provider is asked again on every attempt, so what a server repeats is
+  # the assertion of that attempt. Every occurrence is taken out, of `error`
+  # too, and before the description is cut: a cut made first could leave the
+  # start of a token behind.
+  def test_a_repeated_assertion_is_taken_out_of_each_attempt_before_the_description_is_cut
+    assertions = %w[SECRET-ASSERTION-AAA SECRET-ASSERTION-BBB SECRET-ASSERTION-CCC]
+    stub_token_endpoint do |_count, request|
+      sent = form_of(request)["assertion"]
+      # Three copies. The third starts at character 490, across the limit.
+      {status: 503, body: JSON.generate(error: "busy #{sent}", error_description: "#{sent} and #{sent} #{"x" * 444}#{sent}")}
+    end
+    creds = credentials(identity_token_provider: counting_provider(*assertions))
+
+    error = assert_raises(WorkOS::WorkloadIdentityError) { creds.resolve }
+
+    assert_equal assertions, @token_requests.map { |request| form_of(request)["assertion"] }
+    assert_equal "busy [redacted]", error.code
+    assert_equal "[redacted] and [redacted] #{"x" * 444}[redacted]", error.description
+    renderings(error).each { |text| refute_includes text, "SECRET-ASS" }
   end
 
   def test_token_file_and_token_env_fail_as_provider_errors

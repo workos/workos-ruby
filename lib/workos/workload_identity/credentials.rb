@@ -41,6 +41,10 @@ module WorkOS
       Failure = Struct.new(:code, :description, :cause)
       private_constant :Failure
 
+      # What stands in for the assertion where the token endpoint repeats it.
+      REDACTED = "[redacted]"
+      private_constant :REDACTED
+
       attr_reader :client_id, :token_url, :environment_id, :resource, :scope
 
       # @param identity_token_provider [#call] Returns the workload's JWT as
@@ -395,7 +399,9 @@ module WorkOS
       end
 
       # The OAuth `error` and `error_description` of a response, when its
-      # body has them. The assertion is scrubbed in case the server echoed it.
+      # body has them. A server may repeat the assertion it was sent, so every
+      # occurrence is taken out of both here, before either string is kept and
+      # before the error cuts the description to its length limit.
       def oauth_error(response, assertion)
         body = json_object(response)
         code = body && body["error"]
@@ -403,7 +409,7 @@ module WorkOS
 
         description = body["error_description"]
         description = "" unless description.is_a?(String)
-        [code.gsub(assertion, "[REDACTED]"), description.gsub(assertion, "[REDACTED]")]
+        [code.gsub(assertion, REDACTED), description.gsub(assertion, REDACTED)]
       end
 
       def json_object(response)
