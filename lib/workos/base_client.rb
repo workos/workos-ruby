@@ -105,6 +105,28 @@ module WorkOS
       @random = random
     end
 
+    # The API key, for a request that sends it in the body as `client_secret`:
+    # the sign-in calls on `/user_management/authenticate` and the SSO token
+    # exchange on `/sso/token`.
+    #
+    # A client with no API key and no credentials (a public client running a
+    # PKCE flow) gets nil, which leaves the field out of the request. A client
+    # that authenticates with credentials, such as workload identity, has no
+    # API key to send. It is refused here, before any request is built and
+    # before the credentials are resolved.
+    #
+    # @api private
+    # @param method_name [String] The calling method, named in the error.
+    # @return [String, nil]
+    # @raise [ArgumentError] when the client authenticates with credentials.
+    def client_secret(method_name)
+      return @api_key if @api_key && !@api_key.empty?
+      return @api_key if @credentials.is_a?(StaticKeyCredentials)
+
+      raise ArgumentError, "#{method_name} needs an API key: this request sends it as the client secret. " \
+        "A client that authenticates with workload identity has no API key, so use a client built with one for this call."
+    end
+
     # -- Request builders -------------------------------------------------
 
     def get_request(path:, auth: false, params: {}, request_options: nil)

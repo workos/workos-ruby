@@ -123,6 +123,8 @@ WorkOS.configure { |config| config.credentials = credentials }
 
 `environment_id` is optional because WorkOS binds a workload identity application to exactly one environment and takes the environment from that binding, so the ID selects nothing. Setting it is a safety check: the SDK sends it as the `x-url-environment-id` header on every API request, and a value that names a different environment gets `403 environment_mismatch`. When it is not set, the header is not sent. It is set only in code: no environment variable fills it.
 
+A client built with `credentials` has no API key, so the calls that send the key in the request body as the client secret still need a client built with `api_key`: `sso.get_profile_and_token` and the `user_management.authenticate_with_*` sign-in methods, other than `authenticate_with_code_pkce` and `authenticate_with_device_code`, which send no secret.
+
 ### Providers
 
 Each platform provider is its own gem and takes the audience to request the token for, which must match the audience of the trust rule on your WorkOS application.

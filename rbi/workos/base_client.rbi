@@ -65,6 +65,11 @@ module WorkOS
     end
     def initialize(api_key: nil, credentials: nil, base_url: DEFAULT_BASE_URL, client_id: nil, timeout: DEFAULT_TIMEOUT, max_retries: DEFAULT_MAX_RETRIES, logger: nil, log_level: nil, jwt_issuer: nil, random: Random.new); end
 
+    # For the SDK's own methods that send the API key as `client_secret`.
+    # Raises ArgumentError when the client authenticates with credentials.
+    sig { params(method_name: String).returns(T.nilable(String)) }
+    def client_secret(method_name); end
+
     sig do
       params(
         path: String,

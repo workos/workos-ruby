@@ -1185,4 +1185,77 @@ class WorkloadIdentityTest < Minitest::Test
       end
     end
   end
+
+  # -- The API key as client secret ------------------------------------------
+
+  # The sign-in calls and the SSO token exchange send the API key in the
+  # request body as `client_secret`. They get it from
+  # BaseClient#client_secret, which refuses a client that has credentials in
+  # place of a key.
+
+  def client_secret_refusal(method_name)
+    "#{method_name} needs an API key: this request sends it as the client secret. " \
+      "A client that authenticates with workload identity has no API key, so use a client built with one for this call."
+  end
+
+  def test_client_secret_is_the_api_key_of_a_client_built_with_one
+    client = WorkOS::Client.new(api_key: "sk_test_123", client_id: CLIENT_ID)
+
+    assert_equal "sk_test_123", client.client_secret("authenticate_with_password")
+  end
+
+  def test_client_secret_of_a_client_with_no_api_key_and_no_credentials_is_left_out
+    client = WorkOS::Client.new(client_id: CLIENT_ID)
+
+    assert_nil client.client_secret("authenticate_with_code")
+    # nil is what `.compact` drops from a request body.
+    body = {"client_secret" => client.client_secret("authenticate_with_code"), "code" => "code_123"}.compact
+    assert_equal({"code" => "code_123"}, body)
+    # An empty key comes back as it was given, as it always has.
+    assert_equal "", WorkOS::Client.new(api_key: "").client_secret("authenticate_with_code")
+  end
+
+  def test_client_secret_is_refused_for_a_workload_identity_client_before_any_exchange
+    stub_token_endpoint
+    stub_api(:post, "/user_management/authenticate")
+    client = client_for
+
+    error = assert_raises(ArgumentError) { client.client_secret("authenticate_with_password") }
+
+    assert_equal(
+      "authenticate_with_password needs an API key: this request sends it as the client secret. " \
+      "A client that authenticates with workload identity has no API key, so use a client built with one for this call.",
+      error.message
+    )
+    assert_equal 0, @provider_calls
+    assert_empty @token_requests
+    assert_empty @api_requests
+    assert_not_requested :any, /.*/
+
+    # An empty key next to credentials is no key.
+    empty_key = track(WorkOS::Client.new(api_key: "", credentials: credentials))
+    error = assert_raises(ArgumentError) { empty_key.client_secret("get_profile_and_token") }
+    assert_equal client_secret_refusal("get_profile_and_token"), error.message
+    assert_empty @token_requests
+  end
+
+  # Not only WorkOS::WorkloadIdentity::Credentials: whatever was passed as
+  # `credentials:` stands in for the API key, so there is none to send.
+  def test_client_secret_is_refused_for_any_credentials_object_without_resolving_it
+    resolved = 0
+    custom = Class.new do
+      define_method(:resolve) do |timeout: nil|
+        resolved += 1
+        WorkOS::CredentialSnapshot.new(headers: {"Authorization" => "Bearer custom"}, generation: 1, recoverable: false)
+      end
+      define_method(:invalidate) { |_generation| nil }
+    end.new
+    client = track(WorkOS::Client.new(credentials: custom))
+
+    error = assert_raises(ArgumentError) { client.client_secret("authenticate_with_refresh_token") }
+
+    assert_equal client_secret_refusal("authenticate_with_refresh_token"), error.message
+    assert_equal 0, resolved
+    assert_not_requested :any, /.*/
+  end
 end
