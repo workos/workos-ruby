@@ -1,1 +1,6 @@
 ruby_version: 3.3
+# Each provider gem under gems/ has its own bundle, and CI installs it into
+# that gem's directory. The default `vendor/**/*` ignore only covers the
+# vendor/ next to this file, so a gem's installed bundle is named here.
+ignore:
+  - 'gems/*/vendor/**/*'
