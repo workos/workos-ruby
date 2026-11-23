@@ -74,8 +74,30 @@ module WorkOS
       @jwt_issuer = jwt_issuer
       @random = random
       @proxy = proxy
-      @proxy_uri = parse_proxy(proxy)
+      @proxy_uri = BaseClient.parse_proxy(proxy)
       @proxy_cache_key = @proxy_uri && Digest::SHA256.hexdigest(@proxy_uri.to_s)
+    end
+
+    # Parses a proxy setting into a URI, or returns nil when none is set.
+    # {WorkOS::Configuration#proxy=} calls it too, so that a bad value is
+    # reported where it is set. Error messages never echo the proxy URL
+    # because it can hold credentials.
+    #
+    # @api private
+    # @raise [ArgumentError] if the value is not an `http://` URL with a host
+    def self.parse_proxy(proxy)
+      return nil if proxy.nil?
+
+      uri = begin
+        URI(proxy.to_s)
+      rescue URI::InvalidURIError
+        nil
+      end
+      unless uri.is_a?(URI::HTTP) && uri.scheme == "http" && uri.hostname && !uri.hostname.empty?
+        raise ArgumentError, "proxy must be an http:// URL such as \"http://proxy.example.com:8080\""
+      end
+
+      uri
     end
 
     # -- Request builders -------------------------------------------------
@@ -336,22 +358,6 @@ module WorkOS
         decode_proxy_credential(@proxy_uri.user),
         decode_proxy_credential(@proxy_uri.password)
       )
-    end
-
-    # Error messages never echo the proxy URL because it can hold credentials.
-    def parse_proxy(proxy)
-      return nil if proxy.nil?
-
-      uri = begin
-        URI(proxy.to_s)
-      rescue URI::InvalidURIError
-        nil
-      end
-      unless uri.is_a?(URI::HTTP) && uri.scheme == "http" && uri.hostname && !uri.hostname.empty?
-        raise ArgumentError, "proxy must be an http:// URL such as \"http://proxy.example.com:8080\""
-      end
-
-      uri
     end
 
     def decode_proxy_credential(value)

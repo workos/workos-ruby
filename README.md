@@ -57,7 +57,7 @@ end
 proxied = WorkOS::Client.new(api_key: "sk_...", proxy: "http://proxy.example.com:8080")
 ```
 
-Only `http://` proxy URLs are supported; requests to the WorkOS API stay encrypted end to end through the proxy. When `proxy` is set it is always used, so `no_proxy` does not apply to it. When it is not set, the environment variables behave as before.
+Only `http://` proxy URLs are supported, and any other value raises `ArgumentError` when it is set. Requests to the WorkOS API stay encrypted end to end through the proxy. When `proxy` is set it is always used, so `no_proxy` does not apply to it. When it is not set, the environment variables behave as before.
 
 If the proxy refuses the connection, for example with a 407 for bad credentials, the SDK raises `WorkOS::APIConnectionError`. A response that may clear up, such as a 503, is retried first.
 

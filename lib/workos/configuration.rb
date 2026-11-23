@@ -12,12 +12,23 @@ module WorkOS
   #     config.log_level = :info
   #   end
   class Configuration
-    attr_accessor :api_key, :base_url, :client_id, :timeout, :max_retries, :logger, :log_level, :jwt_issuer, :proxy
+    attr_accessor :api_key, :base_url, :client_id, :timeout, :max_retries, :logger, :log_level, :jwt_issuer
+    attr_reader :proxy
 
     def initialize
       @base_url = WorkOS::BaseClient::DEFAULT_BASE_URL
       @timeout = WorkOS::BaseClient::DEFAULT_TIMEOUT
       @max_retries = WorkOS::BaseClient::DEFAULT_MAX_RETRIES
+    end
+
+    # Checks the URL when it is assigned, so a mistake in an initializer
+    # fails at boot instead of on the first request.
+    #
+    # @param value [String, URI::HTTP, nil] see {WorkOS::BaseClient#initialize}
+    # @raise [ArgumentError] if the value is not an `http://` URL with a host
+    def proxy=(value)
+      WorkOS::BaseClient.parse_proxy(value)
+      @proxy = value
     end
   end
 
