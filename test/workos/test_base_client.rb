@@ -342,12 +342,14 @@ class BaseClientTest < Minitest::Test
     WebMock.enable!
   end
 
+  # Reads one request's head off the socket and returns its request line.
   def read_http_request(socket)
-    socket.gets # request line
+    request_line = socket.gets
     loop do
       line = socket.gets
       break if line.nil? || line == "\r\n"
     end
+    request_line
   end
 
   def write_http_response(socket, body)
@@ -576,6 +578,103 @@ class BaseClientTest < Minitest::Test
     refute_empty io.string
     refute_includes io.string, "s3cret"
     refute_includes io.string, "proxy.example.com"
+  end
+
+  # A reserved name that never resolves. The tests below reach it only through
+  # a local proxy, so a request that skipped the proxy fails instead of
+  # leaving the machine.
+  UNREACHABLE_BASE_URL = "https://workos.invalid"
+
+  # A proxy that answers CONNECT with an error never tunnels the request, and
+  # Net::HTTP raises while opening the connection. Callers must get the
+  # documented transport error, not a raw Net::HTTP exception.
+  def test_proxy_rejecting_connect_raises_api_connection_error_without_retrying
+    with_rejecting_proxy("407 Proxy Authentication Required") do |proxy_url, connects|
+      io = StringIO.new
+      client = WorkOS::BaseClient.new(
+        api_key: "sk_test_123",
+        base_url: UNREACHABLE_BASE_URL,
+        proxy: proxy_url,
+        logger: Logger.new(io),
+        log_level: :debug,
+        timeout: 5,
+        max_retries: 2
+      )
+
+      error = assert_raises(WorkOS::APIConnectionError) { client.request(method: :get, path: "/organizations") }
+
+      assert_equal 'Proxy rejected the connection: 407 "Proxy Authentication Required"', error.message
+      assert_kind_of Net::HTTPClientException, error.cause
+      assert_equal ["CONNECT workos.invalid:443 HTTP/1.1\r\n"], connects, "bad proxy credentials must not be retried"
+      assert_includes io.string, "Proxy rejected the connection"
+      refute_includes io.string, "s3cret"
+      assert_empty client.send(:thread_connections)
+    end
+  end
+
+  def test_proxy_503_on_connect_is_retried_before_raising
+    with_rejecting_proxy("503 Service Unavailable") do |proxy_url, connects|
+      client = WorkOS::BaseClient.new(api_key: "sk_test_123", base_url: UNREACHABLE_BASE_URL, proxy: proxy_url, timeout: 5, max_retries: 2)
+      client.singleton_class.define_method(:sleep) { |_duration| nil }
+
+      error = assert_raises(WorkOS::APIConnectionError) { client.request(method: :get, path: "/organizations") }
+
+      assert_equal 'Proxy rejected the connection: 503 "Service Unavailable"', error.message
+      assert_equal 3, connects.size
+    end
+  end
+
+  def test_proxy_retry_after_on_connect_is_honored
+    with_rejecting_proxy("429 Too Many Requests", "Retry-After" => "7") do |proxy_url, connects|
+      sleeps = []
+      client = WorkOS::BaseClient.new(api_key: "sk_test_123", base_url: UNREACHABLE_BASE_URL, proxy: proxy_url, timeout: 5, max_retries: 1)
+      client.singleton_class.define_method(:sleep) { |duration| sleeps << duration }
+
+      assert_raises(WorkOS::APIConnectionError) { client.request(method: :get, path: "/organizations") }
+
+      assert_equal [7.0], sleeps
+      assert_equal 2, connects.size
+    end
+  end
+
+  # Clients that take their proxy from the environment, which is every client
+  # that does not pass the proxy option, go through the same code.
+  def test_env_proxy_rejecting_connect_raises_api_connection_error
+    with_rejecting_proxy("403 Forbidden") do |proxy_url, connects|
+      with_env("http_proxy" => proxy_url, "no_proxy" => nil, "NO_PROXY" => nil) do
+        client = WorkOS::BaseClient.new(api_key: "sk_test_123", base_url: UNREACHABLE_BASE_URL, timeout: 5, max_retries: 0)
+
+        error = assert_raises(WorkOS::APIConnectionError) { client.request(method: :get, path: "/organizations") }
+
+        assert_equal 'Proxy rejected the connection: 403 "Forbidden"', error.message
+        assert_equal 1, connects.size
+      end
+    end
+  end
+
+  # Runs a local stand-in for an HTTP proxy that answers every CONNECT with
+  # +status+ and never tunnels anything. Yields the proxy's URL and the list
+  # of CONNECT request lines it has received. WebMock is switched off so that
+  # Net::HTTP really opens the socket.
+  def with_rejecting_proxy(status, headers = {})
+    WebMock.disable!
+    server = TCPServer.new("127.0.0.1", 0)
+    connects = []
+    extra_headers = headers.map { |name, value| "#{name}: #{value}\r\n" }.join
+    server_thread = Thread.new do
+      loop do
+        socket = server.accept
+        connects << read_http_request(socket)
+        socket.write("HTTP/1.1 #{status}\r\n#{extra_headers}Content-Length: 0\r\n\r\n")
+        socket.close
+      end
+    end
+
+    yield "http://user:s3cret@127.0.0.1:#{server.addr[1]}", connects
+  ensure
+    server_thread&.kill
+    server&.close
+    WebMock.enable!
   end
 
   # Stubs Net::HTTP#start to avoid real TCP+TLS connections while still

@@ -188,17 +188,24 @@ module WorkOS
         handle_error_response(response)
       rescue Net::OpenTimeout, Net::ReadTimeout,
         Errno::ECONNRESET, Errno::ECONNREFUSED,
-        IOError, Errno::EPIPE => e
+        IOError, Errno::EPIPE, Net::HTTPExceptions => e
         evict_connection(base)
-        if attempt < retries
+        # Net::HTTP raises a Net::HTTPExceptions error in one case only: a
+        # proxy answered CONNECT with a non-2xx status, so the request never
+        # left this process. The proxy's status decides whether another
+        # attempt can help: a 503 may clear up, a 407 for bad credentials
+        # will not.
+        proxy_response = e.response if e.is_a?(Net::HTTPExceptions)
+        if attempt < retries && (proxy_response.nil? || retryable?(proxy_response))
           attempt += 1
           inject_retry_idempotency_key(request)
           log(:info, "request retry", method: request.method, path: loggable_path, attempt: attempt + 1, error: e.class.name)
-          sleep(retry_delay(nil, attempt))
+          sleep(retry_delay(proxy_response, attempt))
           next
         end
-        log(:warn, "connection error", method: request.method, path: loggable_path, error: e.class.name, message: e.message)
-        raise WorkOS::APIConnectionError.new(message: e.message)
+        message = proxy_response ? "Proxy rejected the connection: #{e.message}" : e.message
+        log(:warn, "connection error", method: request.method, path: loggable_path, error: e.class.name, message: message)
+        raise WorkOS::APIConnectionError.new(message: message)
       end
     end
 
