@@ -10,6 +10,7 @@ module WorkOS
       name: :name,
       description: :description,
       permissions: :permissions,
+      scoped_permissions: :scoped_permissions,
       invocable_by: :invocable_by,
       invocable_as: :invocable_as,
       session_settings: :session_settings,
@@ -17,17 +18,27 @@ module WorkOS
       updated_at: :updated_at
     }.freeze
 
+    # @!attribute permissions
+    #   @deprecated Deprecated: use `scoped_permissions`. Slugs of every permission in the ceiling, across all instance types.
+
     attr_accessor \
       :object,
       :id,
       :name,
       :description,
-      :permissions,
+      :scoped_permissions,
       :invocable_by,
       :invocable_as,
       :session_settings,
       :created_at,
       :updated_at
+
+    def permissions
+      warn "[DEPRECATION] `permissions` is deprecated and will be removed in a future version.", uplevel: 1
+      @permissions
+    end
+
+    attr_writer :permissions
 
     def initialize(json)
       hash = self.class.normalize(json)
@@ -36,6 +47,7 @@ module WorkOS
       @name = hash[:name]
       @description = hash[:description]
       @permissions = hash[:permissions] || []
+      @scoped_permissions = (hash[:scoped_permissions] || []).map { |item| item ? WorkOS::AgentBlueprintCreatedDataScopedPermission.new(item) : nil }
       @invocable_by = hash[:invocable_by] ? WorkOS::AgentBlueprintCreatedDataInvocableBy.new(hash[:invocable_by]) : nil
       @invocable_as = hash[:invocable_as] ? WorkOS::AgentBlueprintCreatedDataInvocableAs.new(hash[:invocable_as]) : nil
       @session_settings = hash[:session_settings] ? WorkOS::AgentBlueprintCreatedDataSessionSetting.new(hash[:session_settings]) : nil

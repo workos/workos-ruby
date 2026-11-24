@@ -4,6 +4,6 @@
 
 module WorkOS
   module Types
-    RadarStandaloneResponseBlocklistType = RadarListType
+    RadarStandaloneResponseBlocklistType = RadarDetectionListType
   end
 end

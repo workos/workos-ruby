@@ -39,6 +39,12 @@ module WorkOS
     sig { params(value: T::Array[String]).returns(T::Array[String]) }
     def permissions=(value); end
 
+    sig { returns(T.nilable(T::Array[WorkOS::AgentBlueprintUpdatedDataScopedPermission])) }
+    def scoped_permissions; end
+
+    sig { params(value: T.nilable(T::Array[WorkOS::AgentBlueprintUpdatedDataScopedPermission])).returns(T.nilable(T::Array[WorkOS::AgentBlueprintUpdatedDataScopedPermission])) }
+    def scoped_permissions=(value); end
+
     sig { returns(WorkOS::AgentBlueprintUpdatedDataInvocableBy) }
     def invocable_by; end
 

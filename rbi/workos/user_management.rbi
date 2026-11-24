@@ -195,6 +195,14 @@ module WorkOS
       params(
         id: String,
         request_options: T::Hash[Symbol, T.untyped]
+      ).returns(NilClass)
+    end
+    def delete_cors_origin(id:, request_options: {}); end
+
+    sig do
+      params(
+        id: String,
+        request_options: T::Hash[Symbol, T.untyped]
       ).returns(WorkOS::EmailVerification)
     end
     def get_email_verification(id:, request_options: {}); end

@@ -34,6 +34,14 @@ module WorkOS
 
     sig do
       params(
+        id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::RadarDetection)
+    end
+    def get_detection(id:, request_options: {}); end
+
+    sig do
+      params(
         type: String,
         action: String,
         entry: String,

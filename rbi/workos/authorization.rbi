@@ -245,6 +245,16 @@ module WorkOS
     sig do
       params(
         organization_membership_id: String,
+        add: T.nilable(T::Array[WorkOS::PatchRoleAssignmentEntry]),
+        remove: T.nilable(T::Array[WorkOS::PatchRoleAssignmentEntry]),
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(NilClass)
+    end
+    def update_role_assignments(organization_membership_id:, add: nil, remove: nil, request_options: {}); end
+
+    sig do
+      params(
+        organization_membership_id: String,
         role_slug: String,
         resource_target: T.any(WorkOS::Authorization::ResourceTargetById, WorkOS::Authorization::ResourceTargetByExternalId),
         request_options: T::Hash[Symbol, T.untyped]

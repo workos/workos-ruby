@@ -238,6 +238,13 @@ class UserManagementTest < Minitest::Test
     refute_nil result
   end
 
+  def test_delete_cors_origin_returns_expected_result
+    stub_request(:delete, %r{\Ahttps://api\.workos\.com/user_management/cors_origins/stub(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.user_management.delete_cors_origin(id: "stub")
+    assert_nil result
+  end
+
   def test_get_email_verification_returns_expected_result
     stub_request(:get, %r{\Ahttps://api\.workos\.com/user_management/email_verification/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
@@ -556,6 +563,7 @@ class UserManagementTest < Minitest::Test
     {name: :delete_authkit_oauth_resource, verb: :delete, url: %r{\Ahttps://api\.workos\.com/user_management/authkit_oauth_resources/stub(\?|\z)}, args: {id: "stub"}},
     {name: :list_cors_origins, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/cors_origins(\?|\z)}},
     {name: :create_cors_origin, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/cors_origins(\?|\z)}, args: {origin: "stub"}},
+    {name: :delete_cors_origin, verb: :delete, url: %r{\Ahttps://api\.workos\.com/user_management/cors_origins/stub(\?|\z)}, args: {id: "stub"}},
     {name: :get_email_verification, verb: :get, url: %r{\Ahttps://api\.workos\.com/user_management/email_verification/stub(\?|\z)}, args: {id: "stub"}},
     {name: :reset_password, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/password_reset(\?|\z)}, args: {email: "stub"}},
     {name: :confirm_password_reset, verb: :post, url: %r{\Ahttps://api\.workos\.com/user_management/password_reset/confirm(\?|\z)}, args: {token: "stub", new_password: "stub"}},

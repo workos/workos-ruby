@@ -5,6 +5,79 @@
 require "test_helper"
 
 class RadarModelRoundTripTest < Minitest::Test
+  def test_radar_detection_list_round_trip
+    fixture = {
+      "type" => "stub",
+      "action" => nil,
+      "name" => nil,
+      "workos_managed" => true
+    }
+    model = WorkOS::RadarDetectionList.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_nil json[:name]
+    assert_equal fixture["workos_managed"], json[:workos_managed]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_radar_detection_allowed_by_round_trip
+    fixture = {
+      "list_id" => "stub",
+      "list" => nil,
+      "entry" => "stub"
+    }
+    model = WorkOS::RadarDetectionAllowedBy.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["list_id"], json[:list_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_radar_detection_evidence_round_trip
+    fixture = {
+      "summary" => "stub",
+      "allowed_by" => {}
+    }
+    model = WorkOS::RadarDetectionEvidence.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["summary"], json[:summary]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_radar_detection_round_trip
+    fixture = {
+      "object" => "radar_detection",
+      "id" => "stub",
+      "attempt_id" => "stub",
+      "control" => "stub",
+      "verdict" => "stub",
+      "challenge_type" => nil,
+      "evidence" => nil,
+      "ip_address" => "stub",
+      "location" => {},
+      "user_agent" => "stub",
+      "email" => "stub",
+      "user_id" => nil,
+      "action" => nil,
+      "auth_method" => nil,
+      "created_at" => "stub",
+      "updated_at" => "stub"
+    }
+    model = WorkOS::RadarDetection.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["attempt_id"], json[:attempt_id]
+    assert_equal fixture["ip_address"], json[:ip_address]
+    assert_equal fixture["user_agent"], json[:user_agent]
+    assert_equal fixture["email"], json[:email]
+    assert_nil json[:user_id]
+    assert_equal fixture["created_at"], json[:created_at]
+    assert_equal fixture["updated_at"], json[:updated_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_radar_standalone_response_round_trip
     fixture = {
       "verdict" => "stub",
@@ -29,6 +102,19 @@ class RadarModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["message"], json[:message]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_radar_detection_location_round_trip
+    fixture = {
+      "city" => nil,
+      "country" => nil
+    }
+    model = WorkOS::RadarDetectionLocation.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_nil json[:city]
+    assert_nil json[:country]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 

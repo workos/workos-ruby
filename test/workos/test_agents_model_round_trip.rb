@@ -76,6 +76,7 @@ class AgentsModelRoundTripTest < Minitest::Test
       "name" => "stub",
       "description" => nil,
       "permissions" => [],
+      "scoped_permissions" => [],
       "invocable_by" => {},
       "invocable_as" => {},
       "session_settings" => {},
@@ -185,6 +186,18 @@ class AgentsModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_agent_blueprint_scoped_permission_round_trip
+    fixture = {
+      "slug" => "stub",
+      "instance_types" => []
+    }
+    model = WorkOS::AgentBlueprintScopedPermission.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["slug"], json[:slug]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_agent_blueprint_invocable_by_round_trip
     fixture = {
       "role_slugs" => [],
@@ -285,6 +298,18 @@ class AgentsModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_agent_blueprints_create_request_permission_round_trip
+    fixture = {
+      "slug" => "stub",
+      "instance_types" => []
+    }
+    model = WorkOS::AgentBlueprintsCreateRequestPermission.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["slug"], json[:slug]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_agent_blueprints_create_request_invocable_by_round_trip
     fixture = {
       "role_slugs" => [],
@@ -333,6 +358,18 @@ class AgentsModelRoundTripTest < Minitest::Test
     model = WorkOS::AgentBlueprintsUpdateRequest.new(fixture.to_json)
     json = model.to_h
     assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_agent_blueprints_update_request_permission_round_trip
+    fixture = {
+      "slug" => "stub",
+      "instance_types" => []
+    }
+    model = WorkOS::AgentBlueprintsUpdateRequestPermission.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["slug"], json[:slug]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 

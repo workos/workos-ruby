@@ -15,10 +15,10 @@ module WorkOS
     sig { params(value: String).returns(String) }
     def action=(value); end
 
-    sig { returns(String) }
+    sig { returns(T.nilable(String)) }
     def occurred_at; end
 
-    sig { params(value: String).returns(String) }
+    sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
     def occurred_at=(value); end
 
     sig { returns(WorkOS::AuditLogEventActor) }

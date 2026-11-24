@@ -24,7 +24,7 @@ module WorkOS
       params(
         name: String,
         description: T.nilable(String),
-        permissions: T.nilable(T::Array[String]),
+        permissions: T.nilable(T::Array[T.any(WorkOS::AgentBlueprintsCreateRequestPermission, String)]),
         invocable_by: T.nilable(WorkOS::AgentBlueprintsCreateRequestInvocableBy),
         invocable_as: T.nilable(WorkOS::AgentBlueprintsCreateRequestInvocableAs),
         session_settings: T.nilable(WorkOS::AgentBlueprintsCreateRequestSessionSetting),
@@ -46,7 +46,7 @@ module WorkOS
         agent_blueprint_id: String,
         name: T.nilable(String),
         description: T.nilable(String),
-        permissions: T.nilable(T::Array[String]),
+        permissions: T.nilable(T::Array[T.any(WorkOS::AgentBlueprintsUpdateRequestPermission, String)]),
         invocable_by: T.nilable(WorkOS::AgentBlueprintsUpdateRequestInvocableBy),
         invocable_as: T.nilable(WorkOS::AgentBlueprintsUpdateRequestInvocableAs),
         session_settings: T.nilable(WorkOS::AgentBlueprintsUpdateRequestSessionSetting),

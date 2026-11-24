@@ -21,10 +21,10 @@ module WorkOS
     sig { params(value: T.nilable(String)).returns(T.nilable(String)) }
     def description=(value); end
 
-    sig { returns(T.nilable(T::Array[String])) }
+    sig { returns(T.nilable(T::Array[T.any(WorkOS::AgentBlueprintsUpdateRequestPermission, String)])) }
     def permissions; end
 
-    sig { params(value: T.nilable(T::Array[String])).returns(T.nilable(T::Array[String])) }
+    sig { params(value: T.nilable(T::Array[T.any(WorkOS::AgentBlueprintsUpdateRequestPermission, String)])).returns(T.nilable(T::Array[T.any(WorkOS::AgentBlueprintsUpdateRequestPermission, String)])) }
     def permissions=(value); end
 
     sig { returns(T.nilable(WorkOS::AgentBlueprintsUpdateRequestInvocableBy)) }
