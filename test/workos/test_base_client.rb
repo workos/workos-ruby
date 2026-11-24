@@ -102,6 +102,10 @@ class BaseClientTest < Minitest::Test
   end
 
   def setup
+    # The connection cache is thread-local and shared by every client, and the
+    # other test classes never clear it. Start empty so tests that assert on
+    # the cache do not depend on which class ran before this one.
+    Thread.current[:workos_connections] = nil
     @client = WorkOS::BaseClient.new(api_key: "sk_test_123", max_retries: 1)
   end
 
