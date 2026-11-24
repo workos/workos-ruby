@@ -32,6 +32,14 @@ module WorkOS
     sig do
       params(
         id: String,
+        request_options: T::Hash[Symbol, T.untyped]
+      ).returns(WorkOS::WebhookEndpoint)
+    end
+    def get_webhook_endpoint(id:, request_options: {}); end
+
+    sig do
+      params(
+        id: String,
         endpoint_url: T.nilable(String),
         status: T.nilable(String),
         events: T.nilable(T::Array[String]),
