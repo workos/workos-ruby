@@ -25,6 +25,15 @@ module WorkOS
   #     log_level: :info
   #   )
   #
+  # @example Authenticate with workload identity in place of an API key
+  #   client = WorkOS::Client.new(
+  #     credentials: WorkOS::WorkloadIdentity::Credentials.new(
+  #       client_id: "client_...",
+  #       token_url: "https://.../oauth2/token",
+  #       identity_token_provider: WorkOS::WorkloadIdentity.token_file("/run/workos/identity-token")
+  #     )
+  #   )
+  #
   # @example Route this client's requests through an HTTP proxy
   #   client = WorkOS::Client.new(
   #     api_key: "sk_...",
@@ -49,8 +58,46 @@ module WorkOS
       "v#{WorkOS::VERSION}"
     ].join("; ").freeze
 
-    attr_reader :api_key, :base_url, :client_id, :timeout, :max_retries, :logger, :log_level, :jwt_issuer, :proxy
+    # Marks a request built with `auth: true` and no per-request override, so
+    # that execute_request resolves the client's credentials before each
+    # attempt. Kept on the request because build and execute are two calls.
+    CLIENT_CREDENTIALS = :@workos_client_credentials
+    private_constant :CLIENT_CREDENTIALS
 
+    attr_reader :api_key, :credentials, :base_url, :client_id, :timeout, :max_retries, :logger, :log_level, :jwt_issuer, :proxy
+
+    # Delay before retry number `attempt`: the server's `Retry-After` when it
+    # sends a usable one, otherwise exponential backoff with jitter. The
+    # workload identity token exchange calls this too, so both retry alike.
+    #
+    # @api private
+    def self.retry_delay(response, attempt, random)
+      retry_after = retry_after_seconds(response)
+      return retry_after if retry_after
+
+      base = RETRY_BACKOFF_BASE * (2**(attempt - 1))
+      jitter = random.rand * 0.25 * base
+      base + jitter
+    end
+
+    # Retry-After is either a number of seconds or an HTTP-date (RFC 9110,
+    # section 10.2.3). Returns nil when the header is missing, is neither
+    # form, or does not point to the future, so the caller uses its backoff.
+    def self.retry_after_seconds(response)
+      value = response && response["Retry-After"]
+      return nil unless value
+
+      seconds = value.to_f
+      seconds = Time.httpdate(value) - Time.now unless seconds.positive?
+      seconds if seconds.positive?
+    rescue ArgumentError
+      nil
+    end
+    private_class_method :retry_after_seconds
+
+    # @param credentials [#resolve, #invalidate, nil] Credentials to
+    #   authenticate with in place of an API key, such as
+    #   {WorkOS::WorkloadIdentity::Credentials}.
     # @param proxy [String, URI::HTTP, nil] URL of an HTTP proxy to send this
     #   client's requests through, e.g. `"http://user:pass@proxy.example.com:8080"`.
     #   Only `http://` proxy URLs are supported; HTTPS API traffic is tunneled
@@ -61,10 +108,21 @@ module WorkOS
     # @param jwt_issuer [String, Array<String>, nil] Expected `iss` claim of
     #   session access tokens (one issuer or a list of accepted issuers).
     #   When nil, the issuer is not validated.
-    def initialize(api_key: nil, base_url: DEFAULT_BASE_URL, client_id: nil,
+    # @raise [ArgumentError] when both `api_key` and `credentials` are given,
+    #   or when `credentials` does not respond to `resolve` and `invalidate`.
+    def initialize(api_key: nil, credentials: nil, base_url: DEFAULT_BASE_URL, client_id: nil,
       timeout: DEFAULT_TIMEOUT, max_retries: DEFAULT_MAX_RETRIES,
       logger: nil, log_level: nil, jwt_issuer: nil, random: Random.new, proxy: nil)
+      if credentials
+        if api_key && !api_key.empty?
+          raise ArgumentError, "api_key and credentials were both given; pass one or the other"
+        end
+        unless credentials.respond_to?(:resolve) && credentials.respond_to?(:invalidate)
+          raise ArgumentError, "credentials must respond to resolve and invalidate"
+        end
+      end
       @api_key = api_key
+      @credentials = credentials || StaticKeyCredentials.new(api_key)
       @base_url = base_url
       @client_id = client_id
       @timeout = timeout
@@ -98,6 +156,28 @@ module WorkOS
       end
 
       uri
+    end
+
+    # The API key, for a request that sends it in the body as `client_secret`:
+    # the sign-in calls on `/user_management/authenticate` and the SSO token
+    # exchange on `/sso/token`.
+    #
+    # A client with no API key and no credentials (a public client running a
+    # PKCE flow) gets nil, which leaves the field out of the request. A client
+    # that authenticates with credentials, such as workload identity, has no
+    # API key to send. It is refused here, before any request is built and
+    # before the credentials are resolved.
+    #
+    # @api private
+    # @param method_name [String] The calling method, named in the error.
+    # @return [String, nil]
+    # @raise [ArgumentError] when the client authenticates with credentials.
+    def client_secret(method_name)
+      return @api_key if @api_key && !@api_key.empty?
+      return @api_key if @credentials.is_a?(StaticKeyCredentials)
+
+      raise ArgumentError, "#{method_name} needs an API key: this request sends it as the client secret. " \
+        "A client that authenticates with workload identity has no API key, so use a client built with one for this call."
     end
 
     # -- Request builders -------------------------------------------------
@@ -179,24 +259,28 @@ module WorkOS
       timeout = opts[:timeout] || @timeout
       retries = opts[:max_retries] || @max_retries
       attempt = 0
+      # One credential recovery per logical request. It lives outside the
+      # retry loop and is never cleared, so transport retries cannot earn a
+      # second one. A streamed body cannot be sent twice, so such a request
+      # has none; decided here, before the first send consumes the stream.
+      recovery_used = !request.body_stream.nil?
 
       loop do
         loggable_path = redact_path(request.path)
         log(:debug, "request start", method: request.method, path: loggable_path, attempt: attempt + 1)
-        http = connection_for(base, timeout)
-        request_completed = false
-        begin
-          response = http.request(request)
-          request_completed = true
-        ensure
-          # Any exit from #request other than a returned response can leave
-          # the socket mid-stream: a connection error the rescue below knows
-          # about, one it doesn't (OpenSSL::SSL::SSLError,
-          # Net::HTTPBadResponse), or a non-local exit such as an
-          # application-level Timeout.timeout or Thread#kill. A half-read
-          # socket handed back to the pool desyncs the *next* request on this
-          # thread, so drop it here rather than in the rescue.
-          evict_connection(base) unless request_completed
+        # Resolved before every attempt, so a retry never sends an expired
+        # token. The snapshot is kept: a 401 invalidates the credential this
+        # attempt actually sent, not whichever is current by then.
+        snapshot = authorize(request, timeout)
+        response = transmit(request, base, timeout)
+        if !recovery_used && recoverable_unauthorized?(response, snapshot)
+          recovery_used = true
+          log(:info, "credentials refresh", method: request.method, path: loggable_path, status: 401)
+          @credentials.invalidate(snapshot.generation)
+          authorize(request, timeout)
+          # Same request object: same body bytes, same Idempotency-Key. Not
+          # counted against the retry limit and not delayed by a backoff.
+          response = transmit(request, base, timeout)
         end
         return response if response.is_a?(Net::HTTPSuccess)
 
@@ -430,15 +514,79 @@ module WorkOS
     def build_request(klass, path, auth:, request_options:)
       opts = request_options.is_a?(Hash) ? request_options : {}
       request = klass.new(path)
+      client_credentials = false
       if auth
-        key = opts[:api_key] || opts["api_key"] || @api_key
-        request["Authorization"] = "Bearer #{key}" if key && !key.empty?
+        key = opts[:api_key] || opts["api_key"]
+        if key
+          # A per-request key keeps its precedence over the client's
+          # credentials, and a 401 on it is not recoverable.
+          request["Authorization"] = "Bearer #{key}" unless key.empty?
+        else
+          client_credentials = true
+          # A static key never blocks, so its header is set here, where it
+          # has always been set. Other credentials may need an exchange and
+          # are resolved per attempt in execute_request.
+          apply_snapshot(request, @credentials.resolve) if @credentials.is_a?(StaticKeyCredentials)
+        end
       end
       request["User-Agent"] = USER_AGENT
       # Apply user headers before idempotency injection so caller-supplied
       # Idempotency-Key values win.
       apply_extra_headers(request, request_options)
+      # A caller-supplied Authorization header is a per-request override too.
+      if client_credentials && !extra_authorization?(request_options)
+        request.instance_variable_set(CLIENT_CREDENTIALS, true)
+      end
       request
+    end
+
+    # Resolve the client's credentials and set their headers on the request.
+    # Returns nil for a request that does not use them: `auth: false`, or a
+    # per-request override.
+    def authorize(request, timeout)
+      return nil unless request.instance_variable_get(CLIENT_CREDENTIALS)
+
+      snapshot = @credentials.resolve(timeout: timeout)
+      # A static key's header was set when the request was built and is left
+      # alone from then on, including anything the caller did to it since.
+      apply_snapshot(request, snapshot) unless @credentials.is_a?(StaticKeyCredentials)
+      snapshot
+    end
+
+    def apply_snapshot(request, snapshot)
+      snapshot.headers.each { |name, value| request[name] = value }
+    end
+
+    def extra_authorization?(request_options)
+      return false unless request_options.is_a?(Hash)
+
+      extra = request_options[:extra_headers] || request_options["extra_headers"]
+      extra.is_a?(Hash) && extra.any? { |name, _value| name.to_s.casecmp?("authorization") }
+    end
+
+    # A 401 is worth one re-resolve when the credentials that were sent say so.
+    def recoverable_unauthorized?(response, snapshot)
+      response.code.to_i == 401 && !snapshot.nil? && snapshot.recoverable
+    end
+
+    # One HTTP attempt on this thread's pooled connection.
+    def transmit(request, base, timeout)
+      http = connection_for(base, timeout)
+      request_completed = false
+      begin
+        response = http.request(request)
+        request_completed = true
+        response
+      ensure
+        # Any exit from #request other than a returned response can leave
+        # the socket mid-stream: a connection error the caller's rescue knows
+        # about, one it doesn't (OpenSSL::SSL::SSLError,
+        # Net::HTTPBadResponse), or a non-local exit such as an
+        # application-level Timeout.timeout or Thread#kill. A half-read
+        # socket handed back to the pool desyncs the *next* request on this
+        # thread, so drop it here rather than in the rescue.
+        evict_connection(base) unless request_completed
+      end
     end
 
     def apply_extra_headers(request, request_options)
@@ -498,26 +646,7 @@ module WorkOS
     end
 
     def retry_delay(response, attempt)
-      retry_after = retry_after_seconds(response)
-      return retry_after if retry_after
-
-      base = RETRY_BACKOFF_BASE * (2**(attempt - 1))
-      jitter = @random.rand * 0.25 * base
-      base + jitter
-    end
-
-    # Retry-After is either a number of seconds or an HTTP-date (RFC 9110,
-    # section 10.2.3). Returns nil when the header is missing, is neither
-    # form, or does not point to the future, so the caller uses its backoff.
-    def retry_after_seconds(response)
-      value = response && response["Retry-After"]
-      return nil unless value
-
-      seconds = value.to_f
-      seconds = Time.httpdate(value) - Time.now unless seconds.positive?
-      seconds if seconds.positive?
-    rescue ArgumentError
-      nil
+      BaseClient.retry_delay(response, attempt, @random)
     end
 
     def handle_error_response(response)

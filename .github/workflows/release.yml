@@ -8,9 +8,17 @@ defaults:
   run:
     shell: bash
 
+# Every GitHub Release in this repo fires this workflow: the SDK's and each
+# workload identity provider gem's. The tag says which one was released, and
+# exactly one job below runs for it.
+#   vX.Y.Z                                    the workos gem
+#   workos-workload-identity-<name>/vX.Y.Z    that provider gem, from gems/
+# release-please's ruby release type always joins the component and the
+# version with "/", whatever tag-separator says.
 jobs:
   publish:
     name: Publish to RubyGems
+    if: startsWith(github.event.release.tag_name, 'v')
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -34,3 +42,96 @@ jobs:
           VERSION="${GITHUB_REF_NAME#v}"
           bundle exec rake build
           gem push pkg/workos-${VERSION}.gem --host https://rubygems.org
+
+  publish-workload-identity-github-actions:
+    name: Publish workos-workload-identity-github-actions to RubyGems
+    if: startsWith(github.event.release.tag_name, 'workos-workload-identity-github-actions/v')
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    defaults:
+      run:
+        shell: bash
+        working-directory: gems/workos-workload-identity-github-actions
+    steps:
+      # No role: this gem publishes through its own RubyGems trusted
+      # publisher, which names this repository and this workflow file.
+      - name: Configure RubyGems credentials
+        uses: rubygems/configure-rubygems-credentials@a251ea8ec8e94203b26acddd2010f89b187a44b7
+
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@14594264cd68ce8a2345dd349bc3d138a4ef85c8 # v1.327.0
+
+      - name: Publish to RubyGems
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          VERSION="${TAG#workos-workload-identity-github-actions/v}"
+          gem build workos-workload-identity-github-actions.gemspec
+          gem push "workos-workload-identity-github-actions-${VERSION}.gem" --host https://rubygems.org
+
+  publish-workload-identity-gcp:
+    name: Publish workos-workload-identity-gcp to RubyGems
+    if: startsWith(github.event.release.tag_name, 'workos-workload-identity-gcp/v')
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    defaults:
+      run:
+        shell: bash
+        working-directory: gems/workos-workload-identity-gcp
+    steps:
+      # No role: this gem publishes through its own RubyGems trusted
+      # publisher, which names this repository and this workflow file.
+      - name: Configure RubyGems credentials
+        uses: rubygems/configure-rubygems-credentials@a251ea8ec8e94203b26acddd2010f89b187a44b7
+
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@14594264cd68ce8a2345dd349bc3d138a4ef85c8 # v1.327.0
+
+      - name: Publish to RubyGems
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          VERSION="${TAG#workos-workload-identity-gcp/v}"
+          gem build workos-workload-identity-gcp.gemspec
+          gem push "workos-workload-identity-gcp-${VERSION}.gem" --host https://rubygems.org
+
+  publish-workload-identity-aws:
+    name: Publish workos-workload-identity-aws to RubyGems
+    if: startsWith(github.event.release.tag_name, 'workos-workload-identity-aws/v')
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    defaults:
+      run:
+        shell: bash
+        working-directory: gems/workos-workload-identity-aws
+    steps:
+      # No role: this gem publishes through its own RubyGems trusted
+      # publisher, which names this repository and this workflow file.
+      - name: Configure RubyGems credentials
+        uses: rubygems/configure-rubygems-credentials@a251ea8ec8e94203b26acddd2010f89b187a44b7
+
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@14594264cd68ce8a2345dd349bc3d138a4ef85c8 # v1.327.0
+
+      - name: Publish to RubyGems
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          VERSION="${TAG#workos-workload-identity-aws/v}"
+          gem build workos-workload-identity-aws.gemspec
+          gem push "workos-workload-identity-aws-${VERSION}.gem" --host https://rubygems.org
