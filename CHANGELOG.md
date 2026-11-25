@@ -1,5 +1,21 @@
 # Changelog
 
+## [10.8.0](https://github.com/workos/workos-ruby/compare/v10.7.0...v10.8.0) (2026-11-25)
+
+
+### Features
+
+* Add opt-in proxy option to the client ([#581](https://github.com/workos/workos-ruby/issues/581)) ([399682a](https://github.com/workos/workos-ruby/commit/399682a4ddb046ef105aba060604c1e13fe7d4ab))
+* **directory_sync:** Change directory sync API surface ([#586](https://github.com/workos/workos-ruby/issues/586)) ([9c2cfe5](https://github.com/workos/workos-ruby/commit/9c2cfe5e5f0503be15fef516106caace27b1ce9f))
+* **sso:** Add SSO API surface ([#586](https://github.com/workos/workos-ruby/issues/586)) ([9c2cfe5](https://github.com/workos/workos-ruby/commit/9c2cfe5e5f0503be15fef516106caace27b1ce9f))
+* **webhooks:** Add webhook API surface ([#586](https://github.com/workos/workos-ruby/issues/586)) ([9c2cfe5](https://github.com/workos/workos-ruby/commit/9c2cfe5e5f0503be15fef516106caace27b1ce9f))
+
+
+### Bug Fixes
+
+* **events:** Updated model `EventSchema` ([#586](https://github.com/workos/workos-ruby/issues/586)) ([9c2cfe5](https://github.com/workos/workos-ruby/commit/9c2cfe5e5f0503be15fef516106caace27b1ce9f))
+* **session:** Correct the SessionManager RBI signatures ([#582](https://github.com/workos/workos-ruby/issues/582)) ([32fb319](https://github.com/workos/workos-ruby/commit/32fb319a2837a3d455059035d71b37f77585e84f))
+
 ## [10.7.0](https://github.com/workos/workos-ruby/compare/v10.6.0...v10.7.0) (2026-11-13)
 
 ### Bug Fixes
