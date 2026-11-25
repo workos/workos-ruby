@@ -25,7 +25,7 @@ module WorkOS
       hash = self.class.normalize(json)
       @name = hash[:name]
       @description = hash[:description]
-      @permissions = hash[:permissions] || []
+      @permissions = (hash[:permissions] || []).map { |item| item ? WorkOS::AgentBlueprintsUpdateRequestPermission.new(item) : nil }
       @invocable_by = hash[:invocable_by] ? WorkOS::AgentBlueprintsUpdateRequestInvocableBy.new(hash[:invocable_by]) : nil
       @invocable_as = hash[:invocable_as] ? WorkOS::AgentBlueprintsUpdateRequestInvocableAs.new(hash[:invocable_as]) : nil
       @session_settings = hash[:session_settings] ? WorkOS::AgentBlueprintsUpdateRequestSessionSetting.new(hash[:session_settings]) : nil

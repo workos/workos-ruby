@@ -543,6 +543,61 @@ class SsoModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_connection_saml_certificate_replaced_round_trip
+    fixture = {
+      "object" => "event",
+      "id" => "stub",
+      "event" => "connection.saml_certificate_replaced",
+      "data" => {},
+      "created_at" => "stub",
+      "context" => {}
+    }
+    model = WorkOS::ConnectionSAMLCertificateReplaced.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    assert_equal fixture["created_at"], json[:created_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_connection_saml_certificate_replaced_data_round_trip
+    fixture = {
+      "connection" => {},
+      "certificate" => {},
+      "replaced_at" => "stub"
+    }
+    model = WorkOS::ConnectionSAMLCertificateReplacedData.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["replaced_at"], json[:replaced_at]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_connection_saml_certificate_replaced_data_connection_round_trip
+    fixture = {
+      "id" => "stub",
+      "organization_id" => "stub"
+    }
+    model = WorkOS::ConnectionSAMLCertificateReplacedDataConnection.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["id"], json[:id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_connection_saml_certificate_replaced_data_certificate_round_trip
+    fixture = {
+      "certificate_type" => "stub",
+      "expiry_date" => "stub",
+      "previous_expiry_date" => "stub"
+    }
+    model = WorkOS::ConnectionSAMLCertificateReplacedDataCertificate.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["expiry_date"], json[:expiry_date]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_saml_idp_signing_certificate_round_trip
     fixture = {
       "object" => "saml_idp_signing_certificate",

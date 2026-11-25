@@ -555,6 +555,32 @@ module WorkOS
       result
     end
 
+    # Update role assignments for an organization membership
+    # @param organization_membership_id [String] The ID of the organization membership.
+    # @param add [Array<WorkOS::PatchRoleAssignmentEntry>, nil] Role assignments to add to the organization membership. Assignments that already exist are skipped.
+    # @param remove [Array<WorkOS::PatchRoleAssignmentEntry>, nil] Role assignments to remove from the organization membership. Entries that match no assignment are skipped. Roles granted through a group cannot be removed.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [void]
+    def update_role_assignments(
+      organization_membership_id:,
+      add: nil,
+      remove: nil,
+      request_options: {}
+    )
+      body = {
+        "add" => add,
+        "remove" => remove
+      }.compact
+      @client.request(
+        method: :patch,
+        path: "/authorization/organization_memberships/#{WorkOS::Util.encode_path(organization_membership_id)}/role_assignments",
+        auth: true,
+        body: body,
+        request_options: request_options
+      )
+      nil
+    end
+
     # Remove a role assignment
     # @param organization_membership_id [String] The ID of the organization membership.
     # @param role_slug [String] The slug of the role to remove.

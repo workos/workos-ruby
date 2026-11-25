@@ -25,6 +25,13 @@ class RadarTest < Minitest::Test
     assert_nil result
   end
 
+  def test_get_detection_returns_expected_result
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/radar/detections/stub(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.radar.get_detection(id: "stub")
+    refute_nil result
+  end
+
   def test_add_list_entry_returns_expected_result
     stub_request(:post, %r{\Ahttps://api\.workos\.com/radar/lists/stub/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
@@ -43,6 +50,7 @@ class RadarTest < Minitest::Test
   [
     {name: :create_attempt, verb: :post, url: %r{\Ahttps://api\.workos\.com/radar/attempts(\?|\z)}, args: {ip_address: "stub", user_agent: "stub", email: "stub", auth_method: "stub", action: "stub"}},
     {name: :update_attempt, verb: :put, url: %r{\Ahttps://api\.workos\.com/radar/attempts/stub(\?|\z)}, args: {id: "stub"}},
+    {name: :get_detection, verb: :get, url: %r{\Ahttps://api\.workos\.com/radar/detections/stub(\?|\z)}, args: {id: "stub"}},
     {name: :add_list_entry, verb: :post, url: %r{\Ahttps://api\.workos\.com/radar/lists/stub/stub(\?|\z)}, args: {type: "stub", action: "stub", entry: "stub"}},
     {name: :remove_list_entry, verb: :delete, url: %r{\Ahttps://api\.workos\.com/radar/lists/stub/stub(\?|\z)}, args: {type: "stub", action: "stub", entry: "stub"}}
   ].each do |spec|

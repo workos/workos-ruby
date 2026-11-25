@@ -64,6 +64,10 @@ module WorkOS
       @groups ||= WorkOS::Groups.new(self)
     end
 
+    def organizations_issuer_trusts
+      @organizations_issuer_trusts ||= WorkOS::OrganizationsIssuerTrusts.new(self)
+    end
+
     def platform_teams
       @platform_teams ||= WorkOS::PlatformTeams.new(self)
     end

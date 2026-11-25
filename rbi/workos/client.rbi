@@ -54,6 +54,9 @@ module WorkOS
     sig { returns(WorkOS::Groups) }
     def groups; end
 
+    sig { returns(WorkOS::OrganizationsIssuerTrusts) }
+    def organizations_issuer_trusts; end
+
     sig { returns(WorkOS::PlatformTeams) }
     def platform_teams; end
 

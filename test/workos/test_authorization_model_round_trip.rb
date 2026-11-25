@@ -96,6 +96,31 @@ class AuthorizationModelRoundTripTest < Minitest::Test
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 
+  def test_patch_role_assignment_entry_round_trip
+    fixture = {
+      "role_slug" => "stub",
+      "resource_id" => "stub",
+      "resource_external_id" => "stub",
+      "resource_type_slug" => "stub"
+    }
+    model = WorkOS::PatchRoleAssignmentEntry.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["role_slug"], json[:role_slug]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_patch_role_assignments_round_trip
+    fixture = {
+      "add" => [],
+      "remove" => []
+    }
+    model = WorkOS::PatchRoleAssignments.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
   def test_remove_role_round_trip
     fixture = {
       "role_slug" => "stub",
@@ -240,6 +265,18 @@ class AuthorizationModelRoundTripTest < Minitest::Test
     assert_equal fixture["name"], json[:name]
     assert_equal fixture["resource_type_slug"], json[:resource_type_slug]
     assert_equal fixture["organization_id"], json[:organization_id]
+    fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
+  end
+
+  def test_role_assignment_update_overlap_error_body_round_trip
+    fixture = {
+      "code" => "role_assignment_update_overlap",
+      "message" => "stub"
+    }
+    model = WorkOS::RoleAssignmentUpdateOverlapErrorBody.new(fixture.to_json)
+    json = model.to_h
+    assert_kind_of Hash, json
+    assert_equal fixture["message"], json[:message]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 

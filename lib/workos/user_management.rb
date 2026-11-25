@@ -859,6 +859,23 @@ module WorkOS
       result
     end
 
+    # Delete a CORS origin
+    # @param id [String] The ID of the CORS origin to delete.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [void]
+    def delete_cors_origin(
+      id:,
+      request_options: {}
+    )
+      @client.request(
+        method: :delete,
+        path: "/user_management/cors_origins/#{WorkOS::Util.encode_path(id)}",
+        auth: true,
+        request_options: request_options
+      )
+      nil
+    end
+
     # Get an email verification code
     # @param id [String] The ID of the email verification code.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)

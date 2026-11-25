@@ -57,7 +57,7 @@ module WorkOS
     # Create an agent blueprint
     # @param name [String] Human-readable name of the agent blueprint.
     # @param description [String, nil] Human-readable description of the agent blueprint.
-    # @param permissions [Array<String>, nil] Permission slugs forming the ceiling on what sessions minted from this blueprint may do. Each slug must exist in the environment.
+    # @param permissions [Array<WorkOS::AgentBlueprintsCreateRequestPermission, String>, nil] Permissions forming the ceiling on what sessions minted from this blueprint may do. Each slug must exist in the environment and may appear once.
     # @param invocable_by [WorkOS::AgentBlueprintsCreateRequestInvocableBy, nil] Who may mint sessions from this blueprint.
     # @param invocable_as [WorkOS::AgentBlueprintsCreateRequestInvocableAs, nil] How sessions may be minted from this blueprint.
     # @param session_settings [WorkOS::AgentBlueprintsCreateRequestSessionSetting, nil] Token and session lifetimes for sessions minted from this blueprint.
@@ -115,7 +115,7 @@ module WorkOS
     # @param agent_blueprint_id [String] The unique ID of the agent blueprint.
     # @param name [String, nil] Human-readable name of the agent blueprint.
     # @param description [String, nil] Human-readable description of the agent blueprint. Pass `null` to clear it.
-    # @param permissions [Array<String>, nil] Permission slugs forming the ceiling on what sessions minted from this blueprint may do. Each slug must exist in the environment.
+    # @param permissions [Array<WorkOS::AgentBlueprintsUpdateRequestPermission, String>, nil] Permissions forming the ceiling on what sessions minted from this blueprint may do. Each slug must exist in the environment and may appear once.
     # @param invocable_by [WorkOS::AgentBlueprintsUpdateRequestInvocableBy, nil] Who may mint sessions from this blueprint. Omitted lists are left unchanged.
     # @param invocable_as [WorkOS::AgentBlueprintsUpdateRequestInvocableAs, nil] How sessions may be minted from this blueprint. Omitted lists are left unchanged.
     # @param session_settings [WorkOS::AgentBlueprintsUpdateRequestSessionSetting, nil] Token and session lifetimes for sessions minted from this blueprint. Omitted fields are left unchanged.

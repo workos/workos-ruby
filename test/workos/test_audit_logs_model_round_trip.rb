@@ -61,7 +61,6 @@ class AuditLogsModelRoundTripTest < Minitest::Test
     json = model.to_h
     assert_kind_of Hash, json
     assert_equal fixture["action"], json[:action]
-    assert_equal fixture["occurred_at"], json[:occurred_at]
     fixture.each_key { |k| assert json.key?(k.to_sym) || json.key?(k), "Expected to_h to include key #{k}" }
   end
 

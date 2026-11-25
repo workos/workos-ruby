@@ -74,6 +74,25 @@ module WorkOS
       nil
     end
 
+    # Get a Radar detection
+    # @param id [String] The unique ID of the Radar detection.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::RadarDetection]
+    def get_detection(
+      id:,
+      request_options: {}
+    )
+      response = @client.request(
+        method: :get,
+        path: "/radar/detections/#{WorkOS::Util.encode_path(id)}",
+        auth: true,
+        request_options: request_options
+      )
+      result = WorkOS::RadarDetection.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
     # Add an entry to a Radar list
     # @param type [WorkOS::Types::RadarListType] The type of the Radar list (e.g. ip_address, domain, email).
     # @param action [WorkOS::Types::RadarListAction] The list action indicating whether to add the entry to the allow or block list.

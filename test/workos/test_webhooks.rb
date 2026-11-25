@@ -25,6 +25,13 @@ class WebhooksTest < Minitest::Test
     refute_nil result
   end
 
+  def test_get_webhook_endpoint_returns_expected_result
+    stub_request(:get, %r{\Ahttps://api\.workos\.com/webhook_endpoints/stub(\?|\z)})
+      .to_return(body: "{}", status: 200)
+    result = @client.webhooks.get_webhook_endpoint(id: "stub")
+    refute_nil result
+  end
+
   def test_update_webhook_endpoint_returns_expected_result
     stub_request(:patch, %r{\Ahttps://api\.workos\.com/webhook_endpoints/stub(\?|\z)})
       .to_return(body: "{}", status: 200)
@@ -43,6 +50,7 @@ class WebhooksTest < Minitest::Test
   [
     {name: :list_webhook_endpoints, verb: :get, url: %r{\Ahttps://api\.workos\.com/webhook_endpoints(\?|\z)}},
     {name: :create_webhook_endpoint, verb: :post, url: %r{\Ahttps://api\.workos\.com/webhook_endpoints(\?|\z)}, args: {endpoint_url: "stub", events: ["stub"]}},
+    {name: :get_webhook_endpoint, verb: :get, url: %r{\Ahttps://api\.workos\.com/webhook_endpoints/stub(\?|\z)}, args: {id: "stub"}},
     {name: :update_webhook_endpoint, verb: :patch, url: %r{\Ahttps://api\.workos\.com/webhook_endpoints/stub(\?|\z)}, args: {id: "stub"}},
     {name: :delete_webhook_endpoint, verb: :delete, url: %r{\Ahttps://api\.workos\.com/webhook_endpoints/stub(\?|\z)}, args: {id: "stub"}}
   ].each do |spec|

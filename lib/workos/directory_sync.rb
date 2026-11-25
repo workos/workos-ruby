@@ -130,7 +130,7 @@ module WorkOS
     # @param user [String, nil] Filter Directory Groups to those this Directory User belongs to.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::Types::ListStruct<WorkOS::DirectoryGroup>]
-    def list_directory_groups(
+    def list_groups_for_directory(
       directory_id:,
       before: nil,
       after: nil,
@@ -154,7 +154,7 @@ module WorkOS
         request_options: request_options
       )
       fetch_next = ->(cursor) {
-        list_directory_groups(
+        list_groups_for_directory(
           directory_id: directory_id,
           before: before,
           after: cursor,
@@ -177,7 +177,7 @@ module WorkOS
     # @param group_id [String] Unique identifier for the Directory Group.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::DirectoryGroup]
-    def get_directory_group(
+    def get_group_for_directory(
       directory_id:,
       group_id:,
       request_options: {}
@@ -204,7 +204,7 @@ module WorkOS
     # @param email [String, nil] Filter Directory Users by their primary email address.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::Types::ListStruct<WorkOS::DirectoryUser>]
-    def list_directory_users(
+    def list_users_for_directory(
       directory_id:,
       before: nil,
       after: nil,
@@ -232,7 +232,7 @@ module WorkOS
         request_options: request_options
       )
       fetch_next = ->(cursor) {
-        list_directory_users(
+        list_users_for_directory(
           directory_id: directory_id,
           before: before,
           after: cursor,
@@ -257,7 +257,7 @@ module WorkOS
     # @param user_id [String] Unique identifier for the Directory User.
     # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
     # @return [WorkOS::DirectoryUser]
-    def get_directory_user(
+    def get_user_for_directory(
       directory_id:,
       user_id:,
       request_options: {}

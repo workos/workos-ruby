@@ -5,5 +5,5 @@
 # typed: strong
 
 module WorkOS
-  WaitlistListResponseListMetadata = ItContactListListMetadata
+  WaitlistListResponseListMetadata = IssuerTrustListListMetadata
 end

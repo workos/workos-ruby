@@ -81,6 +81,25 @@ module WorkOS
       result
     end
 
+    # Get a Webhook Endpoint
+    # @param id [String] Unique identifier of the Webhook Endpoint.
+    # @param request_options [Hash] (see WorkOS::Types::RequestOptions)
+    # @return [WorkOS::WebhookEndpoint]
+    def get_webhook_endpoint(
+      id:,
+      request_options: {}
+    )
+      response = @client.request(
+        method: :get,
+        path: "/webhook_endpoints/#{WorkOS::Util.encode_path(id)}",
+        auth: true,
+        request_options: request_options
+      )
+      result = WorkOS::WebhookEndpoint.new(response.body)
+      result.last_response = WorkOS::Types::ApiResponse.new(http_status: response.code.to_i, http_headers: response.each_header.to_h, request_id: response["x-request-id"])
+      result
+    end
+
     # Update a Webhook Endpoint
     # @param id [String] Unique identifier of the Webhook Endpoint.
     # @param endpoint_url [String, nil] The HTTPS URL where webhooks will be sent.
